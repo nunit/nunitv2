@@ -2,26 +2,16 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
   
-    <DirectoryRef Id="bin" FileSource="bin">
+    <DirectoryRef Id="net_1.1" FileSource="net-1.1">
          
-        <Component Id="C__NUnitBase" DiskId="1" Guid="15222234-C43E-4f31-B2C3-E83995627A68">
-          <File Id="console.exe" Name="CONSOLE.EXE" LongName="nunit-console.exe" />
-          <File Id="console.config" Name="CONSOLE.CFG" LongName="nunit-console.exe.config" />
-
-<?if $(var.RuntimeVersion) = 2.0 ?>
-          <File Id="consolex86.exe" Name="CONSOL86.EXE" LongName="nunit-console-x86.exe" />
-          <File Id="consolex86.config" Name="CONSOL86.CFG" LongName="nunit-console-x86.exe.config" />
-<?endif?>
-
-          <File Id="console.dll" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
-          <File Id="nunit.core" Name="CORE.DLL" LongName="nunit.core.dll" />
-          <File Id="nunit.core.interfaces" Name="IFACES.DLL" LongName="nunit.core.interfaces.dll" />
-          <File Id="nunit.framework" Name="FRAMEWRK.DLL" LongName="nunit.framework.dll" />
-          <File Id="nunit.framework.xml" Name="FRAMEWRK.XML" LongName="nunit.framework.xml" />
-          <File Id="nunit.mocks" Name="MOCKS.DLL" LongName="nunit.mocks.dll" />
-          <File Id="nunit.util" Name="UTIL.DLL" LongName="nunit.util.dll" />
-          <File Id="nunit.core.extensions" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" />
-          <File Id="nunit.framework.extensions" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" />
+        <Component Id="C__NUnitBase_1.1" DiskId="1" Guid="15222234-C43E-4f31-B2C3-E83995627A68">
+          <File Id="console.exe_1.1" Name="CONSOLE.EXE" LongName="nunit-console.exe" />
+          <File Id="console.config_1.1" Name="CONSOLE.CFG" LongName="nunit-console.exe.config" />
+          <File Id="console.dll_1.1" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
+          <File Id="nunit.core_1.1" Name="CORE.DLL" LongName="nunit.core.dll" />
+          <File Id="nunit.core.interfaces_1.1" Name="IFACES.DLL" LongName="nunit.core.interfaces.dll" />
+          <File Id="nunit.util_1.1" Name="UTIL.DLL" LongName="nunit.util.dll" />
+          <File Id="nunit.core.extensions_1.1" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" />
         </Component>
         
 		<!--<Component Id="NUnitServer" DiskId="1" Guid="Need Guid">
@@ -29,40 +19,87 @@
           <File Id="F__nunit_test_server_dll" Name="NUNTS.DLL" LongName="nunit-test-server.dll" Source="nunit-test-server.dll" /> 
 		</Component>-->
 	  
-	  	<Component Id="C__NUnitRegistry" Guid="36AE84ED-5510-40eb-A3B1-D821AC06259C">
-			<Registry Id="R__INSTALLDIR" Root="HKMU" Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)" Name="InstallDir" 
-				Action="write" Type="string" Value="[INSTALLDIR]" />
-			<Registry Id="R__ProductVersion" Root="HKMU" Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)" Name="ProductVersion" 
-				Action="write" Type="string" Value="[ProductVersion]" />
-			<Registry Id="R__Assemblies" Root="HKMU"
-				Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit [ProductVersion]" 
-				Action="write" Type="string" Value="[bin]" />
-			<Registry Id="R__OpenDllWith" Root="HKCR" Key=".dll\OpenWithList\nunit.exe"/>
-			<Registry Id="R__OpenDll_1" Root="HKCR" Key="dllfile\shell\OpenWithNUnit"
-				Action="write" Type="string" Value="Run &amp;Tests" />
-			<Registry Id="R__OpenDll_2" Root="HKCR" Key="dllfile\shell\OpenWithNUnit\command"
-				Action="write" Type="string" Value='"[!nunit.exe]" "%1"' />
-			<Registry Id="R__OpenNUnit_1" Root="HKCR" Key=".nunit"
-				Action="write" Type="string" Value="NUnitTestProject" />
-			<Registry Id="R__OpenNUnit_2" Root="HKCR" Key="NUnitTestProject"
-				Action="write" Type="string" Value="NUnit Test Project" />
-			<Registry Id="R__OpenNUnit_3" Root="HKCR" Key="NUnitTestProject\DefaultIcon"
-				Action="write" Type="string" Value="[INSTALLDIR]\bin\nunit.exe,0" />
-			<Registry Id="R__OpenNUnit_4" Root="HKCR" Key="NUnitTestProject\shell\Open"
-				Action="write" Type="string" Value="&amp;Open" />
-			<Registry Id="R__OpenNUnit_5" Root="HKCR" Key="NUnitTestProject\shell\Open\command"
-				Action="write" Type="string" Value='"[INSTALLDIR]\bin\nunit.exe" "%1"' />
-	  </Component>
-				
 	</DirectoryRef>
 	
-	<DirectoryRef Id="addins">
+	<DirectoryRef Id="addins_1.1">
 	
-        <Component Id="C__Addins" DiskId="1" Guid="5DBAEF2B-DF1A-4582-9036-1261B3421EE8">
-		  <CreateFolder />
-		  <RemoveFile Id="RemoveOldAddins" Name="*.*" On="uninstall" />
-		</Component>
+        <Component Id="C__Addins_1.1" DiskId="1" Guid="5DBAEF2B-DF1A-4582-9036-1261B3421EE8">
+		      <CreateFolder />
+		      <RemoveFile Id="RemoveAddins_1.1" Name="*.*" On="uninstall" />
+          <RemoveFolder Id="RemoveAddinFolder_1.1" On="uninstall"/>
+        </Component>
 		
+	</DirectoryRef>
+	
+	<DirectoryRef Id="lib_1.1" FileSource="net-1.1\lib">
+		
+        <Component Id="C__Framework_Net_1_1" DiskId="1" Guid="913D2A45-E701-4f64-A779-D2614B3D322D">
+        
+			    <CreateFolder />
+			    
+			    <File Id="nunit.framework_net_1.1" Name="FRAMEWRK.DLL" LongName="nunit.framework.dll" />
+			    <File Id="nunit.framework.xml_net_1.1" Name="FRAMEWRK.XML" LongName="nunit.framework.xml" />
+			    <File Id="nunit.mocks_net_1.1" Name="MOCKS.DLL" LongName="nunit.mocks.dll" />
+			    <File Id="nunit.framework.extensions_net_1.1" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" />
+			    
+				<Registry Id="R__Assemblies_1.1" Root="HKMU"
+					Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit [ProductVersion]"
+					Action="createKeyAndRemoveKeyOnUninstall">
+					<Registry Id="R__Assemblies_1.1_Default" Action="write" Type="string" Value="[lib_1.1]" />
+				</Registry>
+
+		    </Component>
+    
+	</DirectoryRef>
+	
+    <DirectoryRef Id="net_2.0" FileSource="net-2.0">
+         
+        <Component Id="C__NUnitBase_2.0" DiskId="1" Guid="4AA0CB6E-27FE-4e9b-B496-E3D7F2AAAC05">
+          <File Id="console.exe_2.0" Name="CONSOLE.EXE" LongName="nunit-console.exe" />
+          <File Id="console.config_2.0" Name="CONSOLE.CFG" LongName="nunit-console.exe.config" />
+          <File Id="console.dll_2.0" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
+          <File Id="nunit.core_2.0" Name="CORE.DLL" LongName="nunit.core.dll" />
+          <File Id="nunit.core.interfaces_2.0" Name="IFACES.DLL" LongName="nunit.core.interfaces.dll" />
+          <File Id="nunit.util_2.0" Name="UTIL.DLL" LongName="nunit.util.dll" />
+          <File Id="nunit.core.extensions_2.0" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" />
+        </Component>
+
+	    <Component Id="C__Console_x86_exe" DiskId="1" Guid="678873A1-D670-455c-B44A-C5C7FC16B4EF">
+          <File Id="consolex86.exe" Name="CONSOL86.EXE" LongName="nunit-console-x86.exe" />
+          <File Id="consolex86.config" Name="CONSOL86.CFG" LongName="nunit-console-x86.exe.config" />
+        </Component>
+          
+    </DirectoryRef>
+
+	<DirectoryRef Id="addins_2.0">
+	
+        <Component Id="C__Addins_2.0" DiskId="1" Guid="5DBAEF2B-DF1A-4582-9036-1261B3421EE8">
+		      <CreateFolder />
+		      <RemoveFile Id="RemoveAddins_2.0" Name="*.*" On="uninstall" />
+          <RemoveFolder Id="RemoveAddinFolder_2.0" On="uninstall"/>
+        </Component>
+		
+	</DirectoryRef>
+	
+	<DirectoryRef Id="lib_2.0" FileSource="net-2.0\lib">
+     
+		    <Component Id="C__Framework_Net_2_0" DiskId="1" Guid="5654EFF0-F41F-44f4-A13F-33A0D11709EA">
+		    
+			    <CreateFolder />
+			    
+			    <File Id="nunit.framework_net_2.0" Name="FRAMEWRK.DLL" LongName="nunit.framework.dll" />
+			    <File Id="nunit.framework.xml_net_2.0" Name="FRAMEWRK.XML" LongName="nunit.framework.xml" />
+			    <File Id="nunit.mocks_net_2.0" Name="MOCKS.DLL" LongName="nunit.mocks.dll" />
+			    <File Id="nunit.framework.extensions_net_2.0" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" />
+
+				<Registry Id="R__Assemblies_2.0" Root="HKMU"
+					Key="Software\Microsoft\.NETFramework\v2.0.50727\AssemblyFoldersEx\NUnit [ProductVersion]"
+					Action="createKeyAndRemoveKeyOnUninstall">
+					<Registry Id="R__Assemblies_2.0_Default" Action="write" Type="string" Value="[lib_2.0]" />
+				</Registry>
+        
+		    </Component>
+    
 	</DirectoryRef>
 	
   </Fragment>

@@ -1,53 +1,48 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-    <!-- Feature to install sample code -->
-	<Feature Id="SamplesFeature" Level="1"
-		Title='Samples' Description='Sample code showing the use of NUnit' Display='expand'>
-		
-	  <ComponentRef Id="C__SamplesReadme" />
-	  <ComponentRef Id="C__SampleShortcuts" />
+	<ComponentGroup Id="SampleComponents">
+		<ComponentRef Id="C__SamplesReadme" />
+		<ComponentRef Id="C__SampleShortcuts" />
 
-	  <!-- C# Samples -->
-          <ComponentRef Id="C__CSharp_Samples" />
-	  <ComponentRef Id="C__CSharp_Failures" />
-	  <ComponentRef Id="C__CSharp_Money" />
-	  <ComponentRef Id="C__CSharp_Money_Port" />
-	  <ComponentRef Id="C__CSharp_Syntax" />
-		
-      <!-- J# Sample -->
-          <ComponentRef Id="C__JSharp_Samples" />
-	  <ComponentRef Id="C__JSharp_Failures" />
-
-      <!-- Managed C++ Samples -->
-	  <ComponentRef Id="C__CPP_Managed_Samples" />
-	  <ComponentRef Id="C__CPP_Managed_Failures" />
-
-      <!-- C++/CLI Samples -->
-	  <ComponentRef Id="C__CPP_CLI_Samples" />
-	  <ComponentRef Id="C__CPP_CLI_Failures" />
-	  <ComponentRef Id="C__CPP_CLI_Syntax" />
-
-      <!-- VB Sample -->
-	  <ComponentRef Id="C__VB_Samples" />
-	  <ComponentRef Id="C__VB_Failures" />
-	  <ComponentRef Id="C__VB_Money" />
-          <ComponentRef Id="C__VB_Syntax" />
-			
-      <!-- Core Extensibility Samples -->
-          <ComponentRef Id="C__CoreExtensibility" />
-	  <ComponentRef Id="C__MinimalAddin" />
-	  <ComponentRef Id="C__SampleSuiteExtension" />
-	  <ComponentRef Id="C__SampleSuiteExtension_Tests" />
-	  <ComponentRef Id="C__SampleFixtureExtension" />
-	  <ComponentRef Id="C__SampleFixtureExtension_Tests" />
-          <ComponentRef Id="C__MaxTimeDecorator" />
-          <ComponentRef Id="C__MaxTimeDecoratorTests" />
-
-    </Feature>
+		<!-- C# Samples -->
+		<ComponentRef Id="C__CSharp_Samples" />
+		<ComponentRef Id="C__CSharp_Failures" />
+		<ComponentRef Id="C__CSharp_Money" />
+		<ComponentRef Id="C__CSharp_Money_Port" />
+		<ComponentRef Id="C__CSharp_Syntax" />
 	
+		<!-- J# Samples -->
+		<ComponentRef Id="C__JSharp_Samples" />
+		<ComponentRef Id="C__JSharp_Failures" />
+
+		<!-- Managed C++ Samples -->
+		<ComponentRef Id="C__CPP_Managed_Samples" />
+		<ComponentRef Id="C__CPP_Managed_Failures" />
+
+		<!-- C++/CLI Samples -->
+		<ComponentRef Id="C__CPP_CLI_Samples" />
+		<ComponentRef Id="C__CPP_CLI_Failures" />
+		<ComponentRef Id="C__CPP_CLI_Syntax" />
+
+		<!-- VB Sample -->
+		<ComponentRef Id="C__VB_Samples" />
+		<ComponentRef Id="C__VB_Failures" />
+		<ComponentRef Id="C__VB_Money" />
+	    <ComponentRef Id="C__VB_Syntax" />
+		
+		<!-- Core Extensibility Samples -->
+		<ComponentRef Id="C__CoreExtensibility" />
+		<ComponentRef Id="C__MinimalAddin" />
+		<ComponentRef Id="C__SampleSuiteExtension" />
+		<ComponentRef Id="C__SampleSuiteExtension_Tests" />
+		<ComponentRef Id="C__SampleFixtureExtension" />
+		<ComponentRef Id="C__SampleFixtureExtension_Tests" />
+	</ComponentGroup>
+		
 	<!-- Menu Shortcuts to samples -->
 	<DirectoryRef Id="samples" FileSource="samples">
+	
         <Component Id="C__SampleShortcuts" DiskId="1" Guid="CCDAEC65-EED0-4794-89D0-363EB1AC3CC9">
           <Shortcut Id="S__csharp" Target="[csharp]" Directory="SamplesMenu" Name="SCSHARP" LongName="C#" Show="normal" />
           <Shortcut Id="S__jsharp" Target="[jsharp]" Directory="SamplesMenu" Name="SJSHARP" LongName="J#" Show="normal" />
@@ -55,9 +50,11 @@
           <Shortcut Id="S__vb" Target="[vb]" Directory="SamplesMenu" Name="SVB" LongName="VB" Show="normal" />
           <Shortcut Id="S__extensibility" Target="[extensibility]" Directory="SamplesMenu" Name="SEXTENSI" LongName="Extensibility" Show="normal" />
 	    </Component>
+		
 		<Component Id="C__SamplesReadme" DiskId="1" Guid="9FBE1436-920F-450b-9E7E-D85473E727B4">
 		  <File Id="ReadMe.txt" Name="ReadMe.txt" />
 		</Component>
+		
 	</DirectoryRef>
 
     <!-- C# Samples -->	
@@ -68,7 +65,7 @@
         </Component>
 	
         <Directory Id="csharp_failures" Name="failures">
-            <Component Id="C__CSharp_Failures" DiskId="1" Guid="5613D9D2-7F4B-4d49-A0C3-AEF43CF08C5B">
+            <Component Id="C__CSharp_Failures" DiskId="1" Guid="A80777F0-BAF4-4e68-B248-15E811041B87">
               <File Id="CS_Failures.csproj" Name="CS-FAIL.CSP" LongName="cs-failures.csproj" />
               <File Id="CS_Failures.build" Name="CS-FAIL.BLD" LongName="cs-failures.build" />
               <File Id="CSharpTest.cs" Name="CS-FAIL.CS" LongName="CSharpTest.cs" />
@@ -88,7 +85,7 @@
             </Component>
         </Directory>
         
-	<Directory Id="csharp_money_port" Name="MONEY-_1" LongName="money-port">
+		<Directory Id="csharp_money_port" Name="MONEY-_1" LongName="money-port">
             <Component Id="C__CSharp_Money_Port" DiskId="1" Guid="CE86795C-1A55-4d82-BBA7-8B73668B94D1">
               <File Id="CS_Money_Port_MoneyBag.cs" Name="MoneyBag.cs" />
               <File Id="CS_Money_Port_Money.cs" Name="Money.cs" />
@@ -112,7 +109,7 @@
         
     </DirectoryRef>
 		
-    <!-- J# Sample -->
+    <!-- J# Samples -->
     <DirectoryRef Id="jsharp" FileSource="samples\jsharp" >
 
         <Component Id="C__JSharp_Samples" DiskId="1" Guid="14ECAA49-AFA8-4198-A093-B1A893445CF2">
@@ -133,52 +130,52 @@
     <!-- C++ Samples -->
     <DirectoryRef Id="cpp" FileSource="samples\cpp" >
 
-    <!-- Managed C++ -->
-    <Directory Id="cpp_managed" Name="managed">
+		<!-- Managed C++ -->
+		<Directory Id="cpp_managed" Name="managed">
 
-        <Component Id="C__CPP_Managed_Samples" DiskId="1" Guid ="FBD98E2B-FBF4-487a-850F-E133CA863706">
-            <File Id="managed_cpp.sln" Name="MNGDCPP.SLN" LongName="managed-cpp.sln" />
-        </Component>
+			<Component Id="C__CPP_Managed_Samples" DiskId="1" Guid ="FBD98E2B-FBF4-487a-850F-E133CA863706">
+				<File Id="managed_cpp.sln" Name="MNGDCPP.SLN" LongName="managed-cpp.sln" />
+			</Component>
 
-        <Directory Id="cpp_managed_failures" Name="failures">
-          <Component Id="C__CPP_Managed_Failures" DiskId="1" Guid="A32EB24D-F996-4fc6-9614-D6CD17D0EAC6">
-            <File Id="F__samples_file46" Name="CPP-FAIL.H" LongName="cppsample.h" />
-            <File Id="F__samples_file47" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
-            <File Id="CPP_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-managed-failures.vcproj" />
-            <File Id="CPP_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-managed-failures.build" />
-            <File Id="F__samples_file50" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
-          </Component>
-        </Directory>
+			<Directory Id="cpp_managed_failures" Name="failures">
+			<Component Id="C__CPP_Managed_Failures" DiskId="1" Guid="A32EB24D-F996-4fc6-9614-D6CD17D0EAC6">
+				<File Id="F__samples_file46" Name="CPP-FAIL.H" LongName="cppsample.h" />
+				<File Id="F__samples_file47" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
+				<File Id="CPP_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-managed-failures.vcproj" />
+				<File Id="CPP_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-managed-failures.build" />
+				<File Id="F__samples_file50" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
+			</Component>
+			</Directory>
 
-    </Directory>
+		</Directory>
 
-    <!-- C++/CLI -->  
-    <Directory Id="cpp_cli" Name="cpp-cli">
+		<!-- C++/CLI -->  
+		<Directory Id="cpp_cli" Name="cpp-cli">
 
-        <Component Id="C__CPP_CLI_Samples" DiskId="1" Guid="AF5FDFF2-594C-45cd-9913-3EC14D243A1A">
-            <File Id="CPP_CLI.sln" Name="cpp-cli.sln" />
-        </Component>
+			<Component Id="C__CPP_CLI_Samples" DiskId="1" Guid="AF5FDFF2-594C-45cd-9913-3EC14D243A1A">
+				<File Id="CPP_CLI.sln" Name="cpp-cli.sln" />
+			</Component>
 
-        <Directory Id="cpp_cli_failures" Name="failures">
-          <Component Id="C__CPP_CLI_Failures" DiskId="1" Guid="30A34CDA-7A71-48dd-8DC9-6D18EAECB49C">
-            <File Id="CPP_CLI_Failures.h" Name="CPP-FAIL.H" LongName="cppsample.h" />
-            <File Id="CPP_CLI_Failures.cpp" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
-            <File Id="CPP_CLI_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-cli-failures.vcproj" />
-            <File Id="CPP_CLI_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-cli-failures.build" />
-            <File Id="CPP_CLI_Failures_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
-          </Component>
-        </Directory>
+			<Directory Id="cpp_cli_failures" Name="failures">
+			<Component Id="C__CPP_CLI_Failures" DiskId="1" Guid="9E073533-6798-42e6-8AF2-F619BB358416">
+				<File Id="CPP_CLI_Failures.h" Name="CPP-FAIL.H" LongName="cppsample.h" />
+				<File Id="CPP_CLI_Failures.cpp" Name="CPP-FAIL.CPP" LongName="cppsample.cpp" />
+				<File Id="CPP_CLI_Failures.vcproj" Name="CPP-FAIL.VCP" LongName="cpp-cli-failures.vcproj" />
+				<File Id="CPP_CLI_Failures.build" Name="CPP-FAIL.BLD" LongName="cpp-cli-failures.build" />
+				<File Id="CPP_CLI_Failures_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
+			</Component>
+			</Directory>
 
-        <Directory Id="cpp_cli_syntax" Name="syntax">
-          <Component Id="C__CPP_CLI_Syntax" DiskId="1" Guid="30A34CDA-7A71-48dd-8DC9-6D18EAECB49C">
-            <File Id="CPP_CLI_Syntax.cpp" Name="CPP-SYN.CPP" LongName="cpp-cli-syntax.cpp" />
-            <File Id="CPP_CLI_Syntax.vcproj" Name="CPP-SYN.VCP" LongName="cpp-cli-syntax.vcproj" />
-            <File Id="CPP_CLI_Syntax.build" Name="CPP-SYN.BLD" LongName="cpp-cli-syntax.build" />
-            <File Id="CPP_CLI_Syntax_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
-          </Component>
-        </Directory>
+			<Directory Id="cpp_cli_syntax" Name="syntax">
+			<Component Id="C__CPP_CLI_Syntax" DiskId="1" Guid="30A34CDA-7A71-48dd-8DC9-6D18EAECB49C">
+				<File Id="CPP_CLI_Syntax.cpp" Name="CPP-SYN.CPP" LongName="cpp-cli-syntax.cpp" />
+				<File Id="CPP_CLI_Syntax.vcproj" Name="CPP-SYN.VCP" LongName="cpp-cli-syntax.vcproj" />
+				<File Id="CPP_CLI_Syntax.build" Name="CPP-SYN.BLD" LongName="cpp-cli-syntax.build" />
+				<File Id="CPP_CLI_Syntax_AssemblyInfo" Name="ASSEMB_1.CPP" LongName="AssemblyInfo.cpp" />
+			</Component>
+			</Directory>
 
-    </Directory>
+		</Directory>
 	  
     </DirectoryRef>
 		
@@ -273,22 +270,6 @@
               </Component>
             </Directory>
           </Directory>
-		  <Directory Id="maxtimedecorator" Name="MAXTIME" LongName="MaxTimeDecorator">
-		    <Component Id="C__MaxTimeDecorator" DiskId="1" Guid="D291A2AB-CC2D-4f67-BE2E-30ACBF5EA18F">
-			  <File Id="MTD_AssemblyInfo.cs" Name="ASSEMBLY.CS" LongName="AssemblyInfo.cs" />
-			  <File Id="MaxTimeAttribute.cs" Name="MTATTR.cs" LongName="MaxTimeAttribute.cs" />
-			  <File Id="MaxTimeDecorator.cs" Name="MTD.CS" LongName="MaxTimeDecorator.cs" />
-			  <File Id="MaxTimeTestCase.cs" Name="MTTC.CS" LongName="MaxTimeTestCase.cs" />
-			  <File Id="MaxTimeDecorator.csproj" Name="MTD.CSP" LongName="MaxTimeDecorator.csproj" />
-			  <File Id="MaxTimeDecorator.build" Name="MTD.BLD" LongName="MaxTimeDecorator.build" />
-			</Component>
-			<Directory Id="MTD_Tests" Name="Tests">
-			  <Component Id="C__MaxTimeDecoratorTests" DiskId="1" Guid="D50F4831-CC6C-4624-A419-307637F0BE9A">
-			    <File Id="MTD_Tests_AssemblyInfo.cs" Name="ASSMINFO.CS" LongName="AssemblyInfo.cs" />			    <File Id="MaxTimeDecoratorTests.cs" Name="MTDTESTS.CS" LongName="MaxTimeDecoratorTests.cs" />
-			    <File Id="MaxTimeDecoratorTests.csproj" Name="MTDTESTS.CSP" LongName="MaxTimeDecoratorTests.csproj" />
-			  </Component>
-			</Directory>
-		  </Directory>
         </Directory>
     </DirectoryRef>
 		

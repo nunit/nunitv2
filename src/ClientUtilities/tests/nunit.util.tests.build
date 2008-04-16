@@ -45,7 +45,7 @@
   <target name="build">
 
     <csc target="library" 
-       output="${current.build.dir}/nunit.util.tests.dll"
+       output="${current.test.dir}/nunit.util.tests.dll"
        debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
@@ -54,19 +54,18 @@
       <resources prefix="NUnit.Util.Tests.resources">
         <patternset refid="resource-files"/>
       </resources>
-      <references basedir="${current.build.dir}">
+      <references>
         <include name="System.Runtime.Remoting.dll"/>
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit.mocks.dll"/>
-        <include name="nunit-server.dll"/>
-        <include name="nunit.core.tests.dll"/>
-        <include name="test-utilities.dll"/>
-        <include name="mock-assembly.dll"/>
-        <include name="nonamespace-assembly.dll"/>
-        <include name="notestfixtures-assembly.dll"/>
+        <include name="${current.lib.dir}/nunit.framework.dll"/>
+        <include name="${current.lib.dir}/nunit.mocks.dll"/>
+        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.build.dir}/nunit.core.dll"/>
+        <include name="${current.build.dir}/nunit.util.dll"/>
+        <include name="${current.build.dir}/nunit-server.dll"/>
+        <include name="${current.test.dir}/nunit.core.tests.dll"/>
+        <include name="${current.test.dir}/test-utilities.dll"/>
+        <include name="${current.test.dir}/mock-assembly.dll"/>
+        <include name="${current.test.dir}/nonamespace-assembly.dll"/>
       </references>
     </csc>
   </target>

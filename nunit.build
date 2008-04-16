@@ -59,11 +59,10 @@
 
   <!-- NUnit version for packaging -->
   <property name="package.version" value="2.5"/>
-
-  <!-- Root of the package file name. Add -beta or other
-       suffix as necessary -->
+  
+  <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
-    value="${project.name}-${package.version}"/>
+      value="${project.name}-${package.version}-Alpha-1"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
@@ -78,8 +77,10 @@
     value="net-1.1,net-2.0,net-1.0,mono-1.0,mono-2.0"/>
 
   <!-- Framework versions for which packages are normally created -->
-  <property name="standard.packages"
-    value="net-1.1,net-2.0" />
+  <property name="standard.packages" value="net-1.1+net-2.0" />
+
+  <!-- Our standard package for general distribution -->
+  <property name="standard.package.config" value="net-1.1+net-2.0" />
 
   <property name="nunit.options" value=""/>
 
@@ -159,31 +160,35 @@
     <echo message="* Starting ${runtime.config} ${build.config} build"/>
     <echo message="*"/>
 
-    <!-- Copy key file to base directory, so build can access it -->
-<!--    <copy file="${project.src.dir}/nunit.snk" todir="${project.base.dir}"/>-->
-
-    <!-- Copy external libraries -->
-    <copy todir="${current.build.dir}">
-      <fileset basedir="${project.lib.dir}">
-        <include name="log4net.dll"/>
-      </fileset>
-    </copy>
+    <!-- Copy key file to base directory, so second level files can access it -->
+    <copy file="${project.base.dir}/nunit.snk" todir="${project.build.dir}"/>-->
 
     <!-- Build NUnit components and tests -->
     <nant target="build">
-      <buildfiles refid="project.buildfiles" />
+      <buildfiles refid="project.buildfiles"/>
     </nant>
 
     <!-- Copy files for running tests -->
     <copy todir="${current.build.dir}">
       <fileset basedir="${project.base.dir}">
-        <include name="NUnitTests.nunit" />
+        <include name="NUnitTests.nunit"/>
         <include name="NUnitTests.config" />
         <include name="NUnitFitTests.html" />
         <include name="clr.bat" />
       </fileset>
     </copy>
 
+  </target>
+
+  <target name="build-framework" depends="make-build-dir">
+
+    <echo message="*"/>
+    <echo message="* Building ${runtime.config} framework files"/>
+    <echo message="*"/>
+
+    <nant target="build">
+      <buildfiles refid="framework.buildfiles"/>
+    </nant>
   </target>
 
   <target name="rebuild-all" depends="clean-all,build-all"
@@ -418,12 +423,9 @@
     <call target="set-release-build-config"/>
 
     <foreach item="String" delim="," 
-        property="framework" in="${standard.packages}">
+        property="package.config" in="${standard.packages}">
 
-      <if test="${framework::sdk-exists( framework )}">
-        <call target="set-${framework}-runtime-config"/>
-        <call target="package"/>
-      </if>
+      <call target="package"/>
 
     </foreach>
 
@@ -431,6 +433,10 @@
 
 <!-- ***************************************************************** -->
 <!-- ***                    Package binaries                       *** -->
+<!-- ***************************************************************** -->
+
+<!-- ***************************************************************** -->
+<!-- ***              Package as both a zip and an msi             *** -->
 <!-- ***************************************************************** -->
 
   <target name="package" depends="build-install-image"
@@ -444,13 +450,49 @@
 
   </target>
   
-  <!-- Package current config as a zip --> 
+<!-- ***************************************************************** -->
+<!-- ***                    Package as a zip                       *** -->
+<!-- ***************************************************************** -->
+
   <target name="package-zip" depends="build-install-image,create-zip"
     description="Create zip binary distribution package" />
 
-  <!-- Package current config as an msi --> 
-  <target name="package-msi" depends="build-install-image,create-msi"
-    description="Build msi file and deploy it to the package dir" />
+<!-- ***************************************************************** -->
+<!-- ***                   Package as an msi                       *** -->
+<!-- ***************************************************************** -->
+
+  <target name="package-msi" 
+    description="Build standard msi file and deploy it to the package dir" >
+    
+    <property name="package.config" value="net-1.1+net-2.0"
+      unless="${property::exists('package.config')}"/>
+
+    <call target="build-install-image"/>
+    <call target="create-msi"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***                     Install the msi                       *** -->
+<!-- ***************************************************************** -->
+
+  <target name="install-msi" description="Install msi file on system" >
+      <exec program="msiexec" workingdir="${project.package.dir}"
+        commandline="/i ${package.name}-${runtime.config}${build.suffix}.msi /passive" />
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***                   Uninstall the msi                       *** -->
+<!-- ***************************************************************** -->
+
+  <target name="remove-msi" description="Uninstall an msi" >
+      <exec program="msiexec" workingdir="${project.package.dir}"
+        commandline="/x ${package.name}-${runtime.config}${build.suffix}.msi /passive" /> 
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***                    Create the zip                         *** -->
+<!-- ***************************************************************** -->
 
   <target name="create-zip" description="Create zip from existing image">
     <!-- Create the zip file -->
@@ -464,6 +506,10 @@
     </zip>
   </target>
 
+<!-- ***************************************************************** -->
+<!-- ***                    Create the msi                         *** -->
+<!-- ***************************************************************** -->
+
   <target name="create-msi" description="Create msi from existing install image">
   
     <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
@@ -475,14 +521,19 @@
       value="${package.working.dir}"/>
     <property name="install.dir"
       value="${project.src.dir}/install"/>
+
     <property name="msi.file.name"
-      value="${package.name}-${runtime.config}${build.suffix}.msi"/>
+      value="${package.name}-${package.config}${build.suffix}.msi"
+      unless="${package.config==standard.package.config}"/>
+    <property name="msi.file.name"
+      value="${package.name}${build.suffix}.msi"
+      if="${package.config==standard.package.config}"/>
+
 
     <candle out="${work.dir}/" exedir="${wix.dir}">
       <defines>
         <define name="ProductVersion" value="${package.version}" />
         <define name="NominalVersion" value="${nominal.version}" />
-        <define name="RuntimeVersion" value="${runtime.version}" />
       </defines>
       <sources basedir="${install.dir}">
         <include name="bin.wxs" />
@@ -521,7 +572,6 @@
     <call target="copy-samples"/>
     <call target="copy-src"/>
     <call target="copy-tools" />
-    <call target="copy-lib"/>
 
     <copy file="license.txt" todir="${package.working.dir}" />
 
@@ -613,9 +663,24 @@
 <!-- ***            Helper targets used for packaging              *** -->
 <!-- ***************************************************************** -->
 
+<!-- ***************************************************************** -->
+<!-- ***            Build install image for a package              *** -->
+<!-- ***************************************************************** -->
+
   <target name="build-install-image" depends="clean-package-dir">
 
-    <call target="copy-bins" />
+    <property name="package.config" value="${runtime.config}"
+      unless="${property::exists('package.config')}"/>
+
+    <foreach item="String" delim="+"
+      property="runtime" in="${package.config}">
+
+      <if test="${framework::sdk-exists( runtime )}">
+        <call target="set-${runtime}-runtime-config"/>
+        <call target="copy-bins" />
+      </if>
+    </foreach>
+
     <call target="copy-docs" />
     <call target="copy-samples" />
 
@@ -631,18 +696,32 @@
 
   </target>
 
+<!-- ***************************************************************** -->
+<!-- ***           Copy a set of binaries for a package            *** -->
+<!-- ***************************************************************** -->
+
   <target name="copy-bins" depends="build">
+
     <mkdir dir="${package.bin.dir}"/>
+
     <copy todir="${package.bin.dir}">
       <fileset basedir="${current.build.dir}">
         <include name="*"/>
+        <include name="tests/*"/>
+        <include name="lib/*"/>
+        <include name="${runtime.config}/*"/>
         <exclude name="*.wixobj"/>
         <exclude name="nunit-server.*"/>
         <exclude name="nunit-test-server.*"/>
       </fileset>
     </copy>
+
   </target>
   
+<!-- ***************************************************************** -->
+<!-- ***           Copy the documentation for a package            *** -->
+<!-- ***************************************************************** -->
+
   <target name="copy-docs">
     <mkdir dir="${package.doc.dir}"/>
     <copy todir="${package.doc.dir}">
@@ -657,6 +736,10 @@
       </fileset>
     </copy>
   </target>
+
+<!-- ***************************************************************** -->
+<!-- ***            Copy sample programs for a package             *** -->
+<!-- ***************************************************************** -->
 
   <target name="copy-samples">
 
@@ -682,6 +765,11 @@
     </nant>
 
   </target>
+
+
+<!-- ***************************************************************** -->
+<!-- ***            Copy the source code for a package             *** -->
+<!-- ***************************************************************** -->
 
   <target name="copy-src">
     <delete dir="${package.src.dir}" />
@@ -754,6 +842,10 @@
 
   </target>
 
+<!-- ***************************************************************** -->
+<!-- ***               Copy the tools for a package                *** -->
+<!-- ***************************************************************** -->
+
   <target name="copy-tools">
 
     <mkdir dir="${package.tools.dir}" />
@@ -769,14 +861,6 @@
 
   </target>
 
-  <target name="copy-lib">
-    <copy todir="${package.lib.dir}">
-      <fileset basedir="${project.lib.dir}">
-        <include name="log4net.dll"/>
-      </fileset>
-    </copy>
-  </target>
-
 <!-- ***************************************************************** -->
 <!-- ***        Targets for installing the NUnit distribution      *** -->
 <!-- ***************************************************************** -->
@@ -787,12 +871,16 @@
   </target>
 
 <!-- ***************************************************************** -->
-<!-- *********      FileSets Used by Various Targets       *********** -->
+<!-- ****** Patternsets and Filesets Used by Various Targets  ******** -->
 <!-- ***************************************************************** -->
 
-  <!-- Buildfiles for all NUnit components - in build order -->
-  <fileset id="project.buildfiles" basedir="${project.src.dir}">
+  <patternset id="framework.build.scripts">
+    <include name="NUnitFramework/framework/nunit.framework.build" />
+    <include name="NUnitExtensions/framework/nunit.framework.extensions.build" />
+    <include name="NUnitMocks/mocks/nunit.mocks.build" />
+  </patternset>
 
+  <patternset id="non.framework.build.scripts">
     <!-- NUnit Base -->
     <include name="NUnitFramework/framework/nunit.framework.build" />
     <include name="NUnitCore/interfaces/nunit.core.interfaces.build" />
@@ -840,6 +928,19 @@
     <!-- FIT Tests -->
     <include name="NUnitFixtures/fixtures/nunit.fixtures.build" />
     <include name="NUnitFixtures/tests/nunit.fixtures.tests.build" />
+  </patternset>
+
+  <fileset id="framework.buildfiles" basedir="${project.src.dir}">
+    <patternset refid="framework.build.scripts"/>
+  </fileset>
+
+  <fileset id="non.framework.buildfiles" basedir="${project.src.dir}">
+    <patternset refid="non.framework.build.scripts"/>
+  </fileset>
+
+  <fileset id="project.buildfiles" basedir="${project.src.dir}">
+    <patternset refid="framework.build.scripts"/>
+    <patternset refid="non.framework.build.scripts"/>
   </fileset>
 
   <!-- BuildFiles for Samples -->

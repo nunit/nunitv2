@@ -1,16 +1,15 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
-  
-    <Feature Id="DocFeature" Level="1"
-		Title='Documentation' Display='expand'
-		Description="HTML documentation for NUNit">
-      <ComponentRef Id="C__doc" />
-      <ComponentRef Id="C__doc_files" />
-      <ComponentRef Id="C__doc_img" />
-    </Feature>
-      
+
+	<ComponentGroup Id="DocumentationComponents">  
+		<ComponentRef Id="HtmlDocs" />
+		<ComponentRef Id="DocFiles" />
+		<ComponentRef Id="DocImages" />
+	</ComponentGroup>
+	
     <DirectoryRef Id="doc" FileSource="doc">
-      <Component Id="C__doc" DiskId="1" Guid="6d9faf90-1ff2-11db-a98b-0800200c9a66">
+    
+      <Component Id="HtmlDocs" DiskId="1" Guid="6d9faf90-1ff2-11db-a98b-0800200c9a66">
         <File Id="nunit.css" Name="nunit.css" />
         <File Id="codeFuncs.js" Name="CODEFNCS.JS" LongName="codeFuncs.js" />
         <File Id="favicon.ico" Name="favicon.ico" />
@@ -23,11 +22,9 @@
         <File Id="collectionConstraints.html" Name="COLLEC_2.HTM" LongName="collectionConstraints.html" />
         <File Id="comparisonAsserts.html" Name="COMPAR_1.HTM" LongName="comparisonAsserts.html" />
         <File Id="comparisonConstraints.html" Name="COMPAR_2.HTM" LongName="comparisonConstraints.html" />
-        <File Id="compoundConstraints.html" Name="COMPOUND.HTM"
-LongName="compoundConstraints.html" />
+        <File Id="compoundConstraints.html" Name="COMPOUND.HTM" LongName="compoundConstraints.html" />
         <File Id="conditionAsserts.html" Name="CONDIT_1.HTM" LongName="conditionAsserts.html" />
-        <File Id="conditionConstraints.html" Name="CONDIT_2.HTM"
-LongName="conditionConstraints.html" />
+        <File Id="conditionConstraints.html" Name="CONDIT_2.HTM" LongName="conditionConstraints.html" />
         <File Id="configEditor.html" Name="CONFIG_1.HTM" LongName="configEditor.html" />
         <File Id="configFiles.html" Name="CONFIG_2.HTM" LongName="configFiles.html" />
         <File Id="consoleCommandLine.html" Name="CONSOL_1.HTM" LongName="consoleCommandLine.html" />
@@ -35,8 +32,7 @@ LongName="conditionConstraints.html" />
         <File Id="contextMenu.html" Name="CONTEX_1.HTM" LongName="contextMenu.html" />
         <File Id="culture.html" Name="CULTURE.HTM" LongName="culture.html" />
         <File Id="customAsserts.html" Name="CUSTOM_1.HTM" LongName="customAsserts.html" />
-        <File Id="customConstraints.html" Name="CUSTOM_2.HTM"
-LongName="customConstraints.html" />
+        <File Id="customConstraints.html" Name="CUSTOM_2.HTM" LongName="customConstraints.html" />
         <File Id="description.html" Name="DESCRIP.HTM" LongName="description.html" />
         <File Id="equalConstraint.html" Name="EQUALCON.HTM" LongName="equalConstraint.html" />
         <File Id="equalityAsserts.html" Name="EQUALI_1.HTM" LongName="equalityAsserts.html" />
@@ -87,23 +83,23 @@ LongName="customConstraints.html" />
         <File Id="upgrade.html" Name="UPGRAD_1.HTM" LongName="upgrade.html" />
         <File Id="utilityAsserts.html" Name="UTILIT_1.HTM" LongName="utilityAsserts.html" />
         <File Id="vsSupport.html" Name="VSSUPP_1.HTM" LongName="vsSupport.html" />
-	<RemoveFile Id="RF_doc_thumbs.db" Name="thumbs.db" On="uninstall" />
+	    <RemoveFile Id="RemoveThumbnails_Doc" Name="*" On="uninstall" />
       </Component>
     </DirectoryRef>
 		
     <DirectoryRef Id="files" FileSource="doc\files" >
-      <Component Id="C__doc_files" DiskId="1" Guid="757c2ae0-1ff2-11db-a98b-0800200c9a66">
+      <Component Id="DocFiles" DiskId="1" Guid="757c2ae0-1ff2-11db-a98b-0800200c9a66">
         <File Id="F__doc_file70" Name="QUICKS_2.DOC" LongName="QuickStart.doc" />
         <File Id="F__doc_file71" Name="QUICKS_1.DOC" LongName="QuickStart.Spanish.doc" />
         <File Id="F__doc_file72" Name="Results.xsd" />
         <File Id="F__doc_file73" Name="SUMMAR_1.XSL" LongName="Summary.xslt" />
         <File Id="F__doc_file75" Name="TESTRE_1.XML" LongName="TestResult.xml" />
-        <RemoveFile Id="RF_doc_files_thumbs.db" Name="thumbs.db" On="uninstall" />
+        <RemoveFile Id="RemoveThumbnails_Doc_Files" Name="*" On="uninstall" />
       </Component>
     </DirectoryRef>
 		
     <DirectoryRef Id="img" FileSource="doc\img">
-      <Component Id="C__doc_img" DiskId="1" Guid="7bb6dd10-1ff2-11db-a98b-0800200c9a66">
+      <Component Id="DocImages" DiskId="1" Guid="7bb6dd10-1ff2-11db-a98b-0800200c9a66">
         <File Id="addinsDialog.jpg" Name="ADDINDLG.JPG" LongName="addinsDialog.jpg" />
         <File Id="F__doc_file83" Name="ASSEMB_1.JPG" LongName="assembliesTab.jpg" />
         <File Id="F__doc_file84" Name="BULLET_1.GIF" LongName="bulletOff.gif" />
@@ -121,7 +117,7 @@ LongName="customConstraints.html" />
         <File Id="generalOptions.jpg" Name="GENOPTS.JPG" LongName="generalOptions.jpg" />
         <File Id="testOutputOptions.jpg" Name="OUTOPTS.JPG" LongName="testOutputOptions.jpg" />
         <File Id="testLoadOptions.jpg" Name="LOADOPTS.JPG" LongName="testLoadOptions.jpg" />
-        <RemoveFile Id="RF_doc_img_thumbs.db" Name="thumbs.db" On="uninstall" />
+        <RemoveFile Id="RemoveThumbnails_Doc_Img" Name="*" On="uninstall" />
       </Component>
     </DirectoryRef>
 	

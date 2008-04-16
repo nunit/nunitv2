@@ -66,8 +66,8 @@
 
   <target name="build">
     <csc target="library"
-        output="${current.build.dir}/nunit.framework.dll"
-        doc="${current.build.dir}/nunit.framework.xml"
+        output="${current.lib.dir}/nunit.framework.dll"
+        doc="${current.lib.dir}/nunit.framework.xml"
         debug="${build.debug}" 
         define="${build.defines}">
       <nowarn>
@@ -79,6 +79,10 @@
         <include name="../../CommonAssemblyInfo.cs" />
       </sources>
     </csc>
+
+    <!-- Needed locally by some NUnit tests -->
+    <copy file="${current.lib.dir}/nunit.framework.dll"
+      todir="${current.test.dir}"/>
   </target>
 
   <target name="package">

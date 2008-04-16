@@ -3,14 +3,14 @@
 
   <target name="build">
     <csc target="library" 
-       output="${current.build.dir}/nonamespace-assembly.dll" 
+       output="${current.test.dir}/nonamespace-assembly.dll" 
        debug="${build.debug}" define="${build.defines}">
       <sources>
         <include name="NoNamespaceTestFixture.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
       <references>
-        <include name="${current.build.dir}/nunit.framework.dll"/>
+        <include name="${current.lib.dir}/nunit.framework.dll"/>
       </references>
     </csc>
   </target>

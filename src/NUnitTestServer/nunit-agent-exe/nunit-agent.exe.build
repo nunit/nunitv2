@@ -18,7 +18,6 @@
       <references basedir="${current.build.dir}">
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.util.dll"/>
-        <include name="log4net.dll"/>
       </references>
     </csc>
 

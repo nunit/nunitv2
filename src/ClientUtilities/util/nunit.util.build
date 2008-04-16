@@ -82,11 +82,11 @@
       <resources prefix="NUnit.Util">
         <patternset refid="resource-files"/>
       </resources>
-      <references basedir="${current.build.dir}">
+      <references>
         <include name="System.Runtime.Remoting.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.framework.dll"/>
+        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.build.dir}/nunit.core.dll"/>
+        <include name="${current.lib.dir}/nunit.framework.dll"/>
       </references>
     </csc>
   </target>

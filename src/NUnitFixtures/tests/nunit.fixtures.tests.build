@@ -8,18 +8,18 @@
 
   <target name="build">
     <csc target="library" 
-        output="${current.build.dir}/nunit.fixtures.tests.dll"
+        output="${current.test.dir}/nunit.fixtures.tests.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit.fixtures.dll"/>
+      <references>
+        <include name="${current.lib.dir}/nunit.framework.dll"/>
+        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.build.dir}/nunit.core.dll"/>
+        <include name="${current.build.dir}/nunit.util.dll"/>
+        <include name="${current.build.dir}/nunit.fixtures.dll"/>
       </references>
     </csc>
   </target>

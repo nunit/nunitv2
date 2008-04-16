@@ -50,7 +50,7 @@
 
   <target name="build">
     <csc target="library" 
-        output="${current.build.dir}/nunit.framework.tests.dll"
+        output="${current.test.dir}/nunit.framework.tests.dll"
         debug="${build.debug}" 
         define="${build.defines}">
       <nowarn>
@@ -63,8 +63,8 @@
       <resources prefix="NUnit.Framework.Tests">
         <patternset refid="resource-files"/>
       </resources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
+      <references>
+        <include name="${current.lib.dir}/nunit.framework.dll"/>
         <include name="System.Data.dll"/>
         <include name="System.Drawing.dll"/>
       </references>

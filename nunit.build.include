@@ -29,11 +29,9 @@
   <property name="project.install.dir"
     value="${path::combine(project.src.dir, 'install')}"/>
 
-  <!-- Package directories -->
+  <!-- Set paths to varioous package directories -->
   <property name="package.working.dir" 
     value="${path::combine(project.package.dir,package.name)}"/>
-  <property name="package.bin.dir" 
-    value="${path::combine(package.working.dir,'bin')}"/>
   <property name="package.doc.dir" 
     value="${path::combine(package.working.dir,'doc')}"/>
   <property name="package.samples.dir" 
@@ -41,15 +39,13 @@
   <property name="package.src.dir" 
     value="${path::combine(package.working.dir,'src')}"/>
   <property name="package.solutions.dir"
-    value="${path::combine(package.working.dir, 'solutions')}"/>
+    value="${path::combine(package.working.dir,'solutions')}"/>
   <property name="package.tools.dir"
     value="${path::combine(package.working.dir,'tools')}"/>
   <property name="package.resource.dir"
-    value="${path::combine(package.working.dir, 'resources')}"/>
-  <property name="package.lib.dir"
-    value="${path::combine(package.working.dir, 'lib')}"/>
+    value="${path::combine(package.working.dir,'resources')}"/>
   <property name="package.install.dir"
-    value="${path::combine(package.src.dir, 'install')}"/>
+    value="${path::combine(package.src.dir,'install')}"/>
 
   <!-- Default build configuration -->
   <property name="build.config" value="debug"/>
@@ -214,17 +210,31 @@
   <!-- Set up the build directory -->
   <target name="set-build-dir"
     depends="set-build-config,set-runtime-config">
+
     <property name="runtime.platform.dir"
       value="${path::combine(project.build.dir,runtime.platform)}"/>
     <property name="runtime.version.dir"
       value="${path::combine(runtime.platform.dir,runtime.version)}"/>
     <property name="current.build.dir" 
       value="${path::combine(runtime.version.dir,build.config)}"/>
+
+
+    <property name="current.lib.dir" 
+      value="${path::combine(current.build.dir,'lib')}"/>
+    <property name="current.test.dir" 
+      value="${path::combine(current.build.dir,'tests')}"/>
+
+    <property name="package.bin.dir" 
+      value="${path::combine(package.working.dir,runtime.config)}"/>
   </target>
   
   <target name="make-build-dir" depends="set-build-dir">
     <mkdir dir="${current.build.dir}"
       unless="${directory::exists(current.build.dir)}"/>
+    <mkdir dir="${current.lib.dir}"
+      unless="${directory::exists(current.lib.dir)}"/>
+    <mkdir dir="${current.test.dir}"
+      unless="${directory::exists(current.test.dir)}"/>
   </target>
 
 <!-- ***************************************************************** -->

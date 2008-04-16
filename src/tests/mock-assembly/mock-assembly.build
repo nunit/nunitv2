@@ -3,16 +3,16 @@
 
   <target name="build">
     <csc target="library" 
-      output="${current.build.dir}/mock-assembly.dll" 
+      output="${current.test.dir}/mock-assembly.dll" 
       debug="${build.debug}" define="${build.defines}">
       <sources>
         <include name="MockAssembly.cs"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
+      <references>
+        <include name="${current.lib.dir}/nunit.framework.dll"/>
+        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.build.dir}/nunit.core.dll"/>
       </references>
     </csc>
   </target>

@@ -9,13 +9,13 @@
 
   <target name="build">
     <csc target="library"
-       output="${current.build.dir}/nunit.mocks.tests.dll" 
+       output="${current.test.dir}/nunit.mocks.tests.dll" 
        debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
         <include name="../../CommonAssemblyInfo.cs"/>
       </sources>
-      <references basedir="${current.build.dir}">
+      <references basedir="${current.lib.dir}">
         <include name="nunit.framework.dll"/>
         <include name="nunit.mocks.dll"/>
       </references>

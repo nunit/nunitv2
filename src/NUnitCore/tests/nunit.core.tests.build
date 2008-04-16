@@ -63,7 +63,7 @@
 
   <target name="build">
     <csc target="library" 
-       output="${current.build.dir}/nunit.core.tests.dll"
+       output="${current.test.dir}/nunit.core.tests.dll"
        debug="${build.debug}" 
        define="${build.defines}">
       <nowarn>
@@ -76,16 +76,16 @@
       <resources prefix="NUnit.Core.Tests">
         <include name="../core/Results.xsd"/>
       </resources>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.util.dll"/>
-        <include name="nunit.mocks.dll"/>
-        <include name="test-assembly.dll"/>
-        <include name="test-utilities.dll"/>
-        <include name="mock-assembly.dll"/>
-        <include name="nonamespace-assembly.dll"/>
+      <references>
+        <include name="${current.lib.dir}/nunit.framework.dll"/>
+        <include name="${current.lib.dir}/nunit.mocks.dll"/>
+        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.build.dir}/nunit.core.dll"/>
+        <include name="${current.build.dir}/nunit.util.dll"/>
+        <include name="${current.test.dir}/test-assembly.dll"/>
+        <include name="${current.test.dir}/test-utilities.dll"/>
+        <include name="${current.test.dir}/mock-assembly.dll"/>
+        <include name="${current.test.dir}/nonamespace-assembly.dll"/>
         <include name="System.Data.dll"/>
       </references>
     </csc>

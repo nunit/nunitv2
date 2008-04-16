@@ -29,7 +29,7 @@
 
   <target name="build">
     <csc target="library" 
-        output="${current.build.dir}/test-assembly.dll" 
+        output="${current.test.dir}/test-assembly.dll" 
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
@@ -38,11 +38,11 @@
       <nowarn>
         <warning number="618,672"/>
       </nowarn>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.framework.dll"/>
-        <include name="nunit.core.interfaces.dll"/>
-        <include name="nunit.core.dll"/>
-        <include name="nunit.framework.extensions.dll"/>
+      <references>
+        <include name="${current.lib.dir}/nunit.framework.dll"/>
+        <include name="${current.lib.dir}/nunit.framework.extensions.dll"/>
+        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.build.dir}/nunit.core.dll"/>
       </references>
     </csc>
   </target>
