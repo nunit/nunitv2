@@ -3226,8 +3226,9 @@ namespace NUnit.Framework
         /// <param name="snippet">A TestSnippet delegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        public static void Throws(Type expectedExceptionType, TestSnippet snippet, string message, params object[] args)
+        public static Exception Throws(Type expectedExceptionType, TestSnippet snippet, string message, params object[] args)
         {
+			Exception caughtException = null;
             Type caughtExceptionType = null;
 
 			try
@@ -3236,10 +3237,13 @@ namespace NUnit.Framework
 			}
 			catch(Exception ex)
 			{
+				caughtException = ex;
 				caughtExceptionType = ex.GetType();
 			}
 
 			Assert.AreEqual(expectedExceptionType, caughtExceptionType, message, args);
+
+			return caughtException;
 		}
 
         /// <summary>
@@ -3248,9 +3252,9 @@ namespace NUnit.Framework
         /// <param name="expectedExceptionType">The exception Type expected</param>
         /// <param name="snippet">A TestSnippet delegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        public static void Throws(Type expectedExceptionType, TestSnippet snippet, string message)
+        public static Exception Throws(Type expectedExceptionType, TestSnippet snippet, string message)
         {
-            Throws( expectedExceptionType, snippet, message, null );
+            return Throws( expectedExceptionType, snippet, message, null );
         }
 
         /// <summary>
@@ -3258,9 +3262,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expectedExceptionType">The exception Type expected</param>
         /// <param name="snippet">A TestSnippet delegate</param>
-        public static void Throws(Type expectedExceptionType, TestSnippet snippet)
+        public static Exception Throws(Type expectedExceptionType, TestSnippet snippet)
         {
-            Throws(expectedExceptionType, snippet, string.Empty, null);
+            return Throws(expectedExceptionType, snippet, string.Empty, null);
         }
 
         #endregion
@@ -3274,9 +3278,9 @@ namespace NUnit.Framework
         /// <param name="snippet">A TestSnippet delegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        public static void Throws<T>(TestSnippet snippet, string message, params object[] args) where T : Exception
+        public static T Throws<T>(TestSnippet snippet, string message, params object[] args) where T : Exception
         {
-            Throws(typeof(T), snippet, message, args);
+            return (T)Throws(typeof(T), snippet, message, args);
         }
 
         /// <summary>
@@ -3285,9 +3289,9 @@ namespace NUnit.Framework
         /// <typeparam name="T">Type of the expected exception</typeparam>
         /// <param name="snippet">A TestSnippet delegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        public static void Throws<T>(TestSnippet snippet, string message) where T : Exception
+        public static T Throws<T>(TestSnippet snippet, string message) where T : Exception
         {
-            Throws<T>( snippet, message, null);
+            return Throws<T>( snippet, message, null);
         }
 
         /// <summary>
@@ -3295,9 +3299,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <typeparam name="T">Type of the expected exception</typeparam>
         /// <param name="snippet">A TestSnippet delegate</param>
-        public static void Throws<T>(TestSnippet snippet) where T : Exception
+        public static T Throws<T>(TestSnippet snippet) where T : Exception
         {
-            Throws<T>( snippet, string.Empty, null);
+            return Throws<T>( snippet, string.Empty, null);
         }
 #endif
         #endregion

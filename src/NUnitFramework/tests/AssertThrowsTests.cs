@@ -20,6 +20,39 @@ namespace NUnit.Framework.Tests
 #endif
 		}
 
+		[Test]
+		public void CorrectExceptionIsReturnedToMethod()
+		{
+			Exception ex = Assert.Throws(typeof(ArgumentException),
+				new TestSnippet( ThrowsArgumentException ) );
+
+			Assert.IsNotNull( ex );
+			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
+			Assert.AreEqual( "myMessage" + Environment.NewLine + "Parameter name: myParam", ex.Message );
+
+#if NET_2_0
+            ex = Assert.Throws<ArgumentException>(
+                delegate { throw new ArgumentException("myMessage", "myParam"); });
+
+			Assert.IsNotNull( ex );
+			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
+			Assert.AreEqual( "myMessage" + Environment.NewLine + "Parameter name: myParam", ex.Message );
+
+			ex = Assert.Throws(typeof(ArgumentException), 
+                delegate { throw new ArgumentException("myMessage", "myParam"); } );
+
+			Assert.IsNotNull( ex );
+			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
+			Assert.AreEqual( "myMessage" + Environment.NewLine + "Parameter name: myParam", ex.Message );
+
+			ex = Assert.Throws<ArgumentException>( ThrowsArgumentException );
+
+			Assert.IsNotNull( ex );
+			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
+			Assert.AreEqual( "myMessage" + Environment.NewLine + "Parameter name: myParam", ex.Message );
+#endif
+		}
+
 		[Test, ExpectedException(typeof(AssertionException))]
 		public void NoExceptionThrown()
 		{
@@ -78,7 +111,7 @@ namespace NUnit.Framework.Tests
 
 		void ThrowsArgumentException()
 		{
-			throw new ArgumentException();
+			throw new ArgumentException("myMessage", "myParam");
 		}
 
 		void ThrowsApplicationException()
