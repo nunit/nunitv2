@@ -139,7 +139,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void AssemblyWithNoTests()
 		{
-			LoadTest( "test-utilities.dll" );
+			LoadTest( "nunit.framework.dll" );
 			Assert.IsTrue( loader.IsProjectLoaded, "Project not loaded" );
 			Assert.IsTrue( loader.IsTestLoaded, "Test not loaded" );
 			Assert.AreEqual( 4, catcher.Events.Count );
