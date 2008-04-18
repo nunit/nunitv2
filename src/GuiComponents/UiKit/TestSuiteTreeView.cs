@@ -155,6 +155,7 @@ namespace NUnit.UiKit
 			this.DoubleClick += new System.EventHandler(this.TestSuiteTreeView_DoubleClick);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragEnter);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragDrop);
+
 		}
 
 		public void Initialize( ITestLoader loader, ITestEvents events )

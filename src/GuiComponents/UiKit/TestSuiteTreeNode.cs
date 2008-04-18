@@ -44,6 +44,7 @@ namespace NUnit.UiKit
 		public static readonly int FailureIndex = 1;
 		public static readonly int SuccessIndex = 2;
 		public static readonly int IgnoredIndex = 3;
+	    public static readonly int InconclusiveIndex = 4;
 
 		#endregion
 
@@ -161,7 +162,9 @@ namespace NUnit.UiKit
 			
 			switch( this.result.ResultState )
 			{
-				case ResultState.Skipped:
+                case ResultState.Inconclusive:
+			        return InconclusiveIndex;
+                case ResultState.Skipped:
 					return SkippedIndex;
                 case ResultState.NotRunnable:
                 case ResultState.Failure:

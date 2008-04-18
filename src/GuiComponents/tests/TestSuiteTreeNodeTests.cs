@@ -59,20 +59,30 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( "Test Case", node.TestType );
 		}
 
-		[Test]
-		public void SetResult_Init()
-		{
-			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestResult result = new TestResult( testCaseInfo );
+        [Test]
+        public void ResultNotSet()
+        {
+            TestSuiteTreeNode node = new TestSuiteTreeNode(testCaseInfo);
 
-			node.Result = result;
-			Assert.AreEqual( "MockTest1", node.Result.Name );
-			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.ImageIndex );
-			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
-			Assert.AreEqual( result.ResultState.ToString(), node.StatusText );
-		}
+            Assert.AreEqual(TestSuiteTreeNode.InitIndex, node.ImageIndex);
+            Assert.AreEqual(TestSuiteTreeNode.InitIndex, node.SelectedImageIndex);
+        }
 
-		[Test]
+        [Test]
+        public void SetResult_Inconclusive()
+        {
+            TestSuiteTreeNode node = new TestSuiteTreeNode(testCaseInfo);
+            TestResult result = new TestResult(testCaseInfo);
+
+            result.SetResult(ResultState.Inconclusive, null, null);
+            node.Result = result;
+            Assert.AreEqual("MockTest1", node.Result.Name);
+            Assert.AreEqual(TestSuiteTreeNode.InconclusiveIndex, node.ImageIndex);
+            Assert.AreEqual(TestSuiteTreeNode.InconclusiveIndex, node.SelectedImageIndex);
+            Assert.AreEqual(result.ResultState.ToString(), node.StatusText);
+        }
+
+        [Test]
 		public void SetResult_Ignore()
 		{
 			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );

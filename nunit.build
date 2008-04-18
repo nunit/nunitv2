@@ -454,8 +454,16 @@
 <!-- ***                    Package as a zip                       *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package-zip" depends="build-install-image,create-zip"
-    description="Create zip binary distribution package" />
+  <target name="package-zip"
+    description="Create zip binary distribution package">
+
+    <property name="package.config" value="${runtime.config}"
+      unless="${property::exists('package.config')}"/>
+
+    <call target="build-install-image"/>
+    <call target="create-zip"/>
+
+  </target>
 
 <!-- ***************************************************************** -->
 <!-- ***                   Package as an msi                       *** -->
@@ -497,7 +505,12 @@
   <target name="create-zip" description="Create zip from existing image">
     <!-- Create the zip file -->
     <property name="zip.file.name" 
-      value="${package.name}-${runtime.config}${build.suffix}.zip"/>
+      value="${package.name}-${package.config}${build.suffix}.zip"
+      unless="${package.config==standard.package.config}"/>
+    <property name="zip.file.name" 
+      value="${package.name}${build.suffix}.zip"
+      if="${package.config==standard.package.config}"/>
+
     <zip ziplevel="9"
         zipfile="${project.package.dir}/${zip.file.name}">
       <fileset basedir="${package.working.dir}">

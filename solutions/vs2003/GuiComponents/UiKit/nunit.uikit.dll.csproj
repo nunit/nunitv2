@@ -249,8 +249,8 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Ignored.jpg"
-                    Link = "..\..\..\..\src\GuiComponents\UiKit\Ignored.jpg"
+                    RelPath = "Inconclusive.jpg"
+                    Link = "..\..\..\..\src\GuiComponents\UiKit\Inconclusive.jpg"
                     BuildAction = "Content"
                 />
                 <File

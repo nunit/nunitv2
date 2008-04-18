@@ -152,14 +152,14 @@ namespace NUnit.Framework.Constraints
             this.actual = actual;
             this.caughtException = null;
 
-            TestSnippet snippet = actual as TestSnippet;
+            TestDelegate code = actual as TestDelegate;
 
-            if ( snippet == null )
-                throw new ArgumentException("Argument must be a TestSnippet delgate", "actual");
+            if ( code == null )
+                throw new ArgumentException("Argument must be a TestDelegate delgate", "actual");
 
             try
             {
-                snippet();
+                code();
                 return false;
             }
             catch (Exception ex)

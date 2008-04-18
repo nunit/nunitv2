@@ -22,7 +22,8 @@ namespace NUnit.Core
 		#endregion
 
 		#region TestMethod Overrides
-		/// <summary>
+
+        /// <summary>
 		/// Run a test returning the result. Overrides TestMethod
 		/// to count assertions.
 		/// </summary>
@@ -34,35 +35,32 @@ namespace NUnit.Core
 			testResult.AssertCount = NUnitFramework.GetAssertCount();
 		}
 
-		/// <summary>
-		/// Determine if an exception is an NUnit AssertionException
-		/// </summary>
-		/// <param name="ex">The exception to be examined</param>
-		/// <returns>True if it's an NUnit AssertionException</returns>
-		protected override bool IsAssertException(Exception ex)
-		{
-            return ex.GetType().FullName == NUnitFramework.AssertException;
-		}
-
         /// <summary>
-        /// Determine if an exception is an NUnit IgnoreException
+        /// Returns a result state for a special exception.
+        /// If the exception is not handled specially, returns
+        /// ResultState.Error.
         /// </summary>
         /// <param name="ex">The exception to be examined</param>
-        /// <returns>True if it's an NUnit IgnoreException</returns>
-        protected override bool IsIgnoreException(Exception ex)
+        /// <returns>A ResultState</returns>
+        protected override ResultState GetResultState(Exception ex)
         {
-            return ex.GetType().FullName == NUnitFramework.IgnoreException;
+            string name = ex.GetType().FullName;
+
+            if ( name == NUnitFramework.AssertException )
+                return ResultState.Failure;
+            else 
+            if ( name == NUnitFramework.IgnoreException )
+                return ResultState.Ignored;
+            else 
+            if ( name == NUnitFramework.InconclusiveException )
+                return ResultState.Inconclusive;
+            else 
+            if ( name == NUnitFramework.SuccessException )
+                return ResultState.Success;
+            else
+                return ResultState.Error;
         }
 
-        /// <summary>
-        /// Determine if an exception is an NUnit SuccessException
-        /// </summary>
-        /// <param name="ex">The exception to be examined</param>
-        /// <returns>True if it's an NUnit IgnoreException</returns>
-        protected override bool IsSuccessException(Exception ex)
-        {
-            return ex.GetType().FullName == NUnitFramework.SuccessException;
-        }
         #endregion
 	}
 }

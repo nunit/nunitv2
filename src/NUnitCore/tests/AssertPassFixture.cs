@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace NUnit.Core.Tests
@@ -16,6 +17,24 @@ namespace NUnit.Core.Tests
         {
             Assert.Pass("This test is OK!");
             Assert.Fail("No it's NOT!");
+        }
+    }
+
+    [TestFixture]
+    public class AssertInconclusiveFixture
+    {
+        [Test]
+        public void AssertInconclusiveThrowsException()
+        {
+            Exception ex = Assert.Throws(
+                typeof(InconclusiveException),
+                new TestDelegate(InconclusiveTest));
+            Assert.AreEqual("Unable to run test", ex.Message);
+        }
+
+        private static void InconclusiveTest()
+        {
+            Assert.Inconclusive("Unable to run test");
         }
     }
 }

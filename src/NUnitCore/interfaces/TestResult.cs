@@ -231,7 +231,7 @@ namespace NUnit.Core
         /// </summary>
         public void Success()
         {
-            this.resultState = ResultState.Success;
+            SetResult( ResultState.Success, null, null );
         }
 
         /// <summary>
@@ -239,8 +239,7 @@ namespace NUnit.Core
         /// </summary>
         public void Success( string message )
         {
-            this.resultState = ResultState.Success;
-            this.message = message;
+            SetResult( ResultState.Success, message, null );
         }
 
         /// <summary>
@@ -268,36 +267,17 @@ namespace NUnit.Core
 		/// <param name="stackTrace">Stack trace giving the location of the command</param>
 		public void Ignore(string reason, string stackTrace)
 		{
-			NotRun( ResultState.Ignored, reason, stackTrace );
+			SetResult( ResultState.Ignored, reason, stackTrace );
 		}
 
 		/// <summary>
 		/// Mark the test as skipped.
 		/// </summary>
 		/// <param name="reason">The reason the test was not run</param>
-		public void Skip(string reason)
-		{
-			Skip( reason, null );
-		}
-
-		/// <summary>
-		/// Mark the test as ignored.
-		/// </summary>
-		/// <param name="ex">The ignore exception that was thrown</param>
-		public void Skip( Exception ex )
-		{
-			Skip( ex.Message, BuildStackTrace( ex ) );
-		}
-
-		/// <summary>
-		/// Mark the test as skipped.
-		/// </summary>
-		/// <param name="reason">The reason the test was not run</param>
-		/// <param name="stackTrace">Stack trace giving the location of the command</param>
-		public void Skip(string reason, string stackTrace)
-		{
-			NotRun( ResultState.Skipped, reason, stackTrace );
-		}
+        public void Skip(string reason)
+        {
+            SetResult(ResultState.Skipped, reason, null);
+        }
 
         /// <summary>
         /// Mark the test a not runnable
@@ -305,24 +285,31 @@ namespace NUnit.Core
         /// <param name="reason">The reason the test is invalid</param>
         public void Invalid( string reason )
         {
-            NotRun( ResultState.NotRunnable, reason, null );
+            SetResult( ResultState.NotRunnable, reason, null );
         }
 
 	    /// <summary>
-		/// Mark the test as Not Run - either skipped or ignored
+		/// Set the result of the test
 		/// </summary>
 		/// <param name="resultState">The ResultState to use in the result</param>
 		/// <param name="reason">The reason the test was not run</param>
 		/// <param name="stackTrace">Stack trace giving the location of the command</param>
-		public void NotRun(ResultState resultState, string reason, string stackTrace)
+		public void SetResult(ResultState resultState, string reason, string stackTrace)
 		{
 		    this.resultState = resultState;
 			this.message = reason;
 			this.stackTrace = stackTrace;
 		}
 
-
-		/// <summary>
+        public void SetResult(ResultState resultState, Exception ex)
+        {
+            if ( resultState == ResultState.Error )
+                SetResult( resultState, BuildMessage(ex), BuildStackTrace(ex));
+            else
+                SetResult( resultState, ex.Message, ex. StackTrace );
+        }
+   
+        /// <summary>
 		/// Mark the test as a failure due to an
 		/// assertion having failed.
 		/// </summary>
@@ -342,10 +329,8 @@ namespace NUnit.Core
 		/// <param name="failureSite">The site of the failure</param>
 		public void Failure(string message, string stackTrace, FailureSite failureSite )
 		{
-			this.resultState = ResultState.Failure;
+            SetResult( Core.ResultState.Failure, message, stackTrace );
             this.failureSite = failureSite;
-			this.message = message;
-			this.stackTrace = stackTrace;
 		}
 
 		/// <summary>
@@ -366,9 +351,6 @@ namespace NUnit.Core
 		/// <param name="failureSite">The site from which it was thrown</param>
 		public void Error( Exception exception, FailureSite failureSite )
 		{
-			this.resultState = ResultState.Error;
-            this.failureSite = failureSite;
-
             string message = BuildMessage(exception);
             string stackTrace = BuildStackTrace(exception);
 
@@ -383,9 +365,9 @@ namespace NUnit.Core
                     stackTrace = this.stackTrace + Environment.NewLine + stackTrace;
             }
 
-            this.message = message;
-            this.stackTrace = stackTrace;
-		}
+            SetResult( ResultState.Error, message, stackTrace );
+            this.failureSite = failureSite;
+        }
 
 		/// <summary>
 		/// Add a child result
@@ -408,7 +390,7 @@ namespace NUnit.Core
 
 		#region Exception Helpers
 
-		private string BuildMessage(Exception exception)
+		public static string BuildMessage(Exception exception)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.AppendFormat( "{0} : {1}", exception.GetType().ToString(), exception.Message );
@@ -424,7 +406,7 @@ namespace NUnit.Core
 			return sb.ToString();
 		}
 		
-		private string BuildStackTrace(Exception exception)
+		public static string BuildStackTrace(Exception exception)
 		{
             StringBuilder sb = new StringBuilder( GetStackTrace( exception ) );
 
@@ -443,7 +425,7 @@ namespace NUnit.Core
             return sb.ToString();
 		}
 
-		private string GetStackTrace(Exception exception)
+		private static string GetStackTrace(Exception exception)
 		{
 			try
 			{

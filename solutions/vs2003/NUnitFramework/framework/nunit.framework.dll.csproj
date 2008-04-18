@@ -108,6 +108,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Catch.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Catch.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CategoryAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\CategoryAttribute.cs"
                     SubType = "Code"
@@ -188,6 +194,12 @@
                 <File
                     RelPath = "IncludeExcludeAttributes.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\IncludeExcludeAttributes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InconclusiveException.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\InconclusiveException.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -384,6 +396,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\ThrowsConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ThrowsConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\TypeConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\TypeConstraints.cs"
                     SubType = "Code"
@@ -416,6 +434,12 @@
                 <File
                     RelPath = "Syntax\CSharp\Text.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Text.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\CSharp\Throws.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Throws.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

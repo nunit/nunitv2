@@ -12,7 +12,7 @@ using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework
 {
-    public delegate void TestSnippet();
+    public delegate void TestDelegate();
 
     /// <summary>
 	/// The Assert class contains a collection of static methods that
@@ -2307,7 +2307,7 @@ namespace NUnit.Framework
 
 		#endregion
 
-        #region Succeed
+        #region Pass
 
         /// <summary>
         /// Throws a <see cref="SucceedException"/> with the message and arguments 
@@ -2388,44 +2388,81 @@ namespace NUnit.Framework
 
         #region Ignore
 
-		/// <summary>
-		/// Throws an <see cref="IgnoreException"/> with the message and arguments 
-		/// that are passed in.  This causes the test to be reported as ignored.
-		/// </summary>
-		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Ignore( string message, params object[] args )
-		{
-			if (message == null) message = string.Empty;
-			else if ( args != null && args.Length > 0 )
-				message = string.Format( message, args );
+        /// <summary>
+        /// Throws an <see cref="IgnoreException"/> with the message and arguments 
+        /// that are passed in.  This causes the test to be reported as ignored.
+        /// </summary>
+        /// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void Ignore(string message, params object[] args)
+        {
+            if (message == null) message = string.Empty;
+            else if (args != null && args.Length > 0)
+                message = string.Format(message, args);
 
-			throw new IgnoreException(message);
-		}
+            throw new IgnoreException(message);
+        }
 
-		/// <summary>
-		/// Throws an <see cref="IgnoreException"/> with the message that is 
-		/// passed in. This causes the test to be reported as ignored. 
-		/// </summary>
-		/// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
-		static public void Ignore( string message )
-		{
-			Assert.Ignore( message, null );
-		}
-    
-		/// <summary>
-		/// Throws an <see cref="IgnoreException"/>. 
-		/// This causes the test to be reported as ignored. 
-		/// </summary>
-		static public void Ignore()
-		{
-			Assert.Ignore( string.Empty, null );
-		}
-    
-		#endregion
+        /// <summary>
+        /// Throws an <see cref="IgnoreException"/> with the message that is 
+        /// passed in. This causes the test to be reported as ignored. 
+        /// </summary>
+        /// <param name="message">The message to initialize the <see cref="AssertionException"/> with.</param>
+        static public void Ignore(string message)
+        {
+            Assert.Ignore(message, null);
+        }
 
-		#region That
-		/// <summary>
+        /// <summary>
+        /// Throws an <see cref="IgnoreException"/>. 
+        /// This causes the test to be reported as ignored. 
+        /// </summary>
+        static public void Ignore()
+        {
+            Assert.Ignore(string.Empty, null);
+        }
+
+        #endregion
+
+        #region InConclusive
+        /// <summary>
+        /// Throws an <see cref="InconclusiveException"/> with the message and arguments 
+        /// that are passed in.  This causes the test to be reported as inconclusive.
+        /// </summary>
+        /// <param name="message">The message to initialize the <see cref="InconclusiveException"/> with.</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void Inconclusive(string message, params object[] args)
+        {
+            if (message == null) message = string.Empty;
+            else if (args != null && args.Length > 0)
+                message = string.Format(message, args);
+
+            throw new InconclusiveException(message);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InconclusiveException"/> with the message that is 
+        /// passed in. This causes the test to be reported as inconclusive. 
+        /// </summary>
+        /// <param name="message">The message to initialize the <see cref="InconclusiveException"/> with.</param>
+        static public void Inconclusive(string message)
+        {
+            Assert.Inconclusive(message, null);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InconclusiveException"/>. 
+        /// This causes the test to be reported as Inconclusive. 
+        /// </summary>
+        static public void Inconclusive()
+        {
+            Assert.Inconclusive(string.Empty, null);
+        }
+
+        #endregion
+
+        #region That
+        /// <summary>
 		/// Apply a constraint to an actual value, succeeding if the constraint
 		/// is satisfied and throwing an assertion exception on failure.
 		/// </summary>
@@ -2499,6 +2536,12 @@ namespace NUnit.Framework
         {
             Assert.That(condition, Is.True, null, null);
         }
+
+        static public void That( TestDelegate code, ThrowsConstraint constraint )
+        {
+            Assert.That( (object)code, constraint );
+        }
+
         #endregion
 
 		#region GreaterOrEqual
@@ -3223,48 +3266,37 @@ namespace NUnit.Framework
         /// Verifies that a delegate throws a particular exception when called.
         /// </summary>
         /// <param name="expectedExceptionType">The exception Type expected</param>
-        /// <param name="snippet">A TestSnippet delegate</param>
+        /// <param name="code">A TestSnippet delegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        public static Exception Throws(Type expectedExceptionType, TestSnippet snippet, string message, params object[] args)
+        public static Exception Throws(Type expectedExceptionType, TestDelegate code, string message, params object[] args)
         {
-			Exception caughtException = null;
-            Type caughtExceptionType = null;
+            Exception caughtException = Catch.Exception( code );
+            Type caughtExceptionType = caughtException == null ? null : caughtException.GetType();
+            Assert.AreEqual(expectedExceptionType, caughtExceptionType, message, args);
 
-			try
-			{
-				snippet();
-			}
-			catch(Exception ex)
-			{
-				caughtException = ex;
-				caughtExceptionType = ex.GetType();
-			}
-
-			Assert.AreEqual(expectedExceptionType, caughtExceptionType, message, args);
-
-			return caughtException;
-		}
-
-        /// <summary>
-        /// Verifies that a delegate throws a particular exception when called.
-        /// </summary>
-        /// <param name="expectedExceptionType">The exception Type expected</param>
-        /// <param name="snippet">A TestSnippet delegate</param>
-        /// <param name="message">The message that will be displayed on failure</param>
-        public static Exception Throws(Type expectedExceptionType, TestSnippet snippet, string message)
-        {
-            return Throws( expectedExceptionType, snippet, message, null );
+            return caughtException;
         }
 
         /// <summary>
         /// Verifies that a delegate throws a particular exception when called.
         /// </summary>
         /// <param name="expectedExceptionType">The exception Type expected</param>
-        /// <param name="snippet">A TestSnippet delegate</param>
-        public static Exception Throws(Type expectedExceptionType, TestSnippet snippet)
+        /// <param name="code">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        public static Exception Throws(Type expectedExceptionType, TestDelegate code, string message)
         {
-            return Throws(expectedExceptionType, snippet, string.Empty, null);
+            return Throws(expectedExceptionType, code, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <param name="expectedExceptionType">The exception Type expected</param>
+        /// <param name="code">A TestSnippet delegate</param>
+        public static Exception Throws(Type expectedExceptionType, TestDelegate code)
+        {
+            return Throws(expectedExceptionType, code, string.Empty, null);
         }
 
         #endregion
@@ -3275,35 +3307,76 @@ namespace NUnit.Framework
         /// Verifies that a delegate throws a particular exception when called.
         /// </summary>
         /// <typeparam name="T">Type of the expected exception</typeparam>
-        /// <param name="snippet">A TestSnippet delegate</param>
+        /// <param name="code">A TestSnippet delegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        public static T Throws<T>(TestSnippet snippet, string message, params object[] args) where T : Exception
+        public static T Throws<T>(TestDelegate code, string message, params object[] args) where T : Exception
         {
-            return (T)Throws(typeof(T), snippet, message, args);
+            return (T)Throws(typeof(T), code, message, args);
         }
 
         /// <summary>
         /// Verifies that a delegate throws a particular exception when called.
         /// </summary>
         /// <typeparam name="T">Type of the expected exception</typeparam>
-        /// <param name="snippet">A TestSnippet delegate</param>
+        /// <param name="code">A TestSnippet delegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        public static T Throws<T>(TestSnippet snippet, string message) where T : Exception
+        public static T Throws<T>(TestDelegate code, string message) where T : Exception
         {
-            return Throws<T>( snippet, message, null);
+            return Throws<T>( code, message, null);
         }
 
         /// <summary>
         /// Verifies that a delegate throws a particular exception when called.
         /// </summary>
         /// <typeparam name="T">Type of the expected exception</typeparam>
-        /// <param name="snippet">A TestSnippet delegate</param>
-        public static T Throws<T>(TestSnippet snippet) where T : Exception
+        /// <param name="code">A TestSnippet delegate</param>
+        public static T Throws<T>(TestDelegate code) where T : Exception
         {
-            return Throws<T>( snippet, string.Empty, null);
+            return Throws<T>( code, string.Empty, null);
         }
 #endif
+        #endregion
+
+        #region DoesNotThrow
+
+        /// <summary>
+        /// Verifies that a delegate does not throw an exception
+        /// </summary>
+        /// <param name="code">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void DoesNotThrow(TestDelegate code, string message, params object[] args)
+        {
+            try
+            {
+                code();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail( "Delegate threw {0}", ex.GetType() );
+            }
+        }
+
+        /// <summary>
+        /// Verifies that a delegate does not throw an exception.
+        /// </summary>
+        /// <param name="code">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        public static void DoesNotThrow(TestDelegate code, string message)
+        {
+            DoesNotThrow(code, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that a delegate does not throw an exception.
+        /// </summary>
+        /// <param name="code">A TestSnippet delegate</param>
+        public static void DoesNotThrow(TestDelegate code)
+        {
+            DoesNotThrow(code, string.Empty, null);
+        }
+
         #endregion
     }
 }

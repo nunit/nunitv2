@@ -42,7 +42,7 @@ namespace NUnit.Core.Tests
 		}
 
 		[Serializable] 
-			public class TestSerialisable
+		public class TestSerialisable
 		{
 			override public string ToString()
 			{

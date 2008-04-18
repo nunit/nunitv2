@@ -1,4 +1,6 @@
 using System;
+using NUnit.Framework.Constraints;
+using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework.Tests
 {
@@ -8,23 +10,35 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void CorrectExceptionThrown()
 		{
-			Assert.Throws(typeof(ArgumentException),
-				new TestSnippet( ThrowsArgumentException ) );
-
 #if NET_2_0
+            Assert.Throws(typeof(ArgumentException), ThrowsArgumentException);
+            Assert.Throws(typeof(ArgumentException),
+                delegate { throw new ArgumentException(); });
+
+            Assert.That(ThrowsArgumentException,
+                Throws.Exception<ArgumentException>());
+
             Assert.Throws<ArgumentException>(
                 delegate { throw new ArgumentException(); });
-            Assert.Throws(typeof(ArgumentException), 
-                delegate { throw new ArgumentException(); } );
 			Assert.Throws<ArgumentException>( ThrowsArgumentException );
+		    Assert.That(ThrowsArgumentException,
+		                Throws.Exception(typeof (ArgumentException),
+		                    Has.Property("Parameter").EqualTo("myParam")));
+
+#else
+			Assert.Throws(typeof(ArgumentException),
+				new TestDelegate( ThrowsArgumentException ) );
+
+            Assert.That( new TestDelegate( ThrowsArgumentException ),  
+                Throws.Exception(typeof(ArgumentException)));
 #endif
-		}
+        }
 
 		[Test]
 		public void CorrectExceptionIsReturnedToMethod()
 		{
 			Exception ex = Assert.Throws(typeof(ArgumentException),
-				new TestSnippet( ThrowsArgumentException ) );
+				new TestDelegate( ThrowsArgumentException ) );
 
 			Assert.IsNotNull( ex );
 			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
@@ -63,7 +77,7 @@ namespace NUnit.Framework.Tests
 			Assert.Throws<ArgumentException>( ThrowsNothing );
 #else
 			Assert.Throws( typeof(ArgumentException),
-				new TestSnippet( ThrowsNothing ) );
+				new TestDelegate( ThrowsNothing ) );
 #endif
 		}
 
@@ -77,7 +91,7 @@ namespace NUnit.Framework.Tests
 			Assert.Throws<ArgumentException>(ThrowsApplicationException);
 #else
 			Assert.Throws( typeof(ArgumentException),
-				new TestSnippet(ThrowsApplicationException) );
+				new TestDelegate(ThrowsApplicationException) );
 #endif
         }
 
@@ -91,7 +105,7 @@ namespace NUnit.Framework.Tests
 			Assert.Throws<ArgumentException>(ThrowsException);
 #else
             Assert.Throws( typeof(ArgumentException),
-                new TestSnippet( ThrowsException) );
+                new TestDelegate( ThrowsException) );
 #endif
         }
 
@@ -105,27 +119,51 @@ namespace NUnit.Framework.Tests
 			Assert.Throws<Exception>(ThrowsArgumentException);
 #else
             Assert.Throws( typeof(Exception),
-				new TestSnippet( ThrowsArgumentException) );
+				new TestDelegate( ThrowsArgumentException) );
 #endif
         }
 
-		void ThrowsArgumentException()
+        [Test]
+        public void DoesNotThrowSuceeds()
+        {
+#if NET_2_0
+            Assert.DoesNotThrow(ThrowsNothing);
+#else
+            Assert.DoesNotThrow( new TestDelegate( ThrowsNothing ) );
+
+			Assert.That( new TestDelegate( ThrowsNothing ), Throws.Nothing );
+#endif
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void DoesNotThrowFails()
+        {
+#if NET_2_0
+            Assert.DoesNotThrow(ThrowsArgumentException);
+#else
+            Assert.DoesNotThrow( new TestDelegate( ThrowsArgumentException ) );
+#endif
+        }
+
+        #region Methods Called by Tests
+        static void ThrowsArgumentException()
 		{
 			throw new ArgumentException("myMessage", "myParam");
 		}
 
-		void ThrowsApplicationException()
+        static void ThrowsApplicationException()
 		{
 			throw new ApplicationException();
 		}
 
-		void ThrowsException()
+        static void ThrowsException()
 		{
 			throw new Exception();
 		}
 
-		void ThrowsNothing()
+        static void ThrowsNothing()
 		{
-		}
-	}
+        }
+        #endregion
+    }
 }

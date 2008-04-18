@@ -18,6 +18,8 @@ namespace NUnit.Util
 		private int testsRun = 0;
 		private int failureCount = 0;
 	    private int errorCount = 0;
+	    private int successCount = 0;
+	    private int inconclusiveCount = 0;
 		private int skipCount = 0;
 		private int ignoreCount = 0;
 	    private int notRunnable = 0;
@@ -53,6 +55,7 @@ namespace NUnit.Util
                 switch (result.ResultState)
                 {
                     case ResultState.Success:
+                        successCount++;
                         testsRun++;
                         break;
                     case ResultState.Failure:
@@ -61,6 +64,10 @@ namespace NUnit.Util
                         break;
                     case ResultState.Error:
                         errorCount++;
+                        testsRun++;
+                        break;
+                    case ResultState.Inconclusive:
+                        inconclusiveCount++;
                         testsRun++;
                         break;
                     case ResultState.NotRunnable:
@@ -112,6 +119,14 @@ namespace NUnit.Util
 			get { return testsRun; }
 		}
 
+	    /// <summary>
+	    /// Returns the number of tests that passed
+	    /// </summary>
+        public int Passed
+	    {
+            get { return successCount;  }
+	    }
+
         /// <summary>
         /// Returns the number of test cases that had an error.
         /// </summary>
@@ -127,6 +142,14 @@ namespace NUnit.Util
 		{
 			get { return failureCount; }
 		}
+
+        /// <summary>
+        /// Returns the number of test cases that failed.
+        /// </summary>
+        public int Inconclusive
+        {
+            get { return inconclusiveCount; }
+        }
 
         /// <summary>
         /// Returns the number of test cases that were not runnable

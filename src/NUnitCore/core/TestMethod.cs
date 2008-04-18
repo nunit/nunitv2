@@ -246,15 +246,7 @@ namespace NUnit.Core
 			}
 			catch( Exception ex )
 			{
-				if ( ex is NUnitException )
-					ex = ex.InnerException;
-
-                if ( IsSuccessException( ex ) )
-                    testResult.Success( ex.Message );
-				else if ( IsIgnoreException( ex ) )
-					testResult.Ignore( ex );
-				else
-					ProcessException(ex, testResult);
+				ProcessException(ex, testResult);
 			}
 		}
 
@@ -275,12 +267,7 @@ namespace NUnit.Core
 
 		protected void RecordException( Exception ex, TestResult testResult )
 		{
-			if ( IsIgnoreException( ex ) )
-				testResult.Ignore( ex.Message );
-			else if ( IsAssertException( ex ) )
-				testResult.Failure( ex.Message, ex.StackTrace );
-			else	
-				testResult.Error( ex );
+            testResult.SetResult( GetResultState(ex), ex );
 		}
 
 		protected string GetStackTrace(Exception exception)
@@ -308,13 +295,14 @@ namespace NUnit.Core
 		
 		protected internal virtual void ProcessException(Exception exception, TestResult testResult)
 		{
-			if (!ExceptionExpected)
+            if (exception is NUnitException)
+                exception = exception.InnerException;
+
+            if (!ExceptionExpected)
 			{
 				RecordException(exception, testResult); 
-				return;
 			}
-
-			if (IsExpectedExceptionType(exception))
+			else if (IsExpectedExceptionType(exception))
 			{
 				if (IsExpectedMessageMatch(exception))
 				{
@@ -328,23 +316,19 @@ namespace NUnit.Core
 					testResult.Failure(WrongTextMessage(exception), GetStackTrace(exception));
 				}
 			}
-			else if (IsAssertException(exception))
-			{
-				testResult.Failure(exception.Message, exception.StackTrace);
-			}
-			else
-			{
-				testResult.Failure(WrongTypeMessage(exception), GetStackTrace(exception));
+            else if ( GetResultState(exception) == ResultState.Failure )
+            {
+                testResult.Failure(exception.Message, exception.StackTrace);
+            }
+            else
+            {
+			    testResult.Failure(WrongTypeMessage(exception), GetStackTrace(exception));
 			}
 		}
 		#endregion
 
-		#region Abstract Methods
-		protected abstract bool IsAssertException(Exception ex);
-
-		protected abstract bool IsIgnoreException(Exception ex);
-
-	    protected abstract bool IsSuccessException(Exception ex);
+		#region Abstract Method
+	    protected abstract ResultState GetResultState(Exception ex);
 		#endregion
 
 		#region Helper Methods

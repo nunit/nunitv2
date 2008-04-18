@@ -175,6 +175,9 @@
       <Link>Constraints\StringConstraints.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ThrowsConstraint.cs">
+      <Link>Constraints\ThrowsConstraint.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\TypeConstraints.cs">
       <Link>Constraints\TypeConstraints.cs</Link>
       <SubType>Code</SubType>
@@ -320,6 +323,15 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCaseData.cs">
       <Link>TestCaseData.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\InconclusiveException.cs">
+      <Link>InconclusiveException.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Throws.cs">
+      <Link>Syntax\CSharp\Throws.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Catch.cs">
+      <Link>Catch.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

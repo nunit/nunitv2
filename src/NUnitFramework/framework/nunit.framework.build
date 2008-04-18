@@ -19,12 +19,14 @@
         <include name="Constraints/PropertyConstraint.cs"/>
         <include name="Constraints/SameAsConstraint.cs"/>
         <include name="Constraints/StringConstraints.cs"/>
+        <include name="Constraints/ThrowsConstraint.cs"/>
         <include name="Constraints/TypeConstraints.cs"/>
         <include name="Syntax/CSharp/Has.cs"/>
         <include name="Syntax/CSharp/Is.cs"/>
         <include name="Syntax/CSharp/List.cs"/>
         <include name="Syntax/CSharp/ListMapper.cs"/>
         <include name="Syntax/CSharp/Text.cs"/>
+        <include name="SYntax/CSharp/Throws.cs"/>
         <include name="SyntaxHelpers/Has.cs"/>
         <include name="SyntaxHelpers/Is.cs"/>
         <include name="SyntaxHelpers/List.cs"/>
@@ -35,6 +37,7 @@
         <include name="AssertionException.cs"/>
         <include name="AssertionHelper.cs"/>
         <include name="CategoryAttribute.cs"/>
+        <include name="Catch.cs"/>
         <include name="CollectionAssert.cs"/>
         <include name="DataSourceAttribute.cs"/>
         <include name="DescriptionAttribute.cs"/>
@@ -47,6 +50,7 @@
         <include name="IgnoreAttribute.cs"/>
         <include name="IgnoreException.cs"/>
         <include name="IncludeExcludeAttributes.cs"/>
+        <include name="InconclusiveException.cs"/>
         <include name="PropertyAttribute.cs"/>
         <include name="SetCultureAttribute.cs"/>
         <include name="SetUpAttribute.cs"/>
