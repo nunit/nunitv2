@@ -33,9 +33,24 @@ interacting with the Visual Studio extensibility model.</p>
 <h3>Running From Within Visual Studio</h3>
 
 <p>The most convenient way to do this is to set up a custom tool entry specifying the path to 
-nunit.exe as the command. For a C# project, you may wish to use $(TargetPath) for the arguments and
-$(TargetDir) for the initial directory. If you would like to debug your tests, use the Visual Studio
-Debug | Processes… menu item to attach to nunit.exe after starting it and set breakpoints in
+NUnit as the command. For a VS2003 C# project, you can use $(TargetPath) for the arguments and
+$(TargetDir) for the initial directory. 
+
+<p>With Visual Studio VS2005 this becomes a bit harder, because that release changed the
+meaning of the 'Target' macros so they now point to the intermediate 'obj' directories rather
+than the final output in one of the 'bin' directories. Here are some alternatives that
+work in both versions:
+
+<ul>
+<li><b>$(ProjectDir)$(ProjectFileName)</b> to open the VS Project rather than the assembly.
+    If you use this approach, be sure to rename your config file accordingly and put it
+	in the same directory as the VS project file.
+<li><b>$(ProjectDir)bin/Debug/$(TargetName)$(TargetExt)</b> to run the assembly directly.
+    Note that this requires hard-coding part of the path, including the configuration.
+</ul>
+
+<p>If you would like to debug your tests, use the Visual Studio
+Debug | Processes… menu item to attach to NUnit after starting it and set breakpoints in
 your test code as desired before running the tests.</p>
 
 <h3>Using Console Interface to Debug Applications</h3>

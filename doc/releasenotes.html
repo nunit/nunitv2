@@ -32,11 +32,19 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.5 - Date TBD</h3>
+<h3>NUnit 2.5 Alpha 1 Release - April 18, 2008</h3>
+
+<p><b>Note:</b> Since this is an alpha level release, the
+features are not complete and some features present in
+this release may be removed or changed in future releases.
 
 <h4>General</h4>
 
 <ul>
+<li>There are no longer separate distributed packaes for .NET 1.1 an 2.0.
+    Both the binary zip and msi packages contain subdirectories for .NET
+	1.1 and 2.0. In the case of the msi, the user may elect to install either
+	or both of them.
 <li>The Visual Studio solutions and projects are now in a directory tree that 
 	is parallel to the source tree. This eliminates problems where the VS2003 
 	and VS2005 builds were interfering with one another and makes room for 
@@ -84,8 +92,19 @@ dt { font-weight: bold }
 <li>The method <b>Assert.Throws(Type expectedException, TestSnippet code)</b> 
 	has been added to provide more control over tests of expected exceptions. 
 	<b>TestSnippet</b> is a delegate, which may of course be supplied 
-	anonymously under .NET 2.0.
+	anonymously under .NET 2.0. If the correct exception type is thrown,
+	the actual exception is returned from the method, allowing further
+	verification to be performed.
 	
+<li>The <b>Assert.DoesNotThrow</b> method may be used to verify that a
+	delegate does not throw an exception.
+	
+<li>The <b>Assert.Pass</b> method allows early termination of a test with a
+    successful result. 
+
+<li>The <b>Assert.Inconclusive</b> method allows returning
+	the new Inconclusive result state.
+
 <li>NUnit now includes added funtionality in the .NET 2.0 build of
 	the framework. The following additional features are supported:
 	<ul>
@@ -131,7 +150,7 @@ dt { font-weight: bold }
 <h4>Console</h4>
 
 <ul>
-<li>The summary report now displays Errors, Failures, Ignored and Skipped tests 
+<li>The summary report now displays Errors, Failures, Inconclusive, Ignored and Skipped tests 
 	separately. More detailed information on non-runnable tests and setup failures
 	is provided.
 <li>The console summary report is no longer created using a stylesheet, which
@@ -141,9 +160,19 @@ dt { font-weight: bold }
 <h4>Gui</h4>
 
 <ul>
-<li>The Gui now displays errors and failures separately in the status bar and 
-	final test run display. Non-runnable tests are shown separately and are
-	displayed as red in the tree.
+<li>The default gui display now uses a single tab for all text output. For
+	users upgrading from an earlier release, the current settings are
+	honored. If you wish to change to the new default, use the Restore Defaults
+	button on the Text Output settings dialog.
+
+<li>The final test run display shows a more detailed summary: passed tests,
+    errors, failures, inconclusive, non-runnable, skipped and ignored.
+
+<li>The status bar now displays errors and failures separately in.
+
+<li>The tree display shows non-runnable tests in red and inconclusive tests
+	in orange. Inconclusive tests are temporarily listed
+	on the Tests Not Run tab for this alpha release.
 </ul>
 
 <h4>Extensibility</h4>

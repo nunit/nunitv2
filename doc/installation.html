@@ -26,26 +26,27 @@
 
 <h2>Installation</h2>
 <p>By default the <b>NUnit</b> installation program places all of the files into the 
-	<b>C:\Program&nbsp;Files\NUnit&nbsp;2.5</b> directory. In the installation directory 
-	there are three sub-directories: bin, doc, and samples. Source code is no
+	<b>C:\Program&nbsp;Files\NUnit&nbsp;2.5</b> directory. 
+	In the installation directory there are up to four sub-directories: net-1.1,
+	  net-2.0, doc, and samples. The actual number depends on what the user has
+	  chosen to install. Source code is no
       longer provided with the binary installation package. Download the source
 	  package if source is needed.
 <h3>Running NUnit</h3>
-<p>The installation program places a number of items in the Start menu. There are
-	a number of shortcuts, which run the NUnit GUI under various versions of .NET
-	or under Mono, depending on the versions available on your system at the time
-	of installation.</p>
+<p>The installation program places a number of shortcuts in the start menu, which 
+	run NUnit under various versions of .NET or under Mono, depending on the 
+	installation options you selected and the CLR versions available on your 
+	system at the time of installation. Each shortcut runs the appropriate build
+	of NUnt (1.1 or 2.0) for the selected CLR. The NUnit About Box shows the
+	version of the CLR currently being used.</p>
 <h3>Configuration</h3>
 <p>When running NUnit from the command line or through the desktop shortcut, the
 	configuration files files nunit.exe.config and nunit-console.exe.config control 
-	which version of the CLR is used. As installed, the <startup> section of the
-	config file is commented out and may be left that way unless problems arise.
-	If uncommented, the order of precedence is .NET 2.0, .NET 1.1 and .NET 1.0. 
-	To change which version is used, simply change the order of the elements
-	in the config files. The nunit About Box shows the version currently being used.</p>
-<p>Settings that you place in these files are not available to your tests or to the 
-	production code you are testing. A separate config file is used when running 
-	tests. If you are running tests from the test.dll assembly, the config file 
+	the operation of NUnit itself.
+    Settings that you place in these files are not available to your tests or to the 
+	production code you are testing. 
+<p>A separate config file is used for your tests themselves. 
+    If you are running tests from the test.dll assembly, the config file 
 	should be named test.dll.config. If you are running tests from the NUnit test 
 	project MyTests.nunit, the config file should be named MyTests.config. In 
 	either case the config file must reside in the same directory as the file from 
@@ -53,11 +54,14 @@
 <p>In addition to settings of your own, the config file for a set of tests may 
 	contain information used by NUnit in loading your tests. In particular, this 
 	allows you to control the apartment state and priority of the thread that NUnit 
-	uses to run your tests. Other settings may be added in the future. See the file 
-	nunit.tests.dll for an example.</p>
+	uses to run your tests. Other settings may be added in the future.</p>
+<p>See the <a href="configFiles.html">Configuration Files</a> 
+    page for further information on configuration.</p>
+	
 <h3>Installation Verification</h3>
 <p>Verify that the installation has worked successfully by running the NUnit gui and
-loading and running NUnitTests.nunit in the bin directory. All tests should pass.
+loading and running NUnitTests.nunit in either the net-1.1 or net-2.0 directory. 
+All tests should pass.
 <div class="screenshot-left">
     <img src="img/gui-verify.jpg"></div>
 <p>
