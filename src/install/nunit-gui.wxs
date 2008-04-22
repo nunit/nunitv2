@@ -64,7 +64,7 @@
 		    Advertise="no"
 			Icon="nunit_icon.exe" 
 			IconIndex="0" 
-			Show="minimized" 
+			Show="normal" 
 			WorkingDirectory="net_1.1" />
 		</Component>
 		
@@ -78,7 +78,7 @@
 		    LongName="NUnit (.NET 1.1)" 
 			Icon="nunit_icon.exe" 
 			IconIndex="0" 
-			Show="minimized" 
+			Show="normal" 
 			WorkingDirectory="net_1.1" />
 		</Component>
 
@@ -127,7 +127,7 @@
 		    LongName="NUnit (.NET 2.0)" 
 			Icon="nunit_icon.exe" 
 			IconIndex="0" 
-			Show="minimized" 
+			Show="normal" 
 			WorkingDirectory="net_2.0" />
 		</Component>
 		
