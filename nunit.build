@@ -62,7 +62,7 @@
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
-      value="${project.name}-${package.version}-Alpha-1"/>
+      value="${project.name}-${package.version}-2008-04-24"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
@@ -163,18 +163,27 @@
     <!-- Copy key file to base directory, so second level files can access it -->
     <copy file="${project.base.dir}/nunit.snk" todir="${project.build.dir}"/>-->
 
+    <!-- Copy lib files to build dir -->
+    <copy todir="${current.build.dir}">
+      <fileset basedir="${project.lib.dir}">
+        <include name="*.dll"/>
+      </fileset>
+    </copy>
+
     <!-- Build NUnit components and tests -->
     <nant target="build">
       <buildfiles refid="project.buildfiles"/>
     </nant>
 
     <!-- Copy files for running tests -->
-    <copy todir="${current.build.dir}">
+    <copy todir="${current.build.dir}" flatten="true">
       <fileset basedir="${project.base.dir}">
         <include name="NUnitTests.nunit"/>
         <include name="NUnitTests.config" />
         <include name="NUnitFitTests.html" />
         <include name="clr.bat" />
+        <include name="src/PNUnit/*.conf" />
+        <include name="src/PNUnit/runpnunit.bat" />
       </fileset>
     </copy>
 
@@ -809,6 +818,8 @@
         <include name="nunit20under21.config"/>
         <include name="nunit20under22.config"/>
         <include name="nunit21under22.config"/>
+        <include name="PNUnit/*.conf"/>
+        <include name="PNUnit/runpnunit.bat"/>
       </fileset>
     </copy>
 
@@ -916,6 +927,11 @@
     <include name="NUnitTestServer/nunit-server-exe/nunit-server.exe.build" />
     <include name="NUnitTestServer/nunit-agent-exe/nunit-agent.exe.build" />
 
+    <!-- PNUnit -->
+    <include name="PNUnit/pnunit.framework/pnunit.framework.build" />
+    <include name="PNUnit/agent/pnunit-agent.build"/>
+    <include name="PNUnit/launcher/pnunit-launcher.build"/>
+
     <!-- Test Utilities and Dummy Projects -->
     <include name="tests/mock-assembly/mock-assembly.build" />
     <include name="tests/nonamespace-assembly/nonamespace-assembly.build" />
@@ -933,6 +949,9 @@
 
     <!-- Console Runner Tests -->
     <include name="ConsoleRunner/tests/nunit-console.tests.build" />
+
+    <!-- PNUnit Tests -->
+    <include name="PNUnit/tests/pnunit.tests.build"/>
 
     <!-- GUI Tests -->
     <include name="GuiComponents/tests/nunit.uikit.tests.build" />

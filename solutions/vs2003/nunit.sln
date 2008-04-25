@@ -123,6 +123,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "loadtest-assembly", "tests\
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit.framework", "PNUnit\pnunit.framework\pnunit.framework.csproj", "{1AE4D3A7-DA37-45C0-B300-AB7B84DFF216}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit-launcher", "PNUnit\launcher\pnunit-launcher.csproj", "{5E0C72D1-A2A5-4836-BB97-57FF91055B64}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit-agent", "PNUnit\agent\pnunit-agent.csproj", "{7521B6A2-35C2-4BD4-9304-29FB186638F2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit.tests", "PNUnit\tests\pnunit.tests.csproj", "{319B9238-76BE-4335-9B4D-F8E43C4B124F}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -253,6 +269,22 @@ Global
 		{809BA5AA-6DFE-4CAF-98AC-B557E9B7686D}.Debug.Build.0 = Debug|.NET
 		{809BA5AA-6DFE-4CAF-98AC-B557E9B7686D}.Release.ActiveCfg = Release|.NET
 		{809BA5AA-6DFE-4CAF-98AC-B557E9B7686D}.Release.Build.0 = Release|.NET
+		{1AE4D3A7-DA37-45C0-B300-AB7B84DFF216}.Debug.ActiveCfg = Debug|.NET
+		{1AE4D3A7-DA37-45C0-B300-AB7B84DFF216}.Debug.Build.0 = Debug|.NET
+		{1AE4D3A7-DA37-45C0-B300-AB7B84DFF216}.Release.ActiveCfg = Release|.NET
+		{1AE4D3A7-DA37-45C0-B300-AB7B84DFF216}.Release.Build.0 = Release|.NET
+		{5E0C72D1-A2A5-4836-BB97-57FF91055B64}.Debug.ActiveCfg = Debug|.NET
+		{5E0C72D1-A2A5-4836-BB97-57FF91055B64}.Debug.Build.0 = Debug|.NET
+		{5E0C72D1-A2A5-4836-BB97-57FF91055B64}.Release.ActiveCfg = Release|.NET
+		{5E0C72D1-A2A5-4836-BB97-57FF91055B64}.Release.Build.0 = Release|.NET
+		{7521B6A2-35C2-4BD4-9304-29FB186638F2}.Debug.ActiveCfg = Debug|.NET
+		{7521B6A2-35C2-4BD4-9304-29FB186638F2}.Debug.Build.0 = Debug|.NET
+		{7521B6A2-35C2-4BD4-9304-29FB186638F2}.Release.ActiveCfg = Release|.NET
+		{7521B6A2-35C2-4BD4-9304-29FB186638F2}.Release.Build.0 = Release|.NET
+		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Debug.ActiveCfg = Debug|.NET
+		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Debug.Build.0 = Debug|.NET
+		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Release.ActiveCfg = Release|.NET
+		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(SolutionItems) = postSolution
 		nunit.snk = nunit.snk
