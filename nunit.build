@@ -542,7 +542,7 @@
     <property name="work.dir"
       value="${package.working.dir}"/>
     <property name="install.dir"
-      value="${project.src.dir}/install"/>
+      value="${project.base.dir}/install"/>
 
     <property name="msi.file.name"
       value="${package.name}-${package.config}${build.suffix}.msi"

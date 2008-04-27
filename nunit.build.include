@@ -27,7 +27,7 @@
   <property name="project.lib.dir"
     value="${path::combine(project.base.dir,'lib')}"/>
   <property name="project.install.dir"
-    value="${path::combine(project.src.dir, 'install')}"/>
+    value="${path::combine(project.base.dir, 'install')}"/>
 
   <!-- Set paths to varioous package directories -->
   <property name="package.working.dir" 
@@ -45,7 +45,7 @@
   <property name="package.resource.dir"
     value="${path::combine(package.working.dir,'resources')}"/>
   <property name="package.install.dir"
-    value="${path::combine(package.src.dir,'install')}"/>
+    value="${path::combine(package.working.dir,'install')}"/>
 
   <!-- Default build configuration -->
   <property name="build.config" value="debug"/>
@@ -55,6 +55,7 @@
   <!-- Default runtime configuration -->
   <foreach item="String" delim="," 
       property="framework" in="${supported.frameworks}">
+    <if test="${framework::exists( framework )}">
     <if test="${framework::sdk-exists( framework )}">
       <property name="installed.frameworks" value="${installed.frameworks},${framework}"
         if="${property::exists('installed.frameworks')}"/>
@@ -68,6 +69,7 @@
       <property name="default.mono.runtime" value="${framework}"
         if="${string::starts-with(framework,'mono')}"
         unless="${property::exists('default.mono.runtime')}"/>
+    </if>
     </if>
   </foreach>
 
