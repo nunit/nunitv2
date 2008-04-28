@@ -62,7 +62,7 @@
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
-      value="${project.name}-${package.version}-2008-04-24"/>
+      value="${project.name}-${package.version}-Alpha-2"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
@@ -544,6 +544,8 @@
     <property name="install.dir"
       value="${project.base.dir}/install"/>
 
+    <property name="package.config" value="${standard.package.config}"
+      unless="${property::exists('package.config')}" />
     <property name="msi.file.name"
       value="${package.name}-${package.config}${build.suffix}.msi"
       unless="${package.config==standard.package.config}"/>
@@ -563,6 +565,7 @@
         <include name="doc.wxs" />
         <include name="tests.wxs" />
         <include name="samples.wxs" />
+        <include name="pnunit.wxs" />
         <include name="NUnit.wxs" />
       </sources>
     </candle>
@@ -577,6 +580,7 @@
         <include name="${work.dir}/doc.wixobj" />
         <include name="${work.dir}/samples.wixobj" />
         <include name="${work.dir}/tests.wixobj" />
+        <include name="${work.dir}/pnunit.wixobj" />
         <include name="${wix.dir}/wixui.wixlib" />
       </sources>
     </light>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+
+    <ComponentGroup Id="pnunit_1.1">
+      <ComponentRef Id="pnunit_agent_1.1"/>
+      <ComponentRef Id="pnunit_launcher_1.1"/>
+      <ComponentRef Id="pnunit_framework_1.1"/>
+    </ComponentGroup>
+  
+    <ComponentGroup Id="pnunit_2.0">
+      <ComponentRef Id="pnunit_agent_2.0"/>
+      <ComponentRef Id="pnunit_launcher_2.0"/>
+      <ComponentRef Id="pnunit_framework_2.0"/>
+    </ComponentGroup>
+  
+    <DirectoryRef Id="net_1.1" FileSource="net-1.1">
+         
+      <Component Id="pnunit_agent_1.1" DiskId="1" Guid="E2653E43-CF38-4d31-9E24-4BA27B76090D">
+        <File Id="pnunit_agent_1.1" Name="PNUAGENT.EXE" LongName="pnunit-agent.exe" />
+      </Component>
+
+      <Component Id="pnunit_launcher_1.1" DiskId="1" Guid="545E709A-7DBA-40b1-86FD-2FCA1C16A2F8">
+        <File Id="pnunit_launcher_1.1" Name="PNULNCHR.EXE" LongName="pnunit-launcher.exe" />
+      </Component>
+
+    </DirectoryRef>
+	
+    <DirectoryRef Id="lib_1.1" FileSource="net-1.1\lib">
+
+      <Component Id="pnunit_framework_1.1" DiskId="1" Guid="54371643-ABC9-43fe-8150-910533BFD27E">
+        <File Id="pnunit_framework_1.1" Name="PNUFRMWK.DLL" LongName="pnunit.framework.dll" />
+      </Component>
+
+    </DirectoryRef>
+        
+    <DirectoryRef Id="net_2.0" FileSource="net-2.0">
+         
+      <Component Id="pnunit_agent_2.0" DiskId="1" Guid="CB4CF43B-1D4B-40a7-859B-8B48802B3C07">
+        <File Id="pnunit_agent_2.0" Name="PNUAGENT.EXE" LongName="pnunit-agent.exe" />
+      </Component>
+
+      <Component Id="pnunit_launcher_2.0" DiskId="1" Guid="CB4CF43B-1D4B-40a7-859B-8B48802B3C07">
+        <File Id="pnunit_launcher_2.0" Name="PNULNCHR.EXE" LongName="pnunit-launcher.exe" />
+      </Component>
+
+    </DirectoryRef>
+	
+    <DirectoryRef Id="lib_2.0" FileSource="net-2.0\lib">
+
+      <Component Id="pnunit_framework_2.0" DiskId="1" Guid="1BD60D02-58E0-4a8c-A797-302328C5F103">
+        <File Id="pnunit_framework_2.0" Name="PNUFRMWK.DLL" LongName="pnunit.framework.dll" />
+      </Component>
+
+    </DirectoryRef>
+        
+  </Fragment>
+</Wix>
