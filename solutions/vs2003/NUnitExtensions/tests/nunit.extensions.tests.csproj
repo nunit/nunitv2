@@ -136,66 +136,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <File
-                    RelPath = "RowTest\OrderedTest.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\OrderedTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\RowTests.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\RowTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\SetUpMethodsTestFixture.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\SetUpMethodsTestFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\UnitTests\BaseTestFixture.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\BaseTestFixture.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\UnitTests\RowTestAddInTest.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestAddInTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\UnitTests\RowTestCaseTest.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestCaseTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\UnitTests\RowTestFrameworkTest.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestFrameworkTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\UnitTests\RowTestNameBuilderTest.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestNameBuilderTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\UnitTests\RowTestSuiteTest.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestSuiteTest.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\UnitTests\TestClass.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\TestClass.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
             </Include>
         </Files>
     </CSHARP>

@@ -117,24 +117,6 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\core\MaxTimeDecorator\MaxTimeTestCase.cs">
       <Link>MaxTimeDecorator\MaxTimeTestCase.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestAddIn.cs">
-      <Link>RowTest\RowTestAddIn.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestCase.cs">
-      <Link>RowTest\RowTestCase.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestFactory.cs">
-      <Link>RowTest\RowTestFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestFramework.cs">
-      <Link>RowTest\RowTestFramework.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestNameBuilder.cs">
-      <Link>RowTest\RowTestNameBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\RowTest\RowTestSuite.cs">
-      <Link>RowTest\RowTestSuite.cs</Link>
-    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

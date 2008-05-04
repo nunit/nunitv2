@@ -134,36 +134,6 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\MaxTimeDecoratorTests.cs">
       <Link>MaxTimeDecoratorTests.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\OrderedTest.cs">
-      <Link>RowTest\OrderedTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\RowTests.cs">
-      <Link>RowTest\RowTests.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\SetUpMethodsTestFixture.cs">
-      <Link>RowTest\SetUpMethodsTestFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\BaseTestFixture.cs">
-      <Link>RowTest\UnitTests\BaseTestFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestAddInTest.cs">
-      <Link>RowTest\UnitTests\RowTestAddInTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestCaseTest.cs">
-      <Link>RowTest\UnitTests\RowTestCaseTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestFrameworkTest.cs">
-      <Link>RowTest\UnitTests\RowTestFrameworkTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestNameBuilderTest.cs">
-      <Link>RowTest\UnitTests\RowTestNameBuilderTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\RowTestSuiteTest.cs">
-      <Link>RowTest\UnitTests\RowTestSuiteTest.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RowTest\UnitTests\TestClass.cs">
-      <Link>RowTest\UnitTests\TestClass.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\XmlDiffFixture.cs">
       <Link>XmlDiffFixture.cs</Link>
     </Compile>

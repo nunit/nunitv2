@@ -112,24 +112,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <File
-                    RelPath = "RowTest\RowAttribute.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\framework\RowTest\RowAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\RowTestAttribute.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\framework\RowTest\RowTestAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "RowTest\SpecialValue.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\framework\RowTest\SpecialValue.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
             </Include>
         </Files>
     </CSHARP>
