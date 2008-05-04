@@ -46,11 +46,16 @@ namespace NUnit.Gui
 			Assembly executingAssembly = Assembly.GetExecutingAssembly();
 			Version version = executingAssembly.GetName().Version;
 
-			object[] objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+            object [] objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
+            AssemblyInformationalVersionAttribute versionAttribute = (AssemblyInformationalVersionAttribute)objectAttrs[0];
+            versionLabel.Text = versionAttribute != null
+                                    ? versionAttribute.InformationalVersion
+                                    : version.ToString(3);
 
 			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 			AssemblyCopyrightAttribute copyrightAttr = (AssemblyCopyrightAttribute)objectAttrs[0];
-			versionLabel.Text = version.ToString(3);
+
+
 			dotNetVersionLabel.Text = string.Format( "{0} ( {1} )", Environment.Version, 
 				NUnit.Core.RuntimeFramework.CurrentFramework.GetDisplayName() );
 
