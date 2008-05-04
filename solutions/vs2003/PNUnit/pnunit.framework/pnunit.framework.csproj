@@ -96,6 +96,7 @@
                 <File
                     RelPath = "AssemblyInfo.cs"
                     Link = "..\..\..\..\src\PNUnit\pnunit.framework\AssemblyInfo.cs"
+                    SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
