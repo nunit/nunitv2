@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "call ..\..\..\Install.bat $(TargetFileName)"
+                PostBuildEvent = ""
                 RootNamespace = "NUnit.Samples.Extensibility"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""

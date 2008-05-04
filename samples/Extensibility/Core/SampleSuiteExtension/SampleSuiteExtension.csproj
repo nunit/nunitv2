@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "call ..\..\..\Install.bat $(TargetFileName)&#xd;&#xa;"
+                PostBuildEvent = ""
                 RootNamespace = "SampleSuiteExtension"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""

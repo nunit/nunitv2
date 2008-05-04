@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = "call ..\..\..\install.bat $(TargetFileName)"
+                PostBuildEvent = ""
                 RootNamespace = "SampleFixtureExtension"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
