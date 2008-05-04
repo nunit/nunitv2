@@ -70,11 +70,11 @@ namespace PNUnit.Launcher
                 int FailedTests = 0;
                 int SuccessTests = 0;
                 double BiggerTime = 0;
-                PNUnitTestResult[] results = runner.GetTestResults();
+                TestResult[] results = runner.GetTestResults();
                 Console.WriteLine("==== Tests Results for Parallel TestGroup {0} ===", runner.TestGroupName);
                 
                 i = 0;
-                foreach( PNUnitTestResult res in results )
+                foreach( TestResult res in results )
                 {
                     if( res == null )
                         continue;
@@ -135,13 +135,13 @@ namespace PNUnit.Launcher
         }
 
 
-        private static void PrintResult(int testNumber, PNUnitTestResult res)
+        private static void PrintResult(int testNumber, TestResult res)
         {   
             Console.WriteLine(
                 "({0})Name: {1}\n  Result: {2,-12} Assert Count: {3,-2} Time: {4,5}", 
                 testNumber,
                 res.Name, 
-                res.IsSuccess ? "SUCCESS" : (res.IsFailure ? "FAILURE" : (! res.Executed ? "NOT EXECUTED": "UNKNOWN")),
+				res.ResultState,
                 res.AssertCount,
                 res.Time);
             if( !res.IsSuccess )

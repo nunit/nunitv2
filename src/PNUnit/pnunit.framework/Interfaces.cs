@@ -21,7 +21,7 @@ namespace PNUnit.Framework
 
     public interface IPNUnitServices
     {
-        void NotifyResult(string TestName, PNUnitTestResult result);
+        void NotifyResult(string TestName, TestResult result);
 
         void InitBarriers(string TestName);
         void InitBarrier(string TestName, string barrier);
@@ -55,49 +55,49 @@ namespace PNUnit.Framework
         void RunTest(PNUnitTestInfo info);
     }
 
-    [Serializable]
-    public class PNUnitTestResult
-    {
-        public bool Executed;
-        public bool AllTestsExecuted;
-        public string Name;
-        public bool IsSuccess;
-        public bool IsFailure;
-        public string Description;
-        public double Time;
-        public string Message;
-        public string StackTrace;
-        public int AssertCount;
-
-        public PNUnitTestResult(TestResult result)
-        {
-            if( result == null )
-                return;
-            this.Executed = result.Executed;
-            this.Name = result.Name;
-            this.IsSuccess = result.IsSuccess;
-            this.IsFailure = result.IsFailure;
-            this.Description = result.Description;
-            this.Time = result.Time;
-            this.Message = result.Message;
-            this.StackTrace = result.StackTrace;
-            this.AssertCount  = result.AssertCount;                        
-        }
-
-        public PNUnitTestResult(Exception e)
-        {
-            this.Executed = false;
-            this.AllTestsExecuted = false;
-            this.AssertCount = 0;
-            this.Description = "Not controlled exception raised";
-            this.StackTrace = e.StackTrace;
-            this.Name = "";
-            this.IsSuccess = false;
-            this.IsFailure = true;
-            this.Time = 0;
-            this.Message = e.Message;
-        }
-    }
+//    [Serializable]
+//    public class PNUnitTestResult
+//    {
+//        public bool Executed;
+//        public bool AllTestsExecuted;
+//        public string Name;
+//        public bool IsSuccess;
+//        public bool IsFailure;
+//        public string Description;
+//        public double Time;
+//        public string Message;
+//        public string StackTrace;
+//        public int AssertCount;
+//
+//        public PNUnitTestResult(TestResult result)
+//        {
+//            if( result == null )
+//                return;
+//            this.Executed = result.Executed;
+//            this.Name = result.Name;
+//            this.IsSuccess = result.IsSuccess;
+//            this.IsFailure = result.IsFailure;
+//            this.Description = result.Description;
+//            this.Time = result.Time;
+//            this.Message = result.Message;
+//            this.StackTrace = result.StackTrace;
+//            this.AssertCount  = result.AssertCount;                        
+//        }
+//
+//        public PNUnitTestResult(Exception e)
+//        {
+//            this.Executed = false;
+//            this.AllTestsExecuted = false;
+//            this.AssertCount = 0;
+//            this.Description = "Not controlled exception raised";
+//            this.StackTrace = e.StackTrace;
+//            this.Name = "";
+//            this.IsSuccess = false;
+//            this.IsFailure = true;
+//            this.Time = 0;
+//            this.Message = e.Message;
+//        }
+//    }
 
 }
 

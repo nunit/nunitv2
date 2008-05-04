@@ -122,13 +122,13 @@ namespace PNUnit.Launcher
             }
         }
 
-        public PNUnitTestResult[] GetTestResults()
+        public TestResult[] GetTestResults()
         {
             lock(mResultLock)
             {
-                PNUnitTestResult[] result = new PNUnitTestResult[mResults.Count];
+                TestResult[] result = new TestResult[mResults.Count];
                 int i = 0;
-                foreach( PNUnitTestResult res in mResults )
+                foreach( TestResult res in mResults )
                     result[i++] = res;
                 
                 return result;
@@ -145,7 +145,7 @@ namespace PNUnit.Launcher
 
         #region IPNUnitServices
 
-        public void NotifyResult(string TestName, PNUnitTestResult result)
+        public void NotifyResult(string TestName, TestResult result)
         {   
             log.DebugFormat("NotifyResult called for TestGroup {0}, Test {1}",
                 mTestGroup.Name, TestName);

@@ -78,6 +78,12 @@ namespace NUnit.Core
         /// </summary>
         /// <param name="test"></param>
         public TestResult(ITest test) : this( new TestInfo(test) ) { }
+
+		/// <summary>
+		/// Construct a TestResult given a TestName
+		/// </summary>
+		/// <param name="testName">A TestName</param>
+		public TestResult(TestName testName) : this( new TestInfo( testName ) ) { }
 		#endregion
 
         #region Properties

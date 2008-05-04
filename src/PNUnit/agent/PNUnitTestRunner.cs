@@ -50,7 +50,7 @@ namespace PNUnit.Agent
 
         private void ThreadProc()
         {
-            PNUnitTestResult result = null;
+            TestResult result = null;
             TestDomain testDomain = new TestDomain();
 
             try
@@ -94,15 +94,20 @@ namespace PNUnit.Agent
 //					ITestFilter filter = new PNUnitTestFilter(mPNUnitTestInfo.TestToRun);
 //					result = new PNUnitTestResult(testDomain.Run(collector, filter));                     
 					ITestFilter filter = new NUnit.Core.Filters.SimpleNameFilter(mPNUnitTestInfo.TestToRun);                    
-					result = new PNUnitTestResult(
+					result =
 						FindResult(
 							mPNUnitTestInfo.TestToRun, 
-							testDomain.Run(collector, filter) ) );
+							testDomain.Run(collector, filter) );
 					
 				}
                 catch( Exception e )
                 {
-                    result = new PNUnitTestResult(e);
+					TestName testName = new TestName();
+					testName.Name = mPNUnitTestInfo.TestName;
+					testName.FullName = mPNUnitTestInfo.TestName;
+					testName.TestID = new TestID();
+                    result = new TestResult(testName);
+					result.Error(e);
                 }
                 
             }

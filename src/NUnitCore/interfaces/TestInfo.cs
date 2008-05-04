@@ -116,6 +116,12 @@ namespace NUnit.Core
 				this.testCaseCount += test.TestCount;
 			}
 		}
+
+		/// <summary>
+		/// Construct given a test name
+		/// </summary>
+		/// <param name="testName">The TestName for the new test</param>
+		public TestInfo( TestName testName ) : this( testName, null) { }
 		#endregion
 
 		#region Properties
