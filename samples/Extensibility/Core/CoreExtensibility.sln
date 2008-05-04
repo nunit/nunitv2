@@ -19,14 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleSuiteExtensionTests",
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxTimeDecorator", "MaxTimeDecorator\MaxTimeDecorator.csproj", "{BA74B90C-5B99-482E-8C0A-1B2BE4A198ED}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaxTimeDecoratorTests", "MaxTimeDecorator\Tests\MaxTimeDecoratorTests.csproj", "{61BAA12A-4160-4180-B289-A0F4032C54F6}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		Debug = Debug
@@ -53,14 +45,6 @@ Global
 		{9F609A0D-FF7E-4F0C-B2DF-417EBC557CFF}.Debug.Build.0 = Debug|.NET
 		{9F609A0D-FF7E-4F0C-B2DF-417EBC557CFF}.Release.ActiveCfg = Release|.NET
 		{9F609A0D-FF7E-4F0C-B2DF-417EBC557CFF}.Release.Build.0 = Release|.NET
-		{BA74B90C-5B99-482E-8C0A-1B2BE4A198ED}.Debug.ActiveCfg = Debug|.NET
-		{BA74B90C-5B99-482E-8C0A-1B2BE4A198ED}.Debug.Build.0 = Debug|.NET
-		{BA74B90C-5B99-482E-8C0A-1B2BE4A198ED}.Release.ActiveCfg = Release|.NET
-		{BA74B90C-5B99-482E-8C0A-1B2BE4A198ED}.Release.Build.0 = Release|.NET
-		{61BAA12A-4160-4180-B289-A0F4032C54F6}.Debug.ActiveCfg = Debug|.NET
-		{61BAA12A-4160-4180-B289-A0F4032C54F6}.Debug.Build.0 = Debug|.NET
-		{61BAA12A-4160-4180-B289-A0F4032C54F6}.Release.ActiveCfg = Release|.NET
-		{61BAA12A-4160-4180-B289-A0F4032C54F6}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
