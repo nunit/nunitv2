@@ -6,7 +6,6 @@
     <include name="RepeatedTestCase.cs"/>
     <include name="RepeatedTestDecorator.cs"/>
     <include name="MaxTimeDecorator/*.cs"/>
-    <include name="RowTest/*.cs"/>
   </patternset>
 
   <target name="build">
