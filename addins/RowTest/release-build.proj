@@ -1,0 +1,212 @@
+<Project DefaultTargets="CreateBinaryZip" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+	
+	<PropertyGroup>
+		<BinaryZipFileName>rowtestextension-$(Version)-nunit-$(NUnitVersion).zip</BinaryZipFileName>
+		<SourceZipFileName>rowtestextension-$(Version)-source.zip</SourceZipFileName>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<ReleaseBuildOutputDir>Build\$(Version)</ReleaseBuildOutputDir>
+		<ReferencesDir>References</ReferencesDir>
+		<NUnitPath>C:\Programme\NUnit $(NUnitVersion)\bin\</NUnitPath>
+		<FxCopProject>rowtestextension.fxcop</FxCopProject>
+		<FxCopReport>fxcopreport.xml</FxCopReport>
+		<DependenciesDir>References\FX2.0</DependenciesDir>
+        <TestAssemblyDir>bin\Release</TestAssemblyDir>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="$(net11) == 'true'">
+		<BinaryZipFileName>rowtestextension-$(Version)-nunit-$(NUnitVersion)-net1.1.zip</BinaryZipFileName>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="$(net11) == 'true'">
+		<NUnitPath>C:\Programme\NUnit $(NUnitVersion) - net 1.1\bin\</NUnitPath>
+		<BuildProperties>;TargetFX1_1=true;CustomAfterMicrosoftCommonTargets=$(ProgramFiles)\MSBuild\MSBee\MSBuildExtras.Fx1_1.CSharp.targets</BuildProperties>
+		<DependenciesDir>References\FX1.1</DependenciesDir>
+        <TestAssemblyDir>bin\FX1_1\Release</TestAssemblyDir>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<AssemblyInfos Include="**\AssemblyInfo.cs" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<SolutionFiles Include="NUnitExtension.RowTest.sln" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<TestAssemblies Include="NUnitExtension.RowTest.AddIn.UnitTests\$(TestAssemblyDir)\NUnitExtension.RowTest.AddIn.UnitTests.dll" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<SampleAssemblies Include="NUnitExtension.RowTest.Sample\$(TestAssemblyDir)\NUnitExtension.RowTest.Sample.dll" />
+        <SampleAssemblies Include="NunitExtension.RowTest.Tests\$(TestAssemblyDir)\NUnitExtension.RowTest.Tests.dll" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<BinaryFiles Include="NUnitExtension.RowTest\bin\Release\NUnitExtension.RowTest.dll" />
+		<BinaryFiles Include="NUnitExtension.RowTest.AddIn\bin\Release\NUnitExtension.RowTest.AddIn.dll" />
+		<BinaryFiles Include="License.txt" />
+		<BinaryFiles Include="README.txt" />
+		<BinaryFiles Include="Release Notes.txt" />
+	</ItemGroup>
+	
+	<ItemGroup Condition="$(net11) != 'true'">
+		<AddInFiles Include="NUnitExtension.RowTest.AddIn\bin\Release\NUnitExtension.RowTest.AddIn.dll" />
+	</ItemGroup>
+	
+	<ItemGroup Condition="$(net11) == 'true'">
+		<AddInFiles Include="NUnitExtension.RowTest.AddIn\bin\FX1_1\Release\NUnitExtension.RowTest.AddIn.dll" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<BuildResults Include="$(ReleaseBuildOutputDir)\$(BinaryZipFileName)" />
+		<BuildResults Include="$(ReleaseBuildOutputDir)\$(SourceZipFileName)" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<NUnitReferences Include="$(NUnitPath)\nunit.core.dll" />
+		<NUnitReferences Include="$(NUnitPath)\nunit.core.interfaces.dll" />
+		<NUnitReferences Include="$(NUnitPath)\nunit.framework.dll" />
+        <NUnitReferences Include="$(NUnitPath)\log4net.dll" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<NMock2References Include="$(DependenciesDir)\NMock2.dll" />
+	</ItemGroup>
+	
+	<Target Name="SetVersionNumber">
+		<Error Text="Property 'Version' is not set." Condition="'$(Version)' == ''" />
+	
+		<FileUpdate Files="@(AssemblyInfos)"
+				Regex="(\[assembly:\s*AssemblyVersion\s*\()&quot;.*&quot;(\)\])"
+				ReplacementText="$1&quot;$(Version)&quot;$2" />
+	</Target>
+	
+	<PropertyGroup>
+		<CompileReleaseBuildDependsOn>
+			SetVersionNumber
+		</CompileReleaseBuildDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="CompileReleaseBuild" DependsOnTargets="$(CompileReleaseBuildDependsOn)">
+		<MSBuild
+				Projects="@(SolutionFiles)"
+				Targets="Rebuild"
+				Properties="Configuration=Release;SignAssembly=true$(BuildProperties)" />
+	</Target>
+	
+	<Target Name="CompileDebugBuild">
+		<MSBuild
+				Projects="@(SolutionFiles)"
+				Targets="Rebuild"
+				Properties="Configuration=Debug$(BuildProperties)" />
+	</Target>
+	
+	<Target Name="CopyTestDependencies">
+		<Copy SourceFiles="@(NUnitReferences)" DestinationFolder="$(ReferencesDir)" />
+		<Copy SourceFiles="@(NMock2References)" DestinationFolder="$(ReferencesDir)" />
+	</Target>
+	
+	<PropertyGroup>
+		<RunUnitTestsDependsOn>
+			CopyTestDependencies;
+			CompileReleaseBuild
+		</RunUnitTestsDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="RunUnitTests" DependsOnTargets="$(RunUnitTestsDependsOn)">
+		<Error Text="Property 'NUnitVersion' is not set." Condition="'$(NUnitVersion)' == ''" />
+	
+		<NUnit ToolPath="$(NUnitPath)" Assemblies="@(TestAssemblies)" />
+	</Target>
+	
+	<PropertyGroup>
+		<RunStaticAnalysisDependsOn>
+			CompileDebugBuild
+		</RunStaticAnalysisDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="RunStaticAnalysis" DependsOnTargets="$(RunStaticAnalysisDependsOn)" Condition="$(net11) != 'true'">
+		<Delete Files="$(FxCopReport)" />
+		
+		<FxCop ProjectFile="$(FxCopProject)"
+					 DirectOutputToConsole="False"
+					 AnalysisReportFileName="$(FxCopReport)" />
+	</Target>
+	
+	<PropertyGroup>
+		<DeployNUnitAddInDependsOn>
+			RunUnitTests
+		</DeployNUnitAddInDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="DeployNUnitAddIn" DependsOnTargets="$(DeployNUnitAddInDependsOn)">
+		<Error Text="Property 'NUnitVersion' is not set." Condition="'$(NUnitVersion)' == ''" />
+	
+		<Copy SourceFiles="@(AddInFiles)" DestinationFolder="$(NUnitPath)\addins" />
+	</Target>
+	
+	<PropertyGroup>
+		<RunSamplesDependsOn>
+			DeployNUnitAddIn
+		</RunSamplesDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="RunSamples" DependsOnTargets="$(RunSamplesDependsOn)">
+		<Error Text="Property 'NUnitVersion' is not set." Condition="'$(NUnitVersion)' == ''" />
+
+		<NUnit ToolPath="$(NUnitPath)" Assemblies="@(SampleAssemblies)" />
+	</Target>
+	
+	<Target Name="MakeOutputDir">
+		<Error Text="Property 'Version' is not set." Condition="'$(Version)' == ''" />
+	
+		<MakeDir Directories="$(ReleaseBuildOutputDir)" />
+	</Target>
+	
+	<PropertyGroup>
+		<CreateSourceZipDependsOn>
+			MakeOutputDir
+		</CreateSourceZipDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="CreateSourceZip" DependsOnTargets="$(CreateSourceZipDependsOn)" Condition="$(net11) != 'true'">
+		<Error Text="Property 'Version' is not set." Condition="'$(Version)' == ''" />
+	
+		<CreateItem Include="**\*.*" 
+		            Exclude="**\bin\**\*.*;**\obj\**\*.*;Build\**\*.*;References\**\*.*;TestResult.xml;*.smp;**\_svn\**;*.suo;.bzr\**">
+			<Output ItemName="SourceFiles" TaskParameter="Include" />
+		</CreateItem>
+	
+		<Zip Files="@(SourceFiles)"
+		     Flatten="False"
+		     ZipFileName="$(ReleaseBuildOutputDir)\$(SourceZipFileName)" />
+	</Target>
+	
+	<PropertyGroup>
+		<CreateBinaryZipDependsOn>
+			Clean;
+			RunSamples;
+			RunStaticAnalysis;
+			MakeOutputDir
+		</CreateBinaryZipDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="CreateBinaryZip" DependsOnTargets="$(CreateBinaryZipDependsOn)">
+		<Error Text="Property 'Version' is not set." Condition="'$(Version)' == ''" />
+		<Error Text="Property 'NUnitVersion' is not set." Condition="'$(NUnitVersion)' == ''" />
+	
+		<Zip Files="@(BinaryFiles)"
+		     Flatten="True"
+		     ZipFileName="$(ReleaseBuildOutputDir)\$(BinaryZipFileName)" />
+	</Target>
+	
+	<Target Name="Clean">
+		<Error Text="Property 'Version' is not set." Condition="'$(Version)' == ''" />
+		<Error Text="Property 'NUnitVersion' is not set." Condition="'$(NUnitVersion)' == ''" />
+
+		<Delete Files="@(BuildResults)" TreatErrorsAsWarnings="True" />
+	</Target>
+</Project>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+
+    <ComponentGroup Id="RowTestExtension_1.1">
+      <ComponentRef Id="RowTestAddin_1.1"/>
+      <ComponentRef Id="RowTest_1.1"/>
+      <ComponentRef Id="RowTestLicense"/>
+    </ComponentGroup>
+  
+    <DirectoryRef Id="INSTALLDIR">
+
+      <Component Id="RowTestLicense" Guid="D394F6E1-C2D5-4d37-8E77-4941EDB3FC5D">
+        <File Id="rowtest_license" Name="ROWTSTLI.TXT" LongName="rowtest-license.txt"
+              Source="rowtest-license.txt" Vital="yes" KeyPath="yes" DiskId="1" />
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="addins_1.1" FileSource="net-1.1\addins">
+         
+      <Component Id="RowTestAddin_1.1" DiskId="1" Guid="{DB47AEAF-D2BB-4d24-8CE4-479E7E8A0F37}">
+        <File Id="RowTestAddin_1.1" Name="RTADDIN.DLL" LongName="NUnitExtension.RowTest.Addin.dll" />
+      </Component>
+
+    </DirectoryRef>
+	
+    <DirectoryRef Id="lib_1.1" FileSource="net-1.1\lib">
+
+      <Component Id="RowTest_1.1" DiskId="1" Guid="{F47269CB-79AE-483e-BDAD-4C1C435ED566}">
+        <File Id="RowTest_1.1" Name="ROWTEST.DLL" LongName="NUnitExtension.RowTest.dll" />
+      </Component>
+
+    </DirectoryRef>
+
+    <ComponentGroup Id="RowTestExtension_2.0">
+      <ComponentRef Id="RowTestAddin_2.0"/>
+      <ComponentRef Id="RowTest_2.0"/>
+      <ComponentRef Id="RowTestLicense"/>
+    </ComponentGroup>
+  
+    <DirectoryRef Id="addins_2.0" FileSource="net-2.0\addins">
+         
+      <Component Id="RowTestAddin_2.0" DiskId="1" Guid="{E960FC9D-41CB-44bd-8311-5DB988B0689F}">
+        <File Id="RowTestAddin_2.0" Name="RTADDIN.DLL" LongName="NUnitExtension.RowTest.Addin.dll" />
+      </Component>
+
+    </DirectoryRef>
+	
+    <DirectoryRef Id="lib_2.0" FileSource="net-2.0\lib">
+
+      <Component Id="RowTest_2.0" DiskId="1" Guid="{125E1D98-9FB9-476f-B225-4269C1E7F597}">
+        <File Id="RowTest_2.0" Name="ROWTEST.DLL" LongName="NUnitExtension.RowTest.dll" />
+      </Component>
+
+    </DirectoryRef>
+        
+  </Fragment>
+</Wix>

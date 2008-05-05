@@ -224,7 +224,6 @@
         <Directory Id="core_extensibility" Name="Core">
 
             <Component Id="C__CoreExtensibility" DiskId="1" Guid="523B3117-5694-4dc2-9D8E-32CD1B843793">
-	        <File Id="Install.bat" Name="Install.bat" />
                 <File Id="CoreExtensibility.sln" Name="COREXTNS.SLN" LongName="CoreExtensibility.sln" />
 	    </Component>
 

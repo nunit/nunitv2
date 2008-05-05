@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project name="RowTestExtension" default="build" basedir=".">
+
+<!-- ***************************************************************** -->
+<!-- ***           Build file for RowTestExtension                  *** -->
+<!-- ***************************************************************** -->
+
+  <!-- Include the common build file -->
+  <include buildfile="../common.addin.build"/>
+
+  <property name="addin.dir" value="NUnitExtension.RowTest.AddIn"/>
+  <property name="addin.dll" value="NUnitExtension.RowTest.AddIn.dll"/>
+
+  <property name="framework.dir" value="NUnitExtension.RowTest"/>
+  <property name="framework.dll" value="NUnitExtension.RowTest.dll"/>
+
+  <property name="test.dir" value="NUnitExtension.RowTest.AddIn.UnitTests"/>
+  <property name="test.dll" value="NUnitExtension.RowTest.AddIn.UnitTests.dll"/>
+
+  <property name="sample.dir" value="NUnitExtension.RowTest.Sample"/>
+  <property name="sample.dll" value="NUnitExtension.RowTest.Sample.dll"/>
+
+  <property name="fixture.dir" value="NUnitExtension.RowTest.Tests"/>
+  <property name="fixture.dll" value="NUnitExtension.RowTest.Tests.dll"/>
+
+</project>

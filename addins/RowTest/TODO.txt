@@ -1,0 +1,2 @@
+* Automatically convert string Row arguments to the correct data type (e.g. string => DateTime)
+* Support reference types with default constructors.

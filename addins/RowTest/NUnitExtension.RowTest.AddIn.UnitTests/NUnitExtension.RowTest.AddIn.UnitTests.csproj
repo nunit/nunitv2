@@ -1,0 +1,66 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{9AA26FDE-7F36-4D68-B7C1-5DA9614FDA9A}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NUnitExtension.RowTest.AddIn.UnitTests</RootNamespace>
+    <AssemblyName>NUnitExtension.RowTest.AddIn.UnitTests</AssemblyName>
+    <StartArguments>NUnitExtension.RowTest.AddIn.UnitTests.dll</StartArguments>
+    <StartWorkingDirectory>bin\Debug\</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <StartAction>Program</StartAction>
+    <StartProgram>..\..\..\..\Programme\NUnit 2.4.2\bin\nunit.exe</StartProgram>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="nunit.core">
+      <HintPath>..\References\nunit.core.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\References\nunit.core.interfaces.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\References\nunit.framework.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="nunit.mocks, Version=2.5.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BaseTestFixture.cs" />
+    <Compile Include="RowTestAddInTest.cs" />
+    <Compile Include="RowTestCaseTest.cs" />
+    <Compile Include="RowTestFrameworkTest.cs" />
+    <Compile Include="RowTestNameBuilderTest.cs" />
+    <Compile Include="RowTestSuiteTest.cs" />
+    <Compile Include="TestClass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NUnitExtension.RowTest.AddIn\NUnitExtension.RowTest.AddIn.csproj">
+      <Project>{C3A3F38A-655D-4E47-926B-D43C65A91AB6}</Project>
+      <Name>NUnitExtension.RowTest.AddIn</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NUnitExtension.RowTest\NUnitExtension.RowTest.csproj">
+      <Project>{19576FF2-99BF-49B6-91C3-C29982ADAE4B}</Project>
+      <Name>NUnitExtension.RowTest</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

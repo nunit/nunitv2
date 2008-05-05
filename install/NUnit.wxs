@@ -123,7 +123,6 @@
       <ComponentRef Id="C__LICENSE" />
       <ComponentRef Id="C__FIT_LICENSE" />
       <ComponentRef Id="C__LOGO" />
-      <ComponentRef Id="C__ROWTEST_LICENSE"/>
       <ComponentRef Id="InstallationRegistryEntry"/>
 
       <Feature Id="Net_1.1_BaseFeature" Level="1" Title=".NET 1.1" Display="collapse"
@@ -156,11 +155,23 @@
 
         </Feature>
 
-        <Feature Id="Net_1.1_PNUnitRunner" Level="1" Title='PNUnit Runner' Display='expand'
+        <Feature Id="Net_1.1_PNUnitRunner" Level="10" Title='PNUnit Runner' Display='expand'
                  Description="Installs the PNUnit runner for parallel distributed tests">
 
           <ComponentGroupRef Id="pnunit_1.1"/>
 
+        </Feature>
+
+        <Feature Id="Net_1.1_Extensions" Level="10" Title='Extensions' Display='collapse'
+        	 Description="Installs bundled extensions to NUnit">
+
+          <Feature Id="Net_1.1_RowTestExtension" Level="10" Title='RowTestExtension' Display='expand'
+	           Description="Installs the RowTest extension to NUnit">
+
+            <ComponentGroupRef Id="RowTestExtension_1.1"/>
+
+          </Feature>
+        
         </Feature>
 
         <Feature Id="Net_1.1_TestsFeature" Level="1" Title='Unit Tests' Display='expand'
@@ -201,13 +212,25 @@
 
         </Feature>
 
-        <Feature Id="Net_2.0_PNunitRunner" Level="1" Title='PNUnit Runner' Display='expand'
+        <Feature Id="Net_2.0_PNunitRunner" Level="10" Title='PNUnit Runner' Display='expand'
                  Description="Installs the PNUnit runner for parallel distributed tests">
 
           <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
           <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
           <ComponentGroupRef Id="pnunit_2.0"/>
 
+        </Feature>
+
+        <Feature Id="Net_2.0_Extensions" Level="10" Title='Extensions' Display='collapse'
+        	 Description="Installs bundled extensions to NUnit">
+
+          <Feature Id="Net_2.0_RowTestExtension" Level="10" Title='RowTestExtension' Display='expand'
+	           Description="Installs the RowTest extension to NUnit">
+
+            <ComponentGroupRef Id="RowTestExtension_2.0"/>
+
+          </Feature>
+        
         </Feature>
 
         <Feature Id="Net_2.0_TestsFeature" Level="1" Title='Unit Tests' Display='expand'
@@ -244,8 +267,8 @@
     <!-- **********  Define our GUI using standard WiX UI       ********** -->
     <!-- ***************************************************************** -->
 
-    <!--<UIRef Id="WixUI_Mondo" />-->
-    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_Mondo" />
+    <!--<UIRef Id="WixUI_FeatureTree" />-->
     <UIRef Id="WixUI_ErrorProgressText" />
 
     <!-- ***************************************************************** -->
@@ -266,11 +289,6 @@
       <Component Id="C__FIT_LICENSE" Guid="6C47563D-CDCD-4a65-BD89-A37F3A3C681D">
         <File Id="fit_license.txt" Name="FITLICNS.TXT" LongName="fit-license.txt"
               Source="fit-license.txt" Vital="yes" KeyPath="yes" DiskId="1" />
-      </Component>
-
-      <Component Id="C__ROWTEST_LICENSE" Guid="D394F6E1-C2D5-4d37-8E77-4941EDB3FC5D">
-        <File Id="rowtest_license" Name="ROWTSTLI.TXT" LongName="rowtest-license.txt"
-              Source="rowtest-license.txt" Vital="yes" KeyPath="yes" DiskId="1" />
       </Component>
 
       <Component Id="InstallationRegistryEntry" Guid="FD139082-C1B1-46be-AA70-BA970EBDF397">

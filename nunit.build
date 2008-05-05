@@ -82,6 +82,7 @@
   <!-- Our standard package for general distribution -->
   <property name="standard.package.config" value="net-1.1+net-2.0" />
 
+  <!-- Options for runing the NUnit tests -->
   <property name="nunit.options" value=""/>
 
   <!-- Additional internal properties are set in the include file -->
@@ -189,15 +190,19 @@
 
   </target>
 
-  <target name="build-framework" depends="make-build-dir">
+  <target name="build-addins" depends="build">
 
-    <echo message="*"/>
-    <echo message="* Building ${runtime.config} framework files"/>
-    <echo message="*"/>
+    <nant buildfile="${project.addins.dir}/RowTest/RowTestExtension.build"
+      target="${build.config} ${runtime.config} bundled-install">
 
-    <nant target="build">
-      <buildfiles refid="framework.buildfiles"/>
+      <properties>
+        <property name="nunit.version" value="${package.version}"/>
+        <property name="nunit.dir" value="${current.build.dir}"/>
+        <property name="nunit.bin.dir" value="${current.build.dir}" readonly="true"/>
+      </properties>
+
     </nant>
+
   </target>
 
   <target name="rebuild-all" depends="clean-all,build-all"
@@ -566,6 +571,7 @@
         <include name="tests.wxs" />
         <include name="samples.wxs" />
         <include name="pnunit.wxs" />
+        <include name="addins.wxs" />
         <include name="NUnit.wxs" />
       </sources>
     </candle>
@@ -581,6 +587,7 @@
         <include name="${work.dir}/samples.wixobj" />
         <include name="${work.dir}/tests.wixobj" />
         <include name="${work.dir}/pnunit.wixobj" />
+        <include name="${work.dir}/addins.wixobj" />
         <include name="${wix.dir}/wixui.wixlib" />
       </sources>
     </light>
@@ -717,7 +724,7 @@
           todir="${package.working.dir}" />
     <copy file="NUnitFitTests.html"
           todir="${package.bin.dir}" />
-    <copy file="${project.src.dir}/NUnitExtensions/docs/RowTest/License.txt" 
+    <copy file="${project.addins.dir}/RowTest/License.txt" 
           tofile="${package.working.dir}/rowtest-license.txt" />
 
   </target>
@@ -726,7 +733,7 @@
 <!-- ***           Copy a set of binaries for a package            *** -->
 <!-- ***************************************************************** -->
 
-  <target name="copy-bins" depends="build">
+  <target name="copy-bins" depends="build,build-addins">
 
     <mkdir dir="${package.bin.dir}"/>
 
@@ -735,6 +742,7 @@
         <include name="*"/>
         <include name="tests/*"/>
         <include name="lib/*"/>
+        <include name="addins/*"/>
         <include name="${runtime.config}/*"/>
         <exclude name="*.wixobj"/>
         <exclude name="nunit-server.*"/>
