@@ -1,0 +1,884 @@
+<?xml version="1.0"?>
+<project name="Addins.Common">
+
+<!-- ***************************************************************** -->
+<!-- ** Copyright 2008, Charlie Poole                               ** -->
+<!-- **                                                             ** -->
+<!-- ** Licensed under the Academic Free License version 3.0        ** -->
+<!-- ***************************************************************** -->
+
+<!-- ***************************************************************** -->
+<!-- ** Common.Addin.Build - Version 1.0                            ** -->
+<!-- **                                                             ** -->
+<!-- ** Common build script for use in building NUnit addins. For   ** -->
+<!-- ** simple cases, the main script only needs to include this    ** -->
+<!-- ** script and define a few properties. More complex cases may  ** -->
+<!-- ** require additional targets in the main script.              ** -->
+<!-- **                                                             ** -->
+<!-- ** The script uses the following project organization:         ** -->
+<!-- **   <project>    - contains the build script                  ** -->
+<!-- **     src        - source code                                ** -->
+<!-- **       addin    - the addin itself                           ** -->
+<!-- **       framework- optional assembly to be referenced by      ** -->
+<!-- **                  user tests - contains attributes, etc.     ** -->
+<!-- **       fixture  - optional fixture assembly used by tests    ** -->
+<!-- **       sample   - optional sample optionally used by tests   ** -->
+<!-- **       tests    - unit tests                                 ** -->
+<!-- **     lib        - external dlls used by the addin or tests   ** -->
+<!-- **     build      - output of builds, structured by runtime,   ** -->
+<!-- **                  NUnit version and build type               ** -->
+<!-- **     package    - holds packages created                     ** -->
+<!-- **       work     - work directory for buildin packages        ** -->
+<!-- **                                                             ** -->
+<!-- ** If the src directory is not found, the script looks for     ** -->
+<!-- ** addin, fixture, etc. directly in the project root.          ** -->
+<!-- **                                                             ** -->
+<!-- ** If the addin directory is not found, source files for the   ** -->
+<!-- ** the addin are taken directly from the src directory or      ** -->
+<!-- ** project root. The other src subdirectories are optional.    ** -->
+<!-- **                                                             ** -->
+<!-- ** This allows using the script for a simple addin with only   ** -->
+<!-- ** one source file in the project root, or a more complex      ** -->
+<!-- ** addin with multiple source files and test projects.         ** -->
+<!-- **                                                             ** -->
+<!-- ** Additional properties may be set in order to modify         ** -->
+<!-- ** the behavior of the script (defaults in parentheses):       ** -->
+<!-- **                                                             ** -->
+<!-- **   addin.dir      (addin)                                    ** -->
+<!-- **     Name of the directory containing addin source           ** -->
+<!-- **                                                             ** -->
+<!-- **   addin.dll      (<project>Addin.dll)                       ** -->
+<!-- **     Name of the addin assembly                              ** -->
+<!-- **                                                             ** -->
+<!-- **   framework.dir  (framework)                                ** -->
+<!-- **     Name of the directory containing the source code        ** -->
+<!-- **     for any framework extension                             ** -->
+<!-- **                                                             ** -->
+<!-- **   framework.dll  (<project>.dll)                            ** -->
+<!-- **     Name of any framework extension assembly, intended      ** -->
+<!-- **     to be referenced by the tests.                          ** -->
+<!-- **                                                             ** -->
+<!-- **   fixture.dir    (fixture)                                  ** -->
+<!-- **     Name of the directory containing fixture source         ** -->
+<!-- **                                                             ** -->
+<!-- **   fixture.dll    (<project>Fixture.dll)                     ** -->
+<!-- **     Name of the fixture assembly                            ** -->
+<!-- **                                                             ** -->
+<!-- **   sample.dir     (sample)                                   ** -->
+<!-- **     Name of the directory containing sample source          ** -->
+<!-- **                                                             ** -->
+<!-- **   sample.dll     (<project>Sample.dll)                      ** -->
+<!-- **     Name of the sample assembly                             ** -->
+<!-- **                                                             ** -->
+<!-- **   test.dir       (tests)                                    ** -->
+<!-- **     Name of the directory containing uit test source        ** -->
+<!-- **                                                             ** -->
+<!-- **   test.dll       (<project>Tests.dll )                      ** -->
+<!-- **     Name of the unit test assembly                          ** -->
+<!-- **                                                             ** -->
+<!-- **   alt.lib.dir                                               ** -->
+<!-- **     Specifies a subdirectory of the lib dir to be used for  ** -->
+<!-- **     the current build. For use when multiple versions of    ** -->
+<!-- **     an external program are used for different builds       ** -->
+<!-- **                                                             ** -->
+<!-- **   supported.frameworks (net-1.1,net-2.0,mono-1.0,mono-2.0)  ** -->
+<!-- **     Set to restrict the frameworks for which the addin      ** -->
+<!-- **     may be built, provided it is installed.                 ** -->
+<!-- **                                                             ** -->
+<!-- **   target.framework.dll (nunit.framework.dll)                ** -->
+<!-- **     Set when the addin supports an external framework.      ** -->
+<!-- **     The sample and fixture dlls will reference this         ** -->
+<!-- **     framework, which should be in the lib directory.        ** -->
+<!-- **     The unit tests still use the NUnit framework.           ** -->
+<!-- **                                                             ** -->
+<!-- **   mock.framework.dll                                        ** -->
+<!-- **     The mock framework in use. If set to nunit.mocks.dll    ** -->
+<!-- **     then it's pulled from the NUnit installation. Any       ** -->
+<!-- **     other mock framework should be in the lib directory.    ** -->
+<!-- **                                                             ** -->
+<!-- **   package.version      (1.0)                                ** -->
+<!-- **     The version to be suffixed to any package names.        ** -->
+<!-- **     This should normally match the internal  version.       ** -->
+<!-- **                                                             ** -->
+<!-- **   nunit.version        (2.4.7)                              ** -->
+<!-- **     The default version of NUnit to build against.          ** -->
+<!-- **                                                             ** -->
+<!-- **   nunit.dir                                                 ** -->
+<!-- **     The base directory where NUnit is installed. Not        ** -->
+<!-- **     needed for Windows installations using msi package,     ** -->
+<!-- **     since the location is found in the registry. If         ** -->
+<!-- **     specified, nunit.version should be set to match.        ** --> 
+<!-- **                                                             ** -->
+<!-- ** Further customization may be provided by defining certain   ** -->
+<!-- ** targets in the main script, which are called if present.    ** -->
+<!-- ** The following targets are called before or after the        ** -->
+<!-- ** indicated actions:                                          ** -->
+<!-- **                                                             ** -->
+<!-- **   pre-init             Before build initialization          ** -->
+<!-- **   post-init            After build initialization           ** -->
+<!-- **   pre-build            Before the build target              ** -->
+<!-- **   post-build           After the build completes            ** -->
+<!-- **                                                             ** -->
+<!-- ** The following targets are used in lieu of the default       ** -->
+<!-- ** actions contained in this script, if they are found,        ** -->
+<!-- ** allowing complete control of the build while still using    ** -->
+<!-- ** support functions provided in this script.                  ** -->
+<!-- **                                                             ** -->
+<!-- **   build-addin            Build the addin                    ** -->
+<!-- **   build-sample           Build just the sample              ** -->
+<!-- **   build-fixture          Build just the test fixture        ** -->
+<!-- **   build-unit-tests       Build just the unit tests          ** -->
+<!-- **   build-tests            Build all the test assemblies      ** -->
+<!-- **                                                             ** -->
+<!-- **   create-binary-package  Copy binaries to work dir          ** -->
+<!-- **   create-source-package  Copy source to work dir            ** -->
+<!-- **                                                             ** -->
+<!-- ** Notes:                                                      ** -->
+<!-- **                                                             ** -->
+<!-- ** 1. Build output should be saved in ${current.build.dir}.    ** -->
+<!-- **                                                             ** -->
+<!-- ** 2. Package images should be saved in ${work.dir}.           ** -->
+<!-- **                                                             ** -->
+<!-- ** See the source code below for further information.          ** -->
+<!-- **                                                             ** -->
+<!-- ***************************************************************** -->
+
+<!-- ***************************************************************** -->
+<!-- **          Define the overall directory structure             ** -->
+<!-- ***************************************************************** -->
+
+  <property name="src.dir" value="." unless="${directory::exists('src')}"/>
+  <property name="src.dir" value="src" if="${directory::exists('src')}"/>
+
+  <property name="build.dir" value="build"/>
+  <property name="package.dir" value="package"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="work.dir" value="${package.dir}/work"/>
+
+  <property name="project.name" value="${project::get-name()}"/>
+
+<!-- ***************************************************************** -->
+<!-- **             Define the output assembly names                ** -->
+<!-- ***************************************************************** -->
+
+  <if test="${not string::ends-with(project.name,'Addin')}">
+    <property name="addin.dll" value="${project.name}Addin.dll"
+      unless="${property::exists('addin.dll')}"/>
+    <property name="framework.dll" value="${project.name}.dll"
+      unless="${property::exists('framework.dll')}"/>
+  </if>
+
+  <if test="${string::ends-with(project.name,'Addin')}">
+    <property name="addin.dll" value="${project.name}.dll"
+      unless="${property::exists('addin.dll')}"/>
+    <property name="framework.dll" 
+      value="${string::substring(project.name,0,string::get-length(project.name)-5)}"/>
+      unless="${property::exists('framework.dll')}"/>
+  </if>
+
+  <property name="sample.dll" value="${project.name}Sample.dll"
+    unless="${property::exists('sample.dll')}"/>
+  <property name="fixture.dll" value="${project.name}Fixture.dll"
+    unless="${property::exists('fixture.dll')}"/>
+  <property name="test.dll" value="${project.name}Tests.dll"
+    unless="${property::exists('test.dll')}"/>
+
+<!-- ***************************************************************** -->
+<!-- **      Define the frameworks this addin supports              ** -->
+<!-- ***************************************************************** -->
+
+  <property name="supported.frameworks"
+    value="net-1.1,net-2.0,mono-1.0,mono-2.0"
+    unless="${property::exists('supported.frameworks')}"/>
+
+  <foreach item="String" delim="," 
+      property="framework" in="${supported.frameworks}">
+
+    <property name="${framework}.supported" value="true"/>
+
+    <if test="${framework::exists( framework )}">
+    <if test="${framework::sdk-exists( framework )}">
+      <property name="default.runtime" value="${framework}"
+        unless="${property::exists('default.runtime')}"/>
+    </if>
+    </if>
+
+  </foreach>
+
+<!-- ***************************************************************** -->
+<!-- **            Set defaults for the build                       ** -->
+<!-- ***************************************************************** -->
+
+  <call target="set-debug-build-config"/>
+  <call target="set-${default.runtime}-runtime-config"/>
+  <property name="nunit.version" value="2.4.7"
+    unless="${property::exists('nunit.version')}"/>
+
+<!-- ***************************************************************** -->
+<!-- ***          Targets that set the build configuration         *** -->
+<!-- ***     These must come before actions like build or test     *** -->
+<!-- ***************************************************************** -->
+
+  <target name="debug" depends="set-debug-build-config"
+    description="Set config to debug for commands that follow"/>
+
+  <target name="release" depends="set-release-build-config"
+    description="Set config to release for commands that follow"/>
+
+<!-- ***************************************************************** -->
+<!-- ***         Targets that set the runtime configuration        *** -->
+<!-- ***     These must come before actions like build or test     *** -->
+<!-- ***************************************************************** -->
+
+  <target name="net-1.0" depends="set-net-1.0-runtime-config"
+    description="Use .NET 1.0 for commands that follow"/>
+
+  <target name="net-1.1" depends="set-net-1.1-runtime-config"
+    description="Use .NET 1.1 for commands that follow"/>
+      
+  <target name="net-2.0" depends="set-net-2.0-runtime-config"
+    description="Use .NET 2.0 for commands that follow"/>
+      
+  <target name="mono-1.0" depends="set-mono-1.0-runtime-config"
+    description="Use Mono 1.0 for commands that follow"/>
+  
+  <target name="mono-2.0" depends="set-mono-2.0-runtime-config"
+    description="Use Mono 2.0 for commands that follow"/>
+
+<!-- ***************************************************************** -->
+<!-- ***             Targets that set the NUnit version            *** -->
+<!-- ***     These must come before actions like build or test     *** -->
+<!-- ***************************************************************** -->
+
+  <target name="nunit-2.4" description="Use NUnit 2.4 for commands that follow">
+    <property name="nunit.version" value="2.4"/>
+  </target>
+
+  <target name="nunit-2.4.1" description="Use NUnit 2.4.1 for commands that follow">
+    <property name="nunit.version" value="2.4.1"/>
+  </target>
+
+  <target name="nunit-2.4.2" description="Use NUnit 2.4.2 for commands that follow">
+    <property name="nunit.version" value="2.4.2"/>
+  </target>
+
+  <target name="nunit-2.4.3" description="Use NUnit 2.4.3 for commands that follow">
+    <property name="nunit.version" value="2.4.3"/>
+  </target>
+
+  <target name="nunit-2.4.4" description="Use NUnit 2.4.4 for commands that follow">
+    <property name="nunit.version" value="2.4.4"/>
+  </target>
+
+  <target name="nunit-2.4.5" description="Use NUnit 2.4.5 for commands that follow">
+    <property name="nunit.version" value="2.4.5"/>
+  </target>
+
+  <target name="nunit-2.4.6" description="Use NUnit 2.4.6 for commands that follow">
+    <property name="nunit.version" value="2.4.6"/>
+  </target>
+
+  <target name="nunit-2.4.7" description="Use NUnit 2.4.7 for commands that follow">
+    <property name="nunit.version" value="2.4.7"/>
+  </target>
+
+  <target name="nunit-2.5" description="Use NUnit 2.5 for commands that follow">
+    <property name="nunit.version" value="2.5"/>
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***           Remove artifacts created by the build           *** -->
+<!-- ***************************************************************** -->
+
+  <target name="clean" description="Remove build" depends="set-configuration">
+    <delete dir="${current.build.dir}"
+      if="${directory::exists(current.build.dir)}"/>
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***             Rebuild the addin and tests                   *** -->
+<!-- ***************************************************************** -->
+
+  <target name="rebuild" depends="clean,build"
+    description="Clean and rebuild the addin and its test assemblies"/>
+
+<!-- ***************************************************************** -->
+<!-- ***              Build the addin and tests                    *** -->
+<!-- ***************************************************************** -->
+
+  <target name="build" depends="build-init"
+    description="Build the addin and its test assemblies">
+
+    <call target="pre-build" if="${target::exists('pre-build')}"/>
+
+    <call target="build-addin" if="${target::exists('build-addin')}"/>
+    <call target="default-build-addin" unless="${target::exists('build-addin')}"/>
+
+    <call target="build-framework" if="${target::exists('build-framework')}"/>
+    <call target="default-build-framework" unless="${target::exists('build-framework')}"/>
+
+    <call target="build-tests" if="${target::exists('build-tests')}"/>
+
+    <if test="${not target::exists('build-tests')}">
+
+      <call target="build-sample" if="${target::exists('build-sample')}"/>
+      <call target="default-build-sample" unless="${target::exists('build-sample')}"/>
+
+      <call target="build-fixture" if="${target::exists('build-fixture')}"/>
+      <call target="default-build-fixture" unless="${target::exists('build-fixture')}"/>
+    
+      <call target="build-unit-tests" if="${target::exists('build-unit-tests')}"/>
+      <call target="default-build-unit-tests" unless="${target::exists('build-unit-tests')}"/>
+
+    </if>
+
+    <call target="post-build" if="${target::exists('post-build')}"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***                  Install the addin                        *** -->
+<!-- ***************************************************************** -->
+
+  <target name="install" depends="build" description="Install the addin">
+    <copy file="${current.build.dir}/${addin.dll}"
+      todir="${nunit.bin.dir}/addins"/>
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***              Test the installed addin                      *** -->
+<!-- ***************************************************************** -->
+
+  <target name="test" depends="install"
+    description="Run unit tests using the console runner">
+
+    <exec basedir="${current.build.dir}"
+        workingdir="${current.build.dir}" 
+        program="${nunit.bin.dir}/nunit-console.exe" 
+        managed="strict"
+        commandline="${test.dll}" />
+
+  </target>
+
+  <target name="test-sample" depends="install"
+    description="Run sample using the console runner">
+
+    <exec basedir="${current.build.dir}"
+        workingdir="${current.build.dir}" 
+        program="${nunit.bin.dir}/nunit-console.exe" 
+        managed="strict"
+        commandline="${sample.dll}" />
+  
+  </target>
+
+  <target name="gui-test" depends="install"
+      description="Run unit tests using the gui runner">
+
+      <exec basedir="${current.build.dir}"
+        workingdir="${current.build.dir}" 
+        program="${nunit.bin.dir}/nunit.exe" 
+        managed="strict"
+        commandline="${test.dll} -run" />
+
+  </target>
+
+  <target name="gui-sample" depends="install"
+      description="Run sample using the gui runner">
+
+      <exec basedir="${current.build.dir}"
+        workingdir="${current.build.dir}" 
+        program="${nunit.bin.dir}/nunit.exe" 
+        managed="strict"
+        commandline="${sample.dll} -run" />
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***        Package the addin for distribution                 *** -->
+<!-- ***************************************************************** -->
+
+  <target name="package" depends="build,package-init"
+    description="Create binary package as a zip file">
+
+    <delete dir="${work.dir}" if="${directory::exists(work.dir)}"/>
+    <mkdir dir="${work.dir}"/>
+
+    <call target="create-binary-package"
+      if="${target::exists('create-binary-package')}"/>
+
+    <call target="create-default-binary-package"
+      unless="${target::exists('create-binary-package')}"/>
+
+    <zip ziplevel="9"
+        zipfile="${package.dir}/${package.name}-nunit-${nunit.version}${build.suffix}.zip">
+      <fileset basedir="${work.dir}">
+        <include name="*"/>
+      </fileset>
+    </zip>
+
+  </target>
+
+  <target name="package-src" depends="package-init"
+    description="Create source package as a zip file">
+
+    <delete dir="${work.dir}" if="${directory::exists(work.dir)}"/>
+    <mkdir dir="${work.dir}"/>
+
+    <call target="create-source-package"
+      if="${target::exists('create-source-package')}"/>
+
+    <call target="create-default-source-package"
+      unless="${target::exists('create-source-package')}"/>
+
+
+    <zip ziplevel="9"
+        zipfile="${package.dir}/${package.name}-src.zip">
+      <fileset basedir="${work.dir}">
+        <include name="**/*"/>
+      </fileset>
+    </zip>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***     Default targets for building the addin and tests      *** -->
+<!-- ***************************************************************** -->
+
+  <target name="default-build-addin">
+
+    <csc target="library"
+        output="${current.build.dir}/${addin.dll}" 
+        define="${current.build.defines}"
+        debug="${build.debug}">
+      <sources>
+        <include name="${addin.src.dir}/*.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.core.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+      </references>
+    </csc>
+
+  </target>
+
+  <target name="default-build-framework"
+    if="${directory::exists(framework.dir)}">
+
+    <csc target="library"
+        output="${current.build.dir}/${framework.dll}" 
+        define="${current.build.defines}"
+        debug="${build.debug}">
+      <sources>
+        <include name="${framework.src.dir}/*.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="${target.framework.dll}"/>
+      </references>
+    </csc>
+
+  </target>
+
+  <target name="default-build-sample"
+    if="${directory::exists(sample.src.dir)}">
+
+    <csc target="library"
+        output="${current.build.dir}/${sample.dll}"
+		define="${current.build.defines}"
+        debug="${build.debug}">
+      <sources>
+        <include name="${sample.src.dir}/**/*.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="${target.framework.dll}"/>
+        <include name="${framework.dll}"/>
+      </references>
+    </csc>
+
+  </target>
+
+  <target name="default-build-fixture"
+    if="${directory::exists(fixture.src.dir)}">
+
+    <csc target="library"
+        output="${current.build.dir}/${fixture.dll}"
+		define="${current.build.defines}"
+        debug="${build.debug}">
+      <sources>
+        <include name="${fixture.src.dir}/**/*.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="${target.framework.dll}"/>
+        <include name="${framework.dll}"/>
+      </references>
+    </csc>
+
+  </target>
+
+  <target name="default-build-unit-tests"
+    if="${directory::exists(test.src.dir)}">
+
+    <csc target="library"
+        output="${current.build.dir}/${test.dll}"
+		define="${current.build.defines}"
+        debug="${build.debug}">
+      <sources>
+        <include name="${test.src.dir}/**/*.cs"/>
+      </sources>
+      <references basedir="${current.build.dir}">
+        <include name="nunit.framework.dll"/>
+        <include name="nunit.core.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.mocks.dll"/>
+        <include name="${addin.dll}"/>
+        <include name="${framework.dll}"/>
+        <include name="${fixture.dll}"/>
+        <include name="${sample.dll}"/>
+      </references>
+    </csc>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***          Default targets for creating packages            *** -->
+<!-- ***************************************************************** -->
+
+  <target name="create-default-binary-package">
+
+    <copy todir="${work.dir}" flatten="true">
+
+      <fileset basedir=".">
+        <include name="${current.build.dir}/*"/>
+        <exclude name="${current.build.dir}/log4net.dll"/>
+        <exclude name="${current.build.dir}/nunit*.dll"/>
+        <exclude name="${current.build.dir}/${target.framework.dll}"/>
+        <include name="*.txt"/>
+      </fileset>
+
+    </copy>
+
+  </target>
+
+  <target name="create-default-source-package">
+
+    <copy todir="${work.dir}">
+
+      <fileset basedir=".">
+        <include name="*.sln"/>
+        <include name="*.build"/>
+        <include name="*.include"/>
+        <include name="*.txt"/>
+        <include name="${src.dir}/**/*.cs"/>
+        <include name="${src.dir}/**/*.csproj"/>
+        <include name="${src.dir}/**/*.csproj.user"/>
+        <include name="${lib.dir}/**/*"/>
+      </fileset>
+
+    </copy>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***          Helpers used by primary targets                  *** -->
+<!-- ***************************************************************** -->
+
+<!-- ***************************************************************** -->
+<!-- ***              Initialize for the build                     *** -->
+<!-- ***************************************************************** -->
+
+  <target name="build-init" depends="set-configuration,set-src-dirs">
+
+    <echo message="Building ${project.name} for NUnit ${nunit.version}"/>
+
+    <mkdir dir="${current.build.dir}" 
+      unless="${directory::exists(current.build.dir)}"/>
+
+    <property name="target.framework.dll" value="nunit.framework.dll"
+       unless="${property::exists('target.framework.dll')}"/>
+
+    <call target="pre-init" if="${target::exists('pre-init')}"/>
+    <call target="copy-nunit-files"/>
+    <call target="copy-lib-files"/>
+    <call target="post-init" if="${target::exists('post-init')}"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***              Initialize for creating packages             *** -->
+<!-- ***************************************************************** -->
+
+  <target name="package-init">
+  
+    <mkdir dir="${package.dir}" unless="${directory::exists(package.dir)}"/>
+
+    <property name="package.version" value="1.0"
+      unless="${property::exists('package.version')}"/>
+    <property name="package.name" value="${project.name}-${package.version}"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***              Set all configuration properties             *** -->
+<!-- ***************************************************************** -->
+
+  <target name="set-configuration" 
+    depends="set-runtime-config,set-nunit-config,set-build-config">
+    
+    <property name="current.build.dir" 
+      value="${build.dir}/${runtime.config}/nunit-${nunit.version}/${build.config}"/>
+
+    <property name="current.build.defines" 
+      value="${build.defines},${runtime.defines},${nunit.defines}"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***        Set properties based on the target runtime         *** -->
+<!-- ***************************************************************** -->
+
+  <target name="set-runtime-config">
+    <call target="set-${runtime.config}-runtime-config"/>
+  </target>
+
+  <target name="set-net-1.0-runtime-config">
+    <fail unless="${property::exists('net-1.0.supported')}"
+      message="The net-1.0 framework is not supported by this addin"/>
+    <fail unless="${framework::exists( 'net-1.0' )}"
+       message="The net-1.0 framework is not installed"/>
+    <fail unless="${framework::sdk-exists( 'net-1.0' )}"
+       message="The net-1.0 sdk is not installed"/>
+
+    <property name="runtime.config" value="net-1.0"/>
+    <property name="runtime.defines" value="MSNET,NET_1_0"/>
+    <property name="nant.settings.currentframework" value="net-1.0"/>
+  </target>
+
+  <target name="set-net-1.1-runtime-config">
+    <fail unless="${property::exists('net-1.1.supported')}"
+      message="The net-1.1 framework is not supported by this addin"/>
+    <fail unless="${framework::exists( 'net-1.1' )}"
+       message="The net-1.1 framework is not installed"/>
+    <fail unless="${framework::sdk-exists( 'net-1.1' )}"
+       message="The net-1.1 sdk is not installed"/>
+
+    <property name="runtime.config" value="net-1.1"/>
+    <property name="runtime.defines" value="MSNET,NET_1_1"/>
+    <property name="nant.settings.currentframework" value="net-1.1"/>
+  </target>
+
+  <target name="set-net-2.0-runtime-config">
+    <fail unless="${property::exists('net-2.0.supported')}"
+      message="The net-2.0 framework is not supported by this addin"/>
+    <fail unless="${framework::exists('net-2.0')}"
+       message="The net-2.0 framework is not installed"/>
+    <fail unless="${framework::sdk-exists('net-2.0')}"
+       message="The net-2.0 sdk is not installed"/>
+
+    <property name="runtime.config" value="net-2.0"/>
+    <property name="runtime.defines" value="MSNET,NET_2_0"/>
+    <property name="nant.settings.currentframework" value="net-2.0"/>
+  </target>
+
+  <target name="set-mono-1.0-runtime-config">
+    <fail unless="${property::exists('mono-1.0.supported')}"
+      message="The mono-1.0 framework is not supported by this addin"/>
+    <fail unless="${framework::exists('mono-1.0')}"
+       message="The mono-1.0 framework is not installed"/>
+    <fail unless="${framework::sdk-exists('mono-1.0')}"
+       message="The mono-1.0 sdk is not installed"/>
+
+    <property name="runtime.config" value="mono-1.0"/>
+    <property name="runtime.defines" value="MONO,MONO_1_0"/>
+    <property name="nant.settings.currentframework" value="mono-1.0"/>
+  </target>
+
+  <target name="set-mono-2.0-runtime-config">
+    <fail unless="${property::exists('mono-2.0.supported')}"
+      message="The mono-2.0 framework is not supported by this addin"/>
+    <fail unless="${framework::exists('mono-2.0')}"
+       message="The mono-2.0 framework is not installed"/>
+    <fail unless="${framework::sdk-exists('mono-2.0')}"
+       message="The mono-2.0 sdk is not installed"/>
+
+    <property name="runtime.config" value="mono-2.0"/>
+    <property name="runtime.defines" value="MONO,MONO_2_0"/>
+    <property name="nant.settings.currentframework" value="mono-2.0"/>
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- **   Set properties based on the target NUnit installation     ** -->
+<!-- ***************************************************************** -->
+
+  <target name="set-nunit-config">
+
+    <readregistry property="nunit.dir" 
+      hive="CurrentUser" failonerror="false"
+      key="SOFTWARE\nunit.org\NUnit\${nunit.version}\InstallDir"
+      unless="${property::exists('nunit.dir')}"/>
+
+    <fail unless="${property::exists('nunit.dir')}"
+      message="Nunit ${nunit.version} registry key not found!"/>
+
+    <fail unless="${directory::exists(nunit.dir)}"
+      message="${nunit.dir} directory cannot be found!"/>
+
+    <property name="nunit.defines" 
+      value="NUNIT_${string::replace(nunit.version,'.','_')}"/>
+
+    <property name="nunit.bin.dir"
+      value="${path::combine(nunit.dir,'bin')}"/>
+
+    <if test="${nunit.version >= '2.5' }">
+
+      <property name="alt.dir" value="net-1.1"
+        if="${runtime.config=='net-1.1'}"/>
+      <property name="alt.dir" value="net-2.0"
+        if="${runtime.config=='net-2.0'}"/>
+      <property name="alt.dir" value="net-1.1"
+        if="${runtime.config=='mono-1.0'}"/>
+      <property name="alt.dir" value="net-2.0"
+        if="${runtime.config=='mono-2.0'}"/>
+	
+      <property name="nunit.bin.dir" 
+        value="${path::combine(nunit.dir,alt.dir)}"/>
+
+    </if>
+
+    <fail unless="${directory::exists(nunit.bin.dir)}"
+      message="${nunit.bin.dir} directory cannot be found!"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***          Set properties based on the build type           *** -->
+<!-- ***************************************************************** -->
+
+  <target name="set-build-config">
+    <call target="set-${build.config}-build-config"/>
+  </target>
+
+  <target name="set-debug-build-config">
+    <property name="build.config" value="debug"/>
+    <property name="build.debug" value="true"/>
+    <property name="build.defines" value="DEBUG,TRACE"/>
+    <property name="build.suffix" value="-dbg"/>
+  </target>
+	
+  <target name="set-release-build-config">
+    <property name="build.config" value="release"/>
+    <property name="build.debug" value="false"/>
+    <property name="build.defines" value="TRACE"/>
+    <property name="build.suffix" value=""/>
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- **  Set properties based on the source directory structure     ** -->
+<!-- ***************************************************************** -->
+
+  <target name="set-src-dirs">
+
+    <property name="addin.src.dir" value="${src.dir}/${addin.dir}"
+      if="${property::exists('addin.dir')}"/>
+
+    <if test="${not property::exists('addin.dir')}">
+      <property name="addin.dir" value="addin"/>
+      <property name="addin.src.dir" value="${src.dir}/${addin.dir}"/>
+      <if test="${not directory::exists(addin.src.dir)}">
+        <property name="addin.dir" value="."/>
+        <property name="addin.src.dir" value="${src.dir}"/>
+      </if>
+    </if>
+
+    <property name="framework.dir" value="framework"
+      unless="${property::exists('framework.dir')}"/>
+    <property name="framework.src.dir" value="${src.dir}/${framework.dir}"/>
+   
+    <property name="sample.dir" value="sample"
+      unless="${property::exists('sample.dir')}"/>
+    <property name="sample.src.dir" value="${src.dir}/${sample.dir}"/>
+
+    <property name="fixture.dir" value="fixture"
+      unless="${property::exists('fixture.dir')}"/>
+    <property name="fixture.src.dir" value="${src.dir}/${fixture.dir}"/>
+
+    <property name="test.dir" value="tests"
+      unless="${property::exists('test.dir')}"/>
+    <property name="test.src.dir" value="${src.dir}/${test.dir}"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***          Copy required assemblies from the lib dir        *** -->
+<!-- ***************************************************************** -->
+
+  <target name="copy-lib-files">
+
+    <property name="current.lib.dir" value="${lib.dir}"
+      unless="${property::exists('alt.lib.dir')}"/>
+
+    <property name="current.lib.dir" value="${alt.lib.dir}"
+      if="${property::exists('alt.lib.dir')}"/>
+
+    <copy todir="${current.build.dir}">
+      <fileset basedir="${current.lib.dir}">
+        <include name="*.dll"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***        Copy assemblies from the NUnit installation        *** -->
+<!-- ***************************************************************** -->
+
+  <target name="copy-nunit-files">
+
+    <copy todir="${current.build.dir}" flatten="true">
+      <fileset basedir="${nunit.bin.dir}">
+        <include name="nunit.core.dll"/>
+        <include name="nunit.core.interfaces.dll"/>
+        <include name="nunit.framework.dll"/>
+        <include name="lib/nunit.framework.dll"/>
+        <include name="nunit.mocks.dll"/>
+        <include name="lib/nunit.mocks.dll"/>
+        <include name="log4net.dll"/>
+      </fileset>
+    </copy>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***      Dump selected property settings for debugging        *** -->
+<!-- ***************************************************************** -->
+
+  <target name="dump-settings" depends="build-init"
+    description="Dump property settings (used for debugging)">
+  
+    <echo message="Output assemblies"/>
+    <echo message="  addin          ${addin.dll}"/>
+    <echo message="  framework      ${framework.dll}"/>
+    <echo message="  tests          ${test.dll}"/>
+    <echo message="  fixture        ${fixture.dll}"/>
+    <echo message="  sample         ${sample.dll}"/>
+
+    <echo message="Source dir:      ${src.dir}"/>
+    <echo message="  addin          ${addin.src.dir}"/>
+    <echo message="  framework      ${framework.src.dir}"/>
+    <echo message="  tests          ${test.src.dir}"/>
+    <echo message="  fixture        ${fixture.src.dir}"/>
+    <echo message="  sample         ${sample.src.dir}"/>
+    <echo message="Lib dir:         ${lib.dir}"/>
+    
+    <if test="${property::exists('alt.lib.dir')}">
+    <echo message="  alt.lib        ${alt.lib.dir}"/>
+    </if>
+
+    <echo message="Build dir:       ${build.dir}"/>
+    <echo message="  current        ${current.build.dir}"/>
+    <echo message="Package dir:     ${package.dir}"/>
+    <echo message="  work           ${work.dir}"/>
+
+    <echo message="Build defines:   ${current.build.defines}"/>
+
+  </target>
+
+</project>
