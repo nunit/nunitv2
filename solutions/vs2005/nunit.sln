@@ -77,6 +77,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit-launcher", "PNUnit\l
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit.tests", "PNUnit\tests\pnunit.tests.csproj", "{319B9238-76BE-4335-9B4D-F8E43C4B124F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitExtension.RowTest.AddIn", "..\..\src\NUnitExtensions\RowTest\addin\NUnitExtension.RowTest.AddIn.csproj", "{C3A3F38A-655D-4E47-926B-D43C65A91AB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -223,6 +225,10 @@ Global
 		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3A3F38A-655D-4E47-926B-D43C65A91AB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A3F38A-655D-4E47-926B-D43C65A91AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3A3F38A-655D-4E47-926B-D43C65A91AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3A3F38A-655D-4E47-926B-D43C65A91AB6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
