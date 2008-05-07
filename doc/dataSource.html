@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - DataSource</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <a href="http://www.nunit.org">NUnit</a>
+    <a class="active" href="index.html">Documentation</a>
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<script language="JavaScript" src="codeFuncs.js" ></script> <!-- Do it this way for IE -->
+
+<h3>DataSourceAttribute (NUnit 2.5)</h3>
+
+<div style="text-align: center; margin: 2em 10%; padding: 4px 0; border: 2px solid black">
+  <h4>Preliminary documentation, subject to change.</h4>
+</div>
+
+<p><b>DataSourceAttribute</b> marks a method with arguments as a test method
+and indicates where the required parameters may be found. The attribute takes
+a single argument, which may be either a string or a Type.
+
+<p>If a string is used, it represents the name of a static property in the
+same class as the method. The property must return an object that 
+implements <b>IEnumerable</b>.
+
+<p>If a Type is provided, it is examined to find a static property returning
+<b>IEnumerable</b>. The first such property found is used as the source of data.
+
+<p>NUnit uses each item returned from the enumerator as follows:
+<ol>
+<li><p>If it is an <b>object[]</b>, it is used directly to provide
+the arguments for the method, as in this example, which returns
+arguments from a named static property.
+
+<div class="code">
+<pre>[DataSource("DivideCases")]
+public void DivideTest(int n, int d, int q)
+{
+  Assert.AreEqual( q, n / d );
+}
+
+public static IEnumerable DivideCases
+{
+  get
+  {
+    yield new object[] { 12, 3, 4 };
+    yield new object[] { 12, 2, 6 };
+    yield new object[] { 12, 4, 3 };
+  }  
+}
+</div>
+
+<li><p>If it is a single object, that object is examined using reflection
+and any public fields or properties with the following names are used:
+  <p><dl>
+  <dt><b>Arguments</b>
+  <dd>An <b>object[]</b> representing the arguments to the method
+  <dt><b>Description</b>
+  <dd>Sets the description property of the test
+  <dt><b>ExpectedException</b>
+  <dd>Specifies a the Type of an exception that should be thrown by this invocation
+  <dt><b>ExpectedExceptionName</b>
+  <dd>Specifies a the FullName of an exception that should be thrown by this invocation
+  <dt><b>Result</b>
+  <dd>The expected result to be returned from the method, which must have
+      a compatible return type.
+  <dt><b>TestName</b>
+  <dd>Provides a name for the test. If not specified, a name is generated based on 
+      the method name and the arguments provided
+  </dl>
+<p>
+<p>Although any object with the required fields or properties may be used,
+   NUnit provides the <b>TestCaseData</b> class for this purpose. The following 
+   example returns <b>TestCaseData</b> instances from a data source in
+   a separately defined class.
+
+<div class="code">
+<pre>[TestFixture]
+public class MyTests
+{
+  [DataSource(typeof(MyDataSource)]
+  public void DivideTest(int n, int d, int q)
+  {
+    Assert.AreEqual( q, n / d );
+  }
+	
+  ...
+}
+
+public class MyDataSource
+{
+  public static IEnumerable TestCases
+  {
+    get
+    {
+      yield return new TestCaseData( 12, 3 ).Returns( 4 );
+      yield return new TestCaseData( 12, 2 ).Returns( 6 );
+      yield return new TestCaseData( 12, 4 ).Returns( 3 );
+      yield return new TestCaseData( 0, 0 )
+        .Throws(typeof(DivideByZeroException))
+        .With.TestName("DivideByZero")
+        .With.Description("An exception is expected");
+    }
+  }  
+}
+</div>
+
+<p>This example uses the fluent interface supported by <b>TestCaseData</b>
+to make the program more readable. The last yield statement above  is equivalent to
+
+<div class="code">
+<pre>      TestCaseData data = new TestCaseData(0,0);
+      data.ExpectedException = typeof(DivideByZeroException;
+      data.TestName = "DivideByZero";
+      data.Description = "An exception is expected";
+      yield return data;
+</pre>
+</div> 
+
+<p><b>TestCaseData</b> supports the following properties
+and methods, which may be appended to an instance in any order.
+
+<p>
+<dl>
+  <dt><b>.Returns</b>
+  <dd>The expected result to be returned from the method, which must have
+      a compatible return type.
+  <dt><b>.Throws(Type)</b>
+  <dt><b>.Throws(string)</b>
+  <dd>Specifies a the Type or FullName of an exception that should be thrown by this invocation
+  <dt><b>.With.Description(string)</b>
+  <dd>Sets the description property of the test
+  <dt><b>.With.TestName(string)</b>
+  <dd>Provides a name for the test. If not specified, a name is generated based on 
+      the method name and the arguments provided
+</dl>
+   
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="index.html">NUnit 2.5</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<ul>
+<li><a href="category.html">Category</a></li>
+<li><a href="culture.html">Culture</a></li>
+<li id="current"><a href="dataSource.html">Data&nbsp;Source</a></li>
+<li><a href="description.html">Description</a></li>
+<li><a href="exception.html">Expected&nbsp;Exception</a></li>
+<li><a href="explicit.html">Explicit</a></li>
+<li><a href="ignore.html">Ignore</a></li>
+<li><a href="platform.html">Platform</a></li>
+<li><a href="property.html">Property</a></li>
+<li><a href="setCulture.html">SetCulture</a></li>
+<li><a href="setup.html">Setup</a></li>
+<li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
+<li><a href="suite.html">Suite</a></li>
+<li><a href="teardown.html">Teardown</a></li>
+<li><a href="test.html">Test</a></li>
+<li><a href="testCase.html">Test&nbsp;Case</a></li>
+<li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
+<li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
+<li><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
+</ul>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
+<li><a href="features.html">Other&nbsp;Features</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<div id="footer">
+  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+
+</body>
+</html>

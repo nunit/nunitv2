@@ -33,10 +33,13 @@
         <File Id="culture.html" Name="CULTURE.HTM" LongName="culture.html" />
         <File Id="customAsserts.html" Name="CUSTOM_1.HTM" LongName="customAsserts.html" />
         <File Id="customConstraints.html" Name="CUSTOM_2.HTM" LongName="customConstraints.html" />
+        <File Id="dataSource.html" Name="DATASRC.HTM" LongName="dataSource.html" />
         <File Id="description.html" Name="DESCRIP.HTM" LongName="description.html" />
+        <File Id="directoryAssert.html" Name="DIRASSRT.HTM" LongName="directoryAssert.html" />
         <File Id="equalConstraint.html" Name="EQUALCON.HTM" LongName="equalConstraint.html" />
         <File Id="equalityAsserts.html" Name="EQUALI_1.HTM" LongName="equalityAsserts.html" />
         <File Id="exception.html" Name="EXCEPT_1.HTM" LongName="exception.html" />
+        <File Id="exceptionAsserts.html" Name="EXCEPT_2.HTM" LongName="exceptionAsserts.html" />
         <File Id="explicit.html" Name="EXPLIC_1.HTM" LongName="explicit.html" />
         <File Id="extensibility.html" Name="EXTENSBL.HTM" LongName="extensibility.html" />
         <File Id="features.html" Name="FEATUR_1.HTM" LongName="features.html" />
@@ -59,6 +62,7 @@
         <File Id="nunit_gui.html" Name="NUNIT-_2.HTM" LongName="nunit-gui.html" />
         <File Id="nunitAddins.html" Name="ADDINS.HTM" LongName="nunitAddins.html" />
         <File Id="optionsDialog.html" Name="OPTION_1.HTM" LongName="optionsDialog.html" />
+        <File Id="pathConstraints.html" Name="PATHCNST.HTM" LongName="pathConstraints.html" />
         <File Id="platform.html" Name="PLATFO_1.HTM" LongName="platform.html" />
         <File Id="platformSupport.html" Name="PLATFO_2.HTM" LongName="platformSupport.html" />
         <File Id="projectEditor.html" Name="PROJEC_1.HTM" LongName="projectEditor.html" />
@@ -76,8 +80,10 @@
         <File Id="suite.html" Name="SUITE_1.HTM" LongName="suite.html" />
         <File Id="teardown.html" Name="TEARDO_1.HTM" LongName="teardown.html" />
         <File Id="test.html" Name="TEST.HTM" LongName="test.html" />
+        <File Id="testCase.html" Name="TESTCASE.HTM" LongName="testCase.html" />
         <File Id="testFixture.html" Name="TESTFI_1.HTM" LongName="testFixture.html" />
         <File Id="testProperties.html" Name="TESTPR_1.HTM" LongName="testProperties.html" />
+        <File Id="throwsConstraint.html" Name="THRWSCON.HTM" LongName="throwsConstraint.html" />
         <File Id="typeAsserts.html" Name="TYPEAS_1.HTM" LongName="typeAsserts.html" />
         <File Id="typeConstraints.html" Name="TYPECON.HTM" LongName="typeConstraints.html" />
         <File Id="upgrade.html" Name="UPGRAD_1.HTM" LongName="upgrade.html" />

@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - AssertThrows</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <a href="http://www.nunit.org">NUnit</a>
+    <a class="active" href="index.html">Documentation</a>
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>Assert.Throws Method (NUnit 2.5)</h2>
+
+<div style="text-align: center; margin: 2em 10%; padding: 4px 0; border: 2px solid black">
+  <h4>Preliminary documentation, subject to change.</h4>
+</div>
+
+<p>The Assert.Throws method is pretty much in a class by itself. Rather than
+   comparing values, it attempts to invoke a code snippet, represented as
+   a delegate, in order to verify that it throws a particular exception.
+   
+<p>Assert.Throws provides both a non-generic and (in the .NET 2.0 version)
+   a generic syntax.
+
+<div class="code"><pre>
+
+Assert.Throws( Type expectedExceptionType, TestSnippet code );
+Assert.Throws( Type expectedExceptionType, TestSnippet code, 
+		string message );
+Assert.Throws( Type expectedExceptionType, TestSnippet code, 
+		string message, params object[] parms);
+
+Assert.Throws&lt;T&gt;( TestSnippet code );
+Assert.Throws&lt;T&gt;( TestSnippet code, string message );
+Assert.Throws&lt;T&gt;( TestSnippet code, string message, 
+		params object[] parms);
+		
+</pre></div>
+
+<p>In the above code <b>TestSnippet</b> is a delegate of the form
+<b>void TestSnippet()</b>, which is used to execute the code
+in question. Under .NET 2.0, this may be an anonymous delegate.
+
+<p>The following example shows four equivalent ways of writing the
+same test. All of them except the first require .NET 2.0.
+
+<div class="code"><pre>
+[TestFixture]
+public class AssertThrowsTests
+{
+  [Test]
+  public void Tests()
+  {
+    Assert.Throws( typeof(ArgumentException),
+      new TestSnippet(MethodThatThrows) );
+	  
+    Assert.Throws&lt;ArgumentException&gt;(
+      new TestSnippet(MethodThatThrows) );
+	  
+    Assert.Throws( typeof(ArgumentException),
+      delegate { throw new ArgumentException() } );
+	  
+    Assert.Throws&lt;ArgumentException&gt;(
+      delegate { throw new ArgumentException() } );
+  }
+  
+  void MethodThatThrows()
+  {
+    throw new ArgumentException();
+  }
+
+</pre></div>
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="index.html">NUnit 2.5</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="assertions.html">Assertions</a></li>
+<ul>
+<li><a href="classicModel.html">Classic&nbsp;Model</a></li>
+<ul>
+<li><a href="equalityAsserts.html">Equality&nbsp;Asserts</a></li>
+<li><a href="identityAsserts.html">Identity&nbsp;Asserts</a></li>
+<li><a href="conditionAsserts.html">Condition&nbsp;Tests</a></li>
+<li><a href="comparisonAsserts.html">Comparison&nbsp;Asserts</a></li>
+<li><a href="typeAsserts.html">Type&nbsp;Asserts</a></li>
+<li id="current"><a href="assertThrows.html">Assert.Throws</a></li>
+<li><a href="utilityAsserts.html">Utility&nbsp;Methods</a></li>
+<li><a href="stringAssert.html">String&nbsp;Assert</a></li>
+<li><a href="collectionAssert.html">Collection&nbsp;Assert</a></li>
+<li><a href="fileAssert.html">File&nbsp;Assert</a></li>
+<li><a href="directoryAssert.html">Directory&nbsp;Assert</a></li>
+</ul>
+<li><a href="constraintModel.html">Constraint&nbsp;Model</a></li>
+</ul>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
+<li><a href="features.html">Other&nbsp;Features</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<div id="footer">
+  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+
+</body>
+</html>
