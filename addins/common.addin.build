@@ -347,9 +347,12 @@
   </target>
 
   <target name="lib-install" depends="build" 
-    description="Install the framework assembly to the nunit lib dir">
+    description="Install the framework assembly to the nunit lib dir"
+    if="${directory::exists(framework.dir)}">
+
     <copy file="${current.build.dir}/${framework.dll}"
       todir="${nunit.bin.dir}/lib"/>
+
   </target>
 
   <target name="bundled-install" depends="install,lib-install"
