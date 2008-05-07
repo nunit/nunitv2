@@ -192,8 +192,9 @@
 
   <target name="build-addins" depends="build">
 
-    <nant buildfile="${project.addins.dir}/RowTest/RowTestExtension.build"
-      target="${build.config} ${runtime.config} bundled-install">
+    <nant target="${build.config} ${runtime.config} clean build bundled-install">
+
+      <buildfiles refid="addin.buildfiles"/>
 
       <properties>
         <property name="nunit.version" value="${package.version}"/>
@@ -910,13 +911,13 @@
 <!-- ****** Patternsets and Filesets Used by Various Targets  ******** -->
 <!-- ***************************************************************** -->
 
-  <patternset id="framework.build.scripts">
+  <fileset id="project.buildfiles" basedir="${project.src.dir}">
+
+    <!-- NUnit Framework -->
     <include name="NUnitFramework/framework/nunit.framework.build" />
     <include name="NUnitExtensions/framework/nunit.framework.extensions.build" />
     <include name="NUnitMocks/mocks/nunit.mocks.build" />
-  </patternset>
 
-  <patternset id="non.framework.build.scripts">
     <!-- NUnit Base -->
     <include name="NUnitFramework/framework/nunit.framework.build" />
     <include name="NUnitCore/interfaces/nunit.core.interfaces.build" />
@@ -972,19 +973,15 @@
     <!-- FIT Tests -->
     <include name="NUnitFixtures/fixtures/nunit.fixtures.build" />
     <include name="NUnitFixtures/tests/nunit.fixtures.tests.build" />
-  </patternset>
 
-  <fileset id="framework.buildfiles" basedir="${project.src.dir}">
-    <patternset refid="framework.build.scripts"/>
   </fileset>
 
-  <fileset id="non.framework.buildfiles" basedir="${project.src.dir}">
-    <patternset refid="non.framework.build.scripts"/>
-  </fileset>
+  <!-- Buildfiles for bundled addins -->
+  <fileset id="addin.buildfiles" basedir="${project.addins.dir}">
 
-  <fileset id="project.buildfiles" basedir="${project.src.dir}">
-    <patternset refid="framework.build.scripts"/>
-    <patternset refid="non.framework.build.scripts"/>
+    <include name="RowTest/RowTestExtension.build"/>
+    <include name="CSUnitAddin/CSUnitAddin.build"/>
+
   </fileset>
 
   <!-- BuildFiles for Samples -->
