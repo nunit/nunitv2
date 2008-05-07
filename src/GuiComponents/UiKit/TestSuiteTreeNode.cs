@@ -132,20 +132,12 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Clear the result field of this node
-		/// </summary>
-		public void ClearResult()
-		{
-			this.result = null;
-			ImageIndex = SelectedImageIndex = InitIndex;
-		}
-
-		/// <summary>
 		/// Clear the result of this node and all its children
 		/// </summary>
 		public void ClearResults()
 		{
-			ClearResult();
+			this.result = null;
+			ImageIndex = SelectedImageIndex = InitIndex;
 
 			foreach(TestSuiteTreeNode node in Nodes)
 				node.ClearResults();

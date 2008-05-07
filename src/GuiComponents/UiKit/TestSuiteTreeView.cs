@@ -362,7 +362,7 @@ namespace NUnit.UiKit
 			{
 				Invoke( new LoadHandler( Reload ), new object[]{ test } );
 				if ( clearResultsOnChange )
-					ClearResults();
+					ClearAllResults();
 			}
 		}
 
@@ -389,7 +389,13 @@ namespace NUnit.UiKit
 		private void OnRunStarting( object sender, TestEventArgs e )
 		{
 			CheckPropertiesDialog();
-			ClearResults();
+#if ACCUMULATE_RESULTS
+			if ( runningTests != null )
+				foreach( ITest test in runningTests )
+					this[test].ClearResults();
+#else
+			ClearAllResults();
+#endif
 			runCommandEnabled = false;
 		}
 
@@ -415,7 +421,6 @@ namespace NUnit.UiKit
 		#region Context Menu
 		/// <summary>
 		/// Handles right mouse button down by
-		/// 
 		/// remembering the proper context item
 		/// and implements multiple select with the left button.
 		/// </summary>
@@ -428,19 +433,19 @@ namespace NUnit.UiKit
 				TreeNode theNode = GetNodeAt( e.X, e.Y );
 				contextNode = theNode as TestSuiteTreeNode;
 			}
-			//			else if (e.Button == MouseButtons.Left )
-			//			{
-			//				if ( Control.ModifierKeys == Keys.Control )
-			//				{
-			//					TestSuiteTreeNode theNode = GetNodeAt( e.X, e.Y ) as TestSuiteTreeNode;
-			//					if ( theNode != null )
-			//						theNode.Selected = true;
-			//				}
-			//				else
-			//				{
-			//					ClearSelected();
-			//				}
-			//			}
+//			else if (e.Button == MouseButtons.Left )
+//			{
+//				if ( Control.ModifierKeys == Keys.Control )
+//				{
+//					TestSuiteTreeNode theNode = GetNodeAt( e.X, e.Y ) as TestSuiteTreeNode;
+//					if ( theNode != null )
+//						theNode.IsSelected = true;
+//				}
+//				else
+//				{
+//					ClearSelected();
+//				}
+//			}
 
 			base.OnMouseDown( e );
 		}
@@ -737,7 +742,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// Clear all the results in the tree.
 		/// </summary>
-		public void ClearResults()
+		public void ClearAllResults()
 		{
 			foreach ( TestSuiteTreeNode rootNode in Nodes )
 				rootNode.ClearResults();

@@ -145,14 +145,14 @@ namespace NUnit.UiKit.Tests
 			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.SelectedImageIndex );
 
-			node.ClearResult();
+			node.ClearResults();
 			Assert.AreEqual( null, node.Result );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.ImageIndex );
 			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
 		}
 		
 		[Test]
-		public void ClearResults()
+		public void ClearNestedResults()
 		{
 			TestResult testCaseResult = new TestResult( testCaseInfo );
 			testCaseResult.Success();

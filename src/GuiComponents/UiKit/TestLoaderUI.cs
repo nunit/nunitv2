@@ -88,6 +88,23 @@ namespace NUnit.UiKit
 			OpenProject( owner, testFileName, null, null );
 		}
 
+//		public static void OpenResults( Form owner )
+//		{
+//			TestLoader loader = Services.TestLoader;
+//			
+//			OpenFileDialog dlg = new OpenFileDialog();
+//			System.ComponentModel.ISite site = owner == null ? null : owner.Site;
+//			if ( site != null ) dlg.Site = site;
+//			dlg.Title = "Open Test Results";
+//
+//			dlg.Filter = "XML Files (*.xml)|*.xml|All Files (*.*)|*.*";
+//			dlg.FilterIndex = 1;
+//			dlg.FileName = "";
+//
+//			if ( dlg.ShowDialog( owner ) == DialogResult.OK ) 
+//				OpenProject( owner, dlg.FileName );
+//		}
+
 		public static void AddToProject( Form owner )
 		{
 			AddToProject( owner, null );
