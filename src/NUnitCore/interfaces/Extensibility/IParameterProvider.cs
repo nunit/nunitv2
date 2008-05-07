@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Reflection;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Core.Extensibility
 {
