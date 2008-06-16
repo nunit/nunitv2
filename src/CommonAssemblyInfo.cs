@@ -32,4 +32,4 @@ using System.Reflection;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("2.5")]
-[assembly: AssemblyInformationalVersion( "2.5 Alpha 2" )]
+[assembly: AssemblyInformationalVersion( "2.5 Alpha 3" )]

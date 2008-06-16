@@ -62,7 +62,7 @@
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
-      value="${project.name}-${package.version}-Alpha-2"/>
+      value="${project.name}-${package.version}-Alpha-3"/>
 
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
