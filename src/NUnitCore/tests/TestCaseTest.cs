@@ -37,8 +37,8 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(MockTestFixture);
 			Test testCase = TestBuilder.MakeTestCase( fixtureType, "MockTest4" );
 			Assert.AreEqual(1, testCase.TestCount);
-			
-			TestResult result = testCase.Run(NullListener.NULL);
+
+            TestResult result = testCase.Run(NullListener.NULL, TestFilter.Empty);
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 			Assert.AreEqual(0, summarizer.TestsRun);
 			Assert.AreEqual(1, summarizer.TestsNotRun);

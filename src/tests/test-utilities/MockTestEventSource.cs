@@ -30,7 +30,7 @@ namespace NUnit.TestUtilities
 			FireRunStarting( suite.TestName.FullName, suite.TestCount );
 
 			//TestResult result = SimulateTest( suite, RunState.Runnable );
-			TestResult result = suite.Run( this );
+            TestResult result = suite.Run(this, TestFilter.Empty);
 
 			FireRunFinished( result );
 		}

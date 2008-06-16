@@ -24,29 +24,11 @@ namespace NUnit.Core
 
 		public TestCase( TestName testName ) : base ( testName ) { }
 
-		public override int CountTestCases( ITestFilter filter ) 
-		{
-			if (filter.Pass(this))
-				return 1;
-
-			return 0;
-		}
-
-		protected virtual TestResult MakeTestCaseResult()
-		{
-			return new TestResult( new TestInfo(this) );
-		}
-
-		public override TestResult Run(EventListener listener, ITestFilter filter)
-		{
-			return Run( listener ); // Ignore filter for now
-		}
-
-		public override TestResult Run( EventListener listener )
+		public override TestResult Run( EventListener listener, ITestFilter filter )
 		{
 			using( new TestContext() )
 			{
-				TestResult testResult = MakeTestCaseResult();
+				TestResult testResult = new TestResult(this);
 
 				listener.TestStarted( this.TestName );
 				long startTime = DateTime.Now.Ticks;
@@ -76,21 +58,6 @@ namespace NUnit.Core
 				listener.TestFinished(testResult);
 				return testResult;
 			}
-		}
-
-		public override string TestType
-		{
-			get { return "Test Case"; }
-		}
-
-		public override bool IsSuite
-		{
-			get { return false; }
-		}
-
-		public override IList Tests
-		{
-			get { return null; }
 		}
 
 		public abstract void Run(TestResult result);

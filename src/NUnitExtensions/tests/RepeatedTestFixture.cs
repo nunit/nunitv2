@@ -34,7 +34,7 @@ namespace NUnit.Core.Extensions
 			Test suite = TestFixtureBuilder.BuildFrom( fixture );
 			Assert.AreEqual( 1, suite.Tests.Count, "Test case count" );
 			Assert.AreEqual( "NUnit.Core.Extensions.RepeatedTestCase", suite.Tests[0].GetType().FullName );
-			return suite.Run( NullListener.NULL );
+            return suite.Run(NullListener.NULL, TestFilter.Empty);
 		}
 
 		[Test]

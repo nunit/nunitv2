@@ -25,7 +25,7 @@ namespace NUnit.Util.Tests
 		public void CreateResult()
 		{
 			Test testFixture = TestFixtureBuilder.BuildFrom( typeof( MockTestFixture ) );
-			result = testFixture.Run( NullListener.NULL );
+            result = testFixture.Run(NullListener.NULL, TestFilter.Empty);
 		}
 
 		[Test]

@@ -48,17 +48,17 @@ namespace NUnit.TestUtilities
 
 		public static TestResult RunTestFixture( Type type )
 		{
-			return MakeFixture( type ).Run( NullListener.NULL );
+            return MakeFixture(type).Run(NullListener.NULL, TestFilter.Empty);
 		}
 
 		public static TestResult RunTestFixture( object fixture )
 		{
-			return MakeFixture( fixture ).Run( NullListener.NULL );
+            return MakeFixture(fixture).Run(NullListener.NULL, TestFilter.Empty);
 		}
 
 		public static TestResult RunTestCase( Type type, string methodName )
 		{
-			return MakeTestCase( type, methodName ).Run( NullListener.NULL );
+            return MakeTestCase(type, methodName).Run(NullListener.NULL, TestFilter.Empty);
 		}
 
 		private TestBuilder() { }

@@ -27,7 +27,7 @@ namespace NUnit.Core.Extensions.Tests
         public void MaxTimeExceeded()
         {
             Test test = TestFixtureBuilder.BuildFrom(typeof (MaxTimeFixture));
-            TestResult result = test.Run(NullListener.NULL);
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
             Assert.AreEqual(ResultState.Failure, result.ResultState);
             result = (TestResult)result.Results[0];
             StringAssert.IsMatch(@"Elapsed time of \d*ms exceeds maximum of 1ms", result.Message);

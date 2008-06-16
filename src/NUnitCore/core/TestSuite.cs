@@ -118,11 +118,6 @@ namespace NUnit.Core
 		#endregion
 
 		#region Test Overrides
-		public override string TestType
-		{
-			get	{ return "Test Suite"; }
-		}
-
 		public override int CountTestCases(ITestFilter filter)
 		{
 			int count = 0;
@@ -137,16 +132,16 @@ namespace NUnit.Core
 			return count;
 		}
 
-		public override TestResult Run(EventListener listener)
-		{
-			return Run( listener, TestFilter.Empty );
-		}
+        //public override TestResult Run(EventListener listener)
+        //{
+        //    return Run( listener, TestFilter.Empty );
+        //}
 
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
 			using( new TestContext() )
 			{
-				TestResult suiteResult = new TestResult( new TestInfo(this) );
+				TestResult suiteResult = new TestResult( this );
 
 				listener.SuiteStarted( this.TestName );
 				long startTime = DateTime.Now.Ticks;

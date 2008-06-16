@@ -79,7 +79,7 @@ namespace NUnit.Core.Tests
 			Test testSuite = builder.Build( new TestPackage( testsDll ) );
 			
 			EventCounter counter = new EventCounter();
-			testSuite.Run(counter);
+            testSuite.Run(counter, TestFilter.Empty);
 			Assert.AreEqual(testSuite.CountTestCases(TestFilter.Empty), counter.testCaseStart);
 			Assert.AreEqual(testSuite.CountTestCases(TestFilter.Empty), counter.testCaseFinished);
 

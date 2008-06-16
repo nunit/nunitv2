@@ -101,7 +101,7 @@ namespace NUnit.Core.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( testsDll ) );
 
-			TestResult result = suite.Run(NullListener.NULL);
+            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 
 			new XmlResultWriter(reportFileName).SaveTestResult(result);
 
@@ -115,7 +115,7 @@ namespace NUnit.Core.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( testsDll ) );
 
-			TestResult result = suite.Run(NullListener.NULL);
+            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 	
 			new XmlResultWriter(writer).SaveTestResult(result);
 		}

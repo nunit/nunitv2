@@ -48,15 +48,15 @@ namespace NUnit.UiKit.Tests
 			
 			node = new TestSuiteTreeNode( suiteInfo );
 			Assert.AreEqual( "MyTestSuite", node.Text );
-			Assert.AreEqual( "Test Suite", node.TestType );
+			Assert.AreEqual( "TestSuite", node.TestType );
 
 			node = new TestSuiteTreeNode( fixtureInfo );
 			Assert.AreEqual( "MockTestFixture", node.Text );
-			Assert.AreEqual( "Test Fixture", node.TestType );
+			Assert.AreEqual( "NUnitTestFixture", node.TestType );
 
 			node = new TestSuiteTreeNode( testCaseInfo );
 			Assert.AreEqual( "MockTest1", node.Text );
-			Assert.AreEqual( "Test Case", node.TestType );
+			Assert.AreEqual( "NUnitTestMethod", node.TestType );
 		}
 
         [Test]

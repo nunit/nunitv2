@@ -68,7 +68,7 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void BuildFromResult()
 		{
-			TestResult result = suite.Run( new NullListener() );
+            TestResult result = suite.Run(new NullListener(), TestFilter.Empty);
 			treeView.Load( result );
 			Assert.AreEqual( MockAssembly.Nodes - MockAssembly.Explicit - MockAssembly.ExplicitFixtures, 
 				treeView.GetNodeCount( true ) );

@@ -28,7 +28,7 @@ namespace NUnit.Util.Tests
 			TestSuiteBuilder suiteBuilder = new TestSuiteBuilder();
 			Test suite = suiteBuilder.Build( new TestPackage( testsDll ) );
 
-			TestResult result = suite.Run(NullListener.NULL);
+            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 			StringBuilder builder = new StringBuilder();
 			new XmlResultWriter(new StringWriter(builder)).SaveTestResult(result);
 

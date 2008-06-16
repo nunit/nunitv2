@@ -86,7 +86,7 @@ namespace NUnit.Core.Tests
             setupCount = teardownCount = 0;
 			TestSuite suite = new LegacySuite( typeof( LegacySuiteWithSetUpAndTearDown ) );
             Assert.AreEqual(RunState.Runnable, suite.RunState);
-			suite.Run( NullListener.NULL );
+            suite.Run(NullListener.NULL, TestFilter.Empty);
 			Assert.AreEqual( 1, setupCount );
 			Assert.AreEqual( 1, teardownCount );
 		}

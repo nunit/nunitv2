@@ -20,7 +20,7 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite suite = TestBuilder.MakeFixture( fixture.GetType() );
 			suite.Fixture = fixture;
-			return suite.Run( NullListener.NULL );
+            return suite.Run(NullListener.NULL, TestFilter.Empty);
 		}
 
 		[Test]
@@ -162,7 +162,7 @@ namespace NUnit.Core.Tests
 		public void HandleExceptionInFixtureConstructor()
 		{
 			TestSuite suite = TestBuilder.MakeFixture( typeof( ExceptionInConstructor ) );
-			TestResult result = suite.Run( NullListener.NULL );
+            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 
 			// should have one suite and one fixture
 			ResultSummarizer summ = new ResultSummarizer(result);
@@ -237,16 +237,16 @@ namespace NUnit.Core.Tests
 			suite.Fixture = fixture;
 			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)fixtureSuite.Tests[0];
 			suite.Add( fixtureSuite );
-			
-			fixtureSuite.Run(NullListener.NULL);
+
+            fixtureSuite.Run(NullListener.NULL, TestFilter.Empty);
 			Assert.IsFalse( fixture.setupCalled, "TestFixtureSetUp called running fixture" );
 			Assert.IsFalse( fixture.teardownCalled, "TestFixtureTearDown called running fixture" );
 
-			suite.Run(NullListener.NULL);
+            suite.Run(NullListener.NULL, TestFilter.Empty);
 			Assert.IsFalse( fixture.setupCalled, "TestFixtureSetUp called running enclosing suite" );
 			Assert.IsFalse( fixture.teardownCalled, "TestFixtureTearDown called running enclosing suite" );
 
-			testCase.Run(NullListener.NULL);
+            testCase.Run(NullListener.NULL, TestFilter.Empty);
 			Assert.IsFalse( fixture.setupCalled, "TestFixtureSetUp called running a test case" );
 			Assert.IsFalse( fixture.teardownCalled, "TestFixtureTearDown called running a test case" );
 		}

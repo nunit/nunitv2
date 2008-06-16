@@ -24,7 +24,7 @@ namespace NUnit.Core.Tests
 		private void RunTestOnFixture( object fixture )
 		{
 			Test suite = TestBuilder.MakeFixture( fixture );
-			suite.Run( NullListener.NULL );
+            suite.Run(NullListener.NULL, TestFilter.Empty);
 		}
 
 		[SetUp] public void LoadFixture()
@@ -49,7 +49,7 @@ namespace NUnit.Core.Tests
 		{
 			Assert.IsNotNull(suite);
 
-			TestResult result = suite.Run(NullListener.NULL);
+            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 			Assert.IsTrue(result.IsSuccess);
 		}
 

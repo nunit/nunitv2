@@ -38,7 +38,7 @@ namespace NUnit.Core.Tests
 		{
 			Type fixtureType = typeof(IgnoredTestCaseFixture);
 			Test test = TestBuilder.MakeTestCase( fixtureType, "CallsIgnore" );
-			TestResult result = test.Run( NullListener.NULL);
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
 			Assert.IsFalse( result.Executed, "TestCase should not run" );
 			Assert.AreEqual( "Ignore me", result.Message );
 		}
@@ -49,7 +49,7 @@ namespace NUnit.Core.Tests
 			//IgnoredTestSuiteFixture testFixture = new IgnoredTestSuiteFixture();
 			TestSuite suite = new TestSuite("IgnoredTestFixture");
 			suite.Add( TestBuilder.MakeFixture( typeof( IgnoredTestSuiteFixture ) ) );
-			TestResult result = suite.Run( NullListener.NULL);
+            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 
 			TestResult fixtureResult = (TestResult)result.Results[0];
 			Assert.IsFalse( fixtureResult.Executed, "Fixture should not have been executed" );
@@ -62,7 +62,7 @@ namespace NUnit.Core.Tests
 		public void IgnoreWorksFromSetUp()
 		{
 			TestSuite testFixture = TestBuilder.MakeFixture( typeof( IgnoreInSetUpFixture ) );
-			TestResult fixtureResult = testFixture.Run( NullListener.NULL);
+            TestResult fixtureResult = testFixture.Run(NullListener.NULL, TestFilter.Empty);
 
 			Assert.IsTrue( fixtureResult.Executed, "Fixture should have been executed" );
 			

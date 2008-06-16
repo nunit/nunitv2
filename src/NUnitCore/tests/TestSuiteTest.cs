@@ -35,7 +35,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunTestsInFixture()
 		{
-			TestResult result = mockTestFixture.Run( NullListener.NULL );
+            TestResult result = mockTestFixture.Run(NullListener.NULL, TestFilter.Empty);
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( MockTestFixture.TestsRun, summarizer.TestsRun, "TestsRun" );
             Assert.AreEqual( MockTestFixture.NotRunnable, summarizer.NotRunnable, "NotRunnable");
@@ -58,7 +58,7 @@ namespace NUnit.Core.Tests
 			Test test = TestFinder.Find( "ExplicitlyRunTest", mockTestFixture );
 			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
 			Assert.AreEqual( RunState.Explicit, test.RunState );
-			TestResult result = test.Run( NullListener.NULL );
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( 1, summarizer.TestsRun );
 		}
@@ -133,8 +133,8 @@ namespace NUnit.Core.Tests
 		public void RunNoTestSuite()
 		{
 			Assert.AreEqual(0, noTestSuite.TestCount);
-			
-			TestResult result = noTestSuite.Run(NullListener.NULL);
+
+            TestResult result = noTestSuite.Run(NullListener.NULL, TestFilter.Empty);
 
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 			Assert.AreEqual(0, summarizer.TestsRun);
@@ -166,7 +166,7 @@ namespace NUnit.Core.Tests
 			testSuite.Add(mockTestFixture);
 			
 			RecordingListener listener = new RecordingListener();
-			testSuite.Run(listener);
+            testSuite.Run(listener, TestFilter.Empty);
 
 			Assert.AreEqual(MockTestFixture.ResultCount, listener.testStarted.Count);
 			Assert.AreEqual(2, listener.suiteStarted.Count);

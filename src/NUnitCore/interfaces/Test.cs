@@ -169,7 +169,11 @@ namespace NUnit.Core
 		/// Gets a string representing the kind of test
 		/// that this object represents, for use in display.
 		/// </summary>
-		public abstract string TestType { get; }
+        public virtual string TestType
+        {
+            get { return this.GetType().Name; }
+        }
+
 
 		/// <summary>
 		/// Whether or not the test should be run
@@ -237,7 +241,11 @@ namespace NUnit.Core
 		/// <summary>
 		/// Indicates whether this test is a suite
 		/// </summary>
-		public abstract bool IsSuite { get; }
+        public virtual bool IsSuite
+        {
+            get { return false; }
+        }
+
 
 		/// <summary>
 		/// Gets the parent test of this test
@@ -260,7 +268,10 @@ namespace NUnit.Core
 		/// <summary>
 		/// Gets this test's child tests
 		/// </summary>
-		public abstract IList Tests { get; }
+		public virtual IList Tests 
+        {
+            get { return null; } 
+        }
 
 		/// <summary>
 		/// Gets the Type of the fixture used in running this test
@@ -287,29 +298,26 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="filter"></param>
 		/// <returns></returns>
-        public abstract int CountTestCases(ITestFilter filter);
-        #endregion
+        public virtual int CountTestCases(ITestFilter filter)
+        {
+            if (filter.Pass(this))
+                return 1;
 
-        #endregion
+            return 0;
+        }
 
-		#region Abstract Run Methods
-		/// <summary>
-		/// Runs the test, sending notifications to a listener.
-		/// </summary>
-		/// <param name="listener">An event listener to receive notifications</param>
-		/// <returns>A TestResult</returns>
-		public abstract TestResult Run(EventListener listener);
-
-		/// <summary>
-		/// Runs the test under a particular filter, sending
-		/// notifications to a listener.
-		/// </summary>
-		/// <param name="listener">An event listener to receive notifications</param>
-		/// <param name="filter">A filter used in running the test</param>
-		/// <returns></returns>
+        /// <summary>
+        /// Runs the test under a particular filter, sending
+        /// notifications to a listener.
+        /// </summary>
+        /// <param name="listener">An event listener to receive notifications</param>
+        /// <param name="filter">A filter used in running the test</param>
+        /// <returns></returns>
         public abstract TestResult Run(EventListener listener, ITestFilter filter);
-		#endregion
-		
+        #endregion
+
+        #endregion
+
 		#region IComparable Members
 		/// <summary>
 		/// Compares this test to another test for sorting purposes

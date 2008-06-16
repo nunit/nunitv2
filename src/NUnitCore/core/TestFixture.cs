@@ -20,13 +20,6 @@ namespace NUnit.Core
 			: base( fixtureType ) { }
 		#endregion
 
-		#region Properties
-		public override string TestType
-		{
-			get	{ return "Test Fixture"; }
-		}
-		#endregion
-
 		#region TestSuite Overrides
         public override TestResult Run(EventListener listener, ITestFilter filter)
         {

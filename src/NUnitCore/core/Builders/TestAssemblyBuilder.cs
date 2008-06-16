@@ -169,20 +169,25 @@ namespace NUnit.Core.Builders
 		{
 			Assembly assembly = null;
 
-            // Throws if this isn't a managed assembly or if it was built
-			// with a later version of the same assembly. 
-			AssemblyName.GetAssemblyName( Path.GetFileName( path ) );
-			
-			// TODO: Figure out why we can't load using the assembly name
-			// in all cases. Might be a problem with the tests themselves.
-            assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
-			
-            if ( assembly != null )
-                CoreExtensions.Host.InstallAdhocExtensions( assembly );
+			// Change currentDirectory in case assembly references unmanaged dlls
+            // and so that any addins are able to access the directory easily.
+            //using( new DirectorySwapper( Path.GetDirectoryName( path ) ) )
+            //{
+                // Throws if this isn't a managed assembly or if it was built
+				// with a later version of the same assembly. 
+				AssemblyName.GetAssemblyName( Path.GetFileName( path ) );
+				
+				// TODO: Figure out why we can't load using the assembly name
+				// in all cases. Might be a problem with the tests themselves.
+                assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
+				
+                if ( assembly != null )
+                    CoreExtensions.Host.InstallAdhocExtensions( assembly );
 
-			NTrace.Info( "Loaded assembly " + assembly.FullName, "'TestAssemblyBuilder'" );
+				NTrace.Info( "Loaded assembly " + assembly.FullName, "'TestAssemblyBuilder'" );
 
-			return assembly;
+				return assembly;
+            //}
 		}
 
 		private IList GetFixtures( Assembly assembly, string ns )
