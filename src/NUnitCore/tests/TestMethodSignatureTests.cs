@@ -22,25 +22,36 @@ namespace NUnit.Core.Tests
             AssertRunnable( name, ResultState.Success );
         }
 
-	    private void AssertRunnable( string name, ResultState resultState )
-		{
-			Test test = TestFinder.RequiredChildTest( name, fixture );
-			Assert.That( test.RunState, Is.EqualTo( RunState.Runnable ) );
-			Assert.That( test.TestCount, Is.EqualTo( 1 ) );
-			TestResult result = test.Run( NullListener.NULL );
-			Assert.That( result.ResultState, Is.EqualTo( resultState ) );
-		}
+        private void AssertRunnable(string name, ResultState resultState)
+        {
+            Test test = TestFinder.RequiredChildTest(name, fixture);
+            Assert.That(test.RunState, Is.EqualTo(RunState.Runnable));
+            Assert.That(test.TestCount, Is.EqualTo(1));
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            if (result.HasResults)
+                result = (TestResult)result.Results[0];
+            Assert.That(result.ResultState, Is.EqualTo(resultState));
+        }
 
-		private void AssertNotRunnable( string name )
-		{
-			Test test = TestFinder.RequiredChildTest( name, fixture );
-			Assert.That( test.RunState, Is.EqualTo( RunState.NotRunnable ) );
-			Assert.That( test.TestCount, Is.EqualTo( 1 ) );
-			TestResult result = test.Run( NullListener.NULL );
-			Assert.That( result.ResultState, Is.EqualTo( ResultState.NotRunnable ) );
-		}
+        private void AssertNotRunnable(string name)
+        {
+            Test test = TestFinder.RequiredChildTest(name, fixture);
+            Assert.That(test.RunState, Is.EqualTo(RunState.NotRunnable));
+            Assert.That(test.TestCount, Is.EqualTo(1));
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.That(result.ResultState, Is.EqualTo(ResultState.NotRunnable));
+        }
 
-		[Test]
+        private void AssertChildNotRunnable(string name)
+        {
+            Test test = (Test)TestFinder.RequiredChildTest(name, fixture).Tests[0];
+            Assert.That(test.RunState, Is.EqualTo(RunState.NotRunnable));
+            Assert.That(test.TestCount, Is.EqualTo(1));
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.That(result.ResultState, Is.EqualTo(ResultState.NotRunnable));
+        }
+
+        [Test]
 		public void InstanceTestMethodIsRunnable()
 		{
 			AssertRunnable( "InstanceTestMethod" );
@@ -55,7 +66,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void TestMethodWithoutParametersWithArgumentsProvidedIsNotRunnable()
 		{
-			AssertNotRunnable("TestMethodWithoutParametersWithArgumentsProvided");
+			AssertChildNotRunnable("TestMethodWithoutParametersWithArgumentsProvided");
 		}
 
         [Test]
@@ -73,7 +84,7 @@ namespace NUnit.Core.Tests
         [Test]
         public void TestMethodWithWrongNumberOfArgumentsProvidedIsNotRunnable()
         {
-            AssertNotRunnable("TestMethodWithWrongNumberOfArgumentsProvided");
+            AssertChildNotRunnable("TestMethodWithWrongNumberOfArgumentsProvided");
         }
 
         [Test]
@@ -97,7 +108,7 @@ namespace NUnit.Core.Tests
         [Test]
         public void StaticTestMethodWithWrongNumberOfArgumentsProvidedIsNotRunnable()
         {
-            AssertNotRunnable("StaticTestMethodWithWrongNumberOfArgumentsProvided");
+            AssertChildNotRunnable("StaticTestMethodWithWrongNumberOfArgumentsProvided");
         }
 
         [Test]
@@ -135,7 +146,7 @@ namespace NUnit.Core.Tests
 		{
 			Test test = TestFinder.FindChildTest( "TestMethodWithMultipleTestCases", fixture );
 			Assert.That( test.RunState, Is.EqualTo( RunState.Runnable ) );
-			TestResult result = test.Run( NullListener.NULL );
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
 			Assert.That( result.ResultState, Is.EqualTo(ResultState.Success) );
             ResultSummarizer summary = new ResultSummarizer(result);
 		    Assert.That(summary.TestsRun, Is.EqualTo(3));
@@ -166,7 +177,7 @@ namespace NUnit.Core.Tests
         [Test]
         public void RunningTestsThroughFixtureGivesCorrectResults()
 		{
-			TestResult result = fixture.Run(NullListener.NULL);
+            TestResult result = fixture.Run(NullListener.NULL, TestFilter.Empty);
 			ResultSummarizer summary = new ResultSummarizer( result );
 
 			Assert.That( 

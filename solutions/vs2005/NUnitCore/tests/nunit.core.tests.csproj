@@ -200,6 +200,9 @@
       <Link>ExpectExceptionTest.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\FactoryTests.cs">
+      <Link>FactoryTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\FailFixture.cs">
       <Link>FailFixture.cs</Link>
       <SubType>Code</SubType>

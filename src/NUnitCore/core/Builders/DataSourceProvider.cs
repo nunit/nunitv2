@@ -7,7 +7,7 @@ namespace NUnit.Core.Builders
 {
     /// <summary>
     /// DataSourceProvider provides data for methods
-    /// annotated with the DataSourceAttribute.
+    /// annotated with the FactoryAttribute.
     /// </summary>
     public class DataSourceProvider : IParameterProvider
     {
@@ -17,11 +17,11 @@ namespace NUnit.Core.Builders
         /// Determine whether any ParameterSets
         /// are available for a method.
         /// </summary>
-        /// <param name="method">A MethodInfo representing the a parameterized test</param>
-        /// <returns>True if any are available, otherwise false.</returns>
+        /// <param name="method">A MethodInfo representing a parameterized test</param>
+        /// <returns>True if any parameters are available, otherwise false.</returns>
         public bool HasParametersFor(MethodInfo method)
         {
-            return Reflect.HasAttribute(method, NUnitFramework.DataSourceAttribute, false);
+            return Reflect.HasAttribute(method, NUnitFramework.FactoryAttribute, false);
         }
 
         /// <summary>
@@ -30,72 +30,115 @@ namespace NUnit.Core.Builders
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public IList GetParametersFor(MethodInfo method)
+        public IEnumerable GetParametersFor(MethodInfo method)
         {
+#if NET_2_0
+            foreach (Attribute attr in Reflect.GetAttributes(method, NUnitFramework.FactoryAttribute, false))
+            {
+                Type factoryType = Reflect.GetPropertyValue(attr, "FactoryType") as Type;
+                string problem;
+
+                IEnumerable factory = GetFactory(method, attr, out problem);
+
+                if (factory == null)
+                    yield return new ParameterSet(RunState.NotRunnable, problem);
+                else
+                    foreach (object o in factory)
+                        yield return o;
+            }
+
+#else
             ArrayList parameterList = new ArrayList();
 
-            foreach (Attribute attr in Reflect.GetAttributes(method, NUnitFramework.DataSourceAttribute, false))
+            foreach (Attribute attr in Reflect.GetAttributes(method, NUnitFramework.FactoryAttribute, false))
             {
                 string problem;
 
-                IEnumerable source = GetDataSource(method, attr, out problem);
+                IEnumerable factory = GetFactory(method, attr, out problem);
 
-                if (source == null)
+                if (factory == null)
                     parameterList.Add(
                         new ParameterSet(RunState.NotRunnable, problem));
                 else
-                    foreach (object o in source)
-                        parameterList.Add(ParameterSet.FromDataSource(o));
+                    foreach (object o in factory)
+                        parameterList.Add(o);
             }
 
             return parameterList;
+#endif
         }
         #endregion
 
         #region Helper Methods
-        private static IEnumerable GetDataSource( MethodInfo method, Attribute attr, out string problem )
+        private static IEnumerable GetFactory( MethodInfo method, Attribute attr, out string problem )
         {
             problem = null;
 
-            Type sourceType = Reflect.GetPropertyValue(attr, "SourceType") as Type;
-            if (sourceType != null)
+            Type factoryType = Reflect.GetPropertyValue(attr, "FactoryType") as Type;
+            if (factoryType == null)
+                factoryType = method.DeclaringType;
+
+            string factoryName = Reflect.GetPropertyValue(attr, "FactoryName") as string;
+            if (factoryName != null && factoryName != string.Empty)
             {
-                BindingFlags flags = BindingFlags.Static | BindingFlags.Public | BindingFlags.GetProperty;
-                foreach (PropertyInfo prop in sourceType.GetProperties(flags))
-                    if (prop.PropertyType == typeof(IEnumerable) )
-                        return prop.GetValue(null, null) as IEnumerable;
+                MemberInfo[] members = factoryType.GetMember(
+                    factoryName,
+                    MemberTypes.Field | MemberTypes.Method | MemberTypes.Property,
+                    BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-                problem = string.Format("Type {0} has no static property returning an IEnumerable", sourceType.Name);
-                return null;
-            }
-
-            string sourceName = Reflect.GetPropertyValue(attr, "SourceName") as string;
-            if (sourceName != null && sourceName != string.Empty)
-            {
-                PropertyInfo sourceProperty = method.DeclaringType.GetProperty(
-                    sourceName,
-                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty);
-                if (sourceProperty == null)
+                if (members.Length == 0)
                 {
-                    problem = string.Format("The property {0} was not found", sourceName);
+                    problem = string.Format("Unable to locate {0}.{1} was not found", factoryType.FullName, factoryName);
                     return null;
                 }
 
-                object sourceObject = sourceProperty.GetValue(null, null);
-                if (sourceObject == null)
+                if (members.Length > 1)
                 {
-                    problem = string.Format("Property {0} returned null", sourceName);
+                    problem = string.Format("{0}.{1} is ambiguous", factoryType.FullName, factoryName);
                     return null;
                 }
 
-                IEnumerable source = sourceObject as IEnumerable;
-                if (source == null)
+                object factoryObject = null;
+                MemberInfo member = members[0];
+                object instance = null;
+
+                switch (member.MemberType)
                 {
-                    problem = string.Format("Property {0} does not implement IEnumerable", sourceName);
+                    case MemberTypes.Property:
+                        PropertyInfo factoryProperty = member as PropertyInfo;
+                        MethodInfo getMethod = factoryProperty.GetGetMethod(true);
+                        if (!getMethod.IsStatic)
+                            instance = Reflect.Construct(factoryType);
+                        factoryObject = factoryProperty.GetValue(instance, null);
+                        break;
+
+                    case MemberTypes.Method:
+                        MethodInfo factoryMethod = member as MethodInfo;
+                        factoryObject = factoryMethod.Invoke(instance, null);
+                        break;
+
+                    case MemberTypes.Field:
+                        FieldInfo factoryField = member as FieldInfo;
+                        if (!factoryField.IsStatic)
+                            instance = Reflect.Construct(factoryType);
+                        factoryObject = factoryField.GetValue(instance);
+                        break;
+                }
+
+                if (factoryObject == null)
+                {
+                    problem = string.Format("Factory {0} returned null", factoryName);
                     return null;
                 }
 
-                return source;
+                IEnumerable factory = factoryObject as IEnumerable;
+                if (factory == null)
+                {
+                    problem = string.Format("Property {0} does not implement IEnumerable", factoryName);
+                    return null;
+                }
+
+                return factory;
             }
 
             problem = "No DataSource provided on attribute";

@@ -75,29 +75,40 @@ namespace NUnit.Core.Builders
 			if ( testName == null || testName == string.Empty )
 				return Build( assemblyName, autoSuites );
 
-			this.assembly = Load( assemblyName );
-			if ( assembly == null ) return null;
+            // Change currentDirectory in case assembly references unmanaged dlls
+            // and so that any addins are able to access the directory easily.
+            using (new DirectorySwapper(Path.GetDirectoryName(assemblyName)))
+            {
+                this.assembly = Load(assemblyName);
+                if (assembly == null) return null;
 
-			// If provided test name is actually the name of
-			// a type, we handle it specially
-			Type testType = assembly.GetType(testName);
-			if( testType != null )
-				return Build( assemblyName, testType, autoSuites );
-		
-			// Assume that testName is a namespace and get all fixtures in it
-			IList fixtures = GetFixtures( assembly, testName );
-			if ( fixtures.Count > 0 ) 
-				return BuildTestAssembly( assemblyName, fixtures, autoSuites );
-			return null;
+                // If provided test name is actually the name of
+                // a type, we handle it specially
+                Type testType = assembly.GetType(testName);
+                if (testType != null)
+                    return Build(assemblyName, testType, autoSuites);
+
+                // Assume that testName is a namespace and get all fixtures in it
+                IList fixtures = GetFixtures(assembly, testName);
+                if (fixtures.Count > 0)
+                    return BuildTestAssembly(assemblyName, fixtures, autoSuites);
+
+                return null;
+            }
 		}
 
 		public TestSuite Build( string assemblyName, bool autoSuites )
 		{
-			this.assembly = Load( assemblyName );
-			if ( this.assembly == null ) return null;
+            // Change currentDirectory in case assembly references unmanaged dlls
+            // and so that any addins are able to access the directory easily.
+            using (new DirectorySwapper(Path.GetDirectoryName(assemblyName)))
+            {
+                this.assembly = Load(assemblyName);
+                if (this.assembly == null) return null;
 
-			IList fixtures = GetFixtures( assembly, null );
-			return BuildTestAssembly( assemblyName, fixtures, autoSuites );
+                IList fixtures = GetFixtures(assembly, null);
+                return BuildTestAssembly(assemblyName, fixtures, autoSuites);
+            }
 		}
 
 		private Test Build( string assemblyName, Type testType, bool autoSuites )
@@ -158,24 +169,20 @@ namespace NUnit.Core.Builders
 		{
 			Assembly assembly = null;
 
-			// Change currentDirectory in case assembly references unmanaged dlls
-			using( new DirectorySwapper( Path.GetDirectoryName( path ) ) )
-			{
-                // Throws if this isn't a managed assembly or if it was built
-				// with a later version of the same assembly. 
-				AssemblyName.GetAssemblyName( Path.GetFileName( path ) );
-				
-				// TODO: Figure out why we can't load using the assembly name
-				// in all cases. Might be a problem with the tests themselves.
-                assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
-				
-                if ( assembly != null )
-                    CoreExtensions.Host.InstallAdhocExtensions( assembly );
+            // Throws if this isn't a managed assembly or if it was built
+			// with a later version of the same assembly. 
+			AssemblyName.GetAssemblyName( Path.GetFileName( path ) );
+			
+			// TODO: Figure out why we can't load using the assembly name
+			// in all cases. Might be a problem with the tests themselves.
+            assembly = Assembly.Load(Path.GetFileNameWithoutExtension(path));
+			
+            if ( assembly != null )
+                CoreExtensions.Host.InstallAdhocExtensions( assembly );
 
-				NTrace.Info( "Loaded assembly " + assembly.FullName, "'TestAssemblyBuilder'" );
+			NTrace.Info( "Loaded assembly " + assembly.FullName, "'TestAssemblyBuilder'" );
 
-				return assembly;
-			}
+			return assembly;
 		}
 
 		private IList GetFixtures( Assembly assembly, string ns )

@@ -31,17 +31,17 @@ namespace NUnit.TestUtilities
 			return suite;
 		}
 
-		public static NUnitTestMethod MakeTestCase( Type type, string methodName )
+		public static Test MakeTestCase( Type type, string methodName )
 		{
-			return (NUnitTestMethod)testBuilder.BuildFrom( Reflect.GetNamedMethod( 
+			return testBuilder.BuildFrom( Reflect.GetNamedMethod( 
 				type,
 				methodName,
 				BindingFlags.Public | BindingFlags.Instance ), null );
 		}
 
-		public static NUnitTestMethod MakeTestCase( object fixture, string methodName )
+		public static Test MakeTestCase( object fixture, string methodName )
 		{
-			NUnitTestMethod test = MakeTestCase( fixture.GetType(), methodName );
+			Test test = MakeTestCase( fixture.GetType(), methodName );
 			test.Fixture = fixture;
 			return test;
 		}

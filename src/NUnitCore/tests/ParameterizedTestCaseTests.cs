@@ -58,103 +58,18 @@ namespace NUnit.Core.Tests
         [Test]
         public void ParameterizedTestCaseMayHaveDescription()
         {
-            Test test = TestBuilder.MakeTestCase(
-                typeof(ParameterizedTestMethodFixture), "MethodHasDescriptionSpecified");
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(ParameterizedTestMethodFixture), "MethodHasDescriptionSpecified").Tests[0];
             Assert.AreEqual("My Description", test.Description);
         }
 
         [Test]
         public void ParameterizedTestCaseMayHaveNameSpecified()
         {
-            Test test = TestBuilder.MakeTestCase(
-                typeof(ParameterizedTestMethodFixture), "MethodHasTestNameSpecified");
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(ParameterizedTestMethodFixture), "MethodHasTestNameSpecified").Tests[0];
             Assert.AreEqual("XYZ", test.TestName.Name);
             Assert.AreEqual("NUnit.TestData.ParameterizedTestMethodFixture.XYZ", test.TestName.FullName);
-        }
-
-        [DataSource("MyData")]
-        public void DataSourcePropertyReturnsArguments(int n, int d, int q)
-        {
-            Assert.AreEqual(q, n / d);
-        }
-
-        [DataSource("Params")]
-        public int DataSourcePropertyReturnsParamSet(int n, int d)
-        {
-            return n/d;
-        }
-
-        [DataSource("MyData")]
-        [DataSource("MoreData")]
-        [TestCase(12,0, 0, ExpectedException = typeof(System.DivideByZeroException))]
-        public void MultipleDataSources(int n, int d, int q)
-        {
-            Assert.AreEqual(q, n / d);
-        }
-
-        [DataSource(typeof(DivideDataProvider))]
-        public void DataSourceTypeHasProperty(int n, int d, int q)
-        {
-            Assert.AreEqual(q, n/d);   
-        }
-
-        public static ICollection MyData
-        {
-            get
-            {          
-                ArrayList list = new ArrayList();
-                list.Add(new object[] { 12, 3, 4 });
-                list.Add(new object[] { 12, 4, 3 });
-                list.Add(new object[] { 12, 6, 2 });
-                return list;
-            }
-        }
-
-        private static IList MoreData
-        {
-            get
-            {
-                return new object[] {new object[] {12, 1, 12}, new object[] {12, 2, 6}};
-            }
-        }
-
-        static IEnumerable Params
-        {
-            get
-            {
-                ArrayList list = new ArrayList();
-                list.Add(new TestCaseData(24, 3).Returns(8));
-                list.Add(new TestCaseData(24, 2).Returns(12));
-                return list;
-            }
-        }
-
-        private class DivideDataProvider
-        {
-            public static IEnumerable HereIsTheData
-            {
-                get
-                {
-#if NET_2_0
-                    yield return new TestCaseData( 0, 0, 0)
-                        .WithName("ThisOneShouldThow")
-                        .WithDescription("Demonstrates use of ExpectedException")
-                        .Throws( typeof (System.DivideByZeroException) );
-                    yield return new object[] { 100, 20, 5 };
-                    yield return new object[] {100, 4, 25};
-#else
-                    ArrayList list = new ArrayList();
-                    list.Add(
-                        new TestCaseData( 0, 0, 0)
-                            .WithName("ThisOneShouldThow")
-                            .WithDescription("Demonstrates use of ExpectedException")
-                            .Throws( typeof (System.DivideByZeroException) ));
-                    list.Add(new object[] { 100, 20, 5 });
-                    list.Add(new object[] {100, 4, 25});
-                    return list;
-#endif
-                }
-            }
         }
     }
 }

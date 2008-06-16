@@ -31,15 +31,23 @@ namespace NUnit.Core.Extensibility
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public IList GetParametersFor(MethodInfo method)
+        public IEnumerable GetParametersFor(MethodInfo method)
         {
+#if NET_2_0
+            foreach (IParameterProvider provider in Extensions)
+                if (provider.HasParametersFor(method))
+                    foreach (object o in provider.GetParametersFor(method))
+                        yield return o;
+#else
             ArrayList paramList = new ArrayList();
 
-            foreach( IParameterProvider provider in Extensions )
-                if ( provider.HasParametersFor(method ) )
-                    paramList.AddRange( provider.GetParametersFor(method) );
+            foreach (IParameterProvider provider in Extensions)
+                if (provider.HasParametersFor(method))
+                    foreach (object o in provider.GetParametersFor(method))
+                        paramList.Add(o);
 
             return paramList;
+#endif
         }
         #endregion
 

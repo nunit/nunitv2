@@ -3,7 +3,6 @@
 // may obtain a copy of the license as well as information regarding
 // copyright ownership at http://nunit.org/?p=license&r=2.4.
 // ****************************************************************
-#define ALLOW_PROVIDERS_ON_ANY_METHOD
 
 using System;
 using System.Text;
@@ -42,12 +41,7 @@ namespace NUnit.Core.Builders
         public bool CanBuildFrom(MethodInfo method, Test suite)
         {
             if( Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) ||
-#if ALLOW_PROVIDERS_ON_ANY_METHOD
-                provider.HasParametersFor( method ) )
-#else
-                Reflect.HasAttribute(method, NUnitFramework.TestCaseAttribute, false) ||
-                Reflect.HasAttribute(method, NUnitFramework.DataSourceAttribute, false))
-#endif
+                Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false))
                     return true;
 
             if (allowOldStyleTests)
@@ -76,50 +70,15 @@ namespace NUnit.Core.Builders
 		public Test BuildFrom(System.Reflection.MethodInfo method, Test suite)
 		{
    
-            // If we need no parameters and none are provided, take a shortcut
-            if ( method.GetParameters().Length == 0 && !provider.HasParametersFor(method))
-                return BuildTestMethod(method);
-
-		    IList parmList = provider.GetParametersFor(method);
-
-            switch( parmList.Count )
-            {
-                case 0:     // Allow for provider returning none when called 
-                    return BuildTestMethod(method);
-
-                case 1:     // If there is only one, don't bother with a suite
-                    ParameterSet parms = parmList[0] as ParameterSet;
-                    return BuildTestMethod(method, parms);
-
-                default:    // Retuern a suite of tests using the parameters
-                    return BuildMultipleTestMethods(method, parmList);
-            }
+            // If no parameters are provided, take a shortcut
+            if ( provider.HasParametersFor(method) )
+                return BuildParameterizedTestMethodSuite(method, provider.GetParametersFor(method));
+            else
+                return BuildSingleTestMethod(method, null, null);
         }
 		#endregion
 
         #region Helper Methods
-        /// <summary>
-        /// Build a standalone non-parameterized NUnitTestMethod
-        /// </summary>
-        /// <param name="method">The MethodInfo for which a test is to be built</param>
-        /// <returns>A single NUnitTestMethod</returns>
-        private static NUnitTestMethod BuildTestMethod(MethodInfo method)
-        {
-            return BuildSingleTestMethod(method, null, null);
-        }
-
-        /// <summary>
-        /// Builds a standalone parameterized NUnitTestMethod for use in
-        /// situations where only one ParameterSet is provided.
-        /// </summary>
-        /// <param name="method">The MethodInfo for which a test is to be built</param>
-        /// <param name="parms">The ParameterSet to be used in building the test</param>
-        /// <returns>A single NUnitTestMethod</returns>
-        private static NUnitTestMethod BuildTestMethod(MethodInfo method, ParameterSet parms)
-        {
-            return BuildSingleTestMethod(method, parms, null);
-        }
-
         /// <summary>
         /// Builds a ParameterizedMethodSuite containing multiple invocations
         /// of the same test method with dif
@@ -127,13 +86,15 @@ namespace NUnit.Core.Builders
         /// <param name="method"></param>
         /// <param name="parmList"></param>
         /// <returns></returns>
-        private static Test BuildMultipleTestMethods(MethodInfo method, IList parmList)
+        private static Test BuildParameterizedTestMethodSuite(MethodInfo method, IEnumerable parmList)
         {
             ParameterizedMethodSuite suite = new ParameterizedMethodSuite(method);
             NUnitFramework.ApplyCommonAttributes(method, suite);
 
-            foreach (ParameterSet parms in parmList)
+            foreach (object o in parmList)
             {
+                ParameterSet parms = o as ParameterSet;
+                if (parms == null) parms = ParameterSet.FromDataSource(o);
                 TestMethod test = BuildSingleTestMethod(method, parms, suite);
 
                 suite.Add(test);

@@ -1,8 +1,5 @@
 using System.Collections;
 using System.Reflection;
-#if NET_2_0
-using System.Collections.Generic;
-#endif
 
 namespace NUnit.Core.Extensibility
 {
@@ -22,11 +19,11 @@ namespace NUnit.Core.Extensibility
         bool HasParametersFor(MethodInfo method);
 
         /// <summary>
-        /// Return a list providing ParameterSets
+        /// Return an enumeration providing ParameterSets
         /// for use in running a test.
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        IList GetParametersFor(MethodInfo method);
+        IEnumerable GetParametersFor(MethodInfo method);
     }
 }

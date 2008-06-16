@@ -5,7 +5,7 @@ using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Builders
 {
-    public class TestCaseParameterProvider : IParameterProvider
+    public class TestCaseParameterProvider : IParameterProvider 
     {
         /// <summary>
         /// Determine whether any ParameterSets
@@ -24,14 +24,9 @@ namespace NUnit.Core.Builders
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public IList GetParametersFor(MethodInfo method)
+        public IEnumerable GetParametersFor(MethodInfo method)
         {
-            Attribute[] testCaseAttrs = Reflect.GetAttributes(method, NUnitFramework.TestCaseAttribute, false);
-            ArrayList testCaseArgs = new ArrayList();
-            foreach (Attribute attr in testCaseAttrs)
-                testCaseArgs.Add( ParameterSet.FromDataSource(attr) );
-
-            return testCaseArgs;
+            return Reflect.GetAttributes(method, NUnitFramework.TestCaseAttribute, false);
         }
     }
 }
