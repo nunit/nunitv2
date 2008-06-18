@@ -155,32 +155,33 @@ namespace NUnit.Core
 
 		#region Run Methods
 		public override void Run(TestResult testResult)
-		{ 
-			try
-			{
-				if ( this.Parent != null)
-					Fixture = this.Parent.Fixture;
+		{
+            try
+            {
+                if (this.Parent != null)
+                    Fixture = this.Parent.Fixture;
 
-                //if ( testResult.IsSuccess )
-                //{
-					// Temporary... to allow for tests that directly execute a test case
-					if (Fixture == null && !method.IsStatic)
-						Fixture = Reflect.Construct(this.FixtureType);
+                // Temporary... to allow for tests that directly execute a test case
+                if (Fixture == null && !method.IsStatic)
+                    Fixture = Reflect.Construct(this.FixtureType);
 
-                    if (this.Properties["_SETCULTURE"] != null)
-                        TestContext.CurrentCulture =
-                            new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
-                    
-                    doRun(testResult);
-                //}
-			}
-			catch (Exception ex)
-			{
-				if (ex is NUnitException)
-					ex = ex.InnerException;
+                if (this.Properties["_SETCULTURE"] != null)
+                    TestContext.CurrentCulture =
+                        new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
-				RecordException(ex, testResult);
-			}
+                doRun(testResult);
+            }
+            catch (Exception ex)
+            {
+                if (ex is NUnitException)
+                    ex = ex.InnerException;
+
+                RecordException(ex, testResult);
+            }
+            finally
+            {
+                Fixture = null;
+            }
 		}
 
 		/// <summary>
