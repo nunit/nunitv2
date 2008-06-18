@@ -68,7 +68,6 @@ namespace NUnit.TestData.RepeatedTestFixture
 	public class RepeatSuccessFixture : RepeatingTestsBase
 	{
 		[Test, Repeat(3)]
-		//[RepeatedTest(3)]
 		public void RepeatSuccess()
 		{
 			count++;
@@ -79,7 +78,6 @@ namespace NUnit.TestData.RepeatedTestFixture
 	public class RepeatFailOnFirstFixture : RepeatingTestsBase
 	{
 		[Test, Repeat(3)]
-		//[RepeatedTest(3)]
 		public void RepeatFailOnFirst()
 		{
 			count++;
@@ -90,7 +88,6 @@ namespace NUnit.TestData.RepeatedTestFixture
 	public class RepeatFailOnThirdFixture : RepeatingTestsBase
 	{
 		[Test, Repeat(3)]
-		//[RepeatedTest(3)]
 		public void RepeatFailOnThird()
 		{
 			count++;
@@ -100,13 +97,22 @@ namespace NUnit.TestData.RepeatedTestFixture
 		}
 	}
 
-	public class RepeatedTestWithIgnore : RepeatingTestsBase
-	{
-		[Test, Repeat(3), Ignore( "Ignore this test" )]
-		//[RepeatedTest(3), Ignore( "Ignore this test" )]
-		public void RepeatShouldIgnore()
-		{
-			Assert.Fail( "Ignored test executed" );
-		}
-	}
+    public class RepeatedTestWithIgnore : RepeatingTestsBase
+    {
+        [Test, Repeat(3), Ignore("Ignore this test")]
+        public void RepeatShouldIgnore()
+        {
+            Assert.Fail("Ignored test executed");
+        }
+    }
+
+    public class RepeatedTestWithCategory : RepeatingTestsBase
+    {
+        [Test, Repeat(3), Category("SAMPLE")]
+        public void TestWithCategory()
+        {
+            count++;
+            Assert.IsTrue(true);
+        }
+    }
 }

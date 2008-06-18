@@ -40,15 +40,15 @@ namespace NUnit.Core.Extensions
 		[Test]
 		public void RepeatedTestIsBuiltCorrectly()
 		{
-			Test suite = TestFixtureBuilder.BuildFrom( typeof( RepeatSuccessFixture ) );
-			Assert.IsNotNull( suite, "Unable to build suite" );
-			Assert.AreEqual( 1, suite.Tests.Count );
-			Assert.AreEqual( "RepeatedTestCase", suite.Tests[0].GetType().Name );
-			TestCase repeatedTestCase = suite.Tests[0] as TestCase;
-			Assert.IsNotNull( repeatedTestCase, "Test case is not a RepeatedTestCase" );
-			Assert.AreSame( suite, repeatedTestCase.Parent );
-			Assert.AreEqual( "NUnit.TestData.RepeatedTestFixture.RepeatSuccessFixture.RepeatSuccess", repeatedTestCase.TestName.FullName );
-		}
+            Test suite = TestFixtureBuilder.BuildFrom(typeof(RepeatSuccessFixture));
+            Assert.IsNotNull(suite, "Unable to build suite");
+            Assert.AreEqual(1, suite.Tests.Count);
+            Assert.AreEqual("RepeatedTestCase", suite.Tests[0].GetType().Name);
+            TestCase repeatedTestCase = suite.Tests[0] as TestCase;
+            Assert.IsNotNull(repeatedTestCase, "Test case is not a RepeatedTestCase");
+            Assert.AreSame(suite, repeatedTestCase.Parent);
+            Assert.AreEqual("NUnit.TestData.RepeatedTestFixture.RepeatSuccessFixture.RepeatSuccess", repeatedTestCase.TestName.FullName);
+        }
 
 		[Test]
 		public void RepeatSuccess()
@@ -101,5 +101,15 @@ namespace NUnit.Core.Extensions
 			Assert.AreEqual( 0, fixture.TeardownCount );
 			Assert.AreEqual( 0, fixture.Count );
 		}
+
+        [Test]
+        public void CategoryWorksWithRepeatedTest()
+        {
+            Test suite = TestFixtureBuilder.BuildFrom(typeof(RepeatedTestWithCategory));
+            Test test = suite.Tests[0] as Test;
+            Assert.IsNotNull(test.Categories);
+            Assert.AreEqual(1, test.Categories.Count);
+            Assert.AreEqual("SAMPLE", test.Categories[0]);
+        }
 	}
 }
