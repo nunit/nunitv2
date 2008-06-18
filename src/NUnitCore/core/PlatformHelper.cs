@@ -178,7 +178,13 @@ namespace NUnit.Core
 				case "WIN2003SERVER":
 					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5 && os.Version.Minor == 2;
 					break;
-				case "UNIX":
+                case "VISTA":
+                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 0;
+                    break;
+                case "WIN2008SERVER":
+                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 0;
+                    break;
+                case "UNIX":
 				case "LINUX":
 					nameOK = os.Platform == UnixPlatformID_Microsoft
                           || os.Platform == UnixPlatformID_Mono;

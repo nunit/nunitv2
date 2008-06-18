@@ -114,7 +114,7 @@ namespace NUnit.Core.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32NT, new Version( 4, 0 ) ),
-				"NT4,Win32NT,Win32,Win" );
+				"NT4,Win32NT,Win32,Win,Win-4.0" );
 		}
 
 		[Test]
@@ -122,7 +122,7 @@ namespace NUnit.Core.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32NT, new Version( 5, 0 ) ),
-				"Win2K,NT5,Win32NT,Win32,Win" );
+				"Win2K,NT5,Win32NT,Win32,Win,Win-5.0" );
 		}
 
 		[Test]
@@ -130,16 +130,24 @@ namespace NUnit.Core.Tests
 		{
 			CheckOSPlatforms( 
 				new OperatingSystem( PlatformID.Win32NT, new Version( 5, 1 ) ),
-				"WinXP,NT5,Win32NT,Win32,Win" );
+				"WinXP,NT5,Win32NT,Win32,Win,Win-5.1" );
 		}
 
 		[Test]
 		public void DetectWin2003Server()
 		{
-			CheckOSPlatforms( 
-				new OperatingSystem( PlatformID.Win32NT, new Version( 5, 2 ) ),
-				"Win2003Server,NT5,Win32NT,Win32,Win" );
-		}
+            CheckOSPlatforms(
+                new OperatingSystem(PlatformID.Win32NT, new Version(5, 2)),
+                "Win2003Server,NT5,Win32NT,Win32,Win,Win-5.2");
+        }
+
+        [Test]
+        public void DetectVista()
+        {
+            CheckOSPlatforms(
+                new OperatingSystem(PlatformID.Win32NT, new Version(6, 0)),
+                "Vista,NT6,Win32NT,Win32,Win,Win-6.0");
+        }
 
         [Test]
         public void DetectUnixUnderMicrosoftDotNet()
