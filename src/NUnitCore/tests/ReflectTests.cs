@@ -90,31 +90,31 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void GetMethodWithAttribute()
 		{
-			Assert.IsNotNull( Reflect.GetMethodWithAttribute( myType, "Colors.BlueAttribute", BF, false ) );
+			Assert.IsNotNull( Reflect.GetMethodWithAttribute( myType, "Colors.BlueAttribute", false ) );
 		}
 
 		[Test]
 		public void CountMethodsWithAttribute()
 		{
-			Assert.AreEqual( 1, Reflect.CountMethodsWithAttribute( myType, "Colors.BlueAttribute", BF, false ) );
+			Assert.AreEqual( 1, Reflect.CountMethodsWithAttribute( myType, "Colors.BlueAttribute", false ) );
 		}
 
 		[Test]
 		public void GetNamedMethod()
 		{
-			Assert.IsNotNull( Reflect.GetNamedMethod( myType, "BlueMethod", BF ) );
+			Assert.IsNotNull( Reflect.GetNamedMethod( myType, "BlueMethod" ) );
 		}
 
 		[Test]
 		public void GetNamedMethodWithArgs()
 		{
-			Assert.IsNotNull( Reflect.GetNamedMethod( myType, "TwoArgs", new string[] { "System.Int32", "System.String" }, BF ) );
+			Assert.IsNotNull( Reflect.GetNamedMethod( myType, "TwoArgs", new string[] { "System.Int32", "System.String" } ) );
 		}
 
 		[Test]
 		public void GetPropertyWithAttribute()
 		{
-			Assert.IsNotNull( Reflect.GetPropertyWithAttribute( myType, "Colors.RedAttribute", BF ) );
+			Assert.IsNotNull( Reflect.GetPropertyWithAttribute( myType, "Colors.RedAttribute" ) );
 		}
 
 		[Test]
@@ -139,7 +139,7 @@ namespace NUnit.Core.Tests
 		public void InvokeMethod()
 		{
 			Colors.MyClass myClass = new Colors.MyClass();
-			MethodInfo method = Reflect.GetNamedMethod( myType, "BlueMethod", BF );
+			MethodInfo method = Reflect.GetNamedMethod( myType, "BlueMethod" );
 			Reflect.InvokeMethod( method, myClass );
 			Assert.IsTrue( myClass.BlueInvoked );
 		}

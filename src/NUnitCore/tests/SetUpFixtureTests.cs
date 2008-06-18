@@ -103,6 +103,17 @@ namespace NUnit.Core.Tests
         }
         #endregion Simple
 
+        #region Static
+        [Test]
+        public void NamespaceSetUpMethodsMayBeStatic()
+        {
+            Assert.IsTrue(runTests("NUnit.TestData.SetupFixture.Namespace5").IsSuccess);
+            TestUtilities.SimpleEventRecorder.Verify("NamespaceSetup",
+                                    "FixtureSetup", "Setup", "Test", "TearDown", "FixtureTearDown",
+                                  "NamespaceTearDown");
+        }
+        #endregion
+
         #region TwoTestFixtures
         [NUnit.Framework.Test]
         public void NamespaceSetUpFixtureWrapsExecutionOfTwoTests()

@@ -29,13 +29,13 @@ namespace NUnit.Core.Tests
             return n / d;
         }
 
-        [TestCase(2, 2, Result = 4.0)]
+        [TestCase(2, 2, Result=4.0)]
         public double ConversionOfIntToDoubleIsOK(double x, double y)
         {
             return x + y;
         }
 
-        [TestCase(2.0, 2.0, ExpectedException = typeof(System.ArgumentException))]
+        [TestCase(2.0, 2.0, ExpectedException=typeof(System.ArgumentException))]
         public int ConversionOfDoubleToIntFails(int x, int y)
         {
             return x + y;

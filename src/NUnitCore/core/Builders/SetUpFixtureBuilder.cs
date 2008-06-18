@@ -13,17 +13,19 @@ namespace NUnit.Core.Builders
 	/// </summary>
 	public class SetUpFixtureBuilder : Extensibility.ISuiteBuilder
 	{	
-		public SetUpFixtureBuilder()
-		{
-			//
-			// TODO: Add constructor logic here	//
-		}
-
 		#region ISuiteBuilder Members
-
 		public Test BuildFrom(Type type)
 		{
-			return new SetUpFixture( type );
+			SetUpFixture fixture = new SetUpFixture( type );
+
+            string reason = null;
+            if (!IsValidFixtureType(type, ref reason))
+            {
+                fixture.RunState = RunState.NotRunnable;
+                fixture.IgnoreReason = reason;
+            }
+
+            return fixture;
 		}
 
 		public bool CanBuildFrom(Type type)
@@ -31,5 +33,31 @@ namespace NUnit.Core.Builders
 			return Reflect.HasAttribute( type, NUnitFramework.SetUpFixtureAttribute, false );
 		}
 		#endregion
+
+        private bool IsValidFixtureType(Type type, ref string reason)
+        {
+            if (!NUnitFramework.IsValidFixtureType(type, ref reason))
+                return false;
+
+            if ( !NUnitFramework.IsSetUpMethodValid(type, ref reason) )
+                return false;
+
+            if ( !NUnitFramework.IsTearDownMethodValid(type, ref reason) )
+                return false;
+
+            if ( NUnitFramework.GetFixtureSetUpMethod(type) != null )
+            {
+                reason = "TestFixtureSetUp method not allowed on a SetUpFixture";
+                return false;
+            }
+
+            if ( NUnitFramework.GetFixtureTearDownMethod(type) != null )
+            {
+                reason = "TestFixtureTearDown method not allowed on a SetUpFixture";
+                return false;
+            }
+
+            return true;
+        }
 	}
 }

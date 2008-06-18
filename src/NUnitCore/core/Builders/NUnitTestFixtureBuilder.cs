@@ -30,8 +30,7 @@ namespace NUnit.Core.Builders
 
         #region ISuiteBuilder Methods
         /// <summary>
-		/// Checks to see if the fixture type has the test fixture
-		/// attribute type specified in the parameters.
+		/// Checks to see if the fixture type has the TestFixtureAttribute
 		/// </summary>
 		/// <param name="type">The fixture type to check</param>
 		/// <returns>True if the fixture can be built, false if not</returns>
@@ -49,14 +48,14 @@ namespace NUnit.Core.Builders
 		{
 			this.suite = new NUnitTestFixture(type);
 
-			string reason = null;
-			if (!IsValidFixtureType(type, ref reason) )
-			{
-				this.suite.RunState = RunState.NotRunnable;
-				this.suite.IgnoreReason = reason;
-			}
+            string reason = null;
+            if (!IsValidFixtureType(type, ref reason))
+            {
+                this.suite.RunState = RunState.NotRunnable;
+                this.suite.IgnoreReason = reason;
+            }
 
-			NUnitFramework.ApplyCommonAttributes( type, suite );
+            NUnitFramework.ApplyCommonAttributes(type, suite);
 
 			AddTestCases(type);
 
@@ -131,63 +130,13 @@ namespace NUnit.Core.Builders
         /// <returns>True if the fixture is valid, false if not</returns>
         private bool IsValidFixtureType(Type fixtureType, ref string reason)
         {
-			if (fixtureType.IsAbstract)
-			{
-				reason = string.Format("{0} is an abstract class", fixtureType.FullName);
-				return false;
-			}
-
-			if (Reflect.GetConstructor(fixtureType) == null)
-			{
-				reason = string.Format( "{0} does not have a valid constructor", fixtureType.FullName );
-				return false;
-			}
-
-            return CheckSetUpTearDownMethod(fixtureType, "SetUp", NUnitFramework.SetUpAttribute, ref reason)
-                && CheckSetUpTearDownMethod(fixtureType, "TearDown", NUnitFramework.TearDownAttribute, ref reason)
-                && CheckSetUpTearDownMethod(fixtureType, "TestFixtureSetUp", NUnitFramework.FixtureSetUpAttribute, ref reason)
-                && CheckSetUpTearDownMethod(fixtureType, "TestFixtureTearDown", NUnitFramework.FixtureTearDownAttribute, ref reason);
-        }
-
-        /// <summary>
-        /// Internal helper to check a single setup or teardown method
-        /// </summary>
-        /// <param name="fixtureType">The type to be checked</param>
-        /// <param name="attributeName">The short name of the attribute to be checked</param>
-        /// <returns>True if the method is present no more than once and has a valid signature</returns>
-        private bool CheckSetUpTearDownMethod(Type fixtureType, string name, string attributeName, ref string reason)
-        {
-            int count = Reflect.CountMethodsWithAttribute(
-                fixtureType, attributeName,
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly,
-                true);
-
-            if (count == 0) return true;
-
-            if (count > 1)
-            {
-                reason = string.Format("More than one {0} method", name);
+            if (!NUnitFramework.IsValidFixtureType(fixtureType, ref reason))
                 return false;
-            }
 
-            MethodInfo theMethod = Reflect.GetMethodWithAttribute(
-                fixtureType, attributeName,
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly,
-                true);
-
-            if (theMethod != null)
-            {
-                if (theMethod.IsAbstract ||
-                    !theMethod.IsPublic && !theMethod.IsFamily ||
-                    theMethod.GetParameters().Length != 0 ||
-                    !theMethod.ReturnType.Equals(typeof(void)))
-                {
-                    reason = string.Format("Invalid {0} method signature", name);
-                    return false;
-                }
-            }
-
-            return true;
+            return NUnitFramework.IsSetUpMethodValid(fixtureType, ref reason)
+                && NUnitFramework.IsTearDownMethodValid(fixtureType, ref reason)
+                && NUnitFramework.IsFixtureSetUpMethodValid(fixtureType, ref reason)
+                && NUnitFramework.IsFixtureTearDownMethodValid(fixtureType, ref reason);
         }
 		#endregion
 	}

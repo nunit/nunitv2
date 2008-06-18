@@ -139,6 +139,9 @@ namespace NUnit.Core.Tests
 			AssertRunnable(typeof(ProtectedSetUp));
 		}
 
+        /// <summary>
+        /// Determines whether this instance [can run static set up].
+        /// </summary>
 		[Test] 
 		public void CanRunStaticSetUp()
 		{

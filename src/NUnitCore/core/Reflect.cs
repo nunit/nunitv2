@@ -27,6 +27,8 @@ namespace NUnit.Core
 	/// </summary>
 	public class Reflect
 	{
+        private static readonly BindingFlags AllMembers = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+
 		#region Attributes 
 
 		/// <summary>
@@ -205,11 +207,10 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="fixtureType">The type to examine</param>
 		/// <param name="attributeName">The FullName of the attribute to look for</param>
-		/// <param name="bindingFlags">BindingFlags to use in looking for method</param>
 		/// <returns>A MethodInfo or null</returns>
-		public static MethodInfo GetMethodWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags, bool inherit )
+		public static MethodInfo GetMethodWithAttribute( Type fixtureType, string attributeName, bool inherit )
 		{
-			foreach(MethodInfo method in fixtureType.GetMethods( bindingFlags ) )
+			foreach(MethodInfo method in fixtureType.GetMethods( AllMembers ) )
 			{
 				if( HasAttribute( method, attributeName, inherit ) ) 
 					return method;
@@ -224,13 +225,12 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="fixtureType">The type to examine</param>
 		/// <param name="attributeName">The FullName of the attribute to look for</param>
-		/// <param name="bindingFlags">BindingFlags to use in looking for method</param>
 		/// <returns>The number of such methods found</returns>
-		public static int CountMethodsWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags, bool inherit )
+		public static int CountMethodsWithAttribute( Type fixtureType, string attributeName, bool inherit )
 		{
 			int count = 0;
 
-			foreach(MethodInfo method in fixtureType.GetMethods( bindingFlags ) )
+			foreach(MethodInfo method in fixtureType.GetMethods( AllMembers | BindingFlags.DeclaredOnly ) )
 			{
 				if( HasAttribute( method, attributeName, inherit ) ) 
 					count++;
@@ -245,11 +245,10 @@ namespace NUnit.Core
         /// </summary>
         /// <param name="fixtureType">The type to examine</param>
         /// <param name="methodName">The name of the method</param>
-        /// <param name="bindingFlags">BindingFlags to use in the search</param>
         /// <returns>A MethodInfo or null</returns>
-        public static MethodInfo GetNamedMethod(Type fixtureType, string methodName, BindingFlags bindingFlags)
+        public static MethodInfo GetNamedMethod(Type fixtureType, string methodName)
         {
-            foreach (MethodInfo method in fixtureType.GetMethods(bindingFlags))
+            foreach (MethodInfo method in fixtureType.GetMethods(AllMembers))
             {
                 if (method.Name == methodName)
                     return method;
@@ -265,12 +264,11 @@ namespace NUnit.Core
         /// <param name="fixtureType">The type to examine</param>
         /// <param name="methodName">The name of the method</param>
         /// <param name="argTypes">The full names of the argument types to search for</param>
-        /// <param name="bindingFlags">BindingFlags to use in the search</param>
         /// <returns>A MethodInfo or null</returns>
         public static MethodInfo GetNamedMethod(Type fixtureType, string methodName, 
-            string[] argTypes, BindingFlags bindingFlags)
+            string[] argTypes)
         {
-            foreach (MethodInfo method in fixtureType.GetMethods(bindingFlags))
+            foreach (MethodInfo method in fixtureType.GetMethods(AllMembers))
             {
                 if (method.Name == methodName)
                 {
@@ -297,18 +295,16 @@ namespace NUnit.Core
         #endregion
 
 		#region Get Properties of a type
-
 		/// <summary>
 		/// Examine a type and return a property having a particular attribute.
 		/// In the case of multiple methods, the first one found is returned.
 		/// </summary>
 		/// <param name="fixtureType">The type to examine</param>
 		/// <param name="attributeName">The FullName of the attribute to look for</param>
-		/// <param name="bindingFlags">Binding flags to use in searching</param>
 		/// <returns>A PropertyInfo or null</returns>
-		public static PropertyInfo GetPropertyWithAttribute( Type fixtureType, string attributeName, BindingFlags bindingFlags )
+		public static PropertyInfo GetPropertyWithAttribute( Type fixtureType, string attributeName )
 		{
-			foreach(PropertyInfo property in fixtureType.GetProperties( bindingFlags ) )
+			foreach(PropertyInfo property in fixtureType.GetProperties( AllMembers ) )
 			{
 				if( HasAttribute( property, attributeName, true ) ) 
 					return property;
@@ -354,21 +350,6 @@ namespace NUnit.Core
 				return property.GetValue( obj, null );
 			return null;
 		}
-
-		/// <summary>
-		/// Set the value of a named property on an object
-		/// </summary>
-		/// <param name="obj">The object for which the property value is to be set</param>
-		/// <param name="name">The name of a non-indexed property of the object</param>
-		/// <param name="val">The value to which the property is to be set</param>
-		/// <param name="bindingFlags">BindingFlags for use in determining which properties are needed</param>param>
-		public static void SetPropertyValue( object obj, string name, object val, BindingFlags bindingFlags )
-		{
-			PropertyInfo property = GetNamedProperty( obj.GetType(), name, bindingFlags );
-			if ( property != null )
-				property.SetValue( obj, val, null );
-		}
-
 		#endregion
 
 		#region Invoke Methods

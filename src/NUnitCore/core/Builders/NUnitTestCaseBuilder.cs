@@ -247,6 +247,43 @@ namespace NUnit.Core.Builders
             }
 
 	        // TODO: Check type compatibility and possibly convert here
+//			ParameterInfo[] parameters = method.GetParameters();
+//			for (int i = 0; i < argsProvided; i++)
+//			{
+//				object arg = arglist[i];
+//				if ( arg != null )
+//				{
+//					Type argType = arg.GetType();
+//					Type parmType = parameters[i].ParameterType;
+//					if ( !parmType.IsAssignableFrom( argType ) )
+//					{
+//						if ( arg is IConvertible )
+//						{
+//							arglist[i] = Convert.ChangeType( arg, parmType );
+//						}
+//						else
+//						{
+//							testMethod.RunState = RunState.NotRunnable;
+//							testMethod.IgnoreReason = 
+//								string.Format("Argument {0}: Cannot convert from {1} to {2}", i, argType, parmType);
+//							return false;
+//						}
+//					}
+//				}
+//			}
+//	
+//			if ( parms.Result != null && !method.ReturnType.IsAssignableFrom( parms.Result.GetType() ) )
+//			{
+//				if ( parms.Result is IConvertible )
+//					parms.Result = Convert.ChangeType( parms.Result, method.ReturnType );
+//				else
+//				{
+//					testMethod.RunState = RunState.NotRunnable;
+//					testMethod.IgnoreReason =
+//						string.Format( "Cannot convert result from {0} to {1}", parms.Result.GetType(), method.ReturnType );
+//					return false;
+//				}
+//			}
 
             return true;
         }
@@ -327,8 +364,7 @@ namespace NUnit.Core.Builders
 			return Reflect.GetNamedMethod( 
 				fixtureType, 
 				name,
-				new string[] { "System.Exception" },
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static );
+				new string[] { "System.Exception" });
 		}
 		
 		private static string GetHandler(System.Attribute attribute)
