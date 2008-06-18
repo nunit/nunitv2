@@ -39,11 +39,11 @@
         <include name="CategoryAttribute.cs"/>
         <include name="Catch.cs"/>
         <include name="CollectionAssert.cs"/>
-        <include name="DataSourceAttribute.cs"/>
         <include name="DescriptionAttribute.cs"/>
         <include name="DirectoryAssert.cs"/>
         <include name="ExpectedExceptionAttribute.cs"/>
         <include name="ExplicitAttribute.cs"/>
+        <include name="FactoryAttribute.cs"/>
         <include name="FileAssert.cs"/>
         <include name="GlobalSettings.cs"/>
         <include name="IExpectException.cs"/>
