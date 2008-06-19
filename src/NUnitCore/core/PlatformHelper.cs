@@ -26,7 +26,7 @@ namespace NUnit.Core
 		/// Comma-delimited list of all supported OS platform constants
 		/// </summary>
 		public static readonly string OSPlatforms =
-			"Win,Win32,Win32S,Win32NT,Win32Windows,WinCE,Win95,Win98,WinMe,NT3,NT4,NT5,Win2K,WinXP,Unix,Linux";
+			"Win,Win32,Win32S,Win32NT,Win32Windows,WinCE,Win95,Win98,WinMe,NT3,NT4,NT5,NT6,Win2K,WinXP,Win2003Server,Vista,Win2008Server,Unix,Linux";
 		
 		/// <summary>
 		/// Comma-delimited list of all supported Runtime platform constants
@@ -114,7 +114,7 @@ namespace NUnit.Core
 		/// Test to determine if the a particular platform or comma-
 		/// delimited set of platforms is in use.
 		/// </summary>
-		/// <param name="platform">Name of the platform or comma-separated list of platfomr names</param>
+		/// <param name="platform">Name of the platform or comma-separated list of platform names</param>
 		/// <returns>True if the platform is in use on the system</returns>
 		public bool IsPlatformSupported( string platform )
 		{
@@ -166,10 +166,10 @@ namespace NUnit.Core
 				case "NT4":
 					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 4;
 					break;
-				case "NT5":
-					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5;
-					break;
-				case "WIN2K":
+                case "NT5":
+                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5;
+                    break;
+                case "WIN2K":
 					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5 && os.Version.Minor == 0;
 					break;
 				case "WINXP":
@@ -178,11 +178,15 @@ namespace NUnit.Core
 				case "WIN2003SERVER":
 					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5 && os.Version.Minor == 2;
 					break;
+                case "NT6":
+                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6;
+                    break;
+                // TODO: Distinguish Vista SP1 from Server 2008
                 case "VISTA":
-                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 0;
+                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 0 && os.Version.Build != 6001;
                     break;
                 case "WIN2008SERVER":
-                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 0;
+                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 0 && os.Version.Build == 6001;
                     break;
                 case "UNIX":
 				case "LINUX":
