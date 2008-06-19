@@ -13,7 +13,6 @@ using System.Reflection;
 //
 //[assembly: AssemblyTitle("")]
 //[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("NUnit.org")]
 [assembly: AssemblyProduct("NUnit")]
 [assembly: AssemblyCopyright("Copyright (C) 2002-2007 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved.")]
@@ -32,4 +31,5 @@ using System.Reflection;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("2.5")]
-[assembly: AssemblyInformationalVersion( "2.5 Alpha 3" )]
+[assembly: AssemblyInformationalVersion("2.5")]
+[assembly: AssemblyConfiguration("Alpha-3")]
