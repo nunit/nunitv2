@@ -7,9 +7,9 @@ namespace NUnit.TestData
 	public class TestMethodSignatureFixture
 	{
 		public static int Tests = 18;
-		public static int Runnable = 10;
-		public static int NotRunnable = 8;
-	    public static int Errors = 2;
+		public static int Runnable = 8;
+		public static int NotRunnable = 10;
+	    public static int Errors = 0;
 	    public static int Failures = 0;
 
 		[Test]

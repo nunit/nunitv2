@@ -13,6 +13,18 @@ using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Builders
 {
+    /// <summary>
+    /// Class to build ether a parameterized or a normal NUnitTestMethod.
+    /// There are four cases that the builder must deal with:
+    ///   1. The method needs no params and none are provided
+    ///   2. The method needs params and they are provided
+    ///   3. The method needs no params but they are provided in error
+    ///   4. The method needs params but they are not provided
+    /// This could have been done using two different builders, but it
+    /// turned out to be simpler to have just one. The BuildFrom method
+    /// takes a different branch depending on whether any parameters are
+    /// provided, but all four cases are dealt with in lower-level methods
+    /// </summary>
 	public class NUnitTestCaseBuilder : Extensibility.ITestCaseBuilder
 	{
 		private readonly bool allowOldStyleTests = NUnitFramework.AllowOldStyleTests;
@@ -211,12 +223,13 @@ namespace NUnit.Core.Builders
                 return false;
 
             object[] arglist = parms.Arguments;
-            int argsProvided = 0;
 
+            int argsProvided = 0;
             if (arglist != null)
                 argsProvided = arglist.Length;
-            int argsNeeded = method.GetParameters().Length;
 
+            ParameterInfo[] parameters = method.GetParameters();
+            int argsNeeded = parameters.Length;
 
             if (!method.ReturnType.Equals(typeof(void)) && parms.Result == null && parms.ExpectedExceptionName == null)
             {
@@ -247,31 +260,45 @@ namespace NUnit.Core.Builders
             }
 
 	        // TODO: Check type compatibility and possibly convert here
-//			ParameterInfo[] parameters = method.GetParameters();
-//			for (int i = 0; i < argsProvided; i++)
-//			{
-//				object arg = arglist[i];
-//				if ( arg != null )
-//				{
-//					Type argType = arg.GetType();
-//					Type parmType = parameters[i].ParameterType;
-//					if ( !parmType.IsAssignableFrom( argType ) )
-//					{
-//						if ( arg is IConvertible )
-//						{
-//							arglist[i] = Convert.ChangeType( arg, parmType );
-//						}
-//						else
-//						{
-//							testMethod.RunState = RunState.NotRunnable;
-//							testMethod.IgnoreReason = 
-//								string.Format("Argument {0}: Cannot convert from {1} to {2}", i, argType, parmType);
-//							return false;
-//						}
-//					}
-//				}
-//			}
-//	
+            for (int i = 0; i < argsProvided; i++)
+                if ( !CheckTypeCompatibility(ref arglist[i], parameters[i].ParameterType) )
+                {
+                    testMethod.RunState = RunState.NotRunnable;
+                    testMethod.IgnoreReason = string.Format(
+                        "Argument {0}: Cannot convert from {1} to {2}", 
+                        i+1, 
+                        arglist[i].GetType(), 
+                        parameters[i].ParameterType);
+                    return false;
+                }
+
+            //if (parms.Result != null)
+            //{
+            //    object result = parms.Result;
+            //    CheckTypeCompatibility(ref result, method.ReturnType);
+            //    parms.Result = result;
+            //}
+
+            return true;
+        }
+
+        private static bool CheckTypeCompatibility( ref object arg, Type targetType )
+        {
+            if (arg != null && !targetType.IsAssignableFrom(arg.GetType()))
+            {
+                if (arg is DBNull)
+                    arg = null;
+                else if (targetType == typeof(string))
+                    return false;
+                else if (arg is IConvertible)
+                    arg = Convert.ChangeType(arg, targetType);
+                else
+                    return false;
+            }
+
+            return true;
+        }
+	
 //			if ( parms.Result != null && !method.ReturnType.IsAssignableFrom( parms.Result.GetType() ) )
 //			{
 //				if ( parms.Result is IConvertible )
@@ -284,9 +311,6 @@ namespace NUnit.Core.Builders
 //					return false;
 //				}
 //			}
-
-            return true;
-        }
 
 		private static bool CanConvertTypes( Type fromType, Type toType )
 		{

@@ -88,9 +88,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void TestMethodWithWrongArgumentTypesProvidedGivesError()
+        public void TestMethodWithWrongArgumentTypesProvidedIsNotRunnable()
         {
-            AssertRunnable("TestMethodWithWrongArgumentTypesProvided", ResultState.Error);
+            AssertRunnable("TestMethodWithWrongArgumentTypesProvided", ResultState.NotRunnable);
         }
 
         [Test]
@@ -112,9 +112,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void StaticTestMethodWithWrongArgumentTypesProvidedGivesError()
+        public void StaticTestMethodWithWrongArgumentTypesProvidedIsNotRunnable()
         {
-            AssertRunnable("StaticTestMethodWithWrongArgumentTypesProvided", ResultState.Error);
+            AssertRunnable("StaticTestMethodWithWrongArgumentTypesProvided", ResultState.NotRunnable);
         }
 
         [Test]

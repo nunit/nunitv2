@@ -87,6 +87,10 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
+    <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
+      <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
+      <Name>nunit.framework.dll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\interfaces\nunit.core.interfaces.dll.csproj">
       <Name>nunit.core.interfaces.dll</Name>
       <Project>{435428F8-5995-4CE4-8022-93D595A8CC0F}</Project>
