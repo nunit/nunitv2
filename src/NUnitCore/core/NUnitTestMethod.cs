@@ -32,7 +32,7 @@ namespace NUnit.Core
 		{
 			base.Run(testResult);
 
-			testResult.AssertCount = NUnitFramework.GetAssertCount();
+			testResult.AssertCount = NUnitFramework.Assert.GetAssertCount();
 		}
 
         /// <summary>

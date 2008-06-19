@@ -21,9 +21,6 @@ namespace NUnit.Core
 	/// </summary>
 	public class NUnitFramework
 	{
-		private static Type assertType;
-        //private static Hashtable frameworkByAssembly = new Hashtable();
-
         #region Constants
 
 		#region Attribute Names
@@ -76,6 +73,30 @@ namespace NUnit.Core
         public static readonly string TestDecoratorInterfaceName = typeof(ITestDecorator).FullName;
         #endregion
 
+        #endregion
+
+        #region Properties
+        private static Assembly frameworkAssembly;
+        private static Assembly FrameworkAssembly
+        {
+            get
+            {
+                if (frameworkAssembly == null)
+                    foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+                        if (assembly.GetName().Name == "nunit.framework")
+                        {
+                            frameworkAssembly = assembly;
+                            break;
+                        }
+
+                return frameworkAssembly;
+            }
+        }
+
+        private static Version Version
+        {
+            get { return FrameworkAssembly.GetName().Version; }
+        }
         #endregion
 
         #region Identify SetUp and TearDown Methods
@@ -364,32 +385,6 @@ namespace NUnit.Core
         }
 		#endregion
 
-		#region GetAssertCount
-		public static int GetAssertCount()
-		{
-			if ( assertType == null )
-				foreach( Assembly assembly in AppDomain.CurrentDomain.GetAssemblies() )
-					if ( assembly.GetName().Name == "nunit.framework" )
-					{
-						assertType = assembly.GetType( AssertType );
-						break;
-					}
-
-			if ( assertType == null )
-				return 0;
-
-			PropertyInfo property = Reflect.GetNamedProperty( 
-				assertType,
-				"Counter", 
-				BindingFlags.Public | BindingFlags.Static );
-
-			if ( property == null )
-				return 0;
-		
-			return (int)property.GetValue( null, new object[0] );
-		}
-		#endregion
-
 		#region IsSuiteBuilder
 		public static bool IsSuiteBuilder( Type type )
 		{
@@ -477,6 +472,87 @@ namespace NUnit.Core
 
             return true;
         }
+        #endregion
+
+        #region Framework Assert Access
+
+        /// <summary>
+        /// NUnitFramework.Assert is a nested class that implements
+        /// a few of the framework operations by reflection, 
+        /// using whatever framework version is available.
+        /// </summary>
+        public class Assert
+        {
+            #region Properties
+            private static Type assertType;
+            private static Type AssertType
+            {
+                get
+                {
+                    if (assertType == null)
+                        assertType = FrameworkAssembly.GetType(NUnitFramework.AssertType);
+
+                    return assertType;
+                }
+            }
+
+            private static MethodInfo areEqualMethod;
+            private static MethodInfo AreEqualMethod
+            {
+                get
+                {
+                    if (areEqualMethod == null)
+                        areEqualMethod = AssertType.GetMethod(
+                            "AreEqual", 
+                            BindingFlags.Static | BindingFlags.Public, 
+                            null, 
+                            new Type[] { typeof(object), typeof(object) },
+                            null );
+
+                    return areEqualMethod;
+                }
+            }
+
+            private static PropertyInfo counterProperty;
+            private static PropertyInfo CounterProperty
+            {
+                get
+                {
+                    if (counterProperty == null)
+                        counterProperty = Reflect.GetNamedProperty(
+                            AssertType,
+                            "Counter",
+                            BindingFlags.Public | BindingFlags.Static);
+
+                    return counterProperty;
+                }
+            }
+            #endregion
+
+            /// <summary>
+            /// Invoke Assert.AreEqual by reflection
+            /// </summary>
+            /// <param name="expected">The expected value</param>
+            /// <param name="actual">The actual value</param>
+            public static void AreEqual(object expected, object actual)
+            {
+                if (AreEqualMethod != null)
+                    AreEqualMethod.Invoke( null, new object[] { expected, actual });
+            }
+
+            /// <summary>
+            /// Get the assertion counter. It clears itself automatically
+            /// on each call.
+            /// </summary>
+            /// <returns>Count of number of asserts since last call</returns>
+            public static int GetAssertCount()
+            {
+                return CounterProperty == null
+                    ? 0
+                    : (int)CounterProperty.GetValue(null, new object[0]);
+            }
+        }
+
         #endregion
     }
 }

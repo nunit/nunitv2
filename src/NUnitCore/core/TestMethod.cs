@@ -255,24 +255,11 @@ namespace NUnit.Core
 		{
 		    object fixture = this.method.IsStatic ? null : this.Fixture;
 			object result = Reflect.InvokeMethod( this.method, fixture, this.arguments );
-            //if (this.expectedResult != null && !this.expectedResult.Equals(result))
-            //    testResult.Failure("  Expected: " + expectedResult.ToString() + Environment.NewLine +
-            //                       "   But was: " + result.ToString(), null);
-            //else
-            //    testResult.Success();
+
             if (this.expectedResult != null)
-            {
-                NUnit.Framework.Constraints.Constraint constraint = new NUnit.Framework.Constraints.EqualConstraint(expectedResult);
-                if (!constraint.Matches(result))
-                {
-                    NUnit.Framework.TextMessageWriter writer = new NUnit.Framework.TextMessageWriter();
-                    constraint.WriteMessageTo(writer);
-                    testResult.Failure( writer.ToString(), null );
-                }
-                else testResult.Success();
-            }
-            else
-                testResult.Success();
+                NUnitFramework.Assert.AreEqual(expectedResult, result);
+
+            testResult.Success();
         }
 
 		#endregion

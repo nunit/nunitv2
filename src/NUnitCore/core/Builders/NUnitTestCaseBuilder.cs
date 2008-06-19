@@ -259,63 +259,29 @@ namespace NUnit.Core.Builders
                 return false;
             }
 
-	        // TODO: Check type compatibility and possibly convert here
             for (int i = 0; i < argsProvided; i++)
-                if ( !CheckTypeCompatibility(ref arglist[i], parameters[i].ParameterType) )
-                {
-                    testMethod.RunState = RunState.NotRunnable;
-                    testMethod.IgnoreReason = string.Format(
-                        "Argument {0}: Cannot convert from {1} to {2}", 
-                        i+1, 
-                        arglist[i].GetType(), 
-                        parameters[i].ParameterType);
-                    return false;
-                }
-
-            //if (parms.Result != null)
-            //{
-            //    object result = parms.Result;
-            //    CheckTypeCompatibility(ref result, method.ReturnType);
-            //    parms.Result = result;
-            //}
-
-            return true;
-        }
-
-        private static bool CheckTypeCompatibility( ref object arg, Type targetType )
-        {
-            if (arg != null && !targetType.IsAssignableFrom(arg.GetType()))
             {
-                if (arg is DBNull)
-                    arg = null;
-                else if (targetType == typeof(string))
-                    return false;
-                else if (arg is IConvertible)
-                    arg = Convert.ChangeType(arg, targetType);
-                else
-                    return false;
+                object arg = arglist[i];
+                if (arg != null )
+                {
+                    Type targetType = parameters[i].ParameterType;
+                    Type argType = arg.GetType();
+
+                    if (!targetType.IsAssignableFrom(argType))
+                    {
+                        testMethod.RunState = RunState.NotRunnable;
+                        testMethod.IgnoreReason = string.Format(
+                            "Argument {0}: Cannot convert from {1} to {2}",
+                            i + 1,
+                            argType,
+                            targetType);
+                        return false;
+                    }
+                }
             }
 
             return true;
         }
-	
-//			if ( parms.Result != null && !method.ReturnType.IsAssignableFrom( parms.Result.GetType() ) )
-//			{
-//				if ( parms.Result is IConvertible )
-//					parms.Result = Convert.ChangeType( parms.Result, method.ReturnType );
-//				else
-//				{
-//					testMethod.RunState = RunState.NotRunnable;
-//					testMethod.IgnoreReason =
-//						string.Format( "Cannot convert result from {0} to {1}", parms.Result.GetType(), method.ReturnType );
-//					return false;
-//				}
-//			}
-
-		private static bool CanConvertTypes( Type fromType, Type toType )
-		{
-			return fromType == toType;
-		}
 
         private static string GetArgumentString(object[] arglist)
         {
