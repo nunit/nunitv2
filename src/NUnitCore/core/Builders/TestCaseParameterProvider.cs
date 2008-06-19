@@ -41,7 +41,7 @@ namespace NUnit.Core.Builders
 					for (int i = 0; i < argsNeeded; i++)
 						MakeArgumentCompatible(ref parms.Arguments[i], parameters[i].ParameterType);
 #if NET_2_0
-                yield return;
+                yield return parms;
 			}
 #else
 				list.Add( parms );
@@ -50,7 +50,7 @@ namespace NUnit.Core.Builders
 			return list;
 #endif
         }
-
+        
         private static void MakeArgumentCompatible(ref object arg, Type targetType)
         {
             if (arg != null && !targetType.IsAssignableFrom(arg.GetType()))
