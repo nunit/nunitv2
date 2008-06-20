@@ -311,9 +311,6 @@ namespace NUnit.Core
         /// <param name="test">The test to which the attributes apply</param>
         public static void ApplyCommonAttributes(Attribute[] attributes, Test test)
         {
-			IList categories = new ArrayList();
-			ListDictionary properties = new ListDictionary();
-
             foreach (Attribute attribute in attributes)
             {
 				Type attributeType = attribute.GetType();
@@ -365,7 +362,7 @@ namespace NUnit.Core
 					default:
 						if ( Reflect.InheritsFrom( attributeType, CategoryAttribute ) )
 						{	
-							categories.Add( Reflect.GetPropertyValue( attribute, "Name" ) );
+							test.Categories.Add( Reflect.GetPropertyValue( attribute, "Name" ) );
 						}
 						else if ( Reflect.InheritsFrom( attributeType, PropertyAttribute ) )
 						{
@@ -373,15 +370,12 @@ namespace NUnit.Core
 							if ( name != null && name != string.Empty )
 							{
 								object val = Reflect.GetPropertyValue( attribute, "Value" );
-								properties[name] = val;
+								test.Properties[name] = val;
 							}
 						}
 						break;
                 }
             }
-
-			test.Categories = categories;
-			test.Properties = properties;
         }
 		#endregion
 

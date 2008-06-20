@@ -24,8 +24,7 @@ namespace NUnit.Core
 			this.RunState = testCase.RunState;
 			this.IgnoreReason = testCase.IgnoreReason;
             this.Description = testCase.Description;
-            if ( testCase.Categories != null )
-                this.Categories = new System.Collections.ArrayList( testCase.Categories );
+            this.Categories = new System.Collections.ArrayList( testCase.Categories );
             if ( testCase.Properties != null )
             {
                 this.Properties = new ListDictionary();

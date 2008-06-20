@@ -61,7 +61,7 @@ namespace NUnit.Util.Tests
 		{
 			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest2\"]/properties/property");
 			Assert.IsNotNull(properties);
-			Assert.AreEqual(1, properties.Count);
+			Assert.AreEqual(2, properties.Count); // 1 plus _CATEGORIES
 			Assert.AreEqual("Severity",properties[0].Attributes["name"].Value);
 			Assert.AreEqual("Critical",properties[0].Attributes["value"].Value);
 		}
@@ -84,7 +84,7 @@ namespace NUnit.Util.Tests
 		{
 			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property");
 			Assert.IsNotNull(properties);
-			Assert.AreEqual(3, properties.Count);
+			Assert.AreEqual(4, properties.Count); // 3 plus _CATEGORIES
 			Hashtable hash = new Hashtable();
 			foreach( XmlNode property in properties )
 				hash.Add( property.Attributes["name"].Value, property.Attributes["value"].Value );

@@ -15,9 +15,16 @@ namespace NUnit.Core
 	///		Test Class.
 	/// </summary>
 	public abstract class Test : ITest, IComparable
-	{
-		#region Fields
-		/// <summary>
+    {
+        #region Constants
+        private static readonly string SETCULTURE = "_SETCULTURE";
+        private static readonly string DESCRIPTION = "_DESCRIPTION";
+        private static readonly string IGNOREREASON = "_IGNOREREASON";
+        private static readonly string CATEGORIES = "_CATEGORIES";
+        #endregion
+
+        #region Fields
+        /// <summary>
 		/// TestName that identifies this test
 		/// </summary>
 		private TestName testName;
@@ -28,25 +35,10 @@ namespace NUnit.Core
 		private RunState runState;
 
 		/// <summary>
-		/// The reason for not running the test
-		/// </summary>
-		private string ignoreReason;
-		
-		/// <summary>
-		/// Description for this test 
-		/// </summary>
-		private string description;
-		
-		/// <summary>
 		/// Test suite containing this test, or null
 		/// </summary>
 		private Test parent;
 		
-		/// <summary>
-		/// List of categories applying to this test
-		/// </summary>
-		private IList categories;
-
 		/// <summary>
 		/// A dictionary of properties, used to add information
 		/// to tests without requiring the class to change.
@@ -189,8 +181,14 @@ namespace NUnit.Core
 		/// </summary>
 		public string IgnoreReason
 		{
-			get { return ignoreReason; }
-			set { ignoreReason = value; }
+			get { return (string)Properties[IGNOREREASON]; }
+			set 
+            {
+                if (value == null)
+                    Properties.Remove(IGNOREREASON);
+                else
+                    Properties[IGNOREREASON] = value;
+            }
 		}
 
 		/// <summary>
@@ -207,17 +205,32 @@ namespace NUnit.Core
 		/// </summary>
 		public IList Categories 
 		{
-			get { return categories; }
-			set { categories = value; }
+			get 
+            {
+                if (Properties[CATEGORIES] == null)
+                    Properties[CATEGORIES] = new ArrayList();
+
+                return (IList)Properties[CATEGORIES]; 
+            }
+			set 
+            {
+                Properties[CATEGORIES] = value; 
+            }
 		}
 
 		/// <summary>
-		/// Gets a desctiption associated with this test.
+		/// Gets a description associated with this test.
 		/// </summary>
 		public String Description
 		{
-			get { return description; }
-			set { description = value; }
+			get { return (string)Properties[DESCRIPTION]; }
+			set 
+            {
+                if (value == null)
+                    Properties.Remove(DESCRIPTION);
+                else
+                    Properties[DESCRIPTION] = value; 
+            }
 		}
 
 		/// <summary>
