@@ -30,7 +30,7 @@ namespace NUnit.Core
 		private TestDecoratorCollection testDecorators;
 		private EventListenerCollection listeners;
 		private FrameworkRegistry frameworks;
-	    private ParameterProviders parameterProviders;
+	    private TestCaseProviders testcaseProviders;
 
 		#endregion
 
@@ -56,7 +56,7 @@ namespace NUnit.Core
 			this.testDecorators = new TestDecoratorCollection(this);
 			this.listeners = new EventListenerCollection(this);
 			this.frameworks = new FrameworkRegistry(this);
-            this.parameterProviders = new ParameterProviders(this);
+            this.testcaseProviders = new TestCaseProviders(this);
 
 		    this.extensions = new ArrayList();
 		    extensions.Add(suiteBuilders);
@@ -64,7 +64,7 @@ namespace NUnit.Core
 		    extensions.Add(testDecorators);
 		    extensions.Add(listeners);
 		    extensions.Add(frameworks);
-		    extensions.Add(parameterProviders);
+		    extensions.Add(testcaseProviders);
 
 			this.supportedTypes = ExtensionType.Core;
 
@@ -133,9 +133,9 @@ namespace NUnit.Core
 			get { return frameworks; }
 		}
 
-        internal ParameterProviders ParameterProviders
+        internal TestCaseProviders TestCaseProviders
 	    {
-            get { return parameterProviders; }
+            get { return testcaseProviders; }
 	    }
 
 	    #endregion
@@ -156,8 +156,8 @@ namespace NUnit.Core
             testBuilders.Install( new NUnitTestCaseBuilder() );
 
             // Install builtin ParameterProvider
-            parameterProviders.Install(new TestCaseParameterProvider());
-            parameterProviders.Install(new DataSourceProvider());
+            testcaseProviders.Install(new TestCaseParameterProvider());
+            testcaseProviders.Install(new TestCaseFactoryProvider());
 		}
 
 		public void InstallAddins()

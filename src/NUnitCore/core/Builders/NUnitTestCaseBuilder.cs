@@ -29,7 +29,7 @@ namespace NUnit.Core.Builders
 	{
 		private readonly bool allowOldStyleTests = NUnitFramework.AllowOldStyleTests;
 
-	    private readonly IParameterProvider provider = CoreExtensions.Host.ParameterProviders;
+	    private readonly ITestCaseProvider provider = CoreExtensions.Host.TestCaseProviders;
 
         #region ITestCaseBuilder Methods
 		/// <summary>
@@ -83,10 +83,10 @@ namespace NUnit.Core.Builders
 		{
    
             // If no parameters are provided, take a shortcut
-            if ( !provider.HasParametersFor(method) )
+            if ( !provider.HasTestCasesFor(method) )
                 return BuildSingleTestMethod(method, null, null);
 
-            return BuildParameterizedTestMethodSuite(method, provider.GetParametersFor(method));
+            return BuildParameterizedTestMethodSuite(method, provider.GetTestCasesFor(method));
         }
 		#endregion
 

@@ -9,28 +9,27 @@ namespace NUnit.Core.Builders
     /// DataSourceProvider provides data for methods
     /// annotated with the FactoryAttribute.
     /// </summary>
-    public class DataSourceProvider : IParameterProvider
+    public class TestCaseFactoryProvider : ITestCaseProvider
     {
-        #region IParameterProvider Members
+        #region ITestCaseProvider Members
 
         /// <summary>
-        /// Determine whether any ParameterSets
-        /// are available for a method.
+        /// Determine whether any test cases are available for a parameterized method.
         /// </summary>
         /// <param name="method">A MethodInfo representing a parameterized test</param>
-        /// <returns>True if any parameters are available, otherwise false.</returns>
-        public bool HasParametersFor(MethodInfo method)
+        /// <returns>True if any cases are available, otherwise false.</returns>
+        public bool HasTestCasesFor(MethodInfo method)
         {
             return Reflect.HasAttribute(method, NUnitFramework.FactoryAttribute, false);
         }
 
         /// <summary>
-        /// Return a list providing ParameterSets
-        /// for use in running a test.
+        /// Return an IEnumerable providing test cases for use in
+        /// running a parameterized test.
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public IEnumerable GetParametersFor(MethodInfo method)
+        public IEnumerable GetTestCasesFor(MethodInfo method)
         {
 #if NET_2_0
             foreach (Attribute attr in Reflect.GetAttributes(method, NUnitFramework.FactoryAttribute, false))
