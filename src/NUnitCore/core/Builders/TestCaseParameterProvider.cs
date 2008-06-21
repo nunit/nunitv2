@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using System.Text;
 using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Builders
@@ -34,17 +35,30 @@ namespace NUnit.Core.Builders
             ParameterInfo[] parameters = method.GetParameters();
             int argsNeeded = parameters.Length;
 
-			foreach (Attribute attr in attrs)
-			{
-				ParameterSet parms = ParameterSet.FromDataSource( attr );
+            foreach (Attribute attr in attrs)
+            {
+                ParameterSet parms = ParameterSet.FromDataSource(attr);
+                if (parms.TestName == null && parms.Arguments.Length > 0)
+                    parms.TestName = method.Name + GetArgumentString(parms.Arguments);
+
 				if (parms.Arguments.Length == argsNeeded)
-					for (int i = 0; i < argsNeeded; i++)
-						MakeArgumentCompatible(ref parms.Arguments[i], parameters[i].ParameterType);
+				{
+					try
+					{
+						for (int i = 0; i < argsNeeded; i++)
+							MakeArgumentCompatible(ref parms.Arguments[i], parameters[i].ParameterType);
+					}
+					catch (Exception)
+					{
+						// Do nothing - the incompatible argument will be reported
+						// by NUnitTestCaseBuilder
+					}
+				}
 #if NET_2_0
-                yield return parms;
-			}
+                    yield return parms;
+            }
 #else
-				list.Add( parms );
+					list.Add( parms );
 			}
 
 			return list;
@@ -61,5 +75,26 @@ namespace NUnit.Core.Builders
                     arg = Convert.ChangeType(arg, targetType);
             }
         }
-    }
+
+		private static string GetArgumentString(object[] arglist)
+		{
+			StringBuilder sb = new StringBuilder("(");
+
+			if (arglist != null)
+				for (int i = 0; i < arglist.Length; i++)
+				{
+					if (i > 0) sb.Append(",");
+
+					object arg = arglist[i];
+					if (arg == null)
+						sb.Append("null");
+					else
+						sb.Append(arg.ToString());
+				}
+
+			sb.Append(")");
+
+			return sb.ToString();
+		}
+	}
 }
