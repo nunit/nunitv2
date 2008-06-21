@@ -83,10 +83,10 @@ namespace NUnit.Core.Builders
 		{
    
             // If no parameters are provided, take a shortcut
-            if ( provider.HasParametersFor(method) )
-                return BuildParameterizedTestMethodSuite(method, provider.GetParametersFor(method));
-            else
+            if ( !provider.HasParametersFor(method) )
                 return BuildSingleTestMethod(method, null, null);
+
+            return BuildParameterizedTestMethodSuite(method, provider.GetParametersFor(method));
         }
 		#endregion
 
@@ -273,7 +273,7 @@ namespace NUnit.Core.Builders
                         testMethod.IgnoreReason = string.Format(
                             "Argument {0}: Cannot convert from {1} to {2}",
                             i + 1,
-                            argType,
+                            arg,
                             targetType);
                         return false;
                     }
