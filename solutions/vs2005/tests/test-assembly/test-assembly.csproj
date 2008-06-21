@@ -163,6 +163,9 @@
       <Link>SuiteBuilderTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\TestCaseAttributeFixture.cs">
+      <Link>TestCaseAttributeFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\TestCaseTest.cs">
       <Link>TestCaseTest.cs</Link>
       <SubType>Code</SubType>
@@ -192,9 +195,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\MaxTimeFixture.cs">
       <Link>MaxTimeFixture.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\tests\test-assembly\ParameterizedTestMethodFixture.cs">
-      <Link>ParameterizedTestMethodFixture.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -283,6 +283,9 @@
       <Link>TestAssemblyBuilderTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\TestCaseAttributeTests.cs">
+      <Link>TestCaseAttributeTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\TestCaseResultFixture.cs">
       <Link>TestCaseResultFixture.cs</Link>
       <SubType>Code</SubType>
@@ -357,9 +360,6 @@
     <Compile Include="..\..\..\..\src\NUnitCore\tests\XmlTest.cs">
       <Link>XmlTest.cs</Link>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\tests\ParameterizedTestCaseTests.cs">
-      <Link>ParameterizedTestCaseTests.cs</Link>
     </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
