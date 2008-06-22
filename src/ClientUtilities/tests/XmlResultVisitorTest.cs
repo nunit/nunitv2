@@ -59,39 +59,30 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void HasSingleProperty()
 		{
-			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest2\"]/properties/property");
+			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest2\"]/properties/property[@name=\"Severity\"]");
 			Assert.IsNotNull(properties);
-			Assert.AreEqual(2, properties.Count); // 1 plus _CATEGORIES
-			Assert.AreEqual("Severity",properties[0].Attributes["name"].Value);
+			Assert.AreEqual(1, properties.Count);
 			Assert.AreEqual("Critical",properties[0].Attributes["value"].Value);
 		}
 
 		[Test]
 		public void HasMultipleCategories()
 		{
-			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/categories/category");
-			Assert.IsNotNull(categories);
-			Assert.AreEqual(2, categories.Count);
-			ArrayList names = new ArrayList();
-			names.Add( categories[0].Attributes["name"].Value );
-			names.Add( categories [1].Attributes["name"].Value);
-			Assert.IsTrue( names.Contains( "AnotherCategory" ), "AnotherCategory" );
-			Assert.IsTrue( names.Contains( "MockCategory" ), "MockCategory" );
+			XmlNodeList categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/categories/category[@name=\"MockCategory\"]");
+			Assert.IsNotNull(categories, "MockCategory not found");
+			categories = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/categories/category[@name=\"AnotherCategory\"]");
+			Assert.IsNotNull(categories, "AnotherCategory not found");
 		}
 
 		[Test]
 		public void HasMultipleProperties()
 		{
-			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property");
-			Assert.IsNotNull(properties);
-			Assert.AreEqual(4, properties.Count); // 3 plus _CATEGORIES
-			Hashtable hash = new Hashtable();
-			foreach( XmlNode property in properties )
-				hash.Add( property.Attributes["name"].Value, property.Attributes["value"].Value );
-
-			Assert.AreEqual( "SomeClassName", hash["TargetMethod"] );
-			Assert.AreEqual( "5", hash["Size"] );
-			Assert.AreEqual( "System.Threading.Thread", hash["TargetType"] );
+			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property[@name=\"TargetMethod\"]");
+			Assert.AreEqual("SomeClassName", properties[0].Attributes["value"].Value);
+			properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property[@name=\"TargetType\"]");
+			Assert.AreEqual("System.Threading.Thread", properties[0].Attributes["value"].Value);
+			properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property[@name=\"Size\"]");
+			Assert.AreEqual("5", properties[0].Attributes["value"].Value);
 		}
 
 		[Test]
