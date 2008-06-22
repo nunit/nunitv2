@@ -14,7 +14,7 @@ namespace NUnit.Core.Extensions.Tests
 	/// <summary>
 	/// Tests for MaxTime decoration.
 	/// </summary>
-	[TestFixture]
+    [TestFixture, RequiredAddin("MaxTimeDecorator")]
 	public class MaxTimeDecoratorTests
 	{
 		[Test,MaxTime(1000)]

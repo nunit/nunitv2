@@ -11,7 +11,7 @@ using NUnit.TestData.RepeatedTestFixture;
 
 namespace NUnit.Core.Extensions
 {
-	[TestFixture]
+	[TestFixture,RequiredAddin("RepeatedTestDecorator")]
 	public class RepeatedTestFixture
 	{
 		private MethodInfo successMethod;

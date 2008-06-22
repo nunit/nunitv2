@@ -210,6 +210,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RequiredAddinAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\RequiredAddinAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SetCultureAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\SetCultureAttribute.cs"
                     SubType = "Code"

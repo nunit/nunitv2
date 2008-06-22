@@ -34,6 +34,7 @@ namespace NUnit.Core
         public const string CategoryAttribute = "NUnit.Framework.CategoryAttribute";
         public const string PropertyAttribute = "NUnit.Framework.PropertyAttribute";
 		public const string DescriptionAttribute = "NUnit.Framework.DescriptionAttribute";
+        public const string RequiredAddinAttribute = "NUnit.Framework.RequiredAddinAttribute";
 
         // Attributes that apply only to Classes
         public const string TestFixtureAttribute = "NUnit.Framework.TestFixtureAttribute";
@@ -359,6 +360,14 @@ namespace NUnit.Core
 							test.IgnoreReason = cultureDetector.Reason;
 						}
 						break;
+                    case RequiredAddinAttribute:
+                        string required = (string)Reflect.GetPropertyValue(attribute,"RequiredAddin");
+                        if (!IsAddinAvailable(required))
+                        {
+                            test.RunState = RunState.NotRunnable;
+                            test.IgnoreReason = string.Format("Required addin {0} not available", required);
+                        }
+                        break;
 					default:
 						if ( Reflect.InheritsFrom( attributeType, CategoryAttribute ) )
 						{	
@@ -465,6 +474,17 @@ namespace NUnit.Core
             }
 
             return true;
+        }
+        #endregion
+
+        #region IsAddinAvailable
+        public static bool IsAddinAvailable(string name)
+        {
+            foreach (Addin addin in CoreExtensions.Host.AddinRegistry.Addins)
+                if (addin.Name == name && addin.Status == AddinStatus.Loaded)
+                    return true;
+
+            return false;
         }
         #endregion
 
