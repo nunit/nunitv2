@@ -237,9 +237,9 @@ namespace NUnit.UiKit
 				{
 					selectedList.Items.Add( category );
 					availableList.Items.Remove( category );
-				}
 
-				this.excludeCheckbox.Checked = exclude;
+					this.excludeCheckbox.Checked = exclude;
+				}
 			}
 
 			UpdateCategoryFilter();
