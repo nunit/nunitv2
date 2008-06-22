@@ -127,9 +127,6 @@
       <Link>Extensibility\IFrameworkRegistry.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\IParameterProvider.cs">
-      <Link>Extensibility\IParameterProvider.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\ISuiteBuilder.cs">
       <Link>Extensibility\ISuiteBuilder.cs</Link>
       <SubType>Code</SubType>
@@ -137,6 +134,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\ITestCaseBuilder.cs">
       <Link>Extensibility\ITestCaseBuilder.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\ITestCaseProvider.cs">
+      <Link>Extensibility\ITestCaseProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\ITestDecorator.cs">
       <Link>Extensibility\ITestDecorator.cs</Link>

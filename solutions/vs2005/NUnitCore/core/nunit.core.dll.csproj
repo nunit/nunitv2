@@ -134,6 +134,9 @@
       <Link>Builders\TestAssemblyBuilder.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseFactoryProvider.cs">
+      <Link>Builders\TestCaseFactoryProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseParameterProvider.cs">
       <Link>Builders\TestCaseParameterProvider.cs</Link>
     </Compile>
@@ -169,9 +172,6 @@
       <Link>Extensibility\FrameworkRegistry.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\ParameterProviders.cs">
-      <Link>Extensibility\ParameterProviders.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\SuiteBuilderCollection.cs">
       <Link>Extensibility\SuiteBuilderCollection.cs</Link>
       <SubType>Code</SubType>
@@ -179,6 +179,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\TestCaseBuilderCollection.cs">
       <Link>Extensibility\TestCaseBuilderCollection.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\TestCaseProviders.cs">
+      <Link>Extensibility\TestCaseProviders.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\TestDecoratorCollection.cs">
       <Link>Extensibility\TestDecoratorCollection.cs</Link>
@@ -333,9 +336,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\ParameterizedTestMethodSuite.cs">
       <Link>ParameterizedTestMethodSuite.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\DataSourceProvider.cs">
-      <Link>Builders\DataSourceProvider.cs</Link>
     </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>

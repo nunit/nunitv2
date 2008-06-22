@@ -252,12 +252,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Extensibility\IParameterProvider.cs"
-                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\IParameterProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Extensibility\ISuiteBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\ISuiteBuilder.cs"
                     SubType = "Code"
@@ -266,6 +260,12 @@
                 <File
                     RelPath = "Extensibility\ITestCaseBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\ITestCaseBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Extensibility\ITestCaseProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\ITestCaseProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
