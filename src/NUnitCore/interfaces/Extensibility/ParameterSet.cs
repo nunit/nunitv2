@@ -143,10 +143,20 @@ namespace NUnit.Core.Extensibility
         public static ParameterSet FromDataSource(object source)
         {
             ParameterSet parms = new ParameterSet();
-            Type type = source.GetType();
 
             if (source is object[])
-                parms.Arguments = source as object[];
+                parms.Arguments = (object[])source;
+            else if (source is Array)
+            {
+                Array array = (Array)source;
+                parms.Arguments = new object[array.Length];
+                for (int i = 0; i < array.Length; i++)
+                    parms.Arguments[i] = (object)array.GetValue(i);
+            }
+            else if (source.GetType().IsValueType || source is string || source is decimal || source is DateTime)
+            {
+                parms.Arguments = new object[] { source };
+            }
             else
             {
                 parms.Arguments = GetParm(source, "Arguments") as object[];

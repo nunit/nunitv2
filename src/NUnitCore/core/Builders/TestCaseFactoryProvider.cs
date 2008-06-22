@@ -113,6 +113,8 @@ namespace NUnit.Core.Builders
 
                     case MemberTypes.Method:
                         MethodInfo factoryMethod = member as MethodInfo;
+                        if (!factoryMethod.IsStatic)
+                            instance = Reflect.Construct(factoryType);
                         factoryObject = factoryMethod.Invoke(instance, null);
                         break;
 

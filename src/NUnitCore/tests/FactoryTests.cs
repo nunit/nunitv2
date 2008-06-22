@@ -41,6 +41,17 @@ namespace NUnit.Core.Tests
             return new object[] { new object[] { "StaticMethod" } };
         }
 
+        [Test, Factory("InstanceMethod")]
+        public void FactoryCanBeInstanceMethod(string factory)
+        {
+            Assert.AreEqual("InstanceMethod", factory);
+        }
+
+        IEnumerable InstanceMethod()
+        {
+            return new object[] { new object[] { "InstanceMethod" } };
+        }
+
         [Test, Factory("StaticField")]
         public void FactoryCanBeStaticField(string factory)
         {
@@ -49,6 +60,15 @@ namespace NUnit.Core.Tests
 
         static object[] StaticField =
             { new object[] { "StaticField" } };
+
+        [Test, Factory("InstanceField")]
+        public void FactoryCanBeInstanceField(string factory)
+        {
+            Assert.AreEqual("InstanceField", factory);
+        }
+
+        static object[] InstanceField =
+            { new object[] { "InstanceField" } };
 
         [Test, Factory("CheckCurrentDirectory")]
         public void FactoryIsInvokedWithCorrectCurrentDirectory(bool isOK)
@@ -62,17 +82,17 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(q, n / d);
         }
 
-        //[DataSource("MyIntData")]
-        //public void FactoryMayReturnArgumentsAsIntArray(int n, int d, int q)
-        //{
-        //    Assert.AreEqual(q, n / d);
-        //}
+        [Test, Factory("MyIntData")]
+        public void FactoryMayReturnArgumentsAsIntArray(int n, int d, int q)
+        {
+            Assert.AreEqual(q, n / d);
+        }
 
-        //[DataSource("EvenNumbers")]
-        //public void FactoryMayReturnSingleArgumentAlone(int n)
-        //{
-        //    Assert.AreEqual(0, n % 2);
-        //}
+        [Test, Factory("EvenNumbers")]
+        public void FactoryMayReturnSinglePrimitiveArgumentAlone(int n)
+        {
+            Assert.AreEqual(0, n % 2);
+        }
 
         [Test, Factory("Params")]
         public int FactoryMayReturnArgumentsAsParamSet(int n, int d)
@@ -95,54 +115,17 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(q, n / d);
         }
 
-        public static IEnumerable MyData
-        {
-            get
-            {
-#if NET_2_0
-                yield return new object[] { 12, 3, 4 };
-                yield return new object[] { 12, 4, 3 };
-                yield return new object[] { 12, 6, 2 };
-#else
-                ArrayList list = new ArrayList();
-                list.Add(new object[] { 12, 3, 4 });
-                list.Add(new object[] { 12, 4, 3 });
-                list.Add(new object[] { 12, 6, 2 });
-                return list;
-#endif
-            }
-        }
+        static object[] MyData = new object[] {
+            new object[] { 12, 3, 4 },
+            new object[] { 12, 4, 3 },
+            new object[] { 12, 6, 2 } };
 
-        public static IEnumerable MyIntData
-        {
-            get
-            {
-#if NET_2_0
-                yield return new int[] { 12, 3, 4 };
-                yield return new int[] { 12, 4, 3 };
-                yield return new int[] { 12, 6, 2 };
-#else
-                ArrayList list = new ArrayList();
-                list.Add(new int[] { 12, 3, 4 });
-                list.Add(new int[] { 12, 4, 3 });
-                list.Add(new int[] { 12, 6, 2 });
-                return list;
-#endif
-            }
-        }
+        static object[] MyIntData = new object[] {
+            new int[] { 12, 3, 4 },
+            new int[] { 12, 4, 3 },
+            new int[] { 12, 6, 2 } };
 
-        private static IEnumerable EvenNumbers
-        {
-            get
-            {
-                ArrayList list = new ArrayList();
-                list.Add(new int[] { 2 });
-                list.Add(new int[] { 4 });
-                list.Add(new int[] { 6 });
-                list.Add(new int[] { 8 });
-                return list;
-            }
-        }
+        static int[] EvenNumbers = new int[] { 2, 4, 6, 8 };
 
         private static IEnumerable CheckCurrentDirectory
         {
@@ -152,24 +135,13 @@ namespace NUnit.Core.Tests
             }
         }
 
-        private static IEnumerable MoreData
-        {
-            get
-            {
-                return new object[] { new object[] { 12, 1, 12 }, new object[] { 12, 2, 6 } };
-            }
-        }
+        static object[] MoreData = new object[] {
+            new object[] { 12, 1, 12 },
+            new object[] { 12, 2, 6 } };
 
-        static IEnumerable Params
-        {
-            get
-            {
-                ArrayList list = new ArrayList();
-                list.Add(new TestCaseData(24, 3).Returns(8));
-                list.Add(new TestCaseData(24, 2).Returns(12));
-                return list;
-            }
-        }
+        static object[] Params = new object[] {
+            new TestCaseData(24, 3).Returns(8),
+            new TestCaseData(24, 2).Returns(12) };
 
         private class DivideDataProvider
         {
