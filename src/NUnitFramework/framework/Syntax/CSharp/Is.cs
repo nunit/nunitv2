@@ -199,12 +199,26 @@ namespace NUnit.Framework.Syntax.CSharp
         #endregion
 
 		#region Path Constraints
-		public static PathConstraint SamePath( string expected )
+        /// <summary>
+        /// Is.SamePath returns a constraint that tests whether
+        /// the path provided is the same as an expected path
+        /// after canonicalization.
+        /// </summary>
+        /// <param name="expected">The expected path</param>
+        /// <returns>True if the paths are the same, otherwise false</returns>
+        public static PathConstraint SamePath(string expected)
 		{
 			return new SamePathConstraint( expected );
 		}
 
-		public static PathConstraint SamePathOrUnder( string expected )
+        /// <summary>
+        /// Is.SamePathOrUnder returns a constraint that tests whether
+        /// the path provided is the same as or under an expected path
+        /// after canonicalization.
+        /// </summary>
+        /// <param name="expected">The expected path</param>
+        /// <returns>True if the path is the same as or a subpath of the expected path, otherwise false</returns>
+        public static PathConstraint SamePathOrUnder(string expected)
 		{
 			return new SamePathOrUnderConstraint( expected );
 		}

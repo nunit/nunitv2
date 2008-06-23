@@ -30,7 +30,7 @@ namespace NUnit.Framework.Constraints
 
         /// <summary>
         /// Write the actual value for a failing constraint test to a
-        /// MessageWriter. TypeCOnstraints override this method to write
+        /// MessageWriter. TypeConstraints override this method to write
         /// the name of the type.
         /// </summary>
         /// <param name="writer">The writer on which the actual value is displayed</param>
@@ -49,14 +49,14 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct an ExactTypeConstraint for a given Type
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">The expected Type.</param>
         public ExactTypeConstraint(Type type) : base( type ) { }
 
         /// <summary>
         /// Test that an object is of the exact type specified
         /// </summary>
-        /// <param name="actual"></param>
-        /// <returns></returns>
+        /// <param name="actual">The actual value.</param>
+        /// <returns>True if the tested object is of the exact type provided, otherwise false.</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -66,7 +66,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Write the description of this constraint to a MessageWriter
         /// </summary>
-        /// <param name="writer"></param>
+        /// <param name="writer">The MessageWriter to use</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WriteExpectedValue(expectedType);
@@ -82,14 +82,14 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct an InstanceOfTypeConstraint for the type provided
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">The expected Type</param>
         public InstanceOfTypeConstraint(Type type) : base(type) { }
 
         /// <summary>
         /// Test whether an object is of the specified type or a derived type
         /// </summary>
-        /// <param name="actual"></param>
-        /// <returns></returns>
+        /// <param name="actual">The object to be tested</param>
+        /// <returns>True if the object is of the provided type or derives from it, otherwise false.</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -99,7 +99,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Write a description of this constraint to a MessageWriter
         /// </summary>
-        /// <param name="writer"></param>
+        /// <param name="writer">The MessageWriter to use</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("instance of");
@@ -122,8 +122,8 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Test whether an object can be assigned from the specified type
         /// </summary>
-        /// <param name="actual"></param>
-        /// <returns></returns>
+        /// <param name="actual">The object to be tested</param>
+        /// <returns>True if the object can be assigned a value of the expected Type, otherwise false.</returns>
         public override bool Matches(object actual)
         {
 			this.actual = actual;
@@ -133,7 +133,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Write a description of this constraint to a MessageWriter
         /// </summary>
-        /// <param name="writer"></param>
+        /// <param name="writer">The MessageWriter to use</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("Type assignable from");
@@ -141,12 +141,25 @@ namespace NUnit.Framework.Constraints
         }
     }
 
+    /// <summary>
+    /// ExpectedExceptionConstraint is used to test that a delegate
+    /// throws a particular exception when executed.
+    /// </summary>
     public class ExpectedExceptionConstraint : TypeConstraint
     {
         private Type caughtException;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ExpectedExceptionConstraint"/> class.
+        /// </summary>
+        /// <param name="expectedType">The expected type.</param>
         public ExpectedExceptionConstraint(Type expectedType ) : base(expectedType) { }
 
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -169,6 +182,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WriteExpectedValue(expectedType);

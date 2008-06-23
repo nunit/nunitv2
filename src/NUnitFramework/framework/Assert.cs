@@ -12,6 +12,10 @@ using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework
 {
+    /// <summary>
+    /// Delegate used by tests that execute code and
+    /// capture any thrown exception.
+    /// </summary>
     public delegate void TestDelegate();
 
     /// <summary>
@@ -2310,7 +2314,7 @@ namespace NUnit.Framework
         #region Pass
 
         /// <summary>
-        /// Throws a <see cref="SucceedException"/> with the message and arguments 
+        /// Throws a <see cref="SuccessException"/> with the message and arguments 
         /// that are passed in. This allows a test to be cut short, with a result
         /// of success returned to NUnit.
         /// </summary>
@@ -2326,7 +2330,7 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// Throws a <see cref="SucceedException"/> with the message and arguments 
+        /// Throws a <see cref="SuccessException"/> with the message and arguments 
         /// that are passed in. This allows a test to be cut short, with a result
         /// of success returned to NUnit.
         /// </summary>
@@ -2337,7 +2341,7 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// Throws a <see cref="SucceedException"/> with the message and arguments 
+        /// Throws a <see cref="SuccessException"/> with the message and arguments 
         /// that are passed in. This allows a test to be cut short, with a result
         /// of success returned to NUnit.
         /// </summary>
@@ -2537,6 +2541,12 @@ namespace NUnit.Framework
             Assert.That(condition, Is.True, null, null);
         }
 
+        /// <summary>
+        /// Asserts that the code represented by a delegate throws an exception
+        /// that satisfies the constraint provided.
+        /// </summary>
+        /// <param name="code">A TestDelegate to be executed</param>
+        /// <param name="constraint">A ThrowsConstraint used in the test</param>
         static public void That( TestDelegate code, ThrowsConstraint constraint )
         {
             Assert.That( (object)code, constraint );

@@ -16,6 +16,13 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class CollectionConstraint : Constraint
     {
+        /// <summary>
+        /// Determines whether the specified enumerable is empty.
+        /// </summary>
+        /// <param name="enumerable">The enumerable.</param>
+        /// <returns>
+        /// 	<c>true</c> if the specified enumerable is empty; otherwise, <c>false</c>.
+        /// </returns>
 		protected static bool IsEmpty( IEnumerable enumerable )
 		{
 			ICollection collection = enumerable as ICollection;

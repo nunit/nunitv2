@@ -4,15 +4,19 @@ using System.IO;
 
 namespace NUnit.Framework.Constraints
 {
-    class DirectoryConstraint
-    {
-    }
-
+    /// <summary>
+    /// EmptyDirectoryConstraint is used to test that a directory is empty
+    /// </summary>
     public class EmptyDirectoryContraint : Constraint
     {
         private int files = 0;
         private int subdirs = 0;
 
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -27,11 +31,22 @@ namespace NUnit.Framework.Constraints
             return files == 0 && subdirs == 0;
         }
 
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.Write( "An empty directory" );
         }
 
+        /// <summary>
+        /// Write the actual value for a failing constraint test to a
+        /// MessageWriter. The default implementation simply writes
+        /// the raw value of actual, leaving it to the writer to
+        /// perform any formatting.
+        /// </summary>
+        /// <param name="writer">The writer on which the actual value is displayed</param>
         public override void WriteActualValueTo(MessageWriter writer)
         {
             DirectoryInfo dir = actual as DirectoryInfo;
@@ -45,15 +60,27 @@ namespace NUnit.Framework.Constraints
         }
     }
 
+    /// <summary>
+    /// SubDirectoryConstraint is used to test that one directory is a subdirectory of another.
+    /// </summary>
     public class SubDirectoryConstraint : Constraint
     {
         private DirectoryInfo parentDir;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:SubDirectoryConstraint"/> class.
+        /// </summary>
+        /// <param name="dirInfo">The dir info.</param>
         public SubDirectoryConstraint( DirectoryInfo dirInfo)
         {
             parentDir = dirInfo;
         }
 
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -65,6 +92,10 @@ namespace NUnit.Framework.Constraints
             return IsDirectoryOnPath(parentDir, dirInfo);
         }
 
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("A subdirectory of");
