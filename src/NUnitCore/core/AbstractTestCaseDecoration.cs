@@ -10,32 +10,33 @@ using System.Collections.Specialized;
 namespace NUnit.Core
 {
 	/// <summary>
-	/// TestCaseDecorator is used to add functionality to
-	/// another TestCase, which it aggregates.
+	/// TestDecorator is used to add functionality to
+	/// another Test, which it aggregates.
 	/// </summary>
-	public abstract class AbstractTestCaseDecoration : TestCase
+	public abstract class TestDecorator : TestMethod
 	{
-		protected TestCase testCase;
+		protected TestMethod test;
 
-		public AbstractTestCaseDecoration( TestCase testCase )
-			: base( (TestName)testCase.TestName.Clone() )
+		public TestDecorator( TestMethod test )
+			//: base( (TestName)test.TestName.Clone() )
+            : base( test.Method )
 		{
-			this.testCase = testCase;
-			this.RunState = testCase.RunState;
-			this.IgnoreReason = testCase.IgnoreReason;
-            this.Description = testCase.Description;
-            this.Categories = new System.Collections.ArrayList( testCase.Categories );
-            if ( testCase.Properties != null )
+			this.test = test;
+			this.RunState = test.RunState;
+			this.IgnoreReason = test.IgnoreReason;
+            this.Description = test.Description;
+            this.Categories = new System.Collections.ArrayList( test.Categories );
+            if ( test.Properties != null )
             {
                 this.Properties = new ListDictionary();
-                foreach (DictionaryEntry entry in testCase.Properties)
+                foreach (DictionaryEntry entry in test.Properties)
                     this.Properties.Add(entry.Key, entry.Value);
             }
         }
 
 		public override int TestCount
 		{
-			get { return testCase.TestCount; }
+			get { return test.TestCount; }
 		}
 	}
 }

@@ -8,6 +8,7 @@ using System;
 using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Builders;
+using NUnit.Core.Extensibility;
 
 namespace NUnit.TestUtilities
 {
@@ -17,7 +18,8 @@ namespace NUnit.TestUtilities
 	public class TestBuilder
 	{
 		private static NUnitTestFixtureBuilder suiteBuilder = new NUnitTestFixtureBuilder();
-		private static NUnitTestCaseBuilder testBuilder = new NUnitTestCaseBuilder();
+//		private static NUnitTestCaseBuilder testBuilder = new NUnitTestCaseBuilder();
+        private static ITestCaseBuilder testBuilder = (ITestCaseBuilder)CoreExtensions.Host.GetExtensionPoint("TestCaseBuilders");
 
 		public static NUnitTestFixture MakeFixture( Type type )
 		{

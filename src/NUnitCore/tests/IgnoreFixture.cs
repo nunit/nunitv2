@@ -39,7 +39,7 @@ namespace NUnit.Core.Tests
 			Type fixtureType = typeof(IgnoredTestCaseFixture);
 			Test test = TestBuilder.MakeTestCase( fixtureType, "CallsIgnore" );
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-			Assert.IsFalse( result.Executed, "TestCase should not run" );
+			Assert.IsFalse( result.Executed, "Test should not run" );
 			Assert.AreEqual( "Ignore me", result.Message );
 		}
 

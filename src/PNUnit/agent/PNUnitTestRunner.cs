@@ -247,7 +247,7 @@ namespace PNUnit.Agent
                 currentTestName = string.Empty;
             }
 
-            public void TestStarted(TestCase testCase)
+            public void TestStarted(TestMethod testCase)
             {
                 currentTestName = testCase.TestName.FullName;
 

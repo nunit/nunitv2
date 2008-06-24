@@ -28,10 +28,10 @@ namespace NUnit.Core.Extensibility
 
 		/// <summary>
 		/// Examine the method and determine if it is suitable for
-		/// any TestCaseBuilder to use in building a TestCase
+		/// any TestCaseBuilder to use in building a Test
 		/// </summary>
 		/// <param name="method">The method to be used as a test case</param>
-		/// <returns>True if the type can be used to build a TestCase</returns>
+		/// <returns>True if the method can be used to build a Test</returns>
 		public bool CanBuildFrom( MethodInfo method, Test suite )
 		{
 			foreach( ITestCaseBuilder builder in Extensions )
@@ -41,10 +41,10 @@ namespace NUnit.Core.Extensibility
 		}
 
 		/// <summary>
-		/// Build a TestCase from the method provided.
+		/// Build a Test from the method provided.
 		/// </summary>
 		/// <param name="method">The method to be used</param>
-		/// <returns>A TestCase or null</returns>
+		/// <returns>A Test or null</returns>
 		public Test BuildFrom( MethodInfo method, Test suite )
 		{
 			foreach( ITestCaseBuilder builder in Extensions )

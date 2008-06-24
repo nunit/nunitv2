@@ -21,7 +21,7 @@ namespace NUnit.UiKit.Tests
 	{
 		TestSuite testSuite;
 		Test testFixture;
-		NUnit.Core.TestCase testCase;
+		Test testCase;
 
 		TestInfo suiteInfo;
 		TestInfo fixtureInfo;
@@ -37,7 +37,7 @@ namespace NUnit.UiKit.Tests
 			suiteInfo = new TestInfo( testSuite );
 			fixtureInfo = new TestInfo( testFixture );
 
-			testCase = (NUnit.Core.TestCase)testFixture.Tests[0];
+			testCase = (NUnit.Core.Test)testFixture.Tests[0];
 			testCaseInfo = new TestInfo( testCase );
 		}
 

@@ -34,6 +34,8 @@ namespace NUnit.Core
             if (this.Parent != null)
                 this.Fixture = this.Parent.Fixture;
 
+            // DYNAMIC: Get the parameters, and add the methods here.
+            
             return base.Run(listener, filter);
         }
 

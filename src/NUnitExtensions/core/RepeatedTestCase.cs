@@ -12,13 +12,13 @@ namespace NUnit.Core.Extensions
 	/// RepeatedTestCase aggregates another test case and runs it
 	/// a specified number of times.
 	/// </summary>
-	public class RepeatedTestCase : AbstractTestCaseDecoration
+	public class RepeatedTestCase : TestDecorator
 	{
 		// The number of times to run the test
 		int count;
 
-		public RepeatedTestCase( TestCase testCase, int count )
-			: base( testCase )
+		public RepeatedTestCase( TestMethod testMethod, int count )
+			: base( testMethod )
 		{
 			this.count = count;
 		}
@@ -26,11 +26,11 @@ namespace NUnit.Core.Extensions
 		public override void Run(TestResult result)
 		{
 			// So testCase can get the fixture
-			testCase.Parent = this.Parent;
+			test.Parent = this.Parent;
 
 			for( int i = 0; i < count; i++ )
 			{
-				testCase.Run( result );
+				test.Run( result );
 				if ( result.IsFailure || result.IsError )
 					return;
 			}

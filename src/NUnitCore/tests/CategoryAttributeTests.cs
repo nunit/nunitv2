@@ -33,14 +33,14 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void CategoryOnTestCase()
 		{
-			TestCase test1 = (TestCase)fixture.Tests[0];
+			Test test1 = (Test)fixture.Tests[0];
 			Assert.Contains( "Long", test1.Categories );
 		}
 
 		[Test]
 		public void CanDeriveFromCategoryAttribute()
 		{
-			TestCase test2 = (TestCase)fixture.Tests[1];
+			Test test2 = (Test)fixture.Tests[1];
 			Assert.Contains( "Critical", test2.Categories );
 		}
 	}

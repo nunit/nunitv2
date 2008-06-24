@@ -132,11 +132,6 @@ namespace NUnit.Core
 			return count;
 		}
 
-        //public override TestResult Run(EventListener listener)
-        //{
-        //    return Run( listener, TestFilter.Empty );
-        //}
-
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
 			using( new TestContext() )

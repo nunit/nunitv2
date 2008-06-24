@@ -85,10 +85,10 @@ namespace NUnit.Core.Tests
 			Assert.IsNotNull(result.StackTrace, "TestSuite StackTrace should not be null");
 
 			TestResult testResult = ((TestResult)result.Results[0]);
-			Assert.IsTrue(testResult.Executed, "Testcase should have executed");
+			Assert.IsTrue(testResult.Executed, "Test should have executed");
 			Assert.AreEqual("TestFixtureSetUp failed in MisbehavingFixture", testResult.Message, "TestSuite Message");
             Assert.AreEqual(FailureSite.Parent, testResult.FailureSite);
-			Assert.AreEqual(testResult.StackTrace, testResult.StackTrace, "TestCase stackTrace should match TestSuite stackTrace" );
+			Assert.AreEqual(testResult.StackTrace, testResult.StackTrace, "Test stackTrace should match TestSuite stackTrace" );
 		}
 
 		[Test]
@@ -177,7 +177,7 @@ namespace NUnit.Core.Tests
 			Assert.IsTrue(testResult.Executed, "Testcase should have executed");
 			Assert.AreEqual("TestFixtureSetUp failed in ExceptionInConstructor", testResult.Message, "TestSuite Message");
             Assert.AreEqual(FailureSite.Parent, testResult.FailureSite);
-			Assert.AreEqual(testResult.StackTrace, testResult.StackTrace, "TestCase stackTrace should match TestSuite stackTrace" );
+			Assert.AreEqual(testResult.StackTrace, testResult.StackTrace, "Test stackTrace should match TestSuite stackTrace" );
 		}
 
 		[Test]
@@ -220,9 +220,9 @@ namespace NUnit.Core.Tests
 			SetUpAndTearDownFixture fixture = new SetUpAndTearDownFixture();
 			TestSuite suite = TestBuilder.MakeFixture( fixture.GetType() );
 			suite.Fixture = fixture;
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)suite.Tests[0];
+			Test test = (Test)suite.Tests[0];
 			
-			suite.Run(NullListener.NULL, new Filters.NameFilter( testCase.TestName ) );
+			suite.Run(NullListener.NULL, new Filters.NameFilter( test.TestName ) );
 
 			Assert.AreEqual(1, fixture.setUpCount);
 			Assert.AreEqual(1, fixture.tearDownCount);
@@ -235,7 +235,7 @@ namespace NUnit.Core.Tests
 			TestSuite suite = new TestSuite("IgnoredFixtureSuite");
 			TestSuite fixtureSuite = TestBuilder.MakeFixture( fixture.GetType() );
 			suite.Fixture = fixture;
-			NUnit.Core.TestCase testCase = (NUnit.Core.TestCase)fixtureSuite.Tests[0];
+			Test test = (Test)fixtureSuite.Tests[0];
 			suite.Add( fixtureSuite );
 
             fixtureSuite.Run(NullListener.NULL, TestFilter.Empty);
@@ -246,7 +246,7 @@ namespace NUnit.Core.Tests
 			Assert.IsFalse( fixture.setupCalled, "TestFixtureSetUp called running enclosing suite" );
 			Assert.IsFalse( fixture.teardownCalled, "TestFixtureTearDown called running enclosing suite" );
 
-            testCase.Run(NullListener.NULL, TestFilter.Empty);
+            test.Run(NullListener.NULL, TestFilter.Empty);
 			Assert.IsFalse( fixture.setupCalled, "TestFixtureSetUp called running a test case" );
 			Assert.IsFalse( fixture.teardownCalled, "TestFixtureTearDown called running a test case" );
 		}

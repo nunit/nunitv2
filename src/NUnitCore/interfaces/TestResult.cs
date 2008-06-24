@@ -307,6 +307,11 @@ namespace NUnit.Core
 			this.stackTrace = stackTrace;
 		}
 
+        /// <summary>
+        /// Set the result of the test.
+        /// </summary>
+        /// <param name="resultState">The ResultState to use in the result</param>
+        /// <param name="ex">The exception that caused this result</param>
         public void SetResult(ResultState resultState, Exception ex)
         {
             if ( resultState == ResultState.Error )
@@ -396,7 +401,7 @@ namespace NUnit.Core
 
 		#region Exception Helpers
 
-		public static string BuildMessage(Exception exception)
+		private static string BuildMessage(Exception exception)
 		{
 			StringBuilder sb = new StringBuilder();
 			sb.AppendFormat( "{0} : {1}", exception.GetType().ToString(), exception.Message );
@@ -412,7 +417,7 @@ namespace NUnit.Core
 			return sb.ToString();
 		}
 		
-		public static string BuildStackTrace(Exception exception)
+		private static string BuildStackTrace(Exception exception)
 		{
             StringBuilder sb = new StringBuilder( GetStackTrace( exception ) );
 

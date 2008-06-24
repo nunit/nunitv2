@@ -42,6 +42,7 @@ namespace NUnit.Core
 
         // Attributes that apply only to Methods
         public const string TestAttribute = "NUnit.Framework.TestAttribute";
+        public const string DynamicTestAttribute = "NUnit.Framework.DynamicTestAttribute";
         public const string TestCaseAttribute = "NUnit.Framework.TestCaseAttribute";
 	    public const string FactoryAttribute = "NUnit.Framework.FactoryAttribute";
         public static readonly string SetUpAttribute = "NUnit.Framework.SetUpAttribute";
@@ -388,8 +389,100 @@ namespace NUnit.Core
         }
 		#endregion
 
-		#region IsSuiteBuilder
-		public static bool IsSuiteBuilder( Type type )
+        #region ApplyExpectedExceptionAttribute
+        /// <summary>
+        /// Modify a newly constructed test by checking for ExpectedExceptionAttribute
+        /// and setting properties on the test accordingly.
+        /// </summary>
+        /// <param name="attributes">An array of attributes possibly including NUnit attributes
+        /// <param name="test">The test to which the attributes apply</param>
+        public static void ApplyExpectedExceptionAttribute(MethodInfo method, TestMethod testMethod)
+        {
+            Attribute attribute = Reflect.GetAttribute(
+                method, NUnitFramework.ExpectedExceptionAttribute, false);
+
+            if (attribute != null)
+            {
+                testMethod.ExceptionExpected = true;
+
+                Type expectedExceptionType = GetExceptionType(attribute);
+                string expectedExceptionName = GetExceptionName(attribute);
+                if (expectedExceptionType != null)
+                    testMethod.ExpectedExceptionType = expectedExceptionType;
+                else if (expectedExceptionName != null)
+                    testMethod.ExpectedExceptionName = expectedExceptionName;
+
+                testMethod.ExpectedMessage = GetExpectedMessage(attribute);
+                testMethod.MatchType = GetMatchType(attribute);
+                testMethod.UserMessage = GetUserMessage(attribute);
+
+                string handlerName = GetHandler(attribute);
+                if (handlerName == null)
+                    testMethod.ExceptionHandler = GetDefaultExceptionHandler(testMethod.FixtureType);
+                else
+                {
+                    MethodInfo handler = GetExceptionHandler(testMethod.FixtureType, handlerName);
+                    if (handler != null)
+                        testMethod.ExceptionHandler = handler;
+                    else
+                    {
+                        testMethod.RunState = RunState.NotRunnable;
+                        testMethod.IgnoreReason = string.Format(
+                            "The specified exception handler {0} was not found", handlerName);
+                    }
+                }
+            }
+        }
+
+        private static MethodInfo GetDefaultExceptionHandler(Type fixtureType)
+        {
+            return Reflect.HasInterface(fixtureType, NUnitFramework.ExpectExceptionInterface)
+                ? GetExceptionHandler(fixtureType, "HandleException")
+                : null;
+        }
+
+        private static MethodInfo GetExceptionHandler(Type fixtureType, string name)
+        {
+            return Reflect.GetNamedMethod(
+                fixtureType,
+                name,
+                new string[] { "System.Exception" });
+        }
+
+        private static string GetHandler(System.Attribute attribute)
+        {
+            return Reflect.GetPropertyValue(attribute, "Handler") as string;
+        }
+
+        private static Type GetExceptionType(System.Attribute attribute)
+        {
+            return Reflect.GetPropertyValue(attribute, "ExceptionType") as Type;
+        }
+
+        private static string GetExceptionName(System.Attribute attribute)
+        {
+            return Reflect.GetPropertyValue(attribute, "ExceptionName") as string;
+        }
+
+        private static string GetExpectedMessage(System.Attribute attribute)
+        {
+            return Reflect.GetPropertyValue(attribute, "ExpectedMessage") as string;
+        }
+
+        private static string GetMatchType(System.Attribute attribute)
+        {
+            object matchEnum = Reflect.GetPropertyValue(attribute, "MatchType");
+            return matchEnum != null ? matchEnum.ToString() : null;
+        }
+
+        private static string GetUserMessage(System.Attribute attribute)
+        {
+            return Reflect.GetPropertyValue(attribute, "UserMessage") as string;
+        }
+        #endregion
+
+        #region IsSuiteBuilder
+        public static bool IsSuiteBuilder( Type type )
 		{
 			return Reflect.HasAttribute( type, SuiteBuilderAttribute, false )
 				&& Reflect.HasInterface( type, SuiteBuilderInterface );
@@ -419,8 +512,12 @@ namespace NUnit.Core
 			{
 				try
 				{
-					NameValueCollection settings = (NameValueCollection)
+                    NameValueCollection settings = (NameValueCollection)
+#if NET_2_0
+                        ConfigurationManager.GetSection("NUnit/TestCaseBuilder");
+#else
 						ConfigurationSettings.GetConfig("NUnit/TestCaseBuilder");
+#endif
 					if (settings != null)
 					{
 						string oldStyle = settings["OldStyleTestCases"];
@@ -567,6 +664,34 @@ namespace NUnit.Core
             }
         }
 
+        #endregion
+
+        #region GetResultState
+        /// <summary>
+        /// Returns a result state for a special exception.
+        /// If the exception is not handled specially, returns
+        /// ResultState.Error.
+        /// </summary>
+        /// <param name="ex">The exception to be examined</param>
+        /// <returns>A ResultState</returns>
+        public static ResultState GetResultState(Exception ex)
+        {
+            string name = ex.GetType().FullName;
+
+            if (name == NUnitFramework.AssertException)
+                return ResultState.Failure;
+            else
+                if (name == NUnitFramework.IgnoreException)
+                    return ResultState.Ignored;
+                else
+                    if (name == NUnitFramework.InconclusiveException)
+                        return ResultState.Inconclusive;
+                    else
+                        if (name == NUnitFramework.SuccessException)
+                            return ResultState.Success;
+                        else
+                            return ResultState.Error;
+        }
         #endregion
     }
 }

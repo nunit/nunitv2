@@ -35,8 +35,8 @@ namespace NUnit.Core.Extensions
 			if ( member == null )
 				return test;
 
-			TestCase testCase = test as TestCase;
-			if ( testCase == null )
+			TestMethod testMethod = test as TestMethod;
+			if ( testMethod == null )
 				return test;
 
 			Attribute repeatAttr = Reflect.GetAttribute( member, RepeatAttributeType, true );
@@ -51,7 +51,7 @@ namespace NUnit.Core.Extensions
 
 			int count = (int)propVal;
 
-			return new RepeatedTestCase( testCase, count );
+			return new RepeatedTestCase( testMethod, count );
 		}
 		#endregion
 	}

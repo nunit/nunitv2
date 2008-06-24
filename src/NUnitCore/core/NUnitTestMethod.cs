@@ -34,33 +34,6 @@ namespace NUnit.Core
 
 			testResult.AssertCount = NUnitFramework.Assert.GetAssertCount();
 		}
-
-        /// <summary>
-        /// Returns a result state for a special exception.
-        /// If the exception is not handled specially, returns
-        /// ResultState.Error.
-        /// </summary>
-        /// <param name="ex">The exception to be examined</param>
-        /// <returns>A ResultState</returns>
-        protected override ResultState GetResultState(Exception ex)
-        {
-            string name = ex.GetType().FullName;
-
-            if ( name == NUnitFramework.AssertException )
-                return ResultState.Failure;
-            else 
-            if ( name == NUnitFramework.IgnoreException )
-                return ResultState.Ignored;
-            else 
-            if ( name == NUnitFramework.InconclusiveException )
-                return ResultState.Inconclusive;
-            else 
-            if ( name == NUnitFramework.SuccessException )
-                return ResultState.Success;
-            else
-                return ResultState.Error;
-        }
-
         #endregion
 	}
 }

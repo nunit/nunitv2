@@ -22,8 +22,7 @@ namespace NUnit.Core.Tests
 		[SetUp]
 		public void SetUp()
 		{
-			Test testCase = TestBuilder.MakeTestCase( this, "DummyMethod" ); 
-			caseResult = new TestResult( new TestInfo(testCase) );
+			caseResult = new TestResult( new TestInfo(new NUnitTestMethod(Reflect.GetNamedMethod( this.GetType(), "DummyMethod" ) ) ) );
 		}
 
 		public void DummyMethod() { }

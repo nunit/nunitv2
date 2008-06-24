@@ -59,7 +59,7 @@ namespace NUnit.Core.Tests
 
 			foreach(Test t in mockFixtureSuite.Tests)
 			{
-				Assert.IsTrue(t is NUnit.Core.TestCase, "should be a TestCase");
+				Assert.IsFalse(t.IsSuite, "Should not be a suite");
 			}
 		}
 			

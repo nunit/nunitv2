@@ -12,16 +12,14 @@ namespace NUnit.Core
 	using System.Reflection;
 
 	/// <summary>
-	/// The TestMethod class represents a TestCase implemented as a method
-	/// call on a fixture object. At the moment, this is the only way we 
-	/// implement a TestCase, but others are expected in the future.
+	/// The TestMethod class represents a Test implemented as a method.
 	/// 
 	/// Because of how exceptions are handled internally, this class
 	/// must incorporate processing of expected exceptions. A change to
-	/// the TestCase interface might make it easier to process exceptions
+	/// the Test interface might make it easier to process exceptions
 	/// in an object that aggregates a TestMethod in the future.
 	/// </summary>
-	public abstract class TestMethod : TestCase
+	public abstract class TestMethod : Test
 	{
 		#region Fields
 		/// <summary>
@@ -154,7 +152,43 @@ namespace NUnit.Core
 		#endregion
 
 		#region Run Methods
-		public override void Run(TestResult testResult)
+        public override TestResult Run(EventListener listener, ITestFilter filter)
+        {
+            using (new TestContext())
+            {
+                TestResult testResult = new TestResult(this);
+
+                listener.TestStarted(this.TestName);
+                long startTime = DateTime.Now.Ticks;
+
+                switch (this.RunState)
+                {
+                    case RunState.Runnable:
+                    case RunState.Explicit:
+                        Run(testResult);
+                        break;
+                    case RunState.Skipped:
+                    default:
+                        testResult.Skip(IgnoreReason);
+                        break;
+                    case RunState.NotRunnable:
+                        testResult.Invalid(IgnoreReason);
+                        break;
+                    case RunState.Ignored:
+                        testResult.Ignore(IgnoreReason);
+                        break;
+                }
+
+                long stopTime = DateTime.Now.Ticks;
+                double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+                testResult.Time = time;
+
+                listener.TestFinished(testResult);
+                return testResult;
+            }
+        }
+        
+        public virtual void Run(TestResult testResult)
 		{
             try
             {
@@ -268,7 +302,7 @@ namespace NUnit.Core
 
 		protected void RecordException( Exception ex, TestResult testResult )
 		{
-            testResult.SetResult( GetResultState(ex), ex );
+            testResult.SetResult( NUnitFramework.GetResultState(ex), ex );
 		}
 
 		protected string GetStackTrace(Exception exception)
@@ -317,7 +351,7 @@ namespace NUnit.Core
 					testResult.Failure(WrongTextMessage(exception), GetStackTrace(exception));
 				}
 			}
-            else if ( GetResultState(exception) == ResultState.Failure )
+            else if ( NUnitFramework.GetResultState(exception) == ResultState.Failure )
             {
                 testResult.Failure(exception.Message, exception.StackTrace);
             }
@@ -326,10 +360,6 @@ namespace NUnit.Core
 			    testResult.Failure(WrongTypeMessage(exception), GetStackTrace(exception));
 			}
 		}
-		#endregion
-
-		#region Abstract Method
-	    protected abstract ResultState GetResultState(Exception ex);
 		#endregion
 
 		#region Helper Methods

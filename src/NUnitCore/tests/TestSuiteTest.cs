@@ -179,8 +179,8 @@ namespace NUnit.Core.Tests
 			testSuite.Add(mockTestFixture);
 			Assert.AreEqual(MockTestFixture.Tests, testSuite.TestCount);
 			
-			NUnit.Core.TestCase mock3 = (NUnit.Core.TestCase) TestFinder.Find("MockTest3", testSuite);
-			NUnit.Core.TestCase mock1 = (NUnit.Core.TestCase) TestFinder.Find("MockTest1", testSuite);
+			Test mock3 = TestFinder.Find("MockTest3", testSuite);
+			Test mock1 = TestFinder.Find("MockTest1", testSuite);
 			NameFilter filter = new NameFilter(mock3.TestName);
 			Assert.AreEqual(1, testSuite.CountTestCases(filter));
 
