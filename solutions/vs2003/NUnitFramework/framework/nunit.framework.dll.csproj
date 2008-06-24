@@ -144,6 +144,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DynamicTestAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\DynamicTestAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExpectedExceptionAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\ExpectedExceptionAttribute.cs"
                     SubType = "Code"
