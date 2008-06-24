@@ -280,7 +280,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Trigger event when each test starts
 		/// </summary>
-		/// <param name="testCase">TestCase that is starting</param>
+		/// <param name="testName">TestName of the Test that is starting</param>
 		void EventListener.TestStarted(TestName testName)
 		{
 			this.currentTestName = testName.FullName;
