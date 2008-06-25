@@ -8,11 +8,31 @@ using System.Reflection;
 
 namespace NUnit.Core.Extensibility
 {
-	public class DecoratorPriority
+	/// <summary>
+	/// DecoratorPriority wraps constants that may be used
+    /// to represent the relative priority of TestDecorators.
+    /// Decorators with a lower priority are applied first
+    /// so that higher priority decorators wrap them.
+    /// 
+    /// NOTE: This feature is subject to change.
+	/// </summary>
+    public class DecoratorPriority
 	{
-	    public static readonly int Default = 0;
+	    /// <summary>
+	    /// The default priority, equivalent to Normal
+	    /// </summary>
+        public static readonly int Default = 0;
+        /// <summary>
+        /// Priority for Decorators that must apply first 
+        /// </summary>
 		public static readonly int First = 1;
+        /// <summary>
+        /// Normal Decorator priority
+        /// </summary>
 		public static readonly int Normal = 5;
+        /// <summary>
+        /// Priority for Decorators that must apply last
+        /// </summary>
 	    public static readonly int Last = 9;
 	}
 
