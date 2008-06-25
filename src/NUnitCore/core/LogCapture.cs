@@ -27,7 +27,11 @@ namespace NUnit.Core
                     defaultThreshold = "Error";
 
                     NameValueCollection settings = (NameValueCollection)
+#if NET_2_0
+                        ConfigurationManager.GetSection("NUnit/TestRunner");
+#else
                         ConfigurationSettings.GetConfig("NUnit/TestRunner");
+#endif
 
                     if (settings != null)
                     {

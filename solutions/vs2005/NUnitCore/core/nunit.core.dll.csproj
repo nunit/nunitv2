@@ -74,13 +74,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <Name>log4net</Name>
-      <HintPath>..\..\..\..\lib\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data">
       <Name>System.Data</Name>
     </Reference>
@@ -287,10 +284,6 @@
       <Link>TestBuilderAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\TestCase.cs">
-      <Link>TestCase.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\TestCaseBuilderAttribute.cs">
       <Link>TestCaseBuilderAttribute.cs</Link>
       <SubType>Code</SubType>
@@ -336,6 +329,18 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\ParameterizedTestMethodSuite.cs">
       <Link>ParameterizedTestMethodSuite.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\DynamicTestCaseBuilder.cs">
+      <Link>Builders\DynamicTestCaseBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\ParameterizedTestCaseBuilder.cs">
+      <Link>Builders\ParameterizedTestCaseBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\DynamicTestMethod.cs">
+      <Link>DynamicTestMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\NUnitConfiguration.cs">
+      <Link>NUnitConfiguration.cs</Link>
     </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>

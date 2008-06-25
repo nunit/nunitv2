@@ -73,7 +73,7 @@ namespace NUnit.Util
 						dir = dir.Parent.Parent.Parent.Parent;
 				
 					string path = PathUtils.Combine( dir.FullName, "NUnitTestServer", "nunit-agent-exe", 
-						"bin", NUnitFramework.BuildConfiguration, "nunit-agent.exe" );
+						"bin", NUnitConfiguration.BuildConfiguration, "nunit-agent.exe" );
 					if( File.Exists( path ) )
 						agentPath = path;
 				}

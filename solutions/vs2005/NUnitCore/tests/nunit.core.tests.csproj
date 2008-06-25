@@ -361,6 +361,9 @@
       <Link>XmlTest.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\DynamicTestCaseTests.cs">
+      <Link>DynamicTestCaseTests.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
       <SubType>Designer</SubType>

@@ -7,7 +7,6 @@ using System;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Specialized;
-using System.Configuration;
 using System.Diagnostics;
 using NUnit.Core.Extensibility;
 
@@ -502,56 +501,6 @@ namespace NUnit.Core
 		{
 			return Reflect.HasAttribute( type, TestDecoratorAttributeName, false )
 				&& Reflect.HasInterface( type, TestDecoratorInterfaceName );
-		}
-		#endregion
-
-		#region AllowOldStyleTests
-		public static bool AllowOldStyleTests
-		{
-			get
-			{
-				try
-				{
-                    NameValueCollection settings = (NameValueCollection)
-#if NET_2_0
-                        ConfigurationManager.GetSection("NUnit/TestCaseBuilder");
-#else
-						ConfigurationSettings.GetConfig("NUnit/TestCaseBuilder");
-#endif
-					if (settings != null)
-					{
-						string oldStyle = settings["OldStyleTestCases"];
-						if (oldStyle != null)
-							return Boolean.Parse(oldStyle);
-					}
-				}
-				catch( Exception e )
-				{
-					Debug.WriteLine( e );
-				}
-
-				return false;
-			}
-		}
-		#endregion
-
-		#region BuildConfiguration
-		public static string BuildConfiguration
-		{
-			get
-			{
-#if DEBUG
-				if (Environment.Version.Major == 2)
-					return "Debug2005";
-				else
-					return "Debug";
-#else
-				if (Environment.Version.Major == 2)
-					return "Release2005";
-				else
-					return "Release";
-#endif
-			}
 		}
 		#endregion
 

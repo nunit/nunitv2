@@ -17,7 +17,7 @@ namespace NUnit.Core
 	public abstract class Test : ITest, IComparable
     {
         #region Constants
-        private static readonly string SETCULTURE = "_SETCULTURE";
+        //private static readonly string SETCULTURE = "_SETCULTURE";
         private static readonly string DESCRIPTION = "_DESCRIPTION";
         private static readonly string IGNOREREASON = "_IGNOREREASON";
         private static readonly string CATEGORIES = "_CATEGORIES";

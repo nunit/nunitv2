@@ -142,6 +142,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DynamicTestMethod.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\DynamicTestMethod.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EventListenerTextWriter.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\EventListenerTextWriter.cs"
                     SubType = "Code"
@@ -228,6 +234,12 @@
                 <File
                     RelPath = "NullListener.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\NullListener.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "NUnitConfiguration.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\NUnitConfiguration.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -410,6 +422,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Builders\DynamicTestCaseBuilder.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\DynamicTestCaseBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Builders\LegacySuiteBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\LegacySuiteBuilder.cs"
                     SubType = "Code"
@@ -424,6 +442,12 @@
                 <File
                     RelPath = "Builders\NUnitTestFixtureBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\NUnitTestFixtureBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\ParameterizedTestCaseBuilder.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\ParameterizedTestCaseBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

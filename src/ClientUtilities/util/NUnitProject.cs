@@ -320,7 +320,7 @@ namespace NUnit.Util
 								{
 									activeConfigName = reader.GetAttribute( "activeconfig" );
                                     if (activeConfigName == "NUnitAutoConfig")
-										activeConfigName = NUnitFramework.BuildConfiguration;
+										activeConfigName = NUnitConfiguration.BuildConfiguration;
 									string appbase = reader.GetAttribute( "appbase" );
 									if ( appbase != null )
 										this.BasePath = appbase;

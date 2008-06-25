@@ -81,31 +81,9 @@ namespace NUnit.Core
 			this.thread = new Thread( new ThreadStart( TestRunnerThreadProc ) );
 			thread.IsBackground = true;
 			thread.Name = "TestRunnerThread";
-
-			this.settings = (NameValueCollection)
-				ConfigurationSettings.GetConfig( "NUnit/TestRunner" );
-	
-			if ( settings != null )
-			{
-				try
-				{
-					string apartment = settings["ApartmentState"];
-					if ( apartment != null )
-						thread.ApartmentState = (ApartmentState)
-							System.Enum.Parse( typeof( ApartmentState ), apartment, true );
-		
-					string priority = settings["ThreadPriority"];
-					if ( priority != null )
-						thread.Priority = (ThreadPriority)
-							System.Enum.Parse( typeof( ThreadPriority ), priority, true );
-				}
-				catch( ArgumentException ex )
-				{
-					string msg = string.Format( "Invalid configuration setting in {0}", 
-						AppDomain.CurrentDomain.SetupInformation.ConfigurationFile );
-					throw new ArgumentException( msg, ex );
-				}
-			}
+            thread.Priority = NUnitConfiguration.ThreadPriority;
+            if ( NUnitConfiguration.ApartmentState != ApartmentState.Unknown )
+                thread.ApartmentState = NUnitConfiguration.ApartmentState;
 		}
 
 		#endregion

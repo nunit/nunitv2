@@ -26,7 +26,7 @@ namespace NUnit.Core.Builders
     /// </summary>
 	public class NUnitTestCaseBuilder : Extensibility.ITestCaseBuilder
 	{
-		private readonly bool allowOldStyleTests = NUnitFramework.AllowOldStyleTests;
+		private readonly bool allowOldStyleTests = NUnitConfiguration.AllowOldStyleTests;
 
         #region ITestCaseBuilder Methods
         /// <summary>
