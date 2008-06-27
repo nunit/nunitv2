@@ -17,8 +17,7 @@ namespace NUnit.TestUtilities
 	/// </summary>
 	public class TestBuilder
 	{
-		private static NUnitTestFixtureBuilder suiteBuilder = new NUnitTestFixtureBuilder();
-//		private static NUnitTestCaseBuilder testBuilder = new NUnitTestCaseBuilder();
+		private static ISuiteBuilder suiteBuilder = (ISuiteBuilder)CoreExtensions.Host.GetExtensionPoint("SuiteBuilders");
         private static ITestCaseBuilder testBuilder = (ITestCaseBuilder)CoreExtensions.Host.GetExtensionPoint("TestCaseBuilders");
 
 		public static NUnitTestFixture MakeFixture( Type type )
