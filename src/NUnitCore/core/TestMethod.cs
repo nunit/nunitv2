@@ -37,40 +37,10 @@ namespace NUnit.Core
 		/// </summary>
 		protected MethodInfo tearDownMethod;
 
-		/// <summary>
-		/// The exception handler method
-		/// </summary>
-		internal MethodInfo exceptionHandler;
-
-		/// <summary>
-		/// True if an exception is expected
-		/// </summary>
-		internal bool exceptionExpected;
-
-		/// <summary>
-		/// The type of any expected exception
-		/// </summary>
-		internal Type expectedExceptionType;
-        
-		/// <summary>
-		/// The full name of any expected exception type
-		/// </summary>
-		internal string expectedExceptionName;
-        
-		/// <summary>
-		/// The value of any message associated with an expected exception
-		/// </summary>
-		internal string expectedMessage;
-        
-		/// <summary>
-		/// A string indicating how to match the expected message
-		/// </summary>
-		internal string matchType;
-
-		/// <summary>
-		/// A string containing any user message specified for the expected exception
-		/// </summary>
-		internal string userMessage;
+        /// <summary>
+        /// The ExpectedExceptionProcessor for this test, if any
+        /// </summary>
+        internal ExpectedExceptionProcessor exceptionProcessor;
 
         /// <summary>
         /// Arguments to be used in invoking the method
@@ -98,57 +68,17 @@ namespace NUnit.Core
 			get { return method; }
 		}
 
+        public ExpectedExceptionProcessor ExceptionProcessor
+        {
+            get { return exceptionProcessor; }
+            set { exceptionProcessor = value; }
+        }
+
 		public bool ExceptionExpected
 		{
-			get { return exceptionExpected; }
-			set { exceptionExpected = value; }
+            get { return exceptionProcessor != null; }
 		}
 
-		public MethodInfo ExceptionHandler
-		{
-			get { return exceptionHandler; }
-			set { exceptionHandler = value; }
-		}
-
-		public Type ExpectedExceptionType
-		{
-			get { return expectedExceptionType; }
-			set 
-			{ 
-				expectedExceptionType = value;
-				expectedExceptionName = expectedExceptionType != null
-					? expectedExceptionType.FullName
-					: null;
-			}
-		}
-
-		public string ExpectedExceptionName
-		{
-			get { return expectedExceptionName; }
-			set
-			{
-				expectedExceptionType = null;
-				expectedExceptionName = value;
-			}
-		}
-
-		public string ExpectedMessage
-		{
-			get { return expectedMessage; }
-			set { expectedMessage = value; }
-		}
-
-		public string MatchType
-		{
-			get { return matchType; }
-			set { matchType = value; }
-		}
-
-		public string UserMessage
-		{
-			get { return userMessage; }
-			set { userMessage = value; }
-		}
 		#endregion
 
 		#region Run Methods
@@ -276,12 +206,15 @@ namespace NUnit.Core
 			try
 			{
 				RunTestMethod(testResult);
-                if ( testResult.IsSuccess )
-				    ProcessNoException(testResult);
+                if ( testResult.IsSuccess && exceptionProcessor != null)
+				    exceptionProcessor.ProcessNoException(testResult);
 			}
 			catch( Exception ex )
 			{
-				ProcessException(ex, testResult);
+                if (exceptionProcessor == null)
+                    RecordException(ex, testResult);
+                else
+                    exceptionProcessor.ProcessException(ex, testResult);
 			}
 		}
 
@@ -299,135 +232,13 @@ namespace NUnit.Core
 		#endregion
 
 		#region Record Info About An Exception
-
-		protected void RecordException( Exception ex, TestResult testResult )
-		{
-            testResult.SetResult( NUnitFramework.GetResultState(ex), ex );
-		}
-
-		protected string GetStackTrace(Exception exception)
-		{
-			try
-			{
-				return exception.StackTrace;
-			}
-			catch( Exception )
-			{
-				return "No stack trace available";
-			}
-		}
-
-		#endregion
-
-		#region Exception Processing
-		protected internal virtual void ProcessNoException(TestResult testResult)
-		{
-			if ( ExceptionExpected )
-				testResult.Failure(NoExceptionMessage(), null);
-			else
-				testResult.Success();
-		}
-		
-		protected internal virtual void ProcessException(Exception exception, TestResult testResult)
+		protected void RecordException( Exception exception, TestResult testResult )
 		{
             if (exception is NUnitException)
                 exception = exception.InnerException;
 
-            if (!ExceptionExpected)
-			{
-				RecordException(exception, testResult); 
-			}
-			else if (IsExpectedExceptionType(exception))
-			{
-				if (IsExpectedMessageMatch(exception))
-				{
-					if ( exceptionHandler != null )
-						Reflect.InvokeMethod( exceptionHandler, this.Fixture, exception );
-
-					testResult.Success();
-				}
-				else
-				{
-					testResult.Failure(WrongTextMessage(exception), GetStackTrace(exception));
-				}
-			}
-            else if ( NUnitFramework.GetResultState(exception) == ResultState.Failure )
-            {
-                testResult.Failure(exception.Message, exception.StackTrace);
-            }
-            else
-            {
-			    testResult.Failure(WrongTypeMessage(exception), GetStackTrace(exception));
-			}
+            testResult.SetResult(NUnitFramework.GetResultState(exception), exception);
 		}
 		#endregion
-
-		#region Helper Methods
-		protected bool IsExpectedExceptionType(Exception exception)
-		{
-			return expectedExceptionName == null || expectedExceptionName.Equals(exception.GetType().FullName);
-		}
-
-		protected bool IsExpectedMessageMatch(Exception exception)
-		{
-			if (expectedMessage == null)
-				return true;
-
-			switch (matchType)
-			{
-				case "Exact":
-				default:
-					return expectedMessage.Equals(exception.Message);
-				case "Contains":
-					return exception.Message.IndexOf(expectedMessage) >= 0;
-				case "Regex":
-					return Regex.IsMatch(exception.Message, expectedMessage);
-			}
-		}
-
-		protected string NoExceptionMessage()
-		{
-			string expectedType = expectedExceptionName == null ? "An Exception" : expectedExceptionName;
-			return CombineWithUserMessage( expectedType + " was expected" );
-		}
-
-		protected string WrongTypeMessage(Exception exception)
-		{
-			return CombineWithUserMessage(
-				"An unexpected exception type was thrown" + Environment.NewLine +
-				"Expected: " + expectedExceptionName + Environment.NewLine +
-				" but was: " + exception.GetType().FullName + " : " + exception.Message );
-		}
-
-		protected string WrongTextMessage(Exception exception)
-		{
-			string expectedText;
-			switch (matchType)
-			{
-				default:
-				case "Exact":
-					expectedText = "Expected: ";
-					break;
-				case "Contains":
-					expectedText = "Expected message containing: ";
-					break;
-				case "Regex":
-					expectedText = "Expected message matching: ";
-					break;
-			}
-
-			return CombineWithUserMessage(
-				"The exception message text was incorrect" + Environment.NewLine +
-				expectedText + expectedMessage + Environment.NewLine +
-				" but was: " + exception.Message );
-		}
-
-		private string CombineWithUserMessage( string message )
-		{
-			if ( userMessage == null )
-				return message;
-			return userMessage + Environment.NewLine + message;
-		}
-        #endregion
     }
 }

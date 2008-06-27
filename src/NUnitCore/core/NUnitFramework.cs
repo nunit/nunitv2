@@ -267,9 +267,9 @@ namespace NUnit.Core
 
 		#region Description
 		/// <summary>
-		/// Method to return the description from an attribute
+		/// Method to return the description from an source
 		/// </summary>
-		/// <param name="attribute">The attribute to check</param>
+		/// <param name="source">The source to check</param>
 		/// <returns>The description, if any, or null</returns>
 		public static string GetDescription(System.Attribute attribute)
 		{
@@ -401,83 +401,9 @@ namespace NUnit.Core
                 method, NUnitFramework.ExpectedExceptionAttribute, false);
 
             if (attribute != null)
-            {
-                testMethod.ExceptionExpected = true;
-
-                Type expectedExceptionType = GetExceptionType(attribute);
-                string expectedExceptionName = GetExceptionName(attribute);
-                if (expectedExceptionType != null)
-                    testMethod.ExpectedExceptionType = expectedExceptionType;
-                else if (expectedExceptionName != null)
-                    testMethod.ExpectedExceptionName = expectedExceptionName;
-
-                testMethod.ExpectedMessage = GetExpectedMessage(attribute);
-                testMethod.MatchType = GetMatchType(attribute);
-                testMethod.UserMessage = GetUserMessage(attribute);
-
-                string handlerName = GetHandler(attribute);
-                if (handlerName == null)
-                    testMethod.ExceptionHandler = GetDefaultExceptionHandler(testMethod.FixtureType);
-                else
-                {
-                    MethodInfo handler = GetExceptionHandler(testMethod.FixtureType, handlerName);
-                    if (handler != null)
-                        testMethod.ExceptionHandler = handler;
-                    else
-                    {
-                        testMethod.RunState = RunState.NotRunnable;
-                        testMethod.IgnoreReason = string.Format(
-                            "The specified exception handler {0} was not found", handlerName);
-                    }
-                }
-            }
+                testMethod.ExceptionProcessor = new ExpectedExceptionProcessor(testMethod, attribute);
         }
 
-        private static MethodInfo GetDefaultExceptionHandler(Type fixtureType)
-        {
-            return Reflect.HasInterface(fixtureType, NUnitFramework.ExpectExceptionInterface)
-                ? GetExceptionHandler(fixtureType, "HandleException")
-                : null;
-        }
-
-        private static MethodInfo GetExceptionHandler(Type fixtureType, string name)
-        {
-            return Reflect.GetNamedMethod(
-                fixtureType,
-                name,
-                new string[] { "System.Exception" });
-        }
-
-        private static string GetHandler(System.Attribute attribute)
-        {
-            return Reflect.GetPropertyValue(attribute, "Handler") as string;
-        }
-
-        private static Type GetExceptionType(System.Attribute attribute)
-        {
-            return Reflect.GetPropertyValue(attribute, "ExceptionType") as Type;
-        }
-
-        private static string GetExceptionName(System.Attribute attribute)
-        {
-            return Reflect.GetPropertyValue(attribute, "ExceptionName") as string;
-        }
-
-        private static string GetExpectedMessage(System.Attribute attribute)
-        {
-            return Reflect.GetPropertyValue(attribute, "ExpectedMessage") as string;
-        }
-
-        private static string GetMatchType(System.Attribute attribute)
-        {
-            object matchEnum = Reflect.GetPropertyValue(attribute, "MatchType");
-            return matchEnum != null ? matchEnum.ToString() : null;
-        }
-
-        private static string GetUserMessage(System.Attribute attribute)
-        {
-            return Reflect.GetPropertyValue(attribute, "UserMessage") as string;
-        }
         #endregion
 
         #region IsSuiteBuilder

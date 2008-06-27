@@ -57,7 +57,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET_2_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>false</DebugSymbols>
@@ -160,6 +160,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\EventQueue.cs">
       <Link>EventQueue.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\ExpectedExceptionProcessor.cs">
+      <Link>ExpectedExceptionProcessor.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\EventListenerCollection.cs">
       <Link>Extensibility\EventListenerCollection.cs</Link>

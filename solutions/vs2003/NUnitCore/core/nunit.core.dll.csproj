@@ -166,6 +166,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ExpectedExceptionProcessor.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\ExpectedExceptionProcessor.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ExtensionHost.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\ExtensionHost.cs"
                     SubType = "Code"
