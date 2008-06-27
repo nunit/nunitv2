@@ -50,10 +50,7 @@ namespace NUnit.Core.Extensions
 			this.Parent = testCase.Parent;
 			this.RunState = testCase.RunState;
 			this.IgnoreReason = testCase.IgnoreReason;
-			this.ExceptionExpected = testCase.ExceptionExpected;
-			this.ExpectedExceptionName = testCase.ExpectedExceptionName;
-			this.ExpectedExceptionType = testCase.ExpectedExceptionType;
-			this.ExpectedMessage = testCase.ExpectedMessage;
+            this.ExceptionProcessor = testCase.ExceptionProcessor;
 			this.Properties = testCase.Properties;
 			this.Categories = testCase.Categories;
 		}

@@ -28,7 +28,8 @@ namespace NUnit.Core.Builders
         /// <returns>True if the builder can create a test case from this method</returns>
         public bool CanBuildFrom(MethodInfo method, Test suite)
         {
-            return Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) ||
+            return Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) &&
+                   !Reflect.HasAttribute(method, NUnitFramework.DynamicTestAttribute, false) ||
                    Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) &&
                    CoreExtensions.Host.TestCaseProviders.HasTestCasesFor( method );
         }
@@ -92,12 +93,7 @@ namespace NUnit.Core.Builders
                 }
 
                 if (parms.ExpectedExceptionName != null)
-                {
-                    testMethod.ExceptionExpected = true;
-                    testMethod.ExpectedExceptionType = parms.ExpectedExceptionType;
-                    testMethod.ExpectedExceptionName = parms.ExpectedExceptionName;
-                    testMethod.ExpectedMessage = parms.ExpectedExceptionMessage;
-                }
+                    testMethod.exceptionProcessor = new ExpectedExceptionProcessor( testMethod, parms );
 
                 if (parms.Description != null)
                     testMethod.Description = parms.Description;
