@@ -44,22 +44,28 @@ namespace NUnit.Gui
 			// TODO: Add any constructor code after InitializeComponent call
 			//
 			Assembly executingAssembly = Assembly.GetExecutingAssembly();
-			Version version = executingAssembly.GetName().Version;
+			string versionText = executingAssembly.GetName().Version.ToString();
 
             object [] objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
-            AssemblyInformationalVersionAttribute versionAttribute = (AssemblyInformationalVersionAttribute)objectAttrs[0];
-            versionLabel.Text = versionAttribute != null
-                                    ? versionAttribute.InformationalVersion
-                                    : version.ToString(3);
+            if ( objectAttrs.Length > 0 )
+				versionText = ((AssemblyInformationalVersionAttribute)objectAttrs[0]).InformationalVersion;
 
+			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyConfigurationAttribute), false);
+			if ( objectAttrs.Length > 0 )
+			{
+				string configText = ((AssemblyConfigurationAttribute)objectAttrs[0]).Configuration;
+				versionText += string.Format(" ({0})",configText);
+			}
+			
+			string copyrightText = "Copyright (C) 2002-2008 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved.";
 			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
-			AssemblyCopyrightAttribute copyrightAttr = (AssemblyCopyrightAttribute)objectAttrs[0];
+			if ( objectAttrs.Length > 0 )
+				copyrightText = ((AssemblyCopyrightAttribute)objectAttrs[0]).Copyright;
 
-
+			versionLabel.Text = versionText;
+			copyright.Text = copyrightText;
 			dotNetVersionLabel.Text = string.Format( "{0} ( {1} )", Environment.Version, 
 				NUnit.Core.RuntimeFramework.CurrentFramework.GetDisplayName() );
-
-			copyright.Text = copyrightAttr.Copyright;
 		}
 
 		/// <summary>
