@@ -188,6 +188,9 @@
       <Link>DirectorySwapperTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\DynamicTestMethodSignatureTests.cs">
+      <Link>DynamicTestMethodSignatureTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\EventQueueTests.cs">
       <Link>EventQueueTests.cs</Link>
       <SubType>Code</SubType>

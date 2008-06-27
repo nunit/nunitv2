@@ -1,10 +1,13 @@
 using System;
+using System.Reflection;
 using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Builders
 {
     class DynamicTestCaseBuilder : ITestCaseBuilder
     {
+        static ITestCaseProvider provider = (ITestCaseProvider)CoreExtensions.Host.GetExtensionPoint("TestCaseProviders");
+
         #region ITestCaseBuilder Members
 
         /// <summary>
@@ -38,9 +41,52 @@ namespace NUnit.Core.Builders
         /// <returns>A Test representing one or more method invocations</returns>
         public Test BuildFrom(System.Reflection.MethodInfo method, Test suite)
         {
-            return new DynamicTestMethod(method);
+            DynamicTestMethod testMethod = new DynamicTestMethod(method);
+
+            if (CheckTestMethodSignature(testMethod))
+            {
+                NUnitFramework.ApplyCommonAttributes(method, testMethod);
+                NUnitFramework.ApplyExpectedExceptionAttribute(method, testMethod);
+            }
+
+            return testMethod;
         }
 
         #endregion
-    }
+
+        private static bool CheckTestMethodSignature(TestMethod testMethod)
+        {
+            MethodInfo method = testMethod.Method;
+
+            if (method.IsAbstract)
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "Method is abstract";
+                return false;
+            }
+
+            if (!method.IsPublic)
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "Method is not public";
+                return false;
+            }
+
+            if (method.GetParameters().Length == 0)
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "A DynamicTest must have parameters";
+                return false;
+            }
+
+            if (!provider.HasTestCasesFor(method))
+            {
+                testMethod.RunState = RunState.NotRunnable;
+                testMethod.IgnoreReason = "No test cases providers were specified";
+                return false;
+            }
+
+            return true;
+        }
+}
 }
