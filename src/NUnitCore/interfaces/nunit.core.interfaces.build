@@ -51,7 +51,7 @@
         define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <nowarn>
         <warning number="1699" if="${runtime.version=='2.0'}"/>

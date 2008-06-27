@@ -6,7 +6,6 @@
         <include name="AddTabPageDialog.cs"/>
         <include name="AppContainer.cs"/>
         <include name="AssemblyInfo.cs"/>
-        <include name="CommonAssemblyInfo.cs"/>
         <include name="ConfigurationEditor.cs"/>
         <include name="EditTabPagesDialog.cs"/>
         <include name="ErrorDisplay.cs"/>
@@ -92,7 +91,7 @@
     debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <nowarn>
         <warning number="1699" if="${runtime.version=='2.0'}"/>

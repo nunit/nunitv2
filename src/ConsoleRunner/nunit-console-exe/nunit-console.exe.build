@@ -12,7 +12,7 @@
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
-	  <include name="../../CommonAssemblyInfo.cs"/>
+	  <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.dll"/>
@@ -30,7 +30,7 @@
         platform="x86" if="${build.x86}">
       <sources>
         <patternset refid="source-files"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit.core.dll"/>

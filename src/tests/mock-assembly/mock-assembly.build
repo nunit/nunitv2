@@ -7,7 +7,7 @@
       debug="${build.debug}" define="${build.defines}">
       <sources>
         <include name="MockAssembly.cs"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <references>
         <include name="${current.lib.dir}/nunit.framework.dll"/>

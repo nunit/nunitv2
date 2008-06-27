@@ -57,17 +57,29 @@
   <!-- Project name - used as a prefix for packages -->
   <property name="project.name" value="NUnit"/>
 
-  <!-- NUnit version for packaging -->
-  <property name="package.version" value="2.5"/>
-  
-  <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
-  <property name="package.name" 
-      value="${project.name}-${package.version}-Alpha-3"/>
-
+  <!-- NUnit Base Package Version - First three digits -->
+  <property name="base.package.version" value="2.5.0"/>
+ 
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
        but may differ when we are in alpha or beta. -->
   <property name="nominal.version" value="2.5" />
+
+  <!-- Determine todays build number -->
+  <property name="temp.now" value="${datetime::now()}"/>
+  <property name="temp.yr" value="${datetime::get-year(temp.now)-2000}"/>
+  <property name="temp.day" value="${datetime::get-day-of-year(temp.now)}"/>
+  <property name="package.build.number" value="${temp.yr}${temp.day}"/>
+
+  <!-- NUnit full package version -->
+  <property name="package.version" value="${base.package.version}.${package.build.number}"/>
+
+  <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
+  <property name="package.configuration" value="Alpha-3"/>
+  
+  <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
+  <property name="package.name" 
+      value="${project.name}-${package.version}"/>
 
   <!-- Frameworks supported by this build script. The first
          installed framework found is the default for builds. 
@@ -129,13 +141,21 @@
 <!-- ***             Targets that clean directories                *** -->
 <!-- ***************************************************************** -->
 
-  <target name="clean" depends="set-build-dir"
+  <target name="clean" depends="clean-build-dir,clean-generated-source"/>
+
+  <target name="clean-build-dir" depends="set-build-dir"
       description="Removes the current build directory">
     <delete dir="${current.build.dir}" 
       if="${directory::exists( current.build.dir )}"/>
   </target>
 
-  <target name="clean-all" description="Removes all build directories">
+  <target name="clean-generated-source">
+    <delete file="src/GeneratedAssemblyInfo.cs"
+      if="${file::exists( 'src/GeneratedAssemblyInfo.cs' )}"/>
+  </target>
+
+
+  <target name="clean-all" description="Removes all build directories"> 
     <delete dir="${project.build.dir}" 
       if="${directory::exists( project.build.dir )}"/>
   </target>
@@ -147,6 +167,30 @@
   </target>
 
 <!-- ***************************************************************** -->
+<!-- ***            Target to Generate CommonAssemblyInfo          *** -->
+<!-- ***************************************************************** -->
+
+  <target name="gen-assembly-info">
+
+    <asminfo output="src/GeneratedAssemblyInfo.cs" language="CSharp">
+      <imports>
+        <import namespace="System.Reflection"/>era
+      </imports>
+      <attributes>
+        <attribute type="AssemblyCompanyAttribute" value="NUnit.org"/>
+        <attribute type="AssemblyProductAttribute" value="NUnit"/>
+        <attribute type="AssemblyCopyrightAttribute"
+          value="Copyright (C) 2002-2008 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved."/>
+        <attribute type="AssemblyTrademarkAttribute" value="NUnit is a trademark of NUnit.org"/>
+        <attribute type="AssemblyVersionAttribute" value="${package.version}"/>
+        <attribute type="AssemblyInformationalVersionAttribute" value="${package.version}"/>
+        <attribute type="AssemblyConfigurationAttribute" value="${package.configuration}"/>
+      </attributes>
+    </asminfo>
+
+  </target>
+
+<!-- ***************************************************************** -->
 <!-- ***              Targets that perform builds                  *** -->
 <!-- ***************************************************************** -->
 
@@ -154,7 +198,7 @@
   <target name="rebuild" depends="clean,build"
     description="Rebuild NUnit for default runtime version and config"/>
 
-  <target name="build" depends="make-build-dir"
+  <target name="build" depends="make-build-dir,gen-assembly-info"
     description="Build NUnit for default runtime version and config">
 
     <echo message="*"/>
@@ -191,7 +235,7 @@
   </target>
 
   <target name="build-addins" depends="build">
-
+<!--
     <nant target="${build.config} ${runtime.config} clean build bundled-install">
 
       <buildfiles refid="addin.buildfiles"/>
@@ -203,7 +247,7 @@
       </properties>
 
     </nant>
-
+-->
   </target>
 
   <target name="rebuild-all" depends="clean-all,build-all"

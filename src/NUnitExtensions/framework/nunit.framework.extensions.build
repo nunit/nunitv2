@@ -17,7 +17,7 @@
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <resources  prefix="NUnit.Framework.Extensions.Xml">
         <include name="XML/xmlDiff.xslt"/>

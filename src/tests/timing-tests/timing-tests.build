@@ -11,7 +11,7 @@
        output="${current.test.dir}/timing-tests.dll">
       <sources>
         <patternset refid="source-files"/>
-        <include name="../../CommonAssemblyInfo.cs"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <references>
         <include name="${current.build.dir}/nunit.util.dll"/>

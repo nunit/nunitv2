@@ -82,7 +82,7 @@
       </nowarn>
       <sources basedir=".">
         <patternset refid="source-files"/>
-        <include name="../../CommonAssemblyInfo.cs" />
+        <include name="../../GeneratedAssemblyInfo.cs" />
       </sources>
     </csc>
 
