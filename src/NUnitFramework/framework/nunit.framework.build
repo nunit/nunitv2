@@ -41,6 +41,7 @@
         <include name="CollectionAssert.cs"/>
         <include name="DescriptionAttribute.cs"/>
         <include name="DirectoryAssert.cs"/>
+        <include name="DynamicTestAttribute.cs"/>
         <include name="ExpectedExceptionAttribute.cs"/>
         <include name="ExplicitAttribute.cs"/>
         <include name="FactoryAttribute.cs"/>
@@ -52,6 +53,7 @@
         <include name="IncludeExcludeAttributes.cs"/>
         <include name="InconclusiveException.cs"/>
         <include name="PropertyAttribute.cs"/>
+        <include name="RequiredAddinAttribute.cs"/>
         <include name="SetCultureAttribute.cs"/>
         <include name="SetUpAttribute.cs"/>
         <include name="SetUpFixtureAttribute.cs"/>

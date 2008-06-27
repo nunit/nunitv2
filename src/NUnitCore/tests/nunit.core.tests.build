@@ -16,6 +16,8 @@
         <include name="CoreExtensionsTests.cs"/>
         <include name="CultureSettingAndDetectionTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>
+        <include name="DynamicTestCaseTests.cs"/>
+        <include name="DynamicTestMethodSignatureTests.cs"/>
         <include name="EventQueueTests.cs"/>
         <include name="EventTestFixture.cs"/>
         <include name="ExpectExceptionTest.cs"/>

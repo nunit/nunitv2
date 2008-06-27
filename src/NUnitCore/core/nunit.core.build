@@ -9,9 +9,11 @@
         <include name="CoreExtensions.cs"/>
         <include name="CultureDetector.cs"/>
         <include name="DirectorySwapper.cs"/>
+        <include name="DynamicTestMethod.cs"/>
         <include name="EventListenerTextWriter.cs"/>
         <include name="EventPump.cs"/>
         <include name="EventQueue.cs"/>
+        <include name="ExpectedExceptionProcessor.cs"/>
         <include name="ExtensionHost.cs"/>
         <include name="ExtensionPoint.cs"/>
         <include name="IgnoreDecorator.cs"/>
@@ -24,6 +26,7 @@
         <include name="NoTestFixturesException.cs"/>
         <include name="NTrace.cs"/>
         <include name="NullListener.cs"/>
+        <include name="NUnitConfiguration.cs"/>
         <include name="NUnitException.cs"/>
         <include name="NUnitFramework.cs"/>
         <include name="NUnitTestFixture.cs"/>
@@ -52,17 +55,19 @@
         <include name="TestSuiteBuilder.cs"/>
         <include name="TextCapture.cs"/>
         <include name="ThreadedTestRunner.cs"/>
-        <include name="Builders/DataSourceProvider.cs"/>
+        <include name="Builders/TestCaseFactoryProvider.cs"/>
         <include name="Builders/LegacySuiteBuilder.cs"/>
         <include name="Builders/NUnitTestCaseBuilder.cs"/>
         <include name="Builders/NUnitTestFixtureBuilder.cs"/>
         <include name="Builders/SetUpFixtureBuilder.cs"/>
         <include name="Builders/TestAssemblyBuilder.cs"/>
         <include name="Builders/TestCaseParameterProvider.cs"/>
+        <include name="Builders/ParameterizedTestCaseBuilder.cs"/>
+        <include name="Builders/DynamicTestCaseBuilder.cs"/>
         <include name="Extensibility/EventListenerCollection.cs"/>
         <include name="Extensibility/FrameworkRegistry.cs"/>
         <include name="Extensibility/SuiteBuilderCollection.cs"/>
-        <include name="Extensibility/ParameterProviders.cs"/>
+        <include name="Extensibility/TestCaseProviders.cs"/>
         <include name="Extensibility/TestCaseBuilderCollection.cs"/>
         <include name="Extensibility/TestDecoratorCollection.cs"/>
   </patternset>
