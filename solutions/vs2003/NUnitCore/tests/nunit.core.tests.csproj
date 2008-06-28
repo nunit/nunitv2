@@ -219,12 +219,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DynamicTestCaseTests.cs"
-                    Link = "..\..\..\..\src\NUnitCore\tests\DynamicTestCaseTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "EventQueueTests.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\EventQueueTests.cs"
                     SubType = "Code"

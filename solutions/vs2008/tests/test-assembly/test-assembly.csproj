@@ -143,9 +143,6 @@
       <Link>CultureAttributeTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\tests\test-assembly\DynamicTestMethodSignatureFixture.cs">
-      <Link>DynamicTestMethodSignatureFixture.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\ExpectExceptionTest.cs">
       <Link>ExpectExceptionTest.cs</Link>
       <SubType>Code</SubType>

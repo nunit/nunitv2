@@ -142,12 +142,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DynamicTestMethod.cs"
-                    Link = "..\..\..\..\src\NUnitCore\core\DynamicTestMethod.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "EventListenerTextWriter.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\EventListenerTextWriter.cs"
                     SubType = "Code"
@@ -424,12 +418,6 @@
                 <File
                     RelPath = "ThreadedTestRunner.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\ThreadedTestRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Builders\DynamicTestCaseBuilder.cs"
-                    Link = "..\..\..\..\src\NUnitCore\core\Builders\DynamicTestCaseBuilder.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

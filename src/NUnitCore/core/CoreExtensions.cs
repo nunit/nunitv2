@@ -155,7 +155,6 @@ namespace NUnit.Core
             // Install builtin TestCaseBuilder
             testBuilders.Install( new NUnitTestCaseBuilder() );
             testBuilders.Install(new ParameterizedTestCaseBuilder());
-            testBuilders.Install(new DynamicTestCaseBuilder());
 
             // Install builtin ParameterProvider
             testcaseProviders.Install(new TestCaseParameterProvider());

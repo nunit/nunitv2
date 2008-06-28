@@ -28,8 +28,7 @@ namespace NUnit.Core.Builders
         /// <returns>True if the builder can create a test case from this method</returns>
         public bool CanBuildFrom(MethodInfo method, Test suite)
         {
-            return Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) &&
-                   !Reflect.HasAttribute(method, NUnitFramework.DynamicTestAttribute, false) ||
+            return Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) ||
                    Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) &&
                    CoreExtensions.Host.TestCaseProviders.HasTestCasesFor( method );
         }
@@ -52,7 +51,7 @@ namespace NUnit.Core.Builders
             {
                 ParameterSet parms = o as ParameterSet;
                 if (parms == null) parms = ParameterSet.FromDataSource(o);
-                TestMethod test = BuildSingleTestMethod(method, parms, suite);
+                TestMethod test = BuildSingleTestMethod(method, parms);
 
                 suite.Add(test);
             }
@@ -66,9 +65,8 @@ namespace NUnit.Core.Builders
         /// </summary>
         /// <param name="method">The MethodInfo from which to construct the TestMethod</param>
         /// <param name="parms">The ParameterSet to be used, or null</param>
-        /// <param name="suite">The ParameterizedMethodSuite being constructed, or null</param>
         /// <returns></returns>
-        private static NUnitTestMethod BuildSingleTestMethod(MethodInfo method, ParameterSet parms, TestSuite suite)
+        public static NUnitTestMethod BuildSingleTestMethod(MethodInfo method, ParameterSet parms)
         {
             NUnitTestMethod testMethod = new NUnitTestMethod(method);
 
@@ -85,7 +83,7 @@ namespace NUnit.Core.Builders
                     testMethod.TestName.Name = parms.TestName;
                     testMethod.TestName.FullName = method.DeclaringType.FullName + "." + parms.TestName;
                 }
-                else if (parms.Arguments != null && suite != null)
+                else if (parms.Arguments != null)
                 {
                     string suffix = GetArgumentString(parms.Arguments);
                     testMethod.TestName.Name += suffix;
@@ -135,24 +133,6 @@ namespace NUnit.Core.Builders
                 testMethod.IgnoreReason = "Method is not public";
                 return false;
             }
-
-            //if (parms == null)
-            //{
-            //    if (method.GetParameters().Length > 0)
-            //    {
-            //        testMethod.RunState = RunState.NotRunnable;
-            //        testMethod.IgnoreReason = "No arguments provided";
-            //        return false;
-            //    }
-            //    else if (!method.ReturnType.Equals(typeof(void)))
-            //    {
-            //        testMethod.RunState = RunState.NotRunnable;
-            //        testMethod.IgnoreReason = "Method has non-void return value";
-            //        return false;
-            //    }
-
-            //    return true;
-            //}
 
             testMethod.arguments = parms.Arguments;
             testMethod.expectedResult = parms.Result;
