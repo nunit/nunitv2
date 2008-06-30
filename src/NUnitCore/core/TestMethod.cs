@@ -25,7 +25,7 @@ namespace NUnit.Core
 		/// <summary>
 		/// The test method
 		/// </summary>
-		private MethodInfo method;
+		internal MethodInfo method;
 
 		/// <summary>
 		/// The SetUp method.
@@ -221,6 +221,7 @@ namespace NUnit.Core
 		public virtual void RunTestMethod(TestResult testResult)
 		{
 		    object fixture = this.method.IsStatic ? null : this.Fixture;
+
 			object result = Reflect.InvokeMethod( this.method, fixture, this.arguments );
 
             if (this.expectedResult != null)

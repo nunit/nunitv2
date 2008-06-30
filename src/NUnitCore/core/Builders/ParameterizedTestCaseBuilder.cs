@@ -70,7 +70,13 @@ namespace NUnit.Core.Builders
         {
             NUnitTestMethod testMethod = new NUnitTestMethod(method);
 
-            if (CheckTestMethodSignature(testMethod, parms))
+            // NOTE: After the call to CheckTestMethodSignature, the Method
+            // property of testMethod may no longer be the same as the
+            // original MethodInfo, so we reassign it here.
+            bool signatureOK = CheckTestMethodSignature(testMethod, parms);
+            method = testMethod.Method;
+
+            if (signatureOK)
             {
                 NUnitFramework.ApplyCommonAttributes(method, testMethod);
                 NUnitFramework.ApplyExpectedExceptionAttribute(method, testMethod);
@@ -85,9 +91,9 @@ namespace NUnit.Core.Builders
                 }
                 else if (parms.Arguments != null)
                 {
-                    string suffix = GetArgumentString(parms.Arguments);
-                    testMethod.TestName.Name += suffix;
-                    testMethod.TestName.FullName += suffix;
+                    string name = GetTestDisplayName(method, parms.Arguments);
+                    testMethod.TestName.Name = name;
+                    testMethod.TestName.FullName = method.DeclaringType.FullName + "." + name;
                 }
 
                 if (parms.ExpectedExceptionName != null)
@@ -118,16 +124,14 @@ namespace NUnit.Core.Builders
         /// <returns>True if the method signature is valid, false if not</returns>
         private static bool CheckTestMethodSignature(TestMethod testMethod, ParameterSet parms)
         {
-            MethodInfo method = testMethod.Method;
-
-            if (method.IsAbstract)
+            if (testMethod.Method.IsAbstract)
             {
                 testMethod.RunState = RunState.NotRunnable;
                 testMethod.IgnoreReason = "Method is abstract";
                 return false;
             }
 
-            if (!method.IsPublic)
+            if (!testMethod.Method.IsPublic)
             {
                 testMethod.RunState = RunState.NotRunnable;
                 testMethod.IgnoreReason = "Method is not public";
@@ -148,10 +152,10 @@ namespace NUnit.Core.Builders
             if (arglist != null)
                 argsProvided = arglist.Length;
 
-            ParameterInfo[] parameters = method.GetParameters();
+            ParameterInfo[] parameters = testMethod.Method.GetParameters();
             int argsNeeded = parameters.Length;
 
-            if (!method.ReturnType.Equals(typeof(void)) && parms.Result == null && parms.ExpectedExceptionName == null)
+            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && parms.Result == null && parms.ExpectedExceptionName == null)
             {
                 testMethod.RunState = RunState.NotRunnable;
                 testMethod.IgnoreReason = "Method has non-void return value";
@@ -179,6 +183,52 @@ namespace NUnit.Core.Builders
                 return false;
             }
 
+#if NET_2_0
+            if (testMethod.Method.ContainsGenericParameters)
+            {
+                Type[] typeParameters = testMethod.Method.GetGenericArguments();
+                Type[] typeArguments = new Type[typeParameters.Length];
+                for (int typeIndex = 0; typeIndex < typeArguments.Length; typeIndex++)
+                {
+                    Type typeParameter = typeParameters[typeIndex];
+
+                    for(int argIndex = 0; argIndex < parameters.Length; argIndex++ )
+                    {
+                        if (parameters[argIndex].ParameterType.Equals(typeParameter))
+                            typeArguments[typeIndex] = BestCommonType(
+                                typeArguments[typeIndex],
+                                arglist[argIndex].GetType());
+                    }
+
+                    if (typeArguments[typeIndex] == null)
+                    {
+                        testMethod.RunState = RunState.NotRunnable;
+                        testMethod.IgnoreReason = string.Format(
+                            "Unable to determine type to use for {0} from arguments provided", typeParameter.Name );
+                        return false;
+                    }
+                }
+
+                testMethod.method = testMethod.Method.MakeGenericMethod( typeArguments );
+                parameters = testMethod.Method.GetParameters();
+
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    if (arglist[i].GetType() != parameters[i].ParameterType && arglist[i] is IConvertible)
+                    {
+                        try
+                        {
+                            arglist[i] = Convert.ChangeType(arglist[i], parameters[i].ParameterType);
+                        }
+                        catch (Exception)
+                        {
+                            // Do nothing - the incompatible argument will be reported below
+                        }
+                    }
+                }
+            }
+#endif
+
             for (int i = 0; i < argsProvided; i++)
             {
                 object arg = arglist[i];
@@ -203,25 +253,113 @@ namespace NUnit.Core.Builders
             return true;
         }
 
-        private static string GetArgumentString(object[] arglist)
+        private static string GetTestDisplayName(MethodInfo method, object[] arglist)
         {
-            StringBuilder sb = new StringBuilder("(");
+            StringBuilder sb = new StringBuilder(method.Name);
+
+#if NET_2_0
+            if (method.IsGenericMethod)
+            {
+                sb.Append("<");
+                int cnt = 0;
+                foreach (Type t in method.GetGenericArguments())
+                {
+                    if (cnt++ > 0) sb.Append(",");
+                    sb.Append(t.Name);
+                }
+                sb.Append(">");
+            }
+#endif
 
             if (arglist != null)
+            {
+                sb.Append("(");
+
                 for (int i = 0; i < arglist.Length; i++)
                 {
                     if (i > 0) sb.Append(",");
 
                     object arg = arglist[i];
-                    if (arg == null)
-                        sb.Append("null");
-                    else
-                        sb.Append(arg.ToString());
+                    string display = arg == null ? "null" : arg.ToString();
+
+                    if (arg is double || arg is float)
+                    {
+                        if (display.IndexOf('.') == -1)
+                            display += ".0";
+                        display += arg is double ? "d" : "f";
+                    }
+                    else if (arg is decimal) display += "m";
+                    else if (arg is long) display += "L";
+                    else if (arg is ulong) display += "UL";
+                    else if (arg is string) display = "\"" + display + "\"";
+
+                    sb.Append( display );
                 }
 
-            sb.Append(")");
+                sb.Append(")");
+            }
 
             return sb.ToString();
+        }
+
+        private static Type BestCommonType(Type type1, Type type2)
+        {
+            if ( type1 == type2 ) return type1;
+            if ( type1 == null )  return type2;
+            if ( type2 == null )  return type1;
+
+            if (IsNumeric(type1) && IsNumeric(type2))
+            {
+                if (type1 == typeof(double)) return type1;
+                if (type2 == typeof(double)) return type2;
+
+                if (type1 == typeof(float)) return type1;
+                if (type2 == typeof(float)) return type2;
+
+                if (type1 == typeof(decimal)) return type1;
+                if (type2 == typeof(decimal)) return type2;
+
+                if (type1 == typeof(UInt64)) return type1;
+                if (type2 == typeof(UInt64)) return type2;
+
+                if (type1 == typeof(Int64)) return type1;
+                if (type2 == typeof(Int64)) return type2;
+
+                if (type1 == typeof(UInt32)) return type1;
+                if (type2 == typeof(UInt32)) return type2;
+
+                if (type1 == typeof(Int32)) return type1;
+                if (type2 == typeof(Int32)) return type2;
+
+                if (type1 == typeof(UInt16)) return type1;
+                if (type2 == typeof(UInt16)) return type2;
+
+                if (type1 == typeof(Int16)) return type1;
+                if (type2 == typeof(Int16)) return type2;
+
+                if (type1 == typeof(byte)) return type1;
+                if (type2 == typeof(byte)) return type2;
+
+                if (type1 == typeof(sbyte)) return type1;
+                if (type2 == typeof(sbyte)) return type2;
+            }
+
+            return type1;
+        }
+
+        private static bool IsNumeric(Type type)
+        {
+            return type == typeof(double) ||
+                    type == typeof(float) ||
+                    type == typeof(decimal) ||
+                    type == typeof(Int64) ||
+                    type == typeof(Int32) ||
+                    type == typeof(Int16) ||
+                    type == typeof(UInt64) ||
+                    type == typeof(UInt32) ||
+                    type == typeof(UInt16) ||
+                    type == typeof(byte) ||
+                    type == typeof(sbyte);
         }
         #endregion
     }

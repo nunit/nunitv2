@@ -22,6 +22,7 @@
         <include name="FactoryTests.cs"/>
         <include name="FailFixture.cs"/>
         <include name="FixtureSetUpTearDownTest.cs"/>
+        <include name="GenericTestMethodTests.cs"/>
         <include name="IgnoreFixture.cs"/>
         <include name="LegacySuiteTests.cs"/>
         <include name="MockTestRunner.cs"/>

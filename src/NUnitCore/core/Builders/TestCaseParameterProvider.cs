@@ -37,8 +37,8 @@ namespace NUnit.Core.Builders
             foreach (Attribute attr in attrs)
             {
                 ParameterSet parms = ParameterSet.FromDataSource(attr);
-                if (parms.TestName == null && parms.Arguments.Length > 0)
-                    parms.TestName = method.Name + GetArgumentString(parms.Arguments);
+                //if (parms.TestName == null && parms.Arguments.Length > 0)
+                //    parms.TestName = method.Name + GetArgumentString(parms.Arguments);
 
 				if (parms.Arguments.Length == argsNeeded)
 				{
@@ -50,7 +50,7 @@ namespace NUnit.Core.Builders
 					catch (Exception)
 					{
 						// Do nothing - the incompatible argument will be reported
-						// by NUnitTestCaseBuilder
+						// by ParameterizedTestCaseBuilder
 					}
 				}
 #if NET_2_0
@@ -75,25 +75,25 @@ namespace NUnit.Core.Builders
             }
         }
 
-		private static string GetArgumentString(object[] arglist)
-		{
-			StringBuilder sb = new StringBuilder("(");
+    //    private static string GetArgumentString(object[] arglist)
+    //    {
+    //        StringBuilder sb = new StringBuilder("(");
 
-			if (arglist != null)
-				for (int i = 0; i < arglist.Length; i++)
-				{
-					if (i > 0) sb.Append(",");
+    //        if (arglist != null)
+    //            for (int i = 0; i < arglist.Length; i++)
+    //            {
+    //                if (i > 0) sb.Append(",");
 
-					object arg = arglist[i];
-					if (arg == null)
-						sb.Append("null");
-					else
-						sb.Append(arg.ToString());
-				}
+    //                object arg = arglist[i];
+    //                if (arg == null)
+    //                    sb.Append("null");
+    //                else
+    //                    sb.Append(arg.ToString());
+    //            }
 
-			sb.Append(")");
+    //        sb.Append(")");
 
-			return sb.ToString();
-		}
-	}
+    //        return sb.ToString();
+    //    }
+    }
 }
