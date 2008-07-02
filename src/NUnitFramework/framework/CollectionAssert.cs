@@ -589,6 +589,70 @@ namespace NUnit.Framework
             IsNotEmpty(collection, string.Empty, null);
         }
         #endregion
+ 
+        #region IsOrdered
+        /// <summary>
+        /// Assert that an array, list or other collection is ordered
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsOrdered(IEnumerable collection, string message, params object[] args)
+        {
+            Assert.That(collection, new CollectionOrderedConstraint(), message, args);
+        }
+
+        /// <summary>
+        /// Assert that an array, list or other collection is ordered
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsOrdered(IEnumerable collection, string message)
+        {
+            IsOrdered(collection, message, null);
+        }
+
+        /// <summary>
+        /// Assert that an array, list or other collection is ordered
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        public static void IsOrdered(IEnumerable collection)
+        {
+            IsOrdered(collection, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Assert that an array, list or other collection is ordered
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsOrdered(IEnumerable collection, IComparer comparer, string message, params object[] args)
+        {
+            Assert.That(collection, new CollectionOrderedConstraint(comparer), message, args);
+        }
+
+        /// <summary>
+        /// Assert that an array, list or other collection is ordered
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsOrdered(IEnumerable collection, IComparer comparer, string message)
+        {
+            IsOrdered(collection, comparer, message, null);
+        }
+
+        /// <summary>
+        /// Assert that an array, list or other collection is ordered
+        /// </summary>
+        /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        public static void IsOrdered(IEnumerable collection, IComparer comparer)
+        {
+            IsOrdered(collection, comparer, string.Empty, null);
+        }
+        #endregion
     }
 }
 

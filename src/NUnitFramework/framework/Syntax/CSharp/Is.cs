@@ -222,7 +222,26 @@ namespace NUnit.Framework.Syntax.CSharp
 		{
 			return new SamePathOrUnderConstraint( expected );
 		}
-		#endregion
+
+        /// <summary>
+        /// Is.Ordered returns a constraint that tests whether
+        /// a collection is ordered
+        /// </summary>
+        public static Constraint Ordered()
+        {
+            return new CollectionOrderedConstraint();
+        }
+
+        /// <summary>
+        /// Is.Ordered returns a constraint that tests whether
+        /// a collection is ordered
+        /// </summary>
+        /// <param name="comparer">A custom comparer to be used to comparison</param>
+        public static Constraint Ordered(IComparer comparer)
+        {
+            return new CollectionOrderedConstraint(comparer);
+        }
+        #endregion
 
         #endregion
     }

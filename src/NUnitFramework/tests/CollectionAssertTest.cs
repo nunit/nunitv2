@@ -576,7 +576,99 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.IsNotSubsetOf(set1,set2);
 		}
 		#endregion
-	}
+
+        #region IsOrdered
+
+        [Test]
+        public void IsOrdered()
+        {
+            ArrayList al = new ArrayList();
+            al.Add("x");
+            al.Add("y");
+            al.Add("z");
+
+            CollectionAssert.IsOrdered(al);
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void IsOrdered_Fails()
+        {
+            ArrayList al = new ArrayList();
+            al.Add("x");
+            al.Add("z");
+            al.Add("y");
+
+            expectedMessage =
+                "  Expected: collection ordered" + Environment.NewLine +
+                "  But was:  < \"x\", \"z\", \"y\" >" + Environment.NewLine;
+
+            CollectionAssert.IsOrdered(al);
+        }
+
+        [Test]
+        public void IsOrdered_Allows_adjacent_equal_values()
+        {
+            ArrayList al = new ArrayList();
+            al.Add("x");
+            al.Add("x");
+            al.Add("z");
+
+            CollectionAssert.IsOrdered(al);
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void IsOrdered_Handles_null()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(null);
+            al.Add("x");
+            al.Add("z");
+
+            CollectionAssert.IsOrdered(al);
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void IsOrdered_Handles_heterogeneous_collections()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(1);
+            al.Add("x");
+
+            CollectionAssert.IsOrdered(al);
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void IsOrdered_Handles_objects()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(new object());
+            al.Add(new object());
+
+            CollectionAssert.IsOrdered(al);
+        }
+
+        [Test]
+        public void IsOrdered_Handles_custom_comparison()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(new object());
+            al.Add(new object());
+
+            CollectionAssert.IsOrdered(al, new AlwaysEqualComparer());
+        }
+
+        [Test]
+        public void IsOrdered_Handles_custom_comparison2()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(2);
+            al.Add(1);
+
+            CollectionAssert.IsOrdered(al, new TestComparer());
+        }
+
+        #endregion
+    }
 
 	public class TestComparer : IComparer
 	{
@@ -597,7 +689,6 @@ namespace NUnit.Framework.Tests
 		}
 
 		#endregion
-
 	}
 
 	public class AlwaysEqualComparer : IComparer

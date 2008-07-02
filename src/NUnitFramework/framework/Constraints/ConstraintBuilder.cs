@@ -96,6 +96,15 @@ namespace NUnit.Framework.Constraints
         {
             get { return Resolve(new UniqueItemsConstraint()); }
         }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionOrderedConstraint as base.
+        /// </summary>
+        public Constraint Ordered()
+        {
+            return Resolve(new CollectionOrderedConstraint());
+        }
         #endregion
 
         #region Constraints with an expected value

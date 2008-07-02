@@ -673,7 +673,26 @@ namespace NUnit.Framework.Tests
 			Expect(new int[] { 1, 2, 3, 4, 5 }, SubsetOf(ints1to5));
 			Expect(new int[] { 2, 4, 6 }, Not.SubsetOf(ints1to5));
 		}
-		#endregion
+
+        [Test]
+        public void OrderedTests()
+        {
+            int[] ints = new int[] { 1, 3, 5 };
+            string[] strings = new string[] { "a", "b", "c" };
+
+            // Classic syntax
+            CollectionAssert.IsOrdered(ints);
+            CollectionAssert.IsOrdered(strings);
+
+            // Helper syntax
+            Assert.That(ints, Is.Ordered());
+            Assert.That(strings, Is.Ordered());
+
+            // Inherited syntax
+            Expect(ints, Ordered());
+            Expect(strings, Ordered());
+        }
+        #endregion
 
 		#region PathConstraint Tests
 		[Test]

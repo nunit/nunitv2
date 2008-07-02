@@ -322,4 +322,79 @@ namespace NUnit.Framework.Constraints
         }
     }
     #endregion
+
+    #region CollectionOrderedConstraint
+
+    /// <summary>
+    /// CollectionOrderedConstraint is used to test whether a collection is ordered.
+    /// </summary>
+    public class CollectionOrderedConstraint : CollectionConstraint
+    {
+        /// <summary>
+        /// Construct a CollectionOrderedConstraint
+        /// </summary>
+        public CollectionOrderedConstraint() : this(System.Collections.Comparer.Default)
+        {
+        }
+
+        /// <summary>
+        /// Construct a CollectionOrderedConstraint
+        /// </summary>
+        /// <param name="comparer">A custom comparer to use to perform comparisons</param>
+        public CollectionOrderedConstraint(IComparer comparer)
+        {
+            Comparer(comparer);
+        }
+
+        /// <summary>
+        /// Test whether the collection is ordered
+        /// </summary>
+        /// <param name="actual"></param>
+        /// <returns></returns>
+        protected override bool doMatch(IEnumerable actual)
+        {
+            ArrayList al = new ArrayList();
+
+            IEnumerator enumerator = actual.GetEnumerator();
+
+            while (enumerator.MoveNext())
+            {
+                if (enumerator.Current == null)
+                    return false;
+
+                al.Add(enumerator.Current);
+            }
+
+            Constraint constraint = new AllItemsConstraint(new InstanceOfTypeConstraint(al[0].GetType()));
+
+            if (!constraint.Matches(actual))
+                return false;
+
+            for (int i = 0; i < al.Count - 1; i++)
+            {
+                try
+                {
+                    if (compareWith.Compare(al[i], al[i + 1]) > 0)
+                        return false;
+                }
+                catch(ArgumentException)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Write a description of the constraint to a MessageWriter
+        /// </summary>
+        /// <param name="writer"></param>
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            writer.Write("collection ordered");
+        }
+    }
+
+    #endregion
 }
