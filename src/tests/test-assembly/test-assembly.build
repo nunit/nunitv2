@@ -18,6 +18,7 @@
     <include name="SetupFixtureTests.cs"/>
     <include name="SetUpTest.cs"/>
     <include name="SuiteBuilderTests.cs"/>
+    <include name="TestCaseAttributeFixture.cs"/>
     <include name="TestCaseTest.cs"/>
     <include name="TestData.cs"/>
     <include name="TestFixtureBuilderTests.cs"/>
