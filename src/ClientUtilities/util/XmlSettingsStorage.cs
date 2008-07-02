@@ -26,7 +26,8 @@ namespace NUnit.Util
 
 		public override void LoadSettings()
 		{
-			if ( !File.Exists( filePath ) )
+			FileInfo info = new FileInfo(filePath);
+			if ( !info.Exists || info.Length == 0 )
 				return;
 
 			try
