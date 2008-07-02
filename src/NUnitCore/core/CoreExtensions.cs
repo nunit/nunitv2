@@ -31,6 +31,7 @@ namespace NUnit.Core
 		private EventListenerCollection listeners;
 		private FrameworkRegistry frameworks;
 	    private TestCaseProviders testcaseProviders;
+        private ExtensionPoint testFixtureParameterProviders;
 
 		#endregion
 

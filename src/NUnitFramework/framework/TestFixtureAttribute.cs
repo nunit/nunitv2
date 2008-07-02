@@ -13,10 +13,17 @@ namespace NUnit.Framework
 	/// public class ExampleClass 
 	/// {}
 	/// </example>
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple=false, Inherited=true)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple=true, Inherited=true)]
 	public class TestFixtureAttribute : Attribute
 	{
 		private string description;
+        private Type[] typeArguments;
+
+        public TestFixtureAttribute() { }
+        public TestFixtureAttribute(params Type[] typeArguments)
+        {
+            this.typeArguments = typeArguments;
+        }
 
 		/// <summary>
 		/// Descriptive text for this fixture
@@ -26,5 +33,10 @@ namespace NUnit.Framework
 			get { return description; }
 			set { description = value; }
 		}
+
+        public Type[] TypeArguments
+        {
+            get { return typeArguments; }
+        }
 	}
 }

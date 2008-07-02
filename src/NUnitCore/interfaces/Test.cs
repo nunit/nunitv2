@@ -107,12 +107,20 @@ namespace NUnit.Core
 		/// <param name="fixtureType">The type to use in constructiong the test</param>
 		protected Test( Type fixtureType )
 		{
-			this.testName = new TestName();
-			this.testName.FullName = fixtureType.FullName;
-			this.testName.Name = fixtureType.Namespace != null
-				? TestName.FullName.Substring( TestName.FullName.LastIndexOf( '.' ) + 1 )
-				: fixtureType.FullName;
-			this.testName.TestID = new TestID();
+            int index = 0;
+            int next = 0;
+            foreach( char c in fixtureType.FullName )
+            {
+                ++next;
+                if ( c == '[' ) break;
+                if ( c == '.' ) index = next;
+            }
+
+            this.testName = new TestName();
+            this.testName.Name = fixtureType.FullName.Substring(index);
+            this.TestName.FullName = fixtureType.FullName;
+            
+            this.testName.TestID = new TestID();
 
 			this.fixtureType = fixtureType;
 			this.RunState = RunState.Runnable;

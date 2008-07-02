@@ -46,6 +46,15 @@ namespace NUnit.Core.Builders
 		/// <returns></returns>
 		public Test BuildFrom(Type type)
 		{
+#if NET_2_0
+            if (type.IsGenericType)
+                return BuildGenericFixture(type);
+#endif
+            return BuildSingleFixture(type);
+        }
+
+        private Test BuildSingleFixture(Type type)
+        {
 			this.suite = new NUnitTestFixture(type);
 
             string reason = null;
@@ -70,6 +79,29 @@ namespace NUnit.Core.Builders
 		#endregion
 
 		#region Helper Methods
+#if NET_2_0
+        private Test BuildGenericFixture(Type type)
+        {
+            TestSuite suite = new TestSuite(type.Namespace, type.Name);
+
+            Attribute[] attrs = Reflect.GetAttributes(type, NUnitFramework.TestFixtureAttribute, false);;
+            if ( attrs.Length == 0 )
+            {
+                suite.RunState = RunState.NotRunnable;
+                suite.IgnoreReason = "No type arguments supplied for generic test fixture";
+                return suite;
+            }
+
+            foreach (Attribute attr in attrs)
+            {
+                Type[] typeArgs = (Type[])Reflect.GetPropertyValue(attr, "TypeArguments");
+                suite.Add( BuildSingleFixture( type.MakeGenericType( typeArgs ) ) );
+            }
+
+            return suite;
+        }
+#endif
+
 		/// <summary>
 		/// Method to add test cases to the newly constructed suite.
 		/// The default implementation looks at each candidate method

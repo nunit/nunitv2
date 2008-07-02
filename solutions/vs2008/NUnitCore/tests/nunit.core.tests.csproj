@@ -227,6 +227,9 @@
       <Link>FixtureSetUpTearDownTest.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\GenericTestFixtureTests.cs">
+      <Link>GenericTestFixtureTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\GenericTestMethodTests.cs">
       <Link>GenericTestMethodTests.cs</Link>
     </Compile>
