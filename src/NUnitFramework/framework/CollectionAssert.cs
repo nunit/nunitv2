@@ -607,7 +607,6 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
         /// <param name="message">The message to be displayed on failure</param>
-        /// <param name="args">Arguments to be used in formatting the message</param>
         public static void IsOrdered(IEnumerable collection, string message)
         {
             IsOrdered(collection, message, null);
@@ -626,6 +625,7 @@ namespace NUnit.Framework
         /// Assert that an array, list or other collection is ordered
         /// </summary>
         /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        /// <param name="comparer">A custom comparer to perform the comparisons</param>
         /// <param name="message">The message to be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
         public static void IsOrdered(IEnumerable collection, IComparer comparer, string message, params object[] args)
@@ -637,8 +637,8 @@ namespace NUnit.Framework
         /// Assert that an array, list or other collection is ordered
         /// </summary>
         /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        /// <param name="comparer">A custom comparer to perform the comparisons</param>
         /// <param name="message">The message to be displayed on failure</param>
-        /// <param name="args">Arguments to be used in formatting the message</param>
         public static void IsOrdered(IEnumerable collection, IComparer comparer, string message)
         {
             IsOrdered(collection, comparer, message, null);
@@ -648,6 +648,7 @@ namespace NUnit.Framework
         /// Assert that an array, list or other collection is ordered
         /// </summary>
         /// <param name="collection">An array, list or other collection implementing IEnumerable</param>
+        /// <param name="comparer">A custom comparer to perform the comparisons</param>
         public static void IsOrdered(IEnumerable collection, IComparer comparer)
         {
             IsOrdered(collection, comparer, string.Empty, null);

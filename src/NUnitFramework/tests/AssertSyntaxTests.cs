@@ -764,7 +764,8 @@ namespace NUnit.Framework.Tests
 			Assert.That( List.Map( array2 ).Property("Length"), Is.EqualTo( new int[] { 1, 2, 3 } ) );
 			Assert.That( List.Map( array2 ).Property("Length"), Is.EquivalentTo( new int[] { 3, 2, 1 } ) );
 			Assert.That( List.Map( array2 ).Property("Length"), Is.SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
-			Assert.That( List.Map( array2 ).Property("Length"), Is.Unique );
+            Assert.That(List.Map(array2).Property("Length"), Is.Unique);
+            Assert.That(List.Map(array2).Property("Length"), Is.Ordered());
 
 			Assert.That( list, Has.Count( 4 ) );
 			
@@ -796,7 +797,8 @@ namespace NUnit.Framework.Tests
 			Expect( Map( array2 ).Property("Length"), EqualTo( new int[] { 1, 2, 3 } ) );
 			Expect( Map( array2 ).Property("Length"), EquivalentTo( new int[] { 3, 2, 1 } ) );
 			Expect( Map( array2 ).Property("Length"), SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
-			Expect( Map( array2 ).Property("Length"), Unique );
+            Expect(Map(array2).Property("Length"), Unique);
+            Expect(Map(array2).Property("Length"), Ordered());
 
 			Expect( list, Count( 4 ) );
 
