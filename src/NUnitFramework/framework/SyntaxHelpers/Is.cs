@@ -14,7 +14,8 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// The Is class is a helper class with properties and methods
 	/// that supply a number of constraints used in Asserts.
 	/// </summary>
-	public class Is
+    [Obsolete("Use NUnit.Framework.Syntax.Is class")]
+    public class Is
 	{
 		#region Prefix Operators
 		/// <summary>
@@ -206,7 +207,8 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// The Iz class is a synonym for Is intended for use in VB,
 	/// which regards Is as a keyword.
 	/// </summary>
-	public class Iz : Is
+    [Obsolete("Use NUnit.Framework.Syntax.Iz class")]
+    public class Iz : Is
 	{
 	}
 }

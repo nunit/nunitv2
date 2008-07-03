@@ -12,7 +12,8 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// <summary>
 	/// Summary description for HasNoPrefixB.
 	/// </summary>
-	public class Has
+    [Obsolete("Use NUnit.Framework.Syntax.Has class")]
+    public class Has
 	{
         /// <summary>
         /// Nested class that allows us to restrict the number

@@ -14,7 +14,8 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// The List class is a helper class with properties and methods
 	/// that supply a number of constraints used with lists and collections.
 	/// </summary>
-	public class List
+    [Obsolete("Use NUnit.Framework.Syntax.List class")]
+    public class List
 	{
 		/// <summary>
 		/// List.Map returns a ListMapper, which can be used to map

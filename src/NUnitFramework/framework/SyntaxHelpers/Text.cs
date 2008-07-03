@@ -13,7 +13,8 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// The Text class is a helper class with properties and methods
 	/// that supply a number of constraints used with strings.
 	/// </summary>
-	public class Text
+    [Obsolete("Use NUnit.Framework.Syntax.Text class")]
+    public class Text
 	{
 		/// <summary>
 		/// Text.All returns a ConstraintBuilder, which will apply

@@ -8,7 +8,8 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// ListMapper is used to transform a collection used as an actual argument
 	/// producing another collection to be used in the assertion.
 	/// </summary>
-	public class ListMapper
+    [Obsolete("Use NUnit.Framework.Syntax.ListMapper class")]
+    public class ListMapper
 	{
 		ICollection original;
 
