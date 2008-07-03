@@ -37,33 +37,33 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void CorrectExceptionIsReturnedToMethod()
 		{
-			Exception ex = Assert.Throws(typeof(ArgumentException),
-				new TestDelegate( ThrowsArgumentException ) );
+			ArgumentException ex = Assert.Throws(typeof(ArgumentException),
+				new TestDelegate( ThrowsArgumentException ) ) as ArgumentException;
 
-			Assert.IsNotNull( ex );
-			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
-			Assert.AreEqual( "myMessage" + Environment.NewLine + "Parameter name: myParam", ex.Message );
+            Assert.IsNotNull(ex, "No ArgumentException thrown");
+            Assert.That(ex.Message, StartsWith("myMessage"));
+            Assert.That(ex.ParamName, Is.EqualTo("myParam"));
 
 #if NET_2_0
             ex = Assert.Throws<ArgumentException>(
-                delegate { throw new ArgumentException("myMessage", "myParam"); });
+                delegate { throw new ArgumentException("myMessage", "myParam"); }) as ArgumentException;
 
-			Assert.IsNotNull( ex );
-			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
-			Assert.AreEqual( "myMessage" + Environment.NewLine + "Parameter name: myParam", ex.Message );
+            Assert.IsNotNull(ex, "No ArgumentException thrown");
+            Assert.That(ex.Message, StartsWith("myMessage"));
+            Assert.That(ex.ParamName, Is.EqualTo("myParam"));
 
 			ex = Assert.Throws(typeof(ArgumentException), 
-                delegate { throw new ArgumentException("myMessage", "myParam"); } );
+                delegate { throw new ArgumentException("myMessage", "myParam"); } ) as ArgumentException;
 
-			Assert.IsNotNull( ex );
-			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
-			Assert.AreEqual( "myMessage" + Environment.NewLine + "Parameter name: myParam", ex.Message );
+            Assert.IsNotNull(ex, "No ArgumentException thrown");
+            Assert.That(ex.Message, StartsWith("myMessage"));
+            Assert.That(ex.ParamName, Is.EqualTo("myParam"));
 
-			ex = Assert.Throws<ArgumentException>( ThrowsArgumentException );
+			ex = Assert.Throws<ArgumentException>( ThrowsArgumentException ) as ArgumentException;
 
-			Assert.IsNotNull( ex );
-			Assert.AreEqual( typeof(ArgumentException), ex.GetType() );
-			Assert.AreEqual( "myMessage" + Environment.NewLine + "Parameter name: myParam", ex.Message );
+            Assert.IsNotNull(ex, "No ArgumentException thrown");
+            Assert.That(ex.Message, StartsWith("myMessage"));
+            Assert.That(ex.ParamName, Is.EqualTo("myParam"));
 #endif
 		}
 
