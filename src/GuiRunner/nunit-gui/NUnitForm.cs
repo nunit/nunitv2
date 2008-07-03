@@ -1258,7 +1258,11 @@ namespace NUnit.Gui
 			// to the parent of the src and doc directories
 			if ( dir.Name == "bin" ) dir = dir.Parent.Parent.Parent.Parent;
 
-			string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
+#if NET_2_0
+            string helpUrl = ConfigurationManager.AppSettings["helpUrl"];
+#else
+            string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
+#endif
 
 			if ( helpUrl == null )
 			{

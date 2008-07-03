@@ -101,16 +101,30 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
+        [Factory("MyData,MoreData")]
+        [TestCase(12, 0, 0, ExpectedException = typeof(System.DivideByZeroException))]
+        public void TestMayUseMultipleFactoriesOnOneAttribute(int n, int d, int q)
+        {
+            Assert.AreEqual(q, n / d);
+        }
+
+        [Test]
         [Factory("MyData")]
         [Factory("MoreData")]
         [TestCase(12, 0, 0, ExpectedException = typeof(System.DivideByZeroException))]
-        public void TestMayUseMultipleFactories(int n, int d, int q)
+        public void TestMayUseMultipleFactoryAttributes(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
         [Test, Factory(typeof(DivideDataProvider), "HereIsTheData")]
-        public void FactoryMayBeIdentifiedByType(int n, int d, int q)
+        public void FactoryMayBeInAnotherClass(int n, int d, int q)
+        {
+            Assert.AreEqual(q, n / d);
+        }
+
+        //[Test, Factory]
+        public void CanLocateCompatibleFactories(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }

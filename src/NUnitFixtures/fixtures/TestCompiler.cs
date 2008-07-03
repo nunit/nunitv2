@@ -14,7 +14,10 @@ namespace NUnit.Fixtures
 	/// </summary>
 	public class TestCompiler
 	{
+        Microsoft.CSharp.CSharpCodeProvider provider;
+#if !NET_2_0
 		ICodeCompiler compiler;
+#endif
 		CompilerParameters options;
 
 		public TestCompiler() : this( null, null ) { }
@@ -23,8 +26,10 @@ namespace NUnit.Fixtures
 
 		public TestCompiler( string[] assemblyNames, string outputName )
 		{
-			Microsoft.CSharp.CSharpCodeProvider provider = new Microsoft.CSharp.CSharpCodeProvider();
+			this.provider = new Microsoft.CSharp.CSharpCodeProvider();
+#if !NET_2_0
 			this.compiler = provider.CreateCompiler();
+#endif
 			this.options = new CompilerParameters();
 
 			if ( assemblyNames != null && assemblyNames.Length > 0 )
@@ -44,7 +49,11 @@ namespace NUnit.Fixtures
 
 		public CompilerResults CompileCode( string code )
 		{
-			return compiler.CompileAssemblyFromSource( options, code );
-		}
+#if NET_2_0
+			return provider.CompileAssemblyFromSource( options, code );
+#else
+            return compiler.CompileAssemblyFromSource(options, code);
+#endif
+        }
 	}
 }

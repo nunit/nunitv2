@@ -17,9 +17,13 @@ namespace NUnit.Util
 	/// </summary>
 	public class XmlResultTransform
 	{
-		private XslTransform xslTransform = new XslTransform();
+#if NET_2_0
+		private XslCompiledTransform xslTransform = new XslCompiledTransform();
+#else
+        private XslTransform xslTransform = new XslTransform();
+#endif
 
-		public XmlResultTransform() { }
+        public XmlResultTransform() { }
 
 		public XmlResultTransform( string stylesheet )
 		{

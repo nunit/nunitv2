@@ -31,11 +31,6 @@ namespace NUnit.Core
 		private Thread thread;
 
 		/// <summary>
-		/// Collection of TestRunner settings from the config file
-		/// </summary>
-		private NameValueCollection settings;
-
-		/// <summary>
 		/// The EventListener interface to receive test events
 		/// </summary>
 		private NUnit.Core.EventListener listener;
@@ -82,8 +77,12 @@ namespace NUnit.Core
 			thread.IsBackground = true;
 			thread.Name = "TestRunnerThread";
             thread.Priority = NUnitConfiguration.ThreadPriority;
-            if ( NUnitConfiguration.ApartmentState != ApartmentState.Unknown )
+            if (NUnitConfiguration.ApartmentState != ApartmentState.Unknown)
+#if NET_2_0
+                thread.SetApartmentState(NUnitConfiguration.ApartmentState);
+#else
                 thread.ApartmentState = NUnitConfiguration.ApartmentState;
+#endif
 		}
 
 		#endregion

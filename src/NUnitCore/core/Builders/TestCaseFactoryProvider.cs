@@ -146,5 +146,19 @@ namespace NUnit.Core.Builders
             return null;
         }
         #endregion
+
+        #region Nested FactoryInfo structure
+        private struct FactoryInfo
+        {
+            Type FactoryType;
+            string FactoryName;
+
+            FactoryInfo(Type type, string name)
+            {
+                this.FactoryName = name;
+                this.FactoryType = type;
+            }
+        }
+        #endregion
     }
 }

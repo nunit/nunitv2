@@ -29,7 +29,11 @@ namespace NUnit.Util
 			{
 				if ( shadowCopyPath == null )
 				{
-					shadowCopyPath = ConfigurationSettings.AppSettings["shadowfiles.path"];
+#if NET_2_0
+    				shadowCopyPath = ConfigurationManager.AppSettings["shadowfiles.path"];
+#else
+    				shadowCopyPath = ConfigurationSettings.AppSettings["shadowfiles.path"];
+#endif
 					if ( shadowCopyPath == "" || shadowCopyPath== null )
 						shadowCopyPath = Path.Combine( Path.GetTempPath(), @"nunit20\ShadowCopyCache" );
 					else

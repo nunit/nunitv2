@@ -23,7 +23,11 @@ namespace NUnit.Util
 
 		public SettingsService()
 		{
+#if NET_2_0
+			string settingsFile = System.Configuration.ConfigurationManager.AppSettings["settingsFile"];
+#else
 			string settingsFile = System.Configuration.ConfigurationSettings.AppSettings["settingsFile"];
+#endif
 			if ( settingsFile == null )
 				settingsFile = applicationDirectory + settingsFileName;
 

@@ -90,8 +90,12 @@ namespace NUnit.Util
 
 		public static bool IsProjectFile( string path )
 		{
+#if NET_2_0
+            if (path.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+#else
 			if ( path.IndexOfAny( Path.InvalidPathChars ) >= 0 )
-				return false;
+#endif
+                return false;
 
 			if ( path.ToLower().IndexOf( "http:" ) >= 0 )
 				return false;
