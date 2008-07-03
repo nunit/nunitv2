@@ -19,7 +19,17 @@ namespace NUnit.Framework
 		private string description;
         private Type[] typeArguments;
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public TestFixtureAttribute() { }
+        
+        /// <summary>
+        /// Construct with a Type[] representing type arguments. The
+        /// types must satisfy any constraints for the type parameters
+        /// defined for the generic fixture class.
+        /// </summary>
+        /// <param name="typeArguments"></param>
         public TestFixtureAttribute(params Type[] typeArguments)
         {
             this.typeArguments = typeArguments;
@@ -34,6 +44,9 @@ namespace NUnit.Framework
 			set { description = value; }
 		}
 
+        /// <summary>
+        /// Get the type arguments provided for this fixture
+        /// </summary>
         public Type[] TypeArguments
         {
             get { return typeArguments; }
