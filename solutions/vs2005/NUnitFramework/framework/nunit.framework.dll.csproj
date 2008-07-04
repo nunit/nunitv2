@@ -299,6 +299,9 @@
       <Link>TestAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCaseFactoryAttribute.cs">
+      <Link>TestCaseFactoryAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestFixtureAttribute.cs">
       <Link>TestFixtureAttribute.cs</Link>
       <SubType>Code</SubType>

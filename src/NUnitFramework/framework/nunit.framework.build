@@ -63,6 +63,7 @@
         <include name="TestAttribute.cs"/>
         <include name="TestCaseAttribute.cs"/>
         <include name="TestCaseData.cs"/>
+        <include name="TestCaseFactoryAttribute.cs"/>
         <include name="TestFixtureAttribute.cs"/>
         <include name="TestFixtureSetUpAttribute.cs"/>
         <include name="TestFixtureTearDownAttribute.cs"/>

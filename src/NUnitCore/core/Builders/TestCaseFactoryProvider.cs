@@ -11,6 +11,15 @@ namespace NUnit.Core.Builders
     /// </summary>
     public class TestCaseFactoryProvider : ITestCaseProvider
     {
+        #region Constants
+        public const string FactoryAttribute = "NUnit.Framework.FactoryAttribute";
+        public const string FactoryTypeProperty = "FactoryType";
+        public const string FactoryNameProperty = "FactoryName";
+
+        public const string TestCaseFactoryAttribute = "NUnit.Framework.TestCaseFactoryAttribute";
+        public const string ArgTypesProperty = "ArgTypes";
+        #endregion
+
         #region ITestCaseProvider Members
 
         /// <summary>
@@ -20,7 +29,7 @@ namespace NUnit.Core.Builders
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method)
         {
-            return Reflect.HasAttribute(method, NUnitFramework.FactoryAttribute, false);
+            return Reflect.HasAttribute(method, FactoryAttribute, false);
         }
 
         /// <summary>
@@ -32,34 +41,24 @@ namespace NUnit.Core.Builders
         public IEnumerable GetTestCasesFor(MethodInfo method)
         {
 #if NET_2_0
-            foreach (Attribute attr in Reflect.GetAttributes(method, NUnitFramework.FactoryAttribute, false))
+            foreach( FactoryInfo info in GetFactoriesFor(method) )
             {
-                Type factoryType = Reflect.GetPropertyValue(attr, "FactoryType") as Type;
-                string problem;
-
-                IEnumerable factory = GetFactory(method, attr, out problem);
-
-                if (factory == null)
-                    yield return new ParameterSet(RunState.NotRunnable, problem);
+                if (info.Factory == null)
+                    yield return new ParameterSet(RunState.NotRunnable, info.Message);
                 else
-                    foreach (object o in factory)
+                    foreach (object o in info.Factory)
                         yield return o;
             }
-
 #else
             ArrayList parameterList = new ArrayList();
 
-            foreach (Attribute attr in Reflect.GetAttributes(method, NUnitFramework.FactoryAttribute, false))
+            foreach ( FactoryInfo info in GetFactoriesFor(method) )
             {
-                string problem;
-
-                IEnumerable factory = GetFactory(method, attr, out problem);
-
-                if (factory == null)
+                if (info.Factory == null)
                     parameterList.Add(
-                        new ParameterSet(RunState.NotRunnable, problem));
+                        new ParameterSet(RunState.NotRunnable, info.Message));
                 else
-                    foreach (object o in factory)
+                    foreach (object o in info.Factory)
                         parameterList.Add(o);
             }
 
@@ -69,36 +68,115 @@ namespace NUnit.Core.Builders
         #endregion
 
         #region Helper Methods
-        private static IEnumerable GetFactory( MethodInfo method, Attribute attr, out string problem )
+        private static IList GetFactoriesFor(MethodInfo method)
         {
-            problem = null;
-
-            Type factoryType = Reflect.GetPropertyValue(attr, "FactoryType") as Type;
-            if (factoryType == null)
-                factoryType = method.DeclaringType;
-
-            string factoryName = Reflect.GetPropertyValue(attr, "FactoryName") as string;
-            if (factoryName != null && factoryName != string.Empty)
+            ArrayList factories = new ArrayList();
+            foreach (Attribute factoryAttr in Reflect.GetAttributes(method, FactoryAttribute, false))
             {
-                MemberInfo[] members = factoryType.GetMember(
-                    factoryName,
-                    MemberTypes.Field | MemberTypes.Method | MemberTypes.Property,
-                    BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                Type factoryType = Reflect.GetPropertyValue(factoryAttr, FactoryTypeProperty) as Type;
+                if (factoryType == null)
+                    factoryType = method.DeclaringType;
 
-                if (members.Length == 0)
+                string factoryNames = Reflect.GetPropertyValue(factoryAttr, FactoryNameProperty) as string;
+                if (factoryNames != null && factoryNames != string.Empty)
                 {
-                    problem = string.Format("Unable to locate {0}.{1} was not found", factoryType.FullName, factoryName);
-                    return null;
+                    foreach (string factoryName in factoryNames.Split(new char[] { ',' }))
+                    {
+                        factories.Add(new FactoryInfo(factoryType, factoryName));
+                    }
                 }
-
-                if (members.Length > 1)
+                else
                 {
-                    problem = string.Format("{0}.{1} is ambiguous", factoryType.FullName, factoryName);
-                    return null;
-                }
+                    int found = 0;
+                    foreach (MemberInfo member in factoryType.GetMembers(
+                        BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) )
+                    {
+                        Attribute testFactoryAttr = Reflect.GetAttribute(member, TestCaseFactoryAttribute, false);
+                        if ( testFactoryAttr != null )
+                        {
+                            Type[] argTypes = Reflect.GetPropertyValue(testFactoryAttr, ArgTypesProperty) as Type[];
+                            if (argTypes != null && argTypes.Length == method.GetParameters().Length)
+                            {
+                                bool isOK = true;
+                                for (int i = 0; i < argTypes.Length && isOK; i++)
+                                    if (argTypes[i] != method.GetParameters()[i].ParameterType)
+                                        isOK = false;
 
+                                if (isOK)
+                                {
+                                    ++found;
+                                    factories.Add(new FactoryInfo(factoryType, member.Name));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return factories;
+        }
+        #endregion
+
+        #region Nested FactoryInfo class
+        private class FactoryInfo
+        {
+            private Type factoryType;
+            private string factoryName;
+            private IEnumerable factory;
+            private string message;
+
+            public FactoryInfo(Type factoryType, string factoryName)
+            {
+                if (factoryType == null)
+                    throw new ArgumentNullException("factoryType");
+                if (factoryName == null)
+                    throw new ArgumentNullException("factoryName");
+
+                this.factoryType = factoryType;
+                this.factoryName = factoryName;
+            }
+
+            public IEnumerable Factory
+            {
+                get 
+                {
+                    // Don't try to populate factory more than once
+                    if (factory == null && message == null)
+                    {
+                        MemberInfo[] members = factoryType.GetMember(
+                            factoryName,
+                            MemberTypes.Field | MemberTypes.Method | MemberTypes.Property,
+                            BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                        if (members.Length == 0)
+                            message = string.Format(
+                                "Unable to locate {0}.{1}", factoryType.FullName, factoryName);
+
+                        if (members.Length > 1)
+                            message = string.Format(
+                                "{0}.{1} is ambiguous", factoryType.FullName, factoryName);
+
+                        object factoryObject = GetFactoryObjectFromMember(members[0]);
+
+                        if (factoryObject == null)
+                            message = string.Format("Factory {0} returned null", factoryName);
+
+                        factory = factoryObject as IEnumerable;
+                        if (factory == null)
+                            message = string.Format("Factory {0} does not implement IEnumerable", factoryName);
+                    }
+
+                    return factory; 
+                }
+            }
+
+            public string Message
+            {
+                get { return message; }
+            }
+
+            private object GetFactoryObjectFromMember(MemberInfo member)
+            {
                 object factoryObject = null;
-                MemberInfo member = members[0];
                 object instance = null;
 
                 switch (member.MemberType)
@@ -107,56 +185,52 @@ namespace NUnit.Core.Builders
                         PropertyInfo factoryProperty = member as PropertyInfo;
                         MethodInfo getMethod = factoryProperty.GetGetMethod(true);
                         if (!getMethod.IsStatic)
-                            instance = Reflect.Construct(factoryType);
+                            instance = FactoryInstanceCache.GetInstanceOf(factoryType);
                         factoryObject = factoryProperty.GetValue(instance, null);
                         break;
 
                     case MemberTypes.Method:
                         MethodInfo factoryMethod = member as MethodInfo;
                         if (!factoryMethod.IsStatic)
-                            instance = Reflect.Construct(factoryType);
+                            instance = FactoryInstanceCache.GetInstanceOf(factoryType);
                         factoryObject = factoryMethod.Invoke(instance, null);
                         break;
 
                     case MemberTypes.Field:
                         FieldInfo factoryField = member as FieldInfo;
                         if (!factoryField.IsStatic)
-                            instance = Reflect.Construct(factoryType);
+                            instance = FactoryInstanceCache.GetInstanceOf(factoryType);
                         factoryObject = factoryField.GetValue(instance);
                         break;
                 }
 
-                if (factoryObject == null)
-                {
-                    problem = string.Format("Factory {0} returned null", factoryName);
-                    return null;
-                }
-
-                IEnumerable factory = factoryObject as IEnumerable;
-                if (factory == null)
-                {
-                    problem = string.Format("Property {0} does not implement IEnumerable", factoryName);
-                    return null;
-                }
-
-                return factory;
+                return factoryObject;
             }
-
-            problem = "No DataSource provided on attribute";
-            return null;
         }
         #endregion
 
-        #region Nested FactoryInfo structure
-        private struct FactoryInfo
+        #region FactoryInstanceCache
+        class FactoryInstanceCache
         {
-            Type FactoryType;
-            string FactoryName;
+            private static IDictionary instances = new Hashtable();
 
-            FactoryInfo(Type type, string name)
+            public static object GetInstanceOf(Type factoryType)
             {
-                this.FactoryName = name;
-                this.FactoryType = type;
+                object instance = instances[factoryType];
+                return instance == null
+                    ? instances[factoryType] = Reflect.Construct(factoryType)
+                    : instance;
+            }
+
+            public static void Clear()
+            {
+                foreach (object key in instances.Keys)
+                {
+                    IDisposable factory = instances[key] as IDisposable;
+                    if ( factory != null )
+                        factory.Dispose();
+                    instances.Remove(key);
+                }
             }
         }
         #endregion

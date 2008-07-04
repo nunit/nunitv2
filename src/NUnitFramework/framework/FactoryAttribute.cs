@@ -13,7 +13,14 @@ namespace NUnit.Framework
         private readonly Type factoryType;
 
         /// <summary>
-        /// Construct with a name
+        /// Default constructor
+        /// </summary>
+        public FactoryAttribute()
+        {
+        }
+
+        /// <summary>
+        /// Construct with the name of the factory
         /// </summary>
         /// <param name="factoryName">The name of the property that will provide data</param>
         public FactoryAttribute(string factoryName)
@@ -22,10 +29,19 @@ namespace NUnit.Framework
         }
 
         /// <summary>
+        /// Construct with a Type that contains the factory
+        /// </summary>
+        /// <param name="factoryType">The Type that will provide data</param>
+        public FactoryAttribute(Type factoryType)
+        {
+            this.factoryType = factoryType;
+        }
+
+        /// <summary>
         /// Construct with a Type and name
         /// </summary>
         /// <param name="factoryType">The Type that will provide data</param>
-        /// <param name="factoryName">The name of the property that will provide data</param>
+        /// <param name="factoryName">The name of the method, property or field that will provide data</param>
         public FactoryAttribute(Type factoryType, string factoryName)
         {
             this.factoryType = factoryType;
@@ -33,7 +49,7 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// The name of a the static property to be used as a DataSource
+        /// The name of a the method, property or fiend to be used as a source
         /// </summary>
         public string FactoryName
         {
@@ -41,7 +57,7 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// A Type to be used as a DataSource
+        /// A Type to be used as a source
         /// </summary>
         public Type FactoryType
         {
