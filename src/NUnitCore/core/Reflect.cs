@@ -13,9 +13,9 @@ namespace NUnit.Core
 	/// <summary>
 	/// Helper methods for inspecting a type by reflection. 
 	/// 
-	/// Many of these methods take a MemberInfo as an argument to avoid
-	/// duplication, even though certain attributes can only appear on
-	/// specific types of members, like MethodInfo or Type.
+	/// Many of these methods take ICustomAttributeProvider as an 
+	/// argument to avoid duplication, even though certain attributes can 
+	/// only appear on specific types of members, like MethodInfo or Type.
 	/// 
 	/// In the case where a type is being examined for the presence of
 	/// an attribute, interface or named member, the Reflect methods
@@ -38,7 +38,7 @@ namespace NUnit.Core
 		/// <param name="attrName">The FullName of the attribute type to look for</param>
 		/// <param name="inherit">True to include inherited attributes</param>
 		/// <returns>True if the attribute is present</returns>
-		public static bool HasAttribute( MemberInfo member, string attrName, bool inherit )
+		public static bool HasAttribute( ICustomAttributeProvider member, string attrName, bool inherit )
 		{
 			object[] attributes = member.GetCustomAttributes( inherit );
 			foreach( Attribute attribute in attributes )
@@ -55,28 +55,11 @@ namespace NUnit.Core
         /// <param name="attrName">The FullName of the attribute type to look for</param>
         /// <param name="inherit">True to include inherited attributes</param>
         /// <returns>The attribute or null</returns>
-        public static System.Attribute GetAttribute(MemberInfo member, string attrName, bool inherit)
+        public static System.Attribute GetAttribute(ICustomAttributeProvider member, string attrName, bool inherit)
         {
             object[] attributes = member.GetCustomAttributes(inherit);
             foreach (Attribute attribute in attributes)
                 if ( IsInstanceOfType( attrName, attribute ) )
-                    return attribute;
-            return null;
-        }
-
-        /// <summary>
-        /// Get attribute of a given type on an assembly. If multiple attributes
-        /// of a type are present, the first one found is returned.
-        /// </summary>
-        /// <param name="assembly">The assembly to examine</param>
-        /// <param name="attrName">The FullName of the attribute type to look for</param>
-        /// <param name="inherit">True to include inherited attributes</param>
-        /// <returns>The attribute or null</returns>
-        public static System.Attribute GetAttribute(Assembly assembly, string attrName, bool inherit)
-        {
-            object[] attributes = assembly.GetCustomAttributes(inherit);
-            foreach (Attribute attribute in attributes)
-                if ( IsInstanceOfType(attrName, attribute) )
                     return attribute;
             return null;
         }
@@ -88,7 +71,8 @@ namespace NUnit.Core
 		/// <param name="attrName">The FullName of the attribute type to look for</param>
 		/// <param name="inherit">True to include inherited attributes</param>
 		/// <returns>The attribute or null</returns>
-		public static System.Attribute[] GetAttributes( MemberInfo member, string attrName, bool inherit )
+        public static System.Attribute[] GetAttributes(
+            ICustomAttributeProvider member, string attrName, bool inherit)
 		{
 			object[] attributes = member.GetCustomAttributes( inherit );
 			ArrayList result = new ArrayList();
@@ -104,25 +88,10 @@ namespace NUnit.Core
         /// <param name="member">The member to examine</param>
         /// <param name="inherit">True to include inherited attributes</param>
         /// <returns>The attribute or null</returns>
-        public static System.Attribute[] GetAttributes(MemberInfo member, bool inherit)
+        public static System.Attribute[] GetAttributes(
+            ICustomAttributeProvider member, bool inherit)
         {
             object[] attributes = member.GetCustomAttributes(inherit);
-            System.Attribute[] result = new System.Attribute[attributes.Length];
-            int n = 0;
-            foreach (Attribute attribute in attributes)
-                result[n++] = attribute;
-            return result;
-        }
-
-        /// <summary>
-        /// Get all attributes on an assembly.
-        /// </summary>
-        /// <param name="assembly">The assembly to examine</param>
-        /// <param name="inherit">True to include inherited attributes</param>
-        /// <returns>The attributes or null</returns>
-        public static System.Attribute[] GetAttributes(Assembly assembly, bool inherit)
-        {
-            object[] attributes = assembly.GetCustomAttributes(inherit);
             System.Attribute[] result = new System.Attribute[attributes.Length];
             int n = 0;
             foreach (Attribute attribute in attributes)
