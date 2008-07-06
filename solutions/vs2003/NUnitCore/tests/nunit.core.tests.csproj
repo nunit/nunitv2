@@ -195,6 +195,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "CombinatorialTests.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\CombinatorialTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "CommonAssemblyInfo.cs"
                     Link = "..\..\..\..\src\CommonAssemblyInfo.cs"
                     SubType = "Code"

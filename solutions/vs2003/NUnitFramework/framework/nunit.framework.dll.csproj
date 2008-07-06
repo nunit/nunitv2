@@ -204,6 +204,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "JoinTypeAttributes.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\JoinTypeAttributes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "PropertyAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\PropertyAttribute.cs"
                     SubType = "Code"
@@ -302,6 +308,12 @@
                 <File
                     RelPath = "TextMessageWriter.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\TextMessageWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ValuesAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\ValuesAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

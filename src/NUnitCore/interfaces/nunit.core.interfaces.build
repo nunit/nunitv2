@@ -26,6 +26,7 @@
         <include name="Extensibility/ExtensionType.cs"/>
         <include name="Extensibility/IAddin.cs"/>
         <include name="Extensibility/IAddinRegistry.cs"/>
+        <include name="Extensibility/IDataPointProvider.cs"/>
         <include name="Extensibility/IExtensionHost.cs"/>
         <include name="Extensibility/IExtensionPoint.cs"/>
         <include name="Extensibility/IFrameworkRegistry.cs"/>

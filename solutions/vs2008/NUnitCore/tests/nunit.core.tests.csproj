@@ -192,6 +192,9 @@
       <Link>CategoryAttributeTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\CombinatorialTests.cs">
+      <Link>CombinatorialTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\CoreExtensionsTests.cs">
       <Link>CoreExtensionsTests.cs</Link>
       <SubType>Code</SubType>

@@ -54,6 +54,8 @@
         <include name="TestSuiteBuilder.cs"/>
         <include name="TextCapture.cs"/>
         <include name="ThreadedTestRunner.cs"/>
+        <include name="Builders/CombinatorialTestCaseProvider.cs"/>
+        <include name="Builders/InlineDataPointProvider.cs"/>
         <include name="Builders/TestCaseFactoryProvider.cs"/>
         <include name="Builders/LegacySuiteBuilder.cs"/>
         <include name="Builders/NUnitTestCaseBuilder.cs"/>
@@ -62,6 +64,7 @@
         <include name="Builders/TestAssemblyBuilder.cs"/>
         <include name="Builders/TestCaseParameterProvider.cs"/>
         <include name="Builders/ParameterizedTestCaseBuilder.cs"/>
+        <include name="Extensibility/DataPointProviders.cs"/>
         <include name="Extensibility/EventListenerCollection.cs"/>
         <include name="Extensibility/FrameworkRegistry.cs"/>
         <include name="Extensibility/SuiteBuilderCollection.cs"/>

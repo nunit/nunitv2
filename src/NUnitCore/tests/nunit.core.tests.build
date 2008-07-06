@@ -13,6 +13,7 @@
         <include name="BasicRunnerTests.cs"/>
         <include name="CallContextTests.cs"/>
         <include name="CategoryAttributeTests.cs"/>
+        <include name="CombinatorialTests.cs"/>
         <include name="CoreExtensionsTests.cs"/>
         <include name="CultureSettingAndDetectionTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>

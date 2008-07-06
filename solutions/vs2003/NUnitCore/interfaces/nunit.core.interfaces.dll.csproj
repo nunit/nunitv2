@@ -234,6 +234,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Extensibility\IDataPointProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\IDataPointProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Extensibility\IExtensionHost.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\Extensibility\IExtensionHost.cs"
                     SubType = "Code"

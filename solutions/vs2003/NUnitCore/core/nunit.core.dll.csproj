@@ -136,6 +136,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DataPointProviders.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Extensibility\DataPointProviders.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "DirectorySwapper.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\DirectorySwapper.cs"
                     SubType = "Code"
@@ -418,6 +424,18 @@
                 <File
                     RelPath = "ThreadedTestRunner.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\ThreadedTestRunner.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\CombinatorialTestCaseProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\CombinatorialTestCaseProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\InlineDataPointProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\InlineDataPointProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

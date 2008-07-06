@@ -367,6 +367,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\tests\GenericTestFixtureTests.cs">
       <Link>GenericTestFixtureTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\CombinatorialTests.cs">
+      <Link>CombinatorialTests.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
       <SubType>Designer</SubType>

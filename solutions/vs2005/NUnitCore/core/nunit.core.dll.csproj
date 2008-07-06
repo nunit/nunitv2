@@ -339,6 +339,15 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\NUnitConfiguration.cs">
       <Link>NUnitConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\CombinatorialTestCaseProvider.cs">
+      <Link>Builders\CombinatorialTestCaseProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Extensibility\DataPointProviders.cs">
+      <Link>Extensibility\DataPointProviders.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\InlineDataPointProvider.cs">
+      <Link>Builders\InlineDataPointProvider.cs</Link>
+    </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
       <SubType>Designer</SubType>

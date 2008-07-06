@@ -51,6 +51,7 @@
         <include name="IgnoreException.cs"/>
         <include name="IncludeExcludeAttributes.cs"/>
         <include name="InconclusiveException.cs"/>
+        <include name="JoinTypeAttributes.cs"/>
         <include name="PropertyAttribute.cs"/>
         <include name="RequiredAddinAttribute.cs"/>
         <include name="SetCultureAttribute.cs"/>
@@ -68,6 +69,7 @@
         <include name="TestFixtureSetUpAttribute.cs"/>
         <include name="TestFixtureTearDownAttribute.cs"/>
         <include name="TextMessageWriter.cs"/>
+        <include name="ValuesAttribute.cs"/>
   </patternset>
 
   <target name="build">

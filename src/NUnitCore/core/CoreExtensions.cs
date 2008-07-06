@@ -31,7 +31,7 @@ namespace NUnit.Core
 		private EventListenerCollection listeners;
 		private FrameworkRegistry frameworks;
 	    private TestCaseProviders testcaseProviders;
-        private ExtensionPoint testFixtureParameterProviders;
+        private DataPointProviders dataPointProviders;
 
 		#endregion
 
@@ -58,6 +58,7 @@ namespace NUnit.Core
 			this.listeners = new EventListenerCollection(this);
 			this.frameworks = new FrameworkRegistry(this);
             this.testcaseProviders = new TestCaseProviders(this);
+            this.dataPointProviders = new DataPointProviders(this);
 
 		    this.extensions = new ArrayList();
 		    extensions.Add(suiteBuilders);
@@ -66,6 +67,7 @@ namespace NUnit.Core
 		    extensions.Add(listeners);
 		    extensions.Add(frameworks);
 		    extensions.Add(testcaseProviders);
+            extensions.Add(dataPointProviders);
 
 			this.supportedTypes = ExtensionType.Core;
 
@@ -157,9 +159,13 @@ namespace NUnit.Core
             testBuilders.Install( new NUnitTestCaseBuilder() );
             testBuilders.Install(new ParameterizedTestCaseBuilder());
 
-            // Install builtin ParameterProvider
+            // Install builtin TestCaseProviders
             testcaseProviders.Install(new TestCaseParameterProvider());
             testcaseProviders.Install(new TestCaseFactoryProvider());
+            testcaseProviders.Install(new CombinatorialTestCaseProvider());
+
+            // Install builtin DataPointProvider
+            dataPointProviders.Install(new InlineDataPointProvider());
 		}
 
 		public void InstallAddins()
