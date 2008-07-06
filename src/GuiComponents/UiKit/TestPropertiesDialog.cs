@@ -519,8 +519,26 @@ namespace NUnit.UiKit
 			ignoreReason.Text = test.IgnoreReason;
 			testCaseCount.Text = test.TestCount.ToString();
 			properties.Items.Clear();
-			foreach( DictionaryEntry entry in test.Properties )
-				properties.Items.Add( entry.Key + "=" + entry.Value.ToString() );
+            foreach (DictionaryEntry entry in test.Properties)
+            {
+                if (entry.Value is ICollection)
+                {
+                    ICollection items = (ICollection)entry.Value;
+                    if (items.Count == 0) continue;
+
+                    StringBuilder sb = new StringBuilder();
+                    foreach (object item in items)
+                    {
+                        if (sb.Length > 0)
+                            sb.Append(",");
+                        sb.Append(item.ToString());
+                    }
+                    
+                    properties.Items.Add( entry.Key.ToString() + "=" +sb.ToString() );
+                }
+                else
+                    properties.Items.Add( entry.Key.ToString() + "=" + entry.Value.ToString());
+            }
 
 			message.Text = "";
 			elapsedTime.Text = "Execution Time:";
