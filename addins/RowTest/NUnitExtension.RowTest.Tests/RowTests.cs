@@ -3,6 +3,8 @@
 // This is free software licensed under the MIT license. 
 // *********************************************************************
 using System;
+using System.Collections;
+using System.Collections.Specialized;
 using NUnit.Framework;
 using NUnitExtension.RowTest;
 
@@ -73,6 +75,31 @@ namespace NUnitExtension.RowTest.Tests
 		public void SpecialValueNullArgument(string argument)
 		{
 			Assert.IsNull(argument);
+		}
+		
+		[RowTest]
+		[Row("2008-04-13 17:52:42")]
+		public void DateTimeArgument(DateTime dateTime)
+		{
+			Assert.AreEqual(new DateTime(2008, 4, 13, 17, 52, 42), dateTime);
+		}
+		
+		[RowTest]
+		[Row(typeof(ArrayList))]
+		[Row(typeof(StringCollection))]
+		public void IListTest(IList list)
+		{
+			string item = "Text";
+			Assert.AreEqual(0, list.Count);
+			
+			list.Add(item);
+			
+			Assert.AreEqual(1, list.Count);
+			Assert.IsTrue(list.Contains(item));
+			
+			list.Remove(item);
+			
+			Assert.AreEqual(0, list.Count);
 		}
 		
 		private int Sum(int x, int y)

@@ -35,7 +35,7 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
 			RowTestSuite rowTestSuite = new RowTestSuite(GetRowTestMethodWith2Rows());
 			parentSuite.Add(rowTestSuite);
 			
-			rowTestSuite.Run(new NullListener());
+			rowTestSuite.Run(new NullListener(),TestFilter.Empty);
 			
 			Assert.That(rowTestSuite.Fixture, Is.SameAs(fixture));
 		}
@@ -45,25 +45,9 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
 		{
 			RowTestSuite rowTestSuite = new RowTestSuite(GetRowTestMethodWith2Rows());
 			
-			rowTestSuite.Run(new NullListener());
+			rowTestSuite.Run(new NullListener(),TestFilter.Empty);
 			
 			Assert.That(rowTestSuite.Fixture, Is.Null);
-		}
-		
-		[Test]
-		public void Run_WithTestFilter()
-		{
-			TestClass fixture = new TestClass();
-			
-			TestSuite parentSuite = new TestSuite("ParentSuiteName", "Name");
-			parentSuite.Fixture = fixture;
-			
-			RowTestSuite rowTestSuite = new RowTestSuite(GetRowTestMethodWith2Rows());
-			parentSuite.Add(rowTestSuite);
-			
-			rowTestSuite.Run(new NullListener(), TestFilter.Empty);
-			
-			Assert.That(rowTestSuite.Fixture, Is.SameAs(fixture));
 		}
 	}
 }

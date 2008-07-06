@@ -41,12 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentListParameterSetFilter.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ConvertParameterSetFilter.cs" />
+    <Compile Include="IParameterSetFilter.cs" />
+    <Compile Include="ParameterSetFilterBase.cs" />
     <Compile Include="RowTestAddIn.cs" />
-    <Compile Include="RowTestCase.cs" />
-    <Compile Include="RowTestFactory.cs" />
-    <Compile Include="RowTestFramework.cs" />
-    <Compile Include="RowTestNameBuilder.cs" />
-    <Compile Include="RowTestSuite.cs" />
+    <Compile Include="RowTestParameterProvider.cs" />
+    <Compile Include="SpecialValueParameterSetFilter.cs" />
+    <Compile Include="TypeParameterSetFilter.cs" />
   </ItemGroup>
 </Project>

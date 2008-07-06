@@ -22,11 +22,18 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
 
 		public void MethodWithoutRowTestAttribute()
 		{
+			Assert.Fail("Should not be called.");
 		}
 
 		[RowTest]
 		public void MethodWithRowTestAttribute()
 		{
+		}
+
+		[Row(42, 21)]
+		public void MethodWithRowAttribute(int a, int b)
+		{
+			Assert.Fail("Should not be called.");
 		}
 
 		[RowTest]
@@ -80,7 +87,7 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
 			_arguments = new object[] { a };
 		}
 		
-#if NET_2_0
+#if !FX1_1 && !NET_1_1
 		[RowTest]
 		[Row(9, null)]
 		public void RowTestMethodWithNormalAndNullArgument(int a, object b)

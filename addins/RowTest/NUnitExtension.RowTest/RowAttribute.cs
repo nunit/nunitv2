@@ -32,7 +32,10 @@ namespace NUnitExtension.RowTest
 		
 		public RowAttribute(params object[] arguments)
 		{
-			_arguments = arguments;
+			if (arguments == null)
+				_arguments = new object[] { null };
+			else
+				_arguments = arguments;
 		}
 		
 		public string TestName
