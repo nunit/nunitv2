@@ -40,6 +40,8 @@
     value="${path::combine(package.working.dir,'samples')}"/>
   <property name="package.src.dir" 
     value="${path::combine(package.working.dir,'src')}"/>
+  <property name="package.lib.dir" 
+    value="${path::combine(package.working.dir,'lib')}"/>
   <property name="package.solutions.dir"
     value="${path::combine(package.working.dir,'solutions')}"/>
   <property name="package.tools.dir"

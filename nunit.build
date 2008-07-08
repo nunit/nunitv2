@@ -880,6 +880,13 @@
       </fileset>
     </copy>
 
+    <!-- Copy lib dir files -->
+    <copy todir="${package.lib.dir}">
+      <fileset basedir="${project.lib.dir}">
+        <include name="*.dll"/>
+      </fileset>
+    </copy>
+
     <!-- Copy install directory files -->
     <copy todir="${package.install.dir}">
       <fileset basedir="${project.install.dir}">
