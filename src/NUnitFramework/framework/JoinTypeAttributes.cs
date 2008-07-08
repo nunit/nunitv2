@@ -10,6 +10,9 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class CombinatorialAttribute : PropertyAttribute
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public CombinatorialAttribute() : base("_JOINTYPE", "Combinatorial") { }
     }
 
@@ -21,6 +24,9 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class PairwiseAttribute : PropertyAttribute
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public PairwiseAttribute() : base("_JOINTYPE", "Pairwise") { }
     }
 
@@ -32,6 +38,9 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class SequentialAttribute : PropertyAttribute
     {
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public SequentialAttribute() : base("_JOINTYPE", "Sequential") { }
     }
 }
