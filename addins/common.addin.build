@@ -211,7 +211,7 @@
 
   <call target="set-debug-build-config"/>
   <call target="set-${default.runtime}-runtime-config"/>
-  <property name="nunit.version" value="2.4.7"
+  <property name="nunit.version" value="2.5"
     unless="${property::exists('nunit.version')}"/>
 
 <!-- ***************************************************************** -->

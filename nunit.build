@@ -235,19 +235,19 @@
   </target>
 
   <target name="build-addins" depends="build">
-<!--
+
     <nant target="${build.config} ${runtime.config} clean build bundled-install">
 
       <buildfiles refid="addin.buildfiles"/>
 
       <properties>
-        <property name="nunit.version" value="${package.version}"/>
+        <property name="nunit.version" value="${nominal.version}"/>
         <property name="nunit.dir" value="${current.build.dir}"/>
         <property name="nunit.bin.dir" value="${current.build.dir}" readonly="true"/>
       </properties>
 
     </nant>
--->
+
   </target>
 
   <target name="rebuild-all" depends="clean-all,build-all"
@@ -921,6 +921,17 @@
       </fileset>
     </copy>
 
+    <!-- Copy VS2008 solution -->
+    <copy todir="${package.solutions.dir}/vs2008">
+      <fileset basedir="${project.solutions.dir}/vs2008">
+        <include name="nunit.sln"/>
+        <include name="NUnitTests.nunit"/>
+        <include name="NUnitTests.config"/>
+        <include name="nunit.snk"/>
+        <include name="**/*.csproj"/>
+      </fileset>
+    </copy>
+
   </target>
 
 <!-- ***************************************************************** -->
@@ -1023,7 +1034,7 @@
   <!-- Buildfiles for bundled addins -->
   <fileset id="addin.buildfiles" basedir="${project.addins.dir}">
 
-    <include name="RowTest/RowTestExtension.build"/>
+    <!--<include name="RowTest/RowTestExtension.build"/>-->
     <include name="CSUnitAddin/CSUnitAddin.build"/>
 
   </fileset>

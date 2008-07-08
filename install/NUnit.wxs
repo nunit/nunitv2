@@ -164,14 +164,14 @@
 
         <Feature Id="Net_1.1_Extensions" Level="10" Title='Extensions' Display='collapse'
         	 Description="Installs bundled extensions to NUnit">
-
+<!--
           <Feature Id="Net_1.1_RowTestExtension" Level="10" Title='RowTestExtension' Display='expand'
 	           Description="Installs the RowTest extension to NUnit">
 
             <ComponentGroupRef Id="RowTestExtension_1.1"/>
 
           </Feature>
-        
+-->        
           <Feature Id="Net_1.1_CSUnitAddin" Level="10" Title='CSUnitAddin' Display='expand'
 	           Description="Installs CSUnitAddin to NUnit, allowing the running of csUnit tests">
 
@@ -230,14 +230,14 @@
 
         <Feature Id="Net_2.0_Extensions" Level="10" Title='Extensions' Display='collapse'
         	 Description="Installs bundled extensions to NUnit">
-
+<!--
           <Feature Id="Net_2.0_RowTestExtension" Level="10" Title='RowTestExtension' Display='expand'
 	           Description="Installs the RowTest extension to NUnit">
 
             <ComponentGroupRef Id="RowTestExtension_2.0"/>
 
           </Feature>
-
+-->
           <Feature Id="Net_2.0_CSUnitAddin" Level="10" Title='CSUnitAddin' Display='expand'
 	           Description="Installs CSUnitAddin to NUnit, allowing the running of csUnit tests">
 
