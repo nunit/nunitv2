@@ -56,9 +56,9 @@ Assert.That( new TestDelegate(SomeMethod),
 	
 // .NET 2.0
 Assert.That( SomeMethod, 
-  Throws.Exception<ArgumentException>());
+  Throws.Exception&lt;ArgumentException&gt;());
 Assert.That( SomeMethod, 
-  Throws.Exception<ArgumentException>(
+  Throws.Exception&lt;ArgumentException&gt;(
     Has.Property("Parameter", "myParam")));
 
 </pre></div>

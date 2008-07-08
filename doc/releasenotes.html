@@ -32,7 +32,102 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.5 Alpha 1 Release - April 18, 2008</h3>
+<h3>NUnit 2.5 Alpha 3 Release - July 7, 2008</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>NUnit now uses a new version numbering scheme. The first three
+    dot-separated values represent the release level, as before, while 
+	the fourth is a build number tied to the date of the release. This 
+	alpha release, for example, is numbered 2.5.0.8189.
+<li>The NUnit source now includes a VS2008 project, in addition to
+    the existing VS2005 and VS2003 projects
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li><b>DataSourceAttribute</b> has been replaced with <b>FactoryAttribute</b>.
+    The new attribute may refer to any field, method or property that 
+	provides test cases consistent with the signature of the method on which
+	it appears. The naming of this attribute is still a bit unsatisfactory
+	and it may change in the final release. 
+<li>The new <b>TestCaseFactoryAttribute</b> class may be used to mark a
+    field, method or property that provides test cases. It specifies the
+	argument types of the test cases that will be provided and is used
+	to identify the cases to be used when the name of a factory is not
+	specified.
+<li>Data may be specified for individual arguments of a parameterized test
+    using the new attributes: <b>ValuesAttribute</b>, <b>RangeAttribute</b>
+	and <b>RandomAttribute</b>. By default, test cases are created using
+	every possible combination of the items provided. Attributes on the
+	test method may specify how data is combined. This release includes
+	<b>SequentialAttribute</b>, <b>CombinatorialAttribute</b> (the default) and 
+	<b>PairwiseAttribute</b>. However, Pairwise combination is not yet
+	implemented, so that attribute is currently ignored.
+<li><b>TestFixture</b> classes may now be generic. They must be marked with
+    or or more instances of <b>TextFixtureAttribute</b> using the new
+	constructor that takes an array of Types. NUnit will instantiate
+	the fixture multiple times, using the type arguments provided.
+<li>Parameterized test methods may now be generic. NUnit will deduce
+    the correct implementation to use based on the types of the
+	parameters provided.
+<li>The new <b>RequiredAddinAttribute</b> may be used to mark tests,
+    fixtures or assemblies, indicating the name of any addin that is
+	required to run the tests. If the addin is not present, the test,
+	fixture or assembly is marked NotRunnable.
+<li>A new assertion and corresponding constraint <b>IsOrdered</b>
+    has been added. (contributed by Simone Busoli)
+<li><b>PlatformAttribute</b> has been extended to accept the new keywords
+    <b>NT6</b>, <b>Vista</b> and <b>Win2008Server</b>.
+	<br><br>
+	<b>Note:</b> In the current alpha release, NUnit is unable to 
+	distintuish between Vista and Windows 2008 Server. Either
+	of them will match all the above values.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>Properties with a collection for a value are now displayed
+displayed as a comma-separated list in the properties window.
+</ul>
+
+<h4>Extensibility</h4>
+
+<ul>
+<li>The <b>IParameterProvider</b> interface has been replaced with
+    <b>ITestCaseProvider</b>. The ParameterProviders extension point
+	has been renamed to TestCaseProviders.
+<li>A new extension point, <b>DataPointProviders</b>, has been
+    added to support extensions that provide data for individual
+	test parameters. Extensions must implement the <b>IDataPointProvider</b>
+	interface.
+<li>A simpler method of providing new data point extensions based
+    on attributes applied to the parameter itself is also available.
+    Such attributes may be derived from <b>ValuesAttribute</b> and
+    do not require any special addin in order to work.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>NUnit tests of AssertThrows were not working on systems using
+    non-English cultures.
+<li>Domains were not unloading correctly in some circumstances. Unloading
+    is now done on a separate thread.
+<li>An NUnitSettings.xml file of zero length was causing a crash.
+<li>Invoking the gui with /exclude:XXX, where XXX is a non-existent
+    category, was causing all tests to be excluded.
+<li>Categories were not working properly on repeated tests.
+<li>A serious memory leak was fixed in the NUnit test runners.
+<li>Static SetUp and TearDown methods were not being called in a SetUpFixture.
+<li>The current directory used when executing addins that load tests was
+    not correctly set.
+</ul>
+
+<h3>NUnit 2.5 Alpha 2 Release - May 7, 2008</h3>
 
 <p><b>Note:</b> Since this is an alpha level release, the
 features are not complete and some features present in
@@ -41,7 +136,42 @@ this release may be removed or changed in future releases.
 <h4>General</h4>
 
 <ul>
-<li>There are no longer separate distributed packaes for .NET 1.1 an 2.0.
+<li>This release includes pNUnit, an extended NUnit runner for distributed
+    parallel tests. The pNUnit program was developed at Codice Software
+	for use in testing the Plastic SCM and has been contributed to NUnit.
+	For more info about using pNUnit see the 
+	<a href="http://www.codicesoftware.com/opdownloads2/oppnunit.aspx">pNUnit site</a>.
+<li>The install now offers Typical, Complete and Custom options. Selecting
+    Typical gets you the NUnit framework, core, console runner and Gui.
+    To install pNUnit, any of the bundled addins or the NUnit tests,
+	select Complete or Custom.
+</ul>
+
+<h4>Extensibility</h4>
+
+<ul>
+<li>The RowTestExtension, which was merged into the nunit extension dlls
+	in Alpha-1, is now provided as a separate addin. This is the general
+	approach we plan to take with regard to any bundled addins, since it
+	permits the creator of an addin to provide updates separately from
+	the NUnit release.
+<li>This release includes the CSUnitAddin extension, which allows the running of 
+    CSUnit tests under NUnit. The csunit.dll must be available in order to
+	run the tests.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>Addins now work with the console runner.
+</ul>
+
+<h3>NUnit 2.5 Alpha 1 Release - April 18, 2008</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>There are no longer separate distributed packages for .NET 1.1 an 2.0.
     Both the binary zip and msi packages contain subdirectories for .NET
 	1.1 and 2.0. In the case of the msi, the user may elect to install either
 	or both of them.

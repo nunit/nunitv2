@@ -219,16 +219,8 @@ of evaluation is as follows:
 <h4>Other Options</h4>
 <p>The <b>/noshadow</b> option disables shadow copying of the assembly in order to 
 	provide improved performance.</p>
-<p>The <b>/thread</b> option causes a separate thread to be created for running the 
-	tests. This is necessary in cases where the tests must run in a particular type 
-	of apartment. By running in a separate thread, the ApartmentState and 
-	ThreadPriority settings under the
-	<TestRunner>
-	element of the config file will be honored. If no thread is created, these are 
-	ignored and the apartment will be the same as that of the console program.</p>
-<p><b>Note:</b>The apartment state of the console program may change from release 
-	to release, so users requiring a particular apartment should take advantage of 
-	this setting rather than relying on the default.</p>
+<p>The <b>/nothread</b> option suppresses use of a separate thread for running the 
+	tests and uses the main thread instead.</p>
 <p>The <b>/wait</b> option causes the program to wait for user input before 
 	exiting. This is useful when running nunit-console from a shortcut.</p>
 <p>The <b>/xmlconsole</b> option displays raw XML output on the console rather than 

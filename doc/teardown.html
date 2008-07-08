@@ -64,7 +64,7 @@
     [SetUp] public void Init()
     { /* ... */ }
 
-    [TearDown] public void Dispose()
+    [TearDown] public void Cleanup()
     { /* ... */ }
 
     [Test] public void Add()
@@ -83,7 +83,7 @@ Namespace Nunit.Tests
     ' ...
     End Sub
 
-    &lt;TearDown()&gt; Public Sub Dispose()
+    &lt;TearDown()&gt; Public Sub Cleanup()
     ' ...
     End Sub
 
@@ -104,7 +104,7 @@ namespace NUnitTests
   public __gc class SuccessTests
   {
     [SetUp] void Init();
-    [TearDown] void Dispose();
+    [TearDown] void Cleanup();
 
     [Test] void Add();
   };
@@ -131,7 +131,7 @@ public class SuccessTests
   { /* ... */ }
 
   /** @attribute NUnit.Framework.TearDown() */
-  public void Dispose()
+  public void Cleanup()
   { /* ... */ }
 
   /** @attribute NUnit.Framework.Test() */
@@ -149,6 +149,11 @@ public class SuccessTests
 	after each test method in the derived class. If you wish to add more 
 	TearDown functionality in a derived class you need to mark the method 
 	with the appropriate attribute and then call the base class method.</p>
+	
+<h4>See also...</h4>
+<ul>
+<li><a href="setup.html">SetUpAttribute</a><li><a href="fixtureSetup.html">TestFixtureSetUpAttribute</a><li><a href="fixtureTeardown.html">TestFixtureTearDownAttribute</a></ul>
+
 
 </div>
 
@@ -161,25 +166,18 @@ public class SuccessTests
 <li><a href="assertions.html">Assertions</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <ul>
-<li><a href="category.html">Category</a></li>
-<li><a href="culture.html">Culture</a></li>
-<li><a href="dataSource.html">Data&nbsp;Source</a></li>
-<li><a href="description.html">Description</a></li>
-<li><a href="exception.html">Expected&nbsp;Exception</a></li>
-<li><a href="explicit.html">Explicit</a></li>
-<li><a href="ignore.html">Ignore</a></li>
-<li><a href="platform.html">Platform</a></li>
-<li><a href="property.html">Property</a></li>
-<li><a href="setCulture.html">SetCulture</a></li>
+<li><a href="testIdentification.html">Test&nbsp;Identification</a></li>
+<li><a href="testSelection.html">Test&nbsp;Selection</a></li>
+<li><a href="testModification.html">Test&nbsp;Modification</a></li>
+<li><a href="setupTeardown.html">Setup&nbsp;and&nbsp;Teardown</a></li>
+<ul>
 <li><a href="setup.html">Setup</a></li>
 <li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
-<li><a href="suite.html">Suite</a></li>
 <li id="current"><a href="teardown.html">Teardown</a></li>
-<li><a href="test.html">Test</a></li>
-<li><a href="testCase.html">Test&nbsp;Case</a></li>
-<li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
 <li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
 <li><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
+</ul>
+<li><a href="parameterizedTests.html">Parameterized&nbsp;Tests</a></li>
 </ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>

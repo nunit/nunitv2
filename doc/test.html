@@ -40,12 +40,15 @@
 <p>Beginning with NUnit 2.5, static methods may be used as tests:
 	<pre>        public static void MethodName()</pre></p>
 	
-<p>In addition, with 2.5, test methods may have arguments an return
+<p>In addition, with 2.5, test methods may have arguments and return
    values, provided that NUnit is told what values to use for the
    arguments and how to handle the return value. For more information
-   on these capabilities, see the 
-   <a href="testCase.html">TestCase</a> and 
-   <a href="dataSource.html">DataSource</a> attributes.
+   on these capabilities, see the some of the related attributes
+   listed at the end of this page.
+   
+<p>Parameterized test methods may also be generic, provided that 
+   NUnit is able to deduce the proper argument types from the
+   types of the data arguments supplied.
 	
 <p>If the programmer marks a test method that does not have the correct signature 
    it will be considered as not runnable and be indicated as such by the console
@@ -134,6 +137,10 @@ public class SuccessTests
 </pre>
 </div>
 
+<h4>See also...</h4>
+
+<ul>
+<li><a href="testCase.html">TestCaseAttribute</a><li><a href="factory.html">FactoryAttribute</a><li><a href="testCaseFactory.html">TestCaseFactoryAttribute</a><li><a href="values.html">ValuesAttribute</a><li><a href="range.html">RangeAttribute</a><li><a href="random.html">RandomAttribute</a><li><a href="sequential.html">SequentialAttribute</a><li><a href="combinatorial.html">CombinatorialAttribute</a><li><a href="pairwise.html">PairwiseAttribute</a></ul>
 </div>
 
 <!-- Submenu -->
@@ -145,25 +152,18 @@ public class SuccessTests
 <li><a href="assertions.html">Assertions</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <ul>
-<li><a href="category.html">Category</a></li>
-<li><a href="culture.html">Culture</a></li>
-<li><a href="dataSource.html">Data&nbsp;Source</a></li>
+<li><a href="testIdentification.html">Test&nbsp;Identification</a></li>
+<ul>
 <li><a href="description.html">Description</a></li>
-<li><a href="exception.html">Expected&nbsp;Exception</a></li>
-<li><a href="explicit.html">Explicit</a></li>
-<li><a href="ignore.html">Ignore</a></li>
-<li><a href="platform.html">Platform</a></li>
 <li><a href="property.html">Property</a></li>
-<li><a href="setCulture.html">SetCulture</a></li>
-<li><a href="setup.html">Setup</a></li>
-<li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
 <li><a href="suite.html">Suite</a></li>
-<li><a href="teardown.html">Teardown</a></li>
 <li id="current"><a href="test.html">Test</a></li>
-<li><a href="testCase.html">Test&nbsp;Case</a></li>
 <li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
-<li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
-<li><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
+</ul>
+<li><a href="testSelection.html">Test&nbsp;Selection</a></li>
+<li><a href="testModification.html">Test&nbsp;Modification</a></li>
+<li><a href="setupTeardown.html">Setup&nbsp;and&nbsp;Teardown</a></li>
+<li><a href="parameterizedTests.html">Parameterized&nbsp;Tests</a></li>
 </ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>

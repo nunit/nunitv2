@@ -24,7 +24,7 @@
 
 <div id="content">
 
-<h2>CollectionAssert (NUnit 2.4)</h2>
+<h2>CollectionAssert (NUnit 2.4 / 2.5)</h2>
 <p>The CollectionAssert class provides a number of methods that are useful 
 when examining collections and their contents or for comparing two collections.</p>
 
@@ -112,8 +112,23 @@ CollectionAssert.IsEmpty( IEnumerable collection, string message,
 CollectionAssert.IsNotEmpty( IEnumerable collection );
 CollectionAssert.IsNotEmpty( IEnumerable collection, string message );
 CollectionAssert.IsNotEmpty( IEnumerable collection, string message,
-          params object[] args );</pre>
-</div>
+          params object[] args );
+</pre></div>
+		 
+<p>The following methods are available beginning with NUnit 2.5
+
+<div class="code" style="width: 38em"><pre>
+CollectionAssert.IsOrdered( IEnumerable collection );
+CollectionAssert.IsOrdered( IEnumerable collection, string message );
+CollectionAssert.IsOrdered( IEnumerable collection, string message,
+          params object[] args );
+		  
+CollectionAssert.IsOrdered( IEnumerable collection, IComparer comparer );
+CollectionAssert.IsOrdered( IEnumerable collection, IComparer comparer,
+          string message );
+CollectionAssert.IsOrdered( IEnumerable collection, IComparer comparer,
+          string message, params object[] args );
+</pre></div>
 
 </div>
 

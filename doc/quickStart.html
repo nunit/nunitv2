@@ -194,7 +194,7 @@ public void TransferWithInsufficientFundsAtomicity()
 }</pre>
 </div>
 
-<p>We are testing the transactional property of our business method – all operations are successful or none. Compile and run – red bar. OK, we’ve made $300.00 out of a thin air (1999.com déjà vu?) – the source account has the correct balance of 150.00 but the destination account shows : $450.00. How do we fix this? Can we just move the minimum balance check call in front of the updates:</p>
+<p>We are testing the transactional property of our business method – all operations are successful or none. Compile and run – red bar. OK, we’ve made $300.00 out of a thin air (1999.com déjà vu?) – the source account has the correct balance of 200.00 but the destination account shows : $450.00. How do we fix this? Can we just move the minimum balance check call in front of the updates:</p>
 
 <div class="code">
 <pre>public void TransferFunds(Account destination, float amount)

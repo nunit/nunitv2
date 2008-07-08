@@ -48,13 +48,17 @@ public void DivideTest(int n, int d, int q)
 </pre>
 </div>
 
+<p><b>Note:</b> Because arguments to .NET attributes are limited in terms of the 
+Types that may be used, NUnit will make some attempt to convert the supplied
+values using <b>Convert.ChangeType()</b> before supplying it to the test.
+
 <p><b>TestCaseAttribute</b> may appear one or more times on a test method,
 which may also carry other attributes providing test data, such as the
-<a href="dataSource.html">DataSourceAttribute</a>.
+<a href="factory.html">FactoryAttribute</a>.
 The method may optionally be marked with the 
 <a href="test.html">TestAttribute</a> as well.
 
-By using the named parameter <b>Result</b> this test set may be simplified
+<p>By using the named parameter <b>Result</b> this test set may be simplified
 further:
 
 <div class="code">
@@ -71,8 +75,8 @@ public int DivideTest(int n, int d)
 <p>In the above example, NUnit checks that the return
 value of the method is equal to the expected result provided on the attribute.
 
-<p><b>TestCaseAttribute</b> supports a number of named parameters, which may be used
-as follows:
+<p><b>TestCaseAttribute</b> supports a number of additional 
+named parameters, which may be used as follows:
 
 <dl>
 <dt><b>Description</b>
@@ -88,6 +92,7 @@ a compatible return type.
 <dd>Provides a name for the test. If not specified, a name is generated based on 
 the method name and the arguments provided
 </dl>
+
 </div>
 
 <!-- Submenu -->
@@ -99,25 +104,22 @@ the method name and the arguments provided
 <li><a href="assertions.html">Assertions</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <ul>
-<li><a href="category.html">Category</a></li>
-<li><a href="culture.html">Culture</a></li>
-<li><a href="dataSource.html">Data&nbsp;Source</a></li>
-<li><a href="description.html">Description</a></li>
-<li><a href="exception.html">Expected&nbsp;Exception</a></li>
-<li><a href="explicit.html">Explicit</a></li>
-<li><a href="ignore.html">Ignore</a></li>
-<li><a href="platform.html">Platform</a></li>
-<li><a href="property.html">Property</a></li>
-<li><a href="setCulture.html">SetCulture</a></li>
-<li><a href="setup.html">Setup</a></li>
-<li><a href="setupFixture.html">SetUp&nbsp;Fixture</a></li>
-<li><a href="suite.html">Suite</a></li>
-<li><a href="teardown.html">Teardown</a></li>
-<li><a href="test.html">Test</a></li>
+<li><a href="testIdentification.html">Test&nbsp;Identification</a></li>
+<li><a href="testSelection.html">Test&nbsp;Selection</a></li>
+<li><a href="testModification.html">Test&nbsp;Modification</a></li>
+<li><a href="setupTeardown.html">Setup&nbsp;and&nbsp;Teardown</a></li>
+<li><a href="parameterizedTests.html">Parameterized&nbsp;Tests</a></li>
+<ul>
+<li><a href="combinatorial.html">Combinatorial</a></li>
+<li><a href="factory.html">Factory</a></li>
+<li><a href="pairwise.html">Pairwise</a></li>
+<li><a href="random.html">Random</a></li>
+<li><a href="range.html">Range</a></li>
+<li><a href="sequential.html">Sequential</a></li>
 <li id="current"><a href="testCase.html">Test&nbsp;Case</a></li>
-<li><a href="testFixture.html">Test&nbsp;Fixture</a></li>
-<li><a href="fixtureSetup.html">Test&nbsp;Fixture&nbsp;SetUp</a></li>
-<li><a href="fixtureTeardown.html">Test&nbsp;Fixture&nbsp;TearDown</a></li>
+<li><a href="testCaseFactory.html">Test&nbsp;Case&nbsp;Factory</a></li>
+<li><a href="values.html">Values</a></li>
+</ul>
 </ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
