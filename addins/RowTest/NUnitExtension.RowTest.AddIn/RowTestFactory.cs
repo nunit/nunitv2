@@ -42,9 +42,10 @@ namespace NUnitExtension.RowTest.AddIn
 			RowTestCase testCase = new RowTestCase(method, testName, rowArguments);
 			if (expectedExceptionType != null)
 			{
-				testCase.ExceptionExpected = true;
-				testCase.ExpectedExceptionType = expectedExceptionType;
-				testCase.ExpectedMessage = RowTestFramework.GetExpectedExceptionMessage(row);
+                //testCase.ExceptionExpected = true;
+                //testCase.ExpectedExceptionType = expectedExceptionType;
+                //testCase.ExpectedMessage = RowTestFramework.GetExpectedExceptionMessage(row);
+                testCase.ExceptionProcessor = new ExpectedExceptionProcessor(testCase, row);
 			}
 
 			return testCase;

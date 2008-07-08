@@ -10,7 +10,7 @@ using NUnit.Core.Extensibility;
 
 namespace NUnitExtension.RowTest.AddIn
 {
-	public class RowTestParameterProvider : IParameterProvider
+	public class RowTestParameterProvider : ITestCaseProvider
 	{
 		public const string RowTestAttribute = "NUnitExtension.RowTest.RowTestAttribute";
 		public const string RowAttribute = "NUnitExtension.RowTest.RowAttribute";
@@ -30,7 +30,7 @@ namespace NUnitExtension.RowTest.AddIn
 			parameterSetFilters.Add(filter);
 		}
 		
-		public bool HasParametersFor(MethodInfo method)
+		public bool HasTestCasesFor(MethodInfo method)
 		{
 			if (method == null)
 				throw new ArgumentNullException("method");
@@ -39,7 +39,7 @@ namespace NUnitExtension.RowTest.AddIn
 					&& Reflect.HasAttribute(method, RowTestAttribute, false);
 		}
 		
-		public IEnumerable GetParametersFor(MethodInfo method)
+		public IEnumerable GetTestCasesFor(MethodInfo method)
 		{
 			if (method == null)
 				throw new ArgumentNullException("method");

@@ -233,7 +233,7 @@ namespace NUnit.Core
 		#endregion
 
 		#region Record Info About An Exception
-		protected void RecordException( Exception exception, TestResult testResult )
+		protected virtual void RecordException( Exception exception, TestResult testResult )
 		{
             if (exception is NUnitException)
                 exception = exception.InnerException;

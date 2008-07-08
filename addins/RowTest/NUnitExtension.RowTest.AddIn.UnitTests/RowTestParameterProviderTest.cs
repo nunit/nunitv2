@@ -20,7 +20,7 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
         private IList GetParametersForMethodAsList(MethodInfo method)
         {
             ArrayList list = new ArrayList();
-            foreach (object o in parameterProvider.GetParametersFor(method))
+            foreach (object o in parameterProvider.GetTestCasesFor(method))
                 list.Add(o);
             return list;
         }
@@ -36,7 +36,7 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
 		{
 			MethodInfo method = GetTestClassMethod("MethodWithRowTestAttribute");
 			
-			bool hasParameters = parameterProvider.HasParametersFor(method);
+			bool hasParameters = parameterProvider.HasTestCasesFor(method);
 			
 			Assert.That(hasParameters, Is.False);
 		}
@@ -46,7 +46,7 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
 		{
 			MethodInfo method = GetTestClassMethod("RowTestMethodWith2Rows");
 			
-			bool hasParameters = parameterProvider.HasParametersFor(method);
+			bool hasParameters = parameterProvider.HasTestCasesFor(method);
 			
 			Assert.That(hasParameters, Is.True);
 		}
@@ -56,7 +56,7 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
 		{
 			MethodInfo method = GetTestClassMethod("MethodWithRowAttribute");
 			
-			bool hasParameters = parameterProvider.HasParametersFor(method);
+			bool hasParameters = parameterProvider.HasTestCasesFor(method);
 			
 			Assert.That(hasParameters, Is.False);
 		}
@@ -110,7 +110,7 @@ namespace NUnitExtension.RowTest.AddIn.UnitTests
 			parameterSetFilterMock.Expect("Filter", Is.TypeOf(typeof(ParameterSet)), Is.Not.Null);
 			parameterSetFilterMock.Expect("Filter", Is.TypeOf(typeof(ParameterSet)), Is.Not.Null);
 			
-			parameterProvider.GetParametersFor(GetTestClassMethod("RowTestMethodWith2Rows"));
+			parameterProvider.GetTestCasesFor(GetTestClassMethod("RowTestMethodWith2Rows"));
 			
 			parameterSetFilterMock.Verify();
 		}

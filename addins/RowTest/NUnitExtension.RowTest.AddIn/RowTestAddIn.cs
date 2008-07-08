@@ -27,7 +27,7 @@ namespace NUnitExtension.RowTest.AddIn
 			return true;
 		}
 		
-		private IParameterProvider CreateParameterProvider()
+		private ITestCaseProvider CreateParameterProvider()
 		{
 			RowTestParameterProvider parameterProvider = new RowTestParameterProvider();
 			parameterProvider.AddParameterSetFilter(new SpecialValueParameterSetFilter());
