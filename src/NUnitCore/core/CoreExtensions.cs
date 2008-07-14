@@ -178,27 +178,39 @@ namespace NUnit.Core
 				{
 					if ( (this.ExtensionTypes & addin.ExtensionType) != 0 )
 					{
-					try
-					{
-						Type type = Type.GetType(addin.TypeName);
-						if ( type == null )
+						AddinStatus status = AddinStatus.Unknown;
+						string message = null;
+
+						try
 						{
-							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Could not locate type" );
-							NTrace.Error( "Failed to load  " + addin.Name + " - Could not locate type" );
+							Type type = Type.GetType(addin.TypeName);
+							if ( type == null )
+							{
+								status = AddinStatus.Error;
+								message = string.Format( "Unable to locate {0} Type", addin.TypeName );
+							}
+							else if ( !InstallAddin( type ) )
+							{
+								status = AddinStatus.Error;
+								message = "Install method returned false";
+							}
+							else
+							{
+								status = AddinStatus.Loaded;
+							}
 						}
-						else if ( !InstallAddin( type ) )
+						catch( Exception ex )
 						{
-							AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, "Install returned false" );
-							NTrace.Error( "Failed to load " +addin.Name + " - Install returned false" );
+							status = AddinStatus.Error;
+							message = ex.ToString(); 				
 						}
-						else
-							AddinRegistry.SetStatus( addin.Name, AddinStatus.Loaded, null );
-					}
-					catch( Exception ex )
-					{
-						AddinRegistry.SetStatus( addin.Name, AddinStatus.Error, ex.Message );
-						NTrace.ErrorFormat( "Exception loading {0} - {1}", addin.Name, ex.Message );
-					}
+
+						AddinRegistry.SetStatus( addin.Name, status, message );
+						if ( status != AddinStatus.Loaded )
+						{
+							NTrace.ErrorFormat( "Failed to load {0}", addin.Name );
+							NTrace.Error( message );
+						}
 					}
 				}
 			}

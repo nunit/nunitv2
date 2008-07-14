@@ -26,6 +26,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.ListView addinListView;
 		private System.Windows.Forms.ColumnHeader addinNameColumn;
 		private System.Windows.Forms.ColumnHeader addinStatusColumn;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.TextBox messageTextBox;
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -72,6 +74,8 @@ namespace NUnit.Gui
 			this.descriptionTextBox = new System.Windows.Forms.TextBox();
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
+			this.messageTextBox = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// addinListView
@@ -82,11 +86,12 @@ namespace NUnit.Gui
 			this.addinListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
 																							this.addinNameColumn,
 																							this.addinStatusColumn});
+			this.addinListView.FullRowSelect = true;
 			this.addinListView.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.addinListView.Location = new System.Drawing.Point(8, 8);
 			this.addinListView.MultiSelect = false;
 			this.addinListView.Name = "addinListView";
-			this.addinListView.Size = new System.Drawing.Size(448, 208);
+			this.addinListView.Size = new System.Drawing.Size(448, 136);
 			this.addinListView.TabIndex = 0;
 			this.addinListView.View = System.Windows.Forms.View.Details;
 			this.addinListView.Resize += new System.EventHandler(this.addinListView_Resize);
@@ -106,17 +111,18 @@ namespace NUnit.Gui
 			// 
 			this.descriptionTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
 				| System.Windows.Forms.AnchorStyles.Right)));
-			this.descriptionTextBox.Location = new System.Drawing.Point(8, 240);
+			this.descriptionTextBox.Location = new System.Drawing.Point(8, 184);
 			this.descriptionTextBox.Multiline = true;
 			this.descriptionTextBox.Name = "descriptionTextBox";
-			this.descriptionTextBox.Size = new System.Drawing.Size(448, 72);
+			this.descriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.descriptionTextBox.Size = new System.Drawing.Size(448, 56);
 			this.descriptionTextBox.TabIndex = 1;
 			this.descriptionTextBox.Text = "";
 			// 
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.label1.Location = new System.Drawing.Point(8, 224);
+			this.label1.Location = new System.Drawing.Point(8, 160);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(304, 16);
 			this.label1.TabIndex = 2;
@@ -124,23 +130,47 @@ namespace NUnit.Gui
 			// 
 			// button1
 			// 
-			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(368, 320);
+			this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+			this.button1.Location = new System.Drawing.Point(192, 344);
 			this.button1.Name = "button1";
 			this.button1.TabIndex = 3;
-			this.button1.Text = "Close";
+			this.button1.Text = "OK";
 			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// label2
+			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label2.Location = new System.Drawing.Point(8, 256);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(304, 16);
+			this.label2.TabIndex = 5;
+			this.label2.Text = " Message:";
+			// 
+			// messageTextBox
+			// 
+			this.messageTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.messageTextBox.Location = new System.Drawing.Point(8, 280);
+			this.messageTextBox.Multiline = true;
+			this.messageTextBox.Name = "messageTextBox";
+			this.messageTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+			this.messageTextBox.Size = new System.Drawing.Size(448, 56);
+			this.messageTextBox.TabIndex = 4;
+			this.messageTextBox.Text = "";
 			// 
 			// AddinDialog
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
-			this.ClientSize = new System.Drawing.Size(464, 352);
+			this.ClientSize = new System.Drawing.Size(464, 376);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.messageTextBox);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.descriptionTextBox);
 			this.Controls.Add(this.addinListView);
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "AddinDialog";
+			this.ShowInTaskbar = false;
 			this.Text = "Registered Addins";
 			this.Load += new System.EventHandler(this.AddinDialog_Load);
 			this.ResumeLayout(false);
@@ -175,7 +205,9 @@ namespace NUnit.Gui
 			if ( addinListView.SelectedIndices.Count > 0 )
 			{
 				int index = addinListView.SelectedIndices[0];
-				this.descriptionTextBox.Text = ((Addin)addins[index]).Description;
+				Addin addin = (Addin)addins[index];
+				this.descriptionTextBox.Text = addin.Description;
+				this.messageTextBox.Text = addin.Message;
 			}
 		}
 
