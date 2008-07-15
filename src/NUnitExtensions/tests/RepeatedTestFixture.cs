@@ -43,9 +43,8 @@ namespace NUnit.Core.Extensions
             Test suite = TestFixtureBuilder.BuildFrom(typeof(RepeatSuccessFixture));
             Assert.IsNotNull(suite, "Unable to build suite");
             Assert.AreEqual(1, suite.Tests.Count);
-            Assert.AreEqual("RepeatedTestCase", suite.Tests[0].GetType().Name);
-            RepeatedTestCase repeatedTestCase = suite.Tests[0] as RepeatedTestCase;
-            Assert.IsNotNull(repeatedTestCase, "Test case is not a RepeatedTestCase");
+            Test repeatedTestCase = (Test)suite.Tests[0];
+            Assert.AreEqual("RepeatedTestCase", repeatedTestCase.GetType().Name);
             Assert.AreSame(suite, repeatedTestCase.Parent);
             Assert.AreEqual("NUnit.TestData.RepeatedTestFixture.RepeatSuccessFixture.RepeatSuccess", repeatedTestCase.TestName.FullName);
         }
