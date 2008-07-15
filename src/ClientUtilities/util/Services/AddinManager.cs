@@ -29,19 +29,13 @@ namespace NUnit.Util
 		#region Addin Registration
 		public void RegisterAddins()
 		{
-			//Figure out the directory from which NUnit is executing
-			string moduleName = TestFixtureBuilder.GetAssemblyPath( GetType().Assembly );
-			//string moduleName = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName;
-			string nunitDirPath = Path.GetDirectoryName( moduleName );
-			string coreExtensions = Path.Combine( nunitDirPath, "nunit.core.extensions.dll" );
-			string addinsDirPath = Path.Combine( nunitDirPath, "addins" );
-
 			// Load nunit.core.extensions if available
-			if ( File.Exists( coreExtensions ) )
+            string coreExtensions = Path.Combine(NUnitConfiguration.NUnitDirectory, "nunit.core.extensions.dll");
+            if (File.Exists(coreExtensions))
 				Register( coreExtensions );
 
 			// Load any extensions in the addins directory
-			DirectoryInfo dir = new DirectoryInfo( addinsDirPath );
+			DirectoryInfo dir = new DirectoryInfo( NUnitConfiguration.AddinDirectory );
 			if ( dir.Exists )
 				foreach( FileInfo file in dir.GetFiles( "*.dll" ) )
 					Register( file.FullName );

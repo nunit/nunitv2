@@ -46,7 +46,7 @@ namespace NUnit.Core.Builders
 			{ 
 				if ( assemblyInfo == null && assembly != null )
 				{
-					string path = TestFixtureBuilder.GetAssemblyPath( assembly );
+					string path = AssemblyHelper.GetAssemblyPath( assembly );
 					AssemblyReader rdr = new AssemblyReader( path );
 					Version runtimeVersion = new Version( rdr.ImageRuntimeVersion.Substring( 1 ) );
 					IList frameworks = CoreExtensions.Host.TestFrameworks.GetReferencedFrameworks( assembly );

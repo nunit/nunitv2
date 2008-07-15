@@ -364,6 +364,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\NUnitConfiguration.cs">
       <Link>NUnitConfiguration.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\AssemblyHelper.cs">
+      <Link>AssemblyHelper.cs</Link>
+    </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
       <SubType>

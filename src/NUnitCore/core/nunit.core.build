@@ -4,6 +4,7 @@
   <patternset id="source-files">
         <include name="AbstractTestCaseDecoration.cs"/>
         <include name="AssemblyInfo.cs"/>
+        <include name="AssemblyHelper.cs"/>
         <include name="AssemblyReader.cs"/>
         <include name="AssemblyResolver.cs"/>
         <include name="CoreExtensions.cs"/>

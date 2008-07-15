@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Collections.Specialized;
 using System.Threading;
 
@@ -6,6 +7,7 @@ namespace NUnit.Core
 {
     public class NUnitConfiguration
     {
+        #region Class Constructor
         /// <summary>
         /// Class constructor initializes fields from config file
         /// </summary>
@@ -51,25 +53,30 @@ namespace NUnit.Core
 			return (NameValueCollection)System.Configuration.ConfigurationSettings.GetConfig(name);
 #endif
         }
+        #endregion
 
-        #region Properties
+        #region AllowOldStypeTests
         private static bool allowOldStyleTests = false;
         public static bool AllowOldStyleTests
         {
             get { return allowOldStyleTests; }
         }
+        #endregion
 
+        #region ThreadPriority
         private static ThreadPriority threadPriority = ThreadPriority.Normal;
         public static ThreadPriority ThreadPriority
         {
             get { return threadPriority; }
         }
+        #endregion
 
+        #region ApartmentState
         private static ApartmentState apartmentState = ApartmentState.Unknown;
         public static ApartmentState ApartmentState
         {
             get { return apartmentState; }
-            set { apartmentState = value; }
+            //set { apartmentState = value; }
         }
         #endregion
 
@@ -89,6 +96,35 @@ namespace NUnit.Core
 				else
 					return "Release";
 #endif
+            }
+        }
+        #endregion
+
+        #region NUnitDirectory
+        private static string nunitDirectory;
+        public static string NUnitDirectory
+        {
+            get
+            {
+                if (nunitDirectory == null)
+                    nunitDirectory =  
+                        AssemblyHelper.GetDirectoryName( Assembly.GetExecutingAssembly());
+
+                return nunitDirectory;
+            }
+        }
+        #endregion
+
+        #region AddinDirectory
+        private static string addinDirectory;
+        public static string AddinDirectory
+        {
+            get
+            {
+                if (addinDirectory == null)
+                    addinDirectory = System.IO.Path.Combine(NUnitDirectory, "addins");
+
+                return addinDirectory;
             }
         }
         #endregion

@@ -47,7 +47,7 @@ namespace NUnit.Core
 
 		public AssemblyReader( Assembly assembly )
 		{
-			this.assemblyPath = TestFixtureBuilder.GetAssemblyPath( assembly );
+			this.assemblyPath = AssemblyHelper.GetAssemblyPath( assembly );
 			CalcHeaderOffsets();
 		}
 

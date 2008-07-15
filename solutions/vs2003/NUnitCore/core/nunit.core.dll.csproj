@@ -100,6 +100,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssemblyHelper.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\AssemblyHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssemblyInfo.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\AssemblyInfo.cs"
                     SubType = "Code"

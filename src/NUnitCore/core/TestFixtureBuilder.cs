@@ -49,33 +49,6 @@ namespace NUnit.Core
 			return suite;
 		}
 
-		public static string GetAssemblyPath( Type fixtureType )
-		{
-			return GetAssemblyPath( fixtureType.Assembly );
-		}
-
-		// TODO: This logic should be in shared source
-		public static string GetAssemblyPath( Assembly assembly )
-		{
-			string path = assembly.CodeBase;
-			Uri uri = new Uri( path );
-			
-			// If it wasn't loaded locally, use the Location
-			if ( !uri.IsFile )
-				return assembly.Location;
-
-			if ( uri.IsUnc )
-				return path.Substring( Uri.UriSchemeFile.Length+1 );
-
-
-			int start = Uri.UriSchemeFile.Length + Uri.SchemeDelimiter.Length;
-			
-			if ( path[start] == '/' && path[start+2] == ':' )
-				++start;
-
-			return path.Substring( start );
-		}
-
 		/// <summary>
 		/// Private constructor to prevent instantiation
 		/// </summary>

@@ -99,6 +99,9 @@
       <Link>AbstractTestCaseDecoration.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\AssemblyHelper.cs">
+      <Link>AssemblyHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
       <SubType>Code</SubType>
