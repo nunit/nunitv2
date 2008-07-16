@@ -8,6 +8,7 @@ namespace NUnit.Core
 {
 	using System.Collections;
 	using System;
+    using System.Reflection;
 
 	/// <summary>
 	/// RemoteTestRunner is tailored for use as the initial runner to
@@ -17,6 +18,19 @@ namespace NUnit.Core
 	/// </summary>
 	public class RemoteTestRunner : ProxyTestRunner
 	{
+        public static RemoteTestRunner CreateInstance(AppDomain targetDomain, int ID)
+        {
+            System.Runtime.Remoting.ObjectHandle oh = Activator.CreateInstance(
+                targetDomain,
+                Assembly.GetExecutingAssembly().FullName,
+                typeof(RemoteTestRunner).FullName,
+                false, BindingFlags.Default, null, new object[] { ID }, null, null, null);
+
+            object obj = oh.Unwrap();
+            Type type = obj.GetType();
+            return (RemoteTestRunner)obj;
+        }
+
 		#region Constructors
 		public RemoteTestRunner() : this( 0 ) { }
 

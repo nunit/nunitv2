@@ -52,7 +52,7 @@ namespace NUnit.Util
 					this.domain = Services.DomainManager.CreateDomain( package );
             
 				if ( this.TestRunner == null )
-					this.TestRunner = MakeRemoteTestRunner( domain );
+					this.TestRunner = RemoteTestRunner.CreateInstance( domain, this.ID );
 
 				return TestRunner.Load( package );
 			}
@@ -72,21 +72,6 @@ namespace NUnit.Util
 				Services.DomainManager.Unload(domain);
 				domain = null;
 			}
-		}
-		#endregion
-
-		#region MakeRemoteTestRunner Helper
-		private TestRunner MakeRemoteTestRunner( AppDomain runnerDomain )
-		{
-			Type runnerType = typeof( RemoteTestRunner );
-			object obj = runnerDomain.CreateInstanceAndUnwrap(
-				runnerType.Assembly.FullName, 
-				runnerType.FullName,
-				false, BindingFlags.Default,null,new object[] { this.ID },null,null,null);
-			
-			RemoteTestRunner runner = (RemoteTestRunner) obj;
-
-			return runner;
 		}
 		#endregion
 	}
