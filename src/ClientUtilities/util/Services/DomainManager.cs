@@ -76,6 +76,7 @@ namespace NUnit.Util
 			string binPath = package.PrivateBinPath;
 			if ( package.AutoBinPath )
 				binPath = GetPrivateBinPath( appBase, package.Assemblies );
+
 			setup.PrivateBinPath = binPath;
 
 			if ( package.GetSetting( "ShadowCopyFiles", true ) )
@@ -86,20 +87,19 @@ namespace NUnit.Util
 			}
 
 			string domainName = "domain-" + package.Name;
-			Evidence baseEvidence = AppDomain.CurrentDomain.Evidence;
-			Evidence evidence = new Evidence(baseEvidence);
-			AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
+            // Setup the Evidence
+            Evidence evidence = new Evidence(AppDomain.CurrentDomain.Evidence);
+            AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 
 			// Inject assembly resolver into remote domain to help locate our assemblies
-			AssemblyResolver assemblyResolver = (AssemblyResolver)runnerDomain.CreateInstanceFromAndUnwrap(
-				typeof(AssemblyResolver).Assembly.CodeBase,
-				typeof(AssemblyResolver).FullName);
-
-			// Tell resolver to use our core assemblies in the test domain
-			assemblyResolver.AddFile( typeof( NUnit.Core.RemoteTestRunner ).Assembly.Location );
-			assemblyResolver.AddFile( typeof( NUnit.Core.ITest ).Assembly.Location );
-
-            assemblyResolver.AddDirectory( NUnitConfiguration.AddinDirectory );
+#if NET_2_0
+            Activator.CreateInstanceFrom(
+                runnerDomain,
+#else
+			runnerDomain.CreateInstanceFrom(
+#endif
+                typeof(AssemblyResolver).Assembly.CodeBase,
+                typeof(AssemblyResolver).FullName);
 
 			// HACK: Only pass down our AddinRegistry one level so that tests of NUnit
 			// itself start without any addins defined.
