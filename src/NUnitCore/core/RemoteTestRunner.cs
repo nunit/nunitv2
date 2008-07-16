@@ -20,8 +20,12 @@ namespace NUnit.Core
 	{
         public static RemoteTestRunner CreateInstance(AppDomain targetDomain, int ID)
         {
+#if NET_2_0
             System.Runtime.Remoting.ObjectHandle oh = Activator.CreateInstance(
                 targetDomain,
+#else
+			System.Runtime.Remoting.ObjectHandle oh = targetDomain.CreateInstance(
+#endif
                 Assembly.GetExecutingAssembly().FullName,
                 typeof(RemoteTestRunner).FullName,
                 false, BindingFlags.Default, null, new object[] { ID }, null, null, null);
