@@ -9,8 +9,10 @@ using System.IO;
 using System.Collections;
 using System.Text;
 using System.Threading;
+using System.Reflection;
 using System.Configuration;
 using System.Diagnostics;
+using System.Security;
 using System.Security.Policy;
 using NUnit.Core;
 
@@ -89,6 +91,16 @@ namespace NUnit.Util
 			string domainName = "domain-" + package.Name;
             // Setup the Evidence
             Evidence evidence = new Evidence(AppDomain.CurrentDomain.Evidence);
+            if (evidence.Count == 0)
+            {
+                Zone zone = new Zone(SecurityZone.MyComputer);
+                evidence.AddHost(zone);
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                Url url = new Url(assembly.CodeBase);
+                evidence.AddHost(url);
+                Hash hash = new Hash(assembly);
+                evidence.AddHost(hash);
+            }
             AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 
 			// Inject assembly resolver into remote domain to help locate our assemblies
