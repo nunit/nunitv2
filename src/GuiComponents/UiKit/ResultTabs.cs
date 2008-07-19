@@ -215,7 +215,6 @@ namespace NUnit.UiKit
 
 				UpdateTabPages();
 
-				UpdateFixedFont();
 				Subscribe( Services.TestLoader.Events );
 				Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
 
@@ -251,29 +250,12 @@ namespace NUnit.UiKit
 			updating = false;
 		}
 
-		private void UpdateFixedFont()
-		{
-			Font fixedFont = null;
-			string fontDescription = settings.GetSetting( "Gui.FixedFont", "" );
-			if ( fontDescription == "" )
-			{
-				fixedFont = new Font( "Courier New", 8.0f );
-			}
-			else
-			{
-				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-				fixedFont = (Font)converter.ConvertFrom(fontDescription);
-			}
-		}
-
 		private void UserSettings_Changed( object sender, SettingsEventArgs e )
 		{
 			if( e.SettingName.StartsWith( "Gui.ResultTabs.Display" ) ||
 				e.SettingName == "Gui.TextOutput.TabList" || 
 				e.SettingName.StartsWith( "Gui.TextOut" ) && e.SettingName.EndsWith( "Enabled" ) )
 					UpdateTabPages();
-			else if ( e.SettingName == "Gui.FixedFont" )
-				UpdateFixedFont();
 		}
 
 		private void errorsTabMenuItem_Click(object sender, System.EventArgs e)
@@ -375,6 +357,7 @@ namespace NUnit.UiKit
 				tabSettings.LoadSettings();
 				ArrayList oldPages = tabPages;
 				tabPages = new ArrayList();
+				Font displayFont = GetFixedFont();
 
 				foreach( TextDisplayTabSettings.TabInfo tabInfo in tabSettings.Tabs )
 				{
@@ -391,6 +374,8 @@ namespace NUnit.UiKit
 						if ( thePage == null )
 							thePage = new TextDisplayTabPage( tabInfo );
 
+						thePage.DisplayFont = displayFont;
+
 						tabPages.Add( thePage );
 						tabControl.TabPages.Add( thePage );
 					}
@@ -402,6 +387,13 @@ namespace NUnit.UiKit
 				string settingName = args.SettingName; 
 				string prefix = "Gui.TextOutput.";
 
+				if ( settingName == "Gui.FixedFont" )
+				{
+					Font displayFont = GetFixedFont();
+					foreach( TextDisplayTabPage page in tabPages )
+						page.DisplayFont = displayFont;
+				}
+				else
 				if ( settingName.StartsWith( prefix ) )
 				{
 					string fieldName = settingName.Substring( prefix.Length );
@@ -426,6 +418,27 @@ namespace NUnit.UiKit
 							}
 					}
 				}
+			}
+
+			private static Font GetFixedFont()
+			{
+				ISettings settings = Services.UserSettings;
+				Font font = null;
+				if ( settings != null )
+				{
+					string fontDescription = settings.GetSetting("Gui.FixedFont", "Courier New, 8pt");
+					try
+					{
+						TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+						font = (Font)converter.ConvertFrom(fontDescription);
+					}
+					catch
+					{
+						// Will return default
+					}
+				}
+
+				return font == null ? new Font("Courier New", 8.0f) : font;
 			}
 
 			#region TestObserver Members

@@ -33,8 +33,14 @@ namespace NUnit.UiKit
 			this.display = new SimpleTextDisplay();
 #endif
 			this.display.Dock = DockStyle.Fill;
-
+			
 			this.Controls.Add( display );
+		}
+
+		public System.Drawing.Font DisplayFont
+		{
+			get { return display.Font; }
+			set { display.Font = value; }
 		}
 
 		public TextDisplayTabPage( TextDisplayTabSettings.TabInfo tabInfo ) : this()

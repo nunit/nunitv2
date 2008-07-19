@@ -20,6 +20,10 @@ namespace NUnit.UiKit
 		private MenuItem copyMenuItem;
 		private MenuItem selectAllMenuItem;
 		private MenuItem wordWrapMenuItem;
+		private MenuItem fontMenuItem;
+		private MenuItem increaseFontMenuItem;
+		private MenuItem decreaseFontMenuItem;
+		private MenuItem restoreFontMenuItem;
 
 		private TextDisplayContent content;
 
@@ -33,7 +37,12 @@ namespace NUnit.UiKit
 			this.copyMenuItem = new MenuItem( "&Copy", new EventHandler( copyMenuItem_Click ) );
 			this.selectAllMenuItem = new MenuItem( "Select &All", new EventHandler( selectAllMenuItem_Click ) );
 			this.wordWrapMenuItem = new MenuItem( "&Word Wrap", new EventHandler( wordWrapMenuItem_Click ) );
-			this.ContextMenu.MenuItems.AddRange( new MenuItem[] { copyMenuItem, selectAllMenuItem, wordWrapMenuItem } );
+			this.fontMenuItem = new MenuItem( "Font" );
+			this.increaseFontMenuItem = new MenuItem("Increase");
+			this.decreaseFontMenuItem = new MenuItem("Decrease");
+			this.restoreFontMenuItem = new MenuItem("Restore");
+			this.fontMenuItem.MenuItems.AddRange( new MenuItem[] { increaseFontMenuItem, decreaseFontMenuItem, new MenuItem("-"), restoreFontMenuItem } );
+			this.ContextMenu.MenuItems.AddRange( new MenuItem[] { copyMenuItem, selectAllMenuItem, wordWrapMenuItem, fontMenuItem } );
 			this.ContextMenu.Popup += new EventHandler(ContextMenu_Popup);
 		}
 
@@ -107,6 +116,12 @@ namespace NUnit.UiKit
 					WriteLine(label);
 			}
 		}
+
+		protected override void OnFontChanged(EventArgs e)
+		{
+			// Do nothing - this control uses it's own font
+		}
+
 
 		#region TextDisplay Members
 		public TextDisplayContent Content
