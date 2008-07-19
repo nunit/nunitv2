@@ -4,11 +4,11 @@ namespace NUnit.Framework
 {
     /// <summary>
     /// RequiredAddinAttribute may be used to indicate the names of any addins
-    /// that must be present in order to run a given test. It may be applied
-    /// at the method, class or assembly level. If the addin is not loaded,
-    /// the test in question is marked as NotRunnable.
+    /// that must be present in order to run some or all of the tests in an
+    /// assembly. If the addin is not loaded, the entire assembly is marked
+    /// as NotRunnable.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Method,AllowMultiple=true)]
+    [AttributeUsage(AttributeTargets.Assembly,AllowMultiple=true)]
     public class RequiredAddinAttribute : Attribute
     {
         private string requiredAddin;

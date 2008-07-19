@@ -9,13 +9,15 @@ using NUnit.Framework;
 using NUnit.Framework.Extensions;
 using NUnit.TestData;
 
+[assembly: RequiredAddin("MaxTimeDecorator")]
+
 namespace NUnit.Core.Extensions.Tests
 {
 	/// <summary>
 	/// Tests for MaxTime decoration.
 	/// </summary>
-    [TestFixture, RequiredAddin("MaxTimeDecorator")]
-	public class MaxTimeDecoratorTests
+    [TestFixture]
+    public class MaxTimeDecoratorTests
 	{
 		[Test,MaxTime(1000)]
 		public void MaxTimeNotExceeded()

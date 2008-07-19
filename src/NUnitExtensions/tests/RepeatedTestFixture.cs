@@ -9,10 +9,12 @@ using System.Reflection;
 using NUnit.Framework;
 using NUnit.TestData.RepeatedTestFixture;
 
+[assembly: RequiredAddin("RepeatedTestDecorator")]
+
 namespace NUnit.Core.Extensions
 {
-	[TestFixture,RequiredAddin("RepeatedTestDecorator")]
-	public class RepeatedTestFixture
+    [TestFixture]
+    public class RepeatedTestFixture
 	{
 		private MethodInfo successMethod;
 		private MethodInfo failOnFirstMethod;
