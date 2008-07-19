@@ -43,7 +43,7 @@
         <include name="DirectoryAssert.cs"/>
         <include name="ExpectedExceptionAttribute.cs"/>
         <include name="ExplicitAttribute.cs"/>
-        <include name="FactoryAttribute.cs"/>
+        <include name="FactoriesAttribute.cs"/>
         <include name="FileAssert.cs"/>
         <include name="GlobalSettings.cs"/>
         <include name="IExpectException.cs"/>

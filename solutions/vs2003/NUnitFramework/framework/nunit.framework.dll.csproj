@@ -156,8 +156,8 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FactoryAttribute.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\FactoryAttribute.cs"
+                    RelPath = "FactoriesAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\FactoriesAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

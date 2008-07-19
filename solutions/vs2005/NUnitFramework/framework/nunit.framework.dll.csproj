@@ -197,8 +197,8 @@
       <Link>ExplicitAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\FactoryAttribute.cs">
-      <Link>FactoryAttribute.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\FactoriesAttribute.cs">
+      <Link>FactoriesAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\FileAssert.cs">
       <Link>FileAssert.cs</Link>

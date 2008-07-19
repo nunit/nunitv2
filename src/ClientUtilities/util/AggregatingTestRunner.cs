@@ -197,7 +197,7 @@ namespace NUnit.Util
 			this.listener = listener;
 
 #if RUN_IN_PARALLEL
-			this.listener.RunStarted( this.Test.Name, this.CountTestCases( filter ) );
+			this.listener.RunStarted( this.Test.TestName.Name, this.CountTestCases( filter ) );
 
 			foreach( TestRunner runner in runners )
 				if ( runner.Test != null )

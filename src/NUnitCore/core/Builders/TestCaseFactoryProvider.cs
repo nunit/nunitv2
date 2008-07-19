@@ -7,12 +7,12 @@ namespace NUnit.Core.Builders
 {
     /// <summary>
     /// DataSourceProvider provides data for methods
-    /// annotated with the FactoryAttribute.
+    /// annotated with the FactoryiesAttribute.
     /// </summary>
     public class TestCaseFactoryProvider : ITestCaseProvider
     {
         #region Constants
-        public const string FactoryAttribute = "NUnit.Framework.FactoryAttribute";
+        public const string FactoryiesAttribute = "NUnit.Framework.FactoriesAttribute";
         public const string FactoryTypeProperty = "FactoryType";
         public const string FactoryNameProperty = "FactoryName";
 
@@ -29,7 +29,7 @@ namespace NUnit.Core.Builders
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method)
         {
-            return Reflect.HasAttribute(method, FactoryAttribute, false);
+            return Reflect.HasAttribute(method, FactoryiesAttribute, false);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace NUnit.Core.Builders
         private static IList GetFactoriesFor(MethodInfo method)
         {
             ArrayList factories = new ArrayList();
-            foreach (Attribute factoryAttr in Reflect.GetAttributes(method, FactoryAttribute, false))
+            foreach (Attribute factoryAttr in Reflect.GetAttributes(method, FactoryiesAttribute, false))
             {
                 Type factoryType = Reflect.GetPropertyValue(factoryAttr, FactoryTypeProperty) as Type;
                 if (factoryType == null)
