@@ -5,6 +5,8 @@
 // ****************************************************************
 using System;
 using System.Windows.Forms;
+using System.Drawing;
+using System.ComponentModel;
 using NUnit.Core;
 using NUnit.Util;
 
@@ -38,9 +40,9 @@ namespace NUnit.UiKit
 			this.selectAllMenuItem = new MenuItem( "Select &All", new EventHandler( selectAllMenuItem_Click ) );
 			this.wordWrapMenuItem = new MenuItem( "&Word Wrap", new EventHandler( wordWrapMenuItem_Click ) );
 			this.fontMenuItem = new MenuItem( "Font" );
-			this.increaseFontMenuItem = new MenuItem("Increase");
-			this.decreaseFontMenuItem = new MenuItem("Decrease");
-			this.restoreFontMenuItem = new MenuItem("Restore");
+			this.increaseFontMenuItem = new MenuItem( "Increase", new EventHandler( increaseFontMenuItem_Click ) );
+			this.decreaseFontMenuItem = new MenuItem( "Decrease", new EventHandler( decreaseFontMenuItem_Click ) );
+			this.restoreFontMenuItem = new MenuItem( "Restore", new EventHandler( restoreFontMenuItem_Click ) );
 			this.fontMenuItem.MenuItems.AddRange( new MenuItem[] { increaseFontMenuItem, decreaseFontMenuItem, new MenuItem("-"), restoreFontMenuItem } );
 			this.ContextMenu.MenuItems.AddRange( new MenuItem[] { copyMenuItem, selectAllMenuItem, wordWrapMenuItem, fontMenuItem } );
 			this.ContextMenu.Popup += new EventHandler(ContextMenu_Popup);
@@ -61,6 +63,28 @@ namespace NUnit.UiKit
 			this.WordWrap = this.wordWrapMenuItem.Checked = !this.wordWrapMenuItem.Checked;
 		}
 
+		private void increaseFontMenuItem_Click(object sender, EventArgs e)
+		{
+			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints * 1.2f, this.Font.Style ) );
+		}
+
+		private void decreaseFontMenuItem_Click(object sender, EventArgs e)
+		{
+			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints / 1.2f, this.Font.Style ) );
+		}
+
+		private void restoreFontMenuItem_Click(object sender, EventArgs e)
+		{
+			applyFont( new Font( "Courier New", 8.0f ) );
+		}
+
+		private void applyFont( Font font )
+		{
+			this.Font = font;
+			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+			Services.UserSettings.SaveSetting( "Gui.FixedFont", converter.ConvertToString( font ) );
+		}
+		
 		private void ContextMenu_Popup(object sender, EventArgs e)
 		{
 			this.copyMenuItem.Enabled = this.SelectedText != "";
