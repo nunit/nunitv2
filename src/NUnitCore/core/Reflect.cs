@@ -323,21 +323,36 @@ namespace NUnit.Core
 
 		#region Invoke Methods
 
-		/// <summary>
-		/// Invoke the default constructor on a type
-		/// </summary>
-		/// <param name="type">The type to be constructed</param>
-		/// <returns>An instance of the type</returns>
-		public static object Construct( Type type )
-		{
-			ConstructorInfo ctor = GetConstructor( type );
-			if ( ctor == null )
-				throw new InvalidTestFixtureException(type.FullName + " does not have a valid constructor");
-			
-			return ctor.Invoke( Type.EmptyTypes );
-		}
+        /// <summary>
+        /// Invoke the default constructor on a Type
+        /// </summary>
+        /// <param name="type">The Type to be constructed</param>
+        /// <returns>An instance of the Type</returns>
+        public static object Construct(Type type)
+        {
+            ConstructorInfo ctor = GetConstructor(type);
+            if (ctor == null)
+                throw new InvalidTestFixtureException(type.FullName + " does not have a default constructor");
 
-		/// <summary>
+            return ctor.Invoke(Type.EmptyTypes);
+        }
+
+        /// <summary>
+        /// Invoke a constructor on a Type with arguments
+        /// </summary>
+        /// <param name="type">The Type to be constructed</param>
+        /// <returns>An instance of the Type</returns>
+        public static object Construct(Type type, object[] arguments)
+        {
+            Type[] argTypes = Type.GetTypeArray(arguments);
+            ConstructorInfo ctor = GetConstructor(type, argTypes);
+            if (ctor == null)
+                throw new InvalidTestFixtureException(type.FullName + " does not have a suitable constructor");
+
+            return ctor.Invoke(arguments);
+        }
+
+        /// <summary>
 		/// Invoke a parameterless method returning void on an object.
 		/// </summary>
 		/// <param name="method">A MethodInfo for the method to be invoked</param>
