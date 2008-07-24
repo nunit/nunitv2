@@ -5,7 +5,7 @@ using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Builders
 {
-    class ParameterizedTestCaseBuilder : ITestCaseBuilder
+    public class ParameterizedTestCaseBuilder : ITestCaseBuilder
     {
         #region ITestCaseBuilder Members
 
