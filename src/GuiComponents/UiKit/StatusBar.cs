@@ -124,7 +124,7 @@ namespace NUnit.UiKit
 
 		private void DisplayErrors()
 		{
-			this.failuresPanel.Text = "Errors : " + errors.ToString();
+			this.errorsPanel.Text = "Errors : " + errors.ToString();
 		}
 
 		private void DisplayFailures()
