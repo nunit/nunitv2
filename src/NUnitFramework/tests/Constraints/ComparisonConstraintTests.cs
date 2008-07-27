@@ -8,7 +8,7 @@ using System;
 
 namespace NUnit.Framework.Constraints.Tests
 {
-    public class ComparisonConstraintTestBase : ConstraintTestBase
+    public abstract class ComparisonConstraintTestBase : ConstraintTestBase
     {
         [Test,ExpectedException(typeof(ArgumentException))]
         public void NullGivesError()
