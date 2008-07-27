@@ -122,21 +122,8 @@ namespace NUnit.Core.Tests
         {
             Assert.AreEqual(q, n / d);
         }
-
-        [Test, UseCompatibleFactories]
-        public void CanLocateCompatibleFactories_SameClass(int n, int d, int q)
-        {
-            Assert.AreEqual(q, n / d);
-        }
-
-        [Test, UseCompatibleFactories(typeof(DivideDataProvider))]
-        public void CanLocateCompatibleFactories_OtherClass(int n, int d, int q)
-        {
-            Assert.AreEqual(q, n / d);
-        }
-        
+       
         #region Factories used by the tests
-        [TestCaseFactory(typeof(int), typeof(int), typeof(int))]
         static object[] MyData = new object[] {
             new object[] { 12, 3, 4 },
             new object[] { 12, 4, 3 },
@@ -147,7 +134,6 @@ namespace NUnit.Core.Tests
             new int[] { 12, 4, 3 },
             new int[] { 12, 6, 2 } };
 
-        [TestCaseFactory(typeof(int))]
         static int[] EvenNumbers = new int[] { 2, 4, 6, 8 };
 
         private static IEnumerable CheckCurrentDirectory
@@ -158,7 +144,6 @@ namespace NUnit.Core.Tests
             }
         }
 
-        [TestCaseFactory(typeof(int), typeof(int), typeof(int))]
         static object[] MoreData = new object[] {
             new object[] { 12, 1, 12 },
             new object[] { 12, 2, 6 } };
@@ -169,7 +154,6 @@ namespace NUnit.Core.Tests
 
         private class DivideDataProvider
         {
-            [TestCaseFactory(typeof(int), typeof(int), typeof(int))]
             public static IEnumerable HereIsTheData
             {
                 get

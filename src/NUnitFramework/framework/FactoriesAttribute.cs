@@ -65,24 +65,6 @@ namespace NUnit.Framework
                 this.factoryNames[index++] = name;
         }
 
-        #region Protected Constructors
-        /// <summary>
-        /// Default constructor - provided for use by derived class 
-        /// UseCompatibleFactoriesAttribute.
-        /// </summary>
-        protected FactoriesAttribute() { }
-
-        /// <summary>
-        /// Construct with a Type that contains the factory - provided
-        /// for use by derived class UseCompatibleFactoriesAttribute.
-        /// </summary>
-        /// <param name="factoryType">The Type that will provide data</param>
-        protected FactoriesAttribute(Type factoryType)
-        {
-            this.factoryType = factoryType;
-        }
-        #endregion
-
         /// <summary>
         /// The name of a the method, property or fiend to be used as a source
         /// </summary>
@@ -98,26 +80,5 @@ namespace NUnit.Framework
         {
             get { return factoryType;  }
         }
-    }
-    
-    /// <summary>
-    /// The UseCompatibleFactoriesAttribute is derived from FactoriesAttribute
-    /// and provides constructors that do not specify the factory names to be
-    /// used. This gives a clearer indication that NUnit will use any factories
-    /// it is able to find as compared to using Factories without any arguments
-    /// as was done in the first version of this feature.
-    /// </summary>
-    public class UseCompatibleFactoriesAttribute : FactoriesAttribute
-    {
-		/// <summary>
-		/// Default Constructor
-		/// </summary>
-        public UseCompatibleFactoriesAttribute() { }
-
-		/// <summary>
-		///  Construct with the type to be examined to locate factories
-		/// </summary>
-		/// <param name="type"></param>
-        public UseCompatibleFactoriesAttribute(Type type) : base(type) { }
     }
 }
