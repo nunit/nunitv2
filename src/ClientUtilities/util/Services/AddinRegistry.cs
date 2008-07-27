@@ -56,5 +56,12 @@ namespace NUnit.Util
 		{
 		}
 		#endregion
-	}
+
+        #region InitializeLifetimeService
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
+        #endregion
+    }
 }
