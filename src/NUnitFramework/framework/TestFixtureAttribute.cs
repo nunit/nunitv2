@@ -17,22 +17,29 @@ namespace NUnit.Framework
 	public class TestFixtureAttribute : Attribute
 	{
 		private string description;
-        private Type[] typeArguments;
+
+        private object[] arguments;
+#if NET_2_0
+        private Type[] typeArgs;
+        private bool argsSeparated;
+#endif
 
         /// <summary>
         /// Default constructor
         /// </summary>
-        public TestFixtureAttribute() { }
+        public TestFixtureAttribute() : this( null ) { }
         
         /// <summary>
-        /// Construct with a Type[] representing type arguments. The
-        /// types must satisfy any constraints for the type parameters
-        /// defined for the generic fixture class.
+        /// Construct with a object[] representing a set of arguments. 
+        /// In .NET 2.0, the arguments may later be separated into
+        /// type arguments and constructor arguments.
         /// </summary>
-        /// <param name="typeArguments"></param>
-        public TestFixtureAttribute(params Type[] typeArguments)
+        /// <param name="arguments"></param>
+        public TestFixtureAttribute(params object[] arguments)
         {
-            this.typeArguments = typeArguments;
+            this.arguments = arguments == null
+                ? new object[0]
+                : arguments;
         }
 
 		/// <summary>
@@ -45,11 +52,69 @@ namespace NUnit.Framework
 		}
 
         /// <summary>
-        /// Get the type arguments provided for this fixture
+        /// The arguments originally provided to the attribute
         /// </summary>
-        public Type[] TypeArguments
+        public object[] Arguments
         {
-            get { return typeArguments; }
+            get 
+            {
+#if NET_2_0
+                if (!argsSeparated)
+                    SeparateArgs();
+#endif
+                return arguments; 
+            }
         }
+
+#if NET_2_0
+        /// <summary>
+        /// Get or set the type arguments. If not set
+        /// explicitly, any leading arguments that are
+        /// Types are taken as type arguments.
+        /// </summary>
+        public Type[] TypeArgs
+        {
+            get
+            {
+                if (!argsSeparated)
+                    SeparateArgs();
+
+                return typeArgs;
+            }
+            set 
+            { 
+                typeArgs = value;
+                argsSeparated = true;
+            }
+        }
+
+        private void SeparateArgs()
+        {
+            int cnt = 0;
+            if (arguments != null)
+            {
+                foreach (object o in arguments)
+                    if (o is Type) cnt++;
+                    else break;
+
+                typeArgs = new Type[cnt];
+                for (int i = 0; i < cnt; i++)
+                    typeArgs[i] = (Type)arguments[i];
+
+                if (cnt > 0)
+                {
+                    object[] args = new object[arguments.Length - cnt];
+                    for (int i = 0; i < args.Length; i++)
+                        args[i] = arguments[cnt + i];
+
+                    arguments = args;
+                }
+            }
+            else
+                typeArgs = new Type[0];
+
+            argsSeparated = true;
+        }
+#endif
 	}
 }

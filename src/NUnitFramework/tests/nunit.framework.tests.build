@@ -37,6 +37,7 @@
     <include name="NullableTypesTests.cs"/>
     <include name="SameFixture.cs"/>
     <include name="StringAssertTests.cs"/>
+    <include name="TestFixtureAttributeTests.cs"/>
     <include name="TextMessageWriterTests.cs"/>
     <include name="TypeAssertTest.cs"/>
   </patternset>
