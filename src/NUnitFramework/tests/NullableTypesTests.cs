@@ -4,7 +4,7 @@ using NUnit.Framework.Syntax.CSharp;
 namespace NUnit.Framework.Tests
 {
 #if NET_2_0
-    [TestFixture]
+    [TestFixture, Category("Generics")]
     public class NullableTypesTests
     {
         [Test]
