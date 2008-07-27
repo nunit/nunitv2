@@ -182,6 +182,9 @@
       <Link>Constraints\TypeConstraints.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\DataSourceAttribute.cs">
+      <Link>DataSourceAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs">
       <Link>DescriptionAttribute.cs</Link>
       <SubType>Code</SubType>
@@ -227,6 +230,12 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\PropertyAttribute.cs">
       <Link>PropertyAttribute.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\RandomAttribute.cs">
+      <Link>RandomAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\RangeAttribute.cs">
+      <Link>RangeAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\SetCultureAttribute.cs">
       <Link>SetCultureAttribute.cs</Link>

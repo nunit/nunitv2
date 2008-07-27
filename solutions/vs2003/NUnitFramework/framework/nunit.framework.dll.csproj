@@ -132,6 +132,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DataSourceAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\DataSourceAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "DescriptionAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs"
                     SubType = "Code"
@@ -212,6 +218,18 @@
                 <File
                     RelPath = "PropertyAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\PropertyAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RandomAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\RandomAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "RangeAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\RangeAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

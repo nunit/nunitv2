@@ -347,6 +347,15 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ValuesAttribute.cs">
       <Link>ValuesAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\DataSourceAttribute.cs">
+      <Link>DataSourceAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\RandomAttribute.cs">
+      <Link>RandomAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\RangeAttribute.cs">
+      <Link>RangeAttribute.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
