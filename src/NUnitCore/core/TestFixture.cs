@@ -15,9 +15,11 @@ namespace NUnit.Core
 	public class TestFixture : TestSuite
 	{
 		#region Constructors
-		public TestFixture( Type fixtureType )
-			: base( fixtureType ) { }
-		#endregion
+        public TestFixture(Type fixtureType)
+            : base(fixtureType) { }
+        public TestFixture(Type fixtureType, object[] arguments)
+            : base(fixtureType, arguments) { }
+        #endregion
 
 		#region TestSuite Overrides
         public override TestResult Run(EventListener listener, ITestFilter filter)

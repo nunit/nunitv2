@@ -14,7 +14,11 @@ namespace NUnit.Core
     /// </summary>
     public class NUnitTestFixture : TestFixture
     {
-        public NUnitTestFixture(Type fixtureType) : base( fixtureType)
+        public NUnitTestFixture(Type fixtureType)
+            : this(fixtureType, null) { }
+
+        public NUnitTestFixture(Type fixtureType, object[] arguments)
+            : base(fixtureType, arguments)
         {
             this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod( fixtureType );
             this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod( fixtureType );

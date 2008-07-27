@@ -52,13 +52,21 @@ namespace NUnit.Core
         /// </summary>
 	    internal object expectedResult;
 
+        /// <summary>
+        /// The fixture object, if it has been created
+        /// </summary>
+        private object fixture;
+
 		#endregion
 
 		#region Constructors
 		public TestMethod( MethodInfo method ) 
-			: base( method ) 
+			: base( method.ReflectedType.FullName, method.Name ) 
 		{
-			this.method = method;
+            if( method.DeclaringType != method.ReflectedType)
+                this.TestName.Name = method.DeclaringType.Name + "." + method.Name;
+
+            this.method = method;
 		}
 		#endregion
 
@@ -67,6 +75,11 @@ namespace NUnit.Core
 		{
 			get { return method; }
 		}
+
+        public override Type FixtureType
+        {
+            get { return method.ReflectedType; }
+        }
 
         public ExpectedExceptionProcessor ExceptionProcessor
         {
@@ -79,6 +92,11 @@ namespace NUnit.Core
             get { return exceptionProcessor != null; }
 		}
 
+        public override object Fixture
+        {
+            get { return fixture; }
+            set { fixture = value; }
+        }
 		#endregion
 
 		#region Run Methods

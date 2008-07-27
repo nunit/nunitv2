@@ -166,6 +166,7 @@ namespace NUnit.Core
 
             // Install builtin DataPointProvider
             dataPointProviders.Install(new InlineDataPointProvider());
+            dataPointProviders.Install(new DataSourceProvider());
 		}
 
 		public void InstallAddins()

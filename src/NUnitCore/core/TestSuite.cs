@@ -7,6 +7,7 @@
 namespace NUnit.Core
 {
 	using System;
+    using System.Text;
 	using System.Collections;
 	using System.Reflection;
 	using NUnit.Core.Filters;
@@ -34,7 +35,22 @@ namespace NUnit.Core
 		/// </summary>
 		protected MethodInfo fixtureTearDown;
 
-		#endregion
+        /// <summary>
+        /// Arguments for use in creating a parameterized fixture
+        /// </summary>
+        internal object[] arguments;
+
+        /// <summary>
+        /// The System.Type of the fixture for this test suite, if there is one
+        /// </summary>
+        private Type fixtureType;
+
+        /// <summary>
+        /// The fixture object, if it has been created
+        /// </summary>
+        private object fixture;
+
+        #endregion
 
 		#region Constructors
 		public TestSuite( string name ) 
@@ -43,9 +59,17 @@ namespace NUnit.Core
 		public TestSuite( string parentSuiteName, string name ) 
 			: base( parentSuiteName, name ) { }
 
-		public TestSuite( Type fixtureType )
-			: base( fixtureType ) { }
-		#endregion
+        public TestSuite(Type fixtureType)
+            : this(fixtureType, null) { }
+
+        public TestSuite(Type fixtureType, object[] arguments)
+            : base(fixtureType.FullName)
+        {
+            this.TestName.Name = TypeHelper.GetDisplayName(fixtureType, arguments);
+            this.fixtureType = fixtureType;
+            this.arguments = arguments;
+        }
+        #endregion
 
 		#region Public Methods
 		public void Sort()
@@ -115,6 +139,17 @@ namespace NUnit.Core
 				return count;
 			}
 		}
+
+        public override Type FixtureType
+        {
+            get { return fixtureType; }
+        }
+
+        public override object Fixture
+        {
+            get { return fixture; }
+            set { fixture = value; }
+        }
 		#endregion
 
 		#region Test Overrides
@@ -227,7 +262,10 @@ namespace NUnit.Core
 
 		protected virtual void CreateUserFixture()
 		{
-			Fixture = Reflect.Construct(FixtureType);
+            if (arguments != null && arguments.Length > 0)
+                Fixture = Reflect.Construct(FixtureType, arguments);
+            else
+			    Fixture = Reflect.Construct(FixtureType);
 		}
 
         protected virtual void DoOneTimeTearDown(TestResult suiteResult)

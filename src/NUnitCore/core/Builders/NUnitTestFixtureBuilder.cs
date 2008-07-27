@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace NUnit.Core.Builders
 {
@@ -18,9 +19,9 @@ namespace NUnit.Core.Builders
 	{
 		#region Instance Fields
 		/// <summary>
-		/// The TestSuite being constructed;
+		/// The NUnitTestFixture being constructed;
 		/// </summary>
-		private TestSuite suite;
+		private NUnitTestFixture fixture;
 
 	    private Extensibility.ITestCaseBuilder testBuilders = CoreExtensions.Host.TestBuilders;
 
@@ -36,7 +37,9 @@ namespace NUnit.Core.Builders
 		/// <returns>True if the fixture can be built, false if not</returns>
 		public bool CanBuildFrom(Type type)
 		{
-			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true );
+			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true ) ||
+                   type.IsPublic && !type.IsAbstract &&
+                   Reflect.GetMethodWithAttribute(type, NUnitFramework.TestAttribute, true) != null;
 		}
 
 		/// <summary>
@@ -46,64 +49,77 @@ namespace NUnit.Core.Builders
 		/// <returns></returns>
 		public Test BuildFrom(Type type)
 		{
+            Attribute[] attrs = Reflect.GetAttributes(type, NUnitFramework.TestFixtureAttribute, false);
+
 #if NET_2_0
             if (type.IsGenericType)
-                return BuildGenericFixture(type);
+                return BuildMultipleFixtures(type, attrs);
 #endif
-            return BuildSingleFixture(type);
-        }
 
-        private Test BuildSingleFixture(Type type)
-        {
-			this.suite = new NUnitTestFixture(type);
-
-            string reason = null;
-            if (!IsValidFixtureType(type, ref reason))
+            switch (attrs.Length)
             {
-                this.suite.RunState = RunState.NotRunnable;
-                this.suite.IgnoreReason = reason;
+                case 0:
+                    return BuildSingleFixture(type, null);
+                case 1:
+                    object[] args = (object[])Reflect.GetPropertyValue(attrs[0], "Arguments");
+                    return args.Length == 0
+                        ? BuildSingleFixture(type, attrs[0])
+                        : BuildMultipleFixtures(type, attrs);
+                default:
+                    return BuildMultipleFixtures(type, attrs);
             }
-
-            NUnitFramework.ApplyCommonAttributes(type, suite);
-
-			AddTestCases(type);
-
-			if ( this.suite.RunState != RunState.NotRunnable && this.suite.TestCount == 0)
-			{
-				this.suite.RunState = RunState.NotRunnable;
-				this.suite.IgnoreReason = suite.TestName.Name + " does not have any tests";
-			}
-
-			return this.suite;
-		}
+        }
 		#endregion
 
 		#region Helper Methods
-#if NET_2_0
-        private Test BuildGenericFixture(Type type)
+        private Test BuildMultipleFixtures(Type type, Attribute[] attrs)
         {
-            TestSuite suite = new TestSuite(type.Namespace, type.Name);
-
-            Attribute[] attrs = Reflect.GetAttributes(type, NUnitFramework.TestFixtureAttribute, false);;
-            if ( attrs.Length == 0 )
-            {
-                suite.RunState = RunState.NotRunnable;
-                suite.IgnoreReason = "No type arguments supplied for generic test fixture";
-                return suite;
-            }
+            TestSuite suite = new TestSuite(type.Namespace, TypeHelper.GetDisplayName(type));
 
             foreach (Attribute attr in attrs)
-            {
-                Type[] typeArgs = (Type[])Reflect.GetPropertyValue(attr, "TypeArguments");
-                suite.Add( BuildSingleFixture( type.MakeGenericType( typeArgs ) ) );
-            }
+                suite.Add(BuildSingleFixture(type, attr));
 
             return suite;
         }
-#endif
 
-		/// <summary>
-		/// Method to add test cases to the newly constructed suite.
+        private Test BuildSingleFixture(Type type, Attribute attr)
+        {
+            object[] arguments = null;
+
+            if (attr != null)
+            {
+                arguments = (object[])Reflect.GetPropertyValue(attr, "Arguments");
+#if NET_2_0
+                if (type.ContainsGenericParameters)
+                {
+                    Type[] typeArgs = (Type[])Reflect.GetPropertyValue(attr, "TypeArgs");
+                    if( typeArgs.Length > 0 || 
+                        TypeHelper.CanDeduceTypeArgsFromArgs(type, arguments, ref typeArgs))
+                    {
+                        type = TypeHelper.MakeGenericType(type, typeArgs);
+                    }
+                }
+#endif
+            }
+
+            this.fixture = new NUnitTestFixture(type, arguments);
+            CheckTestFixtureIsValid(fixture);
+
+            NUnitFramework.ApplyCommonAttributes(type, fixture);
+
+            AddTestCases(type);
+
+            if (this.fixture.RunState != RunState.NotRunnable && this.fixture.TestCount == 0)
+            {
+                this.fixture.RunState = RunState.NotRunnable;
+                this.fixture.IgnoreReason = fixture.TestName.Name + " does not have any tests";
+            }
+
+            return this.fixture;
+        }
+
+        /// <summary>
+		/// Method to add test cases to the newly constructed fixture.
 		/// The default implementation looks at each candidate method
 		/// and tries to build a test case from it. It will only need
 		/// to be overridden if some other approach, such as reading a 
@@ -117,18 +133,18 @@ namespace NUnit.Core.Builders
 
 			foreach(MethodInfo method in methods)
 			{
-				Test test = BuildTestCase(method, this.suite);
+				Test test = BuildTestCase(method, this.fixture);
 
 				if(test != null)
 				{
-					this.suite.Add( test );
+					this.fixture.Add( test );
 				}
 			}
 		}
 
 		/// <summary>
 		/// Method to create a test case from a MethodInfo and add
-		/// it to the suite being built. It first checks to see if
+		/// it to the fixture being built. It first checks to see if
 		/// any global TestCaseBuilder addin wants to build the
 		/// test case. If not, it uses the internal builder
 		/// collection maintained by this fixture builder. After
@@ -151,19 +167,57 @@ namespace NUnit.Core.Builders
 			return test;
 		}
 
+        private void CheckTestFixtureIsValid(TestFixture fixture)
+        {
+            Type fixtureType = fixture.FixtureType;
+
+            string reason = null;
+            if (!IsValidFixtureType(fixtureType, ref reason))
+            {
+                fixture.RunState = RunState.NotRunnable;
+                fixture.IgnoreReason = reason;
+            }
+            else
+            {
+                object[] args = fixture.arguments;
+
+                ConstructorInfo ctor = args == null || args.Length == 0
+                    ? Reflect.GetConstructor(fixtureType)
+                    : Reflect.GetConstructor(fixtureType, Type.GetTypeArray(args));
+
+                if (ctor == null)
+                {
+                    fixture.RunState = RunState.NotRunnable;
+                    fixture.IgnoreReason = "No suitable constructor was found";
+                }
+            }
+        }
+
 		/// <summary>
-        /// Check that the fixture is valid. In addition to the base class
-        /// check for a valid constructor, this method ensures that there 
-        /// is no more than one of each setup or teardown method and that
-        /// their signatures are correct.
+        /// Check that the fixture type is valid. This method ensures that 
+        /// the type is not abstract and that there is no more than one of 
+        /// each setup or teardown method and that their signatures are correct.
         /// </summary>
         /// <param name="fixtureType">The type of the fixture to check</param>
         /// <param name="reason">A message indicating why the fixture is invalid</param>
         /// <returns>True if the fixture is valid, false if not</returns>
         private bool IsValidFixtureType(Type fixtureType, ref string reason)
         {
-            if (!NUnitFramework.IsValidFixtureType(fixtureType, ref reason))
+            if (fixtureType.IsAbstract)
+            {
+                reason = string.Format("{0} is an abstract class", fixtureType.FullName);
                 return false;
+            }
+
+#if NET_2_0
+            if ( fixtureType.ContainsGenericParameters )
+            {
+                reason = "Fixture type contains generic parameters. You must either provide "
+                        + "Type arguments or specify constructor arguments that allow NUnit "
+                        + "to deduce the Type arguments.";
+                return false;
+            }
+#endif
 
             return NUnitFramework.IsSetUpMethodValid(fixtureType, ref reason)
                 && NUnitFramework.IsTearDownMethodValid(fixtureType, ref reason)

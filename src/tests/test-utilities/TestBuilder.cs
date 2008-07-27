@@ -20,14 +20,14 @@ namespace NUnit.TestUtilities
 		private static ISuiteBuilder suiteBuilder = (ISuiteBuilder)CoreExtensions.Host.GetExtensionPoint("SuiteBuilders");
         private static ITestCaseBuilder testBuilder = (ITestCaseBuilder)CoreExtensions.Host.GetExtensionPoint("TestCaseBuilders");
 
-		public static NUnitTestFixture MakeFixture( Type type )
+		public static TestSuite MakeFixture( Type type )
 		{
-			return (NUnitTestFixture)suiteBuilder.BuildFrom( type );
+			return (TestSuite)suiteBuilder.BuildFrom( type );
 		}
 
-		public static NUnitTestFixture MakeFixture( object fixture )
+		public static TestSuite MakeFixture( object fixture )
 		{
-			NUnitTestFixture suite = (NUnitTestFixture)suiteBuilder.BuildFrom( fixture.GetType() );
+			TestSuite suite = (TestSuite)suiteBuilder.BuildFrom( fixture.GetType() );
 			suite.Fixture = fixture;
 			return suite;
 		}

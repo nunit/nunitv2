@@ -44,6 +44,14 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.OuterClass+NestedTestFixture+DoublyNestedTestFixture", fixture.TestName.FullName );
 		}
 
+        [Test]
+        public void ConstructFromTypeWithoutTestFixtureAttribute()
+        {
+			TestSuite fixture = TestBuilder.MakeFixture( typeof( FixtureWithoutTestFixtureAttribute ) );
+			Assert.AreEqual( "FixtureWithoutTestFixtureAttribute", fixture.TestName.Name );
+			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.FixtureWithoutTestFixtureAttribute", fixture.TestName.FullName );
+        }
+
 		private void AssertRunnable( Type type )
 		{
 			TestSuite suite = TestBuilder.MakeFixture( type );
@@ -70,13 +78,19 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( reason, result.Message );
 		}
 
-		[Test]
-		public void CannotRunNoDefaultConstructor()
-		{
-			AssertNotRunnable( typeof( NoDefaultCtorFixture ) );
-		}
+        [Test]
+        public void CannotRunConstructorWithArgsNotSupplied()
+        {
+            AssertNotRunnable(typeof(NoDefaultCtorFixture));
+        }
 
-		[Test]
+        [Test]
+        public void CanRunConstructorWithArgsSupplied()
+        {
+            AssertRunnable(typeof(FixtureWithArgsSupplied));
+        }
+
+        [Test]
 		public void CannotRunBadConstructor()
 		{
 			AssertNotRunnable( typeof( BadCtorFixture ) );
@@ -99,7 +113,7 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite suite = TestBuilder.MakeFixture( typeof( IgnoredFixture ) );
 			Assert.AreEqual( RunState.Ignored, suite.RunState );
-			Assert.AreEqual( "testing ignore a suite", suite.IgnoreReason );
+			Assert.AreEqual( "testing ignore a fixture", suite.IgnoreReason );
 		}
 
 		[Test]

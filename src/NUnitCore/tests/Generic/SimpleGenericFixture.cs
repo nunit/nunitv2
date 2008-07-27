@@ -6,31 +6,22 @@ using System.Text;
 using NUnit.Framework;
 using NUnit.Framework.Syntax.CSharp;
 
-namespace NUnit.Core.Tests
+namespace NUnit.Core.Tests.Generic
 {
+    [Category("Generics")]
     [TestFixture(typeof(List<int>))]
-    [TestFixture(typeof(ArrayList))]
-    public class GenericTestFixture_IList<T> where T : IList, new()
+    [TestFixture(TypeArgs=new Type[] {typeof(ArrayList)} )]
+    public class SimpleGenericFixture<TList> where TList : IList, new()
     {
         [Test]
         public void TestCollectionCount()
         {
-            IList list = new T();
+            Console.WriteLine("TList is {0}", typeof(TList));
+            IList list = new TList();
             list.Add(1);
             list.Add(2);
             list.Add(3);
             Assert.AreEqual(3, list.Count);
-        }
-    }
-
-    [TestFixture(typeof(double))]
-    public class GenericTestFixture_Numeric<T>
-    {
-        [TestCase(5)]
-        [TestCase(1.23)]
-        public void TestMyArgType(T x)
-        {
-            Assert.That(x, Is.TypeOf(typeof(T)));
         }
     }
 }

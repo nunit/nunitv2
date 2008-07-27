@@ -61,8 +61,10 @@ namespace NUnit.Core
 		public void Add( TestSuite fixture )
 		{
             
-			string ns = fixture.TestName.FullName;
-            int index = ns.LastIndexOf( '.' );
+            string ns = fixture.TestName.FullName;
+            int index = ns.IndexOf("[");
+            if (index >= 0) ns = ns.Substring(0, index);
+            index = ns.LastIndexOf( '.' );
             ns = index > 0 ? ns.Substring( 0, index ) : string.Empty;
 			TestSuite containingSuite = BuildFromNameSpace( ns );
 

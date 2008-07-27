@@ -22,6 +22,7 @@
         <include name="LegacySuite.cs"/>
         <include name="Log4NetCapture.cs"/>
         <include name="LogCapture.cs"/>
+        <include name="MethodHelper.cs"/>
         <include name="NamespaceTreeBuilder.cs"/>
         <include name="NoTestFixturesException.cs"/>
         <include name="NTrace.cs"/>
@@ -42,7 +43,6 @@
         <include name="StringTextWriter.cs"/>
         <include name="SuiteBuilderAttribute.cs"/>
         <include name="TestBuilderAttribute.cs"/>
-        <include name="TestCase.cs"/>
         <include name="TestCaseBuilder.cs"/>
         <include name="TestCaseBuilderAttribute.cs"/>
         <include name="TestContext.cs"/>
@@ -55,12 +55,16 @@
         <include name="TestSuiteBuilder.cs"/>
         <include name="TextCapture.cs"/>
         <include name="ThreadedTestRunner.cs"/>
+        <include name="TypeHelper.cs"/>
         <include name="Builders/CombinatorialTestCaseProvider.cs"/>
+        <include name="Builders/DataSourceProvider.cs"/>
         <include name="Builders/InlineDataPointProvider.cs"/>
         <include name="Builders/TestCaseFactoryProvider.cs"/>
         <include name="Builders/LegacySuiteBuilder.cs"/>
         <include name="Builders/NUnitTestCaseBuilder.cs"/>
         <include name="Builders/NUnitTestFixtureBuilder.cs"/>
+        <include name="Builders/ProviderCache.cs"/>
+        <include name="Builders/ProviderInfo.cs"/>
         <include name="Builders/SetUpFixtureBuilder.cs"/>
         <include name="Builders/TestAssemblyBuilder.cs"/>
         <include name="Builders/TestCaseParameterProvider.cs"/>

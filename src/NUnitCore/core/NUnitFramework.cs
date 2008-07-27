@@ -428,25 +428,6 @@ namespace NUnit.Core
 		}
 		#endregion
 
-        #region IsValidFixtureType
-        public static bool IsValidFixtureType(Type type, ref string reason)
-        {
-            if (type.IsAbstract)
-            {
-                reason = string.Format("{0} is an abstract class", type.FullName);
-                return false;
-            }
-
-            if (Reflect.GetConstructor(type) == null)
-            {
-                reason = string.Format("{0} does not have a valid constructor", type.FullName);
-                return false;
-            }
-
-            return true;
-        }
-        #endregion
-
         #region IsAddinAvailable
         public static bool IsAddinAvailable(string name)
         {

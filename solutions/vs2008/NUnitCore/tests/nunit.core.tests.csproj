@@ -230,11 +230,17 @@
       <Link>FixtureSetUpTearDownTest.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\tests\GenericTestFixtureTests.cs">
-      <Link>GenericTestFixtureTests.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\Generic\DeduceTypeArgsFromArgs.cs">
+      <Link>Generic\DeduceTypeArgsFromArgs.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\tests\GenericTestMethodTests.cs">
-      <Link>GenericTestMethodTests.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\Generic\SimpleGenericFixture.cs">
+      <Link>Generic\SimpleGenericFixture.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\Generic\SimpleGenericMethods.cs">
+      <Link>Generic\SimpleGenericMethods.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\Generic\TypeParameterUsedWithTestMethod.cs">
+      <Link>Generic\TypeParameterUsedWithTestMethod.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\IgnoreFixture.cs">
       <Link>IgnoreFixture.cs</Link>
@@ -385,6 +391,12 @@
     <Compile Include="..\..\..\..\src\NUnitCore\tests\XmlTest.cs">
       <Link>XmlTest.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\DataSourceTests.cs">
+      <Link>DataSourceTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\ParameterizedTestFixtureTests.cs">
+      <Link>ParameterizedTestFixtureTests.cs</Link>
     </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>

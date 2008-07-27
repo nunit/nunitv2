@@ -45,16 +45,6 @@ namespace NUnit.Core
 		/// </summary>
 		private IDictionary properties;
 
-		/// <summary>
-		/// The System.Type of the fixture for this test suite, if there is one
-		/// </summary>
-		private Type fixtureType;
-
-		/// <summary>
-		/// The fixture object, if it has been created
-		/// </summary>
-		private object fixture;
-
 		#endregion
 
 		#region Construction
@@ -99,43 +89,6 @@ namespace NUnit.Core
 			this.testName = testName;
 			
 			this.runState = RunState.Runnable;
-		}
-
-		/// <summary>
-		/// Constructs a test given a fixture type
-		/// </summary>
-		/// <param name="fixtureType">The type to use in constructiong the test</param>
-		protected Test( Type fixtureType )
-		{
-            int index = 0;
-            int next = 0;
-            foreach( char c in fixtureType.FullName )
-            {
-                ++next;
-                if ( c == '[' ) break;
-                if ( c == '.' ) index = next;
-            }
-
-            this.testName = new TestName();
-            this.testName.Name = fixtureType.FullName.Substring(index);
-            this.TestName.FullName = fixtureType.FullName;
-            
-            this.testName.TestID = new TestID();
-
-			this.fixtureType = fixtureType;
-			this.RunState = RunState.Runnable;
-		}
-
-		/// <summary>
-		/// Construct a test given a MethodInfo
-		/// </summary>
-		/// <param name="method">The method to be used</param>
-		protected Test( MethodInfo method )
-			: this( method.ReflectedType )
-		{
-			this.testName.Name = method.DeclaringType == method.ReflectedType 
-				? method.Name : method.DeclaringType.Name + "." + method.Name;
-			this.testName.FullName = method.ReflectedType.FullName + "." + method.Name;
 		}
 
 		/// <summary>
@@ -297,18 +250,17 @@ namespace NUnit.Core
 		/// <summary>
 		/// Gets the Type of the fixture used in running this test
 		/// </summary>
-		public Type FixtureType
+		public virtual Type FixtureType
 		{
-			get { return fixtureType; }
+			get { return null; }
 		}
 
 		/// <summary>
 		/// Gets or sets a fixture object for running this test
 		/// </summary>
-		public  object Fixture
+		public  abstract object Fixture
 		{
-			get { return fixture; }
-			set { fixture = value; }
+			get; set;
         }
         #endregion
 

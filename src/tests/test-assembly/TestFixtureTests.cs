@@ -13,15 +13,25 @@ namespace NUnit.TestData.TestFixtureTests
 	/// Classes used for testing NUnit
 	/// </summary>
 
-	[TestFixture]
-	public class NoDefaultCtorFixture
-	{
-		public NoDefaultCtorFixture(int index) { }
+    [TestFixture]
+    public class NoDefaultCtorFixture
+    {
+        public NoDefaultCtorFixture(int index) { }
 
-		[Test] public void OneTest() { }
-	}
+        [Test]
+        public void OneTest() { }
+    }
 
-	[TestFixture]
+    [TestFixture(7,3)]
+    public class FixtureWithArgsSupplied
+    {
+        public FixtureWithArgsSupplied(int x, int y) { }
+
+        [Test]
+        public void OneTest() { }
+    }
+
+    [TestFixture]
 	public class BadCtorFixture
 	{
 		BadCtorFixture()
@@ -33,17 +43,13 @@ namespace NUnit.TestData.TestFixtureTests
 		{}
 	}
 
-	public class AssemblyType
-	{
-		internal bool called;
+    public class FixtureWithoutTestFixtureAttribute
+    {
+        [Test]
+        public void SomeTest() { }
+    }
 
-		public AssemblyType()
-		{
-			called = true;
-		}
-	}
-
-	[TestFixture]
+    [TestFixture]
 	public class MultipleSetUpAttributes
 	{
 		[SetUp]
@@ -74,7 +80,7 @@ namespace NUnit.TestData.TestFixtureTests
 	}
 
 	[TestFixture]
-	[Ignore("testing ignore a suite")]
+	[Ignore("testing ignore a fixture")]
 	public class IgnoredFixture
 	{
 		[Test]

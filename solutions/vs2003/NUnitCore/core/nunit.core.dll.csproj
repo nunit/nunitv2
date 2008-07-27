@@ -226,6 +226,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MethodHelper.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\MethodHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "NamespaceTreeBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\NamespaceTreeBuilder.cs"
                     SubType = "Code"
@@ -362,12 +368,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestCase.cs"
-                    Link = "..\..\..\..\src\NUnitCore\core\TestCase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestCaseBuilderAttribute.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\TestCaseBuilderAttribute.cs"
                     SubType = "Code"
@@ -434,8 +434,20 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TypeHelper.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\TypeHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Builders\CombinatorialTestCaseProvider.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\CombinatorialTestCaseProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\DataSourceProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\DataSourceProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -466,6 +478,18 @@
                 <File
                     RelPath = "Builders\ParameterizedTestCaseBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\ParameterizedTestCaseBuilder.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\ProviderCache.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\ProviderCache.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\ProviderInfo.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\ProviderInfo.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

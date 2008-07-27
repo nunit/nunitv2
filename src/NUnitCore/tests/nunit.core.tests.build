@@ -2,6 +2,10 @@
 <project name="NUnitCoreTests" default="build" basedir=".">
 
   <patternset id="source-files">
+        <include name="Generic/DeduceTypeArgsFromArgs.cs"/>
+        <include name="Generic/SimpleGenericFixture.cs"/>
+        <include name="Generic/SimpleGenericMethods.cs"/>
+        <include name="Generic/TypeParameterUsedWithTestMethod.cs"/>
         <include name="AllTests.cs"/>
         <include name="AssemblyReaderTests.cs"/>
         <include name="AssemblyResolverTests.cs"/>
@@ -16,6 +20,7 @@
         <include name="CombinatorialTests.cs"/>
         <include name="CoreExtensionsTests.cs"/>
         <include name="CultureSettingAndDetectionTests.cs"/>
+        <include name="DataSourceTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>
         <include name="EventQueueTests.cs"/>
         <include name="EventTestFixture.cs"/>
@@ -31,6 +36,7 @@
         <include name="NameFilterTest.cs"/>
         <include name="NamespaceAssemblyTests.cs"/>
         <include name="ParameterizedTestCaseTests.cs"/>
+        <include name="ParameterizedTestFixtureTests.cs"/>
         <include name="PlatformDetectionTests.cs"/>
         <include name="PropertyAttributeTests.cs"/>
         <include name="ReflectTests.cs"/>

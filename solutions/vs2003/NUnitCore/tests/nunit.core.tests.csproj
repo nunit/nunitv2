@@ -219,6 +219,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DataSourceTests.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\DataSourceTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "DirectorySwapperTests.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\DirectorySwapperTests.cs"
                     SubType = "Code"
@@ -287,6 +293,12 @@
                 <File
                     RelPath = "NamespaceAssemblyTests.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\NamespaceAssemblyTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ParameterizedTestFixtureTests.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\ParameterizedTestFixtureTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
