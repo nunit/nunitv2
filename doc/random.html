@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - TestCase</title>
+<title>NUnit - Random</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -24,74 +24,49 @@
 
 <div id="content">
 
-<script language="JavaScript" src="codeFuncs.js" ></script> <!-- Do it this way for IE -->
-
-<h3>TestCaseAttribute (NUnit 2.5)</h3>
+<h3>RandomAttribute (NUnit 2.5)</h3>
 
 <div style="text-align: center; margin: 2em 10%; padding: 4px 0; border: 2px solid black">
   <h4>Preliminary documentation, subject to change.</h4>
 </div>
 
-<p><b>TestCaseAttribute</b> serves the dual purpose of marking a method with
-   parameters as a test method and providing inline data to be used when
-   invoking that method. Here is an example of a test being run three
-   times, with three different sets of data:
+<p>The <b>RandomAttribute</b> is used to specify a set of random values to be provided
+   for an individual parameter of a parameterized test method. Since
+   NUnit combines the data provided for each parameter into a set of
+   test cases, data must be provided for all parameters if it is
+   provided for any of them.
    
-<div class="code">
-<pre>[TestCase(12,3,4)]
-[TestCase(12,2,6)]
-[TestCase(12,4,3)]
-public void DivideTest(int n, int d, int q)
+<p>By default, NUnit creates test cases from all possible combinations
+   of the datapoints provided on parameters - the combinatorial approach.
+   This default may be modified by use of specific attributes on the
+   test method itself.
+   
+<p>RandomAttribute supports the following constructors:
+
+<div class="code"><pre>
+public Random( int count );
+public Random( double min, double max, int count );
+public Random( int min, int max, int count );
+</pre></div>
+   
+<h4>Example</h4>
+
+<p>The following test will be executed fifteen times, three times
+for each value of x, each combined with 5 random doubles from -1.0 to +1.0.
+
+<div class="code"><pre>
+[Test]
+public void MyTest(
+    [Values(1,2,3) int x,
+    [Random(-1.0, 1.0, 5)] double d)
 {
-  Assert.AreEqual( q, n / d );
+    ...
 }
-</pre>
-</div>
+</pre></div>
 
-<p><b>Note:</b> Because arguments to .NET attributes are limited in terms of the 
-Types that may be used, NUnit will make some attempt to convert the supplied
-values using <b>Convert.ChangeType()</b> before supplying it to the test.
-
-<p><b>TestCaseAttribute</b> may appear one or more times on a test method,
-which may also carry other attributes providing test data, such as the
-<a href="factories.html">FactoriesAttribute</a>.
-The method may optionally be marked with the 
-<a href="test.html">TestAttribute</a> as well.
-
-<p>By using the named parameter <b>Result</b> this test set may be simplified
-further:
-
-<div class="code">
-<pre>[TestCase(12,3, Result=4)]
-[TestCase(12,2, Result=6)]
-[TestCase(12,4, Result=3)]
-public int DivideTest(int n, int d)
-{
-  return( n / d );
-}
-</pre>
-</div>
-
-<p>In the above example, NUnit checks that the return
-value of the method is equal to the expected result provided on the attribute.
-
-<p><b>TestCaseAttribute</b> supports a number of additional 
-named parameters, which may be used as follows:
-
-<dl>
-<dt><b>Description</b>
-<dd>Sets the description property of the test
-<dt><b>ExpectedException</b>
-<dd>Specifies a the Type of an exception that should be thrown by this invocation
-<dt><b>ExpectedExceptionName</b>
-<dd>Specifies a the FullName of an exception that should be thrown by this invocation
-<dt><b>Result</b>
-<dd>The expected result to be returned from the method, which must have
-a compatible return type.
-<dt><b>TestName</b>
-<dd>Provides a name for the test. If not specified, a name is generated based on 
-the method name and the arguments provided
-</dl>
+<h4>See also...</h4>
+<ul>
+<li><a href="values.html">ValuesAttribute</a><li><a href="range.html">RangeAttribute</a><li><a href="sequential.html">SequentialAttribute</a><li><a href="combinatorial.html">CombinatorialAttribute</a><li><a href="pairwise.html">PairwiseAttribute</a></ul>
 
 </div>
 
@@ -113,11 +88,11 @@ the method name and the arguments provided
 <li><a href="combinatorial.html">Combinatorial</a></li>
 <li><a href="factories.html">Factories</a></li>
 <li><a href="pairwise.html">Pairwise</a></li>
-<li><a href="random.html">Random</a></li>
+<li id="current"><a href="random.html">Random</a></li>
 <li><a href="range.html">Range</a></li>
 <li><a href="sequential.html">Sequential</a></li>
 <li><a href="dataSource.html">DataSource</a></li>
-<li id="current"><a href="testCase.html">TestCase</a></li>
+<li><a href="testCase.html">TestCase</a></li>
 <li><a href="values.html">Values</a></li>
 </ul>
 </ul>

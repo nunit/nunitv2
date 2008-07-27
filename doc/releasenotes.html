@@ -32,6 +32,39 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
+<h3>NUnit 2.5 Alpha 4 Release - TBD</h3>
+
+<h4>General</h4>
+
+<ul>
+</ul>
+
+<h4>Framework</h4>
+<ul>
+<li>The FactoryAttribute has been renamed FactoriesAttribute and takes
+    an array of factory names rather than a comma-separated string.
+<li>Use of the TestFixtureAttribute is now optional.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>The Addin Dialog now shows an error message for any addin that
+    fails to load.  (from 2.4.8)
+</ul>
+
+<h4>Extensibility</h4>
+
+<ul>
+<li>The RequiredAddinAttribute is now only permitted at the assembly level.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>The Gui output panes were failing to use a fixed font. (from 2.4.8)
+</ul>
+
 <h3>NUnit 2.5 Alpha 3 Release - July 7, 2008</h3>
 
 <h4>General</h4>
@@ -117,11 +150,11 @@ displayed as a comma-separated list in the properties window.
     non-English cultures.
 <li>Domains were not unloading correctly in some circumstances. Unloading
     is now done on a separate thread.
-<li>An NUnitSettings.xml file of zero length was causing a crash.
+<li>An NUnitSettings.xml file of zero length was causing a crash. (from 2.4.8)
 <li>Invoking the gui with /exclude:XXX, where XXX is a non-existent
-    category, was causing all tests to be excluded.
-<li>Categories were not working properly on repeated tests.
-<li>A serious memory leak was fixed in the NUnit test runners.
+    category, was causing all tests to be excluded. (from 2.4.8)
+<li>Categories were not working properly on repeated tests. (from 2.4.8)
+<li>A serious memory leak was fixed in the NUnit test runners. (from 2.4.8)
 <li>Static SetUp and TearDown methods were not being called in a SetUpFixture.
 <li>The current directory used when executing addins that load tests was
     not correctly set.
@@ -158,12 +191,6 @@ this release may be removed or changed in future releases.
 <li>This release includes the CSUnitAddin extension, which allows the running of 
     CSUnit tests under NUnit. The csunit.dll must be available in order to
 	run the tests.
-</ul>
-
-<h4>Bug Fixes</h4>
-
-<ul>
-<li>Addins now work with the console runner.
 </ul>
 
 <h3>NUnit 2.5 Alpha 1 Release - April 18, 2008</h3>

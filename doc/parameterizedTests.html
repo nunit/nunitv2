@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - DataSource</title>
+<title>NUnit - ParameterizedTests</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -24,52 +24,45 @@
 
 <div id="content">
 
-<script language="JavaScript" src="codeFuncs.js" ></script> <!-- Do it this way for IE -->
+<h2>Parameterized Tests</h2>
 
-<h3>DataSourceAttribute (NUnit 2.5)</h3>
+<p>NUnit 2.5 supports parameterized tests. Test methods
+may have parameters and various attributes are available
+to indicate what arguments should be supplied by NUnit.
 
-<div style="text-align: center; margin: 2em 10%; padding: 4px 0; border: 2px solid black">
-  <h4>Preliminary documentation, subject to change.</h4>
-</div>
+<p>Multiple sets of arguments cause the creation of multiple
+tests. All arguments are created at the point of loading the
+tests, so the individual test cases are available for 
+display and selection in the Gui, if desired.
 
-<p><b>DataSourceAttribute</b> is used on individual parameters of a test method to
-identify the source from which arguments will be suppoied. The attribute has 
-four public constructors.
-
-<div class="code">
-<pre>
-DataSourceAttribute(Type sourceType, string name1, 
-        params string[] moreNames);
-DataSourceAttribute(string name1, params string[] moreNames);
-
-// For CLS-Compliance
-FactoriesAttribute(Type sourceType, string sourceName);
-FactoriesAttribute(string sourceName);
-</pre>
-</div>
-
-<p>If <b>sourceType</b> is specified, it represents the class that provides
-the data. If not, the class containing the test method is used.
-
-<p>Each <b>sourceName</b>, represents the name of a field, property or
-method that will provide the arguments.
-
-<p>Each individually named source has the following characteristics:
-<ul>
-<li>It may be a field, property or method.
-<li>It may be either an instance or a static member.
-<li>It must be an IEnumerable or a type that implements IEnumerable.
-</ul>
-
-<p>NUnit locates the data sources at the time the tests are loaded, creates
-instances of each class having non-static sources and builds a list of 
-tests to be executed. Each instancet is only created once at this
-time and is destroyed after all tests are loaded. In the case of sources
-located within the same class as the tests, a different instance is created
-each time the test is run, so no communication is possible using non-static
-members of the class.
-
+<p>Some attributes allow you to specify arguments inline - directly on
+   the attribute - while others use a separate method, property or field
+   to hold the arguments. In addition, some attributes identify complete test cases,
+   including all the necessary arguments, while others only provide data
+   for a single argument. This gives rise to four groups of attributes,
+   as shown in the following table.
    
+<table class="nunit">
+<tr><th></th><th>Complete Test Cases</th><th>Data for One Argument</th></tr>
+<tr><th>Inline</th>
+    <td><a href="testCase.html">TestCaseAttribute</a></td>
+    <td><a href="random.html">RandomAttribute</a><br>
+	    <a href="range.html">RangeAttribute</a><br>
+		<a href="values.html">ValuesAttribute</a></td></tr>
+<tr><th>Separate</th>
+	<td><a href="factories.html">FactoriesAttribute</a></td>
+	<td><a href="dataSource.html">DataSourceAttribute</a></td></tr>
+</table>
+
+<p>In addition, when data is specified for individual arguments, special attributes
+may be added to the test method itself in order to tell NUnit how
+to go about combining the arguments. Currently, the following attributes
+are provided:
+
+<ul>
+<li><a href="combinatorial.html">CombinatorialAttribute</a> (default)
+<li><a href="pairwise.html">PairwiseAttribute</a><li><a href="sequential.html">SequentialAttribute</a></ul>
+
 
 </div>
 
@@ -86,7 +79,7 @@ members of the class.
 <li><a href="testSelection.html">Test&nbsp;Selection</a></li>
 <li><a href="testModification.html">Test&nbsp;Modification</a></li>
 <li><a href="setupTeardown.html">Setup&nbsp;and&nbsp;Teardown</a></li>
-<li><a href="parameterizedTests.html">Parameterized&nbsp;Tests</a></li>
+<li id="current"><a href="parameterizedTests.html">Parameterized&nbsp;Tests</a></li>
 <ul>
 <li><a href="combinatorial.html">Combinatorial</a></li>
 <li><a href="factories.html">Factories</a></li>
@@ -94,7 +87,7 @@ members of the class.
 <li><a href="random.html">Random</a></li>
 <li><a href="range.html">Range</a></li>
 <li><a href="sequential.html">Sequential</a></li>
-<li id="current"><a href="dataSource.html">DataSource</a></li>
+<li><a href="dataSource.html">DataSource</a></li>
 <li><a href="testCase.html">TestCase</a></li>
 <li><a href="values.html">Values</a></li>
 </ul>
