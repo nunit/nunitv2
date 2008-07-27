@@ -15,24 +15,25 @@ namespace NUnit.Util.Tests
 	/// <summary>
 	/// Summary description for ProcessRunnerTests.
 	/// </summary>
-	// Exclude for release[TestFixture,Platform(Exclude="Mono",Reason="Process Start not working correctly")]
-	public class ProcessRunnerTests : BasicRunnerTests
-	{
-		private ProcessRunner myRunner;
+	// Exclude for release
+    //[TestFixture,Platform(Exclude="Mono",Reason="Process Start not working correctly")]
+    //public class ProcessRunnerTests : BasicRunnerTests
+    //{
+    //    private ProcessRunner myRunner;
 
-		protected override TestRunner CreateRunner( int runnerID )
-		{
-			myRunner = new ProcessRunner( runnerID );
-			NTrace.Debug( "Creating ProcessRunner" );
-			return myRunner;
-		}
+    //    protected override TestRunner CreateRunner( int runnerID )
+    //    {
+    //        myRunner = new ProcessRunner( runnerID );
+    //        NTrace.Debug( "Creating ProcessRunner" );
+    //        return myRunner;
+    //    }
 
-		[TestFixtureTearDown]
-		public void DestroyRunner()
-		{
-			NTrace.Debug( "Destroying ProcessRunner" );
-			if ( myRunner != null )
-				myRunner.Dispose();
-		}
-	}
+    //    [TestFixtureTearDown]
+    //    public void DestroyRunner()
+    //    {
+    //        NTrace.Debug( "Destroying ProcessRunner" );
+    //        if ( myRunner != null )
+    //            myRunner.Dispose();
+    //    }
+    //}
 }
