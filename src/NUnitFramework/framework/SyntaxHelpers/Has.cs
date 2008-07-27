@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.ComponentModel;
 using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework.SyntaxHelpers
@@ -13,6 +14,7 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// Summary description for HasNoPrefixB.
 	/// </summary>
     [Obsolete("Use NUnit.Framework.Syntax.Has class")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class Has
 	{
         /// <summary>

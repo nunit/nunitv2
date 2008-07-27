@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace NUnit.Framework.SyntaxHelpers
 {
@@ -9,6 +10,7 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// producing another collection to be used in the assertion.
 	/// </summary>
     [Obsolete("Use NUnit.Framework.Syntax.ListMapper class")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class ListMapper
 	{
 		ICollection original;

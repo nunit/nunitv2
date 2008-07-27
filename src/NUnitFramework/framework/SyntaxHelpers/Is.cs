@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections;
+using System.ComponentModel;
 using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework.SyntaxHelpers
@@ -15,6 +16,7 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// that supply a number of constraints used in Asserts.
 	/// </summary>
     [Obsolete("Use NUnit.Framework.Syntax.Is class")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class Is
 	{
 		#region Prefix Operators
@@ -208,6 +210,7 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// which regards Is as a keyword.
 	/// </summary>
     [Obsolete("Use NUnit.Framework.Syntax.Iz class")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class Iz : Is
 	{
 	}

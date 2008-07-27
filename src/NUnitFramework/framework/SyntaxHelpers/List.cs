@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections;
+using System.ComponentModel;
 using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework.SyntaxHelpers
@@ -15,6 +16,7 @@ namespace NUnit.Framework.SyntaxHelpers
 	/// that supply a number of constraints used with lists and collections.
 	/// </summary>
     [Obsolete("Use NUnit.Framework.Syntax.List class")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public class List
 	{
 		/// <summary>
