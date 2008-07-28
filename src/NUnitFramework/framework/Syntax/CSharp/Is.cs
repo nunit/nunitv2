@@ -144,24 +144,51 @@ namespace NUnit.Framework.Syntax.CSharp
         #endregion
 
 		#region Type Constraints
-		/// <summary>
-		/// Is.TypeOf returns a constraint that tests whether the actual
-		/// value is of the exact type supplied as an argument.
-		/// </summary>
-		public static Constraint TypeOf(Type expectedType)
+        /// <summary>
+        /// Is.TypeOf returns a constraint that tests whether the actual
+        /// value is of the exact type supplied as an argument.
+        /// </summary>
+        /// <param name="expectedType">The type to be tested for</param>
+        public static Constraint TypeOf(Type expectedType)
         {
             return new ExactTypeConstraint(expectedType);
         }
 
-		/// <summary>
-		/// Is.InstanceOfType returns a constraint that tests whether 
-		/// the actual value is of the type supplied as an argument
-		/// or a derived type.
-		/// </summary>
-		public static Constraint InstanceOfType(Type expectedType)
+#if NET_2_0
+        /// <summary>
+        /// Is.TypeOf returns a constraint that tests whether the actual
+        /// value is of the exact type supplied as an argument.
+        /// </summary>
+        /// <typeparam name="T">Type to be tested for</typeparam>
+        public static Constraint TypeOf<T>()
+        {
+            return TypeOf( typeof(T) );
+        }
+#endif
+
+        /// <summary>
+        /// Is.InstanceOfType returns a constraint that tests whether 
+        /// the actual value is of the type supplied as an argument
+        /// or a derived type.
+        /// </summary>
+        /// <param name="expectedType">The type to be tested for</param>
+        public static Constraint InstanceOfType(Type expectedType)
         {
             return new InstanceOfTypeConstraint(expectedType);
         }
+
+#if NET_2_0
+        /// <summary>
+        /// Is.InstanceOfType returns a constraint that tests whether 
+        /// the actual value is of the type supplied as an argument
+        /// or a derived type.
+        /// </summary>
+        /// <typeparam name="T">The type to be tested for</typeparam>
+        public static Constraint InstanceOfType<T>()
+        {
+            return new InstanceOfTypeConstraint(typeof(T));
+        }
+#endif
 
         /// <summary>
         /// Is.AssignableFrom returns a constraint that tests whether
@@ -174,6 +201,20 @@ namespace NUnit.Framework.Syntax.CSharp
         {
             return new AssignableFromConstraint(expectedType);
         }
+
+#if NET_2_0
+        /// <summary>
+        /// Is.AssignableFrom returns a constraint that tests whether
+        /// the actual value is assignable from the type supplied as
+        /// an argument.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Constraint AssignableFrom<T>()
+        {
+            return new AssignableFromConstraint(typeof(T));
+        }
+#endif
         #endregion
 
 		#region Collection Constraints
