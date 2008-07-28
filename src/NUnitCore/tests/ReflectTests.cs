@@ -7,6 +7,7 @@
 using System;
 using System.Reflection;
 using NUnit.Framework;
+using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Core.Tests
 {
@@ -88,16 +89,13 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		public void GetMethodWithAttribute()
+		public void GetMethodsWithAttribute()
 		{
-			Assert.IsNotNull( Reflect.GetMethodWithAttribute( myType, "Colors.BlueAttribute", false ) );
-		}
-
-		[Test]
-		public void CountMethodsWithAttribute()
-		{
-			Assert.AreEqual( 1, Reflect.CountMethodsWithAttribute( myType, "Colors.BlueAttribute", false ) );
-		}
+            MethodInfo[] methods = Reflect.GetMethodsWithAttribute(myType, "Colors.BlueAttribute", false);
+            Assert.That(
+                List.Map(methods).Property("Name"), 
+                Is.EqualTo(new string[] {"BaseBlueMethod", "BlueMethod"} ));
+        }
 
 		[Test]
 		public void GetNamedMethod()
@@ -160,6 +158,8 @@ namespace Colors
 	[Red]
 	class BaseClass : MyInterface
 	{
+        [Blue]
+        public void BaseBlueMethod() { }
 	}
 
 	[Green]

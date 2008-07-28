@@ -39,7 +39,7 @@ namespace NUnit.Core.Builders
 		{
 			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true ) ||
                    type.IsPublic && !type.IsAbstract &&
-                   Reflect.GetMethodWithAttribute(type, NUnitFramework.TestAttribute, true) != null;
+                   Reflect.HasMethodWithAttribute(type, NUnitFramework.TestAttribute, true);
 		}
 
 		/// <summary>
@@ -219,10 +219,10 @@ namespace NUnit.Core.Builders
             }
 #endif
 
-            return NUnitFramework.IsSetUpMethodValid(fixtureType, ref reason)
-                && NUnitFramework.IsTearDownMethodValid(fixtureType, ref reason)
-                && NUnitFramework.IsFixtureSetUpMethodValid(fixtureType, ref reason)
-                && NUnitFramework.IsFixtureTearDownMethodValid(fixtureType, ref reason);
+            return NUnitFramework.CheckSetUpTearDownMethods(fixtureType, NUnitFramework.SetUpAttribute, ref reason)
+                && NUnitFramework.CheckSetUpTearDownMethods(fixtureType, NUnitFramework.TearDownAttribute, ref reason)
+                && NUnitFramework.CheckSetUpTearDownMethods(fixtureType, NUnitFramework.FixtureSetUpAttribute, ref reason)
+                && NUnitFramework.CheckSetUpTearDownMethods(fixtureType, NUnitFramework.FixtureTearDownAttribute, ref reason);
         }
 		#endregion
 	}

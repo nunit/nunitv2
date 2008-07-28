@@ -98,159 +98,20 @@ namespace NUnit.Core
         }
         #endregion
 
-        #region Identify SetUp and TearDown Methods
-        public static bool IsSetUpMethod(MethodInfo method)
+        #region Check SetUp and TearDown methods
+        public static bool CheckSetUpTearDownMethods(Type fixtureType, string attributeName, ref string reason)
         {
-            return Reflect.HasAttribute(method, NUnitFramework.SetUpAttribute, false);
-        }
-
-        public static bool IsTearDownMethod(MethodInfo method)
-        {
-            return Reflect.HasAttribute(method, NUnitFramework.TearDownAttribute, false);
-        }
-
-        public static bool IsFixtureSetUpMethod(MethodInfo method)
-        {
-            return Reflect.HasAttribute(method, NUnitFramework.FixtureSetUpAttribute, false);
-        }
-
-        public static bool IsFixtureTearDownMethod(MethodInfo method)
-        {
-            return Reflect.HasAttribute(method, NUnitFramework.FixtureTearDownAttribute, false);
-        }
-
-        #endregion
-
-        #region Locate SetUp and TearDown Methods
-        public static MethodInfo GetSetUpMethod(Type fixtureType)
-        {
-            return Reflect.GetMethodWithAttribute(fixtureType, SetUpAttribute, true);
-        }
-
-        public static MethodInfo GetTearDownMethod(Type fixtureType)
-		{
-			return Reflect.GetMethodWithAttribute(fixtureType, TearDownAttribute, true);
-		}
-
-		public static MethodInfo GetFixtureSetUpMethod(Type fixtureType)
-		{
-			return Reflect.GetMethodWithAttribute(fixtureType, FixtureSetUpAttribute, true);
-		}
-
-        public static MethodInfo GetFixtureTearDownMethod(Type fixtureType)
-		{
-			return Reflect.GetMethodWithAttribute(fixtureType, FixtureTearDownAttribute, true);
-		}
-		#endregion
-
-        #region Check SetUp and TearDown Signatures
-        /// <summary>
-        /// Check any SetUp method on fixture for validity
-        /// </summary>
-        /// <param name="fixtureType">The type to be checked</param>
-        /// <param name="reason">The reason for any failure</param>
-        /// <returns>True if the method is either not present or is present only once with a valid signature</returns>
-        public static bool IsSetUpMethodValid(Type fixtureType, ref string reason)
-        {
-            if (Reflect.CountMethodsWithAttribute(fixtureType, SetUpAttribute, true) > 1)
-            {
-                reason = "More than one SetUp method";
-                return false;
-            }
-
-            MethodInfo theMethod = Reflect.GetMethodWithAttribute(fixtureType, SetUpAttribute, true);
-            if (theMethod != null && !CheckSetUpTearDownSignature(theMethod))
-            {
-                reason = "Invalid SetUp method signature";
-                return false;
-            }
+            foreach( MethodInfo theMethod in Reflect.GetMethodsWithAttribute(fixtureType, attributeName, true ))
+                if ( theMethod.IsAbstract ||
+                     !theMethod.IsPublic && !theMethod.IsFamily ||
+                     theMethod.GetParameters().Length > 0 ||
+                     !theMethod.ReturnType.Equals(typeof(void)))
+                {
+                    reason = string.Format( "Invalid signature for SetUp or TearDown method: {0}", theMethod.Name );
+                    return false;
+                }
 
             return true;
-        }
-
-        /// <summary>
-        /// Check any TearDown method on fixture for validity
-        /// </summary>
-        /// <param name="fixtureType">The type to be checked</param>
-        /// <param name="reason">The reason for any failure</param>
-        /// <returns>True if the method is either not present or is present only once with a valid signature</returns>
-        public static bool IsTearDownMethodValid(Type fixtureType, ref string reason)
-        {
-            if (Reflect.CountMethodsWithAttribute(fixtureType, TearDownAttribute, true) > 1)
-            {
-                reason = "More than one TearDown method";
-                return false;
-            }
-
-            MethodInfo theMethod = Reflect.GetMethodWithAttribute(fixtureType, TearDownAttribute, true);
-            if (theMethod != null && !CheckSetUpTearDownSignature(theMethod))
-            {
-                reason = "Invalid TearDown method signature";
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Check any TestFixtureSetUp method on fixture for validity
-        /// </summary>
-        /// <param name="fixtureType">The type to be checked</param>
-        /// <param name="reason">The reason for any failure</param>
-        /// <returns>True if the method is either not present or is present only once with a valid signature</returns>
-        public static bool IsFixtureSetUpMethodValid(Type fixtureType, ref string reason)
-        {
-            if (Reflect.CountMethodsWithAttribute(fixtureType, FixtureSetUpAttribute, true) > 1)
-            {
-                reason = "More than one TestFixtureSetUp method";
-                return false;
-            }
-
-            MethodInfo theMethod = Reflect.GetMethodWithAttribute(fixtureType, FixtureSetUpAttribute, true);
-            if (theMethod != null && !CheckSetUpTearDownSignature(theMethod))
-            {
-                reason = "Invalid TestFixtureSetUp method signature";
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Check any TestFixtureTearDown method on fixture for validity
-        /// </summary>
-        /// <param name="fixtureType">The type to be checked</param>
-        /// <param name="reason">The reason for any failure</param>
-        /// <returns>True if the method is either not present or is present only once with a valid signature</returns>
-        public static bool IsFixtureTearDownMethodValid(Type fixtureType, ref string reason)
-        {
-            if (Reflect.CountMethodsWithAttribute(fixtureType, FixtureTearDownAttribute, true) > 1)
-            {
-                reason = "More than one TestFixtureTearDown method";
-                return false;
-            }
-
-            MethodInfo theMethod = Reflect.GetMethodWithAttribute(fixtureType, FixtureTearDownAttribute, true);
-            if (theMethod != null && !CheckSetUpTearDownSignature(theMethod))
-            {
-                reason = "Invalid TestFixtureTearDown method signature";
-                return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Internal helper to check a single setup or teardown method
-        /// </summary>
-        /// <param name="theMethod">The method to be checked</param>
-        /// <returns>True if the method has a valid signature</returns>
-        private static bool CheckSetUpTearDownSignature(MethodInfo theMethod)
-        {
-            return !theMethod.IsAbstract &&
-                   (theMethod.IsPublic || theMethod.IsFamily) &&
-                    theMethod.GetParameters().Length == 0 &&
-                    theMethod.ReturnType.Equals(typeof(void));
         }
         #endregion
 

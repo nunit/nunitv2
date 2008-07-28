@@ -72,27 +72,57 @@ namespace NUnit.TestData.FixtureSetUpTearDown
 	[TestFixture]
 	public class DefineInheritSetUpAndTearDown : SetUpAndTearDownFixture
 	{
-		public int derivedSetUpCount;
-		public int derivedTearDownCount;
+        public int derivedSetUpCount;
+        public int derivedTearDownCount;
 
-		[TestFixtureSetUp]
-		public override void Init()
-		{
-			derivedSetUpCount++;
-		}
+        [TestFixtureSetUp]
+        public override void Init()
+        {
+            derivedSetUpCount++;
+        }
 
-		[TestFixtureTearDown]
-		public override void Destroy()
-		{
-			derivedTearDownCount++;
-		}
+        [TestFixtureTearDown]
+        public override void Destroy()
+        {
+            derivedTearDownCount++;
+        }
 
-		[Test]
-		public void AnotherTest(){}
+        [Test]
+        public void AnotherTest() { }
 
-		[Test]
-		public void YetAnotherTest(){}
-	}
+        [Test]
+        public void YetAnotherTest() { }
+    }
+
+    [TestFixture]
+    public class DerivedSetUpAndTearDownFixture : SetUpAndTearDownFixture
+    {
+        public int derivedSetUpCount;
+        public int derivedTearDownCount;
+
+        public bool baseSetUpCalledFirst;
+        public bool baseTearDownCalledLast;
+
+        [TestFixtureSetUp]
+        public void Init2()
+        {
+            derivedSetUpCount++;
+            baseSetUpCalledFirst = this.setUpCount > 0;
+        }
+
+        [TestFixtureTearDown]
+        public void Destroy2()
+        {
+            derivedTearDownCount++;
+            baseTearDownCalledLast = this.tearDownCount == 0;
+        }
+
+        [Test]
+        public void AnotherTest() { }
+
+        [Test]
+        public void YetAnotherTest() { }
+    }
 
 	[TestFixture]
 	public class MisbehavingFixture 

@@ -20,8 +20,10 @@ namespace NUnit.Core
         public NUnitTestFixture(Type fixtureType, object[] arguments)
             : base(fixtureType, arguments)
         {
-            this.fixtureSetUp = NUnitFramework.GetFixtureSetUpMethod( fixtureType );
-            this.fixtureTearDown = NUnitFramework.GetFixtureTearDownMethod( fixtureType );
+            this.fixtureSetUpMethods =
+                Reflect.GetMethodsWithAttribute(fixtureType, NUnitFramework.FixtureSetUpAttribute, true);
+            this.fixtureTearDownMethods =
+                Reflect.GetMethodsWithAttribute(fixtureType, NUnitFramework.FixtureTearDownAttribute, true);
         }
 
         protected override void DoOneTimeSetUp(TestResult suiteResult)

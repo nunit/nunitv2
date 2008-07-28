@@ -26,14 +26,14 @@ namespace NUnit.Core
 		private ArrayList tests = new ArrayList();
 
 		/// <summary>
-		/// The fixture setup method for this suite
+		/// The fixture setup methods for this suite
 		/// </summary>
-		protected MethodInfo fixtureSetUp;
+		protected MethodInfo[] fixtureSetUpMethods;
 
 		/// <summary>
-		/// The fixture teardown method for this suite
+		/// The fixture teardown methods for this suite
 		/// </summary>
-		protected MethodInfo fixtureTearDown;
+		protected MethodInfo[] fixtureTearDownMethods;
 
         /// <summary>
         /// Arguments for use in creating a parameterized fixture
@@ -234,8 +234,9 @@ namespace NUnit.Core
                         TestContext.CurrentCulture =
                             new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
-                    if (this.fixtureSetUp != null)
-                        Reflect.InvokeMethod(fixtureSetUp, fixtureSetUp.IsStatic ? null : Fixture);
+                    if (this.fixtureSetUpMethods != null)
+                        foreach( MethodInfo fixtureSetUp in fixtureSetUpMethods )
+                            Reflect.InvokeMethod(fixtureSetUp, fixtureSetUp.IsStatic ? null : Fixture);
                 }
                 catch (Exception ex)
                 {
@@ -274,8 +275,15 @@ namespace NUnit.Core
             {
                 try
                 {
-                    if (this.fixtureTearDown != null)
-                        Reflect.InvokeMethod(fixtureTearDown, fixtureTearDown.IsStatic ? null : Fixture);
+                    if (this.fixtureTearDownMethods != null)
+                    {
+                        int index = fixtureTearDownMethods.Length;
+                        while (--index >= 0 )
+                        {
+                            MethodInfo fixtureTearDown = fixtureTearDownMethods[index];
+                            Reflect.InvokeMethod(fixtureTearDown, fixtureTearDown.IsStatic ? null : Fixture);
+                        }
+                    }
 
 					IDisposable disposable = Fixture as IDisposable;
 					if (disposable != null)

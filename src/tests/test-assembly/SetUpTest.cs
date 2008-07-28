@@ -12,24 +12,24 @@ namespace NUnit.TestData.SetUpTest
 	[TestFixture]
 	public class SetUpAndTearDownFixture
 	{
-		public bool wasSetUpCalled;
-		public bool wasTearDownCalled;
+        public bool wasSetUpCalled;
+        public bool wasTearDownCalled;
 
-		[SetUp]
-		public virtual void Init()
-		{
-			wasSetUpCalled = true;
-		}
+        [SetUp]
+        public virtual void Init()
+        {
+            wasSetUpCalled = true;
+        }
 
-		[TearDown]
-		public virtual void Destroy()
-		{
-			wasTearDownCalled = true;
-		}
+        [TearDown]
+        public virtual void Destroy()
+        {
+            wasTearDownCalled = true;
+        }
 
-		[Test]
-		public void Success(){}
-	}
+        [Test]
+        public void Success() { }
+    }
 
 
 	[TestFixture]
@@ -88,4 +88,66 @@ namespace NUnit.TestData.SetUpTest
 		[Test]
 		public void AnotherTest(){}
 	}
+
+    public class MultipleSetUpTearDownFixture
+    {
+        public bool wasSetUp1Called;
+        public bool wasSetUp2Called;
+        public bool wasSetUp3Called;
+        public bool wasTearDown1Called;
+        public bool wasTearDown2Called;
+
+        [SetUp]
+        public virtual void Init1()
+        {
+            wasSetUp1Called = true;
+        }
+        [SetUp]
+        public virtual void Init2()
+        {
+            wasSetUp2Called = true;
+        }
+        [SetUp]
+        public virtual void Init3()
+        {
+            wasSetUp3Called = true;
+        }
+
+        [TearDown]
+        public virtual void TearDown1()
+        {
+            wasTearDown1Called = true;
+        }
+        [TearDown]
+        public virtual void TearDown2()
+        {
+            wasTearDown2Called = true;
+        }
+
+        [Test]
+        public void Success() { }
+    }
+
+    [TestFixture]
+    public class DerivedClassWithSeparateSetUp : SetUpAndTearDownFixture
+    {
+        public bool wasDerivedSetUpCalled;
+        public bool wasDerivedTearDownCalled;
+        public bool wasBaseSetUpCalledFirst;
+        public bool wasBaseTearDownCalledLast;
+
+        [SetUp]
+        public void DerivedInit()
+        {
+            wasDerivedSetUpCalled = true;
+            wasBaseSetUpCalledFirst = wasSetUpCalled;
+        }
+
+        [TearDown]
+        public void DerivedTearDown()
+        {
+            wasDerivedTearDownCalled = true;
+            wasBaseTearDownCalledLast = !wasTearDownCalled;
+        }
+    }
 }

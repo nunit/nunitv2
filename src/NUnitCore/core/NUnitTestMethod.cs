@@ -16,8 +16,8 @@ namespace NUnit.Core
 		#region Constructor
 		public NUnitTestMethod(MethodInfo method) : base(method) 
         {
-            this.setUpMethod = NUnitFramework.GetSetUpMethod(this.FixtureType);
-            this.tearDownMethod = NUnitFramework.GetTearDownMethod(this.FixtureType);
+            this.setUpMethods = Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.SetUpAttribute, true);
+            this.tearDownMethods = Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
         }
 		#endregion
 

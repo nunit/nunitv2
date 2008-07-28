@@ -88,19 +88,19 @@ namespace NUnit.Core.Builders
                 return false;
             }
 
-            if (!NUnitFramework.IsFixtureSetUpMethodValid(type, ref reason) )
+            if (!NUnitFramework.CheckSetUpTearDownMethods(type, NUnitFramework.FixtureSetUpAttribute, ref reason) )
                 return false;
             
-            if (!NUnitFramework.IsFixtureTearDownMethodValid(type, ref reason))
+            if (!NUnitFramework.CheckSetUpTearDownMethods(type, NUnitFramework.FixtureTearDownAttribute, ref reason))
                 return false;
 
-            if (NUnitFramework.GetSetUpMethod(type) != null)
+            if (Reflect.HasMethodWithAttribute(type, NUnitFramework.SetUpAttribute, true))
             {
                 reason = "SetUp method not allowed on a legacy suite";
                 return false;
             }
 
-            if (NUnitFramework.GetTearDownMethod(type) != null)
+            if (Reflect.HasMethodWithAttribute(type, NUnitFramework.TearDownAttribute, true))
             {
                 reason = "TearDown method not allowed on a legacy suite";
                 return false;

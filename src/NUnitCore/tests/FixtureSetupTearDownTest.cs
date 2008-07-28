@@ -54,16 +54,30 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		public void CheckInheritedSetUpAndTearDownAreNotCalled()
+		public void OverriddenSetUpAndTearDownAreNotCalled()
 		{
-			DefineInheritSetUpAndTearDown fixture = new DefineInheritSetUpAndTearDown();
-			RunTestOnFixture( fixture );
+            DefineInheritSetUpAndTearDown fixture = new DefineInheritSetUpAndTearDown();
+            RunTestOnFixture(fixture);
 
-			Assert.AreEqual(0, fixture.setUpCount);
-			Assert.AreEqual(0, fixture.tearDownCount);
-			Assert.AreEqual(1, fixture.derivedSetUpCount);
-			Assert.AreEqual(1, fixture.derivedTearDownCount);
-		}
+            Assert.AreEqual(0, fixture.setUpCount);
+            Assert.AreEqual(0, fixture.tearDownCount);
+            Assert.AreEqual(1, fixture.derivedSetUpCount);
+            Assert.AreEqual(1, fixture.derivedTearDownCount);
+        }
+
+        [Test]
+        public void BaseSetUpCalledFirstAndTearDownCalledLast()
+        {
+            DerivedSetUpAndTearDownFixture fixture = new DerivedSetUpAndTearDownFixture();
+            RunTestOnFixture(fixture);
+
+            Assert.AreEqual(1, fixture.setUpCount);
+            Assert.AreEqual(1, fixture.tearDownCount);
+            Assert.AreEqual(1, fixture.derivedSetUpCount);
+            Assert.AreEqual(1, fixture.derivedTearDownCount);
+            Assert.That(fixture.baseSetUpCalledFirst, "Base SetUp called first");
+            Assert.That(fixture.baseTearDownCalledLast, "Base TearDown called last");
+        }
 
 		[Test]
 		public void HandleErrorInFixtureSetup() 

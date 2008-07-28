@@ -56,11 +56,11 @@ namespace NUnit.Core.Builders
             if (allowOldStyleTests)
             {
                 Regex regex = new Regex("^(?i:test)");
-                if ( regex.Match(method.Name).Success 
-					&& !NUnitFramework.IsSetUpMethod( method )
-					&& !NUnitFramework.IsTearDownMethod( method )
-					&& !NUnitFramework.IsFixtureSetUpMethod( method )
-					&& !NUnitFramework.IsFixtureTearDownMethod( method ) )
+                if ( regex.Match(method.Name).Success
+                    && !Reflect.HasAttribute(method, NUnitFramework.SetUpAttribute, true)
+                    && !Reflect.HasAttribute(method, NUnitFramework.TearDownAttribute, true)
+                    && !Reflect.HasAttribute(method, NUnitFramework.FixtureSetUpAttribute, true)
+                    && !Reflect.HasAttribute(method, NUnitFramework.FixtureTearDownAttribute, true) )
 						return true;
             }
 

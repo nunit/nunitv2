@@ -97,15 +97,15 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test] 
-		public void CannotRunMultipleSetUp()
+		public void CanRunMultipleSetUp()
 		{
-			AssertNotRunnable(typeof(MultipleSetUpAttributes));
+			AssertRunnable(typeof(MultipleSetUpAttributes));
 		}
 
 		[Test] 
-		public void CannotRunMultipleTearDown()
+		public void CanRunMultipleTearDown()
 		{
-			AssertNotRunnable(typeof(MultipleTearDownAttributes));
+			AssertRunnable(typeof(MultipleTearDownAttributes));
 		}
 
 		[Test]
@@ -129,15 +129,15 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test] 
-		public void CannotRunMultipleTestFixtureSetUp()
+		public void CanRunMultipleTestFixtureSetUp()
 		{
-			AssertNotRunnable(typeof(MultipleFixtureSetUpAttributes));
+			AssertRunnable(typeof(MultipleFixtureSetUpAttributes));
 		}
 
 		[Test] 
-		public void CannotRunMultipleTestFixtureTearDown()
+		public void CanRunMultipleTestFixtureTearDown()
 		{
-			AssertNotRunnable(typeof(MultipleFixtureTearDownAttributes));
+			AssertRunnable(typeof(MultipleFixtureTearDownAttributes));
 		}
 
 		#region SetUp Signature

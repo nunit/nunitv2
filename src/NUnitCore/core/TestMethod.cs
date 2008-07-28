@@ -30,12 +30,12 @@ namespace NUnit.Core
 		/// <summary>
 		/// The SetUp method.
 		/// </summary>
-		protected MethodInfo setUpMethod;
+		protected MethodInfo[] setUpMethods;
 
 		/// <summary>
 		/// The teardown method
 		/// </summary>
-		protected MethodInfo tearDownMethod;
+		protected MethodInfo[] tearDownMethods;
 
         /// <summary>
         /// The ExpectedExceptionProcessor for this test, if any
@@ -178,8 +178,7 @@ namespace NUnit.Core
 
 			try 
 			{
-				if ( setUpMethod != null )
-					Reflect.InvokeMethod( setUpMethod, setUpMethod.IsStatic ? null : this.Fixture );
+                doSetUp();
 
 				doTestCase( testResult );
 			}
@@ -203,12 +202,23 @@ namespace NUnit.Core
 
 		#region Invoke Methods by Reflection, Recording Errors
 
+        private void doSetUp()
+        {
+            if (setUpMethods != null)
+                foreach( MethodInfo setUpMethod in setUpMethods )
+                    Reflect.InvokeMethod(setUpMethod, setUpMethod.IsStatic ? null : this.Fixture);
+        }
+
 		private void doTearDown( TestResult testResult )
 		{
 			try
 			{
-				if ( tearDownMethod != null )
-					tearDownMethod.Invoke( this.Fixture, new object[0] );
+                if (tearDownMethods != null)
+                {
+                    int index = tearDownMethods.Length;
+                    while (--index >= 0)
+                        tearDownMethods[index].Invoke(tearDownMethods[index].IsStatic ? null : this.Fixture, new object[0]);
+                }
 			}
 			catch(Exception ex)
 			{

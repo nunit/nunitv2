@@ -46,7 +46,7 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		public void CheckInheritedSetUpAndTearDownAreNotCalled()
+		public void CheckOverriddenSetUpAndTearDownAreNotCalled()
 		{
 			DefineInheritSetUpAndTearDown fixture = new DefineInheritSetUpAndTearDown();
 			TestBuilder.RunTestFixture( fixture );
@@ -56,5 +56,32 @@ namespace NUnit.Core.Tests
 			Assert.IsTrue(fixture.derivedSetUpCalled);
 			Assert.IsTrue(fixture.derivedTearDownCalled);
 		}
+
+        [Test]
+        public void MultipleSetUpAndTearDownMethodsAreCalled()
+        {
+            MultipleSetUpTearDownFixture fixture = new MultipleSetUpTearDownFixture();
+            TestBuilder.RunTestFixture(fixture);
+
+            Assert.IsTrue(fixture.wasSetUp1Called, "SetUp1");
+            Assert.IsTrue(fixture.wasSetUp2Called, "SetUp2");
+            Assert.IsTrue(fixture.wasSetUp3Called, "SetUp3");
+            Assert.IsTrue(fixture.wasTearDown1Called, "TearDown1");
+            Assert.IsTrue(fixture.wasTearDown2Called, "TearDown2");
+        }
+
+        [Test]
+        public void BaseSetUpIsCalledFirstTearDownLast()
+        {
+            DerivedClassWithSeparateSetUp fixture = new DerivedClassWithSeparateSetUp();
+            TestBuilder.RunTestFixture(fixture);
+
+            Assert.IsTrue(fixture.wasSetUpCalled, "Base SetUp Called");
+            Assert.IsTrue(fixture.wasTearDownCalled, "Base TearDown Called");
+            Assert.IsTrue(fixture.wasDerivedSetUpCalled, "Derived SetUp Called");
+            Assert.IsTrue(fixture.wasDerivedTearDownCalled, "Derived TearDown Called");
+            Assert.IsTrue(fixture.wasBaseSetUpCalledFirst, "SetUp Order");
+            Assert.IsTrue(fixture.wasBaseTearDownCalledLast, "TearDown Order");
+        }
 	}
 }

@@ -48,19 +48,17 @@ namespace NUnit.Core.Builders
                 return false;
             }
 
-            if ( !NUnitFramework.IsSetUpMethodValid(type, ref reason) )
-                return false;
+            if (!NUnitFramework.CheckSetUpTearDownMethods(type, NUnitFramework.SetUpAttribute, ref reason) ||
+                !NUnitFramework.CheckSetUpTearDownMethods(type, NUnitFramework.TearDownAttribute, ref reason) )
+                    return false;
 
-            if ( !NUnitFramework.IsTearDownMethodValid(type, ref reason) )
-                return false;
-
-            if ( NUnitFramework.GetFixtureSetUpMethod(type) != null )
+            if ( Reflect.HasMethodWithAttribute(type, NUnitFramework.FixtureSetUpAttribute, true) )
             {
                 reason = "TestFixtureSetUp method not allowed on a SetUpFixture";
                 return false;
             }
 
-            if ( NUnitFramework.GetFixtureTearDownMethod(type) != null )
+            if ( Reflect.HasMethodWithAttribute(type, NUnitFramework.FixtureTearDownAttribute, true) )
             {
                 reason = "TestFixtureTearDown method not allowed on a SetUpFixture";
                 return false;

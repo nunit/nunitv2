@@ -170,43 +170,68 @@ namespace NUnit.Core
 			return fixtureType.GetConstructor( types );
 		}
 
-		/// <summary>
-		/// Examine a fixture type and return a method having a particular attribute.
-		/// In the case of multiple methods, the first one found is returned.
-		/// </summary>
-		/// <param name="fixtureType">The type to examine</param>
-		/// <param name="attributeName">The FullName of the attribute to look for</param>
-		/// <returns>A MethodInfo or null</returns>
-		public static MethodInfo GetMethodWithAttribute( Type fixtureType, string attributeName, bool inherit )
-		{
-			foreach(MethodInfo method in fixtureType.GetMethods( AllMembers ) )
-			{
-				if( HasAttribute( method, attributeName, inherit ) ) 
-					return method;
-			}
+        /// <summary>
+        /// Examine a fixture type and return an array of methods having a 
+        /// particular attribute. The array is order with base methods first.
+        /// </summary>
+        /// <param name="fixtureType">The type to examine</param>
+        /// <param name="attributeName">The FullName of the attribute to look for</param>
+        /// <returns>The array of methods found</returns>
+        public static MethodInfo[] GetMethodsWithAttribute(Type fixtureType, string attributeName, bool inherit)
+        {
+            ArrayList list = new ArrayList();
 
-			return null;
-		}
+            foreach (MethodInfo method in fixtureType.GetMethods(AllMembers))
+            {
+                if (HasAttribute(method, attributeName, inherit))
+                    list.Add(method);
+            }
 
-		/// <summary>
-		/// Examine a fixture type and return a count of the methods having a 
-		/// particular attribute.
-		/// </summary>
-		/// <param name="fixtureType">The type to examine</param>
-		/// <param name="attributeName">The FullName of the attribute to look for</param>
-		/// <returns>The number of such methods found</returns>
-		public static int CountMethodsWithAttribute( Type fixtureType, string attributeName, bool inherit )
-		{
-			int count = 0;
+            list.Sort(new BaseTypesFirstComparer());
 
-			foreach(MethodInfo method in fixtureType.GetMethods( AllMembers | BindingFlags.DeclaredOnly ) )
-			{
-				if( HasAttribute( method, attributeName, inherit ) ) 
-					count++;
-			}
+            return (MethodInfo[])list.ToArray(typeof(MethodInfo));
+        }
 
-			return count;
-		}
+        private class BaseTypesFirstComparer : IComparer
+        {
+            #region IComparer Members
+
+            public int Compare(object x, object y)
+            {
+                MethodInfo m1 = x as MethodInfo;
+                MethodInfo m2 = y as MethodInfo;
+
+                if (m1 == null || m2 == null) return 0;
+
+                Type m1Type = m1.DeclaringType;
+                Type m2Type = m2.DeclaringType;
+
+                if ( m1Type == m2Type ) return 0;
+                if ( m1Type.IsAssignableFrom(m2Type) ) return -1;
+
+                return 1;
+            }
+
+            #endregion
+        }
+
+        /// <summary>
+        /// Examine a fixture type and return true if it has a method with
+        /// a particular attribute. 
+        /// </summary>
+        /// <param name="fixtureType">The type to examine</param>
+        /// <param name="attributeName">The FullName of the attribute to look for</param>
+        /// <returns>True if found, otherwise false</returns>
+        public static bool HasMethodWithAttribute(Type fixtureType, string attributeName, bool inherit)
+        {
+            foreach (MethodInfo method in fixtureType.GetMethods(AllMembers))
+            {
+                if (HasAttribute(method, attributeName, inherit))
+                    return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Examine a fixture type and get a method with a particular name.
