@@ -1,4 +1,4 @@
-﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.21022</ProductVersion>
@@ -184,7 +184,7 @@
       <Link>Constraints\TypeConstraints.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs">
+    <Compie Include="..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs">
       <Link>DescriptionAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
@@ -276,7 +276,7 @@
       <Link>SyntaxHelpers\Text.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Has.cs">
+    <Compile Incude="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Has.cs">
       <Link>Syntax\CSharp\Has.cs</Link>
       <SubType>Code</SubType>
     </Compile>
@@ -303,9 +303,6 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestAttribute.cs">
       <Link>TestAttribute.cs</Link>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCaseFactoryAttribute.cs">
-      <Link>TestCaseFactoryAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestFixtureAttribute.cs">
       <Link>TestFixtureAttribute.cs</Link>

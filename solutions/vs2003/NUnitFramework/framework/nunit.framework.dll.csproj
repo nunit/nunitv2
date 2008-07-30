@@ -300,12 +300,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "TestCaseFactoryAttribute.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\TestCaseFactoryAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "TestFixtureAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\TestFixtureAttribute.cs"
                     SubType = "Code"
