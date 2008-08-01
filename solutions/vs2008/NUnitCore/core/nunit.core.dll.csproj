@@ -382,6 +382,18 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\TypeHelper.cs">
       <Link>TypeHelper.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\CombinatorialStrategy.cs">
+      <Link>Builders\CombinatorialStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\CombiningStrategy.cs">
+      <Link>Builders\CombiningStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\PairwiseStrategy.cs">
+      <Link>Builders\PairwiseStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\SequentialStrategy.cs">
+      <Link>Builders\SequentialStrategy.cs</Link>
+    </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
       <SubType>

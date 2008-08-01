@@ -17,7 +17,6 @@ namespace NUnit.Core.Builders
         #endregion
 
         #region ITestCaseProvider Members
-
         public bool HasTestCasesFor(System.Reflection.MethodInfo method)
         {
             if (method.GetParameters().Length == 0)
@@ -32,108 +31,24 @@ namespace NUnit.Core.Builders
 
         public IEnumerable GetTestCasesFor(MethodInfo method)
         {
-            if( Reflect.HasAttribute(method, SequentialAttribute, false))
-                return GetSequentialTestCases(method);
-
-            if( Reflect.HasAttribute(method, PairwiseAttribute, false))
-                return GetPairwiseTestCases(method);
-            
-            return GetCombinatorialTestCases(method);
+            return GetStrategy(method).GetTestCases();
         }
 
-        private IEnumerable GetPairwiseTestCases(MethodInfo method)
-        {
-#if NET_2_0
-            yield break;
-#else
-			return new object[0];
-#endif
-        }
-
-        private IEnumerable GetSequentialTestCases(MethodInfo method)
+        private CombiningStrategy GetStrategy(MethodInfo method)
         {
             ParameterInfo[] parameters = method.GetParameters();
-            int parmCount = parameters.Length;
+            IEnumerable[] sources = new IEnumerable[parameters.Length];
+            for (int i = 0; i < parameters.Length; i++)
+                sources[i] = dataPointProvider.GetDataFor(parameters[i]);
 
-            IEnumerator[] enumerators = new IEnumerator[parmCount];
-            for (int i = 0; i < parmCount; i++)
-                enumerators[i] = dataPointProvider.GetDataFor(parameters[i]).GetEnumerator();
+            if (Reflect.HasAttribute(method, SequentialAttribute, false))
+                return new SequentialStrategy(sources);
 
-#if !NET_2_0
-			ArrayList testCases = new ArrayList();
-#endif
+            if (Reflect.HasAttribute(method, PairwiseAttribute, false) &&
+                method.GetParameters().Length > 2)
+                    return new PairwiseStrategy(sources);
 
-            for(;;)
-            {
-                bool gotData = false;
-                object[] testdata = new object[parmCount];
-
-                for (int i = 0; i < parmCount; i++)
-                    if (enumerators[i].MoveNext())
-                    {
-                        testdata[i] = enumerators[i].Current;
-                        gotData = true;
-                    }
-                    else
-                        testdata[i] = null;
-
-				if (!gotData)
-					break;
-#if NET_2_0
-                yield return testdata;
-#else
-                testCases.Add(testdata);
-#endif
-            }
-#if !NET_2_0
-			return testCases;
-#endif
-        }
-
-        private IEnumerable GetCombinatorialTestCases(MethodInfo method)
-        {
-            ParameterInfo[] parameters = method.GetParameters();
-            int parmCount = parameters.Length;
-
-            IEnumerator[] enumerators = new IEnumerator[parmCount];
-            int index = -1;
-
-#if !NET_2_0
-			ArrayList testCases = new ArrayList();
-#endif
-            for (;;)
-            {
-                while (++index < parmCount)
-                {
-                    enumerators[index] = dataPointProvider.GetDataFor(parameters[index]).GetEnumerator();
-                    if (!enumerators[index].MoveNext())
-#if NET_2_0
-                        yield break;
-#else
-						return testCases;
-#endif
-                }
-
-                object[] testdata = new object[parmCount];
-
-                for (int i = 0; i < parmCount; i++)
-                    testdata[i] = enumerators[i].Current;
-
-#if NET_2_0
-                yield return testdata;
-#else
-				testCases.Add(testdata);
-#endif
-
-                index = parmCount;
-
-                while (--index >= 0 && !enumerators[index].MoveNext()) ;
-
-                if (index < 0) break;
-            }
-#if !NET_2_0
-			return testCases;
-#endif
+            return new CombinatorialStrategy(sources);
         }
         #endregion
     }

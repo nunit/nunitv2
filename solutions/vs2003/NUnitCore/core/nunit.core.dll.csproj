@@ -440,8 +440,20 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Builders\CombinatorialStrategy.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\CombinatorialStrategy.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Builders\CombinatorialTestCaseProvider.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\CombinatorialTestCaseProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\CombiningStrategy.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\CombiningStrategy.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -476,6 +488,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Builders\PairwiseStrategy.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\PairwiseStrategy.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Builders\ParameterizedTestCaseBuilder.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\ParameterizedTestCaseBuilder.cs"
                     SubType = "Code"
@@ -490,6 +508,12 @@
                 <File
                     RelPath = "Builders\ProviderInfo.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\ProviderInfo.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\SequentialStrategy.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\SequentialStrategy.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
