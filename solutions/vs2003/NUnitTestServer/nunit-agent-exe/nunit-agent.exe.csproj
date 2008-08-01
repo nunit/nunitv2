@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "WinExe"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = "copy $(TargetPath) $(SolutionDir)GuiRunner\nunit-gui-exe\bin\$(ConfigurationName)\"
                 RootNamespace = "NUnit.Agent"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -98,16 +98,6 @@
                     Name = "nunit.core.interfaces.dll"
                     Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "nunit.core.tests"
-                    Project = "{DD758D21-E5D5-4D40-9450-5F65A32F359C}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
-                    Name = "log4net"
-                    AssemblyName = "log4net"
-                    HintPath = "..\..\..\..\lib\log4net.dll"
                 />
             </References>
         </Build>

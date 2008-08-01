@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Remoting.Services;
+using NUnit.Core;
 using NUnit.Util;
 
 namespace NUnit.Agent
@@ -15,8 +16,10 @@ namespace NUnit.Agent
 		[STAThread]
 		public static int Main(string[] args)
 		{
+            //System.Diagnostics.Debug.Assert(false);
 			// Add Standard Services to ServiceManager
-			ServiceManager.Services.AddService( new SettingsService() );
+			ServiceManager.Services.AddService( new SettingsService(false) );
+            ServiceManager.Services.AddService(new ProjectService());
 			ServiceManager.Services.AddService( new DomainManager() );
 			//ServiceManager.Services.AddService( new RecentFilesService() );
 			//ServiceManager.Services.AddService( new TestLoader() );
@@ -30,8 +33,8 @@ namespace NUnit.Agent
 
 			try
 			{
-				agent.Start();
-				agent.WaitForStop();
+				if ( agent.Start() )
+				    agent.WaitForStop();
 			}
 			finally
 			{

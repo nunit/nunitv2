@@ -64,15 +64,15 @@ namespace NUnit.Util
 		}
 		#endregion
 
-		#region Public Methods - Called By local Agent
+		#region Public Methods - For Client Use
 		public TestRunner CreateRunner(int runnerID)
 		{
 			return new TestDomain( runnerID );
 		}
 		#endregion
 
-		#region Public Methods
-		public void Start()
+		#region Public Methods - Used by Server
+		public bool Start()
 		{
 			NTrace.Info("Starting");
 			this.channel = ServerUtilities.GetTcpChannel();
@@ -87,6 +87,7 @@ namespace NUnit.Util
 			{
 				NTrace.ErrorFormat( "Unable to connect to test agency at {0}", agencyUrl );
 				NTrace.Error( ex.Message );
+                return false;
 			}
 
 			try
@@ -97,13 +98,21 @@ namespace NUnit.Util
 			catch( Exception ex )
 			{
 				NTrace.Error( "Failed to register with TestAgency", ex );
+                return false;
 			}
+
+            return true;
 		}
 
 		[System.Runtime.Remoting.Messaging.OneWay]
 		public void Stop()
 		{
 			NTrace.Info( "Stopping" );
+            // This causes an error in the client because the agent 
+            // database is not thread-safe.
+            //if ( agency != null )
+            //    agency.ReportStatus(this.ProcessId, AgentStatus.Stopping);
+
 			lock( theLock )
 			{
 				if ( this.channel != null )

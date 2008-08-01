@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Reflection;
 using System.Collections.Specialized;
 using System.Threading;
@@ -86,14 +87,8 @@ namespace NUnit.Core
             get
             {
 #if DEBUG
-                if (Environment.Version.Major == 2)
-                    return "Debug2005";
-                else
                     return "Debug";
 #else
-				if (Environment.Version.Major == 2)
-					return "Release2005";
-				else
 					return "Release";
 #endif
             }
@@ -107,8 +102,18 @@ namespace NUnit.Core
             get
             {
                 if (nunitDirectory == null)
-                    nunitDirectory =  
-                        AssemblyHelper.GetDirectoryName( Assembly.GetExecutingAssembly());
+                {
+                    nunitDirectory =
+                        AssemblyHelper.GetDirectoryName(Assembly.GetExecutingAssembly());
+
+                    // Special handling for running NUnit tests in the VS tree
+                    if (!File.Exists(Path.Combine(nunitDirectory, "nunit.exe")) &&
+                        nunitDirectory.EndsWith("bin\\" + BuildConfiguration))
+                    {
+                        DirectoryInfo fi = new DirectoryInfo(nunitDirectory).Parent.Parent.Parent.Parent;
+                        nunitDirectory = Path.Combine( fi.FullName, "GuiRunner\\nunit-gui-exe\\bin\\" + BuildConfiguration );
+                    }
+                }
 
                 return nunitDirectory;
             }

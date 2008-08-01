@@ -18,10 +18,14 @@ namespace NUnit.Util
 	public class XmlSettingsStorage : MemorySettingsStorage
 	{
 		private string filePath;
+        private bool writeable;
 
-		public XmlSettingsStorage( string filePath )
+        public XmlSettingsStorage(string filePath) : this(filePath, true) { }
+
+		public XmlSettingsStorage( string filePath, bool writeable )
 		{
-			this.filePath = filePath;
+            this.filePath = filePath;
+            this.writeable = writeable;
 		}
 
 		public override void LoadSettings()
@@ -57,6 +61,9 @@ namespace NUnit.Util
 
 		public override void SaveSettings()
 		{
+            if (!this.writeable)
+                throw new InvalidOperationException("Attempted to write to a non-writeable Settings Storage");
+
 			string dirPath = Path.GetDirectoryName( filePath );
 			if ( !Directory.Exists( dirPath ) )
 				Directory.CreateDirectory( dirPath );

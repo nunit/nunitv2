@@ -155,6 +155,10 @@ namespace NUnit.Core.Builders
 			
             NUnitFramework.ApplyCommonAttributes( assembly, testAssembly );
 
+            testAssembly.Properties["_PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;
+            testAssembly.Properties["_APPDOMAIN"] = AppDomain.CurrentDomain.FriendlyName;
+
+
 			// TODO: Make this an option? Add Option to sort assemblies as well?
 			testAssembly.Sort();
 

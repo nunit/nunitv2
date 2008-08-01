@@ -21,8 +21,13 @@ namespace NUnit.Util
 
 		static readonly string settingsFileName = "NUnitSettings.xml";
 
-		public SettingsService()
+        private bool writeable;
+
+        public SettingsService() : this(true) { }
+
+		public SettingsService(bool writeable)
 		{
+            this.writeable = writeable;
 #if NET_2_0
 			string settingsFile = System.Configuration.ConfigurationManager.AppSettings["settingsFile"];
 #else
@@ -31,7 +36,7 @@ namespace NUnit.Util
 			if ( settingsFile == null )
 				settingsFile = applicationDirectory + settingsFileName;
 
-			this.storage = new XmlSettingsStorage( settingsFile );
+			this.storage = new XmlSettingsStorage( settingsFile, writeable );
 
 			if ( File.Exists( settingsFile ) )
 				storage.LoadSettings();
@@ -46,7 +51,9 @@ namespace NUnit.Util
 
 		public void UnloadService()
 		{
-			storage.SaveSettings();
+            if ( writeable )
+			    storage.SaveSettings();
+
 			this.Dispose();
 		}
 		#endregion

@@ -62,24 +62,24 @@ namespace NUnit.Util
 		#region Static Property - TestAgentExePath
 		public static string TestAgentExePath
 		{
-			get
-			{
-				string agentPath = "nunit-agent.exe";
-			
-				if ( !File.Exists(agentPath) )
-				{
-					DirectoryInfo dir = new DirectoryInfo( Environment.CurrentDirectory );
-					if ( dir.Parent.Name == "bin" )
-						dir = dir.Parent.Parent.Parent.Parent;
-				
-					string path = PathUtils.Combine( dir.FullName, "NUnitTestServer", "nunit-agent-exe", 
-						"bin", NUnitConfiguration.BuildConfiguration, "nunit-agent.exe" );
-					if( File.Exists( path ) )
-						agentPath = path;
-				}
+			get { return Path.Combine( NUnitConfiguration.NUnitDirectory, "nunit-agent.exe" ); }
+            //{
+            //    string agentPath = "nunit-agent.exe";
 
-				return agentPath;
-			}
+            //    if (!File.Exists(agentPath))
+            //    {
+            //        DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
+            //        if (dir.Parent.Name == "bin")
+            //            dir = dir.Parent.Parent.Parent.Parent;
+
+            //        string path = PathUtils.Combine(dir.FullName, "NUnitTestServer", "nunit-agent-exe",
+            //            "bin", NUnitConfiguration.BuildConfiguration, "nunit-agent.exe");
+            //        if (File.Exists(path))
+            //            agentPath = path;
+            //    }
+
+            //    return agentPath;
+            //}
 		}
 		#endregion
 
@@ -126,12 +126,12 @@ namespace NUnit.Util
 		#region Public Methods - Called by Clients
 		public TestAgent GetAgent()
 		{
-			return GetAgent( AgentType.Default, 5000 );
+			return GetAgent( AgentType.Default, Timeout.Infinite );
 		}
 
 		public TestAgent GetAgent( AgentType type )
 		{
-			return GetAgent( type, 5000 );
+			return GetAgent( type, Timeout.Infinite );
 		}
 
 		public TestAgent GetAgent(AgentType type, int waitTime)
@@ -194,9 +194,17 @@ namespace NUnit.Util
 			
 			//NTrace.Debug( "Launching {0}" p.StartInfo.FileName );
 			p.Start();
+            p.Exited += new EventHandler(OnProcessExit);
 			agentData.Add( new AgentRecord( p.Id, p, null, AgentStatus.Starting ) );
 			return p.Id;
 		}
+
+        private void OnProcessExit(object sender, EventArgs e)
+        {
+            Process p = sender as Process;
+            if (p != null)
+                agentData.Remove(p.Id);
+        }
 
 		private AgentRecord FindAvailableRemoteAgent(AgentType type)
 		{
@@ -216,11 +224,14 @@ namespace NUnit.Util
 			int pid = LaunchAgentProcess();
 
 			NTrace.DebugFormat( "Waiting for agent {0} to register", pid );
-			while( waitTime > 0 )
+
+            int pollTime = 200;
+            bool infinite = waitTime == Timeout.Infinite;
+
+			while( infinite || waitTime > 0 )
 			{
-				int pollTime = Math.Min( 200, waitTime );
 				Thread.Sleep( pollTime );
-				waitTime -= pollTime;
+				if ( !infinite ) waitTime -= pollTime;
 				if ( agentData[pid].Agent != null )
 				{
 					NTrace.DebugFormat( "Returning new agent record {0}", pid ); 
@@ -305,6 +316,11 @@ namespace NUnit.Util
 			{
 				agentData[r.Id] = r;
 			}
+
+            public void Remove(int agentId)
+            {
+                agentData.Remove(agentId);
+            }
 
 			public void Clear()
 			{

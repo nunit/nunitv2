@@ -97,6 +97,10 @@
       <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\..\NUnitTestServer\nunit-agent-exe\nunit-agent.exe.csproj">
+      <Project>{3E469CD9-FED2-4955-AE4C-669A74CA6767}</Project>
+      <Name>nunit-agent.exe</Name>
+    </ProjectReference>
     <ProjectReference Include="..\nunit-gui\nunit-gui.csproj">
       <Name>nunit-gui</Name>
       <Project>{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}</Project>

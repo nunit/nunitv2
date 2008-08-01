@@ -33,7 +33,7 @@ namespace NUnit.Util
 		public override bool Load(TestPackage package)
 		{
 			if ( this.agent == null )
-				this.agent = Services.TestAgency.GetAgent( AgentType.ProcessAgent, 5000 );		
+				this.agent = Services.TestAgency.GetAgent( AgentType.ProcessAgent, 20000 );		
 	
 			if ( this.TestRunner == null )
 				this.TestRunner = agent.CreateRunner(this.runnerID);

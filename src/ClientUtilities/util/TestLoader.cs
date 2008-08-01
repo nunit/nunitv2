@@ -38,6 +38,11 @@ namespace NUnit.Util
 		/// </summary>
 		private TestEventDispatcher events;
 
+        /// <summary>
+        /// Run in a separate process if true
+        /// </summary>
+        private bool separateProcess;
+
 		/// <summary>
 		/// Use MuiltipleTestDomainRunner if true
 		/// </summary>
@@ -141,6 +146,7 @@ namespace NUnit.Util
 			this.ReloadOnRun = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
 			this.ReloadOnChange = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
 			this.RerunOnChange = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
+            this.SeparateProcess = settings.GetSetting("Options.TestLoader.SeparateProcess", false);
 			this.MultiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
 			this.MergeAssemblies = settings.GetSetting( "Options.TestLoader.MergeAssemblies", false );
 			this.AutoNamespaceSuites = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
@@ -210,6 +216,12 @@ namespace NUnit.Util
 			get { return reloadOnRun; }
 			set { reloadOnRun = value; }
 		}
+
+        public bool SeparateProcess
+        {
+            get { return separateProcess; }
+            set { separateProcess = value; }
+        }
 
 		public bool MultiDomain
 		{
@@ -742,9 +754,11 @@ namespace NUnit.Util
 
 		private TestRunner CreateRunner()
 		{
-			TestRunner runner = multiDomain
-				? (TestRunner)new MultipleTestDomainRunner()
-				: (TestRunner)new TestDomain();
+            TestRunner runner = separateProcess
+                ? (TestRunner)new ProcessRunner()
+                : multiDomain
+                    ? (TestRunner)new MultipleTestDomainRunner()
+                    : (TestRunner)new TestDomain();
 				
 			return runner;
 		}
@@ -756,6 +770,7 @@ namespace NUnit.Util
 			package.Settings["MergeAssemblies"] = mergeAssemblies;
 			package.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;
 			package.Settings["ShadowCopyFiles"] = shadowCopyFiles;
+            package.Settings["MultiDomain"] = multiDomain;
 			return package;
 		}
 		#endregion
