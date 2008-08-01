@@ -184,7 +184,7 @@
       <Link>Constraints\TypeConstraints.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compie Include="..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs">
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs">
       <Link>DescriptionAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
@@ -276,7 +276,7 @@
       <Link>SyntaxHelpers\Text.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Incude="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Has.cs">
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Has.cs">
       <Link>Syntax\CSharp\Has.cs</Link>
       <SubType>Code</SubType>
     </Compile>
