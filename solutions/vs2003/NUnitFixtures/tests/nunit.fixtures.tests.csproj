@@ -70,11 +70,6 @@
                     HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.dll"
                 />
                 <Reference
-                    Name = "nunit.framework.dll"
-                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
-                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-                />
-                <Reference
                     Name = "nunit.fixtures"
                     Project = "{A8D36198-BE2F-44E5-AC4F-4E052AFCCF78}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
@@ -107,6 +102,11 @@
                 <Reference
                     Name = "nunit.core.dll"
                     Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.framework.dll"
+                    Project = "{83DD7E12-A705-4DBA-9D71-09C8973D9382}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
                 />
             </References>
