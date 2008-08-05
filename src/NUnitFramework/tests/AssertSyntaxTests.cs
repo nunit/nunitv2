@@ -8,6 +8,9 @@ using System;
 using System.Collections;
 using NUnit.Framework.Constraints;
 using NUnit.Framework.Syntax.CSharp;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Tests
 {
@@ -331,6 +334,12 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual(i3, d3);
 			Assert.AreNotEqual(5, 2 + 2);
 			Assert.AreNotEqual(i3, iunequal);
+#if NET_2_0
+            List<string> list = new List<string>();
+            list.Add( "foo" );
+            list.Add( "bar" );
+            Assert.AreEqual(new string[] { "foo", "bar" }, list );
+#endif
 
 			// Helper syntax
 			Assert.That(2 + 2, Is.EqualTo(4));
@@ -338,6 +347,9 @@ namespace NUnit.Framework.Tests
 			Assert.That(i3, Is.EqualTo(d3));
 			Assert.That(2 + 2, Is.Not.EqualTo(5));
 			Assert.That(i3, Is.Not.EqualTo(iunequal));
+#if NET_2_0
+            Assert.That( list, Is.EqualTo(new string[] { "foo", "bar" }));
+#endif
 		
 			// Inherited syntax
 			Expect(2 + 2, EqualTo(4));
