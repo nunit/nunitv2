@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{61CE9CE5-943E-44D4-A381-814DC1406767}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -335,6 +335,9 @@
     <Compile Include="..\..\..\..\src\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\TestRunnerFactory.cs">
+      <Link>TestRunnerFactory.cs</Link>
     </Compile>
     <EmbeddedResource Include="..\..\..\..\src\ClientUtilities\util\Transform.resx">
       <Link>Transform.resx</Link>

@@ -549,7 +549,8 @@ namespace NUnit.Util
 			{
 				events.FireTestLoading( TestFileName );
 
-				testRunner = CreateRunner();
+                TestPackage package = MakeTestPackage(testName);
+				testRunner = TestRunnerFactory.MakeTestRunner(package);
 
 				bool loaded = testRunner.Load( MakeTestPackage( testName ) );
 
@@ -752,17 +753,6 @@ namespace NUnit.Util
 			}
 		}
 
-		private TestRunner CreateRunner()
-		{
-            TestRunner runner = separateProcess
-                ? (TestRunner)new ProcessRunner()
-                : multiDomain
-                    ? (TestRunner)new MultipleTestDomainRunner()
-                    : (TestRunner)new TestDomain();
-				
-			return runner;
-		}
-
 		private TestPackage MakeTestPackage( string testName )
 		{
 			TestPackage package = TestProject.ActiveConfig.MakeTestPackage();
@@ -771,6 +761,7 @@ namespace NUnit.Util
 			package.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;
 			package.Settings["ShadowCopyFiles"] = shadowCopyFiles;
             package.Settings["MultiDomain"] = multiDomain;
+            package.Settings["SeparateProcess"] = separateProcess;
 			return package;
 		}
 		#endregion

@@ -45,8 +45,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void IsProjectFile()
 		{
-			Assert.IsTrue( projectService.IsNUnitProject( @"\x\y\test.nunit" ) );
-			Assert.IsFalse( projectService.IsNUnitProject( @"\x\y\test.junit" ) );
+			Assert.IsTrue( NUnitProject.IsProjectFile( @"\x\y\test.nunit" ) );
+			Assert.IsFalse( NUnitProject.IsProjectFile( @"\x\y\test.junit" ) );
 		}
 
 		[Test]

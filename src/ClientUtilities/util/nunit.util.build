@@ -42,6 +42,7 @@
         <include name="TestLoader.cs"/>
         <include name="TestObserver.cs"/>
         <include name="TestResultItem.cs"/>
+        <include name="TestRunnerFactory.cs"/>
         <include name="TestServer.cs"/>
         <include name="VSProject.cs"/>
         <include name="VSProjectConfig.cs"/>

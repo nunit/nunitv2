@@ -19,7 +19,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The extension used for test projects
 		/// </summary>
-		private static readonly string nunitExtension = ".nunit";
+        //private static readonly string nunitExtension = ".nunit";
 
 		/// <summary>
 		/// Array of all installed ProjectConverters
@@ -29,31 +29,15 @@ namespace NUnit.Util
 			new VisualStudioConverter()
 		};
 
-		#region Static Methods
-		/// <summary>
-		/// Figure out the proper name to be used when saving a file.
-		/// </summary>
-		public static string ProjectPathFromFile( string path )
-		{
-			string fileName = Path.GetFileNameWithoutExtension( path ) + nunitExtension;
-			return Path.Combine( Path.GetDirectoryName( path ), fileName );
-		}
-		#endregion
-
 		#region Instance Methods
-		public bool IsNUnitProject( string path )
-		{
-			return Path.GetExtension( path ) == nunitExtension;
-		}
-
 		public bool CanLoadProject(string path)
 		{
-			return IsNUnitProject(path) || CanConvertFrom(path);
+			return NUnitProject.IsProjectFile(path) || CanConvertFrom(path);
 		}
 
 		public NUnitProject LoadProject(string path)
 		{
-			if ( IsNUnitProject(path) )
+			if ( NUnitProject.IsProjectFile(path) )
 			{
 				NUnitProject project = new NUnitProject( path );
 				project.Load();

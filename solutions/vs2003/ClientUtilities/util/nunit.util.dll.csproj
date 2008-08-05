@@ -355,6 +355,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestRunnerFactory.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\util\TestRunnerFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestServer.cs"
                     Link = "..\..\..\..\src\ClientUtilities\util\TestServer.cs"
                     SubType = "Code"

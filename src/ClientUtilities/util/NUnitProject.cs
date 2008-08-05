@@ -50,10 +50,14 @@ namespace NUnit.Util
 	/// Class that represents an NUnit test project
 	/// </summary>
 	public class NUnitProject
-	{
-		#region Static and instance variables
+    {
+        #region Constants
+        public static readonly string Extension = ".nunit";
+        #endregion
 
-		/// <summary>
+        #region Instance variables
+
+        /// <summary>
 		/// Path to the file storing this project
 		/// </summary>
 		private string projectPath;
@@ -236,9 +240,22 @@ namespace NUnit.Util
 
 		#endregion
 
-		#region Instance Methods
+        #region Static Methods
+        public static bool IsProjectFile(string path)
+        {
+            return Path.GetExtension(path) == Extension;
+        }
 
-		public void SetActiveConfig( int index )
+        public static string ProjectPathFromFile(string path)
+        {
+            string fileName = Path.GetFileNameWithoutExtension(path) + NUnitProject.Extension;
+            return Path.Combine(Path.GetDirectoryName(path), fileName);
+        }
+        #endregion
+
+        #region Instance Methods
+
+        public void SetActiveConfig( int index )
 		{
 			activeConfig = configs[index];
 			OnProjectChange( ProjectChangeType.ActiveConfig, activeConfig.Name );
@@ -393,7 +410,7 @@ namespace NUnit.Util
 
 		public void Save()
 		{
-			projectPath = ProjectService.ProjectPathFromFile( projectPath );
+			projectPath = ProjectPathFromFile( projectPath );
 
 			XmlTextWriter writer = new XmlTextWriter(  projectPath, System.Text.Encoding.UTF8 );
 			writer.Formatting = Formatting.Indented;

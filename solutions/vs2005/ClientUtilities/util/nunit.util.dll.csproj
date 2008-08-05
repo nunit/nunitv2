@@ -305,6 +305,9 @@
       <Link>TestResultItem.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\TestRunnerFactory.cs">
+      <Link>TestRunnerFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\TestServer.cs">
       <Link>TestServer.cs</Link>
       <SubType>Code</SubType>
