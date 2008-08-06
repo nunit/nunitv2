@@ -51,7 +51,11 @@ namespace NUnit.Framework.Constraints
 
 			this.caughtException = Catch.Exception(code);
 
-			return caughtException != null && expectedExceptionType == caughtException.GetType();
+			if( caughtException == null ||
+                expectedExceptionType != caughtException.GetType())
+                    return false;
+
+            return furtherConstraint == null  || furtherConstraint.Matches(caughtException);
 		}
 
         /// <summary>
@@ -60,7 +64,12 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the description is displayed</param>
 		public override void WriteDescriptionTo(MessageWriter writer)
 		{
-			writer.Write(string.Format("{0} to be thrown", expectedExceptionType));
+            writer.WriteExpectedValue( expectedExceptionType );
+            if ( furtherConstraint != null )
+            {
+                writer.WriteConnector( "with");
+                furtherConstraint.WriteDescriptionTo(writer);
+            }
 		}
 
         /// <summary>
@@ -72,7 +81,15 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the actual value is displayed</param>
 		public override void WriteActualValueTo(MessageWriter writer)
 		{
-			writer.WriteActualValue( this.caughtException.GetType() );
+            writer.WriteActualValue(caughtException == null ? null : caughtException.GetType());
+
+            if( caughtException != null  && 
+                caughtException.GetType() == expectedExceptionType &&
+                furtherConstraint != null )
+            {
+                writer.WriteConnector("with");
+                furtherConstraint.WriteActualValueTo(writer);
+            }
 		}
 
 	}
