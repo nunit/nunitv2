@@ -284,6 +284,13 @@ namespace NUnit.Framework.Syntax.CSharp
         }
         #endregion
 
+        #region Range Constraints
+        public static Constraint InRange(IComparable from, IComparable to)
+        {
+            return new RangeConstraint(from, to);
+        }
+        #endregion
+
         #endregion
     }
 

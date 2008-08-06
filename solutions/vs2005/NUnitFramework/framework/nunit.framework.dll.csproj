@@ -167,6 +167,9 @@
       <Link>Constraints\PropertyConstraint.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\RangeConstraint.cs">
+      <Link>Constraints\RangeConstraint.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\SameAsConstraint.cs">
       <Link>Constraints\SameAsConstraint.cs</Link>
       <SubType>Code</SubType>

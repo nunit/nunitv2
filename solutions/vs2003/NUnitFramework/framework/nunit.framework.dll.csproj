@@ -420,6 +420,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\RangeConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\RangeConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\SameAsConstraint.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\SameAsConstraint.cs"
                     SubType = "Code"

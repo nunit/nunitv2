@@ -22,8 +22,8 @@ namespace NUnit.Framework.Tests
                 delegate { throw new ArgumentException(); });
 			Assert.Throws<ArgumentException>( ThrowsArgumentException );
 		    Assert.That(ThrowsArgumentException,
-		                Throws.Exception(typeof (ArgumentException),
-		                    Has.Property("Parameter").EqualTo("myParam")));
+		                Throws.Exception<ArgumentException>(
+		                    Has.Property("ParamName").EqualTo("myParam")));
 
 #else
 			Assert.Throws(typeof(ArgumentException),

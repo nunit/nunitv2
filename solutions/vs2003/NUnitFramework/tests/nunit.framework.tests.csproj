@@ -219,6 +219,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RangeTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\RangeTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SameFixture.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\SameFixture.cs"
                     SubType = "Code"

@@ -221,6 +221,9 @@
       <Link>NotSameFixture.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\RangeTests.cs">
+      <Link>RangeTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\SameFixture.cs">
       <Link>SameFixture.cs</Link>
       <SubType>Code</SubType>

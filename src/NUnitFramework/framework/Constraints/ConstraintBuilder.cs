@@ -338,7 +338,7 @@ namespace NUnit.Framework.Constraints
 
         /// <summary>
         /// Resolves the chain of constraints using a
-        /// PropertyCOnstraint on Length as base
+        /// PropertyConstraint on Length as base
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
@@ -346,12 +346,30 @@ namespace NUnit.Framework.Constraints
         {
             return Property("Count", count);
         }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// PropertyConstraint on Message as base
+        /// </summary>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public Constraint Message(string message)
+        {
+            return Property("Message", message);
+        }
+        #endregion
+
+        #region Range Constraint
+        public Constraint InRange(IComparable from, IComparable to)
+        {
+            return Resolve( new RangeConstraint(from, to) );
+        }
         #endregion
 
         #endregion
 
         #region Prefix Operators
-		/// <summary>
+        /// <summary>
 		/// Modifies the ConstraintBuilder by pushing a Not operator on the stack.
 		/// </summary>
 		public ConstraintBuilder Not
