@@ -39,12 +39,13 @@ namespace NUnit.Framework.Constraints
 		public override bool Matches(object actual)
 		{
 			this.actual = actual;
+            Type actualType = actual.GetType();
 
 			// TODO: Should be argument exception?
 			if ( actual == null ) return false;
 
-			PropertyInfo property = actual.GetType().GetProperty( name, 
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance );
+			PropertyInfo property = actualType.GetProperty( name, 
+				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetProperty );
 			this.propertyExists = property != null;
 			if ( !propertyExists ) return false;
 
@@ -60,9 +61,13 @@ namespace NUnit.Framework.Constraints
 		/// <param name="writer">The writer on which the description is displayed</param>
 		public override void WriteDescriptionTo(MessageWriter writer)
 		{
-			writer.WritePredicate( "Property \"" + name + "\"" );
-			if ( baseConstraint != null )
-				baseConstraint.WriteDescriptionTo( writer );
+			writer.WritePredicate( "property " + name );
+            if (baseConstraint != null)
+            {
+                if (baseConstraint is EqualConstraint)
+                    writer.WritePredicate("equal to");
+                baseConstraint.WriteDescriptionTo(writer);
+            }
 		}
 
 		/// <summary>
