@@ -14,7 +14,7 @@ namespace NUnit.Framework.Constraints
 	/// user-defined constraints in NUnit. It provides the operator
 	/// overloads used to combine constraints.
 	/// </summary>
-    public abstract class Constraint
+    public abstract class Constraint : IConstraint
     {
         #region UnsetObject Class
         /// <summary>
@@ -184,7 +184,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the description is displayed</param>
         public abstract void WriteDescriptionTo(MessageWriter writer);
 
-		/// <summary>
+        /// <summary>
 		/// Write the actual value for a failing constraint test to a
 		/// MessageWriter. The default implementation simply writes
 		/// the raw value of actual, leaving it to the writer to

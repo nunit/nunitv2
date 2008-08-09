@@ -40,29 +40,53 @@ namespace NUnit.Framework.Syntax.CSharp
 
 		#region Constraints Without Arguments
 		/// <summary>
-		/// Is.Null returns a static constraint that tests for null
+		/// Is.Null returns a constraint that tests for null
 		/// </summary>
-        public static readonly Constraint Null = new EqualConstraint( null );
+        public static Constraint Null
+        {
+            get { return new EqualConstraint(null); }
+        }
+
 		/// <summary>
-		/// Is.True returns a static constraint that tests whether a value is true
+		/// Is.True returns a constraint that tests whether a value is true
 		/// </summary>
-		public static readonly Constraint True = new EqualConstraint(true);
+        public static Constraint True
+        {
+            get { return new EqualConstraint(true); }
+        }
+
 		/// <summary>
-		/// Is.False returns a static constraint that tests whether a value is false
+		/// Is.False returns a constraint that tests whether a value is false
 		/// </summary>
-		public static readonly Constraint False = new EqualConstraint(false);
+        public static Constraint False
+        {
+            get { return new EqualConstraint(false); }
+        }
+
 		/// <summary>
 		/// Is.NaN returns a static constraint that tests whether a value is an NaN
 		/// </summary>
-		public static readonly Constraint NaN = new EqualConstraint(double.NaN);
+        public static Constraint NaN
+        {
+            get { return new EqualConstraint(double.NaN); }
+        }
+
 		/// <summary>
 		/// Is.Empty returns a static constraint that tests whether a string or collection is empty
 		/// </summary>
-		public static readonly Constraint Empty = new EmptyConstraint();
+        public static Constraint Empty
+        {
+            get { return new EmptyConstraint(); }
+        }
+
         /// <summary>
         /// Is.Unique returns a static constraint that tests whether a collection contains all unque items.
         /// </summary>
-        public static readonly Constraint Unique = new UniqueItemsConstraint();
+        public static Constraint Unique
+        {
+            get { return new UniqueItemsConstraint(); }
+        }
+
         #endregion
 
         #region Constraints with an expected value
@@ -74,7 +98,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// </summary>
         /// <param name="expected"></param>
         /// <returns></returns>
-        public static EqualConstraint EqualTo(object expected)
+        public static Constraint EqualTo(object expected)
         {
             return new EqualConstraint(expected);
         }
@@ -103,7 +127,7 @@ namespace NUnit.Framework.Syntax.CSharp
 		/// Is.GreaterThanOrEqualTo returns a constraint that tests whether the
 		/// actual value is greater than or equal to the suppled argument
 		/// </summary>
-		public static Constraint GreaterThanOrEqualTo(IComparable expected)
+        public static Constraint GreaterThanOrEqualTo(IComparable expected)
         {
             return new GreaterThanOrEqualConstraint(expected);
         }
@@ -111,7 +135,7 @@ namespace NUnit.Framework.Syntax.CSharp
 		/// <summary>
 		/// Is.AtLeast is a synonym for Is.GreaterThanOrEqualTo
 		/// </summary>
-		public static Constraint AtLeast(IComparable expected)
+        public static Constraint AtLeast(IComparable expected)
         {
             return GreaterThanOrEqualTo(expected);
         }
@@ -120,7 +144,7 @@ namespace NUnit.Framework.Syntax.CSharp
 		/// Is.LessThan returns a constraint that tests whether the
 		/// actual value is less than the suppled argument
 		/// </summary>
-		public static Constraint LessThan(IComparable expected)
+        public static Constraint LessThan(IComparable expected)
         {
             return new LessThanConstraint(expected);
         }
@@ -129,7 +153,7 @@ namespace NUnit.Framework.Syntax.CSharp
 		/// Is.LessThanOrEqualTo returns a constraint that tests whether the
 		/// actual value is less than or equal to the suppled argument
 		/// </summary>
-		public static Constraint LessThanOrEqualTo(IComparable expected)
+        public static Constraint LessThanOrEqualTo(IComparable expected)
         {
             return new LessThanOrEqualConstraint(expected);
         }
@@ -137,7 +161,7 @@ namespace NUnit.Framework.Syntax.CSharp
 		/// <summary>
 		/// Is.AtMost is a synonym for Is.LessThanOrEqualTo
 		/// </summary>
-		public static Constraint AtMost(IComparable expected)
+        public static Constraint AtMost(IComparable expected)
         {
             return LessThanOrEqualTo(expected);
         }
@@ -186,7 +210,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// <typeparam name="T">The type to be tested for</typeparam>
         public static Constraint InstanceOfType<T>()
         {
-            return new InstanceOfTypeConstraint(typeof(T));
+            return InstanceOfType(typeof(T));
         }
 #endif
 
@@ -212,7 +236,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// <returns></returns>
         public static Constraint AssignableFrom<T>()
         {
-            return new AssignableFromConstraint(typeof(T));
+            return AssignableFrom(typeof(T));
         }
 #endif
         #endregion
@@ -247,7 +271,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// </summary>
         /// <param name="expected">The expected path</param>
         /// <returns>True if the paths are the same, otherwise false</returns>
-        public static PathConstraint SamePath(string expected)
+        public static Constraint SamePath(string expected)
 		{
 			return new SamePathConstraint( expected );
 		}
@@ -259,7 +283,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// </summary>
         /// <param name="expected">The expected path</param>
         /// <returns>True if the path is the same as or a subpath of the expected path, otherwise false</returns>
-        public static PathConstraint SamePathOrUnder(string expected)
+        public static Constraint SamePathOrUnder(string expected)
 		{
 			return new SamePathOrUnderConstraint( expected );
 		}

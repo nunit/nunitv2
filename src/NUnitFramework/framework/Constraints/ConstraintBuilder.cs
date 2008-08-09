@@ -6,6 +6,9 @@
 
 using System;
 using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Constraints
 {
@@ -16,31 +19,56 @@ namespace NUnit.Framework.Constraints
     /// left them out in favor of a simpler, more type-safe implementation.
     /// Use the &amp; and | operator overloads to combine constraints.
     /// </summary>
-    public class ConstraintBuilder
+    public class ConstraintBuilder : IConstraint
     {
-		private enum Op
-		{
-			Not,
-			All,
-			Some,
-			None,
-			Prop,
-		}
+        #region ConstraintOperator Class
+        /// <summary>
+        /// The ConstraintOperator class is used internally by a
+        /// ConstraintBuilder to represent an operator that 
+        /// modifies or combines constraints.
+        /// </summary>
+        private abstract class ConstraintOperator
+        {
+            public abstract void Reduce(ConstraintStack stack);
+        }
+        #endregion
 
-		Stack ops = new Stack();
+        #region Processing Stacks
+#if NET_2_0
+        class OpStack : Stack<ConstraintOperator> { }
+        class ConstraintStack : Stack<Constraint> { }
+#else
+        class OpStack : Stack { }
+        class ConstraintStack : Stack { }
+#endif
+        OpStack ops = new OpStack();
+        ConstraintStack constraints = new ConstraintStack();
+        #endregion
 
-		Stack opnds = new Stack();
+        #region Properties
+        private Constraint resolvedConstraint;
+        public IConstraint Constraint
+        {
+            get
+            {
+                if (resolvedConstraint == null)
+                    resolvedConstraint = Resolve();
 
-		/// <summary>
-		/// Implicitly convert ConstraintBuilder to an actual Constraint
+                return resolvedConstraint;
+            }
+        }
+        #endregion
+
+        /// <summary>
+		/// Implicitly convert ConstraintBuilder to an IConstraint
         /// at the point where the syntax demands it.
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <returns></returns>
-        public static implicit operator Constraint( ConstraintBuilder builder )
-		{
-			return builder.Resolve();
-		}
+        //public static implicit operator Constraint( ConstraintBuilder builder )
+        //{
+        //    return builder.Resolve();
+        //}
 
         #region Constraints Without Arguments
         /// <summary>
@@ -104,6 +132,15 @@ namespace NUnit.Framework.Constraints
         public Constraint Ordered()
         {
             return Resolve(new CollectionOrderedConstraint());
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionOrderedConstraint as base.
+        /// </summary>
+        public Constraint Ordered(IComparer comparer)
+        {
+            return Resolve(new CollectionOrderedConstraint(comparer));
         }
         #endregion
 
@@ -369,16 +406,14 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Prefix Operators
+
+        #region Not
         /// <summary>
 		/// Modifies the ConstraintBuilder by pushing a Not operator on the stack.
 		/// </summary>
 		public ConstraintBuilder Not
 		{
-			get
-			{
-				ops.Push(Op.Not);
-				return this;
-			}
+			get { return PushAndReturnSelf( new NotOperator() ); }
 		}
 
 		/// <summary>
@@ -386,98 +421,173 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		public ConstraintBuilder No
 		{
-			get
-			{
-				ops.Push(Op.Not);
-				return this;
-			}
-		}
+            get { return PushAndReturnSelf(new NotOperator()); }
+        }
 
-		/// <summary>
+        private class NotOperator : ConstraintOperator
+        {
+            public override void Reduce(ConstraintStack stack)
+            {
+                stack.Push(new NotConstraint((Constraint)stack.Pop()));
+            }
+        }
+        #endregion
+
+        #region All
+        /// <summary>
         /// Modifies the ConstraintBuilder by pushing an All operator on the stack.
         /// </summary>
         public ConstraintBuilder All
         {
-            get
-            {
-                ops.Push(Op.All);
-                return this;
-            }
+            get { return PushAndReturnSelf(new AllOperator()); }
         }
 
-		/// <summary>
+        private class AllOperator : ConstraintOperator
+        {
+            public override void Reduce(ConstraintStack stack)
+            {
+                stack.Push(new AllItemsConstraint((Constraint)stack.Pop()));
+            }
+        }
+        #endregion
+
+        #region Some
+        /// <summary>
 		/// Modifies the ConstraintBuilder by pushing a Some operator on the stack.
 		/// </summary>
 		public ConstraintBuilder Some
 		{
-			get
-			{
-				ops.Push(Op.Some);
-				return this;
-			}
-		}
+            get { return PushAndReturnSelf(new SomeOperator()); }
+        }
 
-		/// <summary>
-        /// Modifies the constraint builder by pushing All and Not operators on the stack
+
+        private class SomeOperator : ConstraintOperator
+        {
+            public override void Reduce(ConstraintStack stack)
+            {
+                stack.Push(new SomeItemsConstraint((Constraint)stack.Pop()));
+            }
+        }
+        #endregion
+
+        #region None
+        /// <summary>
+        /// Modifies the constraint builder by pushing a None operator on the stack
         /// </summary>
 		public ConstraintBuilder None
 		{
-			get
-			{
-				ops.Push(Op.None);
-				return this;
-			}
-		}
+            get { return PushAndReturnSelf(new NoneOperator()); }
+        }
 
+        private class NoneOperator : ConstraintOperator
+        {
+            public override void Reduce(ConstraintStack stack)
+            {
+                stack.Push(new NoItemConstraint((Constraint)stack.Pop()));
+            }
+        }
+        #endregion
+
+        #region Prop
         /// <summary>
         /// Modifies the ConstraintBuilder by pushing a Prop operator on the
-        /// ops stack and the name of the property on the opnds stack.
+        /// ops stack and the name of the property on the constraints stack.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         public ConstraintBuilder Property(string name)
 		{
-			ops.Push( Op.Prop );
-			opnds.Push( name );
-			return this;
-		}
-		#endregion
+			return PushAndReturnSelf( new PropOperator(name) );
+        }
 
+        private class PropOperator : ConstraintOperator
+        {
+            private string name;
+
+            public PropOperator(string name)
+            {
+                this.name = name;
+            }
+
+            public override void Reduce(ConstraintStack stack)
+            {
+                stack.Push(new PropertyConstraint(
+                    this.name,
+                    stack.Count > 0
+                        ? (Constraint)stack.Pop()
+                        : null));
+            }
+        }
+        #endregion
+
+        #endregion
+       
         #region Helper Methods
+        private void Push(ConstraintOperator op)
+        {
+            ops.Push(op);
+        }
+
+        private void Push(Constraint constraint)
+        {
+            constraints.Push(constraint);
+        }
+
+        private ConstraintBuilder PushAndReturnSelf(ConstraintOperator op)
+        {
+            Push(op);
+            return this;
+        }
+
+        private ConstraintBuilder PushAndReturnSelf(Constraint constraint)
+        {
+            Push(constraint);
+            return this;
+        }
+
         /// <summary>
-        /// Resolve a constraint that has been recognized by applying
-        /// any pending operators and returning the resulting Constraint.
+        /// Resolve a constraint that has been recognized by pushing it
+        /// to the operand stack and calling Resolve().
         /// </summary>
         /// <returns>A constraint that incorporates all pending operators</returns>
         private Constraint Resolve(Constraint constraint)
         {
-            while (ops.Count > 0)
-                switch ((Op)ops.Pop())
-                {
-                    case Op.Not:
-                        constraint = new NotConstraint(constraint);
-                        break;
-                    case Op.All:
-                        constraint = new AllItemsConstraint(constraint);
-                        break;
-					case Op.Some:
-						constraint = new SomeItemsConstraint(constraint);
-						break;
-					case Op.None:
-						constraint = new NoItemConstraint(constraint);
-						break;
-					case Op.Prop:
-						constraint = new PropertyConstraint( (string)opnds.Pop(), constraint );
-						break;
-                }
-
-            return constraint;
+            constraints.Push(constraint);
+            return Resolve();
         }
 
-		private Constraint Resolve()
-		{
-			return Resolve(null);
-		}
+        /// <summary>
+        /// Resolves the builder to a constraint by applying
+        /// all pending operators and operands from the stack.
+        /// </summary>
+        /// <returns>A constraint that incorporates all pending operators</returns>
+        private Constraint Resolve()
+        {
+            while (ops.Count > 0)
+            {
+                ConstraintOperator op = (ConstraintOperator)ops.Pop();
+                op.Reduce(constraints);
+            }
+
+            return (Constraint)constraints.Pop(); ;
+        }
+        #endregion
+
+        #region IConstraint Members
+        public bool Matches(object actual)
+        {
+            return Constraint.Matches(actual);
+        }
+
+        public void WriteMessageTo(MessageWriter writer)
+        {
+            Constraint.WriteMessageTo(writer);
+        }
+
+        public void WriteDescriptionTo(MessageWriter writer)
+        {
+            Constraint.WriteDescriptionTo(writer);
+        }
         #endregion
     }
 }

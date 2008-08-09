@@ -2472,7 +2472,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="constraint">A Constraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
-		static public void That( object actual, Constraint constraint )
+		static public void That( object actual, IConstraint constraint )
 		{
 			Assert.That( actual, constraint, null, null );
 		}
@@ -2484,7 +2484,7 @@ namespace NUnit.Framework
 		/// <param name="constraint">A Constraint to be applied</param>
 		/// <param name="actual">The actual value to test</param>
 		/// <param name="message">The message that will be displayed on failure</param>
-		static public void That( object actual, Constraint constraint, string message )
+		static public void That( object actual, IConstraint constraint, string message )
 		{
 			Assert.That( actual, constraint, message, null );
 		}
@@ -2497,7 +2497,7 @@ namespace NUnit.Framework
 		/// <param name="actual">The actual value to test</param>
 		/// <param name="message">The message that will be displayed on failure</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void That( object actual, Constraint constraint, string message, params object[] args )
+		static public void That( object actual, IConstraint constraint, string message, params object[] args )
 		{
 			Assert.IncrementAssertCount();
 			if ( !constraint.Matches( actual ) )

@@ -185,7 +185,7 @@ namespace NUnit.Framework.Tests
 
 			Assert.AreNotEqual(expected, actual);
 			Expect(actual, Not.EqualTo(expected));
-			Expect(actual, EqualTo(expected).AsCollection);
+            Expect(actual, EqualTo(expected).AsCollection);
 		}
 
 		[Test]
@@ -196,7 +196,7 @@ namespace NUnit.Framework.Tests
 
 			Assert.AreNotEqual(expected, actual);
 			Expect(actual, Not.EqualTo(expected));
-			Expect(actual, EqualTo(expected).AsCollection);
+            Expect(actual, EqualTo(expected).AsCollection);
 		}
     }
 }

@@ -33,20 +33,20 @@ namespace NUnit.Framework.Constraints
 		/// Set all modifiers applied to the prefix into
 		/// the base constraint before matching
 		/// </summary>
-		protected void PassModifiersToBase()
-		{
-			if ( this.caseInsensitive )
-				baseConstraint = baseConstraint.IgnoreCase;
+        protected void PassModifiersToBase()
+        {
+            if (this.caseInsensitive)
+                baseConstraint = baseConstraint.IgnoreCase;
             if (!this.clipStrings)
                 baseConstraint = baseConstraint.NoClip;
-			if ( this.tolerance != null )
-				baseConstraint = baseConstraint.Within( tolerance );
-			if ( this.compareAsCollection )
-				baseConstraint = baseConstraint.AsCollection;
-			if ( this.compareWith != null )
-				baseConstraint = baseConstraint.Comparer( compareWith );
-		}
-	}
+            if (this.tolerance != null)
+                baseConstraint = baseConstraint.Within(tolerance);
+            if (this.compareAsCollection)
+                baseConstraint = baseConstraint.AsCollection;
+            if (this.compareWith != null)
+                baseConstraint = baseConstraint.Comparer(compareWith);
+        }
+    }
 	#endregion
 
 	#region NotConstraint
@@ -70,7 +70,7 @@ namespace NUnit.Framework.Constraints
 		public override bool Matches(object actual)
 		{
 			this.actual = actual;
-			this.PassModifiersToBase();
+            this.PassModifiersToBase();
 			return !baseConstraint.Matches(actual);
 		}
 
@@ -119,7 +119,7 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-			PassModifiersToBase();
+            PassModifiersToBase();
 
 			if ( !(actual is ICollection) )
 				throw new ArgumentException( "The actual value must be a collection", "actual" );
@@ -167,7 +167,7 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-			PassModifiersToBase();
+            PassModifiersToBase();
 
 			if ( !(actual is ICollection) )
 				throw new ArgumentException( "The actual value must be a collection", "actual" );
@@ -215,7 +215,7 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-			PassModifiersToBase();
+            PassModifiersToBase();
 
 			if ( !(actual is ICollection) )
 				throw new ArgumentException( "The actual value must be a collection", "actual" );

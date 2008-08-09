@@ -356,6 +356,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\RangeConstraint.cs">
       <Link>Constraints\RangeConstraint.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\IConstraint.cs">
+      <Link>Constraints\IConstraint.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -143,6 +143,9 @@
       <Link>Constraints\EqualConstraint.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\IConstraint.cs">
+      <Link>Constraints\IConstraint.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\MessageWriter.cs">
       <Link>Constraints\MessageWriter.cs</Link>
       <SubType>Code</SubType>

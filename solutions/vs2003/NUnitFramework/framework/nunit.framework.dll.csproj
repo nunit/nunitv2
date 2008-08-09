@@ -384,6 +384,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\IConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\IConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\MessageWriter.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\MessageWriter.cs"
                     SubType = "Code"

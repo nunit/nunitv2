@@ -211,8 +211,8 @@ namespace NUnit.Framework.Tests
 			Expect(phrase, Contains("World"));
 			// Only available using new syntax
 			Expect(phrase, Not.Contains("goodbye"));
-			Expect(phrase, Contains("WORLD").IgnoreCase);
-			Expect(phrase, Not.Contains("BYE").IgnoreCase);
+            Expect(phrase, Contains("WORLD").IgnoreCase);
+            Expect(phrase, Not.Contains("BYE").IgnoreCase);
 			Expect(array, All.Contains("b"));
 		}
 
@@ -231,15 +231,15 @@ namespace NUnit.Framework.Tests
 			Assert.That(phrase, Text.DoesNotStartWith("Hi!"));
 			Assert.That(phrase, Text.StartsWith("HeLLo").IgnoreCase);
 			Assert.That(phrase, Text.DoesNotStartWith("HI").IgnoreCase);
-			Assert.That(greetings, Text.All.StartsWith("h").IgnoreCase);
+            Assert.That(greetings, Text.All.StartsWith("h").IgnoreCase);
 
 			// Inherited syntax
 			Expect(phrase, StartsWith("Hello"));
 			// Only available using new syntax
 			Expect(phrase, Not.StartsWith("Hi!"));
-			Expect(phrase, StartsWith("HeLLo").IgnoreCase);
-			Expect(phrase, Not.StartsWith("HI").IgnoreCase);
-			Expect(greetings, All.StartsWith("h").IgnoreCase);
+            Expect(phrase, StartsWith("HeLLo").IgnoreCase);
+            Expect(phrase, Not.StartsWith("HI").IgnoreCase);
+            Expect(greetings, All.StartsWith("h").IgnoreCase);
 		}
 
 		[Test]
@@ -262,7 +262,7 @@ namespace NUnit.Framework.Tests
 			Expect(phrase, EndsWith("!"));
 			// Only available using new syntax
 			Expect(phrase, Not.EndsWith("?"));
-			Expect(phrase, EndsWith("WORLD!").IgnoreCase);
+            Expect(phrase, EndsWith("WORLD!").IgnoreCase);
 			Expect(greetings, All.EndsWith("!") );
 		}
 
@@ -275,22 +275,22 @@ namespace NUnit.Framework.Tests
 			StringAssert.AreEqualIgnoringCase("hello world!",phrase);
             
 			// Helper syntax
-			Assert.That(phrase, Is.EqualTo("hello world!").IgnoreCase);
+            Assert.That(phrase, Is.EqualTo("hello world!").IgnoreCase);
 			//Only available using new syntax
-			Assert.That(phrase, Is.Not.EqualTo("goodbye world!").IgnoreCase);
-			Assert.That(new string[] { "Hello", "World" }, 
-				Is.EqualTo(new object[] { "HELLO", "WORLD" }).IgnoreCase);
-			Assert.That(new string[] {"HELLO", "Hello", "hello" },
-				Is.All.EqualTo( "hello" ).IgnoreCase);
+            Assert.That(phrase, Is.Not.EqualTo("goodbye world!").IgnoreCase);
+            Assert.That(new string[] { "Hello", "World" },
+                Is.EqualTo(new object[] { "HELLO", "WORLD" }).IgnoreCase);
+            Assert.That(new string[] { "HELLO", "Hello", "hello" },
+                Is.All.EqualTo("hello").IgnoreCase);
 		            
 			// Inherited syntax
-			Expect(phrase, EqualTo("hello world!").IgnoreCase);
+            Expect(phrase, EqualTo("hello world!").IgnoreCase);
 			//Only available using new syntax
-			Expect(phrase, Not.EqualTo("goodbye world!").IgnoreCase);
-			Expect(new string[] { "Hello", "World" }, 
-				EqualTo(new object[] { "HELLO", "WORLD" }).IgnoreCase);
-			Expect(new string[] {"HELLO", "Hello", "hello" },
-				All.EqualTo( "hello" ).IgnoreCase);
+            Expect(phrase, Not.EqualTo("goodbye world!").IgnoreCase);
+            Expect(new string[] { "Hello", "World" },
+                EqualTo(new object[] { "HELLO", "WORLD" }).IgnoreCase);
+            Expect(new string[] { "HELLO", "Hello", "hello" },
+                All.EqualTo("hello").IgnoreCase);
 		}
 
 		[Test]
@@ -309,15 +309,15 @@ namespace NUnit.Framework.Tests
 			// Only available using new syntax
 			Assert.That(phrase, Text.DoesNotMatch("all.*men.*good"));
 			Assert.That(phrase, Text.Matches("ALL").IgnoreCase);
-			Assert.That(quotes, Text.All.Matches("never").IgnoreCase);
+            Assert.That(quotes, Text.All.Matches("never").IgnoreCase);
 		
 			// Inherited syntax
 			Expect( phrase, Matches( "all good men" ) );
 			Expect( phrase, Matches( "Now.*come" ) );
 			// Only available using new syntax
 			Expect(phrase, Not.Matches("all.*men.*good"));
-			Expect(phrase, Matches("ALL").IgnoreCase);
-			Expect(quotes, All.Matches("never").IgnoreCase);
+            Expect(phrase, Matches("ALL").IgnoreCase);
+            Expect(quotes, All.Matches("never").IgnoreCase);
 		}
 		#endregion
 
@@ -522,7 +522,7 @@ namespace NUnit.Framework.Tests
 			Assert.That(strings, Has.All.Contains( "a" ) );
 			Assert.That(strings, Has.Some.StartsWith( "ba" ) );
 			Assert.That( strings, Has.Some.Property( "Length", 3 ) );
-			Assert.That( strings, Has.Some.StartsWith( "BA" ).IgnoreCase );
+            Assert.That(strings, Has.Some.StartsWith("BA").IgnoreCase);
 			Assert.That( doubles, Has.Some.EqualTo( 1.0 ).Within( .05 ) );
 		
 			// Inherited syntax
@@ -537,7 +537,7 @@ namespace NUnit.Framework.Tests
 			Expect(ints, None.LessThanOrEqualTo(0));
 			Expect(strings, All.Contains( "a" ) );
 			Expect(strings, Some.StartsWith( "ba" ) );
-			Expect(strings, Some.StartsWith( "BA" ).IgnoreCase );
+            Expect(strings, Some.StartsWith("BA").IgnoreCase);
 			Expect(doubles, Some.EqualTo( 1.0 ).Within( .05 ) );
 		}
 
@@ -715,10 +715,10 @@ namespace NUnit.Framework.Tests
 			Assert.That( "/folder1/./junk/../folder2/x", 
 				Is.Not.SamePath( "/folder1/folder2" ) );
 
-			Assert.That( @"C:\folder1\folder2",
-				Is.SamePath( @"C:\Folder1\Folder2" ).IgnoreCase );
-			Assert.That( "/folder1/folder2",
-				Is.Not.SamePath( "/Folder1/Folder2" ).RespectCase );
+            Assert.That(@"C:\folder1\folder2",
+                Is.SamePath(@"C:\Folder1\Folder2").IgnoreCase);
+            Assert.That("/folder1/folder2",
+                Is.Not.SamePath("/Folder1/Folder2").RespectCase);
 		
 			Assert.That( "/folder1/./junk/../folder2", 
 				Is.SamePathOrUnder( "/folder1/folder2" ) );
@@ -727,10 +727,10 @@ namespace NUnit.Framework.Tests
 			Assert.That( "/folder1/junk/folder2/folder3",
 				Is.Not.SamePathOrUnder( "/folder1/folder2" ) );
 
-			Assert.That( @"C:\folder1\folder2\folder3",
-				Is.SamePathOrUnder( @"C:\Folder1\Folder2" ).IgnoreCase );
-			Assert.That( "/folder1/folder2/folder3",
-				Is.Not.SamePathOrUnder( "/Folder1/Folder2" ).RespectCase );
+            Assert.That(@"C:\folder1\folder2\folder3",
+                Is.SamePathOrUnder(@"C:\Folder1\Folder2").IgnoreCase);
+            Assert.That("/folder1/folder2/folder3",
+                Is.Not.SamePathOrUnder("/Folder1/Folder2").RespectCase);
 		}
 		#endregion
 
@@ -782,8 +782,8 @@ namespace NUnit.Framework.Tests
 			Assert.That( list, Has.Count( 4 ) );
 			
 			// Inherited syntax
-			Expect( list, Property( "Count" ) );
-			Expect( list, Not.Property( "Nada" ) );
+            //Expect( list, Property( "Count" ) );
+            //Expect( list, Not.Property( "Nada" ) );
 
 			Expect( "Hello", Property("Length", 5) );
 			Expect( "Hello", Length( 5 ) );
@@ -851,8 +851,15 @@ namespace NUnit.Framework.Tests
 		}
 		#endregion
 
-		#region Operator Tests
-		[Test]
+        #region AndTests
+        public void AndTests()
+        {
+            //Assert.That(7, Is.GreaterThan(5).And.LessThan(10));
+        }
+        #endregion
+
+        #region Operator Tests
+        [Test]
 		public void NotOperator()
 		{
 			// The ! operator is only available in the new syntax
@@ -901,9 +908,9 @@ namespace NUnit.Framework.Tests
  
 		#region Invalid Code Tests
 		// This method contains assertions that should not compile
-		// You can check by uncommenting it.
-		//public void WillNotCompile()
-		//{
+		// You can check by uncommenting the code.
+		public void WillNotCompile()
+		{
 		//    Assert.That(42, Is.Not);
 		//    Assert.That(42, Is.All);
 		//    Assert.That(42, Is.Null.Not);
@@ -914,7 +921,7 @@ namespace NUnit.Framework.Tests
 		//    Assert.That(c, Is.Null.All);
 		//    Assert.That(c, Is.Not.All);
 		//    Assert.That(c, Is.All.Not);
-		//}
+        }
 		#endregion
 	}
 

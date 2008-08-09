@@ -15,7 +15,7 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		protected string expected;
 
-		/// <summary>
+        /// <summary>
 		/// Construct a PathConstraint for a give expected path
 		/// </summary>
 		/// <param name="expected">The expected path</param>
@@ -24,7 +24,8 @@ namespace NUnit.Framework.Constraints
 			this.expected = expected;
 		}
 
-		/// <summary>
+        
+        /// <summary>
 		/// Canonicalize the provided path
 		/// </summary>
 		/// <param name="path"></param>
