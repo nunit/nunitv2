@@ -16,13 +16,42 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class EqualConstraint : Constraint
     {
+        #region Static and Instance Fields
         private static IDictionary constraintHelpers = new Hashtable();
 
         private readonly object expected;
 
         private ArrayList failurePoints;
 
-		private static readonly string StringsDiffer_1 =
+        /// <summary>
+        /// If true, all string comparisons will ignore case
+        /// </summary>
+        protected bool caseInsensitive;
+
+        /// <summary>
+        /// If true, strings in error messages will be clipped
+        /// </summary>
+        protected bool clipStrings = true;
+
+        /// <summary>
+        /// If true, arrays will be treated as collections, allowing
+        /// those of different dimensions to be compared
+        /// </summary>
+        protected bool compareAsCollection;
+
+        /// <summary>
+        /// If non-zero, equality comparisons within the specified 
+        /// tolerance will succeed.
+        /// </summary>
+        protected object tolerance;
+
+        /// <summary>
+        /// IComparer object used in comparisons for some constraints.
+        /// </summary>
+        protected IComparer compareWith;
+
+        #region Message Strings
+        private static readonly string StringsDiffer_1 =
 			"String lengths are both {0}. Strings differ at index {1}.";
 		private static readonly string StringsDiffer_2 =
 			"Expected string length {0} but was {1}. Strings differ at index {2}.";
@@ -38,9 +67,11 @@ namespace NUnit.Framework.Constraints
 			"Values differ at index {0}";
 		private static readonly string ValuesDiffer_2 =
 			"Values differ at expected index {0}, actual index {1}";
+        #endregion
 
-		private static readonly int BUFFER_SIZE = 4096;
-		
+        private static readonly int BUFFER_SIZE = 4096;
+        #endregion
+
         #region Constructor
         /// <summary>
         /// Initializes a new instance of the <see cref="EqualConstraint"/> class.
@@ -49,6 +80,69 @@ namespace NUnit.Framework.Constraints
         public EqualConstraint(object expected)
         {
             this.expected = expected;
+        }
+        #endregion
+
+        #region Constraint Modifiers
+        /// <summary>
+        /// Flag the constraint to ignore case and return self.
+        /// </summary>
+        public virtual Constraint IgnoreCase
+        {
+            get
+            {
+                caseInsensitive = true;
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Flag the constraint to suppress string clipping 
+        /// and return self.
+        /// </summary>
+        public Constraint NoClip
+        {
+            get
+            {
+                clipStrings = false;
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Flag the constraint to compare arrays as collections
+        /// and return self.
+        /// </summary>
+        public Constraint AsCollection
+        {
+            get
+            {
+                compareAsCollection = true;
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Flag the constraint to use a tolerance when determining equality.
+        /// Currently only used for doubles and floats.
+        /// </summary>
+        /// <param name="tolerance">Tolerance to be used</param>
+        /// <returns>Self.</returns>
+        public EqualConstraint Within(object tolerance)
+        {
+            this.tolerance = tolerance;
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public Constraint Comparer(IComparer comparer)
+        {
+            this.compareWith = comparer;
+            return this;
         }
         #endregion
 
@@ -107,6 +201,76 @@ namespace NUnit.Framework.Constraints
 				writer.DisplayDifferences( expected, actual, tolerance );
             else
                 writer.DisplayDifferences(expected, actual);
+        }
+        #endregion
+
+        #region Nested ConstraintModifier Class
+        /// <summary>
+        /// EqualConstraint.Modifier wraps an equal constraint
+        /// on the stack, allowing syntactic use of its modifiers
+        /// while continuing to track any prefixes that wrap it.
+        /// </summary>
+        public class Modifier : ConstraintModifier
+        {
+            private EqualConstraint constraint;
+
+            /// <summary>
+            /// Flag the constraint to ignore case and return self.
+            /// </summary>
+            public Modifier(EqualConstraint constraint)
+                : base(constraint)
+            {
+                this.constraint = constraint;
+            }
+
+            /// <summary>
+            /// Flag the constraint to ignore case and return self.
+            /// </summary>
+            public Modifier IgnoreCase
+            {
+                get { constraint.caseInsensitive = true; return this; }
+            }
+
+            /// <summary>
+            /// Flag the constraint to suppress string clipping 
+            /// and return self.
+            /// </summary>
+            public Modifier NoClip
+            {
+                get { constraint.clipStrings = false; return this; }
+            }
+
+            /// <summary>
+            /// Flag the constraint to compare arrays as collections
+            /// and return self.
+            /// </summary>
+            public Modifier AsCollection
+            {
+                get { constraint.compareAsCollection = true; return this; }
+            }
+
+            /// <summary>
+            /// Flag the constraint to use a tolerance when determining equality.
+            /// Currently only used for doubles and floats.
+            /// </summary>
+            /// <param name="tolerance">Tolerance to be used</param>
+            /// <returns>Self.</returns>
+            public Modifier Within(object tolerance)
+            {
+                constraint.tolerance = tolerance;
+                return this;
+            }
+
+            /// <summary>
+            /// Flag the constraint to use the supplied IComparer object.
+            /// </summary>
+            /// <param name="comparer">The IComparer object to use.</param>
+            /// <returns>Self.</returns>
+            public Modifier Comparer(IComparer comparer)
+            {
+                constraint.compareWith = comparer;
+                return this;
+            }
         }
         #endregion
 

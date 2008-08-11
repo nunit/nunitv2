@@ -37,7 +37,7 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new SamePathConstraint( @"/folder1/file.tmp" ).RespectCase;
+            Matcher = new SamePathConstraint(@"/folder1/file.tmp").RespectCase;
             GoodValues = new object[] 
                 { 
                     @"/folder1/file.tmp", 

@@ -22,5 +22,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="writer">The writer on which the description is displayed</param>
         void WriteDescriptionTo(MessageWriter writer);
+
+        /// <summary>
+        /// Write the actual value for a failing constraint test to a
+        /// MessageWriter.
+        /// </summary>
+        /// <param name="writer">The writer on which the actual value is displayed</param>
+        void WriteActualValueTo(MessageWriter writer);
     }
 }

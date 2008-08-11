@@ -131,6 +131,15 @@
       <Link>Constraints\ConstraintBuilder.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs">
+      <Link>Constraints\ConstraintFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintModifier.cs">
+      <Link>Constraints\ConstraintModifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintOperators.cs">
+      <Link>Constraints\ConstraintOperators.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ContainsConstraint.cs">
       <Link>Constraints\ContainsConstraint.cs</Link>
       <SubType>Code</SubType>

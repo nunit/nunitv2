@@ -29,8 +29,7 @@ namespace NUnit.Framework.Syntax.CSharp
 		/// <summary>
 		/// Is.All returns a ConstraintBuilder, which will apply
 		/// the following constraint to all members of a collection,
-		/// succeeding if all of them succeed. This property is
-		/// a synonym for Has.AllItems.
+		/// succeeding if all of them succeed.
 		/// </summary>
 		public static ConstraintBuilder All
 		{
@@ -98,7 +97,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// </summary>
         /// <param name="expected"></param>
         /// <returns></returns>
-        public static Constraint EqualTo(object expected)
+        public static EqualConstraint EqualTo(object expected)
         {
             return new EqualConstraint(expected);
         }
@@ -271,7 +270,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// </summary>
         /// <param name="expected">The expected path</param>
         /// <returns>True if the paths are the same, otherwise false</returns>
-        public static Constraint SamePath(string expected)
+        public static SamePathConstraint SamePath(string expected)
 		{
 			return new SamePathConstraint( expected );
 		}
@@ -283,7 +282,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// </summary>
         /// <param name="expected">The expected path</param>
         /// <returns>True if the path is the same as or a subpath of the expected path, otherwise false</returns>
-        public static Constraint SamePathOrUnder(string expected)
+        public static SamePathOrUnderConstraint SamePathOrUnder(string expected)
 		{
 			return new SamePathOrUnderConstraint( expected );
 		}

@@ -72,7 +72,7 @@ namespace NUnit.Framework.Tests
             writer.WriteValue(0.33333333333333f);
             int digits = writer.ToString().Length - 3;   // 0.dddddddddf
             Expect(digits, EqualTo(9));
-			Expect(writer.ToString().Length, EqualTo(12));
+            Expect(writer.ToString().Length, EqualTo(12));
         }
 
         [Test]
@@ -107,7 +107,7 @@ namespace NUnit.Framework.Tests
 		public void DateTimeTest()
 		{
             writer.WriteValue(new DateTime(2007, 7, 4, 9, 15, 30, 123));
-			Expect(writer.ToString(), EqualTo("2007-07-04 09:15:30.123"));
+            Expect(writer.ToString(), EqualTo("2007-07-04 09:15:30.123"));
 		}
 
         [Test]

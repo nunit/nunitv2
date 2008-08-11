@@ -20,6 +20,7 @@ namespace NUnit.Framework.Constraints
 	{
 		object expected;
 		Constraint realConstraint;
+        bool ignoreCase;
 
 		private Constraint RealConstraint
 		{
@@ -27,10 +28,15 @@ namespace NUnit.Framework.Constraints
 			{
 				if ( realConstraint == null )
 				{
-					if ( actual is string )
-						this.realConstraint = new SubstringConstraint( (string)expected );
-					else
-						this.realConstraint = new CollectionContainsConstraint( expected );
+                    if (actual is string)
+                    {
+                        StringConstraint constraint = new SubstringConstraint((string)expected);
+                        if (this.ignoreCase)
+                            constraint = constraint.IgnoreCase;
+                        this.realConstraint = constraint;
+                    }
+                    else
+                        this.realConstraint = new CollectionContainsConstraint(expected);
 				}
 
 				return realConstraint;
@@ -50,6 +56,32 @@ namespace NUnit.Framework.Constraints
 			this.expected = expected;
 		}
 
+        #region Nested Modifier Class
+        /// <summary>
+        /// 
+        /// </summary>
+        public class Modifier : ConstraintModifier
+        {
+            private ContainsConstraint constraint;
+
+            public Modifier(ContainsConstraint constraint)
+                : base(constraint)
+            {
+                this.constraint = constraint;
+            }
+
+            public Modifier IgnoreCase
+            {
+                get { constraint.ignoreCase = true; return this; }
+            }
+        }
+        #endregion
+
+        public ContainsConstraint IgnoreCase
+        {
+            get { this.ignoreCase = true; return this; }
+        }
+
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
         /// </summary>
@@ -57,11 +89,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>True for success, false for failure</returns>
 		public override bool Matches(object actual)
 		{
-			this.actual = actual;
-
-			if ( this.caseInsensitive )
-				this.RealConstraint = RealConstraint.IgnoreCase;
-
+            this.actual = actual;
 			return this.RealConstraint.Matches( actual );
 		}
 

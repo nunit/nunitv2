@@ -360,6 +360,24 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\ConstraintFactory.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ConstraintModifier.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintModifier.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ConstraintOperators.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintOperators.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\ContainsConstraint.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ContainsConstraint.cs"
                     SubType = "Code"

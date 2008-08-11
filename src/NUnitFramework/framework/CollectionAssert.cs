@@ -300,8 +300,6 @@ namespace NUnit.Framework
 		/// <param name="message">The message that will be displayed on failure</param>
 		public static void AreNotEqual (IEnumerable expected, IEnumerable actual, string message)
 		{
-			//AreNotEqual(expected, actual, null, message, null);
-			//Assert.AreNotEqual( expected, actual, message );
             Assert.That(actual, new NotConstraint(new EqualConstraint(expected)), message);
 		}
 

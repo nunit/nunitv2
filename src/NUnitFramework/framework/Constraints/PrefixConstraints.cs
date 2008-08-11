@@ -13,38 +13,20 @@ namespace NUnit.Framework.Constraints
 	/// <summary>
 	/// Abstract base class used for prefixes
 	/// </summary>
-	public abstract class PrefixConstraint : Constraint
-	{
-		/// <summary>
-		/// The base constraint
-		/// </summary>
-		protected Constraint baseConstraint;
+    public abstract class PrefixConstraint : Constraint
+    {
+        /// <summary>
+        /// The base constraint
+        /// </summary>
+        protected Constraint baseConstraint;
 
-		/// <summary>
-		/// Construct given a base constraint
-		/// </summary>
-		/// <param name="baseConstraint"></param>
-		protected PrefixConstraint( Constraint baseConstraint )
-		{
-			this.baseConstraint = baseConstraint;
-		}
-
-		/// <summary>
-		/// Set all modifiers applied to the prefix into
-		/// the base constraint before matching
-		/// </summary>
-        protected void PassModifiersToBase()
+        /// <summary>
+        /// Construct given a base constraint
+        /// </summary>
+        /// <param name="baseConstraint"></param>
+        protected PrefixConstraint(Constraint baseConstraint)
         {
-            if (this.caseInsensitive)
-                baseConstraint = baseConstraint.IgnoreCase;
-            if (!this.clipStrings)
-                baseConstraint = baseConstraint.NoClip;
-            if (this.tolerance != null)
-                baseConstraint = baseConstraint.Within(tolerance);
-            if (this.compareAsCollection)
-                baseConstraint = baseConstraint.AsCollection;
-            if (this.compareWith != null)
-                baseConstraint = baseConstraint.Comparer(compareWith);
+            this.baseConstraint = baseConstraint;
         }
     }
 	#endregion
@@ -70,7 +52,6 @@ namespace NUnit.Framework.Constraints
 		public override bool Matches(object actual)
 		{
 			this.actual = actual;
-            this.PassModifiersToBase();
 			return !baseConstraint.Matches(actual);
 		}
 
@@ -119,8 +100,6 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-            PassModifiersToBase();
-
 			if ( !(actual is ICollection) )
 				throw new ArgumentException( "The actual value must be a collection", "actual" );
 
@@ -167,8 +146,6 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-            PassModifiersToBase();
-
 			if ( !(actual is ICollection) )
 				throw new ArgumentException( "The actual value must be a collection", "actual" );
 
@@ -214,8 +191,6 @@ namespace NUnit.Framework.Constraints
 		public override bool Matches(object actual)
 		{
 			this.actual = actual;
-
-            PassModifiersToBase();
 
 			if ( !(actual is ICollection) )
 				throw new ArgumentException( "The actual value must be a collection", "actual" );

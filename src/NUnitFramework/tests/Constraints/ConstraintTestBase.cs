@@ -8,7 +8,7 @@ namespace NUnit.Framework.Constraints
 {
     public abstract class ConstraintTestBase
     {
-        protected Constraint Matcher;
+        protected IConstraint Matcher;
         protected object[] GoodValues;
         protected object[] BadValues;
         protected string Description;

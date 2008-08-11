@@ -2,6 +2,7 @@ using System;
 
 namespace NUnit.Framework.Constraints
 {
+    #region ThrowsConstraint
     /// <summary>
     /// ThrowsConstraint is used to test the exception thrown by 
     /// a delegate. It checks the type of the exception and may
@@ -11,7 +12,7 @@ namespace NUnit.Framework.Constraints
     {
         private Type expectedExceptionType;
         private Exception caughtException;
-        private Constraint furtherConstraint;
+        private IConstraint furtherConstraint;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ThrowsConstraint"/> class,
@@ -30,12 +31,13 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="exceptionType">The Type of the expected exception.</param>
         /// <param name="constraint">An additional constraint to be applied to the exception.</param>
-        public ThrowsConstraint(Type exceptionType, Constraint constraint)
+        public ThrowsConstraint(Type exceptionType, IConstraint constraint)
         {
             this.expectedExceptionType = exceptionType;
             this.furtherConstraint = constraint;
         }
 
+        #region Constraint Overrides
         /// <summary>
         /// Executes the code of the delegate and captures any exception.
         /// Tests the type of the exception and whether any added constraint 
@@ -90,10 +92,12 @@ namespace NUnit.Framework.Constraints
                 writer.WriteConnector("with");
                 furtherConstraint.WriteActualValueTo(writer);
             }
-		}
+        }
+        #endregion
+    }
+    #endregion
 
-	}
-
+    #region ThrowsConstraint<T>
 #if NET_2_0
     /// <summary>
     /// ThrowsConstraint&lt;T&gt; provides a convenient notation creating
@@ -123,7 +127,9 @@ namespace NUnit.Framework.Constraints
         }
     }
 #endif
+    #endregion
 
+    #region ThrowsNothingConstraint
     /// <summary>
     /// ThrowsNothingConstraint tests that a delegate does not
     /// throw an exception.
@@ -168,5 +174,6 @@ namespace NUnit.Framework.Constraints
 		{
 			writer.WriteActualValue( this.caughtException.GetType() );
 		}
-	}
+    }
+    #endregion
 }

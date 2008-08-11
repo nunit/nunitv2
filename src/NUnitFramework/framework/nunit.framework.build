@@ -7,6 +7,9 @@
         <include name="Constraints/ComparisonConstraints.cs"/>
         <include name="Constraints/Constraint.cs"/>
         <include name="Constraints/ConstraintBuilder.cs"/>
+        <include name="Constraints/ConstraintFactory.cs"/>
+        <include name="Constraints/ConstraintModifier.cs"/>
+        <include name="Constraints/ConstraintOperators.cs"/>
         <include name="Constraints/ContainsConstraint.cs"/>
         <include name="Constraints/DirectoryConstraints.cs"/>
         <include name="Constraints/EmptyConstraint.cs"/>

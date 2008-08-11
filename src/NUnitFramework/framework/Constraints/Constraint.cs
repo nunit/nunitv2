@@ -10,9 +10,9 @@ using System.Collections.Specialized;
 namespace NUnit.Framework.Constraints
 {
 	/// <summary>
-	/// The Constraint class is the base of all built-in or
-	/// user-defined constraints in NUnit. It provides the operator
-	/// overloads used to combine constraints.
+	/// The Constraint class is the base of all built-in constraints
+    /// within NUnit. It provides the operator overloads used to combine 
+    /// constraints.
 	/// </summary>
     public abstract class Constraint : IConstraint
     {
@@ -47,32 +47,10 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		protected ListDictionary properties = new System.Collections.Specialized.ListDictionary();
 
-		/// <summary>
-		/// If true, all string comparisons will ignore case
-		/// </summary>
-		protected bool caseInsensitive;
-
         /// <summary>
-        /// If true, strings in error messages will be clipped
+        /// The ConstraintBuilder holding this constraint, or null
         /// </summary>
-        protected bool clipStrings = true;
-
-		/// <summary>
-		/// If true, arrays will be treated as collections, allowing
-		/// those of different dimensions to be compared
-		/// </summary>
-		protected bool compareAsCollection;
-
-		/// <summary>
-		/// If non-zero, equality comparisons within the specified 
-		/// tolerance will succeed.
-		/// </summary>
-		protected object tolerance;
-
-        /// <summary>
-        /// IComparer object used in comparisons for some constraints.
-        /// </summary>
-        protected IComparer compareWith;
+        private ConstraintBuilder builder;
 
 		/// <summary>
         /// The actual value being tested against a constraint
@@ -81,81 +59,21 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Properties
-		/// <summary>
-		/// Flag the constraint to ignore case and return self.
-		/// </summary>
-		public virtual Constraint IgnoreCase
-		{
-			get
-			{
-				caseInsensitive = true;
-				return this;
-			}
-		}
-
-		/// <summary>
-		/// Flag the constraint to respect case and return self.
-		/// </summary>
-		public virtual Constraint RespectCase
-		{
-			get
-			{
-				caseInsensitive = false;
-				return this;
-			}
-		}
-
-		/// <summary>
-        /// Flag the constraint to suppress string clipping 
-        /// and return self.
-        /// </summary>
-        public Constraint NoClip
-        {
-            get
-            {
-                clipStrings = false;
-                return this;
-            }
-        }
-
-		/// <summary>
-		/// Flag the constraint to compare arrays as collections
-		/// and return self.
-		/// </summary>
-		public Constraint AsCollection
-		{
-			get
-			{
-				compareAsCollection = true;
-				return this;
-			}
-		}
-
         /// <summary>
-        /// Flag the constraint to use a tolerance when determining equality.
-        /// Currently only used for doubles and floats.
+        /// The ConstraintBuilder holding this constraint, or null
+        /// if the constraint is not part of a constraint expression.
+        /// 
+        /// This property is maintained by ConstraintBuilder as 
+        /// the constraint is pushed on and removed from its stack.
         /// </summary>
-        /// <param name="tolerance">Tolerance to be used</param>
-        /// <returns>Self.</returns>
-        public Constraint Within(object tolerance)
-		{
-			this.tolerance = tolerance;
-			return this;
-		}
-
-        /// <summary>
-        /// Flag the constraint to use the supplied IComparer object.
-        /// </summary>
-        /// <param name="comparer">The IComparer object to use.</param>
-        /// <returns>Self.</returns>
-        public Constraint Comparer(IComparer comparer)
+        public ConstraintBuilder Builder
         {
-            this.compareWith = comparer;
-            return this;
+            get { return builder; }
+            set { builder = value; }
         }
 		#endregion
 
-		#region Public Methods
+		#region IConstraint Members
         /// <summary>
         /// Write the failure message to the MessageWriter provided
         /// as an argument. The default implementation simply passes

@@ -21,10 +21,10 @@ namespace NUnit.Framework.Constraints.Tests
             Description = "not null";
         }
 
-        [Test,ExpectedException(typeof(AssertionException),ExpectedMessage="ignoring case",MatchType=MessageMatch.Contains)]
+        [Test, ExpectedException(typeof(AssertionException), ExpectedMessage = "ignoring case", MatchType = MessageMatch.Contains)]
         public void NotHonorsIgnoreCaseUsingConstructors()
         {
-            Assert.That( "abc", new NotConstraint( new EqualConstraint( "ABC" ).IgnoreCase ) );
+            Assert.That("abc", new NotConstraint(new EqualConstraint("ABC").IgnoreCase));
         }
 
         [Test,ExpectedException(typeof(AssertionException),ExpectedMessage="ignoring case",MatchType=MessageMatch.Contains)]

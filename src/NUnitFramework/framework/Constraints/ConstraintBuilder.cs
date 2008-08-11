@@ -21,26 +21,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class ConstraintBuilder : IConstraint
     {
-        #region ConstraintOperator Class
-        /// <summary>
-        /// The ConstraintOperator class is used internally by a
-        /// ConstraintBuilder to represent an operator that 
-        /// modifies or combines constraints.
-        /// </summary>
-        private abstract class ConstraintOperator
-        {
-            public abstract void Reduce(ConstraintStack stack);
-        }
-        #endregion
-
         #region Processing Stacks
-#if NET_2_0
-        class OpStack : Stack<ConstraintOperator> { }
-        class ConstraintStack : Stack<Constraint> { }
-#else
-        class OpStack : Stack { }
-        class ConstraintStack : Stack { }
-#endif
         OpStack ops = new OpStack();
         ConstraintStack constraints = new ConstraintStack();
         #endregion
@@ -58,17 +39,6 @@ namespace NUnit.Framework.Constraints
             }
         }
         #endregion
-
-        /// <summary>
-		/// Implicitly convert ConstraintBuilder to an IConstraint
-        /// at the point where the syntax demands it.
-		/// </summary>
-		/// <param name="builder"></param>
-		/// <returns></returns>
-        //public static implicit operator Constraint( ConstraintBuilder builder )
-        //{
-        //    return builder.Resolve();
-        //}
 
         #region Constraints Without Arguments
         /// <summary>
@@ -144,16 +114,16 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
-        #region Constraints with an expected value
-
         #region Equality and Identity
         /// <summary>
         /// Resolves the chain of constraints using an
         /// EqualConstraint as base.
         /// </summary>
-        public Constraint EqualTo(object expected)
+        public EqualConstraint.Modifier EqualTo(object expected)
         {
-            return Resolve(new EqualConstraint(expected));
+            EqualConstraint constraint = new EqualConstraint(expected);
+            Push(constraint);
+            return new EqualConstraint.Modifier(constraint);
         }
 
         /// <summary>
@@ -250,56 +220,88 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
-		#region Containing Constraint
-		/// <summary>
-		/// Resolves the chain of constraints using a
-		/// ContainsConstraint as base. This constraint
-		/// will, in turn, make use of the appropriate
-		/// second-level constraint, depending on the
-		/// type of the actual argument.
-		/// </summary>
-		public Constraint Contains(object expected)
-		{
-			return Resolve( new ContainsConstraint(expected) );
-		}
-
-		/// <summary>
-		/// Resolves the chain of constraints using a 
-		/// CollectionContainsConstraint as base.
+        #region Containing Constraint
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// ContainsConstraint as base. This constraint
+        /// will, in turn, make use of the appropriate
+        /// second-level constraint, depending on the
+        /// type of the actual argument.
         /// </summary>
-		/// <param name="expected">The expected object</param>
-		public Constraint Member( object expected )
-		{
-			return Resolve( new CollectionContainsConstraint( expected ) );
-		}
-		#endregion
+        public ContainsConstraint.Modifier Contains(string expected)
+        {
+            ContainsConstraint constraint = new ContainsConstraint(expected);
+            Push(constraint);
+            return new ContainsConstraint.Modifier(constraint);
+        }
 
-		#region String Constraints
+        /// <summary>
+        /// Resolves the chain of constraints using a 
+        /// CollectionContainsConstraint as base.
+        /// </summary>
+        /// <param name="expected"></param>
+        /// <returns></returns>
+        public Constraint Contains(object expected)
+        {
+            return Resolve(new CollectionContainsConstraint(expected));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a 
+        /// CollectionContainsConstraint as base.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        public Constraint Member(object expected)
+        {
+            return Resolve(new CollectionContainsConstraint(expected));
+        }
+        #endregion
+
+        #region String Constraints
+        /// <summary>
+        /// Pushes a SubstringConstraint on the stack and
+        /// returns a Modifier for it.
+        /// </summary>
+        /// <param name="substring"></param>
+        /// <returns></returns>
+        public StringConstraint.Modifier ContainsSubstring(string substring)
+        {
+            SubstringConstraint constraint = new SubstringConstraint(substring);
+            Push(constraint);
+            return new StringConstraint.Modifier(constraint);
+        }
+
 		/// <summary>
 		/// Resolves the chain of constraints using a
 		/// StartsWithConstraint as base.
 		/// </summary>
-		public Constraint StartsWith(string substring)
+		public StringConstraint.Modifier StartsWith(string substring)
         {
-            return Resolve( new StartsWithConstraint(substring) );
+            StartsWithConstraint constraint = new StartsWithConstraint(substring);
+            Push(constraint);
+            return new StringConstraint.Modifier( constraint );
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// StringEndingConstraint as base.
         /// </summary>
-        public Constraint EndsWith(string substring)
+        public StringConstraint.Modifier EndsWith(string substring)
         {
-            return Resolve( new EndsWithConstraint(substring) );
+            EndsWithConstraint constraint = new EndsWithConstraint(substring);
+            Push(constraint);
+            return new StringConstraint.Modifier(constraint);
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// StringMatchingConstraint as base.
         /// </summary>
-        public Constraint Matches(string pattern)
+        public StringConstraint.Modifier Matches(string pattern)
         {
-            return Resolve(new RegexConstraint(pattern));
+            RegexConstraint constraint = new RegexConstraint(pattern);
+            Push(constraint);
+            return new StringConstraint.Modifier(constraint);
         }
         #endregion
 
@@ -337,18 +339,22 @@ namespace NUnit.Framework.Constraints
 		/// Resolves the chain of constraints using a
 		/// SamePathConstraint as base.
 		/// </summary>
-		public Constraint SamePath(string expected)
+		public PathConstraint.Modifier SamePath(string expected)
 		{
-			return Resolve( new SamePathConstraint( expected ) );
-		}
+            SamePathConstraint constraint = new SamePathConstraint(expected);
+            Push(constraint);
+            return constraint.GetModifier();
+        }
 
 		/// <summary>
 		/// Resolves the chain of constraints using a
 		/// SamePathOrUnderConstraint as base.
 		/// </summary>
-		public Constraint SamePathOrUnder( string expected )
+		public PathConstraint.Modifier SamePathOrUnder( string expected )
 		{
-			return Resolve( new SamePathOrUnderConstraint( expected ) );
+            SamePathOrUnderConstraint constraint = new SamePathOrUnderConstraint( expected );
+            Push(constraint);
+            return constraint.GetModifier();
 		}
 		#endregion
 
@@ -403,8 +409,6 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
-        #endregion
-
         #region Prefix Operators
 
         #region Not
@@ -423,14 +427,6 @@ namespace NUnit.Framework.Constraints
 		{
             get { return PushAndReturnSelf(new NotOperator()); }
         }
-
-        private class NotOperator : ConstraintOperator
-        {
-            public override void Reduce(ConstraintStack stack)
-            {
-                stack.Push(new NotConstraint((Constraint)stack.Pop()));
-            }
-        }
         #endregion
 
         #region All
@@ -440,14 +436,6 @@ namespace NUnit.Framework.Constraints
         public ConstraintBuilder All
         {
             get { return PushAndReturnSelf(new AllOperator()); }
-        }
-
-        private class AllOperator : ConstraintOperator
-        {
-            public override void Reduce(ConstraintStack stack)
-            {
-                stack.Push(new AllItemsConstraint((Constraint)stack.Pop()));
-            }
         }
         #endregion
 
@@ -459,15 +447,6 @@ namespace NUnit.Framework.Constraints
 		{
             get { return PushAndReturnSelf(new SomeOperator()); }
         }
-
-
-        private class SomeOperator : ConstraintOperator
-        {
-            public override void Reduce(ConstraintStack stack)
-            {
-                stack.Push(new SomeItemsConstraint((Constraint)stack.Pop()));
-            }
-        }
         #endregion
 
         #region None
@@ -477,14 +456,6 @@ namespace NUnit.Framework.Constraints
 		public ConstraintBuilder None
 		{
             get { return PushAndReturnSelf(new NoneOperator()); }
-        }
-
-        private class NoneOperator : ConstraintOperator
-        {
-            public override void Reduce(ConstraintStack stack)
-            {
-                stack.Push(new NoItemConstraint((Constraint)stack.Pop()));
-            }
         }
         #endregion
 
@@ -499,25 +470,6 @@ namespace NUnit.Framework.Constraints
 		{
 			return PushAndReturnSelf( new PropOperator(name) );
         }
-
-        private class PropOperator : ConstraintOperator
-        {
-            private string name;
-
-            public PropOperator(string name)
-            {
-                this.name = name;
-            }
-
-            public override void Reduce(ConstraintStack stack)
-            {
-                stack.Push(new PropertyConstraint(
-                    this.name,
-                    stack.Count > 0
-                        ? (Constraint)stack.Pop()
-                        : null));
-            }
-        }
         #endregion
 
         #endregion
@@ -530,6 +482,7 @@ namespace NUnit.Framework.Constraints
 
         private void Push(Constraint constraint)
         {
+            constraint.Builder = this;
             constraints.Push(constraint);
         }
 
@@ -587,6 +540,11 @@ namespace NUnit.Framework.Constraints
         public void WriteDescriptionTo(MessageWriter writer)
         {
             Constraint.WriteDescriptionTo(writer);
+        }
+
+        public void WriteActualValueTo(MessageWriter writer)
+        {
+            Constraint.WriteActualValueTo(writer);
         }
         #endregion
     }

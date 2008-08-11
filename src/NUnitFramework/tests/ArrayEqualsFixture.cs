@@ -99,8 +99,8 @@ namespace NUnit.Framework.Tests
 			object[] array2 = new object[] { 1.0d, 2, 3.5, 7, "Hello", now };
 			Assert.AreEqual( array1, array2 );
 			Assert.AreEqual(array2, array1);
-			Expect(array1, EqualTo(array2));
-			Expect(array2, EqualTo(array1));
+            Expect(array1, EqualTo(array2));
+            Expect(array2, EqualTo(array1));
 		}
 
 		[Test]
@@ -121,7 +121,7 @@ namespace NUnit.Framework.Tests
 			int[,,] actual = new int[,,] { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } };
 
 			Assert.AreEqual(expected, actual);
-			Expect(actual, EqualTo(expected));
+            Expect(actual, EqualTo(expected));
 		}
 
 		[Test]
@@ -131,7 +131,7 @@ namespace NUnit.Framework.Tests
 			int[, , , ,] actual = new int[2, 2, 2, 2, 2] { { { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } }, { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } } }, { { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } }, { { { 1, 2 }, { 3, 4 } }, { { 5, 6 }, { 7, 8 } } } } };
 
 			Assert.AreEqual(expected, actual);
-			Expect(actual, EqualTo(expected));
+            Expect(actual, EqualTo(expected));
 		}
 
 		[Test]
@@ -152,7 +152,7 @@ namespace NUnit.Framework.Tests
 			int[][] actual = new int[][] { new int[] { 1, 2, 3 }, new int[] { 4, 5, 6, 7 }, new int[] { 8, 9 } };
 
 			Assert.AreEqual(expected, actual);
-			Expect(actual, EqualTo(expected));
+            Expect(actual, EqualTo(expected));
 		}
 
 		[Test]
@@ -184,7 +184,7 @@ namespace NUnit.Framework.Tests
 			int[,] actual = new int[,] { { 1, 2 }, { 3, 4 } };
 
 			Assert.AreNotEqual(expected, actual);
-			Expect(actual, Not.EqualTo(expected));
+            Expect(actual, Not.EqualTo(expected));
             Expect(actual, EqualTo(expected).AsCollection);
 		}
 
@@ -195,7 +195,7 @@ namespace NUnit.Framework.Tests
 			int[,] actual = new int[,] { { 1, 2 }, { 3, 4 }, { 5, 6 } };
 
 			Assert.AreNotEqual(expected, actual);
-			Expect(actual, Not.EqualTo(expected));
+            Expect(actual, Not.EqualTo(expected));
             Expect(actual, EqualTo(expected).AsCollection);
 		}
     }

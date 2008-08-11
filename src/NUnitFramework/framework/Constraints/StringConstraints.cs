@@ -9,10 +9,52 @@ using System.Text.RegularExpressions;
 
 namespace NUnit.Framework.Constraints
 {
-	/// <summary>
+    #region StringConstraint
+    /// <summary>
+    /// StringConstraint is the abstract base for constraints
+    /// that operate on strings. It supports the IgnoreCase
+    /// modifier for string operations.
+    /// </summary>
+    public abstract class StringConstraint : Constraint
+    {
+        protected bool caseInsensitive;
+
+        /// <summary>
+        /// Modify the constraint to ignore case in matching.
+        /// </summary>
+        public new StringConstraint IgnoreCase
+        {
+            get { caseInsensitive = true; return this; }
+        }
+
+        #region Nested Modifier Class
+        /// <summary>
+        /// 
+        /// </summary>
+        public class Modifier : ConstraintModifier
+        {
+            private StringConstraint constraint;
+
+            public Modifier(StringConstraint constraint)
+                : base(constraint)
+            {
+                this.constraint = constraint;
+            }
+
+            public Modifier IgnoreCase
+            {
+                get { constraint.caseInsensitive = true; return this; }
+            }
+        }
+        #endregion
+    }
+    #endregion
+
+    #region EmptyStringConstraint
+    /// <summary>
 	/// EmptyStringConstraint tests whether a string is empty.
 	/// </summary>
-	public class EmptyStringConstraint : Constraint
+	public class EmptyStringConstraint : StringConstraint
 	{
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
@@ -37,13 +79,15 @@ namespace NUnit.Framework.Constraints
 		{
 			writer.Write( "<empty>" );
 		}
-	}
+    }
+    #endregion
 
-	/// <summary>
+    #region Substring Constraint
+    /// <summary>
 	/// SubstringConstraint can test whether a string contains
 	/// the expected substring.
 	/// </summary>
-    public class SubstringConstraint : Constraint
+    public class SubstringConstraint : StringConstraint
     {
         string expected;
 
@@ -86,12 +130,14 @@ namespace NUnit.Framework.Constraints
 				writer.WriteModifier( "ignoring case" );
 		}
     }
+    #endregion
 
-	/// <summary>
+    #region StartsWithConstraint
+    /// <summary>
 	/// StartsWithConstraint can test whether a string starts
 	/// with an expected substring.
 	/// </summary>
-    public class StartsWithConstraint : Constraint
+    public class StartsWithConstraint : StringConstraint
     {
         private string expected;
 
@@ -136,12 +182,14 @@ namespace NUnit.Framework.Constraints
 				writer.WriteModifier( "ignoring case" );
 		}
     }
+    #endregion
 
+    #region EndsWithConstraint
     /// <summary>
     /// EndsWithConstraint can test whether a string ends
     /// with an expected substring.
     /// </summary>
-    public class EndsWithConstraint : Constraint
+    public class EndsWithConstraint : StringConstraint
     {
         private string expected;
         /// <summary>
@@ -185,12 +233,14 @@ namespace NUnit.Framework.Constraints
 				writer.WriteModifier( "ignoring case" );
 		}
     }
+    #endregion
 
+    #region RegexConstraint
     /// <summary>
     /// RegexConstraint can test whether a string matches
     /// the pattern provided.
     /// </summary>
-    public class RegexConstraint : Constraint
+    public class RegexConstraint : StringConstraint
     {
         string pattern;
 
@@ -231,4 +281,5 @@ namespace NUnit.Framework.Constraints
 				writer.WriteModifier( "ignoring case" );
 		}
     }
+    #endregion
 }

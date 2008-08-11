@@ -25,7 +25,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// <param name="type">The expected type of exception.</param>
         /// <param name="constraint">A further constraint on the exception</param>
         /// <returns>A ThrowsConstraint</returns>
-        public static ThrowsConstraint Exception(Type type, Constraint constraint)
+        public static ThrowsConstraint Exception(Type type, IConstraint constraint)
 		{
 			return new ThrowsConstraint(type, constraint);
 		}
@@ -47,7 +47,7 @@ namespace NUnit.Framework.Syntax.CSharp
         /// <typeparam name="T">The expected type of exception.</typeparam>
         /// <param name="constraint">A further constraint on the exception</param>
         /// <returns>A ThrowsConstraint</returns>
-        public static ThrowsConstraint Exception<T>(Constraint constraint)
+        public static ThrowsConstraint Exception<T>(IConstraint constraint)
         {
             return new ThrowsConstraint(typeof(T), constraint );
         }

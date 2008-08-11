@@ -330,6 +330,8 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class CollectionOrderedConstraint : CollectionConstraint
     {
+        private IComparer compareWith;
+
         /// <summary>
         /// Construct a CollectionOrderedConstraint
         /// </summary>
@@ -343,7 +345,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="comparer">A custom comparer to use to perform comparisons</param>
         public CollectionOrderedConstraint(IComparer comparer)
         {
-            Comparer(comparer);
+            this.compareWith = comparer;
         }
 
         /// <summary>

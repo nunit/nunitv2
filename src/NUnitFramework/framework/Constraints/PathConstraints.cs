@@ -4,7 +4,8 @@ using System.Collections;
 
 namespace NUnit.Framework.Constraints
 {
-	/// <summary>
+    #region PathConstraint
+    /// <summary>
 	/// PathConstraint serves as the abstract base of constraints
 	/// that operate on paths and provides several helper methods.
 	/// </summary>
@@ -15,6 +16,8 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		protected string expected;
 
+        protected bool caseInsensitive = Path.DirectorySeparatorChar == '\\';
+
         /// <summary>
 		/// Construct a PathConstraint for a give expected path
 		/// </summary>
@@ -22,9 +25,51 @@ namespace NUnit.Framework.Constraints
 		protected PathConstraint( string expected )
 		{
 			this.expected = expected;
-		}
+        }
 
-        
+        public PathConstraint IgnoreCase
+        {
+            get { caseInsensitive = true; return this; }
+        }
+
+        public PathConstraint RespectCase
+        {
+            get { caseInsensitive = false; return this; }
+        }
+
+        private Modifier modifier;
+        public Modifier GetModifier()
+        {
+            if (modifier == null)
+                modifier = new Modifier(this);
+
+            return modifier;
+        }
+
+        #region Nested Modifier Class
+        public class Modifier : ConstraintModifier
+        {
+            private PathConstraint constraint;
+
+            public Modifier(PathConstraint constraint)
+                : base(constraint)
+            {
+                this.constraint = constraint;
+            }
+
+            public Modifier IgnoreCase
+            {
+                get { constraint.caseInsensitive = true; return this; }
+            }
+
+            public Modifier RespectCase
+            {
+                get { constraint.caseInsensitive = false; return this; }
+            }
+        }
+        #endregion
+
+        #region Helper Methods
         /// <summary>
 		/// Canonicalize the provided path
 		/// </summary>
@@ -100,10 +145,13 @@ namespace NUnit.Framework.Constraints
 			// must match through or up to a directory separator boundary
 			return	path2[length1-1] == Path.DirectorySeparatorChar ||
 				path2[length1] == Path.DirectorySeparatorChar;
-		}
-	}
+        }
+        #endregion
+    }
+    #endregion
 
-	/// <summary>
+    #region SamePathConstraint
+    /// <summary>
 	/// Summary description for SamePathConstraint.
 	/// </summary>
 	public class SamePathConstraint : PathConstraint
@@ -138,8 +186,10 @@ namespace NUnit.Framework.Constraints
 			writer.WritePredicate( "Path matching" );
 			writer.WriteExpectedValue( expected );
 		}
-	}
+    }
+    #endregion
 
+    #region SamePathOrUnderConstraint
     /// <summary>
     /// SamePathOrUnderConstraint tests that one path is under another
     /// </summary>
@@ -175,5 +225,6 @@ namespace NUnit.Framework.Constraints
 			writer.WritePredicate( "Path under or matching" );
 			writer.WriteExpectedValue( expected );
 		}
-	}
+    }
+    #endregion
 }

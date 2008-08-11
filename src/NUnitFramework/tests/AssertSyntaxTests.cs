@@ -208,12 +208,12 @@ namespace NUnit.Framework.Tests
 			Assert.That(array, Text.All.Contains( "b" ) );
 
 			// Inherited syntax
-			Expect(phrase, Contains("World"));
+            Expect(phrase, Contains("World"));
 			// Only available using new syntax
-			Expect(phrase, Not.Contains("goodbye"));
+            Expect(phrase, Not.Contains("goodbye"));
             Expect(phrase, Contains("WORLD").IgnoreCase);
             Expect(phrase, Not.Contains("BYE").IgnoreCase);
-			Expect(array, All.Contains("b"));
+            Expect(array, All.Contains("b"));
 		}
 
 		[Test]
@@ -234,9 +234,9 @@ namespace NUnit.Framework.Tests
             Assert.That(greetings, Text.All.StartsWith("h").IgnoreCase);
 
 			// Inherited syntax
-			Expect(phrase, StartsWith("Hello"));
-			// Only available using new syntax
-			Expect(phrase, Not.StartsWith("Hi!"));
+            Expect(phrase, StartsWith("Hello"));
+            //// Only available using new syntax
+            Expect(phrase, Not.StartsWith("Hi!"));
             Expect(phrase, StartsWith("HeLLo").IgnoreCase);
             Expect(phrase, Not.StartsWith("HI").IgnoreCase);
             Expect(greetings, All.StartsWith("h").IgnoreCase);
@@ -259,11 +259,11 @@ namespace NUnit.Framework.Tests
 			Assert.That(greetings, Text.All.EndsWith("!"));
 		
 			// Inherited syntax
-			Expect(phrase, EndsWith("!"));
-			// Only available using new syntax
-			Expect(phrase, Not.EndsWith("?"));
+            Expect(phrase, EndsWith("!"));
+            //// Only available using new syntax
+            Expect(phrase, Not.EndsWith("?"));
             Expect(phrase, EndsWith("WORLD!").IgnoreCase);
-			Expect(greetings, All.EndsWith("!") );
+            Expect(greetings, All.EndsWith("!") );
 		}
 
 		[Test]
@@ -285,7 +285,7 @@ namespace NUnit.Framework.Tests
 		            
 			// Inherited syntax
             Expect(phrase, EqualTo("hello world!").IgnoreCase);
-			//Only available using new syntax
+            ////Only available using new syntax
             Expect(phrase, Not.EqualTo("goodbye world!").IgnoreCase);
             Expect(new string[] { "Hello", "World" },
                 EqualTo(new object[] { "HELLO", "WORLD" }).IgnoreCase);
@@ -312,10 +312,10 @@ namespace NUnit.Framework.Tests
             Assert.That(quotes, Text.All.Matches("never").IgnoreCase);
 		
 			// Inherited syntax
-			Expect( phrase, Matches( "all good men" ) );
-			Expect( phrase, Matches( "Now.*come" ) );
-			// Only available using new syntax
-			Expect(phrase, Not.Matches("all.*men.*good"));
+            Expect( phrase, Matches( "all good men" ) );
+            Expect( phrase, Matches( "Now.*come" ) );
+            //// Only available using new syntax
+            Expect(phrase, Not.Matches("all.*men.*good"));
             Expect(phrase, Matches("ALL").IgnoreCase);
             Expect(quotes, All.Matches("never").IgnoreCase);
 		}
@@ -354,9 +354,9 @@ namespace NUnit.Framework.Tests
 			// Inherited syntax
 			Expect(2 + 2, EqualTo(4));
 			Expect(2 + 2 == 4);
-			Expect(i3, EqualTo(d3));
-			Expect(2 + 2, Not.EqualTo(5));
-			Expect(i3, Not.EqualTo(iunequal));
+            Expect(i3, EqualTo(d3));
+            Expect(2 + 2, Not.EqualTo(5));
+            Expect(i3, Not.EqualTo(iunequal));
 		}
 
 		[Test]
@@ -377,14 +377,14 @@ namespace NUnit.Framework.Tests
 			Assert.That(5999999999ul, Is.EqualTo(6000000000ul).Within(5ul));
 		
 			// Inherited syntax
-			Expect(4.99d, EqualTo(5.0d).Within(0.05d));
-			Expect(4.0d, Not.EqualTo(5.0d).Within(0.5d));
-			Expect(4.99f, EqualTo(5.0f).Within(0.05f));
-			Expect(4.99m, EqualTo(5.0m).Within(0.05m));
-			Expect(499u, EqualTo(500u).Within(5u));
-			Expect(499, EqualTo(500).Within(5));
-			Expect(4999999999L, EqualTo(5000000000L).Within(5L));
-			Expect(5999999999ul, EqualTo(6000000000ul).Within(5ul));
+            Expect(4.99d, EqualTo(5.0d).Within(0.05d));
+            Expect(4.0d, Not.EqualTo(5.0d).Within(0.5d));
+            Expect(4.99f, EqualTo(5.0f).Within(0.05f));
+            Expect(4.99m, EqualTo(5.0m).Within(0.05m));
+            Expect(499u, EqualTo(500u).Within(5u));
+            Expect(499, EqualTo(500).Within(5));
+            Expect(4999999999L, EqualTo(5000000000L).Within(5L));
+            Expect(5999999999ul, EqualTo(6000000000ul).Within(5ul));
 		}
 
 		[Test]
@@ -526,19 +526,19 @@ namespace NUnit.Framework.Tests
 			Assert.That( doubles, Has.Some.EqualTo( 1.0 ).Within( .05 ) );
 		
 			// Inherited syntax
-			Expect(ints, All.Not.Null);
-			Expect(ints, None.Null);
-			Expect(ints, All.InstanceOfType(typeof(int)));
-			Expect(strings, All.InstanceOfType(typeof(string)));
-			Expect(ints, Unique);
-			// Only available using new syntax
-			Expect(strings, Not.Unique);
-			Expect(ints, All.GreaterThan(0));
-			Expect(ints, None.LessThanOrEqualTo(0));
-			Expect(strings, All.Contains( "a" ) );
-			Expect(strings, Some.StartsWith( "ba" ) );
+            Expect(ints, All.Not.Null);
+            Expect(ints, None.Null);
+            Expect(ints, All.InstanceOfType(typeof(int)));
+            Expect(strings, All.InstanceOfType(typeof(string)));
+            Expect(ints, Unique);
+            //// Only available using new syntax
+            Expect(strings, Not.Unique);
+            Expect(ints, All.GreaterThan(0));
+            Expect(ints, None.LessThanOrEqualTo(0));
+            Expect(strings, All.Contains( "a" ) );
+            Expect(strings, Some.StartsWith( "ba" ) );
             Expect(strings, Some.StartsWith("BA").IgnoreCase);
-			Expect(doubles, Some.EqualTo( 1.0 ).Within( .05 ) );
+            Expect(doubles, Some.EqualTo( 1.0 ).Within( .05 ) );
 		}
 
 		[Test]
@@ -557,11 +557,11 @@ namespace NUnit.Framework.Tests
 			Assert.That(strings, Has.Some.Not.StartsWith( "ba" ) );
 		
 			// Inherited syntax
-			Expect(mixed, Some.Null);
-			Expect(mixed, Some.InstanceOfType(typeof(int)));
-			Expect(mixed, Some.InstanceOfType(typeof(string)));
-			Expect(strings, Some.StartsWith( "ba" ) );
-			Expect(strings, Some.Not.StartsWith( "ba" ) );
+            Expect(mixed, Some.Null);
+            Expect(mixed, Some.InstanceOfType(typeof(int)));
+            Expect(mixed, Some.InstanceOfType(typeof(string)));
+            Expect(strings, Some.StartsWith( "ba" ) );
+            Expect(strings, Some.Not.StartsWith( "ba" ) );
 		}
 
 		[Test]
@@ -582,7 +582,7 @@ namespace NUnit.Framework.Tests
 			Expect(ints, None.Null);
 			Expect(ints, None.InstanceOfType(typeof(string)));
 			Expect(ints, None.GreaterThan(99));
-			Expect(strings, None.StartsWith( "qu" ) );
+            Expect(strings, None.StartsWith( "qu" ) );
 		}
 
 		[Test]
@@ -629,12 +629,12 @@ namespace NUnit.Framework.Tests
 			// Note that EqualTo and SameAs do NOT give
 			// identical results to Contains because 
 			// Contains uses Object.Equals()
-			Expect(iarray, Some.EqualTo(3));
-			Expect(sarray, Some.EqualTo("b"));
-			Expect(sarray, None.EqualTo("x"));
-			Expect(iarray, All.LessThan(10));
-			Expect(sarray, All.Length(1));
-			Expect(sarray, None.Property("Length").GreaterThan(3));
+            Expect(iarray, Some.EqualTo(3));
+            Expect(sarray, Some.EqualTo("b"));
+            Expect(sarray, None.EqualTo("x"));
+            Expect(iarray, All.LessThan(10));
+            Expect(sarray, All.Length(1));
+            Expect(sarray, None.Property("Length").GreaterThan(3));
 		}
 
 		[Test]
@@ -782,37 +782,37 @@ namespace NUnit.Framework.Tests
 			Assert.That( list, Has.Count( 4 ) );
 			
 			// Inherited syntax
-            //Expect( list, Property( "Count" ) );
-            //Expect( list, Not.Property( "Nada" ) );
+            Expect( list, Property( "Count" ) );
+            Expect( list, Not.Property( "Nada" ) );
 
 			Expect( "Hello", Property("Length", 5) );
 			Expect( "Hello", Length( 5 ) );
-			Expect( "Hello", Property("Length").EqualTo(5) );
-			Expect( "Hello", Property("Length").GreaterThan(0) );
+            Expect( "Hello", Property("Length").EqualTo(5) );
+            Expect( "Hello", Property("Length").GreaterThan(0) );
 
-			Expect( array, Property("Length", 4) );
-			Expect( array, Length(4) );
-			Expect( array, Property("Length").LessThan(10));
+            Expect( array, Property("Length", 4) );
+            Expect( array, Length(4) );
+            Expect( array, Property("Length").LessThan(10));
 
-			Expect( array, All.Property("Length", 3 ) );
-			Expect( array, All.Length( 3 ) );
-			Expect( array, All.Property("Length").EqualTo(3));
+            Expect( array, All.Property("Length", 3 ) );
+            Expect( array, All.Length( 3 ) );
+            Expect( array, All.Property("Length").EqualTo(3));
 
-			Expect( array2, Some.Property("Length", 2) );
-			Expect( array2, Some.Length( 2 ) );
-			Expect( array2, Some.Property("Length").GreaterThan(2));
+            Expect( array2, Some.Property("Length", 2) );
+            Expect( array2, Some.Length( 2 ) );
+            Expect( array2, Some.Property("Length").GreaterThan(2));
 
-			Expect( array2, None.Property("Length", 4) );
-			Expect( array2, None.Length( 4 ) );
-			Expect( array2, None.Property("Length").GreaterThan(3));
+            Expect( array2, None.Property("Length", 4) );
+            Expect( array2, None.Length( 4 ) );
+            Expect( array2, None.Property("Length").GreaterThan(3));
 
-			Expect( Map( array2 ).Property("Length"), EqualTo( new int[] { 1, 2, 3 } ) );
-			Expect( Map( array2 ).Property("Length"), EquivalentTo( new int[] { 3, 2, 1 } ) );
-			Expect( Map( array2 ).Property("Length"), SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
+            Expect( Map( array2 ).Property("Length"), EqualTo( new int[] { 1, 2, 3 } ) );
+            Expect( Map( array2 ).Property("Length"), EquivalentTo( new int[] { 3, 2, 1 } ) );
+            Expect( Map( array2 ).Property("Length"), SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
             Expect(Map(array2).Property("Length"), Unique);
             Expect(Map(array2).Property("Length"), Ordered());
 
-			Expect( list, Count( 4 ) );
+            Expect( list, Count( 4 ) );
 
 		}
 
