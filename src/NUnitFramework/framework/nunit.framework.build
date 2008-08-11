@@ -26,17 +26,6 @@
         <include name="Constraints/StringConstraints.cs"/>
         <include name="Constraints/ThrowsConstraint.cs"/>
         <include name="Constraints/TypeConstraints.cs"/>
-        <include name="Syntax/CSharp/Has.cs"/>
-        <include name="Syntax/CSharp/Is.cs"/>
-        <include name="Syntax/CSharp/List.cs"/>
-        <include name="Syntax/CSharp/ListMapper.cs"/>
-        <include name="Syntax/CSharp/Text.cs"/>
-        <include name="SYntax/CSharp/Throws.cs"/>
-        <include name="SyntaxHelpers/Has.cs"/>
-        <include name="SyntaxHelpers/Is.cs"/>
-        <include name="SyntaxHelpers/List.cs"/>
-        <include name="SyntaxHelpers/ListMapper.cs"/>
-        <include name="SyntaxHelpers/Text.cs"/>
         <include name="AssemblyInfo.cs"/>
         <include name="Assert.cs"/>
         <include name="AssertionException.cs"/>
@@ -52,12 +41,16 @@
         <include name="FactoriesAttribute.cs"/>
         <include name="FileAssert.cs"/>
         <include name="GlobalSettings.cs"/>
+        <include name="Has.cs"/>
         <include name="IExpectException.cs"/>
         <include name="IgnoreAttribute.cs"/>
         <include name="IgnoreException.cs"/>
         <include name="IncludeExcludeAttributes.cs"/>
         <include name="InconclusiveException.cs"/>
+        <include name="Is.cs"/>
         <include name="JoinTypeAttributes.cs"/>
+        <include name="List.cs"/>
+        <include name="ListMapper.cs"/>
         <include name="PropertyAttribute.cs"/>
         <include name="RandomAttribute.cs"/>
         <include name="RangeAttribute.cs"/>
@@ -75,7 +68,9 @@
         <include name="TestFixtureAttribute.cs"/>
         <include name="TestFixtureSetUpAttribute.cs"/>
         <include name="TestFixtureTearDownAttribute.cs"/>
+        <include name="Text.cs"/>
         <include name="TextMessageWriter.cs"/>
+        <include name="Throws.cs"/>
         <include name="ValuesAttribute.cs"/>
   </patternset>
 

@@ -8,7 +8,6 @@ using System.Collections;
 using System.IO;
 using System.ComponentModel;
 using NUnit.Framework.Constraints;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace NUnit.Framework
 {

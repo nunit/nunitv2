@@ -8,7 +8,7 @@ using System;
 using System.Collections;
 using NUnit.Framework.Constraints;
 
-namespace NUnit.Framework.Syntax.CSharp
+namespace NUnit.Framework
 {
 	/// <summary>
 	/// The List class is a helper class with properties and methods

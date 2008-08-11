@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 
-namespace NUnit.Framework.Syntax.CSharp
+namespace NUnit.Framework
 {
 	/// <summary>
 	/// ListMapper is used to transform a collection used as an actual argument

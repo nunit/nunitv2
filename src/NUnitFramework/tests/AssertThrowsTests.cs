@@ -1,6 +1,5 @@
 using System;
 using NUnit.Framework.Constraints;
-using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework.Tests
 {

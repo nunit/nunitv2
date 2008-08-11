@@ -180,6 +180,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Has.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Has.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IExpectException.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\IExpectException.cs"
                     SubType = "Code"
@@ -210,8 +216,26 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Is.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Is.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "JoinTypeAttributes.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\JoinTypeAttributes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "List.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\List.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ListMapper.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\ListMapper.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -318,8 +342,20 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Text.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Text.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TextMessageWriter.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\TextMessageWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Throws.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Throws.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -470,72 +506,6 @@
                 <File
                     RelPath = "Constraints\TypeConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\TypeConstraints.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Syntax\CSharp\Has.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Has.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Syntax\CSharp\Is.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Is.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Syntax\CSharp\List.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\List.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Syntax\CSharp\ListMapper.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\ListMapper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Syntax\CSharp\Text.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Text.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Syntax\CSharp\Throws.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Throws.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SyntaxHelpers\Has.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Has.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SyntaxHelpers\Is.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Is.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SyntaxHelpers\List.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\List.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SyntaxHelpers\ListMapper.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\ListMapper.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "SyntaxHelpers\Text.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Text.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

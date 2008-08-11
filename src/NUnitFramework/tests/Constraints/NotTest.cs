@@ -5,7 +5,6 @@
 // ****************************************************************
 
 using NUnit.Framework.Constraints;
-using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework.Constraints.Tests
 {

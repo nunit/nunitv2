@@ -7,7 +7,6 @@
 using System;
 using System.Collections;
 using NUnit.Framework.Constraints;
-using NUnit.Framework.Syntax.CSharp;
 #if NET_2_0
 using System.Collections.Generic;
 #endif

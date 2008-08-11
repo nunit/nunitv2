@@ -5,18 +5,15 @@
 // ****************************************************************
 
 using System;
-using System.ComponentModel;
 using NUnit.Framework.Constraints;
 
-namespace NUnit.Framework.SyntaxHelpers
+namespace NUnit.Framework
 {
 	/// <summary>
 	/// The Text class is a helper class with properties and methods
 	/// that supply a number of constraints used with strings.
 	/// </summary>
-    [Obsolete("Use NUnit.Framework.Syntax.Text class")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public class Text
+	public class Text
 	{
 		/// <summary>
 		/// Text.All returns a ConstraintBuilder, which will apply
@@ -32,7 +29,7 @@ namespace NUnit.Framework.SyntaxHelpers
 		/// Contains returns a constraint that succeeds if the actual
 		/// value contains the substring supplied as an argument.
 		/// </summary>
-		public static Constraint Contains(string substring)
+		public static SubstringConstraint Contains(string substring)
 		{
 			return new SubstringConstraint(substring);
 		}
@@ -41,16 +38,16 @@ namespace NUnit.Framework.SyntaxHelpers
 		/// DoesNotContain returns a constraint that fails if the actual
 		/// value contains the substring supplied as an argument.
 		/// </summary>
-		public static Constraint DoesNotContain(string substring)
+		public static StringConstraint.Modifier DoesNotContain(string substring)
 		{
-			return new NotConstraint( Contains(substring) );
+            return new ConstraintBuilder().Not.ContainsSubstring(substring);
 		}
 
 		/// <summary>
 		/// StartsWith returns a constraint that succeeds if the actual
 		/// value starts with the substring supplied as an argument.
 		/// </summary>
-		public static Constraint StartsWith(string substring)
+		public static StartsWithConstraint StartsWith(string substring)
 		{
 			return new StartsWithConstraint(substring);
 		}
@@ -59,16 +56,16 @@ namespace NUnit.Framework.SyntaxHelpers
 		/// DoesNotStartWith returns a constraint that fails if the actual
 		/// value starts with the substring supplied as an argument.
 		/// </summary>
-		public static Constraint DoesNotStartWith(string substring)
+		public static StringConstraint.Modifier DoesNotStartWith(string substring)
 		{
-			return new NotConstraint( StartsWith(substring) );
+            return new ConstraintBuilder().Not.StartsWith(substring);
 		}
 
 		/// <summary>
 		/// EndsWith returns a constraint that succeeds if the actual
 		/// value ends with the substring supplied as an argument.
 		/// </summary>
-		public static Constraint EndsWith(string substring)
+		public static EndsWithConstraint EndsWith(string substring)
 		{
 			return new EndsWithConstraint(substring);
 		}
@@ -77,9 +74,9 @@ namespace NUnit.Framework.SyntaxHelpers
 		/// DoesNotEndWith returns a constraint that fails if the actual
 		/// value ends with the substring supplied as an argument.
 		/// </summary>
-		public static Constraint DoesNotEndWith(string substring)
+		public static StringConstraint.Modifier DoesNotEndWith(string substring)
 		{
-			return new NotConstraint( EndsWith(substring) );
+            return new ConstraintBuilder().Not.EndsWith(substring);
 		}
 
 		/// <summary>
@@ -88,7 +85,7 @@ namespace NUnit.Framework.SyntaxHelpers
 		/// </summary>
 		/// <param name="pattern"></param>
 		/// <returns></returns>
-		public static Constraint Matches(string pattern)
+		public static RegexConstraint Matches(string pattern)
 		{
 			return new RegexConstraint(pattern);
 		}
@@ -99,9 +96,9 @@ namespace NUnit.Framework.SyntaxHelpers
 		/// </summary>
 		/// <param name="pattern"></param>
 		/// <returns></returns>
-		public static Constraint DoesNotMatch(string pattern)
+		public static StringConstraint.Modifier DoesNotMatch(string pattern)
 		{
-			return new NotConstraint( Matches(pattern) );
+            return new ConstraintBuilder().Not.Matches(pattern);
 		}
 	}
 }

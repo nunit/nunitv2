@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using NUnit.Framework.Syntax.CSharp;
 using NUnit.Util;
 using NUnit.TestUtilities;
 using NUnit.TestData;

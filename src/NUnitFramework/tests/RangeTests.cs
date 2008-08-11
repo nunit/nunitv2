@@ -1,5 +1,4 @@
 ﻿using System;
-using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Framework.Tests
 {

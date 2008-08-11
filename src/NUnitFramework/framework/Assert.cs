@@ -8,7 +8,7 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using NUnit.Framework.Constraints;
-using NUnit.Framework.Syntax.CSharp;
+using NUnit.Framework;
 
 namespace NUnit.Framework
 {

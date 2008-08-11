@@ -1,6 +1,5 @@
 using System;
 using NUnit.Framework;
-using NUnit.Framework.Syntax.CSharp;
 using NUnit.Core;
 using NUnit.Core.Filters;
 

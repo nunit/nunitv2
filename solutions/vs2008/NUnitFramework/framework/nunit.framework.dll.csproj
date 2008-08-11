@@ -256,44 +256,24 @@
       <Link>SuiteAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Has.cs">
-      <Link>SyntaxHelpers\Has.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Has.cs">
+      <Link>Has.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Is.cs">
-      <Link>SyntaxHelpers\Is.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Is.cs">
+      <Link>Is.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\List.cs">
-      <Link>SyntaxHelpers\List.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\List.cs">
+      <Link>List.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\ListMapper.cs">
-      <Link>SyntaxHelpers\ListMapper.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\ListMapper.cs">
+      <Link>ListMapper.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\SyntaxHelpers\Text.cs">
-      <Link>SyntaxHelpers\Text.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Has.cs">
-      <Link>Syntax\CSharp\Has.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Is.cs">
-      <Link>Syntax\CSharp\Is.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\List.cs">
-      <Link>Syntax\CSharp\List.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\ListMapper.cs">
-      <Link>Syntax\CSharp\ListMapper.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Text.cs">
-      <Link>Syntax\CSharp\Text.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Text.cs">
+      <Link>Text.cs</Link>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TearDownAttribute.cs">
@@ -332,8 +312,8 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\InconclusiveException.cs">
       <Link>InconclusiveException.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Syntax\CSharp\Throws.cs">
-      <Link>Syntax\CSharp\Throws.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Throws.cs">
+      <Link>Throws.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Catch.cs">
       <Link>Catch.cs</Link>

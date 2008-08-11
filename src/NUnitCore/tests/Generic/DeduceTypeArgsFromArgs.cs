@@ -1,7 +1,6 @@
 ﻿#if NET_2_0
 using System;
 using NUnit.Framework;
-using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Core.Tests.Generic
 {

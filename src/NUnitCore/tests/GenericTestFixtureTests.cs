@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Core.Tests
 {

@@ -6,7 +6,6 @@
 
 using System;
 using NUnit.Framework;
-using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Mocks.Tests
 {

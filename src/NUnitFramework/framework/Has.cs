@@ -7,7 +7,7 @@
 using System;
 using NUnit.Framework.Constraints;
 
-namespace NUnit.Framework.Syntax.CSharp
+namespace NUnit.Framework
 {
 	/// <summary>
 	/// Summary description for HasNoPrefixB.

@@ -7,7 +7,6 @@ using System;
 using System.Collections;
 using System.Threading;
 using NUnit.Framework;
-using NUnit.Framework.Syntax.CSharp;
 
 namespace NUnit.Core.Tests
 {

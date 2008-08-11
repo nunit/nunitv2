@@ -1,7 +1,7 @@
 using System;
 using NUnit.Framework.Constraints;
 
-namespace NUnit.Framework.Syntax.CSharp
+namespace NUnit.Framework
 {
     /// <summary>
     /// Throws is a syntax helper that allows capturing and testing
