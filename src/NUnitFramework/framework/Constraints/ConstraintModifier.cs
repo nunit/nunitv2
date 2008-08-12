@@ -17,7 +17,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct a modifier for Constraint
         /// </summary>
-        /// <param name="constraint">The constrait to be wrapped</param>
+        /// <param name="constraint">The constraint to be wrapped</param>
         public ConstraintModifier(Constraint constraint)
         {
             this.baseConstraint = constraint;
