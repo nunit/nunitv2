@@ -84,6 +84,32 @@ namespace NUnit.Framework.Constraints
             WrapperConstraint.WriteActualValueTo(writer);
         }
         #endregion
+
+        #region Binary Operators
+        public ConstraintBuilder And
+        {
+            get 
+            {
+                ConstraintBuilder builder = baseConstraint.Builder;
+                if (builder == null)
+                    builder = new ConstraintBuilder(baseConstraint);
+
+                return builder.And;
+            }
+        }
+
+        public ConstraintBuilder Or
+        {
+            get 
+            {
+                ConstraintBuilder builder = baseConstraint.Builder;
+                if (builder == null)
+                    builder = new ConstraintBuilder(baseConstraint);
+
+                return builder.Or;
+            }
+        }
+        #endregion
     }
 
 }

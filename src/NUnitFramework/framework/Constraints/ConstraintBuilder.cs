@@ -481,6 +481,30 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
+        #region Throws
+        public ConstraintBuilder Throws(Type type)
+        {
+            return PushAndReturnSelf(new ThrowsOperator(type));
+        }
+
+#if NET_2_0
+        public ConstraintBuilder Throws<T>()
+        {
+            return Throws(typeof(T));
+        }
+#endif
+        #endregion
+
+        #region With
+        /// <summary>
+        /// With is currently a NOP - reserved for future use.
+        /// </summary>
+        public ConstraintBuilder With
+        {
+            get { return this; }
+        }
+        #endregion
+
         #region And
         public ConstraintBuilder And
         {

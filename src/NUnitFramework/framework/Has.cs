@@ -9,8 +9,13 @@ using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework
 {
+    /// <summary>
+    /// With is essentially a synonym for has
+    /// </summary>
+    public class With : Has { }
+
 	/// <summary>
-	/// Summary description for HasNoPrefixB.
+	/// Summary description for Has.
 	/// </summary>
 	public class Has
 	{

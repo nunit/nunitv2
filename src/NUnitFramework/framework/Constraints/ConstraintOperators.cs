@@ -167,7 +167,7 @@ namespace NUnit.Framework.Constraints
 
         public override void Reduce(ConstraintStack stack)
         {
-            stack.Push( ApplyPrefix(stack.Count > 0 ? stack.Pop() : null) );
+            stack.Push(ApplyPrefix(stack.Count > 0 ? stack.Pop() : null));
         }
 
         public override Constraint ApplyPrefix(Constraint constraint)
@@ -176,6 +176,26 @@ namespace NUnit.Framework.Constraints
         }
     }
     #endregion
+
+    public class ThrowsOperator : PrefixOperator
+    {
+        private Type type;
+
+        public ThrowsOperator(Type type)
+        {
+            this.type = type;
+        }
+
+        public override void Reduce(ConstraintStack stack)
+        {
+            stack.Push(ApplyPrefix(stack.Count > 0 ? stack.Pop() : null));
+        }
+
+        public override Constraint ApplyPrefix(Constraint constraint)
+        {
+            return new ThrowsConstraint( type, constraint );
+        }
+    }
 
     #region AndOperator
     public class AndOperator : BinaryOperator
