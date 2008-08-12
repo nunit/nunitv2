@@ -16,9 +16,9 @@ namespace NUnit.Framework.Constraints
         /// Not returns a ConstraintBuilder that negates
         /// the constraint that follows it.
         /// </summary>
-        public static ConstraintBuilder Not
+        public ConstraintBuilder Not
         {
-            get { return new ConstraintBuilder().Not; }
+            get { return Is.Not; }
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public ConstraintBuilder All
         {
-            get { return new ConstraintBuilder().All; }
+            get { return Is.All; }
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public ConstraintBuilder Some
         {
-            get { return new ConstraintBuilder().Some; }
+            get { return Has.Some; }
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public ConstraintBuilder None
         {
-            get { return new ConstraintBuilder().None; }
+            get { return Has.None; }
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="name">The name of the property</param>
         public ConstraintBuilder Property(string name)
         {
-            return new ConstraintBuilder().Property(name);
+            return Has.Property(name);
         }
         #endregion
 
@@ -69,7 +69,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint Null
         {
-            get { return new EqualConstraint(null); }
+            get { return Is.Null; }
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint True
         {
-            get { return new EqualConstraint(true); }
+            get { return Is.True; }
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint False
         {
-            get { return new EqualConstraint(false); }
+            get { return Is.False; }
         }
 
         /// <summary>
@@ -93,23 +93,23 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint NaN
         {
-            get { return new EqualConstraint(double.NaN); }
+            get { return Is.NaN; }
         }
 
         /// <summary>
         /// Empty returns a constraint that tests whether a string or collection is empty
         /// </summary>
-        public Constraint Empty
+        public EmptyConstraint Empty
         {
-            get { return new EmptyConstraint(); }
+            get { return Is.Empty; }
         }
 
         /// <summary>
         /// Unique returns a constraint that tests whether a collection contains all unque items.
         /// </summary>
-        public Constraint Unique
+        public UniqueItemsConstraint Unique
         {
-            get { return new UniqueItemsConstraint(); }
+            get { return Is.Unique; }
         }
         #endregion
 
@@ -122,7 +122,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public EqualConstraint EqualTo(object expected)
         {
-            return new EqualConstraint(expected);
+            return Is.EqualTo(expected);
         }
         /// <summary>
         /// SameAs returns a constraint that tests whether the
@@ -132,7 +132,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public Constraint SameAs(object expected)
         {
-            return new SameAsConstraint(expected);
+            return Is.SameAs(expected);
         }
         #endregion
 
@@ -143,7 +143,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint GreaterThan(IComparable expected)
         {
-            return new GreaterThanConstraint(expected);
+            return Is.GreaterThan(expected);
         }
         /// <summary>
         /// GreaterThanOrEqualTo returns a constraint that tests whether the
@@ -151,7 +151,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint GreaterThanOrEqualTo(IComparable expected)
         {
-            return new GreaterThanOrEqualConstraint(expected);
+            return Is.GreaterThanOrEqualTo(expected);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint AtLeast(IComparable expected)
         {
-            return GreaterThanOrEqualTo(expected);
+            return Is.AtLeast(expected);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint LessThan(IComparable expected)
         {
-            return new LessThanConstraint(expected);
+            return Is.LessThan(expected);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint LessThanOrEqualTo(IComparable expected)
         {
-            return new LessThanOrEqualConstraint(expected);
+            return Is.LessThanOrEqualTo(expected);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint AtMost(IComparable expected)
         {
-            return LessThanOrEqualTo(expected);
+            return Is.AtMost(expected);
         }
         #endregion
 
@@ -197,7 +197,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="expectedType">The type to be tested for</param>
         public Constraint TypeOf(Type expectedType)
         {
-            return new ExactTypeConstraint(expectedType);
+            return Is.TypeOf(expectedType);
         }
 
 #if NET_2_0
@@ -220,7 +220,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="expectedType">The type to be tested for</param>
         public Constraint InstanceOfType(Type expectedType)
         {
-            return new InstanceOfTypeConstraint(expectedType);
+            return Is.InstanceOfType(expectedType);
         }
 
 #if NET_2_0
@@ -245,7 +245,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public Constraint AssignableFrom(Type expectedType)
         {
-            return new AssignableFromConstraint(expectedType);
+            return Is.AssignableFrom(expectedType);
         }
 
 #if NET_2_0
@@ -271,7 +271,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint EquivalentTo(ICollection expected)
         {
-            return new CollectionEquivalentConstraint(expected);
+            return Is.EquivalentTo(expected);
         }
 
         /// <summary>
@@ -281,7 +281,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint SubsetOf(ICollection expected)
         {
-            return new CollectionSubsetConstraint(expected);
+            return Is.SubsetOf(expected);
         }
         #endregion
 
@@ -295,7 +295,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>True if the paths are the same, otherwise false</returns>
         public SamePathConstraint SamePath(string expected)
         {
-            return new SamePathConstraint(expected);
+            return Is.SamePath(expected);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>True if the path is the same as or a subpath of the expected path, otherwise false</returns>
         public SamePathOrUnderConstraint SamePathOrUnder(string expected)
         {
-            return new SamePathOrUnderConstraint(expected);
+            return Is.SamePathOrUnder(expected);
         }
 
         /// <summary>
@@ -316,7 +316,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public Constraint Ordered()
         {
-            return new CollectionOrderedConstraint();
+            return Is.Ordered();
         }
 
         /// <summary>
@@ -326,14 +326,14 @@ namespace NUnit.Framework.Constraints
         /// <param name="comparer">A custom comparer to be used to comparison</param>
         public Constraint Ordered(IComparer comparer)
         {
-            return new CollectionOrderedConstraint(comparer);
+            return Is.Ordered(comparer);
         }
         #endregion
 
         #region Range Constraints
         public RangeConstraint InRange(IComparable from, IComparable to)
         {
-            return new RangeConstraint(from, to);
+            return Is.InRange(from, to);
         }
         #endregion
 
@@ -346,7 +346,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="expected">The expected value of the property</param>
         public PropertyConstraint Property(string name, object expected)
         {
-            return new PropertyConstraint(name, new EqualConstraint(expected));
+            return Has.Property(name, expected);
         }
 
         /// <summary>
@@ -356,7 +356,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public PropertyConstraint Length(int length)
         {
-            return Property("Length", length);
+            return Has.Length(length);
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public PropertyConstraint Count(int count)
         {
-            return Property("Count", count);
+            return Has.Count(count);
         }
 
         /// <summary>
@@ -376,7 +376,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public PropertyConstraint Message(string message)
         {
-            return Property("Message", message);
+            return Has.Message(message);
         }
         #endregion
 
@@ -387,7 +387,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public SubstringConstraint ContainsSubstring(string substring)
         {
-            return new SubstringConstraint(substring);
+            return Text.Contains(substring);
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public StringConstraint.Modifier DoesNotContain(string substring)
         {
-            return new ConstraintBuilder().Not.ContainsSubstring(substring);
+            return Text.DoesNotContain(substring);
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public StartsWithConstraint StartsWith(string substring)
         {
-            return new StartsWithConstraint(substring);
+            return Text.StartsWith(substring);
         }
 
         /// <summary>
@@ -414,7 +414,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public StringConstraint.Modifier DoesNotStartWith(string substring)
         {
-            return new ConstraintBuilder().Not.StartsWith(substring);
+            return Text.DoesNotStartWith(substring);
         }
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public EndsWithConstraint EndsWith(string substring)
         {
-            return new EndsWithConstraint(substring);
+            return Text.EndsWith(substring);
         }
 
         /// <summary>
@@ -432,7 +432,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public StringConstraint.Modifier DoesNotEndWith(string substring)
         {
-            return new ConstraintBuilder().Not.EndsWith(substring);
+            return Text.DoesNotEndWith(substring);
         }
 
         /// <summary>
@@ -443,7 +443,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public RegexConstraint Matches(string pattern)
         {
-            return new RegexConstraint(pattern);
+            return Text.Matches(pattern);
         }
 
         /// <summary>
@@ -454,7 +454,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public StringConstraint.Modifier DoesNotMatch(string pattern)
         {
-            return new ConstraintBuilder().Not.Matches(pattern);
+            return Text.DoesNotMatch(pattern);
         }
         #endregion
 
@@ -512,7 +512,7 @@ namespace NUnit.Framework.Constraints
 //        }
         #endregion
 
-        #region Containing Constraint
+        #region Contains Constraint
         /// <summary>
         /// Resolves the chain of constraints using a
         /// ContainsConstraint as base. This constraint
