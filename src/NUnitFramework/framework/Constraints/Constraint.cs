@@ -143,5 +143,17 @@ namespace NUnit.Framework.Constraints
             return new NotConstraint(m == null ? new EqualConstraint(null) : m);
         }
         #endregion
-	}
+
+        #region Binary Operators
+        public ConstraintBuilder And
+        {
+            get { return new ConstraintBuilder(this).And; }
+        }
+
+        public ConstraintBuilder Or
+        {
+            get { return new ConstraintBuilder(this).Or; }
+        }
+        #endregion
+    }
 }

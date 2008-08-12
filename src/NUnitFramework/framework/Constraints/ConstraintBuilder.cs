@@ -21,6 +21,15 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class ConstraintBuilder : IConstraint
     {
+        #region Constructors
+        public ConstraintBuilder() { }
+
+        public ConstraintBuilder(Constraint constraint)
+        {
+            Push(constraint);
+        }
+        #endregion
+
         #region Processing Stacks
         OpStack ops = new OpStack();
         ConstraintStack constraints = new ConstraintStack();
@@ -45,72 +54,72 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using
         /// EqualConstraint(null) as base.
         /// </summary>
-        public Constraint Null
+        public ConstraintBuilder Null
         {
-            get { return Resolve(new EqualConstraint(null)); }
+            get { return PushAndReturnSelf(new EqualConstraint(null)); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// EqualConstraint(true) as base.
         /// </summary>
-        public Constraint True
+        public ConstraintBuilder True
         {
-            get { return Resolve(new EqualConstraint(true)); }
+            get { return PushAndReturnSelf(new EqualConstraint(true)); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// EqualConstraint(false) as base.
         /// </summary>
-        public Constraint False
+        public ConstraintBuilder False
         {
-            get { return Resolve(new EqualConstraint(false)); }
+            get { return PushAndReturnSelf(new EqualConstraint(false)); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// Is.NaN as base.
         /// </summary>
-        public Constraint NaN
+        public ConstraintBuilder NaN
         {
-            get { return Resolve(new EqualConstraint(double.NaN)); }
+            get { return PushAndReturnSelf(new EqualConstraint(double.NaN)); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// Is.Empty as base.
         /// </summary>
-        public Constraint Empty
+        public ConstraintBuilder Empty
         {
-            get { return Resolve(new EmptyConstraint()); }
+            get { return PushAndReturnSelf(new EmptyConstraint()); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// Is.Unique as base.
         /// </summary>
-        public Constraint Unique
+        public ConstraintBuilder Unique
         {
-            get { return Resolve(new UniqueItemsConstraint()); }
+            get { return PushAndReturnSelf(new UniqueItemsConstraint()); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionOrderedConstraint as base.
         /// </summary>
-        public Constraint Ordered()
+        public ConstraintBuilder Ordered()
         {
-            return Resolve(new CollectionOrderedConstraint());
+            return PushAndReturnSelf(new CollectionOrderedConstraint());
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionOrderedConstraint as base.
         /// </summary>
-        public Constraint Ordered(IComparer comparer)
+        public ConstraintBuilder Ordered(IComparer comparer)
         {
-            return Resolve(new CollectionOrderedConstraint(comparer));
+            return PushAndReturnSelf(new CollectionOrderedConstraint(comparer));
         }
         #endregion
 
@@ -130,9 +139,9 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// SameAsConstraint as base.
         /// </summary>
-        public Constraint SameAs(object expected)
+        public ConstraintBuilder SameAs(object expected)
         {
-            return Resolve(new SameAsConstraint(expected));
+            return PushAndReturnSelf(new SameAsConstraint(expected));
         }
         #endregion
 
@@ -141,53 +150,53 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// LessThanConstraint as base.
         /// </summary>
-        public Constraint LessThan(IComparable expected)
+        public ConstraintBuilder LessThan(IComparable expected)
         {
-            return Resolve(new LessThanConstraint(expected));
+            return PushAndReturnSelf(new LessThanConstraint(expected));
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// GreaterThanConstraint as base.
         /// </summary>
-        public Constraint GreaterThan(IComparable expected)
+        public ConstraintBuilder GreaterThan(IComparable expected)
         {
-            return Resolve(new GreaterThanConstraint(expected));
+            return PushAndReturnSelf(new GreaterThanConstraint(expected));
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// LessThanOrEqualConstraint as base.
         /// </summary>
-        public Constraint LessThanOrEqualTo(IComparable expected)
+        public ConstraintBuilder LessThanOrEqualTo(IComparable expected)
         {
-            return Resolve(new LessThanOrEqualConstraint(expected));
+            return PushAndReturnSelf(new LessThanOrEqualConstraint(expected));
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// LessThanOrEqualConstraint as base.
         /// </summary>
-        public Constraint AtMost(IComparable expected)
+        public ConstraintBuilder AtMost(IComparable expected)
         {
-            return Resolve(new LessThanOrEqualConstraint(expected));
+            return PushAndReturnSelf(new LessThanOrEqualConstraint(expected));
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// GreaterThanOrEqualConstraint as base.
         /// </summary>
-        public Constraint GreaterThanOrEqualTo(IComparable expected)
+        public ConstraintBuilder GreaterThanOrEqualTo(IComparable expected)
         {
-            return Resolve(new GreaterThanOrEqualConstraint(expected));
+            return PushAndReturnSelf(new GreaterThanOrEqualConstraint(expected));
         }
         /// <summary>
         /// Resolves the chain of constraints using a
         /// GreaterThanOrEqualConstraint as base.
         /// </summary>
-        public Constraint AtLeast(IComparable expected)
+        public ConstraintBuilder AtLeast(IComparable expected)
         {
-            return Resolve(new GreaterThanOrEqualConstraint(expected));
+            return PushAndReturnSelf(new GreaterThanOrEqualConstraint(expected));
         }
         #endregion
 
@@ -196,27 +205,27 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using an
         /// ExactTypeConstraint as base.
         /// </summary>
-        public Constraint TypeOf(Type expectedType)
+        public ConstraintBuilder TypeOf(Type expectedType)
         {
-            return Resolve(new ExactTypeConstraint(expectedType));
+            return PushAndReturnSelf(new ExactTypeConstraint(expectedType));
         }
 
         /// <summary>
         /// Resolves the chain of constraints using an
         /// InstanceOfTypeConstraint as base.
         /// </summary>
-        public Constraint InstanceOfType(Type expectedType)
+        public ConstraintBuilder InstanceOfType(Type expectedType)
         {
-            return Resolve(new InstanceOfTypeConstraint(expectedType));
+            return PushAndReturnSelf(new InstanceOfTypeConstraint(expectedType));
         }
 
         /// <summary>
         /// Resolves the chain of constraints using an
         /// AssignableFromConstraint as base.
         /// </summary>
-        public Constraint AssignableFrom(Type expectedType)
+        public ConstraintBuilder AssignableFrom(Type expectedType)
         {
-            return Resolve(new AssignableFromConstraint(expectedType));
+            return PushAndReturnSelf(new AssignableFromConstraint(expectedType));
         }
         #endregion
 
@@ -241,9 +250,9 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="expected"></param>
         /// <returns></returns>
-        public Constraint Contains(object expected)
+        public ConstraintBuilder Contains(object expected)
         {
-            return Resolve(new CollectionContainsConstraint(expected));
+            return PushAndReturnSelf(new CollectionContainsConstraint(expected));
         }
 
         /// <summary>
@@ -251,9 +260,9 @@ namespace NUnit.Framework.Constraints
         /// CollectionContainsConstraint as base.
         /// </summary>
         /// <param name="expected">The expected object</param>
-        public Constraint Member(object expected)
+        public ConstraintBuilder Member(object expected)
         {
-            return Resolve(new CollectionContainsConstraint(expected));
+            return PushAndReturnSelf(new CollectionContainsConstraint(expected));
         }
         #endregion
 
@@ -310,27 +319,27 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// CollectionEquivalentConstraint as base.
         /// </summary>
-        public Constraint EquivalentTo(ICollection expected)
+        public ConstraintBuilder EquivalentTo(ICollection expected)
         {
-            return Resolve( new CollectionEquivalentConstraint(expected) );
+            return PushAndReturnSelf( new CollectionEquivalentConstraint(expected) );
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionContainingConstraint as base.
         /// </summary>
-        public Constraint CollectionContaining(object expected)
+        public ConstraintBuilder CollectionContaining(object expected)
 		{
-			return Resolve( new CollectionContainsConstraint(expected) );
+			return PushAndReturnSelf( new CollectionContainsConstraint(expected) );
 		}
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionSubsetConstraint as base.
         /// </summary>
-        public Constraint SubsetOf(ICollection expected)
+        public ConstraintBuilder SubsetOf(ICollection expected)
         {
-            return Resolve(new CollectionSubsetConstraint(expected));
+            return PushAndReturnSelf(new CollectionSubsetConstraint(expected));
         }
         #endregion
 
@@ -363,9 +372,9 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a 
         /// PropertyConstraint as base
         /// </summary>
-		public Constraint Property( string name, object expected )
+		public ConstraintBuilder Property( string name, object expected )
 		{
-			return Resolve( new PropertyConstraint( name, new EqualConstraint( expected ) ) );
+			return PushAndReturnSelf( new PropertyConstraint( name, new EqualConstraint( expected ) ) );
 		}
 
         /// <summary>
@@ -374,7 +383,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        public Constraint Length(int length)
+        public ConstraintBuilder Length(int length)
         {
             return Property("Length", length);
         }
@@ -385,7 +394,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public Constraint Count(int count)
+        public ConstraintBuilder Count(int count)
         {
             return Property("Count", count);
         }
@@ -396,20 +405,20 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public Constraint Message(string message)
+        public ConstraintBuilder Message(string message)
         {
             return Property("Message", message);
         }
         #endregion
 
         #region Range Constraint
-        public Constraint InRange(IComparable from, IComparable to)
+        public ConstraintBuilder InRange(IComparable from, IComparable to)
         {
-            return Resolve( new RangeConstraint(from, to) );
+            return PushAndReturnSelf( new RangeConstraint(from, to) );
         }
         #endregion
 
-        #region Prefix Operators
+        #region Operators
 
         #region Not
         /// <summary>
@@ -472,11 +481,61 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
+        #region And
+        public ConstraintBuilder And
+        {
+            get { return PushAndReturnSelf(new AndOperator()); }
+        }
         #endregion
-       
+
+        #region Or
+        public ConstraintBuilder Or
+        {
+            get { return PushAndReturnSelf(new OrOperator()); }
+        }
+        #endregion
+
+        #endregion
+
+        #region Operator Overloads
+        /// <summary>
+        /// This operator creates a constraint that is satisfied only if both 
+        /// argument constraints are satisfied.
+        /// </summary>
+        public static ConstraintBuilder operator &(ConstraintBuilder left, ConstraintBuilder right)
+        {
+            left.Push(new AndOperator());
+            left.Push(right.Resolve());
+            return left;
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied if either 
+        /// of the argument constraints is satisfied.
+        /// </summary>
+        public static ConstraintBuilder operator |(ConstraintBuilder left, ConstraintBuilder right)
+        {
+            left.Push(new OrOperator());
+            left.Push(right.Resolve());
+            return left;
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied if the 
+        /// argument constraint is not satisfied.
+        /// </summary>
+        public static Constraint operator !(ConstraintBuilder m)
+        {
+            return new NotConstraint(m == null ? new EqualConstraint(null) : m.Resolve());
+        }
+        #endregion
+
         #region Helper Methods
         private void Push(ConstraintOperator op)
         {
+            while (ops.Count > 0 && op.Precedence > ops.Peek().Precedence)
+                ops.Pop().Reduce(constraints);
+
             ops.Push(op);
         }
 
@@ -518,11 +577,11 @@ namespace NUnit.Framework.Constraints
         {
             while (ops.Count > 0)
             {
-                ConstraintOperator op = (ConstraintOperator)ops.Pop();
+                ConstraintOperator op = ops.Pop();
                 op.Reduce(constraints);
             }
 
-            return (Constraint)constraints.Pop(); ;
+            return constraints.Pop(); ;
         }
         #endregion
 

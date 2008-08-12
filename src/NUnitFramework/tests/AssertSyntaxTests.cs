@@ -25,7 +25,7 @@ namespace NUnit.Framework.Tests
 	/// 
 	/// This Fixture will eventually be duplicated in other
 	/// supported languages. 
-	/// </summary>
+	/// </summar
 	[TestFixture]
 	public class AssertSyntaxTests : AssertionHelper
 	{
@@ -850,14 +850,34 @@ namespace NUnit.Framework.Tests
 		}
 		#endregion
 
-        #region AndTests
+        #region Operator Tests
+        [Test]
         public void AndTests()
         {
-            //Assert.That(7, Is.GreaterThan(5).And.LessThan(10));
+            Assert.That(7, Is.GreaterThan(5).And.LessThan(10));
+            Assert.That(7, Is.Not.Null.And.Not.LessThan(5).And.Not.GreaterThan(10));
+        }
+
+        [Test]
+        public void OrTests()
+        {
+            Assert.That(99, Is.LessThan(5).Or.GreaterThan(10));
+            Assert.That(99, Is.LessThan(5).Or.GreaterThan(10).Or.EqualTo(7));
+            Assert.That(3, Is.LessThan(5).Or.GreaterThan(10).Or.EqualTo(7));
+            Assert.That(7, Is.LessThan(5).Or.GreaterThan(10).Or.EqualTo(7));
+        }
+
+        [Test]
+        public void PrecedenceTests()
+        {
+            Assert.That(7, Is.LessThan(100).And.GreaterThan(0).Or.EqualTo(999));
+            Assert.That(7, Is.EqualTo(999).Or.GreaterThan(0).And.LessThan(100));
+            Assert.That(999, Is.LessThan(100).And.GreaterThan(0).Or.EqualTo(999));
+            Assert.That(999, Is.EqualTo(999).Or.GreaterThan(0).And.LessThan(100));
         }
         #endregion
 
-        #region Operator Tests
+        #region Operator Override Tests
         [Test]
 		public void NotOperator()
 		{
@@ -887,8 +907,8 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void ComplexTests()
 		{
-			Assert.That(7, Is.Not.Null & Is.Not.LessThan(5) & Is.Not.GreaterThan(10));
-			Expect(7, Not.Null & Not.LessThan(5) & Not.GreaterThan(10));
+            Assert.That(7, Is.Not.Null & Is.Not.LessThan(5) & Is.Not.GreaterThan(10));
+            Expect(7, Not.Null & Not.LessThan(5) & Not.GreaterThan(10));
 
 			Assert.That(7, !Is.Null & !Is.LessThan(5) & !Is.GreaterThan(10));
 			Expect(7, !Null & !LessThan(5) & !GreaterThan(10));

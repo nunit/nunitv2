@@ -9,10 +9,10 @@ using System;
 namespace NUnit.Framework.Constraints
 {
 	/// <summary>
-	/// BinaryOperation is the abstract base of all constraints
+	/// BinaryConstraint is the abstract base of all constraints
 	/// that combine two other constraints in some fashion.
 	/// </summary>
-    public abstract class BinaryOperation : Constraint
+    public abstract class BinaryConstraint : Constraint
     {
 		/// <summary>
 		/// The first constraint being combined
@@ -24,11 +24,11 @@ namespace NUnit.Framework.Constraints
 		protected Constraint right;
 
 		/// <summary>
-		/// Construct a BinaryOperation from two other constraints
+		/// Construct a BinaryConstraint from two other constraints
 		/// </summary>
 		/// <param name="left">The first constraint</param>
 		/// <param name="right">The second constraint</param>
-        public BinaryOperation(Constraint left, Constraint right)
+        public BinaryConstraint(Constraint left, Constraint right)
         {
             this.left = left;
             this.right = right;
@@ -38,7 +38,7 @@ namespace NUnit.Framework.Constraints
     /// <summary>
     /// AndConstraint succeeds only if both members succeed.
     /// </summary>
-	public class AndConstraint : BinaryOperation
+	public class AndConstraint : BinaryConstraint
     {
 		/// <summary>
 		/// Create an AndConstraint from two other constraints
@@ -74,7 +74,7 @@ namespace NUnit.Framework.Constraints
 	/// <summary>
 	/// OrConstraint succeeds if either member succeeds
 	/// </summary>
-    public class OrConstraint : BinaryOperation
+    public class OrConstraint : BinaryConstraint
     {
 		/// <summary>
 		/// Create an OrConstraint from two other constraints

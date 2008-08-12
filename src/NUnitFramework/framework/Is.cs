@@ -73,7 +73,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Is.Empty returns a static constraint that tests whether a string or collection is empty
 		/// </summary>
-        public static Constraint Empty
+        public static EmptyConstraint Empty
         {
             get { return new EmptyConstraint(); }
         }
@@ -81,7 +81,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Is.Unique returns a static constraint that tests whether a collection contains all unque items.
         /// </summary>
-        public static Constraint Unique
+        public static UniqueItemsConstraint Unique
         {
             get { return new UniqueItemsConstraint(); }
         }
@@ -308,7 +308,7 @@ namespace NUnit.Framework
         #endregion
 
         #region Range Constraints
-        public static Constraint InRange(IComparable from, IComparable to)
+        public static RangeConstraint InRange(IComparable from, IComparable to)
         {
             return new RangeConstraint(from, to);
         }

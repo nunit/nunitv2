@@ -103,7 +103,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="name">The name of the property to look for</param>
 		/// <param name="expected">The expected value of the property</param>
-		public static Constraint Property( string name, object expected )
+		public static PropertyConstraint Property( string name, object expected )
 		{
 			return new PropertyConstraint( name, new EqualConstraint( expected ) );
 		}
@@ -113,7 +113,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-		public static Constraint Length( int length )
+		public static PropertyConstraint Length( int length )
 		{
 			return Property( "Length", length );
 		}
@@ -123,11 +123,21 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="count"></param>
 		/// <returns></returns>
-		public static Constraint Count( int count )
+		public static PropertyConstraint Count( int count )
 		{
 			return Property( "Count", count );
 		}
-		#endregion
+
+        /// <summary>
+        /// Returns a new PropertyConstraint for the Message property
+        /// </summary>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public static PropertyConstraint Message(string message)
+        {
+            return Property( "Message", message );
+        }
+        #endregion
 
 		#region Member Constraint
 		/// <summary>

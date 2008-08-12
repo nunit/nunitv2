@@ -6,15 +6,67 @@ using System.Collections.Generic;
 
 namespace NUnit.Framework.Constraints
 {
-    #region Processing Stacks
+    #region Operator Stack
 #if NET_2_0
         public class OpStack : Stack<ConstraintOperator> { }
-        public class ConstraintStack : Stack<Constraint> { }
 #else
-        public class OpStack : Stack { }
-        public class ConstraintStack : Stack { }
+    public class OpStack 
+	{ 
+		private Stack stack = new Stack();
+
+		public int Count
+		{
+			get { return stack.Count; }
+		}
+
+		public void Push( ConstraintOperator op )
+		{
+			stack.Push(op);
+		}
+
+		public ConstraintOperator Pop()
+		{
+			return (ConstraintOperator)stack.Pop();
+		}
+
+		public ConstraintOperator Peek()
+		{
+			return (ConstraintOperator)stack.Peek();
+		}
+	}
 #endif
     #endregion
+
+	#region Constraint Stack
+#if NET_2_0
+    public class ConstraintStack : Stack<Constraint> { }
+#else
+	public class ConstraintStack
+	{ 
+		private Stack stack = new Stack();
+
+		public int Count
+		{
+			get { return stack.Count; }
+		}
+
+		public void Push( Constraint constraint )
+		{
+			stack.Push(constraint);
+		}
+
+		public Constraint Pop()
+		{
+			return (Constraint)stack.Pop();
+		}
+
+		public Constraint Peek()
+		{
+			return (Constraint)stack.Peek();
+		}
+	}
+#endif
+	#endregion
 
     #region ConstraintOperator
     /// <summary>
@@ -24,6 +76,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class ConstraintOperator
     {
+        public abstract int Precedence { get; }
         public abstract void Reduce(ConstraintStack stack);
     }
     #endregion
@@ -31,12 +84,34 @@ namespace NUnit.Framework.Constraints
     #region PrefixOperator
     public abstract class PrefixOperator : ConstraintOperator
     {
+        /// <summary>
+        /// All PrefixOperators have a precedence of 1
+        /// </summary>
+        public override int Precedence
+        {
+            get { return 1; }
+        }
+    
         public override void Reduce(ConstraintStack stack)
         {
-            stack.Push( ApplyPrefix( (Constraint)stack.Pop() ) );
+            stack.Push( ApplyPrefix( stack.Pop() ) );
         }
 
         public abstract Constraint ApplyPrefix(Constraint constraint);
+    }
+    #endregion
+
+    #region BinaryOperator
+    public abstract class BinaryOperator : ConstraintOperator
+    {
+        public override void Reduce(ConstraintStack stack)
+        {
+            Constraint right = stack.Pop();
+            Constraint left = stack.Pop();
+            stack.Push(ApplyOperator(left, right));
+        }
+
+        public abstract Constraint ApplyOperator(Constraint left, Constraint right);
     }
     #endregion
 
@@ -92,12 +167,40 @@ namespace NUnit.Framework.Constraints
 
         public override void Reduce(ConstraintStack stack)
         {
-            stack.Push( ApplyPrefix(stack.Count > 0 ? (Constraint)stack.Pop() : null) );
+            stack.Push( ApplyPrefix(stack.Count > 0 ? stack.Pop() : null) );
         }
 
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new PropertyConstraint(name, constraint);
+        }
+    }
+    #endregion
+
+    #region AndOperator
+    public class AndOperator : BinaryOperator
+    {
+        public override int Precedence
+        {
+            get { return 2; }
+        }
+        public override Constraint ApplyOperator(Constraint left, Constraint right)
+        {
+            return new AndConstraint(left, right);
+        }
+    }
+    #endregion
+
+    #region OrOperator
+    public class OrOperator : BinaryOperator
+    {
+        public override int Precedence
+        {
+            get { return 3; }
+        }
+        public override Constraint ApplyOperator(Constraint left, Constraint right)
+        {
+            return new OrConstraint(left, right);
         }
     }
     #endregion
