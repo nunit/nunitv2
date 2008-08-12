@@ -352,6 +352,66 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
+                <File
+                    RelPath = "Syntax\CollectionTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\CollectionTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\ComparisonTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\ComparisonTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\EqualityTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\EqualityTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\OperatorOverrides.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\OperatorOverrides.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\OperatorTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\OperatorTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\PathConstraintTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\PathConstraintTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\PropertyTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\PropertyTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\SimpleConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\SimpleConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\StringConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\StringConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\TypeConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\TypeConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
             </Include>
         </Files>
     </CSHARP>

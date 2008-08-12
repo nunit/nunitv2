@@ -232,6 +232,36 @@
       <Link>StringAssertTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\CollectionTests.cs">
+      <Link>Syntax\CollectionTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\ComparisonTests.cs">
+      <Link>Syntax\ComparisonTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\EqualityTests.cs">
+      <Link>Syntax\EqualityTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\OperatorOverrides.cs">
+      <Link>Syntax\OperatorOverrides.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\OperatorTests.cs">
+      <Link>Syntax\OperatorTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\PathConstraintTests.cs">
+      <Link>Syntax\PathConstraintTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\PropertyTests.cs">
+      <Link>Syntax\PropertyTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\SimpleConstraints.cs">
+      <Link>Syntax\SimpleConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\StringConstraints.cs">
+      <Link>Syntax\StringConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\TypeConstraints.cs">
+      <Link>Syntax\TypeConstraints.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\TextMessageWriterTests.cs">
       <Link>TextMessageWriterTests.cs</Link>
       <SubType>Code</SubType>

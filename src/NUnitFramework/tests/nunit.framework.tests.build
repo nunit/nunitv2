@@ -15,6 +15,16 @@
     <include name="Constraints/SameAsTest.cs"/>
     <include name="Constraints/StringConstraintTests.cs"/>
     <include name="Constraints/TypeConstraintTests.cs"/>
+    <include name="Syntax/CollectionTests.cs"/>
+    <include name="Syntax/ComparisonTests.cs"/>
+    <include name="Syntax/EqualityTests.cs"/>
+    <include name="Syntax/OperatorOverrides.cs"/>
+    <include name="Syntax/OperatorTests.cs"/>
+    <include name="Syntax/PathConstraintTests.cs"/>
+    <include name="Syntax/PropertyTests.cs"/>
+    <include name="Syntax/SimpleConstraints.cs"/>
+    <include name="Syntax/StringConstraints.cs"/>
+    <include name="Syntax/TypeConstraints.cs"/>
     <include name="ArrayEqualsFailureMessageFixture.cs"/>
     <include name="ArrayEqualsFixture.cs"/>
     <include name="ArrayNotEqualFixture.cs"/>
