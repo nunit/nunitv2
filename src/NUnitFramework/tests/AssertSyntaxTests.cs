@@ -11,25 +11,25 @@ using NUnit.Framework.Constraints;
 using System.Collections.Generic;
 #endif
 
-namespace NUnit.Framework.Tests
+/// <summary>
+/// These test fixtures attempt to exercise all the syntactic
+/// variations of Assert without getting into failures, errors 
+/// or corner cases. Thus, some of the tests may be duplicated 
+/// in other fixtures.
+/// 
+/// Each test performs the same operations using the classic
+/// syntax (if available) and the new syntax in both the
+/// helper-based and inherited forms.
+/// 
+/// These tests will eventually be duplicated in other
+/// supported languages. 
+/// </summary>
+namespace NUnit.Framework.Syntax
 {
-	/// <summary>
-	/// This test fixture attempts to exercise all the syntactic
-	/// variations of Assert without getting into failures, errors 
-	/// or corner cases. Thus, some of the tests may be duplicated 
-	/// in other fixtures.
-	/// 
-	/// Each test performs the same operations using the classic
-	/// syntax (if available) and the new syntax in both the
-	/// helper-based and inherited forms.
-	/// 
-	/// This Fixture will eventually be duplicated in other
-	/// supported languages. 
-	/// </summar
-	[TestFixture]
-	public class AssertSyntaxTests : AssertionHelper
+    #region Simple Constraint Tests
+    [TestFixture]
+	public class SimpleConstraintTests : AssertionHelper
 	{
-		#region Simple Constraint Tests
 		[Test]
 		public void IsNull()
 		{
@@ -134,61 +134,67 @@ namespace NUnit.Framework.Tests
 			Expect(new bool[0], Empty);
 			Expect(new int[] { 1, 2, 3 }, Not.Empty);
 		}
-		#endregion
+    }
+	#endregion
 
-		#region TypeConstraint Tests
-		[Test]
-		public void ExactTypeTests()
-		{
-			// Classic syntax workarounds
-			Assert.AreEqual(typeof(string), "Hello".GetType());
-			Assert.AreEqual("System.String", "Hello".GetType().FullName);
-			Assert.AreNotEqual(typeof(int), "Hello".GetType());
-			Assert.AreNotEqual("System.Int32", "Hello".GetType().FullName);
+	#region TypeConstraint Tests
+    public class TypeConstraintTests : AssertionHelper
+    {
+        [Test]
+        public void ExactTypeTests()
+        {
+            // Classic syntax workarounds
+            Assert.AreEqual(typeof(string), "Hello".GetType());
+            Assert.AreEqual("System.String", "Hello".GetType().FullName);
+            Assert.AreNotEqual(typeof(int), "Hello".GetType());
+            Assert.AreNotEqual("System.Int32", "Hello".GetType().FullName);
 
-			// Helper syntax
-			Assert.That("Hello", Is.TypeOf(typeof(string)));
-			Assert.That("Hello", Is.Not.TypeOf(typeof(int)));
-			
-			// Inherited syntax
-			Expect( "Hello", TypeOf(typeof(string)));
-			Expect( "Hello", Not.TypeOf(typeof(int)));
-		}
+            // Helper syntax
+            Assert.That("Hello", Is.TypeOf(typeof(string)));
+            Assert.That("Hello", Is.Not.TypeOf(typeof(int)));
 
-		[Test]
-		public void InstanceOfTypeTests()
-		{
-			// Classic syntax
-			Assert.IsInstanceOfType(typeof(string), "Hello");
-			Assert.IsNotInstanceOfType(typeof(string), 5);
+            // Inherited syntax
+            Expect("Hello", TypeOf(typeof(string)));
+            Expect("Hello", Not.TypeOf(typeof(int)));
+        }
 
-			// Helper syntax
-			Assert.That("Hello", Is.InstanceOfType(typeof(string)));
-			Assert.That(5, Is.Not.InstanceOfType(typeof(string)));
+        [Test]
+        public void InstanceOfTypeTests()
+        {
+            // Classic syntax
+            Assert.IsInstanceOfType(typeof(string), "Hello");
+            Assert.IsNotInstanceOfType(typeof(string), 5);
 
-			// Inherited syntax
-			Expect("Hello", InstanceOfType(typeof(string)));
-			Expect(5, Not.InstanceOfType(typeof(string)));
-		}
+            // Helper syntax
+            Assert.That("Hello", Is.InstanceOfType(typeof(string)));
+            Assert.That(5, Is.Not.InstanceOfType(typeof(string)));
 
-		[Test]
-		public void AssignableFromTypeTests()
-		{
-			// Classic syntax
-			Assert.IsAssignableFrom(typeof(string), "Hello");
-			Assert.IsNotAssignableFrom(typeof(string), 5);
+            // Inherited syntax
+            Expect("Hello", InstanceOfType(typeof(string)));
+            Expect(5, Not.InstanceOfType(typeof(string)));
+        }
 
-			// Helper syntax
-			Assert.That( "Hello", Is.AssignableFrom(typeof(string)));
-			Assert.That( 5, Is.Not.AssignableFrom(typeof(string)));
-			
-			// Inherited syntax
-			Expect( "Hello", AssignableFrom(typeof(string)));
-			Expect( 5, Not.AssignableFrom(typeof(string)));
-		}
-		#endregion
+        [Test]
+        public void AssignableFromTypeTests()
+        {
+            // Classic syntax
+            Assert.IsAssignableFrom(typeof(string), "Hello");
+            Assert.IsNotAssignableFrom(typeof(string), 5);
 
-		#region StringConstraint Tests
+            // Helper syntax
+            Assert.That("Hello", Is.AssignableFrom(typeof(string)));
+            Assert.That(5, Is.Not.AssignableFrom(typeof(string)));
+
+            // Inherited syntax
+            Expect("Hello", AssignableFrom(typeof(string)));
+            Expect(5, Not.AssignableFrom(typeof(string)));
+        }
+    }
+	#endregion
+
+	#region StringConstraint Tests
+    public class StringConstraintTests : AssertionHelper
+    {
 		[Test]
 		public void SubstringTests()
 		{
@@ -318,11 +324,14 @@ namespace NUnit.Framework.Tests
             Expect(phrase, Matches("ALL").IgnoreCase);
             Expect(quotes, All.Matches("never").IgnoreCase);
 		}
-		#endregion
+    }
+	#endregion
 
-		#region Equality Tests
+    #region Equality Tests
+    public class EqualityTests : AssertionHelper
+    {
 		[Test]
-		public void EqualityTests()
+		public void SimpleEqualityTests()
 		{
 			int[] i3 = new int[] { 1, 2, 3 };
 			double[] d3 = new double[] { 1.0, 2.0, 3.0 };
@@ -444,11 +453,14 @@ namespace NUnit.Framework.Tests
                 GlobalSettings.DefaultFloatingPointTolerance = 0.0d;
             }
         }
-		#endregion
+    }
+    #endregion
 
-		#region Comparison Tests
+    #region Comparison Tests
+    public class ComparisonTests : AssertionHelper
+    {
 		[Test]
-		public void ComparisonTests()
+		public void SimpleComparisonTests()
 		{
 			// Classic Syntax
 			Assert.Greater(7, 3);
@@ -488,9 +500,12 @@ namespace NUnit.Framework.Tests
 			Expect(3, LessThanOrEqualTo(3));
 			Expect(3, AtMost(3));
 		}
-		#endregion
+    }
+    #endregion
 
-		#region Collection Tests
+    #region Collection Tests
+    public class CollectionTests : AssertionHelper
+    {
 		[Test]
 		public void AllItemsTests()
 		{
@@ -703,11 +718,14 @@ namespace NUnit.Framework.Tests
             Expect(ints, Ordered());
             Expect(strings, Ordered());
         }
-        #endregion
+    }
+    #endregion
 
-		#region PathConstraint Tests
+    #region PathConstraint Tests
+    public class PathConstraintTests : AssertionHelper
+    {
 		[Test]
-		public void PathConstraintTests()
+		public void SimplePathConstraintTests()
 		{
 			Assert.That( "/folder1/./junk/../folder2", 
 				Is.SamePath( "/folder1/folder2" ) );
@@ -731,11 +749,14 @@ namespace NUnit.Framework.Tests
             Assert.That("/folder1/folder2/folder3",
                 Is.Not.SamePathOrUnder("/Folder1/Folder2").RespectCase);
 		}
-		#endregion
+    }
+    #endregion
 
-		#region Property Tests
+    #region Property Tests
+    public class PropertyTests : AssertionHelper
+    {
 		[Test]
-		public void PropertyTests()
+		public void SimplePropertyTests()
 		{
 			string[] array = { "abc", "bca", "xyz", "qrs" };
 			string[] array2 = { "a", "ab", "abc" };
@@ -821,36 +842,36 @@ namespace NUnit.Framework.Tests
 			object[] array = new object[] { 1, "two", 3, null };
 			Assert.That( array, Has.None.Property( "Length" ) );
 		}
-			
-		#endregion
+    }
+    #endregion
 
-		#region Not Tests
-		[Test]
-		public void NotTests()
-		{
-			// Not available using the classic syntax
+    #region Operator Tests
+    public class OperatorTests : AssertionHelper
+    {
+        [Test]
+        public void NotTests()
+        {
+            // Not available using the classic syntax
 
-			// Helper syntax
-			Assert.That(42, Is.Not.Null);
-			Assert.That(42, Is.Not.True);
-			Assert.That(42, Is.Not.False);
-			Assert.That(2.5, Is.Not.NaN);
-			Assert.That(2 + 2, Is.Not.EqualTo(3));
-			Assert.That(2 + 2, Is.Not.Not.EqualTo(4));
-			Assert.That(2 + 2, Is.Not.Not.Not.EqualTo(5));
+            // Helper syntax
+            Assert.That(42, Is.Not.Null);
+            Assert.That(42, Is.Not.True);
+            Assert.That(42, Is.Not.False);
+            Assert.That(2.5, Is.Not.NaN);
+            Assert.That(2 + 2, Is.Not.EqualTo(3));
+            Assert.That(2 + 2, Is.Not.Not.EqualTo(4));
+            Assert.That(2 + 2, Is.Not.Not.Not.EqualTo(5));
 
-			// Inherited syntax
-			Expect(42, Not.Null);
-			Expect(42, Not.True);
-			Expect(42, Not.False);
-			Expect(2.5, Not.NaN);
-			Expect(2 + 2, Not.EqualTo(3));
-			Expect(2 + 2, Not.Not.EqualTo(4));
-			Expect(2 + 2, Not.Not.Not.EqualTo(5));
-		}
-		#endregion
+            // Inherited syntax
+            Expect(42, Not.Null);
+            Expect(42, Not.True);
+            Expect(42, Not.False);
+            Expect(2.5, Not.NaN);
+            Expect(2 + 2, Not.EqualTo(3));
+            Expect(2 + 2, Not.Not.EqualTo(4));
+            Expect(2 + 2, Not.Not.Not.EqualTo(5));
+        }
 
-        #region Operator Tests
         [Test]
         public void AndTests()
         {
@@ -874,10 +895,14 @@ namespace NUnit.Framework.Tests
             Assert.That(7, Is.EqualTo(999).Or.GreaterThan(0).And.LessThan(100));
             Assert.That(999, Is.LessThan(100).And.GreaterThan(0).Or.EqualTo(999));
             Assert.That(999, Is.EqualTo(999).Or.GreaterThan(0).And.LessThan(100));
+            //Assert.That("Hell", StartsWith("H").Or.StartsWith("X") & Length(5));
         }
-        #endregion
+    }
+    #endregion
 
-        #region Operator Override Tests
+    #region Operator Override Tests
+    public class OverrideTests : AssertionHelper
+    {
         [Test]
 		public void NotOperator()
 		{
@@ -923,12 +948,15 @@ namespace NUnit.Framework.Tests
 			Expect(7, !(Constraint)null & !LessThan(5) & !GreaterThan(10));
 #endif
 		}
-		#endregion
- 
-		#region Invalid Code Tests
+    }
+    #endregion
+
+    #region Invalid Code Tests
+    public class InvalidCodeTests : AssertionHelper
+    {
 		// This method contains assertions that should not compile
 		// You can check by uncommenting the code.
-		public void WillNotCompile()
+        public void WillNotCompile()
 		{
 		//    Assert.That(42, Is.Not);
 		//    Assert.That(42, Is.All);
@@ -941,7 +969,6 @@ namespace NUnit.Framework.Tests
 		//    Assert.That(c, Is.Not.All);
 		//    Assert.That(c, Is.All.Not);
         }
-		#endregion
 	}
-
+    #endregion
 }
