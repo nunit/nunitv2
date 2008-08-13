@@ -116,7 +116,7 @@ namespace NUnit.Core
 			get { return suiteBuilders; }
 		}
 
-		internal ITestCaseBuilder TestBuilders
+		internal ITestCaseBuilder2 TestBuilders
 		{
 			get { return testBuilders; }
 		}

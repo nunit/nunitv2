@@ -26,7 +26,7 @@ namespace NUnit.Core.Builders
         /// <param name="method">A MethodInfo for the method being used as a test method</param>
         /// <param name="suite">The test suite being built, to which the new test would be added</param>
         /// <returns>True if the builder can create a test case from this method</returns>
-        public bool CanBuildFrom(MethodInfo method, Test suite)
+        public bool CanBuildFrom(MethodInfo method)
         {
             return Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) ||
                    Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) &&
@@ -42,7 +42,7 @@ namespace NUnit.Core.Builders
         /// <param name="method">The MethodInfo for which a test is to be built</param>
         /// <param name="suite">The test fixture being populated, or null</param>
         /// <returns>A Test representing one or more method invocations</returns>
-        public Test BuildFrom(MethodInfo method, Test parent)
+        public Test BuildFrom(MethodInfo method)
         {
             ParameterizedMethodSuite suite = new ParameterizedMethodSuite(method);
             NUnitFramework.ApplyCommonAttributes(method, suite);

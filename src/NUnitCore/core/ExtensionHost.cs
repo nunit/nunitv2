@@ -31,6 +31,11 @@ namespace NUnit.Core
 			get { return (IExtensionPoint[])extensions.ToArray(typeof(IExtensionPoint)); }
 		}
 
+        public IFrameworkRegistry FrameworkRegistry
+        {
+            get { return (IFrameworkRegistry)GetExtensionPoint("FrameworkRegistry"); }
+        }
+
 		public IExtensionPoint GetExtensionPoint( string name )
 		{
 			foreach ( IExtensionPoint extensionPoint in extensions )

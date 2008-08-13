@@ -23,8 +23,10 @@ namespace NUnit.Core.Extensions
 			IExtensionPoint decorators = host.GetExtensionPoint( "TestDecorators" );
 			if ( decorators == null )
 				return false;
-				
-			decorators.Install( this, DecoratorPriority.Normal );
+
+    		//decorators.Install( this, DecoratorPriority.Normal );
+            decorators.Install(this);
+
 			return true;
 		}
 		#endregion

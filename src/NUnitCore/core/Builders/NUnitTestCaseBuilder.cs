@@ -47,7 +47,7 @@ namespace NUnit.Core.Builders
         /// <param name="method">A MethodInfo for the method being used as a test method</param>
         /// <param name="suite">The test suite being built, to which the new test would be added</param>
         /// <returns>True if the builder can create a test case from this method</returns>
-        public bool CanBuildFrom(MethodInfo method, Test suite)
+        public bool CanBuildFrom(MethodInfo method)
         {
             if( Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) &&
                 !CoreExtensions.Host.TestCaseProviders.HasTestCasesFor( method ) )
@@ -73,7 +73,7 @@ namespace NUnit.Core.Builders
         /// <param name="method">The MethodInfo for which a test is to be built</param>
         /// <param name="suite">The test fixture being populated, or null</param>
         /// <returns>A Test representing one or more method invocations</returns>
-        public Test BuildFrom(System.Reflection.MethodInfo method, Test suite)
+        public Test BuildFrom(System.Reflection.MethodInfo method)
 		{
             NUnitTestMethod testMethod = new NUnitTestMethod(method);
 
@@ -88,7 +88,7 @@ namespace NUnit.Core.Builders
 		#endregion
 
         #region Helper Methods
-	    /// <summary>
+        /// <summary>
         /// Helper method that checks the signature of a TestMethod
         /// to determine if the test is valid.
         /// 

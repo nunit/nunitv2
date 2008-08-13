@@ -14,7 +14,7 @@ namespace NUnit.Core.Extensibility
 	/// implements the ITestDecorator interface itself, passing calls 
 	/// on to the individual decorators.
 	/// </summary>
-	public class TestDecoratorCollection : ExtensionPoint, ITestDecorator
+	public class TestDecoratorCollection : ExtensionPoint, IExtensionPoint2, ITestDecorator
 	{
 		#region Constructor
 		public TestDecoratorCollection(IExtensionHost host)

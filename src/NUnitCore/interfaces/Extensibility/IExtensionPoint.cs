@@ -33,6 +33,17 @@ namespace NUnit.Core.Extensibility
         void Install(object extension);
 
         /// <summary>
+		/// Removes an extension from this extension point. If the
+		/// extension object is not present, the method returns
+		/// without error.
+        /// </summary>
+        /// <param name="extension"></param>
+		void Remove( object extension );
+	}
+
+    public interface IExtensionPoint2 : IExtensionPoint
+    {
+        /// <summary>
         /// Install an extension at this extension point specifying
         /// an integer priority value for the extension.If the
         /// extension object does not meet the requirements for
@@ -43,13 +54,5 @@ namespace NUnit.Core.Extensibility
         /// <param name="extension">The extension to install</param>
         /// <param name="priority">The priority level for this extension</param>
         void Install(object extension, int priority);
-
-        /// <summary>
-		/// Removes an extension from this extension point. If the
-		/// extension object is not present, the method returns
-		/// without error.
-		/// <param name="extension"></param>
-		/// </summary>
-		void Remove( object extension );
-	}
+    }
 }

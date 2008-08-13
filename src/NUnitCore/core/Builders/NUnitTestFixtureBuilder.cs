@@ -23,7 +23,7 @@ namespace NUnit.Core.Builders
 		/// </summary>
 		private NUnitTestFixture fixture;
 
-	    private Extensibility.ITestCaseBuilder testBuilders = CoreExtensions.Host.TestBuilders;
+	    private Extensibility.ITestCaseBuilder2 testBuilders = CoreExtensions.Host.TestBuilders;
 
 	    private Extensibility.ITestDecorator testDecorators = CoreExtensions.Host.TestDecorators;
 

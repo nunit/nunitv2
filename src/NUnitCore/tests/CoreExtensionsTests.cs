@@ -116,7 +116,7 @@ namespace NUnit.Core.Tests
             ITestDecorator mock8 = new MockDecorator("mock8", sb);
             ITestDecorator mock9 = new MockDecorator("mock9", sb);
 
-            IExtensionPoint ep = host.GetExtensionPoint("TestDecorators");
+            IExtensionPoint2 ep = (IExtensionPoint2)host.GetExtensionPoint("TestDecorators");
             ep.Install(mock8, 8);
             ep.Install(mock5a, 5);
             ep.Install(mock1, 1);
@@ -151,22 +151,37 @@ namespace NUnit.Core.Tests
 			mock.Verify();
 		}
 
-		[Test]
-		public void CanAddTestCaseBuilder()
-		{
-			DynamicMock mock = new DynamicMock( typeof(ITestCaseBuilder) );
-			mock.ExpectAndReturn( "CanBuildFrom", true, null );
-			mock.Expect( "BuildFrom" );
-			
-			IExtensionPoint ep = host.GetExtensionPoint("TestCaseBuilders");
-			ep.Install( mock.MockInstance );
-			ITestCaseBuilder builders = (ITestCaseBuilder)ep;
-			builders.BuildFrom( null, null );
+        [Test]
+        public void CanAddTestCaseBuilder()
+        {
+            DynamicMock mock = new DynamicMock(typeof(ITestCaseBuilder));
+            mock.ExpectAndReturn("CanBuildFrom", true, null);
+            mock.Expect("BuildFrom");
 
-			mock.Verify();
-		}
+            IExtensionPoint ep = host.GetExtensionPoint("TestCaseBuilders");
+            ep.Install(mock.MockInstance);
+            ITestCaseBuilder builders = (ITestCaseBuilder)ep;
+            builders.BuildFrom(null);
 
-		[Test]
+            mock.Verify();
+        }
+
+        [Test]
+        public void CanAddTestCaseBuilder2()
+        {
+            DynamicMock mock = new DynamicMock(typeof(ITestCaseBuilder2));
+            mock.ExpectAndReturn("CanBuildFrom", true, null);
+            mock.Expect("BuildFrom");
+
+            IExtensionPoint ep = host.GetExtensionPoint("TestCaseBuilders");
+            ep.Install(mock.MockInstance);
+            ITestCaseBuilder2 builders = (ITestCaseBuilder2)ep;
+            builders.BuildFrom(null, null);
+
+            mock.Verify();
+        }
+
+        [Test]
 		public void CanAddEventListener()
 		{
 			DynamicMock mock = new DynamicMock( typeof(EventListener) );

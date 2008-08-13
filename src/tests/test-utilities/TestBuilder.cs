@@ -34,7 +34,7 @@ namespace NUnit.TestUtilities
 
 		public static Test MakeTestCase( Type type, string methodName )
 		{
-			return testBuilder.BuildFrom( Reflect.GetNamedMethod( type,	methodName ), null );
+			return testBuilder.BuildFrom( Reflect.GetNamedMethod( type,	methodName ) );
 		}
 
 		public static Test MakeTestCase( object fixture, string methodName )
