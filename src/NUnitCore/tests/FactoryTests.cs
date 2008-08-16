@@ -8,7 +8,7 @@ namespace NUnit.Core.Tests
     [TestFixture]
     public class FactoryTests
     {
-        [Test, Factories("StaticProperty")]
+        [Test, TestCases("StaticProperty")]
         public void FactoryCanBeStaticProperty(string factory)
         {
             Assert.AreEqual("StaticProperty", factory);
@@ -19,7 +19,7 @@ namespace NUnit.Core.Tests
             get { return new object[] { new object[] { "StaticProperty" } }; }
         }
 
-        [Test, Factories("InstanceProperty")]
+        [Test, TestCases("InstanceProperty")]
         public void FactoryCanBeInstanceProperty(string factory)
         {
             Assert.AreEqual("InstanceProperty", factory);
@@ -30,7 +30,7 @@ namespace NUnit.Core.Tests
             get { return new object[] { new object[] { "InstanceProperty" } }; }
         }
 
-        [Test, Factories("StaticMethod")]
+        [Test, TestCases("StaticMethod")]
         public void FactoryCanBeStaticMethod(string factory)
         {
             Assert.AreEqual("StaticMethod", factory);
@@ -41,7 +41,7 @@ namespace NUnit.Core.Tests
             return new object[] { new object[] { "StaticMethod" } };
         }
 
-        [Test, Factories("InstanceMethod")]
+        [Test, TestCases("InstanceMethod")]
         public void FactoryCanBeInstanceMethod(string factory)
         {
             Assert.AreEqual("InstanceMethod", factory);
@@ -52,7 +52,7 @@ namespace NUnit.Core.Tests
             return new object[] { new object[] { "InstanceMethod" } };
         }
 
-        [Test, Factories("StaticField")]
+        [Test, TestCases("StaticField")]
         public void FactoryCanBeStaticField(string factory)
         {
             Assert.AreEqual("StaticField", factory);
@@ -61,7 +61,7 @@ namespace NUnit.Core.Tests
         static object[] StaticField =
             { new object[] { "StaticField" } };
 
-        [Test, Factories("InstanceField")]
+        [Test, TestCases("InstanceField")]
         public void FactoryCanBeInstanceField(string factory)
         {
             Assert.AreEqual("InstanceField", factory);
@@ -70,54 +70,46 @@ namespace NUnit.Core.Tests
         static object[] InstanceField =
             { new object[] { "InstanceField" } };
 
-        [Test, Factories("CheckCurrentDirectory")]
+        [Test, TestCases("CheckCurrentDirectory")]
         public void FactoryIsInvokedWithCorrectCurrentDirectory(bool isOK)
         {
             Assert.That(isOK);
         }
 
-        [Test, Factories("MyData")]
+        [Test, TestCases("MyData")]
         public void FactoryMayReturnArgumentsAsObjectArray(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
-        [Test, Factories("MyIntData")]
+        [Test, TestCases("MyIntData")]
         public void FactoryMayReturnArgumentsAsIntArray(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
-        [Test, Factories("EvenNumbers")]
+        [Test, TestCases("EvenNumbers")]
         public void FactoryMayReturnSinglePrimitiveArgumentAlone(int n)
         {
             Assert.AreEqual(0, n % 2);
         }
 
-        [Test, Factories("Params")]
+        [Test, TestCases("Params")]
         public int FactoryMayReturnArgumentsAsParamSet(int n, int d)
         {
             return n / d;
         }
 
         [Test]
-        [Factories("MyData", "MoreData")]
-        [TestCase(12, 0, 0, ExpectedException = typeof(System.DivideByZeroException))]
-        public void TestMayUseMultipleFactoriesOnOneAttribute(int n, int d, int q)
-        {
-            Assert.AreEqual(q, n / d);
-        }
-
-        [Test]
-        [Factories("MyData")]
-        [Factories("MoreData")]
+        [TestCases("MyData")]
+        [TestCases("MoreData")]
         [TestCase(12, 0, 0, ExpectedException = typeof(System.DivideByZeroException))]
         public void TestMayUseMultipleFactoryAttributes(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
-        [Test, Factories(typeof(DivideDataProvider), "HereIsTheData" )]
+        [Test, TestCases(typeof(DivideDataProvider), "HereIsTheData" )]
         public void FactoryMayBeInAnotherClass(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);

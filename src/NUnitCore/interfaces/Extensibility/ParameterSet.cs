@@ -135,41 +135,25 @@ namespace NUnit.Core.Extensibility
 
         #region Static Methods
         /// <summary>
-        /// Constructs a ParameterSet from another object,
-        /// accessing properties by reflection. The object
-        /// must expose at least an Arguments property.
+        /// Constructs a ParameterSet from another object, accessing properties 
+        /// by reflection. The object must expose at least an Arguments property
+        /// in order for the test to be runnable.
         /// </summary>
         /// <param name="source"></param>
         public static ParameterSet FromDataSource(object source)
         {
             ParameterSet parms = new ParameterSet();
 
-            if (source is object[])
-                parms.Arguments = (object[])source;
-            else if (source is Array)
-            {
-                Array array = (Array)source;
-                parms.Arguments = new object[array.Length];
-                for (int i = 0; i < array.Length; i++)
-                    parms.Arguments[i] = (object)array.GetValue(i);
-            }
-            else if (source.GetType().IsValueType || source is string || source is decimal || source is DateTime)
-            {
-                parms.Arguments = new object[] { source };
-            }
+            parms.Arguments = GetParm(source, "Arguments") as object[];
+            parms.ExpectedExceptionType = GetParm(source, "ExpectedException") as Type;
+            if (parms.ExpectedExceptionType != null)
+                parms.ExpectedExceptionName = parms.ExpectedExceptionType.FullName;
             else
-            {
-                parms.Arguments = GetParm(source, "Arguments") as object[];
-                parms.ExpectedExceptionType = GetParm(source, "ExpectedException") as Type;
-                if (parms.ExpectedExceptionType != null)
-                    parms.ExpectedExceptionName = parms.ExpectedExceptionType.FullName;
-                else
-                    parms.ExpectedExceptionName = GetParm(source, "ExpectedExceptionName") as string;
-                parms.ExpectedExceptionMessage = GetParm(source, "ExpectedExceptionMessage") as string;
-                parms.Result = GetParm(source, "Result");
-                parms.Description = GetParm(source, "Description") as string;
-                parms.TestName = GetParm(source, "TestName") as string;
-            }
+                parms.ExpectedExceptionName = GetParm(source, "ExpectedExceptionName") as string;
+            parms.ExpectedExceptionMessage = GetParm(source, "ExpectedExceptionMessage") as string;
+            parms.Result = GetParm(source, "Result");
+            parms.Description = GetParm(source, "Description") as string;
+            parms.TestName = GetParm(source, "TestName") as string;
 
             return parms;
         }

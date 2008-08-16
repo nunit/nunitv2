@@ -12,12 +12,12 @@ namespace NUnit.Core.Builders
     public class TestCaseFactoryProvider : ITestCaseProvider
     {
         #region Constants
-        public const string FactoriesAttribute = "NUnit.Framework.FactoriesAttribute";
-        public const string FactoryTypeProperty = "FactoryType";
-        public const string FactoryNameProperty = "FactoryName";
+        public const string FactoriesAttribute = "NUnit.Framework.TestCasesAttribute";
+        public const string FactoryTypeProperty = "SourceType";
+        public const string FactoryNameProperty = "SourceName";
 
-        public const string TestCaseFactoryAttribute = "NUnit.Framework.TestCaseFactoryAttribute";
-        public const string ArgTypesProperty = "ArgTypes";
+        //public const string TestCaseFactoryAttribute = "NUnit.Framework.TestCaseFactoryAttribute";
+        //public const string ArgTypesProperty = "ArgTypes";
         #endregion
 
         #region ITestCaseProvider Members
@@ -75,16 +75,10 @@ namespace NUnit.Core.Builders
             {
                 Type factoryType = Reflect.GetPropertyValue(factoryAttr, FactoryTypeProperty) as Type;
                 if (factoryType == null)
-                    factoryType = method.DeclaringType;
+                    factoryType = method.ReflectedType;
 
-                string factoryNames = Reflect.GetPropertyValue(factoryAttr, FactoryNameProperty) as string;
-                if (factoryNames != null && factoryNames != string.Empty)
-                {
-                    foreach (string factoryName in factoryNames.Split(new char[] { ',' }))
-                    {
-                        factories.Add(new ProviderInfo(factoryType, factoryName));
-                    }
-                }
+                string factoryName = Reflect.GetPropertyValue(factoryAttr, FactoryNameProperty) as string;
+                factories.Add(new ProviderInfo(factoryType, factoryName));
                 //else
                 //{
                 //    int found = 0;

@@ -47,10 +47,49 @@ namespace NUnit.Core.Builders
             ParameterizedMethodSuite suite = new ParameterizedMethodSuite(method);
             NUnitFramework.ApplyCommonAttributes(method, suite);
 
-            foreach (object o in CoreExtensions.Host.TestCaseProviders.GetTestCasesFor(method))
+            foreach (object source in CoreExtensions.Host.TestCaseProviders.GetTestCasesFor(method))
             {
-                ParameterSet parms = o as ParameterSet;
-                if (parms == null) parms = ParameterSet.FromDataSource(o);
+                ParameterSet parms;
+
+                if ( source == null )
+                {
+                    parms = new ParameterSet();
+                    parms.Arguments = new object[] { null };
+                }
+                else
+                    parms = source as ParameterSet;
+
+                if (parms == null)
+                {
+                    if (source.GetType().GetInterface("NUnit.Framework.ITestCaseData") != null)
+                        parms = ParameterSet.FromDataSource(source);
+                    else
+                    {
+                        parms = new ParameterSet();
+
+                        ParameterInfo[] parameters = method.GetParameters();
+                        Type sourceType = source.GetType();
+
+                        if (parameters.Length == 1 && parameters[0].ParameterType.IsAssignableFrom(sourceType))
+                            parms.Arguments = new object[] { source };
+                        else if ( source is object[] )
+                            parms.Arguments = (object[])source;
+                        else if (source is Array)
+                        {
+                            Array array = (Array)source;
+                            if (array.Rank == 1)
+                            {
+                                parms.Arguments = new object[array.Length];
+                                for (int i = 0; i < array.Length; i++)
+                                    parms.Arguments[i] = (object)array.GetValue(i);
+                            }
+                        }
+
+                        if ( parms == null )
+                            parms.Arguments = new object[] { source };
+                    }
+                }
+
                 TestMethod test = BuildSingleTestMethod(method, parms);
 
                 suite.Add(test);

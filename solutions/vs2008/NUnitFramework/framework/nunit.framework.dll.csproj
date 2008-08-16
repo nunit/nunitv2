@@ -199,9 +199,6 @@
       <Link>ExplicitAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\FactoriesAttribute.cs">
-      <Link>FactoriesAttribute.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\FileAssert.cs">
       <Link>FileAssert.cs</Link>
       <SubType>Code</SubType>
@@ -271,6 +268,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ListMapper.cs">
       <Link>ListMapper.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCasesAttribute.cs">
+      <Link>TestCasesAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Text.cs">
       <Link>Text.cs</Link>
@@ -347,6 +347,9 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintOperators.cs">
       <Link>Constraints\ConstraintOperators.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\ITestCaseData.cs">
+      <Link>ITestCaseData.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

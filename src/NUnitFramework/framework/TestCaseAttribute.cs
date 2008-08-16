@@ -12,7 +12,7 @@ namespace NUnit.Framework
     /// and provide them with their arguments.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class TestCaseAttribute : Attribute
+    public class TestCaseAttribute : Attribute, ITestCaseData
     {
         private object[] arguments;
         private object result;

@@ -5,50 +5,57 @@ namespace NUnit.Framework
     /// <summary>
     /// The TestCaseData class represents a set of arguments
     /// and other parameter info to be used for a parameterized
-    /// test case.
+    /// test case. It provides a number of instance modifiers
+    /// for use in initializing the test case.
+    /// 
+    /// Note: Instance modifiers are getters that return
+    /// the same instance after modifying it's state.
     /// </summary>
-    public class TestCaseData
+    public class TestCaseData : ITestCaseData
     {
+        #region Instance Fields
         /// <summary>
         /// The argument list to be provided to the test
         /// </summary>
-        public object[] Arguments;
+        private object[] arguments;
 
         /// <summary>
         /// The expected result to be returned
         /// </summary>
-        public object Result;
+        private object result;
 
         /// <summary>
         ///  The expected exception Type
         /// </summary>
-        public Type ExpectedException;
+        private Type expectedException;
 
         /// <summary>
         /// The FullName of the expected exception
         /// </summary>
-        public string ExpectedExceptionName;
+        private string expectedExceptionName;
 
         /// <summary>
         /// The name to be used for the test
         /// </summary>
-        public string TestName;
+        private string testName;
 
         /// <summary>
         /// The description of the test
         /// </summary>
-        public string Description;
+        private string description;
+        #endregion
 
-
+        #region Construction and Initialization
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TestCaseData"/> class.
         /// </summary>
         /// <param name="args">The args.</param>
         public TestCaseData(params object[] args)
         {
-            this.Arguments = args;
+            this.arguments = args;
         }
 
+        #region Instance Modifiers
         /// <summary>
         /// Sets the expected result for the test
         /// </summary>
@@ -56,7 +63,7 @@ namespace NUnit.Framework
         /// <returns>A modified TestCaseData</returns>
         public TestCaseData Returns( object result )
         {
-            this.Result = result;
+            this.result = result;
             return this;
         }
 
@@ -67,8 +74,8 @@ namespace NUnit.Framework
         /// <returns>The modified TestCaseData instance</returns>
         public TestCaseData Throws(Type exceptionType)
         {
-            this.ExpectedException = exceptionType;
-            this.ExpectedExceptionName = exceptionType.FullName;
+            this.expectedException = exceptionType;
+            this.expectedExceptionName = exceptionType.FullName;
             return this;
         }
 
@@ -79,7 +86,7 @@ namespace NUnit.Framework
         /// <returns>The modified TestCaseData instance</returns>
         public TestCaseData Throws(string exceptionName)
         {
-            this.ExpectedExceptionName = exceptionName;
+            this.expectedExceptionName = exceptionName;
             return this;
         }
 
@@ -89,7 +96,7 @@ namespace NUnit.Framework
         /// <returns>The modified TestCaseData instance</returns>
         public TestCaseData WithName(string name)
         {
-            this.TestName = name;
+            this.testName = name;
             return this;
         }
 
@@ -101,8 +108,61 @@ namespace NUnit.Framework
         /// <returns>The modified TestCaseData instance.</returns>
         public TestCaseData WithDescription(string description)
         {
-            this.Description = description;
+            this.description = description;
             return this;
         }
+        #endregion
+
+        #endregion
+
+        #region ITestCaseData Members
+        /// <summary>
+        /// Gets the argument list to be provided to the test
+        /// </summary>
+        public object[] Arguments
+        {
+            get { return arguments; }
+        }
+
+        /// <summary>
+        /// Gets the expected result
+        /// </summary>
+        public object Result
+        {
+            get { return result; }
+        }
+
+        /// <summary>
+        ///  Gets the expected exception Type
+        /// </summary>
+        public Type ExpectedException
+        {
+            get { return expectedException; }
+        }
+
+        /// <summary>
+        /// Gets the FullName of the expected exception
+        /// </summary>
+        public string ExpectedExceptionName
+        {
+            get { return expectedExceptionName; }
+        }
+
+        /// <summary>
+        /// Gets the name to be used for the test
+        /// </summary>
+        public string TestName
+        {
+            get { return testName; }
+        }
+
+        /// <summary>
+        /// Gets the description of the test
+        /// </summary>
+        public string Description
+        {
+            get { return description; }
+        }
+        #endregion
     }
 }

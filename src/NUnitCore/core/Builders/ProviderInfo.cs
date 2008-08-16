@@ -37,19 +37,22 @@ namespace NUnit.Core.Builders
                     if (members.Length == 0)
                         message = string.Format(
                             "Unable to locate {0}.{1}", providerType.FullName, providerName);
-
-                    if (members.Length > 1)
+                    else if (members.Length > 1)
                         message = string.Format(
                             "{0}.{1} is ambiguous", providerType.FullName, providerName);
+                    else
+                    {
+                        object providerObject = GetProviderObjectFromMember(members[0]);
 
-                    object providerObject = GetProviderObjectFromMember(members[0]);
-
-                    if (providerObject == null)
-                        message = string.Format("Provider {0} returned null", providerName);
-
-                    provider = providerObject as IEnumerable;
-                    if (provider == null)
-                        message = string.Format("Provider {0} does not implement IEnumerable", providerName);
+                        if (providerObject == null)
+                            message = string.Format("Provider {0} returned null", providerName);
+                        else
+                        {
+                            provider = providerObject as IEnumerable;
+                            if (provider == null)
+                                message = string.Format("Provider {0} does not implement IEnumerable", providerName);
+                        }
+                    }
                 }
 
                 return provider;

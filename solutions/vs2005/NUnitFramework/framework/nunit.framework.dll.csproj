@@ -248,6 +248,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Is.cs">
       <Link>Is.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\ITestCaseData.cs">
+      <Link>ITestCaseData.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\List.cs">
       <Link>List.cs</Link>
     </Compile>
