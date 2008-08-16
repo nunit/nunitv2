@@ -126,7 +126,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Returns a new PropertyConstraint or the Count property
 		/// </summary>
-		/// <param name="count"></param>
+		/// <param name="count">The expected value of Count</param>
 		/// <returns></returns>
 		public static PropertyConstraint Count( int count )
 		{
@@ -136,7 +136,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Returns a new PropertyConstraint for the Message property
         /// </summary>
-        /// <param name="count"></param>
+        /// <param name="message">The expected value of Message</param>
         /// <returns></returns>
         public static PropertyConstraint Message(string message)
         {
