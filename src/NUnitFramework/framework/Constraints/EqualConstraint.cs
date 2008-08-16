@@ -357,6 +357,15 @@ namespace NUnit.Framework.Constraints
 
 		private bool StreamsEqual( Stream expected, Stream actual )
 		{
+            if (!expected.CanRead)
+                throw new ArgumentException("Stream is not readable", "expected");
+            if (!actual.CanRead)
+                throw new ArgumentException("Stream is not readable", "actual");
+            if (!expected.CanSeek)
+                throw new ArgumentException("Stream is not seekable", "expected");
+            if (!actual.CanSeek)
+                throw new ArgumentException("Stream is not seekable", "actual");
+
 			if (expected.Length != actual.Length) return false;
 
 			byte[] bufferExpected = new byte[BUFFER_SIZE];
@@ -365,24 +374,35 @@ namespace NUnit.Framework.Constraints
 			BinaryReader binaryReaderExpected = new BinaryReader(expected);
 			BinaryReader binaryReaderActual = new BinaryReader(actual);
 
-			binaryReaderExpected.BaseStream.Seek(0, SeekOrigin.Begin);
-			binaryReaderActual.BaseStream.Seek(0, SeekOrigin.Begin);
+            long expectedPosition = expected.Position;
+            long actualPosition = actual.Position;
 
-			for(long readByte = 0; readByte < expected.Length; readByte += BUFFER_SIZE )
-			{
-				binaryReaderExpected.Read(bufferExpected, 0, BUFFER_SIZE);
-				binaryReaderActual.Read(bufferActual, 0, BUFFER_SIZE);
+            try
+            {
+                binaryReaderExpected.BaseStream.Seek(0, SeekOrigin.Begin);
+                binaryReaderActual.BaseStream.Seek(0, SeekOrigin.Begin);
 
-				for (int count=0; count < BUFFER_SIZE; ++count) 
-				{
-					if (bufferExpected[count] != bufferActual[count]) 
-					{
-						failurePoints.Insert( 0, readByte + count );
-						//FailureMessage.WriteLine("\tIndex : {0}", readByte + count);
-						return false;
-					}
-				}
-			}
+                for (long readByte = 0; readByte < expected.Length; readByte += BUFFER_SIZE)
+                {
+                    binaryReaderExpected.Read(bufferExpected, 0, BUFFER_SIZE);
+                    binaryReaderActual.Read(bufferActual, 0, BUFFER_SIZE);
+
+                    for (int count = 0; count < BUFFER_SIZE; ++count)
+                    {
+                        if (bufferExpected[count] != bufferActual[count])
+                        {
+                            failurePoints.Insert(0, readByte + count);
+                            //FailureMessage.WriteLine("\tIndex : {0}", readByte + count);
+                            return false;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                expected.Position = expectedPosition;
+                actual.Position = actualPosition;
+            }
 
 			return true;
 		}

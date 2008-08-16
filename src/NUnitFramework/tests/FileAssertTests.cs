@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Net.Sockets;
 
 namespace NUnit.Framework.Tests
 {
@@ -88,20 +89,61 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void AreEqualPassesWithStreams()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
-			using(TestFile tf2 = new TestFile("Test2.jpg","TestImage1.jpg"))
-			{
-				using(FileStream expected = File.OpenRead("Test1.jpg"))
-				{
-					using(FileStream actual = File.OpenRead("Test2.jpg"))
-					{
-						FileAssert.AreEqual( expected, actual );
-					}
-				}
-			}
-		}
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
+            using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage1.jpg"))
+            {
+                using (FileStream expected = File.OpenRead("Test1.jpg"))
+                {
+                    using (FileStream actual = File.OpenRead("Test2.jpg"))
+                    {
+                        FileAssert.AreEqual(expected, actual);
+                    }
+                }
+            }
+        }
 
-		[Test]
+        [Test, ExpectedException(typeof(ArgumentException),
+            ExpectedMessage = "not readable", MatchType = MessageMatch.Contains)]
+        public void NonReadableStreamGivesException()
+        {
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
+            using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage1.jpg"))
+            {
+                using (FileStream expected = File.OpenRead("Test1.jpg"))
+                {
+                    using (FileStream actual = File.OpenWrite("Test2.jpg"))
+                    {
+                        FileAssert.AreEqual(expected, actual);
+                    }
+                }
+            }
+        }
+
+        [Test, ExpectedException(typeof(ArgumentException),
+            ExpectedMessage = "not seekable", MatchType = MessageMatch.Contains)]
+        public void NonSeekableStreamGivesException()
+        {
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
+            {
+                using (FileStream expected = File.OpenRead("Test1.jpg"))
+                {
+                    using (FakeStream actual = new FakeStream())
+                    {
+                        FileAssert.AreEqual(expected, actual);
+                    }
+                }
+            }
+        }
+
+        private class FakeStream : MemoryStream
+        {
+            public override bool CanSeek
+            {
+                get { return false; }
+            }
+        }
+
+        [Test]
 		public void AreEqualPassesWithFiles()
 		{
 			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
