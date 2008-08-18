@@ -45,9 +45,41 @@ namespace NUnit.Framework.Constraints.Tests
         }
     }
 
+    [TestFixture]
+    public class AssignableToTest : ConstraintTestBase
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            Matcher = new AssignableToConstraint(typeof(D1));
+            GoodValues = new object[] { new D1(), new D2() };
+            BadValues = new object[] { new B() };
+            Description = string.Format("Type assignable to <{0}>", typeof(D1));
+        }
+    }
+
     class B { }
 
     class D1 : B { }
 
     class D2 : D1 { }
+
+    [TestFixture]
+    public class AttributeConstraintTest : ConstraintTestBase
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            Matcher = new AttributeConstraint(typeof(TestFixtureAttribute));
+            GoodValues = new object[] { this };
+            BadValues = new object[] { new D2() };
+            Description = "type with attribute <NUnit.Framework.TestFixtureAttribute>";
+        }
+
+        [Test,ExpectedException(typeof(System.ArgumentException))]
+        public void NonAttributeThrowsException()
+        {
+            new AttributeConstraint(typeof(string));
+        }
+    }
 }

@@ -126,8 +126,8 @@ namespace NUnit.Framework.Constraints
         /// <returns>True if the object can be assigned a value of the expected Type, otherwise false.</returns>
         public override bool Matches(object actual)
         {
-			this.actual = actual;
-            return actual != null && actual.GetType().IsAssignableFrom( expectedType );
+            this.actual = actual;
+            return actual != null && actual.GetType().IsAssignableFrom(expectedType);
         }
 
         /// <summary>
@@ -137,6 +137,40 @@ namespace NUnit.Framework.Constraints
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("Type assignable from");
+            writer.WriteExpectedValue(expectedType);
+        }
+    }
+
+    /// <summary>
+    /// AssignableFromConstraint is used to test that an object
+    /// can be assigned to a given Type.
+    /// </summary>
+    public class AssignableToConstraint : TypeConstraint
+    {
+        /// <summary>
+        /// Construct an AssignableFromConstraint for the type provided
+        /// </summary>
+        /// <param name="type"></param>
+        public AssignableToConstraint(Type type) : base(type) { }
+
+        /// <summary>
+        /// Test whether an object can be assigned to the specified type
+        /// </summary>
+        /// <param name="actual">The object to be tested</param>
+        /// <returns>True if the object can be assigned a value of the expected Type, otherwise false.</returns>
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+            return actual != null && expectedType.IsAssignableFrom(actual.GetType());
+        }
+
+        /// <summary>
+        /// Write a description of this constraint to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The MessageWriter to use</param>
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            writer.WritePredicate("Type assignable to");
             writer.WriteExpectedValue(expectedType);
         }
     }
@@ -188,6 +222,30 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
+            writer.WriteExpectedValue(expectedType);
+        }
+    }
+
+    public class AttributeConstraint : TypeConstraint
+    {
+        public AttributeConstraint(Type type) : base(type) 
+        {
+            if (!typeof(Attribute).IsAssignableFrom(expectedType))
+                throw new ArgumentException(string.Format(
+                    "Type {0} is not an attribute", expectedType), "type");
+        }
+
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+            Type actualType = actual is Type ? (Type)actual : actual.GetType();
+
+            return actualType.GetCustomAttributes(expectedType, true).Length > 0;
+        }
+
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            writer.WritePredicate("type with attribute");
             writer.WriteExpectedValue(expectedType);
         }
     }
