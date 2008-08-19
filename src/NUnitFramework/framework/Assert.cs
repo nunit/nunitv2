@@ -1114,15 +1114,14 @@ namespace NUnit.Framework
 		#endregion
 
 		#region Objects
-		
-		/// <summary>
-		/// Verifies that two objects are equal.  Two objects are considered
-		/// equal if both are null, or if both have the same value.  All
-		/// non-numeric types are compared by using the <c>Equals</c> method.
-		/// Arrays are compared by comparing each element using the same rules.
-		/// If they are not equal an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The value that is expected</param>
+
+        /// <summary>
+        /// Verifies that two objects are equal.  Two objects are considered
+        /// equal if both are null, or if both have the same value. NUnit
+        /// has special semantics for some object types.
+        /// If they are not equal an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The value that is expected</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message to display if objects are not equal</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
@@ -1131,13 +1130,13 @@ namespace NUnit.Framework
             Assert.That(actual, Is.EqualTo(expected), message, args);
         }
 
-		/// <summary>
-		/// Verifies that two objects are equal.  Two objects are considered
-		/// equal if both are null, or if both have the same value.  All
-		/// non-numeric types are compared by using the <c>Equals</c> method.
-		/// If they are not equal an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The value that is expected</param>
+        /// <summary>
+        /// Verifies that two objects are equal.  Two objects are considered
+        /// equal if both are null, or if both have the same value. NUnit
+        /// has special semantics for some object types.
+        /// If they are not equal an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The value that is expected</param>
 		/// <param name="actual">The actual value</param>
 		/// <param name="message">The message to display if objects are not equal</param>
 		static public void AreEqual(Object expected, Object actual, string message) 
@@ -1145,13 +1144,13 @@ namespace NUnit.Framework
 			Assert.AreEqual(expected, actual, message, null);
 		}
 
-		/// <summary>
-		/// Verifies that two objects are equal.  Two objects are considered
-		/// equal if both are null, or if both have the same value.  All
-		/// non-numeric types are compared by using the <c>Equals</c> method.
-		/// If they are not equal an <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="expected">The value that is expected</param>
+        /// <summary>
+        /// Verifies that two objects are equal.  Two objects are considered
+        /// equal if both are null, or if both have the same value. NUnit
+        /// has special semantics for some object types.
+        /// If they are not equal an <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="expected">The value that is expected</param>
 		/// <param name="actual">The actual value</param>
 		static public void AreEqual(Object expected, Object actual) 
 		{

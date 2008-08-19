@@ -12,7 +12,9 @@ namespace NUnit.Framework.Constraints
 {
     /// <summary>
     /// EqualConstraint is able to compare an actual value with the
-    /// expected value provided in its constructor.
+    /// expected value provided in its constructor. Two objects are 
+    /// considered equal if both are null, or if both have the same 
+    /// value. NUnit has special semantics for some object types.
     /// </summary>
     public class EqualConstraint : Constraint
     {
