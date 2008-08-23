@@ -9,16 +9,20 @@ namespace NUnit.Framework.Constraints.Tests
     [TestFixture]
     public class SameAsTest : ConstraintTestBase
     {
+        private static readonly object obj1 = new object();
+        private static readonly object obj2 = new object();
+
         [SetUp]
         public void SetUp()
         {
-            object obj1 = new object();
-            object obj2 = new object();
-
-            Matcher = new SameAsConstraint(obj1);
-            GoodValues = new object[] { obj1 };
-            BadValues = new object[] { obj2, 3, "Hello" };
-            Description = "same as <System.Object>";
+            theConstraint = new SameAsConstraint(obj1);
+            expectedDescription = "same as <System.Object>";
         }
+
+        static object[] GoodData = new object[] { obj1 };
+
+        static object[] BadData = new object[] { obj2, 3, "Hello" };
+
+        static object[] FailureMessages = new object[] { "<System.Object>", "3", "\"Hello\"" };
     }
 }

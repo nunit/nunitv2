@@ -12,13 +12,17 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new AndConstraint(new GreaterThanConstraint(40), new LessThanConstraint(50));
-            GoodValues = new object[] { 42 };
-            BadValues = new object[] { 37, 53 };
-            Description = "greater than 40 and less than 50";
+            theConstraint = new AndConstraint(new GreaterThanConstraint(40), new LessThanConstraint(50));
+            expectedDescription = "greater than 40 and less than 50";
         }
 
-        [Test]
+		object[] GoodData = new object[] { 42 };
+	
+		object[] BadData = new object[] { 37, 53 };
+
+		object[] FailureMessages = new object[] { "37", "53" };
+
+		[Test]
         public void CanCombineTestsWithAndOperator()
         {
             Assert.That(42, new GreaterThanConstraint(40) & new LessThanConstraint(50));

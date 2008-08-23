@@ -12,44 +12,35 @@ namespace NUnit.Framework.Constraints.Tests
 	[TestFixture]
 	public class MsgUtilTests
 	{
-		[Test]
-		public void TestConvertWhitespace()
+        [TestCase("\n", "\\n")]
+        [TestCase("\n\n", "\\n\\n")]
+        [TestCase("\n\n\n", "\\n\\n\\n")]
+        [TestCase("\r", "\\r")]
+        [TestCase("\r\r", "\\r\\r")]
+        [TestCase("\r\r\r", "\\r\\r\\r")]
+        [TestCase("\r\n", "\\r\\n")]
+        [TestCase("\n\r", "\\n\\r")]
+        [TestCase("This is a\rtest message", "This is a\\rtest message")]
+        [TestCase("", "")]
+        [TestCase(null, null)]
+        [TestCase("\t", "\\t")]
+        [TestCase("\t\n", "\\t\\n")]
+        [TestCase("\\r\\n", "\\\\r\\\\n")]
+		public void TestConvertWhitespace(string input, string expected)
 		{
-			Assert.AreEqual( "\\n", MsgUtils.ConvertWhitespace("\n") );
-			Assert.AreEqual( "\\n\\n", MsgUtils.ConvertWhitespace("\n\n") );
-			Assert.AreEqual( "\\n\\n\\n", MsgUtils.ConvertWhitespace("\n\n\n") );
-
-			Assert.AreEqual( "\\r", MsgUtils.ConvertWhitespace("\r") );
-			Assert.AreEqual( "\\r\\r", MsgUtils.ConvertWhitespace("\r\r") );
-			Assert.AreEqual( "\\r\\r\\r", MsgUtils.ConvertWhitespace("\r\r\r") );
-
-			Assert.AreEqual( "\\r\\n", MsgUtils.ConvertWhitespace("\r\n") );
-			Assert.AreEqual( "\\n\\r", MsgUtils.ConvertWhitespace("\n\r") );
-			Assert.AreEqual( "This is a\\rtest message", MsgUtils.ConvertWhitespace("This is a\rtest message") );
-
-			Assert.AreEqual( "", MsgUtils.ConvertWhitespace("") );
-			Assert.AreEqual( null, MsgUtils.ConvertWhitespace(null) );
-                
-			Assert.AreEqual( "\\t", MsgUtils.ConvertWhitespace( "\t" ) );
-			Assert.AreEqual( "\\t\\n", MsgUtils.ConvertWhitespace( "\t\n" ) );
-
-			Assert.AreEqual( "\\\\r\\\\n", MsgUtils.ConvertWhitespace( "\\r\\n" ) );
+            Assert.AreEqual( expected, MsgUtils.ConvertWhitespace(input) );
 		}
 
-        [Test]
-        public void TestClipString()
+        private const string s52 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        [TestCase(s52, 52, 0, s52, TestName="NoClippingNeeded")]
+        [TestCase(s52, 29, 0, "abcdefghijklmnopqrstuvwxyz...", TestName="ClipAtEnd")]
+        [TestCase(s52, 29, 26, "...ABCDEFGHIJKLMNOPQRSTUVWXYZ", TestName="ClipAtStart")]
+        [TestCase(s52, 28, 26, "...ABCDEFGHIJKLMNOPQRSTUV...", TestName="ClipAtStartAndEnd")]
+        public void TestClipString(string input, int max, int start, string result)
         {
-            Assert.AreEqual(s52, MsgUtils.ClipString(s52, 52, 0));
-
-            Assert.AreEqual("abcdefghijklmnopqrstuvwxyz...",
-                MsgUtils.ClipString(s52, 29, 0));
-            Assert.AreEqual("...ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                MsgUtils.ClipString(s52, 29, 26));
-            Assert.AreEqual("...ABCDEFGHIJKLMNOPQRSTUV...",
-                MsgUtils.ClipString(s52, 28, 26));
+            Assert.AreEqual(result, MsgUtils.ClipString(input, max, start));
         }
-
-        private static readonly string s52 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         [Test]
         public void ClipExpectedAndActual_StringsFitInLine()

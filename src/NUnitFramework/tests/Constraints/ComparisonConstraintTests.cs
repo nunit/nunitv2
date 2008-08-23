@@ -8,70 +8,79 @@ using System;
 
 namespace NUnit.Framework.Constraints.Tests
 {
-    public abstract class ComparisonConstraintTestBase : ConstraintTestBase
-    {
-        [Test,ExpectedException(typeof(ArgumentException))]
-        public void NullGivesError()
-        {
-            Assert.That( null, Matcher );
-        }
-
-        [Test,ExpectedException]
-        public void BadTypeGivesError()
-        {
-            Assert.That( "big", Matcher );
-        }
-    }
-
     [TestFixture]
-    public class GreaterThanTest : ComparisonConstraintTestBase
+    public class GreaterThanTest : ConstraintTestBaseWithInvalidDataTest
     {
         [SetUp]
         public void SetUp()
         {
-            Matcher = new GreaterThanConstraint(5);
-            GoodValues = new object[] { 6 };
-            BadValues = new object[] { 4, 5 };
-            Description = "greater than 5";
+            theConstraint = new GreaterThanConstraint(5);
+            expectedDescription = "greater than 5";
         }
+
+        object[] GoodData = new object[] { 6, 5.001 };
+
+        object[] BadData = new object[] { 4, 5 };
+
+        object[] FailureMessages = new object[] { "4", "5" };
+
+        object[] InvalidData = new object[] { null, "xxx" };
     }
 
     [TestFixture]
-    public class GreaterThanOrEqualTest : ComparisonConstraintTestBase
+    public class GreaterThanOrEqualTest : ConstraintTestBaseWithInvalidDataTest
     {
         [SetUp]
         public void SetUp()
         {
-            Matcher = new GreaterThanOrEqualConstraint(5);
-            GoodValues = new object[] { 6, 5 };
-            BadValues = new object[] { 4 };
-            Description = "greater than or equal to 5";
+            theConstraint = new GreaterThanOrEqualConstraint(5);
+            expectedDescription = "greater than or equal to 5";
         }
+
+        object[] GoodData = new object[] { 6, 5 };
+
+        object[] BadData = new object[] { 4 };
+
+        object[] FailureMessages = new object[] { "4" };
+
+        object[] InvalidData = new object[] { null, "xxx" };
     }
 
     [TestFixture]
-    public class LessThanTest : ComparisonConstraintTestBase
+    public class LessThanTest : ConstraintTestBaseWithInvalidDataTest
     {
         [SetUp]
         public void SetUp()
         {
-            Matcher = new LessThanConstraint(5);
-            GoodValues = new object[] { 4 };
-            BadValues = new object[] { 6, 5 };
-            Description = "less than 5";
+            theConstraint = new LessThanConstraint(5);
+            expectedDescription = "less than 5";
         }
+
+        object[] GoodData = new object[] { 4, 4.999 };
+
+        object[] BadData = new object[] { 6, 5 };
+
+        object[] FailureMessages = new object[] { "6", "5" };
+
+        object[] InvalidData = new object[] { null, "xxx" };
     }
 
     [TestFixture]
-    public class LessThanOrEqualTest : ComparisonConstraintTestBase
+    public class LessThanOrEqualTest : ConstraintTestBaseWithInvalidDataTest
     {
         [SetUp]
         public void SetUp()
         {
-            Matcher = new LessThanOrEqualConstraint(5);
-            GoodValues = new object[] { 4 , 5 };
-            BadValues = new object[] { 6 };
-            Description = "less than or equal to 5";
+            theConstraint = new LessThanOrEqualConstraint(5);
+            expectedDescription = "less than or equal to 5";
         }
+
+        object[] GoodData = new object[] { 4, 5 };
+
+        object[] BadData = new object[] { 6 };
+
+        object[] FailureMessages = new object[] { "6" };
+
+        object[] InvalidData = new object[] { null, "xxx" };
     }
 }

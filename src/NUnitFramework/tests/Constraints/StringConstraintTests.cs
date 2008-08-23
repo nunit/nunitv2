@@ -14,11 +14,15 @@ namespace NUnit.Framework.Constraints.Tests
 		[SetUp]
         public void SetUp()
         {
-            Matcher = new SubstringConstraint("hello");
-            GoodValues = new object[] { "hello", "hello there", "I said hello", "say hello to fred" };
-            BadValues = new object[] { "goodbye", "What the hell?", string.Empty, null };
-            Description = "String containing \"hello\"";
+            theConstraint = new SubstringConstraint("hello");
+            expectedDescription = "String containing \"hello\"";
         }
+
+        object[] GoodData = new object[] { "hello", "hello there", "I said hello", "say hello to fred" };
+        
+        object[] BadData = new object[] { "goodbye", "HELLO", "What the hell?", string.Empty, null };
+
+        object[] FailureMessages = new object[] { "\"goodbye\"", "\"HELLO\"", "\"What the hell?\"", "<string.Empty>", "null" }; 
 
         public void HandleException(Exception ex)
         {
@@ -34,11 +38,15 @@ namespace NUnit.Framework.Constraints.Tests
 		[SetUp]
         public void SetUp()
         {
-            Matcher = new SubstringConstraint("hello").IgnoreCase;
-            GoodValues = new object[] { "Hello", "HellO there", "I said HELLO", "say hello to fred" };
-            BadValues = new object[] { "goodbye", "What the hell?", string.Empty, null };
-            Description = "String containing \"hello\", ignoring case";
+            theConstraint = new SubstringConstraint("hello").IgnoreCase;
+            expectedDescription = "String containing \"hello\", ignoring case";
         }
+
+        object[] GoodData = new object[] { "Hello", "HellO there", "I said HELLO", "say hello to fred" };
+        
+        object[] BadData = new object[] { "goodbye", "What the hell?", string.Empty, null };
+
+        object[] FailureMessages = new object[] { "\"goodbye\"", "\"What the hell?\"", "<string.Empty>", "null" };
     }
 
     [TestFixture]
@@ -47,11 +55,15 @@ namespace NUnit.Framework.Constraints.Tests
 		[SetUp]
         public void SetUp()
         {
-            Matcher = new StartsWithConstraint("hello");
-            GoodValues = new object[] { "hello", "hello there" };
-            BadValues = new object[] { "goodbye", "What the hell?", "I said hello", "say hello to fred", string.Empty, null };
-            Description = "String starting with \"hello\"";
+            theConstraint = new StartsWithConstraint("hello");
+            expectedDescription = "String starting with \"hello\"";
         }
+
+        object[] GoodData = new object[] { "hello", "hello there" };
+
+        object[] BadData = new object[] { "goodbye", "HELLO THERE", "I said hello", "say hello to fred", string.Empty, null };
+
+        object[] FailureMessages = new object[] { "\"goodbye\"", "\"HELLO THERE\"", "\"I said hello\"", "\"say hello to fred\"", "<string.Empty>", "null" };
     }
 
     [TestFixture]
@@ -60,11 +72,15 @@ namespace NUnit.Framework.Constraints.Tests
 		[SetUp]
         public void SetUp()
         {
-            Matcher = new StartsWithConstraint("hello").IgnoreCase;
-            GoodValues = new object[] { "Hello", "HELLO there" };
-            BadValues = new object[] { "goodbye", "What the hell?", "I said hello", "say Hello to fred", string.Empty, null };
-            Description = "String starting with \"hello\", ignoring case";
+            theConstraint = new StartsWithConstraint("hello").IgnoreCase;
+            expectedDescription = "String starting with \"hello\", ignoring case";
         }
+
+        object[] GoodData = new object[] { "Hello", "HELLO there" };
+            
+        object[] BadData = new object[] { "goodbye", "What the hell?", "I said hello", "say Hello to fred", string.Empty, null };
+
+        object[] FailureMessages = new object[] { "\"goodbye\"", "\"What the hell?\"", "\"I said hello\"", "\"say Hello to fred\"", "<string.Empty>", "null" };
     }
 
     [TestFixture]
@@ -73,36 +89,48 @@ namespace NUnit.Framework.Constraints.Tests
 		[SetUp]
         public void SetUp()
         {
-            Matcher = new EndsWithConstraint("hello");
-            GoodValues = new object[] { "hello", "I said hello" };
-            BadValues = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
-            Description = "String ending with \"hello\"";
+            theConstraint = new EndsWithConstraint("hello");
+            expectedDescription = "String ending with \"hello\"";
         }
+
+        object[] GoodData = new object[] { "hello", "I said hello" };
+            
+        object[] BadData = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
+
+        object[] FailureMessages = new object[] { "\"goodbye\"", "\"What the hell?\"", "\"hello there\"", "\"say hello to fred\"", "<string.Empty>", "null" };
     }
 
     [TestFixture]
-    public class EndsWithTestIgnoringCase : ConstraintTestBase//, IExpectException
+    public class EndsWithTestIgnoringCase : ConstraintTestBase
     {
 		[SetUp]
         public void SetUp()
         {
-            Matcher = new EndsWithConstraint("hello").IgnoreCase;
-            GoodValues = new object[] { "HELLO", "I said Hello" };
-            BadValues = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
-            Description = "String ending with \"hello\", ignoring case";
+            theConstraint = new EndsWithConstraint("hello").IgnoreCase;
+            expectedDescription = "String ending with \"hello\", ignoring case";
         }
+
+        object[] GoodData = new object[] { "HELLO", "I said Hello" };
+            
+        object[] BadData = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
+
+        object[] FailureMessages = new object[] { "\"goodbye\"", "\"What the hell?\"", "\"hello there\"", "\"say hello to fred\"", "<string.Empty>", "null" };
     }
 
-    [TestFixture]
-    public class EqualIgnoringCaseTest : ConstraintTestBase
-    {
-		[SetUp]
-        public void SetUp()
-        {
-            Matcher = new EqualConstraint("Hello World!").IgnoreCase;
-            GoodValues = new object[] { "hello world!", "Hello World!", "HELLO world!" };
-            BadValues = new object[] { "goodbye", "Hello Friends!", string.Empty, null };
-            Description = "\"Hello World!\", ignoring case";
-        }
-    }
+    //[TestFixture]
+    //public class EqualIgnoringCaseTest : ConstraintTest
+    //{
+    //    [SetUp]
+    //    public void SetUp()
+    //    {
+    //        Matcher = new EqualConstraint("Hello World!").IgnoreCase;
+    //        Description = "\"Hello World!\", ignoring case";
+    //    }
+
+    //    object[] GoodData = new object[] { "hello world!", "Hello World!", "HELLO world!" };
+            
+    //    object[] BadData = new object[] { "goodbye", "Hello Friends!", string.Empty, null };
+
+    //    object[] FailureMessages = new object[] { "\"goodbye\"", "\"Hello Friends!\"", "<string.Empty>", "null" };
+    //}
 }

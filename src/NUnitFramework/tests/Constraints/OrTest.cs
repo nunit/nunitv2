@@ -12,13 +12,17 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new OrConstraint(new EqualConstraint(42), new EqualConstraint(99));
-            GoodValues = new object[] { 99, 42 };
-            BadValues = new object[] { 37 };
-            Description = "42 or 99";
+            theConstraint = new OrConstraint(new EqualConstraint(42), new EqualConstraint(99));
+            expectedDescription = "42 or 99";
         }
 
-        [Test]
+		object[] GoodData = new object[] { 99, 42 };
+
+		object[] BadData = new object[] { 37 };
+
+		object[] FailureMessages = new object[] { "37" };
+
+		[Test]
         public void CanCombineTestsWithOrOperator()
         {
             Assert.That(99, new EqualConstraint(42) | new EqualConstraint(99) );

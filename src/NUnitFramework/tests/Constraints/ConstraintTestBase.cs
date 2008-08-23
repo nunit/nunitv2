@@ -3,52 +3,57 @@
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
+using System;
 
 namespace NUnit.Framework.Constraints
 {
     public abstract class ConstraintTestBase
     {
-        protected IConstraint Matcher;
-        protected object[] GoodValues;
-        protected object[] BadValues;
-        protected string Description;
+        protected Constraint theConstraint;
+        protected string expectedDescription;
 
-        [Test]
-        public void SucceedsOnGoodValues()
+        [Test, TestCases("GoodData")]
+        public void SucceedsWithGoodValues(object value)
         {
-            foreach (object value in GoodValues)
-                Assert.That(value, Matcher, "Test should succeed with {0}", value);
+            Assert.That(theConstraint.Matches(value));
         }
 
-        [Test]
-        public void FailsOnBadValues()
+        [Test, TestCases("BadData")]
+        public void FailsWithBadValues(object badValue)
         {
-            foreach (object value in BadValues)
-            {
-                Assert.That(Matcher.Matches(value), new EqualConstraint(false), "Test should fail with value {0}", value);
-            }
+            Assert.IsFalse(theConstraint.Matches(badValue));
         }
 
-        [Test]
+        [Test, Sequential]
+        public void ProvidesProperFailureMessage(
+            [DataSource("BadData")] object badValue,
+            [DataSource("FailureMessages")] string message)
+        {
+            theConstraint.Matches(badValue);
+            TextMessageWriter writer = new TextMessageWriter();
+            theConstraint.WriteMessageTo(writer);
+            Assert.AreEqual(
+                TextMessageWriter.Pfx_Expected + expectedDescription + Environment.NewLine +
+                TextMessageWriter.Pfx_Actual + message + Environment.NewLine,
+                writer.ToString());
+        }
+
+		[Test]
         public void ProvidesProperDescription()
         {
             TextMessageWriter writer = new TextMessageWriter();
-            Matcher.WriteDescriptionTo(writer);
-            Assert.That(writer.ToString(), new EqualConstraint(Description), null);
+            theConstraint.WriteDescriptionTo(writer);
+            Assert.AreEqual(expectedDescription, writer.ToString());
         }
+    }
 
-        [Test]
-        public void ProvidesProperFailureMessage()
+    public abstract class ConstraintTestBaseWithInvalidDataTest : ConstraintTestBase
+    {
+        [Test, TestCases("InvalidData")]
+        [ExpectedException(typeof(ArgumentException))]
+        public void InvalidDataGivesArgumentException(object value)
         {
-            object badValue = BadValues[0];
-            string badString = badValue == null ? "null" : badValue.ToString();
-
-            TextMessageWriter writer = new TextMessageWriter();
-            Matcher.Matches(badValue);
-            Matcher.WriteMessageTo(writer);
-            Assert.That(writer.ToString(), new SubstringConstraint(Description));
-            Assert.That(writer.ToString(), new SubstringConstraint(badString));
-            Assert.That(writer.ToString(), new NotConstraint(new SubstringConstraint("<UNSET>")));
+            theConstraint.Matches(value);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace NUnit.Framework.Constraints.Tests
             expectedMessage = 
 				TextMessageWriter.Pfx_Expected + "all items not null" + Environment.NewLine +
                 TextMessageWriter.Pfx_Actual + "< 1, \"hello\", null, 3 >" + Environment.NewLine;
-            Assert.That(c, new AllItemsConstraint(new NotConstraint( new EqualConstraint(null))));
+            Assert.That(c, new AllItemsConstraint(new NotConstraint(new EqualConstraint(null))));
         }
 
         [Test]

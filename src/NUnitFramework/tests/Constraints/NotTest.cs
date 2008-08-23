@@ -14,11 +14,15 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new NotConstraint( new EqualConstraint(null) );
-            GoodValues = new object[] { 42, "Hello" };
-            BadValues = new object [] { null };
-            Description = "not null";
+            theConstraint = new NotConstraint( new EqualConstraint(null) );
+            expectedDescription = "not null";
         }
+
+        object[] GoodData = new object[] { 42, "Hello" };
+            
+        object[] BadData = new object [] { null };
+
+        object[] FailureMessages = new object[] { "null" };
 
         [Test, ExpectedException(typeof(AssertionException), ExpectedMessage = "ignoring case", MatchType = MessageMatch.Contains)]
         public void NotHonorsIgnoreCaseUsingConstructors()

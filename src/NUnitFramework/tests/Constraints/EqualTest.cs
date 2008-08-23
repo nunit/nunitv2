@@ -11,16 +11,53 @@ using System.Drawing;
 namespace NUnit.Framework.Constraints.Tests
 {
     [TestFixture]
-    public class EqualTest : ConstraintTestBase, IExpectException
+    public class EqualConstraintTest : ConstraintTestBase
     {
         [SetUp]
         public void SetUp()
         {
-            Matcher = new EqualConstraint( 4 );
-            GoodValues = new object[] { 4, 4.0f, 4.0d, 4.0000m };
-            BadValues = new object[] { 5, null, "Hello" };
-            Description = "4";
+            theConstraint = new EqualConstraint(4);
+            expectedDescription = "4";
         }
+
+        object[] GoodData = new object[] { 4, 4.0f, 4.0d, 4.0000m };
+            
+        object[] BadData = new object[] { 5, null, "Hello", double.NaN, double.PositiveInfinity };
+
+        object[] FailureMessages = new object[] { "5", "null", "\"Hello\"", "NaN", "Infinity" };
+
+        [TestCase(double.NaN)]
+        [TestCase(double.PositiveInfinity)]
+        [TestCase(double.NegativeInfinity)]
+        [TestCase(float.NaN)]
+        [TestCase(float.PositiveInfinity)]
+        [TestCase(float.NegativeInfinity)]
+        public void CanMatchSpecialFloatingPointValues(object value)
+        {
+            Assert.That(value, new EqualConstraint(value));
+        }
+
+        [Test]
+        public void CanMatchDates()
+        {
+            DateTime expected = new DateTime(2007, 4, 1);
+            DateTime actual = new DateTime(2007, 4, 1);
+            Assert.That(actual, new EqualConstraint(expected));
+        }
+
+        [Test]
+        public void CanMatchDatesWithinTolerance()
+        {
+            DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
+            DateTime actual = new DateTime(2007, 4, 1, 13, 1, 0);
+            TimeSpan tolerance = TimeSpan.FromMinutes(5.0);
+            Assert.That(actual, new EqualConstraint(expected).Within(tolerance));
+        }
+    }
+
+    [TestFixture]
+    public class EqualTest : IExpectException
+    {
 
         [Test, ExpectedException(typeof(AssertionException))]
         public void FailedStringMatchShowsFailurePosition()
@@ -55,29 +92,6 @@ namespace NUnit.Framework.Constraints.Tests
             string actual = testString  + "+++++";
 
             Assert.That(actual, new EqualConstraint(expected));
-        }
-
-        [Test]
-        public void NANsCompareAsEqual()
-        {
-            Assert.That(double.NaN, new EqualConstraint(double.NaN));
-        }
-
-        [Test]
-        public void CanCompareDates()
-        {
-            DateTime expected = new DateTime( 2007, 4, 1 );
-            DateTime actual = new DateTime( 2007, 4, 1 );
-            Assert.That( actual, new EqualConstraint( expected ));
-        }
-
-        [Test]
-        public void CanCompareDatesWithinTolerance()
-        {
-            DateTime expected = new DateTime( 2007, 4, 1, 13, 0, 0 );
-            DateTime actual = new DateTime( 2007, 4, 1, 13, 1, 0 );
-            TimeSpan tolerance = TimeSpan.FromMinutes( 5.0 );
-            Assert.That( actual, new EqualConstraint( expected ).Within( tolerance ));
         }
 
 //        [Test]

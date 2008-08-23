@@ -12,11 +12,19 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new ExactTypeConstraint(typeof(D1));
-            GoodValues = new object[] { new D1() };
-            BadValues = new object[] { new B(), new D2() };
-            Description = string.Format("<{0}>", typeof(D1));
+            theConstraint = new ExactTypeConstraint(typeof(D1));
+            expectedDescription = string.Format("<{0}>", typeof(D1));
         }
+
+        object[] GoodData = new object[] { new D1() };
+        
+        object[] BadData = new object[] { new B(), new D2() };
+
+        object[] FailureMessages = new object[]
+            {
+                "<NUnit.Framework.Constraints.Tests.B>",
+                "<NUnit.Framework.Constraints.Tests.D2>"
+            };
     }
 
     [TestFixture]
@@ -25,11 +33,18 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new InstanceOfTypeConstraint(typeof(D1));
-            GoodValues = new object[] { new D1(), new D2() };
-            BadValues = new object[] { new B() };
-            Description = string.Format("instance of <{0}>", typeof(D1));
+            theConstraint = new InstanceOfTypeConstraint(typeof(D1));
+            expectedDescription = string.Format("instance of <{0}>", typeof(D1));
         }
+
+        object[] GoodData = new object[] { new D1(), new D2() };
+
+        object[] BadData = new object[] { new B() };
+
+        object[] FailureMessages = new object[]
+            {
+                "<NUnit.Framework.Constraints.Tests.B>"
+            };
     }
 
     [TestFixture]
@@ -38,11 +53,18 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new AssignableFromConstraint(typeof(D1));
-            GoodValues = new object[] { new D1(), new B() };
-            BadValues = new object[] { new D2() };
-            Description = string.Format("Type assignable from <{0}>", typeof(D1));
+            theConstraint = new AssignableFromConstraint(typeof(D1));
+            expectedDescription = string.Format("assignable from <{0}>", typeof(D1));
         }
+
+        object[] GoodData = new object[] { new D1(), new B() };
+            
+        object[] BadData = new object[] { new D2() };
+
+        object[] FailureMessages = new object[]
+            {
+                "<NUnit.Framework.Constraints.Tests.D2>"
+            };
     }
 
     [TestFixture]
@@ -51,11 +73,18 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new AssignableToConstraint(typeof(D1));
-            GoodValues = new object[] { new D1(), new D2() };
-            BadValues = new object[] { new B() };
-            Description = string.Format("Type assignable to <{0}>", typeof(D1));
+            theConstraint = new AssignableToConstraint(typeof(D1));
+            expectedDescription = string.Format("assignable to <{0}>", typeof(D1));
         }
+        
+        object[] GoodData = new object[] { new D1(), new D2() };
+            
+        object[] BadData = new object[] { new B() };
+
+        object[] FailureMessages = new object[]
+            {
+                "<NUnit.Framework.Constraints.Tests.B>"
+            };
     }
 
     class B { }
@@ -70,13 +99,20 @@ namespace NUnit.Framework.Constraints.Tests
         [SetUp]
         public void SetUp()
         {
-            Matcher = new AttributeConstraint(typeof(TestFixtureAttribute));
-            GoodValues = new object[] { this };
-            BadValues = new object[] { new D2() };
-            Description = "type with attribute <NUnit.Framework.TestFixtureAttribute>";
+            theConstraint = new AttributeConstraint(typeof(TestFixtureAttribute));
+            expectedDescription = "type with attribute <NUnit.Framework.TestFixtureAttribute>";
         }
 
-        [Test,ExpectedException(typeof(System.ArgumentException))]
+        object[] GoodData = new object[] { typeof(AttributeConstraintTest) };
+            
+        object[] BadData = new object[] { new D2() };
+
+        object[] FailureMessages = new object[]
+            {
+                "<NUnit.Framework.Constraints.Tests.D2>"
+            };
+
+        [Test, ExpectedException(typeof(System.ArgumentException))]
         public void NonAttributeThrowsException()
         {
             new AttributeConstraint(typeof(string));
