@@ -79,10 +79,16 @@ namespace NUnit.Framework.Constraints
 		/// <param name="writer">The writer on which the actual value is displayed</param>
 		public override void WriteActualValueTo(MessageWriter writer)
 		{
-			if ( propertyExists )
-				writer.WriteActualValue( propValue );
-			else
-				writer.WriteActualValue( actual.GetType() );
+            if (!propertyExists)
+                writer.Write("no property " + name + " found");
+            else
+            {
+                writer.WritePredicate("property " + name);
+                if (baseConstraint != null)
+                    baseConstraint.WriteActualValueTo(writer);
+                else
+                    writer.WriteActualValue(actual);
+            }
 		}
 	}
 }
