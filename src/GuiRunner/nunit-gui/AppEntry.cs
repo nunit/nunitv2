@@ -72,14 +72,18 @@ namespace NUnit.Gui
 
 			// Create container in order to allow ambient properties
 			// to be shared across all top-level forms.
+            NTrace.Info("Initializing AmbientProperties");
 			AppContainer c = new AppContainer();
 			AmbientProperties ambient = new AmbientProperties();
 			c.Services.AddService( typeof( AmbientProperties ), ambient );
+
+            NTrace.Info("Constructing Form");
 			NUnitForm form = new NUnitForm( guiOptions );
 			c.Add( form );
 
 			try
 			{
+                NTrace.Info("Staring Application");
 				Application.Run( form );
 			}
 			finally
