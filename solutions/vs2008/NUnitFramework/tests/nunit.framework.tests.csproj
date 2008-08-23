@@ -143,9 +143,8 @@
       <Link>Constraints\ConstraintTestBase.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\EmptyTest.cs">
-      <Link>Constraints\EmptyTest.cs</Link>
-      <SubType>Code</SubType>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\EmptyConstraintTest.cs">
+      <Link>Constraints\EmptyConstraintTest.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\EqualTest.cs">
       <Link>Constraints\EqualTest.cs</Link>
