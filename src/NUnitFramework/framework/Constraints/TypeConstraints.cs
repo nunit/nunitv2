@@ -136,7 +136,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The MessageWriter to use</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            writer.WritePredicate("Type assignable from");
+            writer.WritePredicate("assignable from");
             writer.WriteExpectedValue(expectedType);
         }
     }
@@ -170,7 +170,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The MessageWriter to use</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            writer.WritePredicate("Type assignable to");
+            writer.WritePredicate("assignable to");
             writer.WriteExpectedValue(expectedType);
         }
     }

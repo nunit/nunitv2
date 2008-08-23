@@ -86,7 +86,7 @@ namespace NUnit.Framework.Tests
 			int [,] array2 = new int[2,2];
 
 			expectedMessage =
-				"  Expected: Type assignable from <System.Int32[,]>" + System.Environment.NewLine + 
+				"  Expected: assignable from <System.Int32[,]>" + System.Environment.NewLine + 
 				"  But was:  <System.Int32[]>" + System.Environment.NewLine;
 			Expect( array10, AssignableFrom( array2.GetType() ) );
 		}
@@ -110,7 +110,7 @@ namespace NUnit.Framework.Tests
 			int [] array2 = new int[2];
 
 			expectedMessage =
-				"  Expected: not Type assignable from <System.Int32[]>" + System.Environment.NewLine + 
+				"  Expected: not assignable from <System.Int32[]>" + System.Environment.NewLine + 
 				"  But was:  <System.Int32[]>" + System.Environment.NewLine;
 			Expect( array10, Not.AssignableFrom( array2.GetType() ) );
 		}
