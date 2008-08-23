@@ -65,6 +65,8 @@ namespace NUnit.Util
 
 		public void StopAllServices()
 		{
+            NTrace.Info("Stopping Services");
+
 			// Stop services in reverse of initialization order
 			// TODO: Deal with dependencies explicitly
 			int index = services.Count;
