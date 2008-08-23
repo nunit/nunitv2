@@ -19,7 +19,7 @@ namespace NUnit.Core
         /// </summary>
         /// <param name="method"></param>
         public ParameterizedMethodSuite(MethodInfo method)
-            : base(method.DeclaringType.FullName, method.Name)
+            : base(method.ReflectedType.FullName, method.Name)
         {
         }
 

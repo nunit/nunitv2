@@ -72,7 +72,7 @@ namespace NUnit.Core.Builders
             {
                 Type sourceType = Reflect.GetPropertyValue(sourcesAttr, SourceTypeProperty) as Type;
                 if (sourceType == null)
-                    sourceType = parameter.Member.DeclaringType;
+                    sourceType = parameter.Member.ReflectedType;
 
                 string[] sourceNames = Reflect.GetPropertyValue(sourcesAttr, SourceNamesProperty) as string[];
                 if (sourceNames != null && sourceNames.Length > 0)

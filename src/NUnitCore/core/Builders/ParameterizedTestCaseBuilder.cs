@@ -84,8 +84,7 @@ namespace NUnit.Core.Builders
                                     parms.Arguments[i] = (object)array.GetValue(i);
                             }
                         }
-
-                        if ( parms == null )
+                        else
                             parms.Arguments = new object[] { source };
                     }
                 }
@@ -126,13 +125,13 @@ namespace NUnit.Core.Builders
                 if (parms.TestName != null)
                 {
                     testMethod.TestName.Name = parms.TestName;
-                    testMethod.TestName.FullName = method.DeclaringType.FullName + "." + parms.TestName;
+                    testMethod.TestName.FullName = method.ReflectedType.FullName + "." + parms.TestName;
                 }
                 else if (parms.Arguments != null)
                 {
                     string name = MethodHelper.GetDisplayName(method, parms.Arguments);
                     testMethod.TestName.Name = name;
-                    testMethod.TestName.FullName = method.DeclaringType.FullName + "." + name;
+                    testMethod.TestName.FullName = method.ReflectedType.FullName + "." + name;
                 }
 
                 if (parms.ExpectedExceptionName != null)
