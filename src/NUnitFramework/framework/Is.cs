@@ -238,6 +238,32 @@ namespace NUnit.Framework
             return AssignableFrom(typeof(T));
         }
 #endif
+
+        /// <summary>
+        /// Is.AssignableTo returns a constraint that tests whether
+        /// the actual value is assignable to the type supplied as
+        /// an argument.
+        /// </summary>
+        /// <param name="expectedType"></param>
+        /// <returns></returns>
+        public static Constraint AssignableTo(Type expectedType)
+        {
+            return new AssignableToConstraint(expectedType);
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Is.AssignableTo returns a constraint that tests whether
+        /// the actual value is assignable to the type supplied as
+        /// an argument.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static Constraint AssignableTo<T>()
+        {
+            return AssignableTo(typeof(T));
+        }
+#endif
         #endregion
 
 		#region Collection Constraints

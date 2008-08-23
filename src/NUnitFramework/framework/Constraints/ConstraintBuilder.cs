@@ -13,11 +13,13 @@ using System.Collections.Generic;
 namespace NUnit.Framework.Constraints
 {
     /// <summary>
-    /// ConstraintBuilder is used to resolve the Not and All properties,
-    /// which serve as prefix operators for constraints. With the addition
-    /// of an operand stack, And and Or could be supported, but we have
-    /// left them out in favor of a simpler, more type-safe implementation.
-    /// Use the &amp; and | operator overloads to combine constraints.
+    /// ConstraintBuilder is used to resolve constraint expressions, which
+    /// are constructed from a series of syntactic elements joined by the
+    /// C# dot operator. Elements in an expression may be:
+    ///   Individual constraints, like EqualTo or Null
+    ///   Prefix operators, which precede a constraint
+    ///   Constraint modifiers, which follow a constraint.
+    ///   Binary operators And and Or, which join two constraints.
     /// </summary>
     public class ConstraintBuilder : IConstraint
     {
@@ -201,6 +203,7 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Type Constraints
+        // TODO: Add generics?
         /// <summary>
         /// Resolves the chain of constraints using an
         /// ExactTypeConstraint as base.
@@ -226,6 +229,15 @@ namespace NUnit.Framework.Constraints
         public ConstraintBuilder AssignableFrom(Type expectedType)
         {
             return PushAndReturnSelf(new AssignableFromConstraint(expectedType));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AssignableToConstraint as base.
+        /// </summary>
+        public ConstraintBuilder AssignableTo(Type expectedType)
+        {
+            return PushAndReturnSelf(new AssignableToConstraint(expectedType));
         }
         #endregion
 
@@ -502,6 +514,7 @@ namespace NUnit.Framework.Constraints
         public ConstraintBuilder With
         {
             get { return this; }
+            //get { return PushAndReturnSelf(new WithOperator()); }
         }
         #endregion
 
@@ -557,7 +570,7 @@ namespace NUnit.Framework.Constraints
         #region Helper Methods
         private void Push(ConstraintOperator op)
         {
-            while (ops.Count > 0 && op.Precedence > ops.Peek().Precedence)
+            while (ops.Count > 0 && op.LeftPrecedence > ops.Peek().RightPrecedence)
                 ops.Pop().Reduce(constraints);
 
             ops.Push(op);
