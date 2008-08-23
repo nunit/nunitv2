@@ -35,11 +35,39 @@ namespace NUnit.Core
                     object arg = arglist[i];
                     string display = arg == null ? "null" : arg.ToString();
 
-                    if (arg is double || arg is float)
+                    if (arg is double)
                     {
-                        if (display.IndexOf('.') == -1)
-                            display += ".0";
-                        display += arg is double ? "d" : "f";
+                        double d = (double)arg;
+
+                        if (double.IsNaN(d))
+                            display = "double.NaN";
+                        else if (double.IsPositiveInfinity(d))
+                            display = "double.PositiveInfinity";
+                        else if (double.IsNegativeInfinity(d))
+                            display = "double.NegativeInfinity";
+                        else
+                        {
+                            if (display.IndexOf('.') == -1)
+                                display += ".0";
+                            display += "d";
+                        }
+                    }
+                    else if (arg is float)
+                    {
+                        float f = (float)arg;
+
+                        if (float.IsNaN(f))
+                            display = "float.NaN";
+                        else if (float.IsPositiveInfinity(f))
+                            display = "float.PositiveInfinity";
+                        else if (float.IsNegativeInfinity(f))
+                            display = "float.NegativeInfinity";
+                        else
+                        {
+                            if (display.IndexOf('.') == -1)
+                                display += ".0";
+                            display += "f";
+                        }
                     }
                     else if (arg is decimal) display += "m";
                     else if (arg is long) display += "L";
