@@ -12,12 +12,9 @@ namespace NUnit.Core.Builders
     public class TestCaseFactoryProvider : ITestCaseProvider
     {
         #region Constants
-        public const string FactoriesAttribute = "NUnit.Framework.TestCasesAttribute";
-        public const string FactoryTypeProperty = "SourceType";
-        public const string FactoryNameProperty = "SourceName";
-
-        //public const string TestCaseFactoryAttribute = "NUnit.Framework.TestCaseFactoryAttribute";
-        //public const string ArgTypesProperty = "ArgTypes";
+        public const string TestCasesAttribute = "NUnit.Framework.TestCasesAttribute";
+        public const string SourceTypeProperty = "SourceType";
+        public const string SourceNameProperty = "SourceName";
         #endregion
 
         #region ITestCaseProvider Members
@@ -29,7 +26,7 @@ namespace NUnit.Core.Builders
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method)
         {
-            return Reflect.HasAttribute(method, FactoriesAttribute, false);
+            return Reflect.HasAttribute(method, TestCasesAttribute, false);
         }
 
         /// <summary>
@@ -41,7 +38,7 @@ namespace NUnit.Core.Builders
         public IEnumerable GetTestCasesFor(MethodInfo method)
         {
 #if NET_2_0
-            foreach( ProviderInfo info in GetFactoriesFor(method) )
+            foreach( ProviderInfo info in GetSourcesFor(method) )
             {
                 if (info.Provider == null)
                     yield return new ParameterSet(RunState.NotRunnable, info.Message);
@@ -52,7 +49,7 @@ namespace NUnit.Core.Builders
 #else
             ArrayList parameterList = new ArrayList();
 
-            foreach ( ProviderInfo info in GetFactoriesFor(method) )
+            foreach ( ProviderInfo info in GetSourcesFor(method) )
             {
                 if (info.Provider == null)
                     parameterList.Add(
@@ -68,17 +65,17 @@ namespace NUnit.Core.Builders
         #endregion
 
         #region Helper Methods
-        private static IList GetFactoriesFor(MethodInfo method)
+        private static IList GetSourcesFor(MethodInfo method)
         {
-            ArrayList factories = new ArrayList();
-            foreach (Attribute factoryAttr in Reflect.GetAttributes(method, FactoriesAttribute, false))
+            ArrayList sources = new ArrayList();
+            foreach (Attribute sourceAttr in Reflect.GetAttributes(method, TestCasesAttribute, false))
             {
-                Type factoryType = Reflect.GetPropertyValue(factoryAttr, FactoryTypeProperty) as Type;
-                if (factoryType == null)
-                    factoryType = method.ReflectedType;
+                Type sourceType = Reflect.GetPropertyValue(sourceAttr, SourceTypeProperty) as Type;
+                if (sourceType == null)
+                    sourceType = method.ReflectedType;
 
-                string factoryName = Reflect.GetPropertyValue(factoryAttr, FactoryNameProperty) as string;
-                factories.Add(new ProviderInfo(factoryType, factoryName));
+                string sourceName = Reflect.GetPropertyValue(sourceAttr, SourceNameProperty) as string;
+                sources.Add(new ProviderInfo(sourceType, sourceName));
                 //else
                 //{
                 //    int found = 0;
@@ -106,7 +103,7 @@ namespace NUnit.Core.Builders
                 //    }
                 //}
             }
-            return factories;
+            return sources;
         }
         #endregion
     }
