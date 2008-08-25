@@ -118,23 +118,23 @@ namespace NUnit.Framework
 		/// Is.GreaterThan returns a constraint that tests whether the
 		/// actual value is greater than the suppled argument
 		/// </summary>
-		public static Constraint GreaterThan(IComparable expected)
+		public static ResolvableConstraintBuilder GreaterThan(IComparable expected)
         {
-            return new GreaterThanConstraint(expected);
+            return new ResolvableConstraintBuilder().GreaterThan(expected);
         }
 		/// <summary>
 		/// Is.GreaterThanOrEqualTo returns a constraint that tests whether the
 		/// actual value is greater than or equal to the suppled argument
 		/// </summary>
-        public static Constraint GreaterThanOrEqualTo(IComparable expected)
+        public static ResolvableConstraintBuilder GreaterThanOrEqualTo(IComparable expected)
         {
-            return new GreaterThanOrEqualConstraint(expected);
+            return new ResolvableConstraintBuilder().GreaterThanOrEqualTo(expected);
         }
 
 		/// <summary>
 		/// Is.AtLeast is a synonym for Is.GreaterThanOrEqualTo
 		/// </summary>
-        public static Constraint AtLeast(IComparable expected)
+        public static ResolvableConstraintBuilder AtLeast(IComparable expected)
         {
             return GreaterThanOrEqualTo(expected);
         }
@@ -143,24 +143,24 @@ namespace NUnit.Framework
 		/// Is.LessThan returns a constraint that tests whether the
 		/// actual value is less than the suppled argument
 		/// </summary>
-        public static Constraint LessThan(IComparable expected)
+        public static ResolvableConstraintBuilder LessThan(IComparable expected)
         {
-            return new LessThanConstraint(expected);
+            return new ResolvableConstraintBuilder().LessThan(expected);
         }
 
 		/// <summary>
 		/// Is.LessThanOrEqualTo returns a constraint that tests whether the
 		/// actual value is less than or equal to the suppled argument
 		/// </summary>
-        public static Constraint LessThanOrEqualTo(IComparable expected)
+        public static ResolvableConstraintBuilder LessThanOrEqualTo(IComparable expected)
         {
-            return new LessThanOrEqualConstraint(expected);
+            return new ResolvableConstraintBuilder().LessThanOrEqualTo(expected);
         }
 
 		/// <summary>
 		/// Is.AtMost is a synonym for Is.LessThanOrEqualTo
 		/// </summary>
-        public static Constraint AtMost(IComparable expected)
+        public static ResolvableConstraintBuilder AtMost(IComparable expected)
         {
             return LessThanOrEqualTo(expected);
         }

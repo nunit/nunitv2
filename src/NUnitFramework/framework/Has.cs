@@ -31,9 +31,9 @@ namespace NUnit.Framework
             /// </summary>
             /// <param name="name">The property name</param>
             /// <returns>A ConstraintBuilder</returns>
-			public ConstraintBuilder Property(string name)
+			public ResolvableConstraintBuilder Property(string name)
 			{
-				return new ConstraintBuilder().Not.Property(name);
+				return new ResolvableConstraintBuilder().Not.Property(name);
 			}
 
             /// <summary>
@@ -95,9 +95,9 @@ namespace NUnit.Framework
 		/// being tested.
 		/// </summary>
 		/// <param name="name">The name of the property</param>
-		public static ConstraintBuilder Property( string name )
+		public static ResolvableConstraintBuilder Property( string name )
 		{
-			return new ConstraintBuilder().Property(name);
+			return new ResolvableConstraintBuilder().Property(name);
 		}
 		#endregion
 
