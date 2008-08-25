@@ -21,7 +21,7 @@ namespace NUnit.Framework.Constraints
     ///   Constraint modifiers, which follow a constraint.
     ///   Binary operators And and Or, which join two constraints.
     /// </summary>
-    public class ConstraintBuilder : IConstraint
+    public class ConstraintBuilder
     {
         #region Constructors
         public ConstraintBuilder() { }
@@ -30,25 +30,18 @@ namespace NUnit.Framework.Constraints
         {
             Push(constraint);
         }
+
+        public ConstraintBuilder(ConstraintBuilder other)
+        {
+            this.ops = other.ops;
+            this.constraints = other.constraints;
+            this.lastPush = other.lastPush;
+        }
         #endregion
 
         #region Processing Stacks
-        OpStack ops = new OpStack();
-        ConstraintStack constraints = new ConstraintStack();
-        #endregion
-
-        #region Properties
-        private Constraint resolvedConstraint;
-        public IConstraint Constraint
-        {
-            get
-            {
-                if (resolvedConstraint == null)
-                    resolvedConstraint = Resolve();
-
-                return resolvedConstraint;
-            }
-        }
+        protected OpStack ops = new OpStack();
+        protected ConstraintStack constraints = new ConstraintStack();
         #endregion
 
         #region Constraints Without Arguments
@@ -56,72 +49,72 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using
         /// EqualConstraint(null) as base.
         /// </summary>
-        public ConstraintBuilder Null
+        public ResolvableConstraintBuilder Null
         {
-            get { return PushAndReturnSelf(new EqualConstraint(null)); }
+            get { Push(new EqualConstraint(null)); return this.AsResolvable(); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// EqualConstraint(true) as base.
         /// </summary>
-        public ConstraintBuilder True
+        public ResolvableConstraintBuilder True
         {
-            get { return PushAndReturnSelf(new EqualConstraint(true)); }
+            get { Push(new EqualConstraint(true)); return this.AsResolvable(); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// EqualConstraint(false) as base.
         /// </summary>
-        public ConstraintBuilder False
+        public ResolvableConstraintBuilder False
         {
-            get { return PushAndReturnSelf(new EqualConstraint(false)); }
+            get { Push(new EqualConstraint(false)); return this.AsResolvable(); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// Is.NaN as base.
         /// </summary>
-        public ConstraintBuilder NaN
+        public ResolvableConstraintBuilder NaN
         {
-            get { return PushAndReturnSelf(new EqualConstraint(double.NaN)); }
+            get { Push(new EqualConstraint(double.NaN)); return this.AsResolvable(); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// Is.Empty as base.
         /// </summary>
-        public ConstraintBuilder Empty
+        public ResolvableConstraintBuilder Empty
         {
-            get { return PushAndReturnSelf(new EmptyConstraint()); }
+            get { Push(new EmptyConstraint()); return this.AsResolvable(); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using
         /// Is.Unique as base.
         /// </summary>
-        public ConstraintBuilder Unique
+        public ResolvableConstraintBuilder Unique
         {
-            get { return PushAndReturnSelf(new UniqueItemsConstraint()); }
+            get { Push(new UniqueItemsConstraint()); return this.AsResolvable(); }
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionOrderedConstraint as base.
         /// </summary>
-        public ConstraintBuilder Ordered()
+        public ResolvableConstraintBuilder Ordered()
         {
-            return PushAndReturnSelf(new CollectionOrderedConstraint());
+            Push(new CollectionOrderedConstraint()); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionOrderedConstraint as base.
         /// </summary>
-        public ConstraintBuilder Ordered(IComparer comparer)
+        public ResolvableConstraintBuilder Ordered(IComparer comparer)
         {
-            return PushAndReturnSelf(new CollectionOrderedConstraint(comparer));
+            Push(new CollectionOrderedConstraint(comparer)); return this.AsResolvable();
         }
         #endregion
 
@@ -141,9 +134,9 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// SameAsConstraint as base.
         /// </summary>
-        public ConstraintBuilder SameAs(object expected)
+        public ResolvableConstraintBuilder SameAs(object expected)
         {
-            return PushAndReturnSelf(new SameAsConstraint(expected));
+            Push(new SameAsConstraint(expected)); return this.AsResolvable();
         }
         #endregion
 
@@ -152,93 +145,130 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// LessThanConstraint as base.
         /// </summary>
-        public ConstraintBuilder LessThan(IComparable expected)
+        public ResolvableConstraintBuilder LessThan(IComparable expected)
         {
-            return PushAndReturnSelf(new LessThanConstraint(expected));
+            Push(new LessThanConstraint(expected)); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// GreaterThanConstraint as base.
         /// </summary>
-        public ConstraintBuilder GreaterThan(IComparable expected)
+        public ResolvableConstraintBuilder GreaterThan(IComparable expected)
         {
-            return PushAndReturnSelf(new GreaterThanConstraint(expected));
+            Push(new GreaterThanConstraint(expected)); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// LessThanOrEqualConstraint as base.
         /// </summary>
-        public ConstraintBuilder LessThanOrEqualTo(IComparable expected)
+        public ResolvableConstraintBuilder LessThanOrEqualTo(IComparable expected)
         {
-            return PushAndReturnSelf(new LessThanOrEqualConstraint(expected));
+            Push(new LessThanOrEqualConstraint(expected)); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// LessThanOrEqualConstraint as base.
         /// </summary>
-        public ConstraintBuilder AtMost(IComparable expected)
+        public ResolvableConstraintBuilder AtMost(IComparable expected)
         {
-            return PushAndReturnSelf(new LessThanOrEqualConstraint(expected));
+            Push(new LessThanOrEqualConstraint(expected)); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// GreaterThanOrEqualConstraint as base.
         /// </summary>
-        public ConstraintBuilder GreaterThanOrEqualTo(IComparable expected)
+        public ResolvableConstraintBuilder GreaterThanOrEqualTo(IComparable expected)
         {
-            return PushAndReturnSelf(new GreaterThanOrEqualConstraint(expected));
+            Push(new GreaterThanOrEqualConstraint(expected)); return this.AsResolvable();
         }
         /// <summary>
         /// Resolves the chain of constraints using a
         /// GreaterThanOrEqualConstraint as base.
         /// </summary>
-        public ConstraintBuilder AtLeast(IComparable expected)
+        public ResolvableConstraintBuilder AtLeast(IComparable expected)
         {
-            return PushAndReturnSelf(new GreaterThanOrEqualConstraint(expected));
+            Push(new GreaterThanOrEqualConstraint(expected)); return this.AsResolvable();
         }
         #endregion
 
         #region Type Constraints
-        // TODO: Add generics?
         /// <summary>
         /// Resolves the chain of constraints using an
         /// ExactTypeConstraint as base.
         /// </summary>
-        public ConstraintBuilder TypeOf(Type expectedType)
+        public ResolvableConstraintBuilder TypeOf(Type expectedType)
         {
-            return PushAndReturnSelf(new ExactTypeConstraint(expectedType));
+            Push(new ExactTypeConstraint(expectedType)); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using an
         /// InstanceOfTypeConstraint as base.
         /// </summary>
-        public ConstraintBuilder InstanceOfType(Type expectedType)
+        public ResolvableConstraintBuilder InstanceOfType(Type expectedType)
         {
-            return PushAndReturnSelf(new InstanceOfTypeConstraint(expectedType));
+            Push(new InstanceOfTypeConstraint(expectedType)); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using an
         /// AssignableFromConstraint as base.
         /// </summary>
-        public ConstraintBuilder AssignableFrom(Type expectedType)
+        public ResolvableConstraintBuilder AssignableFrom(Type expectedType)
         {
-            return PushAndReturnSelf(new AssignableFromConstraint(expectedType));
+            Push(new AssignableFromConstraint(expectedType)); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using an
         /// AssignableToConstraint as base.
         /// </summary>
-        public ConstraintBuilder AssignableTo(Type expectedType)
+        public ResolvableConstraintBuilder AssignableTo(Type expectedType)
         {
-            return PushAndReturnSelf(new AssignableToConstraint(expectedType));
+            Push(new AssignableToConstraint(expectedType)); return this.AsResolvable();
         }
+
+#if NET_2_0
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// ExactTypeConstraint as base.
+        /// </summary>
+        public ResolvableConstraintBuilder TypeOf<T>()
+        {
+            return TypeOf(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// InstanceOfTypeConstraint as base.
+        /// </summary>
+        public ResolvableConstraintBuilder InstanceOfType<T>()
+        {
+            return InstanceOfType(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AssignableFromConstraint as base.
+        /// </summary>
+        public ResolvableConstraintBuilder AssignableFrom<T>()
+        {
+            return AssignableFrom(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AssignableToConstraint as base.
+        /// </summary>
+        public ResolvableConstraintBuilder AssignableTo<T>()
+        {
+            return AssignableTo(typeof(T));
+        }
+#endif
         #endregion
 
         #region Containing Constraint
@@ -262,9 +292,9 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="expected"></param>
         /// <returns></returns>
-        public ConstraintBuilder Contains(object expected)
+        public ResolvableConstraintBuilder Contains(object expected)
         {
-            return PushAndReturnSelf(new CollectionContainsConstraint(expected));
+            Push(new CollectionContainsConstraint(expected)); return this.AsResolvable();
         }
 
         /// <summary>
@@ -272,9 +302,9 @@ namespace NUnit.Framework.Constraints
         /// CollectionContainsConstraint as base.
         /// </summary>
         /// <param name="expected">The expected object</param>
-        public ConstraintBuilder Member(object expected)
+        public ResolvableConstraintBuilder Member(object expected)
         {
-            return PushAndReturnSelf(new CollectionContainsConstraint(expected));
+            Push(new CollectionContainsConstraint(expected)); return this.AsResolvable();
         }
         #endregion
 
@@ -331,27 +361,27 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// CollectionEquivalentConstraint as base.
         /// </summary>
-        public ConstraintBuilder EquivalentTo(ICollection expected)
+        public ResolvableConstraintBuilder EquivalentTo(ICollection expected)
         {
-            return PushAndReturnSelf( new CollectionEquivalentConstraint(expected) );
+            Push( new CollectionEquivalentConstraint(expected) ); return this.AsResolvable();
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionContainingConstraint as base.
         /// </summary>
-        public ConstraintBuilder CollectionContaining(object expected)
+        public ResolvableConstraintBuilder CollectionContaining(object expected)
 		{
-			return PushAndReturnSelf( new CollectionContainsConstraint(expected) );
+			Push( new CollectionContainsConstraint(expected) ); return this.AsResolvable();
 		}
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionSubsetConstraint as base.
         /// </summary>
-        public ConstraintBuilder SubsetOf(ICollection expected)
+        public ResolvableConstraintBuilder SubsetOf(ICollection expected)
         {
-            return PushAndReturnSelf(new CollectionSubsetConstraint(expected));
+            Push(new CollectionSubsetConstraint(expected)); return this.AsResolvable();
         }
         #endregion
 
@@ -384,9 +414,9 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a 
         /// PropertyConstraint as base
         /// </summary>
-		public ConstraintBuilder Property( string name, object expected )
+		public ResolvableConstraintBuilder Property( string name, object expected )
 		{
-			return PushAndReturnSelf( new PropertyConstraint( name, new EqualConstraint( expected ) ) );
+			Push( new PropertyConstraint( name, new EqualConstraint( expected ) ) ); return this.AsResolvable();
 		}
 
         /// <summary>
@@ -395,7 +425,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        public ConstraintBuilder Length(int length)
+        public ResolvableConstraintBuilder Length(int length)
         {
             return Property("Length", length);
         }
@@ -406,7 +436,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="count"></param>
         /// <returns></returns>
-        public ConstraintBuilder Count(int count)
+        public ResolvableConstraintBuilder Count(int count)
         {
             return Property("Count", count);
         }
@@ -417,16 +447,16 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public ConstraintBuilder Message(string message)
+        public ResolvableConstraintBuilder Message(string message)
         {
             return Property("Message", message);
         }
         #endregion
 
         #region Range Constraint
-        public ConstraintBuilder InRange(IComparable from, IComparable to)
+        public ResolvableConstraintBuilder InRange(IComparable from, IComparable to)
         {
-            return PushAndReturnSelf( new RangeConstraint(from, to) );
+            Push( new RangeConstraint(from, to) ); return this.AsResolvable();
         }
         #endregion
 
@@ -438,15 +468,15 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		public ConstraintBuilder Not
 		{
-			get { return PushAndReturnSelf( new NotOperator() ); }
-		}
+            get { Push(new NotOperator()); return this; }
+        }
 
 		/// <summary>
 		/// Modifies the ConstraintBuilder by pushing a Not operator on the stack.
 		/// </summary>
 		public ConstraintBuilder No
 		{
-            get { return PushAndReturnSelf(new NotOperator()); }
+            get { Push(new NotOperator()); return this; }
         }
         #endregion
 
@@ -456,7 +486,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public ConstraintBuilder All
         {
-            get { return PushAndReturnSelf(new AllOperator()); }
+            get { Push(new AllOperator()); return this; }
         }
         #endregion
 
@@ -466,7 +496,7 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		public ConstraintBuilder Some
 		{
-            get { return PushAndReturnSelf(new SomeOperator()); }
+            get { Push(new SomeOperator()); return this;  }
         }
         #endregion
 
@@ -476,7 +506,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
 		public ConstraintBuilder None
 		{
-            get { return PushAndReturnSelf(new NoneOperator()); }
+            get { Push(new NoneOperator()); return this;  }
         }
         #endregion
 
@@ -487,16 +517,18 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public ConstraintBuilder Property(string name)
+        public ResolvableConstraintBuilder Property(string name)
 		{
-			return PushAndReturnSelf( new PropOperator(name) );
+            Push(new PropOperator(name));
+            return new ResolvableConstraintBuilder(this);
         }
         #endregion
 
         #region Throws
         public ConstraintBuilder Throws(Type type)
         {
-            return PushAndReturnSelf(new ThrowsOperator(type));
+            Push(new ThrowsOperator(type));
+            return this;
         }
 
 #if NET_2_0
@@ -514,103 +546,70 @@ namespace NUnit.Framework.Constraints
         public ConstraintBuilder With
         {
             get { return this; }
-            //get { return PushAndReturnSelf(new WithOperator()); }
+            //get { Push(new WithOperator()); return this.AsResolvable(); }
         }
         #endregion
 
-        #region And
-        public ConstraintBuilder And
-        {
-            get { return PushAndReturnSelf(new AndOperator()); }
-        }
-        #endregion
-
-        #region Or
-        public ConstraintBuilder Or
-        {
-            get { return PushAndReturnSelf(new OrOperator()); }
-        }
-        #endregion
-
-        #endregion
-
-        #region Operator Overloads
-        /// <summary>
-        /// This operator creates a constraint that is satisfied only if both 
-        /// argument constraints are satisfied.
-        /// </summary>
-        public static ConstraintBuilder operator &(ConstraintBuilder left, ConstraintBuilder right)
-        {
-            left.Push(new AndOperator());
-            left.Push(right.Resolve());
-            return left;
-        }
-
-        /// <summary>
-        /// This operator creates a constraint that is satisfied if either 
-        /// of the argument constraints is satisfied.
-        /// </summary>
-        public static ConstraintBuilder operator |(ConstraintBuilder left, ConstraintBuilder right)
-        {
-            left.Push(new OrOperator());
-            left.Push(right.Resolve());
-            return left;
-        }
-
-        /// <summary>
-        /// This operator creates a constraint that is satisfied if the 
-        /// argument constraint is not satisfied.
-        /// </summary>
-        public static Constraint operator !(ConstraintBuilder m)
-        {
-            return new NotConstraint(m == null ? new EqualConstraint(null) : m.Resolve());
-        }
         #endregion
 
         #region Helper Methods
-        private void Push(ConstraintOperator op)
+        private object lastPush;
+
+        protected void Push(ConstraintOperator op)
         {
             while (ops.Count > 0 && op.LeftPrecedence > ops.Peek().RightPrecedence)
                 ops.Pop().Reduce(constraints);
 
             ops.Push(op);
+            lastPush = op;
         }
 
-        private void Push(Constraint constraint)
+        protected void Push(Constraint constraint)
         {
+            if (lastPush is Constraint)
+                Push(new AndOperator());
             constraint.Builder = this;
             constraints.Push(constraint);
+            lastPush = constraint;
         }
 
-        private ConstraintBuilder PushAndReturnSelf(ConstraintOperator op)
+        protected virtual ResolvableConstraintBuilder AsResolvable()
         {
-            Push(op);
-            return this;
+            return new ResolvableConstraintBuilder(this);
         }
+        #endregion
+    }
 
-        private ConstraintBuilder PushAndReturnSelf(Constraint constraint)
-        {
-            Push(constraint);
-            return this;
-        }
+    public class ResolvableConstraintBuilder : ConstraintBuilder, IConstraint
+    {
+        public ResolvableConstraintBuilder() { }
 
-        /// <summary>
-        /// Resolve a constraint that has been recognized by pushing it
-        /// to the operand stack and calling Resolve().
-        /// </summary>
-        /// <returns>A constraint that incorporates all pending operators</returns>
-        private Constraint Resolve(Constraint constraint)
+        public ResolvableConstraintBuilder(Constraint constraint)
+            : base(constraint) { }
+
+        public ResolvableConstraintBuilder(ConstraintBuilder other)
+            : base( other ) { }
+
+        #region Properties
+        private Constraint resolvedConstraint;
+        public IConstraint Constraint
         {
-            constraints.Push(constraint);
-            return Resolve();
+            get
+            {
+                if (resolvedConstraint == null)
+                    resolvedConstraint = Resolve();
+
+                return resolvedConstraint;
+            }
         }
+        #endregion
 
         /// <summary>
         /// Resolves the builder to a constraint by applying
         /// all pending operators and operands from the stack.
         /// </summary>
         /// <returns>A constraint that incorporates all pending operators</returns>
-        private Constraint Resolve()
+        public Constraint Resolve()
         {
             while (ops.Count > 0)
             {
@@ -618,9 +617,84 @@ namespace NUnit.Framework.Constraints
                 op.Reduce(constraints);
             }
 
-            return constraints.Pop(); ;
+            Constraint constraint = constraints.Pop();
+            constraint.Builder = null;
+            return constraint;
+        }
+        
+        #region And
+        public ConstraintBuilder And
+        {
+            get { Push(new AndOperator()); return this; }
         }
         #endregion
+
+        #region Or
+        public ConstraintBuilder Or
+        {
+            get { Push(new OrOperator()); return this; }
+        }
+        #endregion
+
+        #region Operator Overloads
+        /// <summary>
+        /// This operator creates a constraint that is satisfied only if both 
+        /// argument constraints are satisfied.
+        /// </summary>
+        public static Constraint operator &(ResolvableConstraintBuilder left, ResolvableConstraintBuilder right)
+        {
+            return new AndConstraint(left.Resolve(), right.Resolve());
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied only if both 
+        /// argument constraints are satisfied.
+        /// </summary>
+        public static Constraint operator &(ResolvableConstraintBuilder left, Constraint right)
+        {
+            return new AndConstraint(left.Resolve(), right);
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied only if both 
+        /// argument constraints are satisfied.
+        /// </summary>
+        public static Constraint operator &(Constraint left, ResolvableConstraintBuilder right)
+        {
+            return new AndConstraint(left, right.Resolve());
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied if either 
+        /// of the argument constraints is satisfied.
+        /// </summary>
+        public static Constraint operator |(ResolvableConstraintBuilder left, ResolvableConstraintBuilder right)
+        {
+            return new OrConstraint(left.Resolve(), right.Resolve());
+            //left.Push(new OrOperator());
+            //left.Push(right.Resolve());
+            //return left;
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied if the 
+        /// argument constraint is not satisfied.
+        /// </summary>
+        public static Constraint operator !(ResolvableConstraintBuilder m)
+        {
+            return new NotConstraint(m == null ? new EqualConstraint(null) : m.Resolve());
+        }
+        #endregion
+
+        protected override ResolvableConstraintBuilder AsResolvable()
+        {
+            return this;
+        }
+
+        public override string ToString()
+        {
+            return Constraint.ToString();
+        }
 
         #region IConstraint Members
         public bool Matches(object actual)

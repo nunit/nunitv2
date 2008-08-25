@@ -117,12 +117,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssertSyntaxTests.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\tests\AssertSyntaxTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssertThrowsTests.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\AssertThrowsTests.cs"
                     SubType = "Code"
@@ -371,6 +365,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Syntax\InvalidCodeTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\InvalidCodeTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Syntax\OperatorOverrides.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\OperatorOverrides.cs"
                     SubType = "Code"
@@ -403,6 +403,18 @@
                 <File
                     RelPath = "Syntax\StringConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\StringConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\SyntaxTest.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\SyntaxTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\TestCompiler.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\TestCompiler.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

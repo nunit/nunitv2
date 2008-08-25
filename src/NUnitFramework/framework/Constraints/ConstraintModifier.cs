@@ -35,10 +35,14 @@ namespace NUnit.Framework.Constraints
             {
                 if (wrapperConstraint == null)
                 {
-                    if (baseConstraint.Builder != null)
-                        wrapperConstraint = baseConstraint.Builder.Constraint;
-                    else
-                        wrapperConstraint = baseConstraint;
+                    wrapperConstraint = baseConstraint;
+
+                    ResolvableConstraintBuilder builder = baseConstraint.Builder as ResolvableConstraintBuilder;
+                    if (builder == null && baseConstraint.Builder != null)
+                        builder = new ResolvableConstraintBuilder(baseConstraint.Builder);
+                    
+                    if (builder != null)
+                        wrapperConstraint = builder.Constraint;
                 }
 
                 return wrapperConstraint;
@@ -94,7 +98,7 @@ namespace NUnit.Framework.Constraints
                 if (builder == null)
                     builder = new ConstraintBuilder(baseConstraint);
 
-                return builder.And;
+                return new ResolvableConstraintBuilder( builder ).And;
             }
         }
 
@@ -106,10 +110,15 @@ namespace NUnit.Framework.Constraints
                 if (builder == null)
                     builder = new ConstraintBuilder(baseConstraint);
 
-                return builder.Or;
+                return new ResolvableConstraintBuilder( builder ).Or;
             }
         }
         #endregion
+
+        public override string ToString()
+        {
+            return WrapperConstraint.ToString();
+        }
     }
 
 }

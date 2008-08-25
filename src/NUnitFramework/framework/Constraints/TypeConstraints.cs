@@ -23,7 +23,7 @@ namespace NUnit.Framework.Constraints
         /// Construct a TypeConstraint for a given Type
         /// </summary>
         /// <param name="type"></param>
-        public TypeConstraint(Type type)
+        public TypeConstraint(Type type) : base(type)
         {
             this.expectedType = type;
         }
@@ -50,7 +50,10 @@ namespace NUnit.Framework.Constraints
         /// Construct an ExactTypeConstraint for a given Type
         /// </summary>
         /// <param name="type">The expected Type.</param>
-        public ExactTypeConstraint(Type type) : base( type ) { }
+        public ExactTypeConstraint(Type type) : base( type ) 
+        {
+            this.DisplayName = "typeof";
+        }
 
         /// <summary>
         /// Test that an object is of the exact type specified
@@ -83,7 +86,10 @@ namespace NUnit.Framework.Constraints
         /// Construct an InstanceOfTypeConstraint for the type provided
         /// </summary>
         /// <param name="type">The expected Type</param>
-        public InstanceOfTypeConstraint(Type type) : base(type) { }
+        public InstanceOfTypeConstraint(Type type) : base(type) 
+        {
+            this.DisplayName = "instanceof";
+        }
 
         /// <summary>
         /// Test whether an object is of the specified type or a derived type
@@ -148,7 +154,7 @@ namespace NUnit.Framework.Constraints
     public class AssignableToConstraint : TypeConstraint
     {
         /// <summary>
-        /// Construct an AssignableFromConstraint for the type provided
+        /// Construct an AssignableToConstraint for the type provided
         /// </summary>
         /// <param name="type"></param>
         public AssignableToConstraint(Type type) : base(type) { }

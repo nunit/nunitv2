@@ -10,7 +10,8 @@ namespace NUnit.Framework.Constraints
     public abstract class ConstraintTestBase
     {
         protected Constraint theConstraint;
-        protected string expectedDescription;
+        protected string expectedDescription = "<NOT SET>";
+        protected string stringRepresentation = "<NOT SET>";
 
         [Test, TestCases("GoodData")]
         public void SucceedsWithGoodValues(object value)
@@ -38,12 +39,18 @@ namespace NUnit.Framework.Constraints
                 writer.ToString());
         }
 
-		[Test]
+        [Test]
         public void ProvidesProperDescription()
         {
             TextMessageWriter writer = new TextMessageWriter();
             theConstraint.WriteDescriptionTo(writer);
             Assert.AreEqual(expectedDescription, writer.ToString());
+        }
+
+        [Test]
+        public void ProvidesProperStringRepresentation()
+        {
+            Assert.AreEqual(stringRepresentation, theConstraint.ToString());
         }
     }
 

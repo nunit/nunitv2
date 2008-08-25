@@ -17,7 +17,14 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class StringConstraint : Constraint
     {
+        protected string expected;
+
         protected bool caseInsensitive;
+
+        public StringConstraint(string expected) : base(expected)
+        {
+            this.expected = expected;
+        }
 
         /// <summary>
         /// Modify the constraint to ignore case in matching.
@@ -54,7 +61,7 @@ namespace NUnit.Framework.Constraints
     /// <summary>
 	/// EmptyStringConstraint tests whether a string is empty.
 	/// </summary>
-	public class EmptyStringConstraint : StringConstraint
+	public class EmptyStringConstraint : Constraint
 	{
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
@@ -89,16 +96,11 @@ namespace NUnit.Framework.Constraints
 	/// </summary>
     public class SubstringConstraint : StringConstraint
     {
-        string expected;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:SubstringConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected.</param>
-        public SubstringConstraint(string expected)
-        {
-            this.expected = expected;
-        }
+        public SubstringConstraint(string expected) : base(expected) { }
 
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
@@ -139,16 +141,11 @@ namespace NUnit.Framework.Constraints
 	/// </summary>
     public class StartsWithConstraint : StringConstraint
     {
-        private string expected;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:StartsWithConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected string</param>
-        public StartsWithConstraint(string expected)
-        {
-            this.expected = expected;
-        }
+        public StartsWithConstraint(string expected) : base(expected) { }
 
         /// <summary>
         /// Test whether the constraint is matched by the actual value.
@@ -191,15 +188,11 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class EndsWithConstraint : StringConstraint
     {
-        private string expected;
         /// <summary>
         /// Initializes a new instance of the <see cref="T:EndsWithConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected string</param>
-        public EndsWithConstraint(string expected)
-        {
-            this.expected = expected;
-        }
+        public EndsWithConstraint(string expected) : base(expected) { }
 
         /// <summary>
         /// Test whether the constraint is matched by the actual value.
@@ -242,16 +235,11 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class RegexConstraint : StringConstraint
     {
-        string pattern;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RegexConstraint"/> class.
         /// </summary>
         /// <param name="pattern">The pattern.</param>
-        public RegexConstraint(string pattern)
-        {
-            this.pattern = pattern;
-        }
+        public RegexConstraint(string pattern) : base(pattern) { }
 
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
@@ -265,7 +253,7 @@ namespace NUnit.Framework.Constraints
             return actual is string && 
                 Regex.IsMatch( 
                     (string)actual, 
-                    this.pattern,
+                    this.expected,
                     this.caseInsensitive ? RegexOptions.IgnoreCase : RegexOptions.None );
         }
 
@@ -276,7 +264,7 @@ namespace NUnit.Framework.Constraints
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("String matching");
-            writer.WriteExpectedValue(this.pattern);
+            writer.WriteExpectedValue(this.expected);
 			if ( this.caseInsensitive )
 				writer.WriteModifier( "ignoring case" );
 		}

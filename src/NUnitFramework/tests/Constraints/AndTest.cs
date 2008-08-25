@@ -14,6 +14,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new AndConstraint(new GreaterThanConstraint(40), new LessThanConstraint(50));
             expectedDescription = "greater than 40 and less than 50";
+            stringRepresentation = "<and <greaterthan 40> <lessthan 50>>";
         }
 
 		object[] GoodData = new object[] { 42 };

@@ -24,7 +24,7 @@ namespace NUnit.Framework.Constraints
         /// Construct given a base constraint
         /// </summary>
         /// <param name="baseConstraint"></param>
-        protected PrefixConstraint(Constraint baseConstraint)
+        protected PrefixConstraint(Constraint baseConstraint) : base(baseConstraint)
         {
             this.baseConstraint = baseConstraint;
         }
@@ -88,7 +88,10 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="itemConstraint"></param>
 		public AllItemsConstraint(Constraint itemConstraint)
-			: base( itemConstraint ) { }
+			: base( itemConstraint )
+        {
+            this.DisplayName = "all";
+        }
 
 		/// <summary>
 		/// Apply the item constraint to each item in the collection,
@@ -134,7 +137,10 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="itemConstraint"></param>
 		public SomeItemsConstraint(Constraint itemConstraint)
-			: base( itemConstraint ) { }
+			: base( itemConstraint ) 
+        {
+            this.DisplayName = "some";
+        }
 
 		/// <summary>
 		/// Apply the item constraint to each item in the collection,
@@ -180,7 +186,10 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="itemConstraint"></param>
 		public NoItemConstraint(Constraint itemConstraint)
-			: base( itemConstraint ) { }
+			: base( itemConstraint ) 
+        {
+            this.DisplayName = "none";
+        }
 
 		/// <summary>
 		/// Apply the item constraint to each item in the collection,

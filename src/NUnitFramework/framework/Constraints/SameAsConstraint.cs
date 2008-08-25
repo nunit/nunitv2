@@ -20,7 +20,7 @@ namespace NUnit.Framework.Constraints
         /// Initializes a new instance of the <see cref="T:SameAsConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected object.</param>
-        public SameAsConstraint(object expected)
+        public SameAsConstraint(object expected) : base(expected)
         {
             this.expected = expected;
         }

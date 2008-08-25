@@ -45,6 +45,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="gtOK">if set to <c>true</c> greater succeeds.</param>
         /// <param name="predicate">String used in describing the constraint.</param>
         public ComparisonConstraint(IComparable value, bool ltOK, bool eqOK, bool gtOK, string predicate)
+            : base( value )
         {
             this.expected = value;
             this.ltOK = ltOK;

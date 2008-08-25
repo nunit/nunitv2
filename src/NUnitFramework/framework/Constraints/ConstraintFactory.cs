@@ -57,7 +57,7 @@ namespace NUnit.Framework.Constraints
         /// being tested.
         /// </summary>
         /// <param name="name">The name of the property</param>
-        public ConstraintBuilder Property(string name)
+        public ResolvableConstraintBuilder Property(string name)
         {
             return Has.Property(name);
         }
@@ -141,7 +141,7 @@ namespace NUnit.Framework.Constraints
         /// GreaterThan returns a constraint that tests whether the
         /// actual value is greater than the suppled argument
         /// </summary>
-        public Constraint GreaterThan(IComparable expected)
+        public ResolvableConstraintBuilder GreaterThan(IComparable expected)
         {
             return Is.GreaterThan(expected);
         }
@@ -149,7 +149,7 @@ namespace NUnit.Framework.Constraints
         /// GreaterThanOrEqualTo returns a constraint that tests whether the
         /// actual value is greater than or equal to the suppled argument
         /// </summary>
-        public Constraint GreaterThanOrEqualTo(IComparable expected)
+        public ResolvableConstraintBuilder GreaterThanOrEqualTo(IComparable expected)
         {
             return Is.GreaterThanOrEqualTo(expected);
         }
@@ -157,7 +157,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// AtLeast is a synonym for GreaterThanOrEqualTo
         /// </summary>
-        public Constraint AtLeast(IComparable expected)
+        public ResolvableConstraintBuilder AtLeast(IComparable expected)
         {
             return Is.AtLeast(expected);
         }
@@ -166,7 +166,7 @@ namespace NUnit.Framework.Constraints
         /// LessThan returns a constraint that tests whether the
         /// actual value is less than the suppled argument
         /// </summary>
-        public Constraint LessThan(IComparable expected)
+        public ResolvableConstraintBuilder LessThan(IComparable expected)
         {
             return Is.LessThan(expected);
         }
@@ -175,7 +175,7 @@ namespace NUnit.Framework.Constraints
         /// LessThanOrEqualTo returns a constraint that tests whether the
         /// actual value is less than or equal to the suppled argument
         /// </summary>
-        public Constraint LessThanOrEqualTo(IComparable expected)
+        public ResolvableConstraintBuilder LessThanOrEqualTo(IComparable expected)
         {
             return Is.LessThanOrEqualTo(expected);
         }
@@ -183,7 +183,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// AtMost is a synonym for LessThanOrEqualTo
         /// </summary>
-        public Constraint AtMost(IComparable expected)
+        public ResolvableConstraintBuilder AtMost(IComparable expected)
         {
             return Is.AtMost(expected);
         }
@@ -259,6 +259,32 @@ namespace NUnit.Framework.Constraints
         public Constraint AssignableFrom<T>()
         {
             return AssignableFrom(typeof(T));
+        }
+#endif
+
+        /// <summary>
+        /// AssignableTo returns a constraint that tests whether
+        /// the actual value is assignable to the type supplied as
+        /// an argument.
+        /// </summary>
+        /// <param name="expectedType"></param>
+        /// <returns></returns>
+        public Constraint AssignableTo(Type expectedType)
+        {
+            return Is.AssignableTo(expectedType);
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// AssignableTo returns a constraint that tests whether
+        /// the actual value is assignable to the type supplied as
+        /// an argument.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public Constraint AssignableTo<T>()
+        {
+            return AssignableTo(typeof(T));
         }
 #endif
         #endregion

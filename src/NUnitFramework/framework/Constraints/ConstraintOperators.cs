@@ -7,12 +7,13 @@ using System.Collections.Generic;
 namespace NUnit.Framework.Constraints
 {
     #region Operator Stack
-#if NET_2_0
-        public class OpStack : Stack<ConstraintOperator> { }
-#else
     public class OpStack 
 	{ 
+#if NET_2_0
+        private Stack<ConstraintOperator> stack = new Stack<ConstraintOperator>();
+#else
 		private Stack stack = new Stack();
+#endif
 
 		public int Count
 		{
@@ -34,16 +35,16 @@ namespace NUnit.Framework.Constraints
 			return (ConstraintOperator)stack.Peek();
 		}
 	}
-#endif
     #endregion
 
 	#region Constraint Stack
-#if NET_2_0
-    public class ConstraintStack : Stack<Constraint> { }
-#else
 	public class ConstraintStack
 	{ 
+#if NET_2_0
+        private Stack<Constraint> stack = new Stack<Constraint>();
+#else
 		private Stack stack = new Stack();
+#endif
 
 		public int Count
 		{
@@ -65,7 +66,6 @@ namespace NUnit.Framework.Constraints
 			return (Constraint)stack.Peek();
 		}
 	}
-#endif
 	#endregion
 
     #region ConstraintOperator
@@ -76,7 +76,8 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class ConstraintOperator
     {
-        public abstract int Precedence { get; }
+        public abstract int LeftPrecedence { get; }
+        public abstract int RightPrecedence { get; }
         public abstract void Reduce(ConstraintStack stack);
     }
     #endregion
@@ -87,11 +88,19 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// All PrefixOperators have a precedence of 1
         /// </summary>
-        public override int Precedence
+        public override int LeftPrecedence
         {
             get { return 1; }
         }
-    
+
+        /// <summary>
+        /// All PrefixOperators have a precedence of 1
+        /// </summary>
+        public override int RightPrecedence
+        {
+            get { return 1; }
+        }
+
         public override void Reduce(ConstraintStack stack)
         {
             stack.Push( ApplyPrefix( stack.Pop() ) );
@@ -128,6 +137,10 @@ namespace NUnit.Framework.Constraints
     #region AllOperator
     public class AllOperator : PrefixOperator
     {
+        public override int RightPrecedence
+        {
+            get { return 10; }
+        }
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new AllItemsConstraint(constraint);
@@ -138,6 +151,10 @@ namespace NUnit.Framework.Constraints
     #region SomeOperator
     public class SomeOperator : PrefixOperator
     {
+        public override int RightPrecedence
+        {
+            get { return 10; }
+        }
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new SomeItemsConstraint(constraint);
@@ -148,6 +165,10 @@ namespace NUnit.Framework.Constraints
     #region NoneOperator
     public class NoneOperator : PrefixOperator
     {
+        public override int RightPrecedence
+        {
+            get { return 10; }
+        }
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new NoItemConstraint(constraint);
@@ -200,10 +221,16 @@ namespace NUnit.Framework.Constraints
     #region AndOperator
     public class AndOperator : BinaryOperator
     {
-        public override int Precedence
+        public override int LeftPrecedence
         {
             get { return 2; }
         }
+
+        public override int RightPrecedence
+        {
+            get { return 2; }
+        }
+
         public override Constraint ApplyOperator(Constraint left, Constraint right)
         {
             return new AndConstraint(left, right);
@@ -214,14 +241,40 @@ namespace NUnit.Framework.Constraints
     #region OrOperator
     public class OrOperator : BinaryOperator
     {
-        public override int Precedence
+        public override int LeftPrecedence
         {
             get { return 3; }
         }
+
+        public override int RightPrecedence
+        {
+            get { return 3; }
+        }
+
         public override Constraint ApplyOperator(Constraint left, Constraint right)
         {
             return new OrConstraint(left, right);
         }
     }
+    #endregion
+
+    #region WithOperator
+    //public class WithOperator : PrefixOperator
+    //{
+    //    public override int LeftPrecedence
+    //    {
+    //        get { return 4; }
+    //    }
+
+    //    public override int RightPrecedence
+    //    {
+    //        get { return 4; }
+    //    }
+
+    //    public override Constraint ApplyPrefix(Constraint constraint)
+    //    {
+    //        return constraint;
+    //    }
+    //}
     #endregion
 }

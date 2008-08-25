@@ -14,6 +14,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new OrConstraint(new EqualConstraint(42), new EqualConstraint(99));
             expectedDescription = "42 or 99";
+            stringRepresentation = "<or <equal 42> <equal 99>>";
         }
 
 		object[] GoodData = new object[] { 99, 42 };

@@ -2,67 +2,87 @@
 
 namespace NUnit.Framework.Syntax
 {
-    namespace Helpers
+    public class SamePathTest : SyntaxTest
     {
-        public class PathConstraintTests
+        [SetUp]
+        public void SetUp()
         {
-            [Test]
-            public void SimplePathConstraintTests()
-            {
-                Assert.That("/folder1/./junk/../folder2",
-                    Is.SamePath("/folder1/folder2"));
-                Assert.That("/folder1/./junk/../folder2/x",
-                    Is.Not.SamePath("/folder1/folder2"));
+            string path = "/path/to/match";
 
-                Assert.That(@"C:\folder1\folder2",
-                    Is.SamePath(@"C:\Folder1\Folder2").IgnoreCase);
-                Assert.That("/folder1/folder2",
-                    Is.Not.SamePath("/Folder1/Folder2").RespectCase);
-
-                Assert.That("/folder1/./junk/../folder2",
-                    Is.SamePathOrUnder("/folder1/folder2"));
-                Assert.That("/folder1/junk/../folder2/./folder3",
-                    Is.SamePathOrUnder("/folder1/folder2"));
-                Assert.That("/folder1/junk/folder2/folder3",
-                    Is.Not.SamePathOrUnder("/folder1/folder2"));
-
-                Assert.That(@"C:\folder1\folder2\folder3",
-                    Is.SamePathOrUnder(@"C:\Folder1\Folder2").IgnoreCase);
-                Assert.That("/folder1/folder2/folder3",
-                    Is.Not.SamePathOrUnder("/Folder1/Folder2").RespectCase);
-            }
+            parseTree = string.Format(@"<samepath ""{0}"">", path);
+            staticSyntax = Is.SamePath(path);
+            inheritedSyntax = Helper().SamePath(path);
+            builderSyntax = Builder().SamePath(path);
         }
     }
 
-    namespace Inherited
+    public class SamePathTest_IgnoreCase : SyntaxTest
     {
-        public class PathConstraintTests : AssertionHelper
+        [SetUp]
+        public void SetUp()
         {
-            [Test]
-            public void SimplePathConstraintTests()
-            {
-                Expect("/folder1/./junk/../folder2",
-                    SamePath("/folder1/folder2"));
-                Expect("/folder1/./junk/../folder2/x",
-                    Not.SamePath("/folder1/folder2"));
+            string path = "/path/to/match";
 
-                Expect(@"C:\folder1\folder2",
-                    SamePath(@"C:\Folder1\Folder2").IgnoreCase);
-                Expect("/folder1/folder2",
-                    Not.SamePath("/Folder1/Folder2").RespectCase);
+            parseTree = string.Format(@"<samepath ""{0}"">", path);
+            staticSyntax = Is.SamePath(path).IgnoreCase;
+            inheritedSyntax = Helper().SamePath(path).IgnoreCase;
+            builderSyntax = Builder().SamePath(path).IgnoreCase;
+        }
+    }
 
-                Expect("/folder1/./junk/../folder2",
-                    SamePathOrUnder("/folder1/folder2"));
-                Expect("/folder1/junk/../folder2/./folder3",
-                    SamePathOrUnder("/folder1/folder2"));
-                Expect("/folder1/junk/folder2/folder3",
-                    Not.SamePathOrUnder("/folder1/folder2"));
+    public class SamePathTest_RespectCase : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            string path = "/path/to/match";
 
-                Expect(@"C:\folder1\folder2\folder3",
-                    SamePathOrUnder(@"C:\Folder1\Folder2").IgnoreCase);
-                Expect("/folder1/folder2/folder3",
-                    Not.SamePathOrUnder("/Folder1/Folder2").RespectCase);
-            }
+            parseTree = string.Format(@"<samepath ""{0}"">", path);
+            staticSyntax = Is.SamePath(path).RespectCase;
+            inheritedSyntax = Helper().SamePath(path).RespectCase;
+            builderSyntax = Builder().SamePath(path).RespectCase;
+        }
+    }
+
+    public class SamePathOrUnderTest : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            string path = "/path/to/match";
+
+            parseTree = string.Format(@"<samepathorunder ""{0}"">", path);
+            staticSyntax = Is.SamePathOrUnder(path);
+            inheritedSyntax = Helper().SamePathOrUnder(path);
+            builderSyntax = Builder().SamePathOrUnder(path);
+        }
+    }
+
+    public class SamePathOrUnderTest_IgnoreCase : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            string path = "/path/to/match";
+
+            parseTree = string.Format(@"<samepathorunder ""{0}"">", path);
+            staticSyntax = Is.SamePathOrUnder(path).IgnoreCase;
+            inheritedSyntax = Helper().SamePathOrUnder(path).IgnoreCase;
+            builderSyntax = Builder().SamePathOrUnder(path).IgnoreCase;
+        }
+    }
+
+    public class SamePathOrUnderTest_RespectCase : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            string path = "/path/to/match";
+
+            parseTree = string.Format(@"<samepathorunder ""{0}"">", path);
+            staticSyntax = Is.SamePathOrUnder(path).RespectCase;
+            inheritedSyntax = Helper().SamePathOrUnder(path).RespectCase;
+            builderSyntax = Builder().SamePathOrUnder(path).RespectCase;
         }
     }
 }

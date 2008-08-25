@@ -2,170 +2,51 @@
 
 namespace NUnit.Framework.Syntax
 {
-    namespace Classic
+    public class NullTest : SyntaxTest
     {
-        [TestFixture]
-        public class SimpleConstraints
+        [SetUp]
+        public void SetUp()
         {
-            [Test]
-            public void IsNull()
-            {
-                Assert.IsNull(null);
-            }
-
-            [Test]
-            public void IsNotNull()
-            {
-                Assert.IsNotNull(42);
-            }
-
-            [Test]
-            public void IsTrue()
-            {
-                Assert.IsTrue(2 + 2 == 4);
-            }
-
-            [Test]
-            public void IsFalse()
-            {
-                Assert.IsFalse(2 + 2 == 5);
-            }
-
-            [Test]
-            public void IsNaN()
-            {
-                double d = double.NaN;
-                float f = float.NaN;
-
-                Assert.IsNaN(d);
-                Assert.IsNaN(f);
-            }
-
-            [Test]
-            public void EmptyStringTests()
-            {
-                Assert.IsEmpty("");
-                Assert.IsNotEmpty("Hello!");
-            }
-
-            [Test]
-            public void EmptyCollectionTests()
-            {
-                Assert.IsEmpty(new bool[0]);
-                Assert.IsNotEmpty(new int[] { 1, 2, 3 });
-            }
+            parseTree = "<equal null>";
+            staticSyntax = Is.Null;
+            inheritedSyntax = Helper().Null;
+            builderSyntax = Builder().Null;
         }
     }
 
-    namespace Helpers
+    public class TrueTest : SyntaxTest
     {
-        [TestFixture]
-        public class SimpleConstraintTests
+        [SetUp]
+        public void SetUp()
         {
-            [Test]
-            public void IsNull()
-            {
-                Assert.That(null, Is.Null);
-            }
-
-            [Test]
-            public void IsNotNull()
-            {
-                Assert.That(42, Is.Not.Null);
-            }
-
-            [Test]
-            public void IsTrue()
-            {
-                Assert.That(2 + 2 == 4, Is.True);
-                Assert.That(2 + 2 == 4);
-            }
-
-            [Test]
-            public void IsFalse()
-            {
-                Assert.That(2 + 2 == 5, Is.False);
-            }
-
-            [Test]
-            public void IsNaN()
-            {
-                double d = double.NaN;
-                float f = float.NaN;
-
-                Assert.That(d, Is.NaN);
-                Assert.That(f, Is.NaN);
-            }
-
-            [Test]
-            public void EmptyStringTests()
-            {
-                Assert.That("", Is.Empty);
-                Assert.That("Hello!", Is.Not.Empty);
-            }
-
-            [Test]
-            public void EmptyCollectionTests()
-            {
-                Assert.That(new bool[0], Is.Empty);
-                Assert.That(new int[] { 1, 2, 3 }, Is.Not.Empty);
-            }
+            parseTree = "<equal True>";
+            staticSyntax = Is.True;
+            inheritedSyntax = Helper().True;
+            builderSyntax = Builder().True;
         }
     }
 
-    namespace Inherited
+    public class FalseTest : SyntaxTest
     {
-        [TestFixture]
-        public class SimpleConstraintTests : AssertionHelper
+        [SetUp]
+        public void SetUp()
         {
-            [Test]
-            public void IsNull()
-            {
-                Expect(null, Null);
-            }
+            parseTree = "<equal False>";
+            staticSyntax = Is.False;
+            inheritedSyntax = Helper().False;
+            builderSyntax = Builder().False;
+        }
+    }
 
-            [Test]
-            public void IsNotNull()
-            {
-                Expect(42, Not.Null);
-            }
-
-            [Test]
-            public void IsTrue()
-            {
-                Expect(2 + 2 == 4, True);
-                Expect(2 + 2 == 4);
-            }
-
-            [Test]
-            public void IsFalse()
-            {
-                Expect(2 + 2 == 5, False);
-            }
-
-            [Test]
-            public void IsNaN()
-            {
-                double d = double.NaN;
-                float f = float.NaN;
-
-                Expect(d, NaN);
-                Expect(f, NaN);
-            }
-
-            [Test]
-            public void EmptyStringTests()
-            {
-                Expect("", Empty);
-                Expect("Hello!", Not.Empty);
-            }
-
-            [Test]
-            public void EmptyCollectionTests()
-            {
-                Expect(new bool[0], Empty);
-                Expect(new int[] { 1, 2, 3 }, Not.Empty);
-            }
+    public class NaNTest : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<equal NaN>";
+            staticSyntax = Is.NaN;
+            inheritedSyntax = Helper().NaN;
+            builderSyntax = Builder().NaN;
         }
     }
 }

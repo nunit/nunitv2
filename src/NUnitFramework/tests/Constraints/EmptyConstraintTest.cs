@@ -17,6 +17,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new EmptyConstraint();
             expectedDescription = "<empty>";
+            stringRepresentation = "<empty>";
         }
 
         static object[] GoodData = new object[] 

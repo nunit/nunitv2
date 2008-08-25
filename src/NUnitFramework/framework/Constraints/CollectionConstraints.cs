@@ -16,6 +16,10 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class CollectionConstraint : Constraint
     {
+        public CollectionConstraint() { }
+
+        public CollectionConstraint(object arg) : base(arg) { }
+
         /// <summary>
         /// Determines whether the specified enumerable is empty.
         /// </summary>
@@ -205,9 +209,10 @@ namespace NUnit.Framework.Constraints
         /// Construct a CollectionContainsConstraint
         /// </summary>
         /// <param name="expected"></param>
-        public CollectionContainsConstraint(object expected)
+        public CollectionContainsConstraint(object expected) : base( expected )
         {
             this.expected = expected;
+            this.DisplayName = "contains";
         }
 
         /// <summary>
@@ -249,9 +254,10 @@ namespace NUnit.Framework.Constraints
         /// Construct a CollectionEquivalentConstraint
         /// </summary>
         /// <param name="expected"></param>
-        public CollectionEquivalentConstraint(IEnumerable expected)
+        public CollectionEquivalentConstraint(IEnumerable expected) : base(expected)
         {
             this.expected = expected;
+            this.DisplayName = "equivalent";
         }
 
         /// <summary>
@@ -295,9 +301,10 @@ namespace NUnit.Framework.Constraints
         /// Construct a CollectionSubsetConstraint
         /// </summary>
         /// <param name="expected">The collection that the actual value is expected to be a subset of</param>
-        public CollectionSubsetConstraint(IEnumerable expected)
+        public CollectionSubsetConstraint(IEnumerable expected) : base(expected)
         {
             this.expected = expected;
+            this.DisplayName = "subsetof";
         }
 
         /// <summary>
@@ -343,9 +350,10 @@ namespace NUnit.Framework.Constraints
         /// Construct a CollectionOrderedConstraint
         /// </summary>
         /// <param name="comparer">A custom comparer to use to perform comparisons</param>
-        public CollectionOrderedConstraint(IComparer comparer)
+        public CollectionOrderedConstraint(IComparer comparer) : base(comparer)
         {
             this.compareWith = comparer;
+            this.DisplayName = "ordered";
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace NUnit.Framework.Constraints
 		/// Construct a PathConstraint for a give expected path
 		/// </summary>
 		/// <param name="expected">The expected path</param>
-		protected PathConstraint( string expected )
+		protected PathConstraint( string expected ) : base(expected)
 		{
 			this.expected = expected;
         }

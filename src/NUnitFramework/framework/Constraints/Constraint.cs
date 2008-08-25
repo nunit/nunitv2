@@ -56,6 +56,38 @@ namespace NUnit.Framework.Constraints
         /// The actual value being tested against a constraint
         /// </summary>
         protected object actual = UNSET;
+
+        /// <summary>
+        /// The display name of this Constraint for use by ToString()
+        /// </summary>
+        private string displayName;
+
+        /// <summary>
+        /// Argument fields used by ToString();
+        /// </summary>
+        private readonly int argcnt;
+        private readonly object arg1;
+        private readonly object arg2;
+        #endregion
+
+        #region Constructors
+        public Constraint()
+        {
+            argcnt = 0;
+        }
+
+        public Constraint(object arg)
+        {
+            argcnt = 1;
+            this.arg1 = arg;
+        }
+
+        public Constraint(object arg1, object arg2)
+        {
+            argcnt = 2;
+            this.arg1 = arg1;
+            this.arg2 = arg2;
+        }
         #endregion
 
         #region Properties
@@ -70,6 +102,26 @@ namespace NUnit.Framework.Constraints
         {
             get { return builder; }
             set { builder = value; }
+        }
+
+        /// <summary>
+        /// The display name of this Constraint for use by ToString()
+        /// </summary>
+        public string DisplayName
+        {
+            get
+            {
+                if (displayName == null)
+                {
+                    displayName = this.GetType().Name.ToLower();
+                    if (displayName.EndsWith("constraint"))
+                        displayName = displayName.Substring(0, displayName.Length - 10);
+                }
+
+                return displayName;
+            }
+
+            set { displayName = value; }
         }
 		#endregion
 
@@ -115,6 +167,33 @@ namespace NUnit.Framework.Constraints
 		}
 		#endregion
 
+        #region ToString()
+        public override string ToString()
+        {
+            switch (argcnt)
+            {
+                default:
+                case 0:
+                    return string.Format("<{0}>", DisplayName);
+                case 1:
+                    return string.Format("<{0} {1}>", DisplayName, _displayable(arg1));
+                case 2:
+                    return string.Format("<{0} {1} {2}>", DisplayName, _displayable(arg1), _displayable(arg2));
+            }
+        }
+
+        private string _displayable(object o)
+        {
+            if (o == null)
+                return "null";
+            else if (o is string)
+                return string.Format("\"{0}\"", o);
+            else
+                return o.ToString();
+
+        }
+        #endregion
+
         #region Operator Overloads
         /// <summary>
         /// This operator creates a constraint that is satisfied only if both 
@@ -147,12 +226,12 @@ namespace NUnit.Framework.Constraints
         #region Binary Operators
         public ConstraintBuilder And
         {
-            get { return new ConstraintBuilder(this).And; }
+            get { return new ResolvableConstraintBuilder(this).And; }
         }
 
         public ConstraintBuilder Or
         {
-            get { return new ConstraintBuilder(this).Or; }
+            get { return new ResolvableConstraintBuilder(this).Or; }
         }
         #endregion
     }

@@ -16,6 +16,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new NotConstraint( new EqualConstraint(null) );
             expectedDescription = "not null";
+            stringRepresentation = "<not <equal null>>";
         }
 
         object[] GoodData = new object[] { 42, "Hello" };

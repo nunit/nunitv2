@@ -110,10 +110,6 @@
       <Link>ArrayNotEqualFixture.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\tests\AssertSyntaxTests.cs">
-      <Link>AssertSyntaxTests.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\CollectionAdapter.cs">
       <Link>CollectionAdapter.cs</Link>
       <SubType>Code</SubType>
@@ -240,6 +236,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\EqualityTests.cs">
       <Link>Syntax\EqualityTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\InvalidCodeTests.cs">
+      <Link>Syntax\InvalidCodeTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\OperatorOverrides.cs">
       <Link>Syntax\OperatorOverrides.cs</Link>
     </Compile>
@@ -257,6 +256,12 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\StringConstraints.cs">
       <Link>Syntax\StringConstraints.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\SyntaxTest.cs">
+      <Link>Syntax\SyntaxTest.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\TestCompiler.cs">
+      <Link>Syntax\TestCompiler.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\TypeConstraints.cs">
       <Link>Syntax\TypeConstraints.cs</Link>

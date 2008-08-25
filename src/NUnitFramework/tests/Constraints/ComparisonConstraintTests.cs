@@ -16,6 +16,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new GreaterThanConstraint(5);
             expectedDescription = "greater than 5";
+            stringRepresentation = "<greaterthan 5>";
         }
 
         object[] GoodData = new object[] { 6, 5.001 };
@@ -35,6 +36,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new GreaterThanOrEqualConstraint(5);
             expectedDescription = "greater than or equal to 5";
+            stringRepresentation = "<greaterthanorequal 5>";
         }
 
         object[] GoodData = new object[] { 6, 5 };
@@ -54,6 +56,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new LessThanConstraint(5);
             expectedDescription = "less than 5";
+            stringRepresentation = "<lessthan 5>";
         }
 
         object[] GoodData = new object[] { 4, 4.999 };
@@ -73,6 +76,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new LessThanOrEqualConstraint(5);
             expectedDescription = "less than or equal to 5";
+            stringRepresentation = "<lessthanorequal 5>";
         }
 
         object[] GoodData = new object[] { 4, 5 };

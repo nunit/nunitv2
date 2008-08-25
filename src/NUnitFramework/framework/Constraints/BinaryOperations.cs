@@ -28,7 +28,7 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="left">The first constraint</param>
 		/// <param name="right">The second constraint</param>
-        public BinaryConstraint(Constraint left, Constraint right)
+        public BinaryConstraint(Constraint left, Constraint right) : base( left, right )
         {
             this.left = left;
             this.right = right;
@@ -40,6 +40,15 @@ namespace NUnit.Framework.Constraints
     /// </summary>
 	public class AndConstraint : BinaryConstraint
     {
+        private enum FailurePoint
+        {
+            None,
+            Left,
+            Right
+        };
+
+        private FailurePoint failurePoint;
+
 		/// <summary>
 		/// Create an AndConstraint from two other constraints
 		/// </summary>
@@ -56,7 +65,14 @@ namespace NUnit.Framework.Constraints
 		public override bool Matches(object actual)
         {
             this.actual = actual;
-            return left.Matches(actual) && right.Matches(actual);
+
+            failurePoint = left.Matches(actual)
+                ? right.Matches(actual)
+                    ? FailurePoint.None
+                    : FailurePoint.Right
+                : FailurePoint.Left;
+
+            return failurePoint == FailurePoint.None;
         }
 
 		/// <summary>
@@ -68,6 +84,22 @@ namespace NUnit.Framework.Constraints
             left.WriteDescriptionTo(writer);
             writer.WriteConnector("and");
             right.WriteDescriptionTo(writer);
+        }
+
+        public override void WriteActualValueTo(MessageWriter writer)
+        {
+            switch (failurePoint)
+            {
+                case FailurePoint.Left:
+                    left.WriteActualValueTo(writer);
+                    break;
+                case FailurePoint.Right:
+                    right.WriteActualValueTo(writer);
+                    break;
+                default:
+                    base.WriteActualValueTo(writer);
+                    break;
+            }
         }
     }
 

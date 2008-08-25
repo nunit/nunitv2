@@ -17,6 +17,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new SameAsConstraint(obj1);
             expectedDescription = "same as <System.Object>";
+            stringRepresentation = "<sameas System.Object>";
         }
 
         static object[] GoodData = new object[] { obj1 };

@@ -18,6 +18,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new EqualConstraint(4);
             expectedDescription = "4";
+            stringRepresentation = "<equal 4>";
         }
 
         object[] GoodData = new object[] { 4, 4.0f, 4.0d, 4.0000m };

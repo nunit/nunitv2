@@ -90,5 +90,12 @@ namespace NUnit.Framework.Constraints
                     writer.WriteActualValue(actual);
             }
 		}
+
+        public override string ToString()
+        {
+            return baseConstraint == null
+                ? string.Format("<property {0}>", name)
+                : string.Format("<property {0} {1}>", name, baseConstraint);
+        }
 	}
 }

@@ -14,6 +14,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new ExactTypeConstraint(typeof(D1));
             expectedDescription = string.Format("<{0}>", typeof(D1));
+            stringRepresentation = string.Format("<typeof {0}>", typeof(D1));
         }
 
         object[] GoodData = new object[] { new D1() };
@@ -35,6 +36,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new InstanceOfTypeConstraint(typeof(D1));
             expectedDescription = string.Format("instance of <{0}>", typeof(D1));
+            stringRepresentation = string.Format("<instanceof {0}>", typeof(D1));
         }
 
         object[] GoodData = new object[] { new D1(), new D2() };
@@ -55,6 +57,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new AssignableFromConstraint(typeof(D1));
             expectedDescription = string.Format("assignable from <{0}>", typeof(D1));
+            stringRepresentation = string.Format("<assignablefrom {0}>", typeof(D1));
         }
 
         object[] GoodData = new object[] { new D1(), new B() };
@@ -75,6 +78,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new AssignableToConstraint(typeof(D1));
             expectedDescription = string.Format("assignable to <{0}>", typeof(D1));
+            stringRepresentation = string.Format("<assignableto {0}>", typeof(D1));
         }
         
         object[] GoodData = new object[] { new D1(), new D2() };
@@ -101,6 +105,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new AttributeConstraint(typeof(TestFixtureAttribute));
             expectedDescription = "type with attribute <NUnit.Framework.TestFixtureAttribute>";
+            stringRepresentation = "<attribute NUnit.Framework.TestFixtureAttribute>";
         }
 
         object[] GoodData = new object[] { typeof(AttributeConstraintTest) };

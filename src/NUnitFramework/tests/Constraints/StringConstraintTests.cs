@@ -16,6 +16,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new SubstringConstraint("hello");
             expectedDescription = "String containing \"hello\"";
+            stringRepresentation = "<substring \"hello\">";
         }
 
         object[] GoodData = new object[] { "hello", "hello there", "I said hello", "say hello to fred" };
@@ -40,6 +41,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new SubstringConstraint("hello").IgnoreCase;
             expectedDescription = "String containing \"hello\", ignoring case";
+            stringRepresentation = "<substring \"hello\">";
         }
 
         object[] GoodData = new object[] { "Hello", "HellO there", "I said HELLO", "say hello to fred" };
@@ -57,6 +59,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new StartsWithConstraint("hello");
             expectedDescription = "String starting with \"hello\"";
+            stringRepresentation = "<startswith \"hello\">";
         }
 
         object[] GoodData = new object[] { "hello", "hello there" };
@@ -74,6 +77,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new StartsWithConstraint("hello").IgnoreCase;
             expectedDescription = "String starting with \"hello\", ignoring case";
+            stringRepresentation = "<startswith \"hello\">";
         }
 
         object[] GoodData = new object[] { "Hello", "HELLO there" };
@@ -91,6 +95,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new EndsWithConstraint("hello");
             expectedDescription = "String ending with \"hello\"";
+            stringRepresentation = "<endswith \"hello\">";
         }
 
         object[] GoodData = new object[] { "hello", "I said hello" };
@@ -108,6 +113,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new EndsWithConstraint("hello").IgnoreCase;
             expectedDescription = "String ending with \"hello\", ignoring case";
+            stringRepresentation = "<endswith \"hello\">";
         }
 
         object[] GoodData = new object[] { "HELLO", "I said Hello" };
