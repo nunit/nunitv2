@@ -38,8 +38,8 @@ namespace NUnit.Mocks
 
 				for( int i = 0; i < expectedArgs.Length; i++ )
 				{
-					if ( expectedArgs[i] is Constraint )
-						Assert.That( actualArgs[i], (Constraint)expectedArgs[i] );
+					if ( expectedArgs[i] is IConstraint )
+						Assert.That( actualArgs[i], (IConstraint)expectedArgs[i] );
 					else
 						Assert.AreEqual( expectedArgs[i], actualArgs[i] );
 				}
