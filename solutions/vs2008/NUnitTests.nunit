@@ -1,5 +1,5 @@
 ﻿<NUnitProject>
-  <Settings activeconfig="Debug" />
+  <Settings appbase="." activeconfig="Debug" />
   <Config name="Debug" binpathtype="Auto">
     <assembly path="NUnitFramework\tests\bin\Debug\nunit.framework.tests.dll" />
     <assembly path="NUnitCore\tests\bin\Debug\nunit.core.tests.dll" />
