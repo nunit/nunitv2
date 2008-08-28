@@ -2,7 +2,7 @@
 <project name="PNUnitAgent" default="build" basedir=".">
 
   <patternset id="source-files">
-        <include name="Agent.cs"/>
+        <include name="agent.cs"/>
         <include name="AgentConfig.cs"/>
         <include name="AssemblyInfo.cs"/>
         <include name="PNUnitTestRunner.cs"/>
