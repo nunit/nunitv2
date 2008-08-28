@@ -158,6 +158,42 @@ namespace NUnit.Framework.Syntax
         }
     }
 
+    public class ConsecutiveConstraintsImplyAndOperator_FollowingSome : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<some <and <greaterthan 0> <lessthan 100>>>";
+            staticSyntax = Has.Some.GreaterThan(0).LessThan(100);
+            inheritedSyntax = Helper().Some.GreaterThan(0).LessThan(100);
+            builderSyntax = Builder().Some.GreaterThan(0).LessThan(100);
+        }
+    }
+
+    public class SomeGovernsFollowingOps : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<some <or <and <greaterthan 0> <lessthan 100>> <equal 999>>>";
+            staticSyntax = Has.Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
+            inheritedSyntax = Helper().Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
+            builderSyntax = Builder().Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
+        }
+    }
+
+    //public class SomeGovernsFollowingOps_ExceptAndSome : SyntaxTest
+    //{
+    //    [SetUp]
+    //    public void SetUp()
+    //    {
+    //        parseTree = "<and <some <greaterthan 0>> <some <lessthan 100>>>";
+    //        staticSyntax = Has.Some.GreaterThan(0).And.Some.LessThan(100);
+    //        inheritedSyntax = Helper().Some.GreaterThan(0).And.Some.LessThan(100);
+    //        builderSyntax = Builder().Some.GreaterThan(0).And.Some.LessThan(100);
+    //    }
+    //}
+
     public class SingleOperatorTests
     {
         int[] ints = new int[] { 1, 2, 3, 4 };

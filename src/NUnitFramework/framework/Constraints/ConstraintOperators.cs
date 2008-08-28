@@ -14,25 +14,40 @@ namespace NUnit.Framework.Constraints
 #else
 		private Stack stack = new Stack();
 #endif
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="T:OpStack"/> is empty.
+        /// </summary>
+        /// <value><c>true</c> if empty; otherwise, <c>false</c>.</value>
+        public bool Empty
+        {
+            get { return stack.Count == 0; }
+        }
 
-		public int Count
-		{
-			get { return stack.Count; }
-		}
+        /// <summary>
+        /// Gets the topmost operator without modifying the stack.
+        /// </summary>
+        /// <value>The top.</value>
+        public ConstraintOperator Top
+        {
+            get { return (ConstraintOperator)stack.Peek(); }
+        }
 
+        /// <summary>
+        /// Pushes the specified operator onto the stack.
+        /// </summary>
+        /// <param name="op">The op.</param>
 		public void Push( ConstraintOperator op )
 		{
 			stack.Push(op);
 		}
 
+        /// <summary>
+        /// Pops the topmost operator from the stack.
+        /// </summary>
+        /// <returns></returns>
 		public ConstraintOperator Pop()
 		{
 			return (ConstraintOperator)stack.Pop();
-		}
-
-		public ConstraintOperator Peek()
-		{
-			return (ConstraintOperator)stack.Peek();
 		}
 	}
     #endregion
@@ -46,11 +61,28 @@ namespace NUnit.Framework.Constraints
 		private Stack stack = new Stack();
 #endif
 
-		public int Count
-		{
-			get { return stack.Count; }
-		}
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="T:ConstraintStack"/> is empty.
+        /// </summary>
+        /// <value><c>true</c> if empty; otherwise, <c>false</c>.</value>
+        public bool Empty
+        {
+            get { return stack.Count == 0; }
+        }
 
+        /// <summary>
+        /// Gets the topmost constraint without modifying the stac.
+        /// </summary>
+        /// <value>The topmost constraint</value>
+        public Constraint Top
+        {
+            get { return (Constraint)stack.Peek(); }
+        }
+
+        /// <summary>
+        /// Pushes the specified constraint.
+        /// </summary>
+        /// <param name="constraint">The constraint.</param>
 		public void Push( Constraint constraint )
 		{
 			stack.Push(constraint);
@@ -59,11 +91,6 @@ namespace NUnit.Framework.Constraints
 		public Constraint Pop()
 		{
 			return (Constraint)stack.Pop();
-		}
-
-		public Constraint Peek()
-		{
-			return (Constraint)stack.Peek();
 		}
 	}
 	#endregion
@@ -177,9 +204,27 @@ namespace NUnit.Framework.Constraints
     #endregion
 
     #region PropOperator
-    public class PropOperator : PrefixOperator
+    /// <summary>
+    /// PropOperator
+    /// </summary>
+    public class PropOperator : ConstraintOperator
     {
         private string name;
+
+        public string Name
+        {
+            get { return name; }
+        }
+
+        public override int LeftPrecedence
+        {
+            get { return 1; }
+        }
+
+        public override int RightPrecedence
+        {
+            get { return 1; }
+        }
 
         public PropOperator(string name)
         {
@@ -188,7 +233,19 @@ namespace NUnit.Framework.Constraints
 
         public override void Reduce(ConstraintStack stack)
         {
-            stack.Push(ApplyPrefix(stack.Count > 0 ? stack.Pop() : null));
+            stack.Push(new PropertyExistsConstraint(name));
+        }
+    }
+    #endregion
+
+    #region PropValOperator
+    public class PropValOperator : PrefixOperator
+    {
+        private string name;
+
+        public PropValOperator(string name)
+        {
+            this.name = name;
         }
 
         public override Constraint ApplyPrefix(Constraint constraint)
@@ -198,25 +255,37 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
+    #region ThrowsOperator
     public class ThrowsOperator : PrefixOperator
     {
-        private Type type;
+        //private Type type;
 
-        public ThrowsOperator(Type type)
+        public override int RightPrecedence
         {
-            this.type = type;
+            get { return 100; }
         }
+
+        //public ThrowsOperator(Type type)
+        //{
+        //    this.type = type;
+        //}
 
         public override void Reduce(ConstraintStack stack)
         {
-            stack.Push(ApplyPrefix(stack.Count > 0 ? stack.Pop() : null));
+            stack.Push(ApplyPrefix(stack.Empty ? null : stack.Pop()));
         }
 
         public override Constraint ApplyPrefix(Constraint constraint)
         {
-            return new ThrowsConstraint( type, constraint );
+            //Constraint baseConstraint = new ExactTypeConstraint(type);
+            //if ( constraint != null )
+            //    baseConstraint = new AndConstraint( baseConstraint, constraint);
+
+            //return new ThrowsConstraint(baseConstraint);
+            return new ThrowsConstraint( constraint );
         }
     }
+    #endregion
 
     #region AndOperator
     public class AndOperator : BinaryOperator

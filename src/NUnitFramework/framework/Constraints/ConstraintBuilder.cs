@@ -31,11 +31,16 @@ namespace NUnit.Framework.Constraints
             Push(constraint);
         }
 
+        public ConstraintBuilder(ConstraintOperator op)
+        {
+            Push(op);
+        }
+
         public ConstraintBuilder(ConstraintBuilder other)
         {
             this.ops = other.ops;
             this.constraints = other.constraints;
-            this.lastPush = other.lastPush;
+            this.lastPushed = other.lastPushed;
         }
         #endregion
 
@@ -525,18 +530,19 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Throws
-        public ConstraintBuilder Throws(Type type)
-        {
-            Push(new ThrowsOperator(type));
-            return this;
-        }
+//        public ResolvableConstraintBuilder Throws(Type type)
+//        {
+//            Push(new ThrowsOperator());
+//            Push(new ExactTypeConstraint(type));
+//            return new ResolvableConstraintBuilder(this);
+//        }
 
-#if NET_2_0
-        public ConstraintBuilder Throws<T>()
-        {
-            return Throws(typeof(T));
-        }
-#endif
+//#if NET_2_0
+//        public ResolvableConstraintBuilder Throws<T>()
+//        {
+//            return Throws(typeof(T));
+//        }
+//#endif
         #endregion
 
         #region With
@@ -553,24 +559,42 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Helper Methods
-        private object lastPush;
+        // A single token of left context used only
+        // by operators that depend on it.
+        private object lastPushed;
 
+        /// <summary>
+        /// Pushes the specified operator onto the operator stack.
+        /// </summary>
+        /// <param name="op">The operator to push.</param>
         protected void Push(ConstraintOperator op)
         {
-            while (ops.Count > 0 && op.LeftPrecedence > ops.Peek().RightPrecedence)
+            ConstraintOperator prior;
+
+            if (lastPushed is PropOperator)
+                ops.Push(new PropValOperator(((PropOperator)ops.Pop()).Name));
+
+            while (!ops.Empty && op.LeftPrecedence > ops.Top.RightPrecedence)
                 ops.Pop().Reduce(constraints);
 
             ops.Push(op);
-            lastPush = op;
+            lastPushed = op;
         }
 
+        /// <summary>
+        /// Pushes the specified constraint on the constraint stack.
+        /// </summary>
+        /// <param name="constraint">The constraint to push.</param>
         protected void Push(Constraint constraint)
         {
-            if (lastPush is Constraint)
+            if (lastPushed is PropOperator)
+                ops.Push(new PropValOperator(((PropOperator)ops.Pop()).Name));
+            else if (lastPushed is Constraint)
                 Push(new AndOperator());
+
             constraint.Builder = this;
             constraints.Push(constraint);
-            lastPush = constraint;
+            lastPushed = constraint;
         }
 
         protected virtual ResolvableConstraintBuilder AsResolvable()
@@ -611,7 +635,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>A constraint that incorporates all pending operators</returns>
         public Constraint Resolve()
         {
-            while (ops.Count > 0)
+            while (!ops.Empty)
             {
                 ConstraintOperator op = ops.Pop();
                 op.Reduce(constraints);

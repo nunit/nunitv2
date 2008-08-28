@@ -5,74 +5,61 @@ namespace NUnit.Framework.Constraints
     #region ThrowsConstraint
     /// <summary>
     /// ThrowsConstraint is used to test the exception thrown by 
-    /// a delegate. It checks the type of the exception and may
-    /// optionally apply additional constraints to it.
+    /// a delegate by applying a constraint to it.
     /// </summary>
-    public class ThrowsConstraint : Constraint
+    public class ThrowsConstraint : PrefixConstraint
     {
-        private Type expectedExceptionType;
         private Exception caughtException;
-        private IConstraint furtherConstraint;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:ThrowsConstraint"/> class,
-        /// using the Type of exception that is expected.
+        /// using a constraint to be applied to the exception.
         /// </summary>
-        /// <param name="exceptionType">The Type of the expected exception.</param>
-        public ThrowsConstraint(Type exceptionType)
-        {
-            this.expectedExceptionType = exceptionType;
-        }
+        /// <param name="baseConstraint">A constraint to apply to the caught exception.</param>
+        public ThrowsConstraint(Constraint baseConstraint)
+            : base(baseConstraint) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:ThrowsConstraint"/> class,
-        /// using the Type of the expected exception and an additional constraint
-        /// to be applied to the exception.
+        /// Get the actual exception thrown - used by Assert.Throws.
         /// </summary>
-        /// <param name="exceptionType">The Type of the expected exception.</param>
-        /// <param name="constraint">An additional constraint to be applied to the exception.</param>
-        public ThrowsConstraint(Type exceptionType, IConstraint constraint)
+        public Exception ActualException
         {
-            this.expectedExceptionType = exceptionType;
-            this.furtherConstraint = constraint;
+            get { return caughtException; }
         }
 
         #region Constraint Overrides
         /// <summary>
         /// Executes the code of the delegate and captures any exception.
-        /// Tests the type of the exception and whether any added constraint 
-        /// is satisfied by it.
+        /// If a non-null base constraint was provided, it applies that
+        /// constraint to the exception.
         /// </summary>
         /// <param name="actual">A delegate representing the code to be tested</param>
-        /// <returns>True if an exception of the specified Type is thrown and the constraint succeeds, otherwise false</returns>
-		public override bool Matches(object actual)
-		{
-			TestDelegate code = actual as TestDelegate;
-			if (code == null)
-				throw new ArgumentException("The actual value must be a TestDelegate", "actual");
+        /// <returns>True if an exception is thrown and the constraint succeeds, otherwise false</returns>
+        public override bool Matches(object actual)
+        {
+            TestDelegate code = actual as TestDelegate;
+            if (code == null)
+                throw new ArgumentException("The actual value must be a TestDelegate", "actual");
 
-			this.caughtException = Catch.Exception(code);
+            this.caughtException = Catch.Exception(code);
 
-			if( caughtException == null ||
-                expectedExceptionType != caughtException.GetType())
-                    return false;
+            if (caughtException == null)
+                return false;
 
-            return furtherConstraint == null  || furtherConstraint.Matches(caughtException);
-		}
+            return baseConstraint == null || baseConstraint.Matches(caughtException);
+        }
 
         /// <summary>
         /// Write the constraint description to a MessageWriter
         /// </summary>
         /// <param name="writer">The writer on which the description is displayed</param>
-		public override void WriteDescriptionTo(MessageWriter writer)
-		{
-            writer.WriteExpectedValue( expectedExceptionType );
-            if ( furtherConstraint != null )
-            {
-                writer.WriteConnector( "with");
-                furtherConstraint.WriteDescriptionTo(writer);
-            }
-		}
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            if (baseConstraint == null)
+                writer.WritePredicate("an exception");
+            else
+                baseConstraint.WriteDescriptionTo(writer);
+        }
 
         /// <summary>
         /// Write the actual value for a failing constraint test to a
@@ -81,52 +68,17 @@ namespace NUnit.Framework.Constraints
         /// perform any formatting.
         /// </summary>
         /// <param name="writer">The writer on which the actual value is displayed</param>
-		public override void WriteActualValueTo(MessageWriter writer)
-		{
-            writer.WriteActualValue(caughtException == null ? null : caughtException.GetType());
-
-            if( caughtException != null  && 
-                caughtException.GetType() == expectedExceptionType &&
-                furtherConstraint != null )
-            {
-                writer.WriteConnector("with");
-                furtherConstraint.WriteActualValueTo(writer);
-            }
+        public override void WriteActualValueTo(MessageWriter writer)
+        {
+            if (caughtException == null)
+                writer.Write("no exception thrown");
+            else if (baseConstraint != null)
+                baseConstraint.WriteActualValueTo(writer);
+            else
+                writer.WriteActualValue(caughtException);
         }
         #endregion
     }
-    #endregion
-
-    #region ThrowsConstraint<T>
-#if NET_2_0
-    /// <summary>
-    /// ThrowsConstraint&lt;T&gt; provides a convenient notation creating
-    /// a ThrowsConstraint under .NET 2.0. It provides no added function.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class ThrowsConstraint<T> : ThrowsConstraint
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:ThrowsConstraint&lt;T&gt;"/> class
-        /// using the Type of the expected exception.
-        /// </summary>
-        public ThrowsConstraint()
-            : base(typeof(T))
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:ThrowsConstraint&lt;T&gt;"/> class,
-        /// using the Type of the expected exception and an additional constraint
-        /// to be applied to the exception.
-        /// </summary>
-        /// <param name="constraint">An additional constraint to be applied to the exception.</param>
-        public ThrowsConstraint(Constraint constraint)
-            : base(typeof(T), constraint)
-        {
-        }
-    }
-#endif
     #endregion
 
     #region ThrowsNothingConstraint

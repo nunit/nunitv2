@@ -14,20 +14,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="type">The expected type of exception.</param>
         /// <returns>A ThrowsConstraint</returns>
-        public static ThrowsConstraint Exception(Type type)
+        public static ResolvableConstraintBuilder Exception(Type type)
 		{
-			return new ThrowsConstraint( type );
-		}
-
-        /// <summary>
-        /// Creates a constraint specifying the type of exception expected
-        /// </summary>
-        /// <param name="type">The expected type of exception.</param>
-        /// <param name="constraint">A further constraint on the exception</param>
-        /// <returns>A ThrowsConstraint</returns>
-        public static ThrowsConstraint Exception(Type type, IConstraint constraint)
-		{
-			return new ThrowsConstraint(type, constraint);
+			return new ConstraintBuilder(new ThrowsOperator()).TypeOf( type );
 		}
 
 #if NET_2_0
@@ -35,21 +24,10 @@ namespace NUnit.Framework
         /// Creates a constraint specifying the type of exception expected
         /// </summary>
         /// <typeparam name="T">The expected type of exception.</typeparam>
-        /// <returns>A ThrowsConstraint</returns>
-        public static ThrowsConstraint Exception<T>()
+        /// <returns>A ResolvableConstraintBuilder</returns>
+        public static ResolvableConstraintBuilder Exception<T>()
         {
-            return new ThrowsConstraint(typeof(T));
-        }
-
-        /// <summary>
-        /// Creates a constraint specifying the type of exception expected
-        /// </summary>
-        /// <typeparam name="T">The expected type of exception.</typeparam>
-        /// <param name="constraint">A further constraint on the exception</param>
-        /// <returns>A ThrowsConstraint</returns>
-        public static ThrowsConstraint Exception<T>(IConstraint constraint)
-        {
-            return new ThrowsConstraint(typeof(T), constraint );
+            return Exception(typeof(T));
         }
 #endif
 
