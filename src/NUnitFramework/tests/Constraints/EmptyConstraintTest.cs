@@ -10,7 +10,7 @@ using System.Collections;
 namespace NUnit.Framework.Constraints.Tests
 {
     [TestFixture]
-    public class EmptyConstraintTest : ConstraintTestBaseWithInvalidDataTest
+    public class EmptyConstraintTest : ConstraintTestBaseWithArgumentException
     {
         [SetUp]
         public void SetUp()
@@ -20,7 +20,7 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<empty>";
         }
 
-        static object[] GoodData = new object[] 
+        static object[] SuccessData = new object[] 
         {
             string.Empty,
             new object[0],
@@ -30,13 +30,13 @@ namespace NUnit.Framework.Constraints.Tests
 #endif  
         };
 
-        static object[] BadData = new object[]
+        static object[] FailureData = new object[]
         {
             "Hello",
             new object[] { 1, 2, 3 }
         };
 
-        static object[] FailureMessages= new object[]
+        static string[] ActualValues= new string[]
         {
             "\"Hello\"",
             "< 1, 2, 3 >"

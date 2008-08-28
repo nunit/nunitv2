@@ -17,11 +17,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = string.Format("<typeof {0}>", typeof(D1));
         }
 
-        object[] GoodData = new object[] { new D1() };
+        object[] SuccessData = new object[] { new D1() };
         
-        object[] BadData = new object[] { new B(), new D2() };
+        object[] FailureData = new object[] { new B(), new D2() };
 
-        object[] FailureMessages = new object[]
+        string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.Tests.B>",
                 "<NUnit.Framework.Constraints.Tests.D2>"
@@ -39,11 +39,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = string.Format("<instanceof {0}>", typeof(D1));
         }
 
-        object[] GoodData = new object[] { new D1(), new D2() };
+        object[] SuccessData = new object[] { new D1(), new D2() };
 
-        object[] BadData = new object[] { new B() };
+        object[] FailureData = new object[] { new B() };
 
-        object[] FailureMessages = new object[]
+        string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.Tests.B>"
             };
@@ -60,11 +60,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = string.Format("<assignablefrom {0}>", typeof(D1));
         }
 
-        object[] GoodData = new object[] { new D1(), new B() };
+        object[] SuccessData = new object[] { new D1(), new B() };
             
-        object[] BadData = new object[] { new D2() };
+        object[] FailureData = new object[] { new D2() };
 
-        object[] FailureMessages = new object[]
+        string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.Tests.D2>"
             };
@@ -81,11 +81,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = string.Format("<assignableto {0}>", typeof(D1));
         }
         
-        object[] GoodData = new object[] { new D1(), new D2() };
+        object[] SuccessData = new object[] { new D1(), new D2() };
             
-        object[] BadData = new object[] { new B() };
+        object[] FailureData = new object[] { new B() };
 
-        object[] FailureMessages = new object[]
+        string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.Tests.B>"
             };
@@ -108,11 +108,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<attribute NUnit.Framework.TestFixtureAttribute>";
         }
 
-        object[] GoodData = new object[] { typeof(AttributeConstraintTest) };
+        object[] SuccessData = new object[] { typeof(AttributeConstraintTest) };
             
-        object[] BadData = new object[] { new D2() };
+        object[] FailureData = new object[] { new D2() };
 
-        object[] FailureMessages = new object[]
+        string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.Tests.D2>"
             };

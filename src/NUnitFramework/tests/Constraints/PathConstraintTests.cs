@@ -16,7 +16,7 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<samepath \"C:\\folder1\\file.tmp\">";
         }
 
-        object[] GoodData = new object[] 
+        object[] SuccessData = new object[] 
             { 
                 @"C:\folder1\file.tmp", 
                 @"C:\Folder1\File.TMP",
@@ -25,13 +25,13 @@ namespace NUnit.Framework.Constraints.Tests
                 @"C:\FOLDER1\.\folder2\..\File.TMP",
                 @"C:/folder1/file.tmp"
             };
-        object[] BadData = new object[] 
+        object[] FailureData = new object[] 
             { 
                 123,
                 @"C:\folder2\file.tmp",
                 @"C:\folder1\.\folder2\..\file.temp"
             };
-        object[] FailureMessages = new object[] 
+        string[] ActualValues = new string[] 
             { 
                 "123",
                 "\"C:\\folder2\\file.tmp\"",
@@ -50,7 +50,7 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = @"<samepath ""/folder1/file.tmp"">";
         }
 
-        object[] GoodData = new object[] 
+        object[] SuccessData = new object[] 
             { 
                 @"/folder1/file.tmp", 
                 @"/folder1/./file.tmp",
@@ -58,7 +58,7 @@ namespace NUnit.Framework.Constraints.Tests
                 @"/folder1/./folder2/../file.tmp",
                 @"\folder1\file.tmp"
             };
-        object[] BadData = new object[] 
+        object[] FailureData = new object[] 
             { 
                 123,
                 @"/folder2/file.tmp",
@@ -66,7 +66,7 @@ namespace NUnit.Framework.Constraints.Tests
                 @"/Folder1/File.TMP",
                 @"/FOLDER1/./folder2/../File.TMP",
             };
-        object[] FailureMessages = new object[] 
+        string[] ActualValues = new string[] 
             { 
                 "123",
                 "\"/folder2/file.tmp\"",
@@ -87,7 +87,7 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = @"<samepathorunder ""C:\folder1\folder2"">";
         }
 
-        object[] GoodData = new object[]
+        object[] SuccessData = new object[]
             {
                 @"C:\folder1\folder2",
                 @"C:\Folder1\Folder2",
@@ -101,13 +101,13 @@ namespace NUnit.Framework.Constraints.Tests
                 @"C:\FOLDER1\.\junk\..\Folder2\temp\..\Folder3",
                 @"C:/folder1/folder2/folder3",
             };
-        object[] BadData = new object[]
+        object[] FailureData = new object[]
             {
                 123,
                 @"C:\folder1\folder3",
                 @"C:\folder1\.\folder2\..\file.temp"
             };
-        object[] FailureMessages = new object[]
+        string[] ActualValues = new string[]
             {
                 "123",
                 "\"C:\\folder1\\folder3\"",
@@ -126,7 +126,7 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = @"<samepathorunder ""/folder1/folder2"">";
         }
 
-        object[] GoodData = new object[]
+        object[] SuccessData = new object[]
             {
                 @"/folder1/folder2",
                 @"/folder1/./folder2",
@@ -137,7 +137,7 @@ namespace NUnit.Framework.Constraints.Tests
                 @"/folder1/junk/../folder2/folder3",
                 @"\folder1\folder2\folder3",
             };
-        object[] BadData = new object[]
+        object[] FailureData = new object[]
             {
                 123,
                 "/Folder1/Folder2",
@@ -147,7 +147,7 @@ namespace NUnit.Framework.Constraints.Tests
                 "/folder1/./folder2/../folder3",
 				"/folder1"
             };
-        object[] FailureMessages = new object[]
+        string[] ActualValues = new string[]
             {
                 "123",
                 "\"/Folder1/Folder2\"",

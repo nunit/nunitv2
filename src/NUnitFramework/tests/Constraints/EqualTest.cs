@@ -21,11 +21,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<equal 4>";
         }
 
-        object[] GoodData = new object[] { 4, 4.0f, 4.0d, 4.0000m };
+        object[] SuccessData = new object[] { 4, 4.0f, 4.0d, 4.0000m };
             
-        object[] BadData = new object[] { 5, null, "Hello", double.NaN, double.PositiveInfinity };
+        object[] FailureData = new object[] { 5, null, "Hello", double.NaN, double.PositiveInfinity };
 
-        object[] FailureMessages = new object[] { "5", "null", "\"Hello\"", "NaN", "Infinity" };
+        string[] ActualValues = new string[] { "5", "null", "\"Hello\"", "NaN", "Infinity" };
 
         [TestCase(double.NaN)]
         [TestCase(double.PositiveInfinity)]

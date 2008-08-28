@@ -19,11 +19,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<substring \"hello\">";
         }
 
-        object[] GoodData = new object[] { "hello", "hello there", "I said hello", "say hello to fred" };
+        object[] SuccessData = new object[] { "hello", "hello there", "I said hello", "say hello to fred" };
         
-        object[] BadData = new object[] { "goodbye", "HELLO", "What the hell?", string.Empty, null };
+        object[] FailureData = new object[] { "goodbye", "HELLO", "What the hell?", string.Empty, null };
 
-        object[] FailureMessages = new object[] { "\"goodbye\"", "\"HELLO\"", "\"What the hell?\"", "<string.Empty>", "null" }; 
+        string[] ActualValues = new string[] { "\"goodbye\"", "\"HELLO\"", "\"What the hell?\"", "<string.Empty>", "null" }; 
 
         public void HandleException(Exception ex)
         {
@@ -44,11 +44,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<substring \"hello\">";
         }
 
-        object[] GoodData = new object[] { "Hello", "HellO there", "I said HELLO", "say hello to fred" };
+        object[] SuccessData = new object[] { "Hello", "HellO there", "I said HELLO", "say hello to fred" };
         
-        object[] BadData = new object[] { "goodbye", "What the hell?", string.Empty, null };
+        object[] FailureData = new object[] { "goodbye", "What the hell?", string.Empty, null };
 
-        object[] FailureMessages = new object[] { "\"goodbye\"", "\"What the hell?\"", "<string.Empty>", "null" };
+        string[] ActualValues = new string[] { "\"goodbye\"", "\"What the hell?\"", "<string.Empty>", "null" };
     }
 
     [TestFixture]
@@ -62,11 +62,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<startswith \"hello\">";
         }
 
-        object[] GoodData = new object[] { "hello", "hello there" };
+        object[] SuccessData = new object[] { "hello", "hello there" };
 
-        object[] BadData = new object[] { "goodbye", "HELLO THERE", "I said hello", "say hello to fred", string.Empty, null };
+        object[] FailureData = new object[] { "goodbye", "HELLO THERE", "I said hello", "say hello to fred", string.Empty, null };
 
-        object[] FailureMessages = new object[] { "\"goodbye\"", "\"HELLO THERE\"", "\"I said hello\"", "\"say hello to fred\"", "<string.Empty>", "null" };
+        string[] ActualValues = new string[] { "\"goodbye\"", "\"HELLO THERE\"", "\"I said hello\"", "\"say hello to fred\"", "<string.Empty>", "null" };
     }
 
     [TestFixture]
@@ -80,11 +80,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<startswith \"hello\">";
         }
 
-        object[] GoodData = new object[] { "Hello", "HELLO there" };
+        object[] SuccessData = new object[] { "Hello", "HELLO there" };
             
-        object[] BadData = new object[] { "goodbye", "What the hell?", "I said hello", "say Hello to fred", string.Empty, null };
+        object[] FailureData = new object[] { "goodbye", "What the hell?", "I said hello", "say Hello to fred", string.Empty, null };
 
-        object[] FailureMessages = new object[] { "\"goodbye\"", "\"What the hell?\"", "\"I said hello\"", "\"say Hello to fred\"", "<string.Empty>", "null" };
+        string[] ActualValues = new string[] { "\"goodbye\"", "\"What the hell?\"", "\"I said hello\"", "\"say Hello to fred\"", "<string.Empty>", "null" };
     }
 
     [TestFixture]
@@ -98,11 +98,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<endswith \"hello\">";
         }
 
-        object[] GoodData = new object[] { "hello", "I said hello" };
+        object[] SuccessData = new object[] { "hello", "I said hello" };
             
-        object[] BadData = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
+        object[] FailureData = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
 
-        object[] FailureMessages = new object[] { "\"goodbye\"", "\"What the hell?\"", "\"hello there\"", "\"say hello to fred\"", "<string.Empty>", "null" };
+        string[] ActualValues = new string[] { "\"goodbye\"", "\"What the hell?\"", "\"hello there\"", "\"say hello to fred\"", "<string.Empty>", "null" };
     }
 
     [TestFixture]
@@ -116,11 +116,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<endswith \"hello\">";
         }
 
-        object[] GoodData = new object[] { "HELLO", "I said Hello" };
+        object[] SuccessData = new object[] { "HELLO", "I said Hello" };
             
-        object[] BadData = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
+        object[] FailureData = new object[] { "goodbye", "What the hell?", "hello there", "say hello to fred", string.Empty, null };
 
-        object[] FailureMessages = new object[] { "\"goodbye\"", "\"What the hell?\"", "\"hello there\"", "\"say hello to fred\"", "<string.Empty>", "null" };
+        string[] ActualValues = new string[] { "\"goodbye\"", "\"What the hell?\"", "\"hello there\"", "\"say hello to fred\"", "<string.Empty>", "null" };
     }
 
     //[TestFixture]
@@ -133,10 +133,10 @@ namespace NUnit.Framework.Constraints.Tests
     //        Description = "\"Hello World!\", ignoring case";
     //    }
 
-    //    object[] GoodData = new object[] { "hello world!", "Hello World!", "HELLO world!" };
+    //    object[] SuccessData = new object[] { "hello world!", "Hello World!", "HELLO world!" };
             
-    //    object[] BadData = new object[] { "goodbye", "Hello Friends!", string.Empty, null };
+    //    object[] FailureData = new object[] { "goodbye", "Hello Friends!", string.Empty, null };
 
-    //    object[] FailureMessages = new object[] { "\"goodbye\"", "\"Hello Friends!\"", "<string.Empty>", "null" };
+    //    string[] ActualValues = new string[] { "\"goodbye\"", "\"Hello Friends!\"", "<string.Empty>", "null" };
     //}
 }

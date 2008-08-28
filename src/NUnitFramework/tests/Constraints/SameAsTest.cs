@@ -20,10 +20,10 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<sameas System.Object>";
         }
 
-        static object[] GoodData = new object[] { obj1 };
+        static object[] SuccessData = new object[] { obj1 };
 
-        static object[] BadData = new object[] { obj2, 3, "Hello" };
+        static object[] FailureData = new object[] { obj2, 3, "Hello" };
 
-        static object[] FailureMessages = new object[] { "<System.Object>", "3", "\"Hello\"" };
+        static string[] ActualValues = new string[] { "<System.Object>", "3", "\"Hello\"" };
     }
 }

@@ -9,7 +9,7 @@ using System;
 namespace NUnit.Framework.Constraints.Tests
 {
     [TestFixture]
-    public class GreaterThanTest : ConstraintTestBaseWithInvalidDataTest
+    public class GreaterThanTest : ConstraintTestBaseWithArgumentException
     {
         [SetUp]
         public void SetUp()
@@ -19,17 +19,17 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<greaterthan 5>";
         }
 
-        object[] GoodData = new object[] { 6, 5.001 };
+        object[] SuccessData = new object[] { 6, 5.001 };
 
-        object[] BadData = new object[] { 4, 5 };
+        object[] FailureData = new object[] { 4, 5 };
 
-        object[] FailureMessages = new object[] { "4", "5" };
+        string[] ActualValues = new string[] { "4", "5" };
 
         object[] InvalidData = new object[] { null, "xxx" };
     }
 
     [TestFixture]
-    public class GreaterThanOrEqualTest : ConstraintTestBaseWithInvalidDataTest
+    public class GreaterThanOrEqualTest : ConstraintTestBaseWithArgumentException
     {
         [SetUp]
         public void SetUp()
@@ -39,17 +39,17 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<greaterthanorequal 5>";
         }
 
-        object[] GoodData = new object[] { 6, 5 };
+        object[] SuccessData = new object[] { 6, 5 };
 
-        object[] BadData = new object[] { 4 };
+        object[] FailureData = new object[] { 4 };
 
-        object[] FailureMessages = new object[] { "4" };
+        string[] ActualValues = new string[] { "4" };
 
         object[] InvalidData = new object[] { null, "xxx" };
     }
 
     [TestFixture]
-    public class LessThanTest : ConstraintTestBaseWithInvalidDataTest
+    public class LessThanTest : ConstraintTestBaseWithArgumentException
     {
         [SetUp]
         public void SetUp()
@@ -59,17 +59,17 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<lessthan 5>";
         }
 
-        object[] GoodData = new object[] { 4, 4.999 };
+        object[] SuccessData = new object[] { 4, 4.999 };
 
-        object[] BadData = new object[] { 6, 5 };
+        object[] FailureData = new object[] { 6, 5 };
 
-        object[] FailureMessages = new object[] { "6", "5" };
+        string[] ActualValues = new string[] { "6", "5" };
 
         object[] InvalidData = new object[] { null, "xxx" };
     }
 
     [TestFixture]
-    public class LessThanOrEqualTest : ConstraintTestBaseWithInvalidDataTest
+    public class LessThanOrEqualTest : ConstraintTestBaseWithArgumentException
     {
         [SetUp]
         public void SetUp()
@@ -79,11 +79,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<lessthanorequal 5>";
         }
 
-        object[] GoodData = new object[] { 4, 5 };
+        object[] SuccessData = new object[] { 4, 5 };
 
-        object[] BadData = new object[] { 6 };
+        object[] FailureData = new object[] { 6 };
 
-        object[] FailureMessages = new object[] { "6" };
+        string[] ActualValues = new string[] { "6" };
 
         object[] InvalidData = new object[] { null, "xxx" };
     }

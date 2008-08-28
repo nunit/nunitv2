@@ -17,11 +17,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<and <greaterthan 40> <lessthan 50>>";
         }
 
-		object[] GoodData = new object[] { 42 };
+		object[] SuccessData = new object[] { 42 };
 	
-		object[] BadData = new object[] { 37, 53 };
+		object[] FailureData = new object[] { 37, 53 };
 
-		object[] FailureMessages = new object[] { "37", "53" };
+		string[] ActualValues = new string[] { "37", "53" };
 
 		[Test]
         public void CanCombineTestsWithAndOperator()

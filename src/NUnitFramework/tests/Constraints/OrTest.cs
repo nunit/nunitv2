@@ -17,11 +17,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<or <equal 42> <equal 99>>";
         }
 
-		object[] GoodData = new object[] { 99, 42 };
+		object[] SuccessData = new object[] { 99, 42 };
 
-		object[] BadData = new object[] { 37 };
+		object[] FailureData = new object[] { 37 };
 
-		object[] FailureMessages = new object[] { "37" };
+		string[] ActualValues = new string[] { "37" };
 
 		[Test]
         public void CanCombineTestsWithOrOperator()
