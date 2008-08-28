@@ -3,19 +3,19 @@ using System.Collections;
 
 namespace NUnit.Framework.Syntax
 {
-    public class PropertyTest_Existence : SyntaxTest
+    public class PropertyExistsTest : SyntaxTest
     {
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<property X>";
+            parseTree = "<propertyexists X>";
             staticSyntax = Has.Property("X");
             inheritedSyntax = Helper().Property("X");
             builderSyntax = Builder().Property("X");
         }
     }
 
-    public class PropertyTest_Value : SyntaxTest
+    public class PropertyTest_ValueArgument : SyntaxTest
     {
         [SetUp]
         public void SetUp()
@@ -27,7 +27,7 @@ namespace NUnit.Framework.Syntax
         }
     }
 
-    public class PropertyTest_Constraint : SyntaxTest
+    public class PropertyTest_ConstraintFollows : SyntaxTest
     {
         [SetUp]
         public void SetUp()
@@ -36,6 +36,18 @@ namespace NUnit.Framework.Syntax
             staticSyntax = Has.Property("X").GreaterThan(5);
             inheritedSyntax = Helper().Property("X").GreaterThan(5);
             builderSyntax = Builder().Property("X").GreaterThan(5);
+        }
+    }
+
+    public class PropertyTest_NotFollows : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<property X <not <greaterthan 5>>>";
+            staticSyntax = Has.Property("X").Not.GreaterThan(5);
+            inheritedSyntax = Helper().Property("X").Not.GreaterThan(5);
+            builderSyntax = Builder().Property("X").Not.GreaterThan(5);
         }
     }
 
