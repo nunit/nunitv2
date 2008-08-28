@@ -49,10 +49,24 @@ namespace NUnit.Framework
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TestCaseData"/> class.
         /// </summary>
-        /// <param name="args">The args.</param>
-        public TestCaseData(params object[] args)
+        /// <param name="arg1">The first argument</param>
+        /// <param name="args">The remaining arguments.</param>
+        public TestCaseData(object arg1, params object[] args)
         {
-            this.arguments = args;
+            this.arguments = new object[args.Length + 1];
+            arguments[0] = arg1;
+            int index = 1;
+            foreach (object arg in args)
+                arguments[index++] = arg;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TestCaseData"/> class.
+        /// </summary>
+        /// <param name="arg">The argument.</param>
+        public TestCaseData(object arg)
+        {
+            this.arguments = new object[] { arg };
         }
 
         #region Instance Modifiers
