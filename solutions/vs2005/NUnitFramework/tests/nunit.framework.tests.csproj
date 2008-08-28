@@ -161,6 +161,9 @@
       <Link>Constraints\PathConstraintTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\PropertyTests.cs">
+      <Link>Constraints\PropertyTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\SameAsTest.cs">
       <Link>Constraints\SameAsTest.cs</Link>
       <SubType>Code</SubType>
@@ -168,6 +171,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\StringConstraintTests.cs">
       <Link>Constraints\StringConstraintTests.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\ThrowsConstraintTests.cs">
+      <Link>Constraints\ThrowsConstraintTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\TypeConstraintTests.cs">
       <Link>Constraints\TypeConstraintTests.cs</Link>

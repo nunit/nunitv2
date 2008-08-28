@@ -1,0 +1,50 @@
+﻿using System;
+
+namespace NUnit.Framework.Constraints.Tests
+{
+    public class PropertyExistsTest : ConstraintTestBaseWithExceptionTests
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            theConstraint = new PropertyExistsConstraint("Length");
+            expectedDescription = "property Length";
+            stringRepresentation = "<propertyexists Length>";
+        }
+
+        static object[] SuccessData = new object[] { new int[0], "hello" };
+
+        static object[] FailureData = new object[] { 42, new System.Collections.ArrayList() };
+
+        static string[] ActualValues = new string[] { "<System.Int32>", "<System.Collections.ArrayList>" };
+
+        static object[] InvalidData = new TestCaseData[] 
+        { 
+            new TestCaseData(null).Throws(typeof(ArgumentNullException))
+        };
+    }
+
+    public class PropertyTest : ConstraintTestBaseWithExceptionTests
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            theConstraint = new PropertyConstraint("Length", new EqualConstraint(5));
+            expectedDescription = "property Length equal to 5";
+            stringRepresentation = "<property Length <equal 5>>";
+        }
+
+        static object[] SuccessData = new object[] { new int[5], "hello" };
+
+        static object[] FailureData = new object[] { new int[3], "goodbye" };
+
+        static string[] ActualValues = new string[] { "3", "7" };
+
+        static object[] InvalidData = new object[] 
+        { 
+            new TestCaseData(null).Throws(typeof(ArgumentNullException)),
+            new TestCaseData(42).Throws(typeof(ArgumentException)), 
+            new TestCaseData(new System.Collections.ArrayList()).Throws(typeof(ArgumentException))
+        };
+    }
+}

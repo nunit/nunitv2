@@ -284,6 +284,12 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\SyntaxTest.cs">
       <Link>Syntax\SyntaxTest.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\PropertyTests.cs">
+      <Link>Constraints\PropertyTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\ThrowsConstraintTests.cs">
+      <Link>Constraints\ThrowsConstraintTests.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitFramework\tests\TestImage1.jpg">
       <Link>TestImage1.jpg</Link>
     </EmbeddedResource>
