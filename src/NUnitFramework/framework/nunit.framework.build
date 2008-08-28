@@ -48,6 +48,7 @@
         <include name="IncludeExcludeAttributes.cs"/>
         <include name="InconclusiveException.cs"/>
         <include name="Is.cs"/>
+        <include name="ITestCaseData.cs"/>
         <include name="JoinTypeAttributes.cs"/>
         <include name="List.cs"/>
         <include name="ListMapper.cs"/>
