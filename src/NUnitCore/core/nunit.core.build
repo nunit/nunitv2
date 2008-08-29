@@ -94,8 +94,9 @@
       <nowarn>
         <warning number="618,1699" if="${runtime.version=='2.0'}"/>
       </nowarn>
-      <references basedir="${current.build.dir}">
-        <include name="nunit.core.interfaces.dll"/>
+      <references>
+	<include name="System.Configuration.dll"/>
+        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
       </references>
     </csc>
   </target>
