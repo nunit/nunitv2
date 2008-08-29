@@ -35,6 +35,7 @@ class SomeClass
         [TestCase("Is.Null.All")]
         [TestCase("Is.And")]
         [TestCase("Is.All.And.And")]
+        [TestCase("Is.Null.And.Throws")]
         public void CodeShouldNotCompile(string fragment)
         {
             string code = template.Replace("$FRAGMENT$", fragment);
