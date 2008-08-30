@@ -35,7 +35,7 @@ namespace NUnit.Core.Extensibility
         /// <returns>An IEnumerable providing the required data</returns>
         public IEnumerable GetDataFor(ParameterInfo parameter)
         {
-#if NET_2_0
+#if NET_2_0 && !MONO
             foreach (IDataPointProvider provider in Extensions)
                 if (provider.HasDataFor(parameter))
                     foreach (object o in provider.GetDataFor(parameter))

@@ -37,12 +37,10 @@ namespace NUnit.Core.Builders
         /// <returns></returns>
         public IEnumerable GetDataFor(ParameterInfo parameter)
         {
-#if NET_2_0
+#if NET_2_0 && !MONO
             foreach (ProviderInfo info in GetSourcesFor(parameter))
             {
-                if (info.Provider == null)
-                    yield return new ParameterSet(RunState.NotRunnable, info.Message);
-                else
+                if (info.Provider != null)
                     foreach (object o in info.Provider)
                         yield return o;
             }
@@ -51,10 +49,7 @@ namespace NUnit.Core.Builders
 
             foreach ( ProviderInfo info in GetSourcesFor(parameter) )
             {
-                if (info.Provider == null)
-                    parameterList.Add(
-                        new ParameterSet(RunState.NotRunnable, info.Message));
-                else
+                if (info.Provider != null)
                     foreach (object o in info.Provider)
                         parameterList.Add(o);
             }
