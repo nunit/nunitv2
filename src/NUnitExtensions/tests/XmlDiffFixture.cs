@@ -5,7 +5,7 @@ using NUnit.Framework.Extensions.Xml;
 namespace NUnit.Framework.Extensions.Xml.Tests
 {
 #if NET_2_0
-	[TestFixture,Category("Net-2.0")]
+	[TestFixture,Category("Net-2.0"),Platform(Exclude="Mono")]
 	public class XmlDiffFixture
 	{
 		string document = "<Document/>";
