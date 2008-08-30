@@ -21,7 +21,7 @@
       </references>
     </csc>
 
-    <copy file="App.config"
+    <copy file="Ship.config"
       tofile="${current.build.dir}/nunit-agent.exe.config"/>
 
   </target>
@@ -30,7 +30,7 @@
     <copy todir="${package.src.dir}/NUnitTestServer/nunit-agent-exe">
       <fileset>
         <patternset refid="source-files" />
-        <include name="App.config"/>
+        <include name="Ship.config"/>
         <include name="nunit-agent.exe.build"/>
       </fileset>
     </copy>
