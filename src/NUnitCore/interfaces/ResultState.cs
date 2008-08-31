@@ -54,11 +54,6 @@ namespace NUnit.Core
     /// </summary>
     public enum FailureSite
     {
-		/// <summary>
-		/// The location of the failure is not known
-		/// </summary>
-		Unknown,
-
         /// <summary>
         /// Failure in the test itself
         /// </summary>
