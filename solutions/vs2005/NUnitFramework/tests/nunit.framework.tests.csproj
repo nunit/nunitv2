@@ -272,6 +272,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\TypeConstraints.cs">
       <Link>Syntax\TypeConstraints.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\TestDelegates.cs">
+      <Link>TestDelegates.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\TextMessageWriterTests.cs">
       <Link>TextMessageWriterTests.cs</Link>
       <SubType>Code</SubType>

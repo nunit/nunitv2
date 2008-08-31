@@ -1,50 +1,103 @@
 ﻿using System;
+using NUnit.Framework.Tests;
 
 namespace NUnit.Framework.Constraints.Tests
 {
     [TestFixture]
-    public class ThrowsConstraintTests
+    public class ThrowsConstraintTest_ExactType : ConstraintTestBase
     {
-        Constraint throwsConstraint1 = new ThrowsConstraint(
-            new ExactTypeConstraint(typeof(ArgumentException)));
-
-        Constraint throwsConstraint2 = new ThrowsConstraint(
-            new AndConstraint(
-                new ExactTypeConstraint(typeof(ArgumentException)), 
-                new PropertyConstraint("ParamName", new EqualConstraint("x") ) ) );
-
-        [Test]
-        public void ProvidesProperDescription()
+        [SetUp]
+        public void SetUp()
         {
-            MessageWriter writer = new TextMessageWriter();
-            throwsConstraint1.WriteDescriptionTo(writer);
-            Assert.AreEqual("<System.ArgumentException>", writer.ToString());
+            theConstraint = new ThrowsConstraint(
+                new ExactTypeConstraint(typeof(ArgumentException)));
+            expectedDescription = "<System.ArgumentException>";
+            stringRepresentation = "<throws <typeof System.ArgumentException>>";
         }
 
-        [Test]
-        public void ProvidesProperDescription_WithConstraint()
+        static object[] SuccessData = new object[]
         {
-            MessageWriter writer = new TextMessageWriter();
-            throwsConstraint2.WriteDescriptionTo(writer);
-            Assert.AreEqual(
-                @"<System.ArgumentException> and property ParamName equal to ""x""",
-                writer.ToString());
+            new TestDelegate( TestDelegates.ThrowsArgumentException )
+        };
+
+        static object[] FailureData = new object[]
+        {
+            new TestDelegate( TestDelegates.ThrowsApplicationException ),
+            new TestDelegate( TestDelegates.ThrowsNothing ),
+            new TestDelegate( TestDelegates.ThrowsSystemException )
+        };
+
+        static string[] ActualValues = new string[]
+        {
+            "<System.ApplicationException>",
+            "no exception thrown",
+            "<System.Exception>"
+        };
+    }
+
+    [TestFixture]
+    public class ThrowsConstraintTest_InstanceOfType : ConstraintTestBase
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            theConstraint = new ThrowsConstraint(
+                new InstanceOfTypeConstraint(typeof(ApplicationException)));
+            expectedDescription = "instance of <System.ApplicationException>";
+            stringRepresentation = "<throws <instanceof System.ApplicationException>>";
         }
 
-        [Test]
-        public void ProvidesProperStringRepresentation()
+        static object[] SuccessData = new object[]
         {
-            Assert.AreEqual(
-                "<throws <typeof System.ArgumentException>>", 
-                throwsConstraint1.ToString());
+            new TestDelegate( TestDelegates.ThrowsApplicationException ),
+            new TestDelegate( TestDelegates.ThrowsDerivedApplicationException )
+        };
+
+        static object[] FailureData = new object[]
+        {
+            new TestDelegate( TestDelegates.ThrowsArgumentException ),
+            new TestDelegate( TestDelegates.ThrowsNothing ),
+            new TestDelegate( TestDelegates.ThrowsSystemException )
+        };
+
+        static string[] ActualValues = new string[]
+        {
+            "<System.ArgumentException>",
+            "no exception thrown",
+            "<System.Exception>"
+        };
+    }
+
+    public class ThrowsConstraintTest_WithConstraint : ConstraintTestBase
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            theConstraint = new ThrowsConstraint(
+                new AndConstraint(
+                    new ExactTypeConstraint(typeof(ArgumentException)),
+                    new PropertyConstraint("ParamName", new EqualConstraint("myParam"))));
+            expectedDescription = @"<System.ArgumentException> and property ParamName equal to ""myParam""";
+            stringRepresentation = @"<throws <and <typeof System.ArgumentException> <property ParamName <equal ""myParam"">>>>";
         }
 
-        [Test]
-        public void ProvidesProperStringRepresentation_WithConstraint()
+        static object[] SuccessData = new object[]
         {
-            Assert.AreEqual(
-                @"<throws <and <typeof System.ArgumentException> <property ParamName <equal ""x"">>>>", 
-                throwsConstraint2.ToString());
-        }
+            new TestDelegate( TestDelegates.ThrowsArgumentException )
+        };
+
+        static object[] FailureData = new object[]
+        {
+            new TestDelegate( TestDelegates.ThrowsApplicationException ),
+            new TestDelegate( TestDelegates.ThrowsNothing ),
+            new TestDelegate( TestDelegates.ThrowsSystemException )
+        };
+
+        static string[] ActualValues = new string[]
+        {
+            "<System.ApplicationException>",
+            "no exception thrown",
+            "<System.Exception>"
+        };
     }
 }

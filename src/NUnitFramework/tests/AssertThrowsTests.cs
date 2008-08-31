@@ -10,30 +10,16 @@ namespace NUnit.Framework.Tests
 		public void CorrectExceptionThrown()
 		{
 #if NET_2_0
-            Assert.Throws(typeof(ArgumentException), ThrowsArgumentException);
+            Assert.Throws(typeof(ArgumentException), TestDelegates.ThrowsArgumentException);
             Assert.Throws(typeof(ArgumentException),
                 delegate { throw new ArgumentException(); });
 
-            Assert.That(ThrowsArgumentException,
-                Throws.Exception<ArgumentException>());
-
             Assert.Throws<ArgumentException>(
                 delegate { throw new ArgumentException(); });
-			Assert.Throws<ArgumentException>( ThrowsArgumentException );
-
-		    Assert.That(ThrowsArgumentException,
-		                Throws.Exception<ArgumentException>().Property("ParamName").EqualTo("myParam"));
-            Assert.That(
-                delegate { throw new ArgumentException("mymessage", "myparam"); },
-                Throws.Exception<ArgumentException>().Property("ParamName").EqualTo("myparam")
-                    .And.Property("Message").StartsWith("mymessage"));
-
+            Assert.Throws<ArgumentException>(TestDelegates.ThrowsArgumentException);
 #else
 			Assert.Throws(typeof(ArgumentException),
-				new TestDelegate( ThrowsArgumentException ) );
-
-            Assert.That( new TestDelegate( ThrowsArgumentException ),  
-                Throws.Exception(typeof(ArgumentException)));
+				new TestDelegate( TestDelegates.ThrowsArgumentException ) );
 #endif
         }
 
@@ -41,7 +27,7 @@ namespace NUnit.Framework.Tests
 		public void CorrectExceptionIsReturnedToMethod()
 		{
 			ArgumentException ex = Assert.Throws(typeof(ArgumentException),
-				new TestDelegate( ThrowsArgumentException ) ) as ArgumentException;
+                new TestDelegate(TestDelegates.ThrowsArgumentException)) as ArgumentException;
 
             Assert.IsNotNull(ex, "No ArgumentException thrown");
             Assert.That(ex.Message, StartsWith("myMessage"));
@@ -62,7 +48,7 @@ namespace NUnit.Framework.Tests
             Assert.That(ex.Message, StartsWith("myMessage"));
             Assert.That(ex.ParamName, Is.EqualTo("myParam"));
 
-			ex = Assert.Throws<ArgumentException>( ThrowsArgumentException ) as ArgumentException;
+            ex = Assert.Throws<ArgumentException>(TestDelegates.ThrowsArgumentException) as ArgumentException;
 
             Assert.IsNotNull(ex, "No ArgumentException thrown");
             Assert.That(ex.Message, StartsWith("myMessage"));
@@ -77,10 +63,10 @@ namespace NUnit.Framework.Tests
 				"  Expected: <System.ArgumentException>" + Environment.NewLine +
 				"  But was:  null" + Environment.NewLine;
 #if NET_2_0
-			Assert.Throws<ArgumentException>( ThrowsNothing );
+            Assert.Throws<ArgumentException>(TestDelegates.ThrowsNothing);
 #else
 			Assert.Throws( typeof(ArgumentException),
-				new TestDelegate( ThrowsNothing ) );
+				new TestDelegate( TestDelegates.ThrowsNothing ) );
 #endif
 		}
 
@@ -91,10 +77,10 @@ namespace NUnit.Framework.Tests
                 "  Expected: <System.ArgumentException>" + Environment.NewLine +
                 "  But was:  <System.ApplicationException>" + Environment.NewLine;
 #if NET_2_0
-			Assert.Throws<ArgumentException>(ThrowsApplicationException);
+            Assert.Throws<ArgumentException>(TestDelegates.ThrowsApplicationException);
 #else
 			Assert.Throws( typeof(ArgumentException),
-				new TestDelegate(ThrowsApplicationException) );
+				new TestDelegate(TestDelegates.ThrowsApplicationException) );
 #endif
         }
 
@@ -105,10 +91,10 @@ namespace NUnit.Framework.Tests
                 "  Expected: <System.ArgumentException>" + Environment.NewLine +
                 "  But was:  <System.Exception>" + Environment.NewLine;
 #if NET_2_0
-			Assert.Throws<ArgumentException>(ThrowsException);
+            Assert.Throws<ArgumentException>(TestDelegates.ThrowsSystemException);
 #else
             Assert.Throws( typeof(ArgumentException),
-                new TestDelegate( ThrowsException) );
+                new TestDelegate( TestDelegates.ThrowsSystemException) );
 #endif
         }
 
@@ -119,10 +105,10 @@ namespace NUnit.Framework.Tests
                 "  Expected: <System.Exception>" + Environment.NewLine +
                 "  But was:  <System.ArgumentException>" + Environment.NewLine;
 #if NET_2_0
-			Assert.Throws<Exception>(ThrowsArgumentException);
+            Assert.Throws<Exception>(TestDelegates.ThrowsArgumentException);
 #else
             Assert.Throws( typeof(Exception),
-				new TestDelegate( ThrowsArgumentException) );
+				new TestDelegate( TestDelegates.ThrowsArgumentException) );
 #endif
         }
 
@@ -130,11 +116,11 @@ namespace NUnit.Framework.Tests
         public void DoesNotThrowSuceeds()
         {
 #if NET_2_0
-            Assert.DoesNotThrow(ThrowsNothing);
+            Assert.DoesNotThrow(TestDelegates.ThrowsNothing);
 #else
-            Assert.DoesNotThrow( new TestDelegate( ThrowsNothing ) );
+            Assert.DoesNotThrow( new TestDelegate( TestDelegates.ThrowsNothing ) );
 
-			Assert.That( new TestDelegate( ThrowsNothing ), Throws.Nothing );
+			Assert.That( new TestDelegate( TestDelegates.ThrowsNothing ), Throws.Nothing );
 #endif
         }
 
@@ -142,31 +128,10 @@ namespace NUnit.Framework.Tests
         public void DoesNotThrowFails()
         {
 #if NET_2_0
-            Assert.DoesNotThrow(ThrowsArgumentException);
+            Assert.DoesNotThrow(TestDelegates.ThrowsArgumentException);
 #else
-            Assert.DoesNotThrow( new TestDelegate( ThrowsArgumentException ) );
+            Assert.DoesNotThrow( new TestDelegate( TestDelegates.ThrowsArgumentException ) );
 #endif
         }
-
-        #region Methods Called by Tests
-        static void ThrowsArgumentException()
-		{
-			throw new ArgumentException("myMessage", "myParam");
-		}
-
-        static void ThrowsApplicationException()
-		{
-			throw new ApplicationException();
-		}
-
-        static void ThrowsException()
-		{
-			throw new Exception();
-		}
-
-        static void ThrowsNothing()
-		{
-        }
-        #endregion
     }
 }
