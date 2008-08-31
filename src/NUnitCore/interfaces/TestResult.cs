@@ -115,7 +115,8 @@ namespace NUnit.Core
             {
                 return resultState == ResultState.Success ||
                        resultState == ResultState.Failure ||
-                       resultState == ResultState.Error;
+                       resultState == ResultState.Error ||
+                       resultState == ResultState.Inconclusive;
             }
         }
 
