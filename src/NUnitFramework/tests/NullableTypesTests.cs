@@ -2,7 +2,7 @@ using System;
 
 namespace NUnit.Framework.Tests
 {
-#if NET_2_0
+#if NET_2_0 && !MONO
     [TestFixture, Category("Generics")]
     public class NullableTypesTests
     {
