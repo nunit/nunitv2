@@ -194,6 +194,16 @@ namespace NUnit.Framework.Syntax
     //    }
     //}
 
+    public class ThrowsTest : StaticOnlySyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<throws <typeof System.ArgumentException>>";
+            staticSyntax = Throws.Exception(typeof(ArgumentException));
+        }
+    }
+
     public class SingleOperatorTests
     {
         int[] ints = new int[] { 1, 2, 3, 4 };
