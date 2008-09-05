@@ -14,10 +14,10 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="type">The expected type of exception.</param>
         /// <returns>A ThrowsConstraint</returns>
-        public static ResolvableConstraintBuilder Exception(Type type)
-		{
-			return new ConstraintBuilder(new ThrowsOperator()).TypeOf( type );
-		}
+        public static ConstraintExpression Exception(Type type)
+        {
+            return new PartialConstraintExpression().Append(new ThrowsOperator()).TypeOf(type);
+        }
 
 #if NET_2_0
         /// <summary>
@@ -25,9 +25,53 @@ namespace NUnit.Framework
         /// </summary>
         /// <typeparam name="T">The expected type of exception.</typeparam>
         /// <returns>A ResolvableConstraintBuilder</returns>
-        public static ResolvableConstraintBuilder Exception<T>()
+        public static ConstraintExpression Exception<T>()
         {
             return Exception(typeof(T));
+        }
+#endif
+
+        /// <summary>
+        /// Creates a constraint specifying the type of exception expected
+        /// </summary>
+        /// <param name="type">The expected type of exception.</param>
+        /// <returns>A ThrowsConstraint</returns>
+        public static ConstraintExpression TypeOf(Type type)
+        {
+            return new PartialConstraintExpression().Append(new ThrowsOperator()).TypeOf(type);
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Creates a constraint specifying the type of exception expected
+        /// </summary>
+        /// <typeparam name="T">The expected type of exception.</typeparam>
+        /// <returns>A ResolvableConstraintBuilder</returns>
+        public static ConstraintExpression TypeOf<T>()
+        {
+            return TypeOf(typeof(T));
+        }
+#endif
+
+        /// <summary>
+        /// Creates a constraint specifying the type of exception expected
+        /// </summary>
+        /// <param name="type">The expected type of exception.</param>
+        /// <returns>A ThrowsConstraint</returns>
+        public static ConstraintExpression InstanceOf(Type type)
+        {
+            return new PartialConstraintExpression().Append(new ThrowsOperator()).InstanceOfType(type);
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Creates a constraint specifying the type of exception expected
+        /// </summary>
+        /// <typeparam name="T">The expected type of exception.</typeparam>
+        /// <returns>A ResolvableConstraintBuilder</returns>
+        public static ConstraintExpression InstanceOf<T>()
+        {
+            return InstanceOf(typeof(T));
         }
 #endif
 

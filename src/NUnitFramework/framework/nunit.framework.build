@@ -7,6 +7,7 @@
         <include name="Constraints/ComparisonConstraints.cs"/>
         <include name="Constraints/Constraint.cs"/>
         <include name="Constraints/ConstraintBuilder.cs"/>
+        <include name="Constraints/ConstraintExpression.cs"/>
         <include name="Constraints/ConstraintFactory.cs"/>
         <include name="Constraints/ConstraintModifier.cs"/>
         <include name="Constraints/ConstraintOperators.cs"/>
@@ -18,6 +19,7 @@
         <include name="Constraints/MessageWriter.cs"/>
         <include name="Constraints/MsgUtils.cs"/>
         <include name="Constraints/Numerics.cs"/>
+        <include name="Constraints/PartialConstraintExpression.cs"/>
         <include name="Constraints/PathConstraints.cs"/>
         <include name="Constraints/PrefixConstraints.cs"/>
         <include name="Constraints/PropertyConstraint.cs"/>
@@ -38,7 +40,6 @@
         <include name="DirectoryAssert.cs"/>
         <include name="ExpectedExceptionAttribute.cs"/>
         <include name="ExplicitAttribute.cs"/>
-        <include name="FactoriesAttribute.cs"/>
         <include name="FileAssert.cs"/>
         <include name="GlobalSettings.cs"/>
         <include name="Has.cs"/>
@@ -66,6 +67,7 @@
         <include name="TestAttribute.cs"/>
         <include name="TestCaseAttribute.cs"/>
         <include name="TestCaseData.cs"/>
+        <include name="TestCasesAttribute.cs"/>
         <include name="TestFixtureAttribute.cs"/>
         <include name="TestFixtureSetUpAttribute.cs"/>
         <include name="TestFixtureTearDownAttribute.cs"/>

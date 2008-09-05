@@ -293,6 +293,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\TestDelegates.cs">
       <Link>TestDelegates.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\ThrowsTests.cs">
+      <Link>Syntax\ThrowsTests.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitFramework\tests\TestImage1.jpg">
       <Link>TestImage1.jpg</Link>
     </EmbeddedResource>

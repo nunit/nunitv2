@@ -37,22 +37,22 @@ namespace NUnit.Framework.Constraints
             get { caseInsensitive = false; return this; }
         }
 
-        private Modifier modifier;
-        public Modifier GetModifier()
-        {
-            if (modifier == null)
-                modifier = new Modifier(this);
+        //private Modifier modifier;
+        //public Modifier GetModifier()
+        //{
+        //    if (modifier == null)
+        //        modifier = new Modifier(this);
 
-            return modifier;
-        }
+        //    return modifier;
+        //}
 
         #region Nested Modifier Class
         public class Modifier : ConstraintModifier
         {
             private PathConstraint constraint;
 
-            public Modifier(PathConstraint constraint)
-                : base(constraint)
+            public Modifier(PathConstraint constraint, ConstraintExpression builder)
+                : base(constraint, builder)
             {
                 this.constraint = constraint;
             }

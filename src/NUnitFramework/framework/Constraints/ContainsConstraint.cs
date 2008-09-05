@@ -64,8 +64,8 @@ namespace NUnit.Framework.Constraints
         {
             private ContainsConstraint constraint;
 
-            public Modifier(ContainsConstraint constraint)
-                : base(constraint)
+            public Modifier(ContainsConstraint constraint, ConstraintExpression builder)
+                : base(constraint, builder)
             {
                 this.constraint = constraint;
             }

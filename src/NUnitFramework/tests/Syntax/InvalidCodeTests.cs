@@ -17,7 +17,7 @@ namespace NUnit.Framework.Syntax
     [TestFixture]
     public class InvalidCodeTests : AssertionHelper
     {
-        static readonly string template =
+        static readonly string template1 =
 @"using System;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
@@ -38,7 +38,7 @@ class SomeClass
         [TestCase("Is.Null.And.Throws")]
         public void CodeShouldNotCompile(string fragment)
         {
-            string code = template.Replace("$FRAGMENT$", fragment);
+            string code = template1.Replace("$FRAGMENT$", fragment);
             TestCompiler compiler = new TestCompiler(
                 new string[] { "system.dll", "nunit.framework.dll" },
                 "test.dll");
@@ -47,18 +47,32 @@ class SomeClass
                 Assert.Fail("Code fragment \"" + fragment + "\" should not compile but it did");
         }
 
-        static object[] UnresolvedConstraints = new object[]
-            {
-                new TestCaseData( Is.Not ).WithName("Is.Not"),
-                new TestCaseData( Is.All ).WithName("Is.All"),
-                new TestCaseData( Is.Not.All ).WithName("Is.Not.All"),
-                new TestCaseData( Is.All.Not ).WithName("Is.All.Not"),
-            };
+        static readonly string template2 =
+@"using System;
+using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
-        [Test, TestCases("UnresolvedConstraints")]
-        public void CodeCompilesButIsNotCompleteConstraint(ConstraintBuilder builder)
+class SomeClass
+{
+    void SomeMethod()
+    {
+        Assert.That(42, $FRAGMENT$);
+    }
+}";
+
+        [TestCase("Is.Not")]
+        [TestCase("Is.All")]
+        [TestCase("Is.Not.All")]
+        [TestCase("Is.All.Not")]
+        public void CodeShouldNotCompileAsFinishedConstraint(string fragment)
         {
-            Assert.That(builder, Is.Not.AssignableTo(typeof(IConstraint)));
+            string code = template2.Replace("$FRAGMENT$", fragment);
+            TestCompiler compiler = new TestCompiler(
+                new string[] { "system.dll", "nunit.framework.dll" },
+                "test.dll");
+            CompilerResults results = compiler.CompileCode(code);
+            if (results.NativeCompilerReturnValue == 0)
+                Assert.Fail("Code fragment \"" + fragment + "\" should not compile as a finished constraint but it did");
         }
     }
 }

@@ -20,18 +20,18 @@ namespace NUnit.Framework
 		/// the following constraint to all members of a collection,
 		/// succeeding if all of them succeed.
 		/// </summary>
-		public static ConstraintBuilder All
+		public static PartialConstraintExpression All
 		{
-			get { return new ConstraintBuilder().All; }
+			get { return new PartialConstraintExpression().All; }
 		}
 
 		/// <summary>
 		/// Contains returns a constraint that succeeds if the actual
 		/// value contains the substring supplied as an argument.
 		/// </summary>
-		public static SubstringConstraint Contains(string substring)
+		public static StringConstraint.Modifier Contains(string substring)
 		{
-			return new SubstringConstraint(substring);
+			return new PartialConstraintExpression().ContainsSubstring(substring);
 		}
 
 		/// <summary>
@@ -40,16 +40,16 @@ namespace NUnit.Framework
 		/// </summary>
 		public static StringConstraint.Modifier DoesNotContain(string substring)
 		{
-            return new ConstraintBuilder().Not.ContainsSubstring(substring);
+            return new PartialConstraintExpression().Not.ContainsSubstring(substring);
 		}
 
 		/// <summary>
 		/// StartsWith returns a constraint that succeeds if the actual
 		/// value starts with the substring supplied as an argument.
 		/// </summary>
-		public static StartsWithConstraint StartsWith(string substring)
+		public static StringConstraint.Modifier StartsWith(string substring)
 		{
-			return new StartsWithConstraint(substring);
+			return new PartialConstraintExpression().StartsWith(substring);
 		}
 
 		/// <summary>
@@ -58,16 +58,16 @@ namespace NUnit.Framework
 		/// </summary>
 		public static StringConstraint.Modifier DoesNotStartWith(string substring)
 		{
-            return new ConstraintBuilder().Not.StartsWith(substring);
+            return new PartialConstraintExpression().Not.StartsWith(substring);
 		}
 
 		/// <summary>
 		/// EndsWith returns a constraint that succeeds if the actual
 		/// value ends with the substring supplied as an argument.
 		/// </summary>
-		public static EndsWithConstraint EndsWith(string substring)
+		public static StringConstraint.Modifier EndsWith(string substring)
 		{
-			return new EndsWithConstraint(substring);
+			return new PartialConstraintExpression().EndsWith(substring);
 		}
 
 		/// <summary>
@@ -76,7 +76,7 @@ namespace NUnit.Framework
 		/// </summary>
 		public static StringConstraint.Modifier DoesNotEndWith(string substring)
 		{
-            return new ConstraintBuilder().Not.EndsWith(substring);
+            return new PartialConstraintExpression().Not.EndsWith(substring);
 		}
 
 		/// <summary>
@@ -85,9 +85,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="pattern"></param>
 		/// <returns></returns>
-		public static RegexConstraint Matches(string pattern)
+		public static StringConstraint.Modifier Matches(string pattern)
 		{
-			return new RegexConstraint(pattern);
+			return new PartialConstraintExpression().Matches(pattern);
 		}
 
 		/// <summary>
@@ -98,7 +98,7 @@ namespace NUnit.Framework
 		/// <returns></returns>
 		public static StringConstraint.Modifier DoesNotMatch(string pattern)
 		{
-            return new ConstraintBuilder().Not.Matches(pattern);
+            return new PartialConstraintExpression().Not.Matches(pattern);
 		}
 	}
 }

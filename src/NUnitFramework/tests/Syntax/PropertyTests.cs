@@ -15,15 +15,15 @@ namespace NUnit.Framework.Syntax
         }
     }
 
-    public class PropertyTest_ValueArgument : SyntaxTest
+    public class PropertyExistsTest_AndFollows : SyntaxTest
     {
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<property X <equal 5>>";
-            staticSyntax = Has.Property("X", 5);
-            inheritedSyntax = Helper().Property("X", 5);
-            builderSyntax = Builder().Property("X", 5);
+            parseTree = "<and <propertyexists X> <equal 7>>";
+            staticSyntax = Has.Property("X").And.EqualTo(7);
+            inheritedSyntax = Helper().Property("X").And.EqualTo(7);
+            builderSyntax = Builder().Property("X").And.EqualTo(7);
         }
     }
 
@@ -56,24 +56,12 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<property Length <equal 5>>";
-            staticSyntax = Has.Length(5);
-            inheritedSyntax = Helper().Length(5);
-            builderSyntax = Builder().Length(5);
+            parseTree = "<property Length <greaterthan 5>>";
+            staticSyntax = Has.Length.GreaterThan(5);
+            inheritedSyntax = Helper().Length.GreaterThan(5);
+            builderSyntax = Builder().Length.GreaterThan(5);
         }
     }
-
-    //public class LengthTest_Constraint : SyntaxTest
-    //{
-    //    [SetUp]
-    //    public void SetUp()
-    //    {
-    //        parseTree = "<property Length <greaterthan 5>>";
-    //        staticSyntax = Has.Length().GreaterThan(5);
-    //        inheritedSyntax = Helper().Length().GreaterThan(5);
-    //        builderSyntax = Builder().Length().GreaterThan(5);
-    //    }
-    //}
 
     public class CountTest : SyntaxTest
     {
@@ -81,45 +69,40 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<property Count <equal 5>>";
-            staticSyntax = Has.Count(5);
-            inheritedSyntax = Helper().Count(5);
-            builderSyntax = Builder().Count(5);
+            staticSyntax = Has.Count.EqualTo(5);
+            inheritedSyntax = Helper().Count.EqualTo(5);
+            builderSyntax = Builder().Count.EqualTo(5);
         }
     }
-
-    //public class CountTest_Constraint : SyntaxTest
-    //{
-    //    [SetUp]
-    //    public void SetUp()
-    //    {
-    //        parseTree = "<property Count <greaterthan 5>>";
-    //        staticSyntax = Has.Count.GreaterThan(5);
-    //        inheritedSyntax = Helper().Count.GreaterThan(5);
-    //        builderSyntax = Builder().Count.GreaterThan(5);
-    //    }
-    //}
 
     public class MessageTest : SyntaxTest
     {
         [SetUp]
         public void SetUp()
         {
-            parseTree = @"<property Message <equal ""my message"">>";
-            staticSyntax = Has.Message("my message");
-            inheritedSyntax = Helper().Message("my message");
-            builderSyntax = Builder().Message("my message");
+            parseTree = @"<property Message <startswith ""Expected"">>";
+            staticSyntax = Has.Message.StartsWith("Expected");
+            inheritedSyntax = Helper().Message.StartsWith("Expected");
+            builderSyntax = Builder().Message.StartsWith("Expected");
         }
     }
 
-    //public class MessageTest_Constraint : SyntaxTest
-    //{
-    //    [SetUp]
-    //    public void SetUp()
-    //    {
-    //        parseTree = @"<property Message <startswith ""Expected"">>";
-    //        staticSyntax = Has.Message().StartsWith("Expected");
-    //        inheritedSyntax = Helper().Message().StartsWith("Expected");
-    //        builderSyntax = Builder().Message().StartsWith("Expected");
-    //    }
-    //}
+    public class PropertySyntaxVariations
+    {
+        private readonly int[] ints = new int[] { 1, 2, 3 };
+
+        [Test]
+        public void ExistenceTest()
+        {
+            Assert.That(ints, Has.Property("Length"));
+            Assert.That(ints, Has.Length);
+        }
+
+        [Test]
+        public void SeparateConstraintTest()
+        {
+            Assert.That(ints, Has.Property("Length").EqualTo(3));
+            Assert.That(ints, Has.Length.EqualTo(3));
+        }
+    }
 }

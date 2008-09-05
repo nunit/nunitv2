@@ -2,22 +2,10 @@
 
 namespace NUnit.Framework.Syntax
 {
-    public abstract class StaticOnlySyntaxTest
+    public abstract class SyntaxTest
     {
         protected string parseTree;
         protected object staticSyntax;
-
-        [Test]
-        public void SupportedByStaticSyntax()
-        {
-            Assert.That(
-                staticSyntax.ToString(),
-                Is.EqualTo(parseTree).NoClip);
-        }
-    }
-
-    public abstract class SyntaxTest : StaticOnlySyntaxTest
-    {
         protected object inheritedSyntax;
         protected object builderSyntax;
 
@@ -26,9 +14,17 @@ namespace NUnit.Framework.Syntax
             return new AssertionHelper();
         }
 
-        protected Constraints.ConstraintBuilder Builder()
+        protected Constraints.PartialConstraintExpression Builder()
         {
-            return new Constraints.ConstraintBuilder();
+            return new Constraints.PartialConstraintExpression();
+        }
+
+        [Test]
+        public void SupportedByStaticSyntax()
+        {
+            Assert.That(
+                staticSyntax.ToString(),
+                Is.EqualTo(parseTree).NoClip);
         }
 
         [Test]

@@ -89,7 +89,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public virtual Constraint IgnoreCase
+        public virtual EqualConstraint IgnoreCase
         {
             get
             {
@@ -102,7 +102,7 @@ namespace NUnit.Framework.Constraints
         /// Flag the constraint to suppress string clipping 
         /// and return self.
         /// </summary>
-        public Constraint NoClip
+        public EqualConstraint NoClip
         {
             get
             {
@@ -115,7 +115,7 @@ namespace NUnit.Framework.Constraints
         /// Flag the constraint to compare arrays as collections
         /// and return self.
         /// </summary>
-        public Constraint AsCollection
+        public EqualConstraint AsCollection
         {
             get
             {
@@ -141,7 +141,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="comparer">The IComparer object to use.</param>
         /// <returns>Self.</returns>
-        public Constraint Comparer(IComparer comparer)
+        public EqualConstraint Comparer(IComparer comparer)
         {
             this.compareWith = comparer;
             return this;
@@ -219,8 +219,8 @@ namespace NUnit.Framework.Constraints
             /// <summary>
             /// Flag the constraint to ignore case and return self.
             /// </summary>
-            public Modifier(EqualConstraint constraint)
-                : base(constraint)
+            public Modifier(EqualConstraint constraint, ConstraintExpression builder)
+                : base(constraint, builder)
             {
                 this.constraint = constraint;
             }

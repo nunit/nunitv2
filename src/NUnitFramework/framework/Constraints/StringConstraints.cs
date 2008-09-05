@@ -42,8 +42,8 @@ namespace NUnit.Framework.Constraints
         {
             private StringConstraint constraint;
 
-            public Modifier(StringConstraint constraint)
-                : base(constraint)
+            public Modifier(StringConstraint constraint, ConstraintExpression builder)
+                : base(constraint, builder)
             {
                 this.constraint = constraint;
             }

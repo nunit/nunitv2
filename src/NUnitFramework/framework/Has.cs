@@ -31,9 +31,9 @@ namespace NUnit.Framework
             /// </summary>
             /// <param name="name">The property name</param>
             /// <returns>A ConstraintBuilder</returns>
-			public ResolvableConstraintBuilder Property(string name)
+			public ConstraintExpression Property(string name)
 			{
-				return new ResolvableConstraintBuilder().Not.Property(name);
+				return new PartialConstraintExpression().Not.Append( new PropertyExistsConstraint (name) );
 			}
 
             /// <summary>
@@ -63,9 +63,9 @@ namespace NUnit.Framework
 		/// the following constraint to all members of a collection,
 		/// succeeding if all of them succeed.
 		/// </summary>
-		public static ConstraintBuilder All
+		public static PartialConstraintExpression All
 		{
-			get { return new ConstraintBuilder().All; }
+			get { return new PartialConstraintExpression().All; }
 		}
 
 		/// <summary>
@@ -74,9 +74,9 @@ namespace NUnit.Framework
 		/// succeeding if any of them succeed. It is a synonym
 		/// for Has.Item.
 		/// </summary>
-		public static ConstraintBuilder Some
+		public static PartialConstraintExpression Some
 		{
-			get { return new ConstraintBuilder().Some; }
+			get { return new PartialConstraintExpression().Some; }
 		}
 
 		/// <summary>
@@ -84,63 +84,51 @@ namespace NUnit.Framework
 		/// the following constraint to all members of a collection,
 		/// succeeding only if none of them succeed.
 		/// </summary>
-		public static ConstraintBuilder None
+		public static PartialConstraintExpression None
 		{
-			get { return new ConstraintBuilder().None; }
-		}
-
-		/// <summary>
-		/// Returns a new ConstraintBuilder, which will apply the
-		/// following constraint to a named property of the object
-		/// being tested.
-		/// </summary>
-		/// <param name="name">The name of the property</param>
-		public static ResolvableConstraintBuilder Property( string name )
-		{
-			return new ResolvableConstraintBuilder().Property(name);
-		}
-		#endregion
-
-		#region Property Constraints
-		/// <summary>
-		/// Returns a new PropertyConstraint checking for the
-		/// existence of a particular property value.
-		/// </summary>
-		/// <param name="name">The name of the property to look for</param>
-		/// <param name="expected">The expected value of the property</param>
-		public static PropertyConstraint Property( string name, object expected )
-		{
-			return new PropertyConstraint( name, new EqualConstraint( expected ) );
+			get { return new PartialConstraintExpression().None; }
 		}
 
         /// <summary>
-        /// Returns a new PropertyConstraint for the Length property
+        /// Returns a new ConstraintBuilder, which will apply the
+        /// following constraint to a named property of the object
+        /// being tested.
         /// </summary>
-        /// <param name="length"></param>
-        /// <returns></returns>
-		public static PropertyConstraint Length( int length )
+        /// <param name="name">The name of the property</param>
+		public static PendingConstraintExpression Property( string name )
 		{
-			return Property( "Length", length );
-		}
-
-		/// <summary>
-		/// Returns a new PropertyConstraint or the Count property
-		/// </summary>
-		/// <param name="count">The expected value of Count</param>
-		/// <returns></returns>
-		public static PropertyConstraint Count( int count )
-		{
-			return Property( "Count", count );
+            //return new ResolvableConstraintExpression( new PropOperator() );
+            return new PartialConstraintExpression().Property(name);
 		}
 
         /// <summary>
-        /// Returns a new PropertyConstraint for the Message property
+        /// Returns a new ConstraintBuilder, which will apply the
+        /// following constraint to the Length property of the object
+        /// being tested.
         /// </summary>
-        /// <param name="message">The expected value of Message</param>
-        /// <returns></returns>
-        public static PropertyConstraint Message(string message)
+        public static PendingConstraintExpression Length
         {
-            return Property( "Message", message );
+            get { return new PartialConstraintExpression().Length; }
+        }
+
+        /// <summary>
+        /// Returns a new ConstraintBuilder, which will apply the
+        /// following constraint to the Count property of the object
+        /// being tested.
+        /// </summary>
+        public static PendingConstraintExpression Count
+        {
+            get { return new PartialConstraintExpression().Count; }
+        }
+
+        /// <summary>
+        /// Returns a new ConstraintBuilder, which will apply the
+        /// following constraint to the Message property of the object
+        /// being tested.
+        /// </summary>
+        public static PendingConstraintExpression Message
+        {
+            get { return new PartialConstraintExpression().Message; }
         }
         #endregion
 
@@ -150,9 +138,9 @@ namespace NUnit.Framework
 		/// presence of a particular object in the collection.
 		/// </summary>
 		/// <param name="expected">The expected object</param>
-		public static Constraint Member( object expected )
+		public static ConstraintExpression Member( object expected )
 		{
-			return new CollectionContainsConstraint( expected );
+			return new PartialConstraintExpression().Member( expected );
 		}
 		#endregion
 	}

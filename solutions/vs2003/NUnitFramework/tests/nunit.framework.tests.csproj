@@ -437,6 +437,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Syntax\ThrowsTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\ThrowsTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Syntax\TypeConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\TypeConstraints.cs"
                     SubType = "Code"

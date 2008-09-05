@@ -402,6 +402,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\ConstraintExpression.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintExpression.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\ConstraintFactory.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs"
                     SubType = "Code"
@@ -464,6 +470,12 @@
                 <File
                     RelPath = "Constraints\Numerics.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\Numerics.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\PartialConstraintExpression.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\PartialConstraintExpression.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

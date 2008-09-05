@@ -2,6 +2,7 @@
 
 namespace NUnit.Framework.Syntax
 {
+    #region Not
     public class NotTest : SyntaxTest
     {
         [SetUp]
@@ -25,7 +26,9 @@ namespace NUnit.Framework.Syntax
             builderSyntax = Builder().Not.Not.Not.Null;
         }
     }
+    #endregion
 
+    #region All
     public class AllTest : SyntaxTest
     {
         [SetUp]
@@ -37,7 +40,9 @@ namespace NUnit.Framework.Syntax
             builderSyntax = Builder().All.GreaterThan(0);
         }
     }
+    #endregion
 
+    #region Some
     public class SomeTest : SyntaxTest
     {
         [SetUp]
@@ -50,6 +55,45 @@ namespace NUnit.Framework.Syntax
         }
     }
 
+    public class SomeTest_BeforeBinaryOperators : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<some <or <and <greaterthan 0> <lessthan 100>> <equal 999>>>";
+            staticSyntax = Has.Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
+            inheritedSyntax = Helper().Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
+            builderSyntax = Builder().Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
+        }
+    }
+
+    public class SomeTest_NestedSome : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<some <some <lessthan 100>>>";
+            staticSyntax = Has.Some.With.Some.LessThan(100);
+            inheritedSyntax = Helper().Some.With.Some.LessThan(100);
+            builderSyntax = Builder().Some.With.Some.LessThan(100);
+        }
+        
+    }
+
+    public class SomeTest_UseOfAndSome : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<and <some <greaterthan 0>> <some <lessthan 100>>>";
+            staticSyntax = Has.Some.GreaterThan(0).And.Some.LessThan(100);
+            inheritedSyntax = Helper().Some.GreaterThan(0).And.Some.LessThan(100);
+            builderSyntax = Builder().Some.GreaterThan(0).And.Some.LessThan(100);
+        }
+    }
+    #endregion
+
+    #region None
     public class NoneTest : SyntaxTest
     {
         [SetUp]
@@ -61,7 +105,9 @@ namespace NUnit.Framework.Syntax
             builderSyntax = Builder().None.LessThan(0);
         }
     }
+    #endregion
 
+    #region And
     public class AndTest : SyntaxTest
     {
         [SetUp]
@@ -85,7 +131,9 @@ namespace NUnit.Framework.Syntax
             builderSyntax = Builder().Not.Null.And.Not.LessThan(5).And.Not.GreaterThan(10);
         }
     }
+    #endregion
 
+    #region Or
     public class OrTest : SyntaxTest
     {
         [SetUp]
@@ -109,7 +157,9 @@ namespace NUnit.Framework.Syntax
             builderSyntax = Builder().LessThan(5).Or.GreaterThan(10).Or.EqualTo(7);
         }
     }
+    #endregion
 
+    #region Binary Operator Precedence
     public class AndIsEvaluatedBeforeFollowingOr : SyntaxTest
     {
         [SetUp]
@@ -133,138 +183,66 @@ namespace NUnit.Framework.Syntax
             builderSyntax = Builder().EqualTo(999).Or.GreaterThan(0).And.LessThan(100);
         }
     }
+    #endregion
 
-    public class ConsecutiveConstraintsImplyAndOperator : SyntaxTest
+    public class OperatorPrecedenceTests
     {
-        [SetUp]
-        public void SetUp()
+        class A
         {
-            parseTree = "<and <greaterthan 0> <lessthan 100>>";
-            staticSyntax = Is.GreaterThan(0).LessThan(100);
-            inheritedSyntax = Helper().GreaterThan(0).LessThan(100);
-            builderSyntax = Builder().GreaterThan(0).LessThan(100);
-        }
-    }
-
-    public class ConsecutiveConstraintsImplyAndOperator_FollowingAll : SyntaxTest
-    {
-        [SetUp]
-        public void SetUp()
-        {
-            parseTree = "<all <and <greaterthan 0> <lessthan 100>>>";
-            staticSyntax = Is.All.GreaterThan(0).LessThan(100);
-            inheritedSyntax = Helper().All.GreaterThan(0).LessThan(100);
-            builderSyntax = Builder().All.GreaterThan(0).LessThan(100);
-        }
-    }
-
-    public class ConsecutiveConstraintsImplyAndOperator_FollowingSome : SyntaxTest
-    {
-        [SetUp]
-        public void SetUp()
-        {
-            parseTree = "<some <and <greaterthan 0> <lessthan 100>>>";
-            staticSyntax = Has.Some.GreaterThan(0).LessThan(100);
-            inheritedSyntax = Helper().Some.GreaterThan(0).LessThan(100);
-            builderSyntax = Builder().Some.GreaterThan(0).LessThan(100);
-        }
-    }
-
-    public class SomeGovernsFollowingOps : SyntaxTest
-    {
-        [SetUp]
-        public void SetUp()
-        {
-            parseTree = "<some <or <and <greaterthan 0> <lessthan 100>> <equal 999>>>";
-            staticSyntax = Has.Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
-            inheritedSyntax = Helper().Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
-            builderSyntax = Builder().Some.GreaterThan(0).And.LessThan(100).Or.EqualTo(999);
-        }
-    }
-
-    //public class SomeGovernsFollowingOps_ExceptAndSome : SyntaxTest
-    //{
-    //    [SetUp]
-    //    public void SetUp()
-    //    {
-    //        parseTree = "<and <some <greaterthan 0>> <some <lessthan 100>>>";
-    //        staticSyntax = Has.Some.GreaterThan(0).And.Some.LessThan(100);
-    //        inheritedSyntax = Helper().Some.GreaterThan(0).And.Some.LessThan(100);
-    //        builderSyntax = Builder().Some.GreaterThan(0).And.Some.LessThan(100);
-    //    }
-    //}
-
-    public class ThrowsTest : StaticOnlySyntaxTest
-    {
-        [SetUp]
-        public void SetUp()
-        {
-            parseTree = "<throws <typeof System.ArgumentException>>";
-            staticSyntax = Throws.Exception(typeof(ArgumentException));
-        }
-    }
-
-    public class SingleOperatorTests
-    {
-        int[] ints = new int[] { 1, 2, 3, 4 };
-
-
-        public class OperatorPrecedenceTests
-        {
-            class A
+            B B
             {
-                B B
-                {
-                    get { return new B(); }
-                }
-
-                string X
-                {
-                    get { return "X in A"; }
-                }
-
-                string Y
-                {
-                    get { return "Y in A"; }
-                }
+                get { return new B(); }
             }
 
-            class B
+            string X
             {
-                string X
-                {
-                    get { return "X in B"; }
-                }
+                get { return "X in A"; }
+            }
 
-                string Y
-                {
-                    get { return "Y in B"; }
-                }
+            string Y
+            {
+                get { return "Y in A"; }
             }
         }
 
+        class B
+        {
+            string X
+            {
+                get { return "X in B"; }
+            }
 
-        //[Test]
-        //public void WithTests()
-        //{
-        //    A a = new A();
-        //    Assert.That(a, Has.Property("X").EqualTo("X in A")
-        //                  .And.Property("Y").EqualTo("Y in A"));
-        //    Assert.That(a, Has.Property("X").EqualTo("X in A")
-        //                  .And.Property("B").Property("X").EqualTo("X in B"));
-        //    Assert.That(a, Has.Property("B").With.Property("X").EqualTo("X in B")
-        //                                    .And.Property("Y").EqualTo("Y in B"));
-        //    Assert.That(a, Has.Property("B").Property("X").EqualTo("X in B")
-        //                  .And.Property("B").Property("Y").EqualTo("Y in B"));
-        //}
+            string Y
+            {
+                get { return "Y in B"; }
+            }
+        }
 
-        //[Test]
-        //public void SomeTests()
-        //{
-        //    string[] array = new string[] { "a", "aa", "x", "xy", "xyz" };
-        //    Assert.That(array, Has.Some.StartsWith("a").And.Some.Length(3));
-        //    Assert.That(array, Has.None.StartsWith("a").And.Length(3));
-        //    Assert.That(array, Has.Some.StartsWith("x").And.Length(3));
-        //}
+        [Test]
+        public void WithTests()
+        {
+            A a = new A();
+            Assert.That(a, Has.Property("X").EqualTo("X in A")
+                          .And.Property("Y").EqualTo("Y in A"));
+            Assert.That(a, Has.Property("X").EqualTo("X in A")
+                          .And.Property("B").Property("X").EqualTo("X in B"));
+            Assert.That(a, Has.Property("X").EqualTo("X in A")
+                          .And.Property("B").With.Property("X").EqualTo("X in B"));
+            Assert.That(a, Has.Property("B").Property("X").EqualTo("X in B")
+                          .And.Property("B").Property("Y").EqualTo("Y in B"));
+            Assert.That(a, Has.Property("B").Property("X").EqualTo("X in B")
+                          .And.Property("B").With.Property("Y").EqualTo("Y in B"));
+            Assert.That(a, Has.Property("B").With.Property("X").EqualTo("X in B")
+                                            .And.Property("Y").EqualTo("Y in B"));
+        }
+
+        [Test]
+        public void SomeTests()
+        {
+            string[] array = new string[] { "a", "aa", "x", "xy", "xyz" };
+            //Assert.That(array, Has.Some.StartsWith("a").And.Some.Length.EqualTo(3));
+            Assert.That(array, Has.None.StartsWith("a").And.Length.EqualTo(3));
+            Assert.That(array, Has.Some.StartsWith("x").And.Length.EqualTo(3));
+        }
     }
 }

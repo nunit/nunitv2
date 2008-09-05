@@ -47,11 +47,6 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		protected ListDictionary properties = new System.Collections.Specialized.ListDictionary();
 
-        /// <summary>
-        /// The ConstraintBuilder holding this constraint, or null
-        /// </summary>
-        private ConstraintBuilder builder;
-
 		/// <summary>
         /// The actual value being tested against a constraint
         /// </summary>
@@ -91,19 +86,6 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Properties
-        /// <summary>
-        /// The ConstraintBuilder holding this constraint, or null
-        /// if the constraint is not part of a constraint expression.
-        /// 
-        /// This property is maintained by ConstraintBuilder as 
-        /// the constraint is pushed on and removed from its stack.
-        /// </summary>
-        public ConstraintBuilder Builder
-        {
-            get { return builder; }
-            set { builder = value; }
-        }
-
         /// <summary>
         /// The display name of this Constraint for use by ToString()
         /// </summary>
@@ -224,14 +206,14 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Binary Operators
-        public ConstraintBuilder And
+        public PartialConstraintExpression And
         {
-            get { return new ResolvableConstraintBuilder(this).And; }
+            get { return new PartialConstraintExpression().Append(this).And; }
         }
 
-        public ConstraintBuilder Or
+        public PartialConstraintExpression Or
         {
-            get { return new ResolvableConstraintBuilder(this).Or; }
+            get { return new PartialConstraintExpression().Append(this).Or; }
         }
         #endregion
     }

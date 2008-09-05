@@ -131,6 +131,9 @@
       <Link>Constraints\ConstraintBuilder.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintExpression.cs">
+      <Link>ConstraintExpression.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs">
       <Link>Constraints\ConstraintFactory.cs</Link>
     </Compile>
@@ -166,6 +169,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\Numerics.cs">
       <Link>Constraints\Numerics.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PartialConstraintExpression.cs">
+      <Link>PartialConstraintExpression.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PathConstraints.cs">
       <Link>Constraints\PathConstraints.cs</Link>

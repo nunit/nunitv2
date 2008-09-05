@@ -351,6 +351,12 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ITestCaseData.cs">
       <Link>ITestCaseData.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintExpression.cs">
+      <Link>Constraints\ConstraintExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PartialConstraintExpression.cs">
+      <Link>Constraints\PartialConstraintExpression.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

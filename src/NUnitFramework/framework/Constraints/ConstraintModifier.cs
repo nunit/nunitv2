@@ -11,42 +11,17 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class ConstraintModifier : IConstraint
     {
-        private IConstraint wrapperConstraint;
         private Constraint baseConstraint;
+        private ConstraintExpression builder;
 
         /// <summary>
         /// Construct a modifier for Constraint
         /// </summary>
         /// <param name="constraint">The constraint to be wrapped</param>
-        public ConstraintModifier(Constraint constraint)
+        public ConstraintModifier(Constraint constraint, ConstraintExpression builder)
         {
             this.baseConstraint = constraint;
-        }
-
-        /// <summary>
-        /// Internal property used to get the outermost
-        /// wrapping constraint. Delayed evaluation is 
-        /// used so that the value is not resolved until
-        /// Match is called.
-        /// </summary>
-        private IConstraint WrapperConstraint
-        {
-            get
-            {
-                if (wrapperConstraint == null)
-                {
-                    wrapperConstraint = baseConstraint;
-
-                    ResolvableConstraintBuilder builder = baseConstraint.Builder as ResolvableConstraintBuilder;
-                    if (builder == null && baseConstraint.Builder != null)
-                        builder = new ResolvableConstraintBuilder(baseConstraint.Builder);
-                    
-                    if (builder != null)
-                        wrapperConstraint = builder.Constraint;
-                }
-
-                return wrapperConstraint;
-            }
+            this.builder = builder;
         }
 
         #region IConstraint Members
@@ -57,7 +32,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>True for success, false for failure</returns>
         public bool Matches(object actual)
         {
-            return WrapperConstraint.Matches(actual);
+            return ((IConstraint)builder).Matches(actual);
         }
 
         /// <summary>
@@ -66,7 +41,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The MessageWriter on which to display the message</param>
         public void WriteMessageTo(MessageWriter writer)
         {
-            WrapperConstraint.WriteMessageTo(writer);
+            ((IConstraint)builder).WriteMessageTo(writer);
         }
 
         /// <summary>
@@ -75,7 +50,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the description is displayed</param>
         public void WriteDescriptionTo(MessageWriter writer)
         {
-            WrapperConstraint.WriteDescriptionTo(writer);
+            ((IConstraint)builder).WriteDescriptionTo(writer);
         }
 
         /// <summary>
@@ -85,40 +60,28 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the actual value is displayed</param>
         public void WriteActualValueTo(MessageWriter writer)
         {
-            WrapperConstraint.WriteActualValueTo(writer);
+            ((IConstraint)builder).WriteActualValueTo(writer);
         }
         #endregion
 
         #region Binary Operators
-        public ConstraintBuilder And
+        public PartialConstraintExpression And
         {
-            get 
-            {
-                ConstraintBuilder builder = baseConstraint.Builder;
-                if (builder == null)
-                    builder = new ConstraintBuilder(baseConstraint);
-
-                return new ResolvableConstraintBuilder( builder ).And;
-            }
+            get { return builder.And; }
         }
 
-        public ConstraintBuilder Or
+        public PartialConstraintExpression Or
         {
-            get 
-            {
-                ConstraintBuilder builder = baseConstraint.Builder;
-                if (builder == null)
-                    builder = new ConstraintBuilder(baseConstraint);
-
-                return new ResolvableConstraintBuilder( builder ).Or;
-            }
+            get { return builder.Or; }
         }
         #endregion
 
+        #region ToString()
         public override string ToString()
         {
-            return WrapperConstraint.ToString();
+            return builder.ToString();
         }
+        #endregion
     }
 
 }

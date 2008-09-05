@@ -13,6 +13,9 @@ namespace NUnit.Framework
 	/// <summary>
 	/// The Is class is a helper class with properties and methods
 	/// that supply a number of constraints used in Asserts.
+    /// All constraints are actually supplied as ConstraintBuilders,
+    /// since the constraint keyword may end up being followed by
+    /// another constraint or operator.
 	/// </summary>
 	public class Is
 	{
@@ -21,9 +24,9 @@ namespace NUnit.Framework
 		/// Is.Not returns a ConstraintBuilder that negates
 		/// the constraint that follows it.
 		/// </summary>
-		public static ConstraintBuilder Not
+		public static PartialConstraintExpression Not
 		{
-			get { return new ConstraintBuilder().Not; }
+            get { return new PartialConstraintExpression().Not; }
 		}
 
 		/// <summary>
@@ -31,9 +34,9 @@ namespace NUnit.Framework
 		/// the following constraint to all members of a collection,
 		/// succeeding if all of them succeed.
 		/// </summary>
-		public static ConstraintBuilder All
+		public static PartialConstraintExpression All
 		{
-			get { return new ConstraintBuilder().All; }
+			get { return new PartialConstraintExpression().All; }
 		}
 		#endregion
 
@@ -41,49 +44,49 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Is.Null returns a constraint that tests for null
 		/// </summary>
-        public static Constraint Null
+        public static ConstraintExpression Null
         {
-            get { return new EqualConstraint(null); }
+            get { return new PartialConstraintExpression().Null; }
         }
 
 		/// <summary>
 		/// Is.True returns a constraint that tests whether a value is true
 		/// </summary>
-        public static Constraint True
+        public static ConstraintExpression True
         {
-            get { return new EqualConstraint(true); }
+            get { return new PartialConstraintExpression().True; }
         }
 
 		/// <summary>
 		/// Is.False returns a constraint that tests whether a value is false
 		/// </summary>
-        public static Constraint False
+        public static ConstraintExpression False
         {
-            get { return new EqualConstraint(false); }
+            get { return new PartialConstraintExpression().False; }
         }
 
 		/// <summary>
 		/// Is.NaN returns a static constraint that tests whether a value is an NaN
 		/// </summary>
-        public static Constraint NaN
+        public static ConstraintExpression NaN
         {
-            get { return new EqualConstraint(double.NaN); }
+            get { return new PartialConstraintExpression().NaN; }
         }
 
 		/// <summary>
 		/// Is.Empty returns a static constraint that tests whether a string or collection is empty
 		/// </summary>
-        public static EmptyConstraint Empty
+        public static ConstraintExpression Empty
         {
-            get { return new EmptyConstraint(); }
+            get { return new PartialConstraintExpression().Empty; }
         }
 
         /// <summary>
         /// Is.Unique returns a static constraint that tests whether a collection contains all unque items.
         /// </summary>
-        public static UniqueItemsConstraint Unique
+        public static ConstraintExpression Unique
         {
-            get { return new UniqueItemsConstraint(); }
+            get { return new PartialConstraintExpression().Unique; }
         }
 
         #endregion
@@ -97,9 +100,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expected"></param>
         /// <returns></returns>
-        public static EqualConstraint EqualTo(object expected)
+        public static EqualConstraint.Modifier EqualTo(object expected)
         {
-            return new EqualConstraint(expected);
+            return new PartialConstraintExpression().EqualTo(expected);
         }
 		/// <summary>
 		/// Is.SameAs returns a constraint that tests whether the
@@ -107,9 +110,9 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected"></param>
 		/// <returns></returns>
-        public static Constraint SameAs(object expected)
+        public static ConstraintExpression SameAs(object expected)
         {
-            return new SameAsConstraint(expected);
+            return new PartialConstraintExpression().SameAs(expected);
         }
         #endregion
 
@@ -118,23 +121,23 @@ namespace NUnit.Framework
 		/// Is.GreaterThan returns a constraint that tests whether the
 		/// actual value is greater than the suppled argument
 		/// </summary>
-		public static ResolvableConstraintBuilder GreaterThan(IComparable expected)
+		public static ConstraintExpression GreaterThan(IComparable expected)
         {
-            return new ResolvableConstraintBuilder().GreaterThan(expected);
+            return new PartialConstraintExpression().GreaterThan(expected);
         }
 		/// <summary>
 		/// Is.GreaterThanOrEqualTo returns a constraint that tests whether the
 		/// actual value is greater than or equal to the suppled argument
 		/// </summary>
-        public static ResolvableConstraintBuilder GreaterThanOrEqualTo(IComparable expected)
+        public static ConstraintExpression GreaterThanOrEqualTo(IComparable expected)
         {
-            return new ResolvableConstraintBuilder().GreaterThanOrEqualTo(expected);
+            return new PartialConstraintExpression().GreaterThanOrEqualTo(expected);
         }
 
 		/// <summary>
 		/// Is.AtLeast is a synonym for Is.GreaterThanOrEqualTo
 		/// </summary>
-        public static ResolvableConstraintBuilder AtLeast(IComparable expected)
+        public static ConstraintExpression AtLeast(IComparable expected)
         {
             return GreaterThanOrEqualTo(expected);
         }
@@ -143,24 +146,24 @@ namespace NUnit.Framework
 		/// Is.LessThan returns a constraint that tests whether the
 		/// actual value is less than the suppled argument
 		/// </summary>
-        public static ResolvableConstraintBuilder LessThan(IComparable expected)
+        public static ConstraintExpression LessThan(IComparable expected)
         {
-            return new ResolvableConstraintBuilder().LessThan(expected);
+            return new PartialConstraintExpression().LessThan(expected);
         }
 
 		/// <summary>
 		/// Is.LessThanOrEqualTo returns a constraint that tests whether the
 		/// actual value is less than or equal to the suppled argument
 		/// </summary>
-        public static ResolvableConstraintBuilder LessThanOrEqualTo(IComparable expected)
+        public static ConstraintExpression LessThanOrEqualTo(IComparable expected)
         {
-            return new ResolvableConstraintBuilder().LessThanOrEqualTo(expected);
+            return new PartialConstraintExpression().LessThanOrEqualTo(expected);
         }
 
 		/// <summary>
 		/// Is.AtMost is a synonym for Is.LessThanOrEqualTo
 		/// </summary>
-        public static ResolvableConstraintBuilder AtMost(IComparable expected)
+        public static ConstraintExpression AtMost(IComparable expected)
         {
             return LessThanOrEqualTo(expected);
         }
@@ -172,9 +175,9 @@ namespace NUnit.Framework
         /// value is of the exact type supplied as an argument.
         /// </summary>
         /// <param name="expectedType">The type to be tested for</param>
-        public static Constraint TypeOf(Type expectedType)
+        public static ConstraintExpression TypeOf(Type expectedType)
         {
-            return new ExactTypeConstraint(expectedType);
+            return new PartialConstraintExpression().TypeOf(expectedType);
         }
 
 #if NET_2_0
@@ -183,7 +186,7 @@ namespace NUnit.Framework
         /// value is of the exact type supplied as an argument.
         /// </summary>
         /// <typeparam name="T">Type to be tested for</typeparam>
-        public static Constraint TypeOf<T>()
+        public static ConstraintExpression TypeOf<T>()
         {
             return TypeOf( typeof(T) );
         }
@@ -195,9 +198,9 @@ namespace NUnit.Framework
         /// or a derived type.
         /// </summary>
         /// <param name="expectedType">The type to be tested for</param>
-        public static Constraint InstanceOfType(Type expectedType)
+        public static ConstraintExpression InstanceOfType(Type expectedType)
         {
-            return new InstanceOfTypeConstraint(expectedType);
+            return new PartialConstraintExpression().InstanceOfType(expectedType);
         }
 
 #if NET_2_0
@@ -207,7 +210,7 @@ namespace NUnit.Framework
         /// or a derived type.
         /// </summary>
         /// <typeparam name="T">The type to be tested for</typeparam>
-        public static Constraint InstanceOfType<T>()
+        public static ConstraintExpression InstanceOfType<T>()
         {
             return InstanceOfType(typeof(T));
         }
@@ -220,9 +223,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expectedType"></param>
         /// <returns></returns>
-        public static Constraint AssignableFrom(Type expectedType)
+        public static ConstraintExpression AssignableFrom(Type expectedType)
         {
-            return new AssignableFromConstraint(expectedType);
+            return new PartialConstraintExpression().AssignableFrom(expectedType);
         }
 
 #if NET_2_0
@@ -233,7 +236,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static Constraint AssignableFrom<T>()
+        public static ConstraintExpression AssignableFrom<T>()
         {
             return AssignableFrom(typeof(T));
         }
@@ -246,9 +249,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expectedType"></param>
         /// <returns></returns>
-        public static Constraint AssignableTo(Type expectedType)
+        public static ConstraintExpression AssignableTo(Type expectedType)
         {
-            return new AssignableToConstraint(expectedType);
+            return new PartialConstraintExpression().AssignableTo(expectedType);
         }
 
 #if NET_2_0
@@ -259,7 +262,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public static Constraint AssignableTo<T>()
+        public static ConstraintExpression AssignableTo<T>()
         {
             return AssignableTo(typeof(T));
         }
@@ -272,9 +275,9 @@ namespace NUnit.Framework
 		/// the actual value is a collection containing the same
 		/// elements as the collection supplied as an arument
 		/// </summary>
-		public static Constraint EquivalentTo(ICollection expected)
+		public static ConstraintExpression EquivalentTo(ICollection expected)
         {
-            return new CollectionEquivalentConstraint(expected);
+            return new PartialConstraintExpression().EquivalentTo(expected);
         }
 
 		/// <summary>
@@ -282,9 +285,9 @@ namespace NUnit.Framework
 		/// the actual value is a subset of the collection 
 		/// supplied as an arument
 		/// </summary>
-		public static Constraint SubsetOf(ICollection expected)
+		public static ConstraintExpression SubsetOf(ICollection expected)
         {
-            return new CollectionSubsetConstraint(expected);
+            return new PartialConstraintExpression().SubsetOf(expected);
         }
         #endregion
 
@@ -296,9 +299,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expected">The expected path</param>
         /// <returns>True if the paths are the same, otherwise false</returns>
-        public static SamePathConstraint SamePath(string expected)
+        public static SamePathConstraint.Modifier SamePath(string expected)
 		{
-			return new SamePathConstraint( expected );
+			return new PartialConstraintExpression().SamePath( expected );
 		}
 
         /// <summary>
@@ -308,18 +311,18 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expected">The expected path</param>
         /// <returns>True if the path is the same as or a subpath of the expected path, otherwise false</returns>
-        public static SamePathOrUnderConstraint SamePathOrUnder(string expected)
+        public static SamePathOrUnderConstraint.Modifier SamePathOrUnder(string expected)
 		{
-			return new SamePathOrUnderConstraint( expected );
+			return new PartialConstraintExpression().SamePathOrUnder( expected );
 		}
 
         /// <summary>
         /// Is.Ordered returns a constraint that tests whether
         /// a collection is ordered
         /// </summary>
-        public static Constraint Ordered()
+        public static ConstraintExpression Ordered()
         {
-            return new CollectionOrderedConstraint();
+            return new PartialConstraintExpression().Ordered();
         }
 
         /// <summary>
@@ -327,16 +330,16 @@ namespace NUnit.Framework
         /// a collection is ordered
         /// </summary>
         /// <param name="comparer">A custom comparer to be used to comparison</param>
-        public static Constraint Ordered(IComparer comparer)
+        public static ConstraintExpression Ordered(IComparer comparer)
         {
-            return new CollectionOrderedConstraint(comparer);
+            return new PartialConstraintExpression().Ordered(comparer);
         }
         #endregion
 
         #region Range Constraints
-        public static RangeConstraint InRange(IComparable from, IComparable to)
+        public static ConstraintExpression InRange(IComparable from, IComparable to)
         {
-            return new RangeConstraint(from, to);
+            return new PartialConstraintExpression().InRange(from, to);
         }
         #endregion
 

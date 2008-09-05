@@ -6,131 +6,95 @@ using System.Collections.Generic;
 
 namespace NUnit.Framework.Constraints
 {
-    #region Operator Stack
-    public class OpStack 
-	{ 
-#if NET_2_0
-        private Stack<ConstraintOperator> stack = new Stack<ConstraintOperator>();
-#else
-		private Stack stack = new Stack();
-#endif
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:OpStack"/> is empty.
-        /// </summary>
-        /// <value><c>true</c> if empty; otherwise, <c>false</c>.</value>
-        public bool Empty
-        {
-            get { return stack.Count == 0; }
-        }
-
-        /// <summary>
-        /// Gets the topmost operator without modifying the stack.
-        /// </summary>
-        /// <value>The top.</value>
-        public ConstraintOperator Top
-        {
-            get { return (ConstraintOperator)stack.Peek(); }
-        }
-
-        /// <summary>
-        /// Pushes the specified operator onto the stack.
-        /// </summary>
-        /// <param name="op">The op.</param>
-		public void Push( ConstraintOperator op )
-		{
-			stack.Push(op);
-		}
-
-        /// <summary>
-        /// Pops the topmost operator from the stack.
-        /// </summary>
-        /// <returns></returns>
-		public ConstraintOperator Pop()
-		{
-			return (ConstraintOperator)stack.Pop();
-		}
-	}
-    #endregion
-
-	#region Constraint Stack
-	public class ConstraintStack
-	{ 
-#if NET_2_0
-        private Stack<Constraint> stack = new Stack<Constraint>();
-#else
-		private Stack stack = new Stack();
-#endif
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="T:ConstraintStack"/> is empty.
-        /// </summary>
-        /// <value><c>true</c> if empty; otherwise, <c>false</c>.</value>
-        public bool Empty
-        {
-            get { return stack.Count == 0; }
-        }
-
-        /// <summary>
-        /// Gets the topmost constraint without modifying the stac.
-        /// </summary>
-        /// <value>The topmost constraint</value>
-        public Constraint Top
-        {
-            get { return (Constraint)stack.Peek(); }
-        }
-
-        /// <summary>
-        /// Pushes the specified constraint.
-        /// </summary>
-        /// <param name="constraint">The constraint.</param>
-		public void Push( Constraint constraint )
-		{
-			stack.Push(constraint);
-		}
-
-		public Constraint Pop()
-		{
-			return (Constraint)stack.Pop();
-		}
-	}
-	#endregion
-
     #region ConstraintOperator
     /// <summary>
     /// The ConstraintOperator class is used internally by a
     /// ConstraintBuilder to represent an operator that 
-    /// modifies or combines constraints.
+    /// modifies or combines constraints. 
+    /// 
+    /// Constraint operators use left and right precedence
+    /// values to determine whether the top operator on the
+    /// stack should be reduced before pushing a new operator.
     /// </summary>
     public abstract class ConstraintOperator
     {
-        public abstract int LeftPrecedence { get; }
-        public abstract int RightPrecedence { get; }
-        public abstract void Reduce(ConstraintStack stack);
+        private object leftContext;
+        private object rightContext;
+
+		/// <summary>
+		/// The precedence value used when the operator
+		/// is about to be pushed to the stack.
+		/// </summary>
+		protected int left_precedence;
+        
+		/// <summary>
+		/// The precedence value used when the operator
+		/// is on the top of the stack.
+		/// </summary>
+		protected int right_precedence;
+
+		/// <summary>
+		/// The syntax element preceding this operator
+		/// </summary>
+        public object LeftContext
+        {
+            get { return leftContext; }
+            set { leftContext = value; }
+        }
+
+		/// <summary>
+		/// The syntax element folowing this operator
+		/// </summary>
+        public object RightContext
+        {
+            get { return rightContext; }
+            set { rightContext = value; }
+        }
+
+		/// <summary>
+		/// The precedence value used when the operator
+		/// is about to be pushed to the stack.
+		/// </summary>
+		public virtual int LeftPrecedence
+        {
+            get { return left_precedence; }
+        }
+
+		/// <summary>
+		/// The precedence value used when the operator
+		/// is on the top of the stack.
+		/// </summary>
+		public virtual int RightPrecedence
+        {
+            get { return right_precedence; }
+        }
+
+		/// <summary>
+		/// Reduce produces a constraint from the operator and 
+		/// any arguments. It takes the arguments from the constraint 
+		/// stack and pushes the resulting constraint on it.
+		/// </summary>
+		/// <param name="stack"></param>
+		public abstract void Reduce(ConstraintBuilder.ConstraintStack stack);
     }
     #endregion
 
     #region PrefixOperator
+	/// <summary>
+	/// PrefixOperator takes a single constraint and modifies
+	/// it's action in some way.
+	/// </summary>
     public abstract class PrefixOperator : ConstraintOperator
     {
-        /// <summary>
-        /// All PrefixOperators have a precedence of 1
-        /// </summary>
-        public override int LeftPrecedence
+		/// <summary>
+		/// Reduce produces a constraint from the operator and 
+		/// any arguments. It takes the arguments from the constraint 
+		/// stack and pushes the resulting constraint on it.
+		/// </summary>
+		/// <param name="stack"></param>
+		public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
-            get { return 1; }
-        }
-
-        /// <summary>
-        /// All PrefixOperators have a precedence of 1
-        /// </summary>
-        public override int RightPrecedence
-        {
-            get { return 1; }
-        }
-
-        public override void Reduce(ConstraintStack stack)
-        {
-            stack.Push( ApplyPrefix( stack.Pop() ) );
+            stack.Push(ApplyPrefix(stack.Pop()));
         }
 
         public abstract Constraint ApplyPrefix(Constraint constraint);
@@ -140,11 +104,37 @@ namespace NUnit.Framework.Constraints
     #region BinaryOperator
     public abstract class BinaryOperator : ConstraintOperator
     {
-        public override void Reduce(ConstraintStack stack)
+		/// <summary>
+		/// Reduce produces a constraint from the operator and 
+		/// any arguments. It takes the arguments from the constraint 
+		/// stack and pushes the resulting constraint on it.
+		/// </summary>
+		/// <param name="stack"></param>
+		public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
             Constraint right = stack.Pop();
             Constraint left = stack.Pop();
             stack.Push(ApplyOperator(left, right));
+        }
+
+        public override int LeftPrecedence
+        {
+            get
+            {
+                return RightContext is CollectionOperator
+                    ? base.LeftPrecedence + 10
+                    : base.LeftPrecedence;
+            }
+        }
+
+        public override int RightPrecedence
+        {
+            get
+            {
+                return RightContext is CollectionOperator
+                    ? base.RightPrecedence + 10
+                    : base.RightPrecedence;
+            }
         }
 
         public abstract Constraint ApplyOperator(Constraint left, Constraint right);
@@ -154,6 +144,13 @@ namespace NUnit.Framework.Constraints
     #region NotOperator
     public class NotOperator : PrefixOperator
     {
+        public NotOperator()
+        {
+            // Not stacks on anything and only allows other
+            // prefix ops to stack on top of it.
+            this.left_precedence = this.right_precedence = 1;
+        }
+
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new NotConstraint(constraint);
@@ -161,41 +158,36 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
-    #region AllOperator
-    public class AllOperator : PrefixOperator
+    #region Collection Operators
+    public abstract class CollectionOperator : PrefixOperator
     {
-        public override int RightPrecedence
+        public CollectionOperator()
         {
-            get { return 10; }
+            // Collection Operators stack on everything
+            // and allow all other ops to stack on them
+            this.left_precedence = 1;
+            this.right_precedence = 10;
         }
+    }
+
+    public class AllOperator : CollectionOperator
+    {
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new AllItemsConstraint(constraint);
         }
     }
-    #endregion
 
-    #region SomeOperator
-    public class SomeOperator : PrefixOperator
+    public class SomeOperator : CollectionOperator
     {
-        public override int RightPrecedence
-        {
-            get { return 10; }
-        }
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new SomeItemsConstraint(constraint);
         }
     }
-    #endregion
 
-    #region NoneOperator
-    public class NoneOperator : PrefixOperator
+    public class NoneOperator : CollectionOperator
     {
-        public override int RightPrecedence
-        {
-            get { return 10; }
-        }
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new NoItemConstraint(constraint);
@@ -210,47 +202,34 @@ namespace NUnit.Framework.Constraints
     public class PropOperator : ConstraintOperator
     {
         private string name;
+        public bool HasOperand;
 
         public string Name
         {
             get { return name; }
         }
 
-        public override int LeftPrecedence
-        {
-            get { return 1; }
-        }
-
-        public override int RightPrecedence
-        {
-            get { return 1; }
-        }
-
         public PropOperator(string name)
         {
             this.name = name;
+
+            // Prop stacks on anything and allows only 
+            // prefix operators to stack on it.
+            this.left_precedence = this.right_precedence = 1;
         }
 
-        public override void Reduce(ConstraintStack stack)
+		/// <summary>
+		/// Reduce produces a constraint from the operator and 
+		/// any arguments. It takes the arguments from the constraint 
+		/// stack and pushes the resulting constraint on it.
+		/// </summary>
+		/// <param name="stack"></param>
+		public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
-            stack.Push(new PropertyExistsConstraint(name));
-        }
-    }
-    #endregion
-
-    #region PropValOperator
-    public class PropValOperator : PrefixOperator
-    {
-        private string name;
-
-        public PropValOperator(string name)
-        {
-            this.name = name;
-        }
-
-        public override Constraint ApplyPrefix(Constraint constraint)
-        {
-            return new PropertyConstraint(name, constraint);
+            if (RightContext == null || RightContext is BinaryOperator)
+                stack.Push(new PropertyExistsConstraint(name));
+            else
+                stack.Push(new PropertyConstraint(name, stack.Pop()));
         }
     }
     #endregion
@@ -258,19 +237,16 @@ namespace NUnit.Framework.Constraints
     #region ThrowsOperator
     public class ThrowsOperator : PrefixOperator
     {
-        //private Type type;
-
-        public override int RightPrecedence
+        public ThrowsOperator()
         {
-            get { return 100; }
+            // ThrowsOperator stacks on everything but
+            // it's always the first item on the stack
+            // anyway. It is evaluated last of all ops.
+            this.left_precedence = 1;
+            this.right_precedence = 100;
         }
 
-        //public ThrowsOperator(Type type)
-        //{
-        //    this.type = type;
-        //}
-
-        public override void Reduce(ConstraintStack stack)
+        public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
             stack.Push(ApplyPrefix(stack.Empty ? null : stack.Pop()));
         }
@@ -290,14 +266,9 @@ namespace NUnit.Framework.Constraints
     #region AndOperator
     public class AndOperator : BinaryOperator
     {
-        public override int LeftPrecedence
+        public AndOperator()
         {
-            get { return 2; }
-        }
-
-        public override int RightPrecedence
-        {
-            get { return 2; }
+            this.left_precedence = this.right_precedence = 2;
         }
 
         public override Constraint ApplyOperator(Constraint left, Constraint right)
@@ -310,14 +281,9 @@ namespace NUnit.Framework.Constraints
     #region OrOperator
     public class OrOperator : BinaryOperator
     {
-        public override int LeftPrecedence
+        public OrOperator()
         {
-            get { return 3; }
-        }
-
-        public override int RightPrecedence
-        {
-            get { return 3; }
+            this.left_precedence = this.right_precedence = 3;
         }
 
         public override Constraint ApplyOperator(Constraint left, Constraint right)
@@ -328,22 +294,18 @@ namespace NUnit.Framework.Constraints
     #endregion
 
     #region WithOperator
-    //public class WithOperator : PrefixOperator
-    //{
-    //    public override int LeftPrecedence
-    //    {
-    //        get { return 4; }
-    //    }
+    public class WithOperator : PrefixOperator
+    {
+        public WithOperator()
+        {
+            this.left_precedence = 1;
+            this.right_precedence = 4;
+        }
 
-    //    public override int RightPrecedence
-    //    {
-    //        get { return 4; }
-    //    }
-
-    //    public override Constraint ApplyPrefix(Constraint constraint)
-    //    {
-    //        return constraint;
-    //    }
-    //}
+        public override Constraint ApplyPrefix(Constraint constraint)
+        {
+            return constraint;
+        }
+    }
     #endregion
 }
