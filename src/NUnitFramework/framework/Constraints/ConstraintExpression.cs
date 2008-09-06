@@ -47,12 +47,17 @@ namespace NUnit.Framework.Constraints
                 return new PartialConstraintExpression(builder);
             }
         }
+        #endregion
 
+        #region With
+        /// <summary>
+        /// With is equivalent to And after a completed expression
+        /// </summary>
         public PartialConstraintExpression With
         {
             get
             {
-                builder.Append(new WithOperator());
+                builder.Append(new AndOperator());
                 return new PartialConstraintExpression(builder);
             }
         }

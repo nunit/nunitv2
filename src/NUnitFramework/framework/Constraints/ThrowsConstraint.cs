@@ -78,6 +78,14 @@ namespace NUnit.Framework.Constraints
                 writer.WriteActualValue(caughtException);
         }
         #endregion
+
+        public override string ToString()
+        {
+            if (baseConstraint == null)
+                return "<throws>";
+            
+            return base.ToString();
+        }
     }
     #endregion
 

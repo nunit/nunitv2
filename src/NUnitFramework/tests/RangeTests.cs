@@ -24,7 +24,7 @@ namespace NUnit.Framework.Tests
 ";
 			Assert.That(
 				new TestDelegate( FailingInRangeMethod ),
-				Throws.Exception(typeof(AssertionException)).And.Property("Message").EqualTo(expectedMessage) );
+				Throws.TypeOf(typeof(AssertionException)).With.Message.EqualTo(expectedMessage));
 		}
 
 		private void FailingInRangeMethod()
@@ -48,7 +48,7 @@ namespace NUnit.Framework.Tests
 ";
 			Assert.That(
 				new TestDelegate(FailingNotInRangeMethod),
-				Throws.Exception(typeof(AssertionException)).And.Property("Message").EqualTo(expectedMessage));
+				Throws.TypeOf(typeof(AssertionException)).With.Message.EqualTo(expectedMessage));
 		}
 
 		private void FailingNotInRangeMethod()

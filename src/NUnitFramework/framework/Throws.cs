@@ -10,26 +10,13 @@ namespace NUnit.Framework
 	public class Throws
 	{
         /// <summary>
-        /// Creates a constraint specifying the type of exception expected
+        /// Creates a constraint specifying an expected exception
         /// </summary>
-        /// <param name="type">The expected type of exception.</param>
-        /// <returns>A ThrowsConstraint</returns>
-        public static ConstraintExpression Exception(Type type)
+        /// <returns>A ThrowsConstraintExpression</returns>
+        public static ThrowsConstraintExpression Exception
         {
-            return new PartialConstraintExpression().Append(new ThrowsOperator()).TypeOf(type);
+            get { return new ThrowsConstraintExpression(); }
         }
-
-#if NET_2_0
-        /// <summary>
-        /// Creates a constraint specifying the type of exception expected
-        /// </summary>
-        /// <typeparam name="T">The expected type of exception.</typeparam>
-        /// <returns>A ResolvableConstraintBuilder</returns>
-        public static ConstraintExpression Exception<T>()
-        {
-            return Exception(typeof(T));
-        }
-#endif
 
         /// <summary>
         /// Creates a constraint specifying the type of exception expected

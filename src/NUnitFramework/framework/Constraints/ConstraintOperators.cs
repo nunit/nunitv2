@@ -235,7 +235,7 @@ namespace NUnit.Framework.Constraints
     #endregion
 
     #region ThrowsOperator
-    public class ThrowsOperator : PrefixOperator
+    public class ThrowsOperator : ConstraintOperator
     {
         public ThrowsOperator()
         {
@@ -248,17 +248,10 @@ namespace NUnit.Framework.Constraints
 
         public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
-            stack.Push(ApplyPrefix(stack.Empty ? null : stack.Pop()));
-        }
-
-        public override Constraint ApplyPrefix(Constraint constraint)
-        {
-            //Constraint baseConstraint = new ExactTypeConstraint(type);
-            //if ( constraint != null )
-            //    baseConstraint = new AndConstraint( baseConstraint, constraint);
-
-            //return new ThrowsConstraint(baseConstraint);
-            return new ThrowsConstraint( constraint );
+            if (RightContext == null || RightContext is BinaryOperator)
+                stack.Push(new ThrowsConstraint(null));
+            else
+                stack.Push(new ThrowsConstraint(stack.Pop()));
         }
     }
     #endregion

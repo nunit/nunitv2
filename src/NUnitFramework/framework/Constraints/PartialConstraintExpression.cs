@@ -190,6 +190,16 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using an
         /// InstanceOfTypeConstraint as base.
         /// </summary>
+        public ConstraintExpression InstanceOf(Type expectedType)
+        {
+            return this.Append(new InstanceOfTypeConstraint(expectedType));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// InstanceOfTypeConstraint as base.
+        /// </summary>
+        [Obsolete("Use InstanceOf")]
         public ConstraintExpression InstanceOfType(Type expectedType)
         {
             return this.Append(new InstanceOfTypeConstraint(expectedType));
@@ -227,9 +237,19 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using an
         /// InstanceOfTypeConstraint as base.
         /// </summary>
+        [Obsolete("Use InstanceOf")]
         public ConstraintExpression InstanceOfType<T>()
         {
             return InstanceOfType(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// InstanceOfTypeConstraint as base.
+        /// </summary>
+        public ConstraintExpression InstanceOf<T>()
+        {
+            return InstanceOf(typeof(T));
         }
 
         /// <summary>
@@ -545,6 +565,8 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class PendingConstraintExpression : PartialConstraintExpression
     {
+        public PendingConstraintExpression() { }
+
         public PendingConstraintExpression(ConstraintBuilder builder)
             : base(builder) { }
 
@@ -561,6 +583,14 @@ namespace NUnit.Framework.Constraints
         public PartialConstraintExpression Or
         {
             get { return this.Append(new OrOperator()); }
+        }
+    }
+
+    public class ThrowsConstraintExpression : PendingConstraintExpression
+    {
+        public ThrowsConstraintExpression()
+        {
+            builder.Append(new ThrowsOperator());
         }
     }
 }

@@ -131,7 +131,7 @@ namespace NUnit.Framework.Constraints
         #region Properties
         public bool IsResolvable
         {
-            get { return lastPushed is Constraint || lastPushed is PropOperator; }
+            get { return lastPushed is Constraint || lastPushed is PropOperator || lastPushed is ThrowsOperator; }
         }
         #endregion
 
