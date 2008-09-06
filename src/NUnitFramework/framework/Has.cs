@@ -143,5 +143,29 @@ namespace NUnit.Framework
 			return new PartialConstraintExpression().Member( expected );
 		}
 		#endregion
-	}
+
+        #region Attribute Constraint
+        /// <summary>
+        /// Returns a new ConstraintExpression checking for the
+        /// presence of a particular attribute on an object.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        public static ConstraintExpression Attribute(Type type)
+        {
+            return new PartialConstraintExpression().Attribute(type);
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Returns a new ConstraintExpression checking for the
+        /// presence of a particular attribute on an object.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        public static ConstraintExpression Attribute<T>()
+        {
+            return Attribute( typeof(T) );
+        }
+#endif
+        #endregion
+    }
 }

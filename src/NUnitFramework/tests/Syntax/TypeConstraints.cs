@@ -54,6 +54,19 @@ namespace NUnit.Framework.Syntax
         }
     }
 
+    [TestFixture]
+    public class AttributeTest : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<attribute NUnit.Framework.TestFixtureAttribute>";
+            staticSyntax = Has.Attribute(typeof(TestFixtureAttribute));
+            inheritedSyntax = Helper().Attribute(typeof(TestFixtureAttribute));
+            builderSyntax = Builder().Attribute(typeof(TestFixtureAttribute));
+        }
+    }
+
 #if NET_2_0
     [TestFixture]
     public class ExactTypeTest_Generic : SyntaxTest
@@ -104,6 +117,19 @@ namespace NUnit.Framework.Syntax
             staticSyntax = Is.AssignableTo<string>();
             inheritedSyntax = Helper().AssignableTo<string>();
             builderSyntax = Builder().AssignableTo<string>();
+        }
+    }
+
+    [TestFixture]
+    public class AttributeTest_Generic : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<attribute NUnit.Framework.TestFixtureAttribute>";
+            staticSyntax = Has.Attribute<TestFixtureAttribute>();
+            inheritedSyntax = Helper().Attribute<TestFixtureAttribute>();
+            builderSyntax = Builder().Attribute<TestFixtureAttribute>();
         }
     }
 #endif

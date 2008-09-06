@@ -245,6 +245,15 @@ namespace NUnit.Framework.Constraints
             return this.Append(new AssignableToConstraint(expectedType));
         }
 
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AttributeConstraint as base.
+        /// </summary>
+        public ConstraintExpression Attribute(Type expectedType)
+        {
+            return this.Append(new AttributeConstraint(expectedType));
+        }
+
 #if NET_2_0
         /// <summary>
         /// Resolves the chain of constraints using an
@@ -290,6 +299,15 @@ namespace NUnit.Framework.Constraints
         public ConstraintExpression AssignableTo<T>()
         {
             return AssignableTo(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AttributeConstraint as base.
+        /// </summary>
+        public ConstraintExpression Attribute<T>()
+        {
+            return Attribute(typeof(T));
         }
 #endif
         #endregion

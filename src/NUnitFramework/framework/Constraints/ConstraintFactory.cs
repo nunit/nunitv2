@@ -343,6 +343,30 @@ namespace NUnit.Framework.Constraints
             return AssignableTo(typeof(T));
         }
 #endif
+
+        /// <summary>
+        /// Attribute returns a constraint that tests whether
+        /// the actual value has a particular attribute.
+        /// </summary>
+        /// <param name="expectedType"></param>
+        /// <returns></returns>
+        public ConstraintExpression Attribute(Type expectedType)
+        {
+            return Has.Attribute(expectedType);
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Attribute returns a constraint that tests whether
+        /// the actual value has a particular attribute.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public ConstraintExpression Attribute<T>()
+        {
+            return Attribute(typeof(T));
+        }
+#endif
         #endregion
 
         #region Collection Constraints
