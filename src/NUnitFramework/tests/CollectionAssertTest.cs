@@ -616,19 +616,20 @@ namespace NUnit.Framework.Tests
             CollectionAssert.IsOrdered(al);
         }
 
-        [Test, ExpectedException(typeof(AssertionException))]
+        [Test, ExpectedException(typeof(ArgumentNullException),
+            ExpectedMessage = "index 1", MatchType = MessageMatch.Contains)]
         public void IsOrdered_Handles_null()
         {
             ArrayList al = new ArrayList();
-            al.Add(null);
             al.Add("x");
+            al.Add(null);
             al.Add("z");
 
             CollectionAssert.IsOrdered(al);
         }
 
-        [Test, ExpectedException(typeof(AssertionException))]
-        public void IsOrdered_Handles_heterogeneous_collections()
+        [Test, ExpectedException(typeof(ArgumentException))]
+        public void IsOrdered_ContainedTypesMustBeCompatible()
         {
             ArrayList al = new ArrayList();
             al.Add(1);
@@ -637,8 +638,8 @@ namespace NUnit.Framework.Tests
             CollectionAssert.IsOrdered(al);
         }
 
-        [Test, ExpectedException(typeof(AssertionException))]
-        public void IsOrdered_Handles_objects()
+        [Test, ExpectedException(typeof(ArgumentException))]
+        public void IsOrdered_TypesMustImplementIComparable()
         {
             ArrayList al = new ArrayList();
             al.Add(new object());

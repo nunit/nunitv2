@@ -396,7 +396,7 @@ namespace NUnit.Framework.Constraints
         /// Ordered returns a constraint that tests whether
         /// a collection is ordered
         /// </summary>
-        public ConstraintExpression Ordered()
+        public CollectionOrderedConstraint.Modifier Ordered()
         {
             return Is.Ordered();
         }
@@ -406,9 +406,28 @@ namespace NUnit.Framework.Constraints
         /// a collection is ordered
         /// </summary>
         /// <param name="comparer">A custom comparer to be used to comparison</param>
-        public ConstraintExpression Ordered(IComparer comparer)
+        public CollectionOrderedConstraint.Modifier Ordered(IComparer comparer)
         {
             return Is.Ordered(comparer);
+        }
+
+        /// <summary>
+        /// Ordered returns a constraint that tests whether
+        /// a collection is ordered
+        /// </summary>
+        public CollectionOrderedConstraint.Modifier OrderedBy(string propertyName)
+        {
+            return Is.OrderedBy(propertyName);
+        }
+
+        /// <summary>
+        /// Ordered returns a constraint that tests whether
+        /// a collection is ordered
+        /// </summary>
+        /// <param name="comparer">A custom comparer to be used to comparison</param>
+        public CollectionOrderedConstraint.Modifier OrderedBy(string propertyName, IComparer comparer)
+        {
+            return Is.OrderedBy(propertyName, comparer);
         }
         #endregion
 

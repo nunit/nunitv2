@@ -30,6 +30,18 @@ namespace NUnit.Framework.Syntax
         }
     }
 
+    public class CollectionOrderedTest_Descending : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<ordered System.Collections.Comparer>";
+            staticSyntax = Is.Ordered().Descending;
+            inheritedSyntax = Helper().Ordered().Descending;
+            builderSyntax = Builder().Ordered().Descending;
+        }
+    }
+
     public class CollectionOrderedTest_Comparer : SyntaxTest
     {
         [SetUp]
@@ -40,6 +52,67 @@ namespace NUnit.Framework.Syntax
             staticSyntax = Is.Ordered(comparer);
             inheritedSyntax = Helper().Ordered(comparer);
             builderSyntax = Builder().Ordered(comparer);
+        }
+    }
+
+    public class CollectionOrderedTest_Comparer_Descending : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            IComparer comparer = new Comparer(System.Globalization.CultureInfo.CurrentCulture);
+            parseTree = "<ordered System.Collections.Comparer>";
+            staticSyntax = Is.Ordered(comparer).Descending;
+            inheritedSyntax = Helper().Ordered(comparer).Descending;
+            builderSyntax = Builder().Ordered(comparer).Descending;
+        }
+    }
+
+    public class CollectionOrderedByTest : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
+            staticSyntax = Is.OrderedBy("SomePropertyName");
+            inheritedSyntax = Helper().OrderedBy("SomePropertyName");
+            builderSyntax = Builder().OrderedBy("SomePropertyName");
+        }
+    }
+
+    public class CollectionOrderedByTest_Descending : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
+            staticSyntax = Is.OrderedBy("SomePropertyName").Descending;
+            inheritedSyntax = Helper().OrderedBy("SomePropertyName").Descending;
+            builderSyntax = Builder().OrderedBy("SomePropertyName").Descending;
+        }
+    }
+
+    public class CollectionOrderedByTest_Comparer : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
+            staticSyntax = Is.OrderedBy("SomePropertyName", Comparer.Default);
+            inheritedSyntax = Helper().OrderedBy("SomePropertyName", Comparer.Default);
+            builderSyntax = Builder().OrderedBy("SomePropertyName", Comparer.Default);
+        }
+    }
+
+    public class CollectionOrderedByTest_Comparer_Descending : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
+            staticSyntax = Is.OrderedBy("SomePropertyName", Comparer.Default).Descending;
+            inheritedSyntax = Helper().OrderedBy("SomePropertyName", Comparer.Default).Descending;
+            builderSyntax = Builder().OrderedBy("SomePropertyName", Comparer.Default).Descending;
         }
     }
 

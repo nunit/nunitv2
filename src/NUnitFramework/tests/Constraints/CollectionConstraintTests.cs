@@ -11,7 +11,7 @@ using NUnit.Framework.Tests;
 namespace NUnit.Framework.Constraints.Tests
 {
     [TestFixture]
-    public class AllItemsTests : NUnit.Framework.Tests.MessageChecker
+    public class AllItemsTests : MessageChecker
     {
         [Test]
         public void AllItemsAreNotNull()
@@ -103,4 +103,191 @@ namespace NUnit.Framework.Constraints.Tests
 			Assert.That(ints, new CollectionContainsConstraint( 9 ));
 		}
     }
+
+    [TestFixture]
+    public class CollectionOrderedTests : MessageChecker
+    {
+        [Test]
+        public void IsOrdered()
+        {
+            ArrayList al = new ArrayList();
+            al.Add("x");
+            al.Add("y");
+            al.Add("z");
+
+            Assert.That(al, Is.Ordered());
+        }
+
+        [Test]
+        public void IsOrdered_2()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(1);
+            al.Add(2);
+            al.Add(3);
+
+            Assert.That(al, Is.Ordered());
+        }
+
+        [Test]
+        public void IsOrderedDescending()
+        {
+            ArrayList al = new ArrayList();
+            al.Add("z");
+            al.Add("y");
+            al.Add("x");
+
+            Assert.That(al, Is.Ordered().Descending);
+        }
+
+        [Test]
+        public void IsOrderedDescending_2()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(3);
+            al.Add(2);
+            al.Add(1);
+
+            Assert.That(al, Is.Ordered().Descending);
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void IsOrdered_Fails()
+        {
+            ArrayList al = new ArrayList();
+            al.Add("x");
+            al.Add("z");
+            al.Add("y");
+
+            expectedMessage =
+                "  Expected: collection ordered" + Environment.NewLine +
+                "  But was:  < \"x\", \"z\", \"y\" >" + Environment.NewLine;
+
+            Assert.That(al, Is.Ordered());
+        }
+
+        [Test]
+        public void IsOrdered_Allows_adjacent_equal_values()
+        {
+            ArrayList al = new ArrayList();
+            al.Add("x");
+            al.Add("x");
+            al.Add("z");
+
+            Assert.That(al, Is.Ordered());
+        }
+
+        [Test, ExpectedException(typeof(ArgumentNullException), 
+            ExpectedMessage="index 1", MatchType=MessageMatch.Contains)]
+        public void IsOrdered_Handles_null()
+        {
+            ArrayList al = new ArrayList();
+            al.Add("x");
+            al.Add(null);
+            al.Add("z");
+
+            Assert.That(al, Is.Ordered());
+        }
+
+        [Test, ExpectedException(typeof(ArgumentException))]
+        public void IsOrdered_TypesMustBeComparable()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(1);
+            al.Add("x");
+
+            Assert.That(al, Is.Ordered());
+        }
+
+        [Test, ExpectedException(typeof(ArgumentException))]
+        public void IsOrdered_AtLeastOneArgMustImplementIComparable()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(new object());
+            al.Add(new object());
+
+            Assert.That(al, Is.Ordered());
+        }
+
+        [Test]
+        public void IsOrdered_Handles_custom_comparison()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(new object());
+            al.Add(new object());
+
+            Assert.That(al, Is.Ordered(new AlwaysEqualComparer()));
+        }
+
+        [Test]
+        public void IsOrdered_Handles_custom_comparison2()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(2);
+            al.Add(1);
+
+            Assert.That(al, Is.Ordered(new TestComparer()));
+        }
+
+        [Test]
+        public void IsOrderedBy()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(new OrderedByTestClass(1));
+            al.Add(new OrderedByTestClass(2));
+
+            Assert.That(al, Is.OrderedBy("Value"));
+        }
+
+        [Test]
+        public void IsOrderedBy_Comparer()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(new OrderedByTestClass(1));
+            al.Add(new OrderedByTestClass(2));
+
+            Assert.That(al, Is.OrderedBy("Value", Comparer.Default));
+        }
+
+        [Test]
+        public void IsOrderedBy_Handles_heterogeneous_classes_as_long_as_the_property_is_of_same_type()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(new OrderedByTestClass(1));
+            al.Add(new OrderedByTestClass2(2));
+
+            Assert.That(al, Is.OrderedBy("Value"));
+        }
+
+        class OrderedByTestClass
+        {
+            private int myValue;
+
+            public int Value 
+            {
+                get { return myValue; }
+                set { myValue = value; } 
+            }
+
+            public OrderedByTestClass(int value)
+            {
+                Value = value;
+            }
+        }
+
+        class OrderedByTestClass2
+        {
+            private int myValue;
+            public int Value 
+            {
+                get { return myValue; }
+                set { myValue = value; } 
+            }
+
+            public OrderedByTestClass2(int value)
+            {
+                Value = value;
+            }
+        }
+    }  
 }

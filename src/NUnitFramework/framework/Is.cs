@@ -344,7 +344,7 @@ namespace NUnit.Framework
         /// Is.Ordered returns a constraint that tests whether
         /// a collection is ordered
         /// </summary>
-        public static ConstraintExpression Ordered()
+        public static CollectionOrderedConstraint.Modifier Ordered()
         {
             return new PartialConstraintExpression().Ordered();
         }
@@ -354,9 +354,28 @@ namespace NUnit.Framework
         /// a collection is ordered
         /// </summary>
         /// <param name="comparer">A custom comparer to be used to comparison</param>
-        public static ConstraintExpression Ordered(IComparer comparer)
+        public static CollectionOrderedConstraint.Modifier Ordered(IComparer comparer)
         {
             return new PartialConstraintExpression().Ordered(comparer);
+        }
+
+        /// <summary>
+        /// Is.OrderedBy returns a constraint that tests whether
+        /// a collection is ordered by a property
+        /// </summary>
+        public static CollectionOrderedConstraint.Modifier OrderedBy(string propertyName)
+        {
+            return new PartialConstraintExpression().OrderedBy(propertyName);
+        }
+
+        /// <summary>
+        /// Is.OrderedBy returns a constraint that tests whether
+        /// a collection is ordered by a property
+        /// </summary>
+        /// <param name="comparer">A custom comparer to be used to comparison</param>
+        public static CollectionOrderedConstraint.Modifier OrderedBy(string propertyName, IComparer comparer)
+        {
+            return new PartialConstraintExpression().OrderedBy(propertyName, comparer);
         }
         #endregion
 

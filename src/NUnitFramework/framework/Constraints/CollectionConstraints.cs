@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections;
+using System.Reflection;
 
 namespace NUnit.Framework.Constraints
 {
@@ -196,6 +197,44 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
+    #region SameTypeConstraint
+    /// <summary>
+    /// SameTypeConstraint is used to test whether a collection
+    /// objects, which are all the same type.
+    /// </summary>
+    public class AllSameTypeConstraint : CollectionConstraint
+    {
+        /// <summary>
+        /// Test whether the all items are the same type
+        /// </summary>
+        /// <param name="actual"></param>
+        /// <returns></returns>
+        protected override bool doMatch(IEnumerable actual)
+        {
+            Type type = null;
+            foreach (object obj in actual)
+            {
+                if (type == null)
+                    type = obj.GetType();
+                else
+                if (type != obj.GetType())
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Write a descripton of the constraint to a MessageWriter
+        /// </summary>
+        /// <param name="writer"></param>
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            writer.Write("all items of same type");
+        }
+    }
+    #endregion
+    
     #region CollectionContainsConstraint
     /// <summary>
     /// CollectionContainsConstraint is used to test whether a collection
@@ -209,7 +248,8 @@ namespace NUnit.Framework.Constraints
         /// Construct a CollectionContainsConstraint
         /// </summary>
         /// <param name="expected"></param>
-        public CollectionContainsConstraint(object expected) : base( expected )
+        public CollectionContainsConstraint(object expected)
+            : base(expected)
         {
             this.expected = expected;
             this.DisplayName = "contains";
@@ -222,12 +262,12 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(IEnumerable actual)
         {
-			foreach (object obj in actual)
-				if ( Object.Equals( obj, expected ) )
-					return true;
+            foreach (object obj in actual)
+                if (Object.Equals(obj, expected))
+                    return true;
 
-			return false;
-		}
+            return false;
+        }
 
         /// <summary>
         /// Write a descripton of the constraint to a MessageWriter
@@ -235,7 +275,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            writer.WritePredicate( "collection containing" );
+            writer.WritePredicate("collection containing");
             writer.WriteExpectedValue(expected);
         }
     }
@@ -338,11 +378,14 @@ namespace NUnit.Framework.Constraints
     public class CollectionOrderedConstraint : CollectionConstraint
     {
         private IComparer compareWith;
+        private readonly string propertyName;
+        private bool descending;
 
         /// <summary>
         /// Construct a CollectionOrderedConstraint
         /// </summary>
-        public CollectionOrderedConstraint() : this(System.Collections.Comparer.Default)
+        public CollectionOrderedConstraint() 
+            : this(System.Collections.Comparer.Default)
         {
         }
 
@@ -350,10 +393,43 @@ namespace NUnit.Framework.Constraints
         /// Construct a CollectionOrderedConstraint
         /// </summary>
         /// <param name="comparer">A custom comparer to use to perform comparisons</param>
-        public CollectionOrderedConstraint(IComparer comparer) : base(comparer)
+        public CollectionOrderedConstraint(IComparer comparer) 
         {
             this.compareWith = comparer;
             this.DisplayName = "ordered";
+        }
+
+        /// <summary>
+        /// Construct a CollectionOrderedConstraint
+        /// </summary>
+        /// <param name="propertyName">Name of the property on which to perform the comparison</param>
+        public CollectionOrderedConstraint(string propertyName)
+            : this(propertyName, System.Collections.Comparer.Default)
+        {
+        }
+
+        /// <summary>
+        /// Construct a CollectionOrderedConstraint
+        /// </summary>
+        /// <param name="propertyName">Name of the property on which to perform the comparison</param>
+        /// <param name="comparer">A custom comparer to use to perform comparisons</param>
+        public CollectionOrderedConstraint(string propertyName, IComparer comparer) 
+        {
+            this.propertyName = propertyName;
+            this.compareWith = comparer;
+            this.DisplayName = "ordered";
+        }
+
+        ///<summary>
+        /// If used performs a reverse comparison
+        ///</summary>
+        public CollectionOrderedConstraint Descending
+        {
+            get
+            {
+                descending = true;
+                return this;
+            }
         }
 
         /// <summary>
@@ -363,34 +439,35 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(IEnumerable actual)
         {
-            ArrayList al = new ArrayList();
-
-            IEnumerator enumerator = actual.GetEnumerator();
-
-            while (enumerator.MoveNext())
+            object previous = null;
+            int index = 0;
+            foreach(object obj in actual)
             {
-                if (enumerator.Current == null)
-                    return false;
+                object objToCompare = obj;
+                if (obj == null)
+                    throw new ArgumentNullException("actual", "Null value at index " + index.ToString());
 
-                al.Add(enumerator.Current);
-            }
-
-            Constraint constraint = new AllItemsConstraint(new InstanceOfTypeConstraint(al[0].GetType()));
-
-            if (!constraint.Matches(actual))
-                return false;
-
-            for (int i = 0; i < al.Count - 1; i++)
-            {
-                try
+                if (this.propertyName != null)
                 {
-                    if (compareWith.Compare(al[i], al[i + 1]) > 0)
+                    PropertyInfo prop = obj.GetType().GetProperty(propertyName);
+                    objToCompare = prop.GetValue(obj, null);
+                    if (objToCompare == null)
+                        throw new ArgumentNullException("actual", "Null property value at index " + index.ToString());
+                }
+
+                if (previous != null)
+                {
+                    //int comparisonResult = compareWith.Compare(al[i], al[i + 1]);
+                    int comparisonResult = compareWith.Compare(previous, objToCompare);
+
+                    if (descending && comparisonResult < 0)
+                        return false;
+                    if (!descending && comparisonResult > 0)
                         return false;
                 }
-                catch(ArgumentException)
-                {
-                    return false;
-                }
+
+                previous = objToCompare;
+                index++;
             }
 
             return true;
@@ -402,9 +479,48 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            writer.Write("collection ordered");
+            if (propertyName == null)
+                writer.Write("collection ordered");
+            else
+            {
+                writer.WritePredicate("collection ordered by");
+                writer.WriteExpectedValue(propertyName);
+            }
+
+            if (descending)
+                writer.WriteModifier("descending");
+        }
+
+        /// <summary>
+        /// Returns the string representation of the constraint.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return propertyName == null
+                ? string.Format("<ordered {0}>", this.compareWith.GetType().FullName)
+                : string.Format("<ordered {0} {1}>", this.compareWith.GetType().FullName, propertyName);
+        }
+
+        public class Modifier : ConstraintModifier
+        {
+            private readonly CollectionOrderedConstraint constraint;
+
+            public Modifier(CollectionOrderedConstraint constraint, ConstraintExpression expression) 
+                : base(constraint, expression)
+            {
+                this.constraint = constraint;
+            }
+
+            public Modifier Descending
+            {
+                get
+                {
+                    constraint.descending = true;
+                    return this;
+                }
+            }
         }
     }
-
     #endregion
 }

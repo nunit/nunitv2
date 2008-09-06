@@ -85,18 +85,40 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// CollectionOrderedConstraint as base.
         /// </summary>
-        public ConstraintExpression Ordered()
+        public CollectionOrderedConstraint.Modifier Ordered()
         {
-            return this.Append(new CollectionOrderedConstraint());
+            CollectionOrderedConstraint constraint = new CollectionOrderedConstraint();
+            return new CollectionOrderedConstraint.Modifier(constraint, this.Append(constraint));
         }
 
         /// <summary>
         /// Resolves the chain of constraints using a
         /// CollectionOrderedConstraint as base.
         /// </summary>
-        public ConstraintExpression Ordered(IComparer comparer)
+        public CollectionOrderedConstraint.Modifier Ordered(IComparer comparer)
         {
-            return this.Append(new CollectionOrderedConstraint(comparer));
+            CollectionOrderedConstraint constraint = new CollectionOrderedConstraint(comparer);
+            return new CollectionOrderedConstraint.Modifier(constraint, this.Append(constraint));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionOrderedConstraint as base.
+        /// </summary>
+        public CollectionOrderedConstraint.Modifier OrderedBy(string propertyName)
+        {
+            CollectionOrderedConstraint constraint = new CollectionOrderedConstraint(propertyName);
+            return new CollectionOrderedConstraint.Modifier(constraint, this.Append(constraint));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionOrderedConstraint as base.
+        /// </summary>
+        public CollectionOrderedConstraint.Modifier OrderedBy(string propertyName, IComparer comparer)
+        {
+            CollectionOrderedConstraint constraint = new CollectionOrderedConstraint(propertyName, comparer);
+            return new CollectionOrderedConstraint.Modifier(constraint, this.Append(constraint));
         }
         #endregion
 
