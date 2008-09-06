@@ -21,7 +21,7 @@
       </references>
     </csc>
 
-    <copy file="App.config"
+    <copy file="Ship.config"
       tofile="${current.build.dir}/nunit-console.exe.config"/>
 
     <csc target="exe" 
@@ -39,7 +39,7 @@
       </references>
     </csc>
 
-    <copy file="App.config" if="${build.x86}"
+    <copy file="Ship.config" if="${build.x86}"
       tofile="${current.build.dir}/nunit-console-x86.exe.config"/>
   </target>
 
@@ -48,6 +48,7 @@
       <fileset>
         <patternset refid="source-files"/>
         <include name="App.config"/>
+        <include name="Ship.config"/>
         <include name="App.ico"/>
         <include name="nunit-console.exe.build"/>
       </fileset>
