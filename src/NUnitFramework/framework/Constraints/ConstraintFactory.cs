@@ -250,9 +250,21 @@ namespace NUnit.Framework.Constraints
         /// or a derived type.
         /// </summary>
         /// <param name="expectedType">The type to be tested for</param>
+        [Obsolete("Use InstanceOf")]
         public ConstraintExpression InstanceOfType(Type expectedType)
         {
             return Is.InstanceOfType(expectedType);
+        }
+
+        /// <summary>
+        /// InstanceOf returns a constraint that tests whether 
+        /// the actual value is of the type supplied as an argument
+        /// or a derived type.
+        /// </summary>
+        /// <param name="expectedType">The type to be tested for</param>
+        public ConstraintExpression InstanceOf(Type expectedType)
+        {
+            return Is.InstanceOf(expectedType);
         }
 
 #if NET_2_0
@@ -262,9 +274,21 @@ namespace NUnit.Framework.Constraints
         /// or a derived type.
         /// </summary>
         /// <typeparam name="T">The type to be tested for</typeparam>
+        [Obsolete("Use InstanceOf")]
         public ConstraintExpression InstanceOfType<T>()
         {
             return InstanceOfType(typeof(T));
+        }
+
+        /// <summary>
+        /// InstanceOfType returns a constraint that tests whether 
+        /// the actual value is of the type supplied as an argument
+        /// or a derived type.
+        /// </summary>
+        /// <typeparam name="T">The type to be tested for</typeparam>
+        public ConstraintExpression InstanceOf<T>()
+        {
+            return InstanceOf(typeof(T));
         }
 #endif
 
