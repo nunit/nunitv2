@@ -194,7 +194,23 @@ namespace NUnit.Framework.Tests
 
 			CollectionAssert.AreEqual(array1, array2, new AlwaysEqualComparer());
 		}
-	
+
+#if NET_2_0
+        [Test]
+        public void AreEqual_UsingIterator()
+        {
+            int[] array = new int[] { 1, 2, 3 };
+
+            CollectionAssert.AreEqual(array, CountToThree());
+        }
+
+        IEnumerable CountToThree()
+        {
+            yield return 1;
+            yield return 2;
+            yield return 3;
+        }
+#endif
 		#endregion
 
 		#region AreEquivalent

@@ -294,6 +294,13 @@ namespace NUnit.Framework.Constraints
             if (expected is ICollection && actual is ICollection)
                 return CollectionsEqual((ICollection)expected, (ICollection)actual);
 
+            // String must precede IEnumerable since it implements it
+            if (expected is string && actual is string)
+                return StringsEqual((string)expected, (string)actual);
+
+            if (expected is IEnumerable && actual is IEnumerable)
+                return EnumerablesEqual((IEnumerable)expected, (IEnumerable)actual);
+
 			if (expected is Stream && actual is Stream)
 				return StreamsEqual((Stream)expected, (Stream)actual);
 
@@ -306,11 +313,6 @@ namespace NUnit.Framework.Constraints
             if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
             {
                 return Numerics.AreEqual(expected, actual, ref tolerance);
-            }
-
-            if (expected is string && actual is string)
-            {
-				return StringsEqual( (string) expected, (string)actual );
             }
 
 			if (expected is DateTime && actual is DateTime && tolerance is TimeSpan)
@@ -357,7 +359,30 @@ namespace NUnit.Framework.Constraints
             return false;
         }
 
-		private bool StreamsEqual( Stream expected, Stream actual )
+        private bool EnumerablesEqual(IEnumerable expected, IEnumerable actual)
+        {
+            IEnumerator expectedEnum = expected.GetEnumerator();
+            IEnumerator actualEnum = actual.GetEnumerator();
+
+            int count = 0;
+            for (; ; )
+            {
+                bool expectedHasData = expectedEnum.MoveNext();
+                bool actualHasData = actualEnum.MoveNext();
+
+                if (!expectedHasData && !actualHasData)
+                    return true;
+
+                if ( expectedHasData != actualHasData ||
+                    !ObjectsEqual( expectedEnum.Current, actualEnum.Current) )
+                {
+                    failurePoints.Insert(0, count);
+                    return false;
+                }
+            }
+        }
+
+        private bool StreamsEqual(Stream expected, Stream actual)
 		{
             if (!expected.CanRead)
                 throw new ArgumentException("Stream is not readable", "expected");
