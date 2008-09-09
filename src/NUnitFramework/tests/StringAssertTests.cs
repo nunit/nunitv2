@@ -26,7 +26,19 @@ namespace NUnit.Framework.Tests
             StringAssert.Contains("abc", "abxcdxbc");
 		}
 
-		[Test]
+        [Test]
+        public void DoesNotContain()
+        {
+            StringAssert.DoesNotContain("x", "abc");
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void DoesNotContainFails()
+        {
+            StringAssert.DoesNotContain("abc", "**abc**");
+        }
+
+        [Test]
 		public void StartsWith()
 		{
 			StringAssert.StartsWith( "abc", "abcdef" );
@@ -41,8 +53,20 @@ namespace NUnit.Framework.Tests
                 TextMessageWriter.Pfx_Actual + "\"abcxyz\"" + System.Environment.NewLine;
             StringAssert.StartsWith("xyz", "abcxyz");
 		}
-	
-		[Test]
+
+        [Test]
+        public void DoesNotStartWith()
+        {
+            StringAssert.DoesNotStartWith("x", "abc");
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void DoesNotStartWithFails()
+        {
+            StringAssert.DoesNotStartWith("abc", "abc**");
+        }
+
+        [Test]
 		public void EndsWith()
 		{
 			StringAssert.EndsWith( "abc", "abc" );
@@ -58,7 +82,19 @@ namespace NUnit.Framework.Tests
             StringAssert.EndsWith( "xyz", "abcdef" );
 		}
 
-		[Test]
+        [Test]
+        public void DoesNotEndWith()
+        {
+            StringAssert.DoesNotEndWith("x", "abc");
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void DoesNotEndWithFails()
+        {
+            StringAssert.DoesNotEndWith("abc", "***abc");
+        }
+
+        [Test]
 		public void CaseInsensitiveCompare()
 		{
 			StringAssert.AreEqualIgnoringCase( "name", "NAME" );

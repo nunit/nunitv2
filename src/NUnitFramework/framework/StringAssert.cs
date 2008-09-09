@@ -41,187 +41,367 @@ namespace NUnit.Framework
 		}
 
 		#endregion
-				
-		#region Contains
 
-		/// <summary>
-		/// Asserts that a string is found within another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		/// <param name="message">The message to display in case of failure</param>
-		/// <param name="args">Arguments used in formatting the message</param>
-		static public void Contains( string expected, string actual, string message, params object[] args )
-		{
+        #region Contains
+
+        /// <summary>
+        /// Asserts that a string is found within another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void Contains(string expected, string actual, string message, params object[] args)
+        {
             Assert.That(actual, new SubstringConstraint(expected), message, args);
-		}
+        }
 
-		/// <summary>
-		/// Asserts that a string is found within another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		/// <param name="message">The message to display in case of failure</param>
-		static public void Contains( string expected, string actual, string message )
-		{
-			Contains( expected, actual, message, null );
-		}
+        /// <summary>
+        /// Asserts that a string is found within another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void Contains(string expected, string actual, string message)
+        {
+            Contains(expected, actual, message, null);
+        }
 
-		/// <summary>
-		/// Asserts that a string is found within another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		static public void Contains( string expected, string actual )
-		{
-			Contains( expected, actual, string.Empty, null );
-		}
+        /// <summary>
+        /// Asserts that a string is found within another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        static public void Contains(string expected, string actual)
+        {
+            Contains(expected, actual, string.Empty, null);
+        }
 
-		#endregion
+        #endregion
 
-		#region StartsWith
+        #region DoesNotContain
 
-		/// <summary>
-		/// Asserts that a string starts with another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		/// <param name="message">The message to display in case of failure</param>
-		/// <param name="args">Arguments used in formatting the message</param>
-		static public void StartsWith( string expected, string actual, string message, params object[] args )
-		{
+        /// <summary>
+        /// Asserts that a string is not found within another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void DoesNotContain(string expected, string actual, string message, params object[] args)
+        {
+            Assert.That(actual, new NotConstraint( new SubstringConstraint(expected) ), message, args );
+        }
+
+        /// <summary>
+        /// Asserts that a string is found within another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void DoesNotContain(string expected, string actual, string message)
+        {
+            DoesNotContain(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that a string is found within another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        static public void DoesNotContain(string expected, string actual)
+        {
+            DoesNotContain(expected, actual, string.Empty, null);
+        }
+
+        #endregion
+
+        #region StartsWith
+
+        /// <summary>
+        /// Asserts that a string starts with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void StartsWith(string expected, string actual, string message, params object[] args)
+        {
             Assert.That(actual, new StartsWithConstraint(expected), message, args);
-		}
+        }
 
-		/// <summary>
-		/// Asserts that a string starts with another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		/// <param name="message">The message to display in case of failure</param>
-		static public void StartsWith( string expected, string actual, string message )
-		{
-			StartsWith( expected, actual, message, null );
-		}
+        /// <summary>
+        /// Asserts that a string starts with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void StartsWith(string expected, string actual, string message)
+        {
+            StartsWith(expected, actual, message, null);
+        }
 
-		/// <summary>
-		/// Asserts that a string starts with another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		static public void StartsWith( string expected, string actual )
-		{
-			StartsWith( expected, actual, string.Empty, null );
-		}
+        /// <summary>
+        /// Asserts that a string starts with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        static public void StartsWith(string expected, string actual)
+        {
+            StartsWith(expected, actual, string.Empty, null);
+        }
 
-		#endregion
+        #endregion
 
-		#region EndsWith
+        #region DoesNotStartWith
 
-		/// <summary>
-		/// Asserts that a string ends with another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		/// <param name="message">The message to display in case of failure</param>
-		/// <param name="args">Arguments used in formatting the message</param>
-		static public void EndsWith( string expected, string actual, string message, params object[] args )
-		{
+        /// <summary>
+        /// Asserts that a string does not start with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void DoesNotStartWith(string expected, string actual, string message, params object[] args)
+        {
+            Assert.That(actual, new NotConstraint( new StartsWithConstraint(expected) ), message, args);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not start with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void DoesNotStartWith(string expected, string actual, string message)
+        {
+            DoesNotStartWith(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not start with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        static public void DoesNotStartWith(string expected, string actual)
+        {
+            DoesNotStartWith(expected, actual, string.Empty, null);
+        }
+
+        #endregion
+
+        #region EndsWith
+
+        /// <summary>
+        /// Asserts that a string ends with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void EndsWith(string expected, string actual, string message, params object[] args)
+        {
             Assert.That(actual, new EndsWithConstraint(expected), message, args);
-		}
+        }
 
-		/// <summary>
-		/// Asserts that a string ends with another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		/// <param name="message">The message to display in case of failure</param>
-		static public void EndsWith( string expected, string actual, string message )
-		{
-			EndsWith( expected, actual, message, null );
-		}
+        /// <summary>
+        /// Asserts that a string ends with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void EndsWith(string expected, string actual, string message)
+        {
+            EndsWith(expected, actual, message, null);
+        }
 
-		/// <summary>
-		/// Asserts that a string ends with another string.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The string to be examined</param>
-		static public void EndsWith( string expected, string actual )
-		{
-			EndsWith( expected, actual, string.Empty, null );
-		}
+        /// <summary>
+        /// Asserts that a string ends with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        static public void EndsWith(string expected, string actual)
+        {
+            EndsWith(expected, actual, string.Empty, null);
+        }
 
-		#endregion
+        #endregion
 
-		#region AreEqualIgnoringCase
-		/// <summary>
-		/// Asserts that two strings are equal, without regard to case.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The actual string</param>
-		/// <param name="message">The message to display in case of failure</param>
-		/// <param name="args">Arguments used in formatting the message</param>
-		static public void AreEqualIgnoringCase( string expected, string actual, string message, params object[] args )
-		{
+        #region DoesNotEndWith
+
+        /// <summary>
+        /// Asserts that a string does not end with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void DoesNotEndWith(string expected, string actual, string message, params object[] args)
+        {
+            Assert.That(actual, new NotConstraint( new EndsWithConstraint(expected) ), message, args);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not end with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void DoesNotEndWith(string expected, string actual, string message)
+        {
+            DoesNotEndWith(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not end with another string.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The string to be examined</param>
+        static public void DoesNotEndWith(string expected, string actual)
+        {
+            DoesNotEndWith(expected, actual, string.Empty, null);
+        }
+
+        #endregion
+
+        #region AreEqualIgnoringCase
+        /// <summary>
+        /// Asserts that two strings are equal, without regard to case.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The actual string</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void AreEqualIgnoringCase(string expected, string actual, string message, params object[] args)
+        {
             Assert.That(actual, new EqualConstraint(expected).IgnoreCase, message, args);
-		}
+        }
 
-		/// <summary>
-		/// Asserts that two strings are equal, without regard to case.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The actual string</param>
-		/// <param name="message">The message to display in case of failure</param>
-		static public void AreEqualIgnoringCase( string expected, string actual, string message )
-		{
-			AreEqualIgnoringCase( expected, actual, message, null );
-		}
+        /// <summary>
+        /// Asserts that two strings are equal, without regard to case.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The actual string</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void AreEqualIgnoringCase(string expected, string actual, string message)
+        {
+            AreEqualIgnoringCase(expected, actual, message, null);
+        }
 
-		/// <summary>
-		/// Asserts that two strings are equal, without regard to case.
-		/// </summary>
-		/// <param name="expected">The expected string</param>
-		/// <param name="actual">The actual string</param>
-		static public void AreEqualIgnoringCase( string expected, string actual )
-		{
-			AreEqualIgnoringCase( expected, actual, string.Empty, null );
-		}
+        /// <summary>
+        /// Asserts that two strings are equal, without regard to case.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The actual string</param>
+        static public void AreEqualIgnoringCase(string expected, string actual)
+        {
+            AreEqualIgnoringCase(expected, actual, string.Empty, null);
+        }
+        #endregion
 
-		#endregion
+        #region AreNotEqualIgnoringCase
+        /// <summary>
+        /// Asserts that two strings are not equal, without regard to case.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The actual string</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void AreNotEqualIgnoringCase(string expected, string actual, string message, params object[] args)
+        {
+            Assert.That(actual, new NotConstraint( new EqualConstraint(expected).IgnoreCase ), message, args);
+        }
 
-		#region IsMatch
-		/// <summary>
-		/// Asserts that a string matches an expected regular expression pattern.
-		/// </summary>
-		/// <param name="expected">The expected expression</param>
-		/// <param name="actual">The actual string</param>
-		/// <param name="message">The message to display in case of failure</param>
-		/// <param name="args">Arguments used in formatting the message</param>
-		static public void IsMatch( string expected, string actual, string message, params object[] args )
-		{
+        /// <summary>
+        /// Asserts that two strings are Notequal, without regard to case.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The actual string</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void AreNotEqualIgnoringCase(string expected, string actual, string message)
+        {
+            AreNotEqualIgnoringCase(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that two strings are not equal, without regard to case.
+        /// </summary>
+        /// <param name="expected">The expected string</param>
+        /// <param name="actual">The actual string</param>
+        static public void AreNotEqualIgnoringCase(string expected, string actual)
+        {
+            AreNotEqualIgnoringCase(expected, actual, string.Empty, null);
+        }
+        #endregion
+
+        #region IsMatch
+        /// <summary>
+        /// Asserts that a string matches an expected regular expression pattern.
+        /// </summary>
+        /// <param name="expected">The expected expression</param>
+        /// <param name="actual">The actual string</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void IsMatch(string expected, string actual, string message, params object[] args)
+        {
             Assert.That(actual, new RegexConstraint(expected), message, args);
-		}
+        }
 
-		/// <summary>
-		/// Asserts that a string matches an expected regular expression pattern.
-		/// </summary>
-		/// <param name="expected">The expected expression</param>
-		/// <param name="actual">The actual string</param>
-		/// <param name="message">The message to display in case of failure</param>
-		static public void IsMatch( string expected, string actual, string message )
-		{
-			IsMatch( expected, actual, message, null );
-		}
+        /// <summary>
+        /// Asserts that a string matches an expected regular expression pattern.
+        /// </summary>
+        /// <param name="expected">The expected expression</param>
+        /// <param name="actual">The actual string</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void IsMatch(string expected, string actual, string message)
+        {
+            IsMatch(expected, actual, message, null);
+        }
 
-		/// <summary>
-		/// Asserts that a string matches an expected regular expression pattern.
-		/// </summary>
-		/// <param name="expected">The expected expression</param>
-		/// <param name="actual">The actual string</param>
-		static public void IsMatch( string expected, string actual )
-		{
-			IsMatch( expected, actual, string.Empty, null );
-		}
-		#endregion
-	}
+        /// <summary>
+        /// Asserts that a string matches an expected regular expression pattern.
+        /// </summary>
+        /// <param name="expected">The expected expression</param>
+        /// <param name="actual">The actual string</param>
+        static public void IsMatch(string expected, string actual)
+        {
+            IsMatch(expected, actual, string.Empty, null);
+        }
+        #endregion
+
+        #region DoesNotMatch
+        /// <summary>
+        /// Asserts that a string does not match an expected regular expression pattern.
+        /// </summary>
+        /// <param name="expected">The expected expression</param>
+        /// <param name="actual">The actual string</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Arguments used in formatting the message</param>
+        static public void DoesNotMatch(string expected, string actual, string message, params object[] args)
+        {
+            Assert.That(actual, new NotConstraint( new RegexConstraint(expected) ), message, args);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not match an expected regular expression pattern.
+        /// </summary>
+        /// <param name="expected">The expected expression</param>
+        /// <param name="actual">The actual string</param>
+        /// <param name="message">The message to display in case of failure</param>
+        static public void DoesNotMatch(string expected, string actual, string message)
+        {
+            DoesNotMatch(expected, actual, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that a string does not match an expected regular expression pattern.
+        /// </summary>
+        /// <param name="expected">The expected expression</param>
+        /// <param name="actual">The actual string</param>
+        static public void DoesNotMatch(string expected, string actual)
+        {
+            DoesNotMatch(expected, actual, string.Empty, null);
+        }
+        #endregion
+    }
 }
