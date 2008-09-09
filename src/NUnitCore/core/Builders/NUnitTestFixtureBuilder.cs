@@ -62,7 +62,7 @@ namespace NUnit.Core.Builders
                     return BuildSingleFixture(type, null);
                 case 1:
                     object[] args = (object[])Reflect.GetPropertyValue(attrs[0], "Arguments");
-                    return args.Length == 0
+                    return args == null || args.Length == 0
                         ? BuildSingleFixture(type, attrs[0])
                         : BuildMultipleFixtures(type, attrs);
                 default:

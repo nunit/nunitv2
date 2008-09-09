@@ -148,8 +148,9 @@ namespace NUnit.Core
 		{
 			NTrace.Info( "Installing Builtins" );
 
-			// Define NUnit Framework
+			// Define NUnit Frameworks
 			frameworks.Register( "NUnit", "nunit.framework" );
+            frameworks.Register("NUnitLite", "NUnitLite");
 
 			// Install builtin SuiteBuilders
 			suiteBuilders.Install( new NUnitTestFixtureBuilder() );
