@@ -14,6 +14,7 @@
     <include name="Constraints/PathConstraintTests.cs"/>
     <include name="Constraints/PropertyTests.cs"/>
     <include name="Constraints/SameAsTest.cs"/>
+    <include name="Constraints/SerializableConstraintTest.cs"/>
     <include name="Constraints/StringConstraintTests.cs"/>
     <include name="Constraints/ThrowsConstraintTests.cs"/>
     <include name="Constraints/TypeConstraintTests.cs"/>
@@ -25,6 +26,7 @@
     <include name="Syntax/OperatorTests.cs"/>
     <include name="Syntax/PathConstraintTests.cs"/>
     <include name="Syntax/PropertyTests.cs"/>
+    <include name="Syntax/SerializableConstraints.cs"/>
     <include name="Syntax/SimpleConstraints.cs"/>
     <include name="Syntax/StringConstraints.cs"/>
     <include name="Syntax/SyntaxTest.cs"/>

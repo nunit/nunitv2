@@ -450,6 +450,28 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
+        #region Serializable Constraints
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// BinarySerializableConstraint as base.
+        /// </summary>
+        public ConstraintExpression BinarySerializable
+        {
+            get { return Append(new BinarySerializableConstraint()); }
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// XmlSerializableConstraint as base.
+        /// </summary>
+        public ConstraintExpression XmlSerializable
+        {
+            get { return Append(new XmlSerializableConstraint()); }
+        }
+
+        #endregion
+
         #region Operators
 
         #region Not

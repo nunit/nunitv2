@@ -25,6 +25,7 @@
         <include name="Constraints/PropertyConstraint.cs"/>
         <include name="Constraints/RangeConstraint.cs"/>
         <include name="Constraints/SameAsConstraint.cs"/>
+        <include name="Constraints/SerializableConstraints.cs"/>
         <include name="Constraints/StringConstraints.cs"/>
         <include name="Constraints/ThrowsConstraint.cs"/>
         <include name="Constraints/TypeConstraints.cs"/>

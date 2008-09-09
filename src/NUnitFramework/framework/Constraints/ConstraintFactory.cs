@@ -664,5 +664,26 @@ namespace NUnit.Framework.Constraints
             return new CollectionContainsConstraint(expected);
         }
         #endregion
+
+        #region Serializable Constraints
+        /// <summary>
+        /// BinarySerializable returns a constraint that tests whether 
+        /// an object graph is serializable in binary format.
+        /// </summary>
+        public ConstraintExpression BinarySerializable
+        {
+            get { return Is.BinarySerializable; }
+        }
+        
+        /// <summary>
+        /// XmlSerializable returns a constraint that tests whether 
+        /// an object graph is serializable in xml format.
+        /// </summary>
+        public ConstraintExpression XmlSerializable
+        {
+            get { return Is.XmlSerializable; }
+        }
+
+        #endregion
     }
 }

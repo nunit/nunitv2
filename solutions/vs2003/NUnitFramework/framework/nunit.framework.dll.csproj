@@ -510,6 +510,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\SerializableConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\SerializableConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\StringConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\StringConstraints.cs"
                     SubType = "Code"

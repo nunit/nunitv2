@@ -347,6 +347,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\SerializableConstraintTest.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\SerializableConstraintTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\StringConstraintTests.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\StringConstraintTests.cs"
                     SubType = "Code"
@@ -409,6 +415,12 @@
                 <File
                     RelPath = "Syntax\PropertyTests.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\PropertyTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\SerializableConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\SerializableConstraints.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

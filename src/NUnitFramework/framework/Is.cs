@@ -89,6 +89,22 @@ namespace NUnit.Framework
             get { return new PartialConstraintExpression().Unique; }
         }
 
+        /// <summary>
+        /// Is.BinarySerializable returns a constraint that tests whether an object graph is serializable in binary format.
+        /// </summary>
+        public static ConstraintExpression BinarySerializable
+        {
+            get { return new PartialConstraintExpression().BinarySerializable; }
+        }
+
+        /// <summary>
+        /// Is.XmlSerializable returns a constraint that tests whether an object graph is serializable in xml format.
+        /// </summary>
+        public static ConstraintExpression XmlSerializable
+        {
+            get { return new PartialConstraintExpression().XmlSerializable; }
+        }
+
         #endregion
 
         #region Constraints with an expected value

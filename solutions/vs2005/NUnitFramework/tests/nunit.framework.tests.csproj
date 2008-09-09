@@ -168,6 +168,9 @@
       <Link>Constraints\SameAsTest.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\SerializableConstraintTest.cs">
+      <Link>Constraints\SerializableConstraintTest.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\StringConstraintTests.cs">
       <Link>Constraints\StringConstraintTests.cs</Link>
       <SubType>Code</SubType>
@@ -256,6 +259,9 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\PropertyTests.cs">
       <Link>Syntax\PropertyTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\SerializableConstraints.cs">
+      <Link>Syntax\SerializableConstraints.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\SimpleConstraints.cs">
       <Link>Syntax\SimpleConstraints.cs</Link>

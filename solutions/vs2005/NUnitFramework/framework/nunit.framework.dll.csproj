@@ -192,6 +192,9 @@
       <Link>Constraints\SameAsConstraint.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\SerializableConstraints.cs">
+      <Link>Constraints\SerializableConstraints.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\StringConstraints.cs">
       <Link>Constraints\StringConstraints.cs</Link>
       <SubType>Code</SubType>
