@@ -64,7 +64,7 @@ namespace NUnit.Core.Extensibility
         /// <summary>
         /// The FullName of any exception that is expected
         /// </summary>
-        public string ExpectedExceptionName
+        public string ExceptionName
         {
             get { return expectedExceptionName; }
             set { expectedExceptionName = value; }
@@ -147,9 +147,9 @@ namespace NUnit.Core.Extensibility
             parms.Arguments = GetParm(source, "Arguments") as object[];
             parms.ExpectedExceptionType = GetParm(source, "ExpectedException") as Type;
             if (parms.ExpectedExceptionType != null)
-                parms.ExpectedExceptionName = parms.ExpectedExceptionType.FullName;
+                parms.ExceptionName = parms.ExpectedExceptionType.FullName;
             else
-                parms.ExpectedExceptionName = GetParm(source, "ExpectedExceptionName") as string;
+                parms.ExceptionName = GetParm(source, "ExpectedExceptionName") as string;
             parms.ExpectedExceptionMessage = GetParm(source, "ExpectedExceptionMessage") as string;
             parms.Result = GetParm(source, "Result");
             parms.Description = GetParm(source, "Description") as string;
