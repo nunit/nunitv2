@@ -22,6 +22,8 @@ namespace NUnit.Framework.Constraints
     {
         private string name;
 
+        Type actualType;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:PropertyExistConstraint"/> class.
         /// </summary>
@@ -39,11 +41,15 @@ namespace NUnit.Framework.Constraints
         public override bool Matches(object actual)
         {
             this.actual = actual;
-
+            
             if (actual == null)
                 throw new ArgumentNullException("actual");
 
-            PropertyInfo property = actual.GetType().GetProperty(name,
+            this.actualType = actual as Type;
+            if (actualType == null)
+                actualType = actual.GetType();
+
+            PropertyInfo property = actualType.GetProperty(name,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetProperty);
 
             return property != null;
@@ -65,7 +71,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the actual value is displayed</param>
         public override void WriteActualValueTo(MessageWriter writer)
         {
-            writer.WriteActualValue(actual.GetType());
+            writer.WriteActualValue(actualType);
         }
 
         /// <summary>
@@ -108,10 +114,12 @@ namespace NUnit.Framework.Constraints
         public override bool Matches(object actual)
 		{
             this.actual = actual;
-            Type actualType = actual.GetType();
-
             if (actual == null) 
                 throw new ArgumentNullException("actual");
+
+            Type actualType = actual as Type;
+            if ( actualType == null )
+                actualType = actual.GetType();
 
             PropertyInfo property = actualType.GetProperty(name,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetProperty);

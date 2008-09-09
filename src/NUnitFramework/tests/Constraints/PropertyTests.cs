@@ -12,11 +12,11 @@ namespace NUnit.Framework.Constraints.Tests
             stringRepresentation = "<propertyexists Length>";
         }
 
-        static object[] SuccessData = new object[] { new int[0], "hello" };
+        static object[] SuccessData = new object[] { new int[0], "hello", typeof(Array) };
 
-        static object[] FailureData = new object[] { 42, new System.Collections.ArrayList() };
+        static object[] FailureData = new object[] { 42, new System.Collections.ArrayList(), typeof(Int32) };
 
-        static string[] ActualValues = new string[] { "<System.Int32>", "<System.Collections.ArrayList>" };
+        static string[] ActualValues = new string[] { "<System.Int32>", "<System.Collections.ArrayList>", "<System.Int32>" };
 
         static object[] InvalidData = new TestCaseData[] 
         { 
