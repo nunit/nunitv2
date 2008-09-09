@@ -14,7 +14,7 @@ namespace NUnit.Core.Builders
         #region Constants
         public const string SourcesAttribute = "NUnit.Framework.DataSourceAttribute";
         public const string SourceTypeProperty = "SourceType";
-        public const string SourceNamesProperty = "SourceNames";
+        public const string SourceNameProperty = "SourceName";
         #endregion
 
         #region IDataPointProvider Members
@@ -63,19 +63,16 @@ namespace NUnit.Core.Builders
         private static IList GetSourcesFor(ParameterInfo parameter)
         {
             ArrayList sources = new ArrayList();
-            foreach (Attribute sourcesAttr in Reflect.GetAttributes(parameter, SourcesAttribute, false))
+            foreach (Attribute sourceAttr in Reflect.GetAttributes(parameter, SourcesAttribute, false))
             {
-                Type sourceType = Reflect.GetPropertyValue(sourcesAttr, SourceTypeProperty) as Type;
+                Type sourceType = Reflect.GetPropertyValue(sourceAttr, SourceTypeProperty) as Type;
                 if (sourceType == null)
                     sourceType = parameter.Member.ReflectedType;
 
-                string[] sourceNames = Reflect.GetPropertyValue(sourcesAttr, SourceNamesProperty) as string[];
-                if (sourceNames != null && sourceNames.Length > 0)
+                string sourceName = Reflect.GetPropertyValue(sourceAttr, SourceNameProperty) as string;
+                if (sourceName != null && sourceName.Length > 0)
                 {
-                    foreach (string sourceName in sourceNames)
-                    {
-                        sources.Add(new ProviderInfo(sourceType, sourceName));
-                    }
+                    sources.Add(new ProviderInfo(sourceType, sourceName));
                 }
             }
             return sources;

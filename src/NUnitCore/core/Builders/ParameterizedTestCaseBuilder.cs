@@ -134,7 +134,7 @@ namespace NUnit.Core.Builders
                     testMethod.TestName.FullName = method.ReflectedType.FullName + "." + name;
                 }
 
-                if (parms.ExpectedExceptionName != null)
+                if (parms.ExceptionName != null)
                     testMethod.exceptionProcessor = new ExpectedExceptionProcessor( testMethod, parms );
 
                 if (parms.Description != null)
@@ -193,7 +193,7 @@ namespace NUnit.Core.Builders
             ParameterInfo[] parameters = testMethod.Method.GetParameters();
             int argsNeeded = parameters.Length;
 
-            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && parms.Result == null && parms.ExpectedExceptionName == null)
+            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && parms.Result == null && parms.ExceptionName == null)
             {
                 testMethod.RunState = RunState.NotRunnable;
                 testMethod.IgnoreReason = "Method has non-void return value";

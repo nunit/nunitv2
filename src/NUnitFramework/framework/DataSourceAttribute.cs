@@ -9,7 +9,7 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true, Inherited = false)]
     public class DataSourceAttribute : Attribute
     {
-        private readonly string[] sourceNames;
+        private readonly string sourceName;
         private readonly Type sourceType;
 
         /// <summary>
@@ -19,7 +19,7 @@ namespace NUnit.Framework
         /// <param name="sourceName">The name of the data source to be used</param>
         public DataSourceAttribute(string sourceName)
         {
-            this.sourceNames = new string[] { sourceName };
+            this.sourceName = sourceName;
         }
 
         /// <summary>
@@ -27,14 +27,14 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="name1">Name of the first data source</param>
         /// <param name="moreNames">An array of additional names</param>
-        public DataSourceAttribute(string name1, params string[] moreNames)
-        {
-            this.sourceNames = new string[1 + moreNames.Length];
-            this.sourceNames[0] = name1;
-            int index = 1;
-            foreach (string name in moreNames)
-                this.sourceNames[index++] = name;
-        }
+        //public DataSourceAttribute(string name1, params string[] moreNames)
+        //{
+        //    this.sourceNames = new string[1 + moreNames.Length];
+        //    this.sourceNames[0] = name1;
+        //    int index = 1;
+        //    foreach (string name in moreNames)
+        //        this.sourceNames[index++] = name;
+        //}
 
         /// <summary>
         /// Construct with a Type and name - for use with languages
@@ -45,7 +45,7 @@ namespace NUnit.Framework
         public DataSourceAttribute(Type sourceType, string sourceName)
         {
             this.sourceType = sourceType;
-            this.sourceNames = new string[] { sourceName };
+            this.sourceName = sourceName;
         }
 
         /// <summary>
@@ -55,22 +55,22 @@ namespace NUnit.Framework
         /// <param name="sourceType">The Type that will provide data</param>
         /// <param name="name1">The name of the first factory</param>
         /// <param name="moreNames">Additional factory names, if any</param>
-        public DataSourceAttribute(Type sourceType, string name1, params string[] moreNames)
-        {
-            this.sourceType = sourceType;
-            this.sourceNames = new string[1 + moreNames.Length];
-            this.sourceNames[0] = name1;
-            int index = 1;
-            foreach (string name in moreNames)
-                this.sourceNames[index++] = name;
-        }
+        //public DataSourceAttribute(Type sourceType, string name1, params string[] moreNames)
+        //{
+        //    this.sourceType = sourceType;
+        //    this.sourceNames = new string[1 + moreNames.Length];
+        //    this.sourceNames[0] = name1;
+        //    int index = 1;
+        //    foreach (string name in moreNames)
+        //        this.sourceNames[index++] = name;
+        //}
 
         /// <summary>
         /// The name of a the method, property or fiend to be used as a source
         /// </summary>
-        public string[] SourceNames
+        public string SourceName
         {
-            get { return sourceNames; }
+            get { return sourceName; }
         }
 
         /// <summary>
