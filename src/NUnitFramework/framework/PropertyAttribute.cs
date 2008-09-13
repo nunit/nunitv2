@@ -24,20 +24,46 @@ namespace NUnit.Framework
 		/// </summary>
 		protected object propertyValue;
 
-		/// <summary>
-		/// Construct a PropertyAttribute with a name and value
-		/// </summary>
-		/// <param name="propertyName">The name of the property</param>
-		/// <param name="propertyValue">The property value</param>
-		public PropertyAttribute( string propertyName, object propertyValue )
-		{
-			this.propertyName = propertyName;
-			this.propertyValue = propertyValue;
-		}
+        /// <summary>
+        /// Construct a PropertyAttribute with a name and string value
+        /// </summary>
+        /// <param name="propertyName">The name of the property</param>
+        /// <param name="propertyValue">The property value</param>
+        public PropertyAttribute(string propertyName, string propertyValue)
+        {
+            this.propertyName = propertyName;
+            this.propertyValue = propertyValue;
+        }
 
-		/// <summary>
+        /// <summary>
+        /// Construct a PropertyAttribute with a name and int value
+        /// </summary>
+        /// <param name="propertyName">The name of the property</param>
+        /// <param name="propertyValue">The property value</param>
+        public PropertyAttribute(string propertyName, int propertyValue)
+        {
+            this.propertyName = propertyName;
+            this.propertyValue = propertyValue;
+        }
+
+        /// <summary>
+        /// Construct a PropertyAttribute with a name and double value
+        /// </summary>
+        /// <param name="propertyName">The name of the property</param>
+        /// <param name="propertyValue">The property value</param>
+        public PropertyAttribute(string propertyName, double propertyValue)
+        {
+            this.propertyName = propertyName;
+            this.propertyValue = propertyValue;
+        }
+
+        /// <summary>
 		/// Constructor for use by inherited classes that use the
-		/// name of the type as the property name.
+		/// name of the type as the property name. Derived classes
+        /// must ensure that the Type of the property value is
+        /// a standard type supported by the BCL. Any custom
+        /// types will cause a serialization Exception when
+        /// in the client.
 		/// </summary>
 		protected PropertyAttribute( object propertyValue )
 		{
