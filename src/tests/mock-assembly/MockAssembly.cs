@@ -108,7 +108,7 @@ namespace NUnit.Tests
                 Assert.Fail("Intentional failure");
             }
 
-		    [Test, Property("TargetMethod", "SomeClassName"), Property("Size", 5), Property("TargetType", typeof( System.Threading.Thread ))]
+		    [Test, Property("TargetMethod", "SomeClassName"), Property("Size", 5), /*Property("TargetType", typeof( System.Threading.Thread ))*/]
 			public void TestWithManyProperties()
 			{}
 
