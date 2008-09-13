@@ -13,13 +13,13 @@ namespace NUnit.Framework.Constraints
         protected string expectedDescription = "<NOT SET>";
         protected string stringRepresentation = "<NOT SET>";
 
-        [Test, TestCases("SuccessData")]
+        [Test, TestCaseSource("SuccessData")]
         public void SucceedsWithGoodValues(object value)
         {
             Assert.That(theConstraint.Matches(value));
         }
 
-        [Test, TestCases("FailureData")]
+        [Test, TestCaseSource("FailureData")]
         public void FailsWithBadValues(object badValue)
         {
             Assert.IsFalse(theConstraint.Matches(badValue));
@@ -27,8 +27,8 @@ namespace NUnit.Framework.Constraints
 
         [Test, Sequential]
         public void ProvidesProperFailureMessage(
-            [DataSource("FailureData")] object badValue,
-            [DataSource("ActualValues")] string message)
+            [ValueSource("FailureData")] object badValue,
+            [ValueSource("ActualValues")] string message)
         {
             theConstraint.Matches(badValue);
             TextMessageWriter writer = new TextMessageWriter();
@@ -59,7 +59,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class ConstraintTestBaseWithArgumentException : ConstraintTestBase
     {
-        [Test, TestCases("InvalidData")]
+        [Test, TestCaseSource("InvalidData")]
         [ExpectedException(typeof(ArgumentException))]
         public void InvalidDataThrowsArgumentException(object value)
         {
@@ -73,7 +73,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class ConstraintTestBaseWithExceptionTests : ConstraintTestBase
     {
-        [Test, TestCases("InvalidData")]
+        [Test, TestCaseSource("InvalidData")]
         public void InvalidDataThrowsException(object value)
         {
             theConstraint.Matches(value);
