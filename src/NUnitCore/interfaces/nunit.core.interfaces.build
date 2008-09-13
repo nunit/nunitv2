@@ -53,6 +53,7 @@
       <sources>
         <patternset refid="source-files"/>
         <include name="../../GeneratedAssemblyInfo.cs"/>
+        <include name="../../NUnitFramework/framework/ITestCaseData.cs"/>
       </sources>
       <nowarn>
         <warning number="1699" if="${runtime.version=='2.0'}"/>

@@ -248,6 +248,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Extensibility\IDataPointProvider.cs">
       <Link>Extensibility\IDataPointProvider.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\ITestCaseData.cs">
+      <Link>ITestCaseData.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
