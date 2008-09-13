@@ -227,13 +227,48 @@ namespace NUnit.Framework
             return this;
         }
 
+        /// <summary>
+        /// Applies a category to the test
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
         public TestCaseData SetCategory(string category)
         {
             this.Categories.Add(category);
             return this;
         }
 
+        /// <summary>
+        /// Applies a named property to the test
+        /// </summary>
+        /// <param name="propName"></param>
+        /// <param name="propValue"></param>
+        /// <returns></returns>
         public TestCaseData SetProperty(string propName, string propValue)
+        {
+            this.Properties.Add(propName, propValue);
+            return this;
+        }
+
+        /// <summary>
+        /// Applies a named property to the test
+        /// </summary>
+        /// <param name="propName"></param>
+        /// <param name="propValue"></param>
+        /// <returns></returns>
+        public TestCaseData SetProperty(string propName, int propValue)
+        {
+            this.Properties.Add(propName, propValue);
+            return this;
+        }
+
+        /// <summary>
+        /// Applies a named property to the test
+        /// </summary>
+        /// <param name="propName"></param>
+        /// <param name="propValue"></param>
+        /// <returns></returns>
+        public TestCaseData SetProperty(string propName, double propValue)
         {
             this.Properties.Add(propName, propValue);
             return this;
