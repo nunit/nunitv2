@@ -1,4 +1,12 @@
+// ****************************************************************
+// Copyright 2008, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ****************************************************************
+
 using System;
+using System.Collections;
+using System.Collections.Specialized;
 using System.Reflection;
 
 namespace NUnit.Core.Extensibility
@@ -8,8 +16,14 @@ namespace NUnit.Core.Extensibility
     /// other selected parameters needed for constructing
     /// a parameterized test case.
     /// </summary>
-    public class ParameterSet
+    public class ParameterSet : NUnit.Framework.ITestCaseData
     {
+        #region Constants
+        private static readonly string DESCRIPTION = "_DESCRIPTION";
+        private static readonly string IGNOREREASON = "_IGNOREREASON";
+        private static readonly string CATEGORIES = "_CATEGORIES";
+        #endregion
+
         #region Instance Fields
         private RunState runState;
         private string notRunReason;
@@ -20,6 +34,12 @@ namespace NUnit.Core.Extensibility
         private object result;
         private string description;
         private string testName;
+
+        /// <summary>
+        /// A dictionary of properties, used to add information
+        /// to tests without requiring the class to change.
+        /// </summary>
+        private IDictionary properties;
         #endregion
 
         #region Properties
@@ -55,7 +75,7 @@ namespace NUnit.Core.Extensibility
         /// <summary>
         /// The Type of any exception that is expected.
         /// </summary>
-        public System.Type ExpectedExceptionType
+        public System.Type ExpectedException
         {
             get { return expectedExceptionType; }
             set { expectedExceptionType = value; }
@@ -64,7 +84,7 @@ namespace NUnit.Core.Extensibility
         /// <summary>
         /// The FullName of any exception that is expected
         /// </summary>
-        public string ExceptionName
+        public string ExpectedExceptionName
         {
             get { return expectedExceptionName; }
             set { expectedExceptionName = value; }
@@ -94,8 +114,8 @@ namespace NUnit.Core.Extensibility
         /// </summary>
         public string Description
         {
-            get { return description; }
-            set { description = value; }
+            get { return (string) Properties[DESCRIPTION]; }
+            set { Properties[DESCRIPTION] = value; }
         }
 
         /// <summary>
@@ -107,6 +127,34 @@ namespace NUnit.Core.Extensibility
         {
             get { return testName; }
             set { testName = value; }
+        }
+
+        /// <summary>
+        /// Gets a list of categories associated with this test.
+        /// </summary>
+        public IList Categories
+        {
+            get
+            {
+                if (Properties[CATEGORIES] == null)
+                    Properties[CATEGORIES] = new ArrayList();
+
+                return (IList)Properties[CATEGORIES];
+            }
+        }
+
+        /// <summary>
+        /// Gets the property dictionary for this test
+        /// </summary>
+        public IDictionary Properties
+        {
+            get
+            {
+                if (properties == null)
+                    properties = new ListDictionary();
+
+                return properties;
+            }
         }
         #endregion
 
@@ -145,15 +193,35 @@ namespace NUnit.Core.Extensibility
             ParameterSet parms = new ParameterSet();
 
             parms.Arguments = GetParm(source, "Arguments") as object[];
-            parms.ExpectedExceptionType = GetParm(source, "ExpectedException") as Type;
-            if (parms.ExpectedExceptionType != null)
-                parms.ExceptionName = parms.ExpectedExceptionType.FullName;
+            parms.ExpectedException = GetParm(source, "ExpectedException") as Type;
+            if (parms.ExpectedException != null)
+                parms.ExpectedExceptionName = parms.ExpectedException.FullName;
             else
-                parms.ExceptionName = GetParm(source, "ExpectedExceptionName") as string;
+                parms.ExpectedExceptionName = GetParm(source, "ExpectedExceptionName") as string;
             parms.ExpectedExceptionMessage = GetParm(source, "ExpectedExceptionMessage") as string;
             parms.Result = GetParm(source, "Result");
             parms.Description = GetParm(source, "Description") as string;
             parms.TestName = GetParm(source, "TestName") as string;
+
+            // Some sources may also implement Properties and/or Categories
+            bool gotCategories = false;
+            IDictionary props = GetParm(source, "Properties") as IDictionary;
+            if ( props != null )
+                foreach (string key in props.Keys)
+                {
+                    parms.Properties.Add(key, props[key]);
+                    if (key == CATEGORIES) gotCategories = true;
+                }
+
+            // Some sources implement Categories. They may have been
+            // provided as properties or they may be separate.
+            if (!gotCategories)
+            {
+                IList categories = GetParm(source, "Categories") as IList;
+                if (categories != null && props[CATEGORIES] == null)
+                    foreach (string cat in categories)
+                        categories.Add(cat);
+            }
 
             return parms;
         }

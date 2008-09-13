@@ -5,6 +5,8 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace NUnit.Framework
 {
@@ -19,6 +21,12 @@ namespace NUnit.Framework
     /// </summary>
     public class TestCaseData : ITestCaseData
     {
+        #region Constants
+        private static readonly string DESCRIPTION = "_DESCRIPTION";
+        private static readonly string IGNOREREASON = "_IGNOREREASON";
+        private static readonly string CATEGORIES = "_CATEGORIES";
+        #endregion
+
         #region Instance Fields
         /// <summary>
         /// The argument list to be provided to the test
@@ -49,9 +57,15 @@ namespace NUnit.Framework
         /// The description of the test
         /// </summary>
         private string description;
+
+        /// <summary>
+        /// A dictionary of properties, used to add information
+        /// to tests without requiring the class to change.
+        /// </summary>
+        private IDictionary properties;
         #endregion
 
-        #region Construction and Initialization
+        #region Constructors
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TestCaseData"/> class.
         /// </summary>
@@ -74,65 +88,6 @@ namespace NUnit.Framework
         {
             this.arguments = new object[] { arg };
         }
-
-        #region Instance Modifiers
-        /// <summary>
-        /// Sets the expected result for the test
-        /// </summary>
-        /// <param name="result">The expected result</param>
-        /// <returns>A modified TestCaseData</returns>
-        public TestCaseData Returns( object result )
-        {
-            this.result = result;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the expected exception type for the test
-        /// </summary>
-        /// <param name="exceptionType">Type of the expected exception.</param>
-        /// <returns>The modified TestCaseData instance</returns>
-        public TestCaseData Throws(Type exceptionType)
-        {
-            this.expectedException = exceptionType;
-            this.expectedExceptionName = exceptionType.FullName;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the expected exception type for the test
-        /// </summary>
-        /// <param name="exceptionName">FullName of the expected exception.</param>
-        /// <returns>The modified TestCaseData instance</returns>
-        public TestCaseData Throws(string exceptionName)
-        {
-            this.expectedExceptionName = exceptionName;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the name of the test
-        /// </summary>
-        /// <returns>The modified TestCaseData instance</returns>
-        public TestCaseData WithName(string name)
-        {
-            this.testName = name;
-            return this;
-        }
-
-        /// <summary>
-        /// Provides a description for the TestCaseData
-        /// being constructed.
-        /// </summary>
-        /// <param name="description">The description.</param>
-        /// <returns>The modified TestCaseData instance.</returns>
-        public TestCaseData WithDescription(string description)
-        {
-            this.description = description;
-            return this;
-        }
-        #endregion
-
         #endregion
 
         #region ITestCaseData Members
@@ -182,6 +137,106 @@ namespace NUnit.Framework
         public string Description
         {
             get { return description; }
+        }
+        #endregion
+
+        #region Additional Public Properties
+        /// <summary>
+        /// Gets a list of categories associated with this test.
+        /// </summary>
+        public IList Categories
+        {
+            get
+            {
+                if (Properties[CATEGORIES] == null)
+                    Properties[CATEGORIES] = new ArrayList();
+
+                return (IList)Properties[CATEGORIES];
+            }
+        }
+
+        /// <summary>
+        /// Gets the property dictionary for this test
+        /// </summary>
+        public IDictionary Properties
+        {
+            get
+            {
+                if (properties == null)
+                    properties = new ListDictionary();
+
+                return properties;
+            }
+        }
+        #endregion
+
+        #region Fluent Instance Modifiers
+        /// <summary>
+        /// Sets the expected result for the test
+        /// </summary>
+        /// <param name="result">The expected result</param>
+        /// <returns>A modified TestCaseData</returns>
+        public TestCaseData Returns(object result)
+        {
+            this.result = result;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the expected exception type for the test
+        /// </summary>
+        /// <param name="exceptionType">Type of the expected exception.</param>
+        /// <returns>The modified TestCaseData instance</returns>
+        public TestCaseData Throws(Type exceptionType)
+        {
+            this.expectedException = exceptionType;
+            this.expectedExceptionName = exceptionType.FullName;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the expected exception type for the test
+        /// </summary>
+        /// <param name="exceptionName">FullName of the expected exception.</param>
+        /// <returns>The modified TestCaseData instance</returns>
+        public TestCaseData Throws(string exceptionName)
+        {
+            this.expectedExceptionName = exceptionName;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the name of the test case
+        /// </summary>
+        /// <returns>The modified TestCaseData instance</returns>
+        public TestCaseData SetName(string name)
+        {
+            this.testName = name;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the description for the test case
+        /// being constructed.
+        /// </summary>
+        /// <param name="description">The description.</param>
+        /// <returns>The modified TestCaseData instance.</returns>
+        public TestCaseData SetDescription(string description)
+        {
+            this.description = description;
+            return this;
+        }
+
+        public TestCaseData SetCategory(string category)
+        {
+            this.Categories.Add(category);
+            return this;
+        }
+
+        public TestCaseData SetProperty(string propName, string propValue)
+        {
+            this.Properties.Add(propName, propValue);
+            return this;
         }
         #endregion
     }

@@ -1,3 +1,9 @@
+// ****************************************************************
+// Copyright 2008, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ****************************************************************
+
 using System;
 using System.Collections;
 using System.Reflection;
@@ -12,7 +18,7 @@ namespace NUnit.Core.Builders
     public class TestCaseFactoryProvider : ITestCaseProvider
     {
         #region Constants
-        public const string TestCasesAttribute = "NUnit.Framework.TestCasesAttribute";
+        public const string TestCasesAttribute = "NUnit.Framework.TestCaseSourceAttribute";
         public const string SourceTypeProperty = "SourceType";
         public const string SourceNameProperty = "SourceName";
         #endregion

@@ -3,7 +3,10 @@
 // may obtain a copy of the license as well as information regarding
 // copyright ownership at http://nunit.org/?p=license&r=2.4.
 // ****************************************************************
+
 using System;
+using System.Collections;
+using System.Collections.Specialized;
 
 namespace NUnit.Framework
 {
@@ -14,6 +17,12 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class TestCaseAttribute : Attribute, ITestCaseData
     {
+        #region Constants
+        private static readonly string DESCRIPTION = "_DESCRIPTION";
+        private static readonly string IGNOREREASON = "_IGNOREREASON";
+        private static readonly string CATEGORIES = "_CATEGORIES";
+        #endregion
+
         private object[] arguments;
         private object result;
         private Type expectedExceptionType;
@@ -21,6 +30,12 @@ namespace NUnit.Framework
         private string expectedExceptionMessage;
         private string description;
         private string testName;
+
+        /// <summary>
+        /// A dictionary of properties, used to add information
+        /// to tests without requiring the class to change.
+        /// </summary>
+        private IDictionary properties;
 
         /// <summary>
         /// Construct a TestCaseAttribute with a list of arguments.

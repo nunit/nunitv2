@@ -8,7 +8,7 @@ namespace NUnit.Core.Tests
     [TestFixture]
     public class FactoryTests
     {
-        [Test, TestCases("StaticProperty")]
+        [Test, TestCaseSource("StaticProperty")]
         public void FactoryCanBeStaticProperty(string factory)
         {
             Assert.AreEqual("StaticProperty", factory);
@@ -19,7 +19,7 @@ namespace NUnit.Core.Tests
             get { return new object[] { new object[] { "StaticProperty" } }; }
         }
 
-        [Test, TestCases("InstanceProperty")]
+        [Test, TestCaseSource("InstanceProperty")]
         public void FactoryCanBeInstanceProperty(string factory)
         {
             Assert.AreEqual("InstanceProperty", factory);
@@ -30,7 +30,7 @@ namespace NUnit.Core.Tests
             get { return new object[] { new object[] { "InstanceProperty" } }; }
         }
 
-        [Test, TestCases("StaticMethod")]
+        [Test, TestCaseSource("StaticMethod")]
         public void FactoryCanBeStaticMethod(string factory)
         {
             Assert.AreEqual("StaticMethod", factory);
@@ -41,7 +41,7 @@ namespace NUnit.Core.Tests
             return new object[] { new object[] { "StaticMethod" } };
         }
 
-        [Test, TestCases("InstanceMethod")]
+        [Test, TestCaseSource("InstanceMethod")]
         public void FactoryCanBeInstanceMethod(string factory)
         {
             Assert.AreEqual("InstanceMethod", factory);
@@ -52,7 +52,7 @@ namespace NUnit.Core.Tests
             return new object[] { new object[] { "InstanceMethod" } };
         }
 
-        [Test, TestCases("StaticField")]
+        [Test, TestCaseSource("StaticField")]
         public void FactoryCanBeStaticField(string factory)
         {
             Assert.AreEqual("StaticField", factory);
@@ -61,7 +61,7 @@ namespace NUnit.Core.Tests
         static object[] StaticField =
             { new object[] { "StaticField" } };
 
-        [Test, TestCases("InstanceField")]
+        [Test, TestCaseSource("InstanceField")]
         public void FactoryCanBeInstanceField(string factory)
         {
             Assert.AreEqual("InstanceField", factory);
@@ -70,46 +70,46 @@ namespace NUnit.Core.Tests
         static object[] InstanceField =
             { new object[] { "InstanceField" } };
 
-        [Test, TestCases("CheckCurrentDirectory")]
+        [Test, TestCaseSource("CheckCurrentDirectory")]
         public void FactoryIsInvokedWithCorrectCurrentDirectory(bool isOK)
         {
             Assert.That(isOK);
         }
 
-        [Test, TestCases("MyData")]
+        [Test, TestCaseSource("MyData")]
         public void FactoryMayReturnArgumentsAsObjectArray(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
-        [Test, TestCases("MyIntData")]
+        [Test, TestCaseSource("MyIntData")]
         public void FactoryMayReturnArgumentsAsIntArray(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
-        [Test, TestCases("EvenNumbers")]
+        [Test, TestCaseSource("EvenNumbers")]
         public void FactoryMayReturnSinglePrimitiveArgumentAlone(int n)
         {
             Assert.AreEqual(0, n % 2);
         }
 
-        [Test, TestCases("Params")]
+        [Test, TestCaseSource("Params")]
         public int FactoryMayReturnArgumentsAsParamSet(int n, int d)
         {
             return n / d;
         }
 
         [Test]
-        [TestCases("MyData")]
-        [TestCases("MoreData")]
+        [TestCaseSource("MyData")]
+        [TestCaseSource("MoreData")]
         [TestCase(12, 0, 0, ExpectedException = typeof(System.DivideByZeroException))]
         public void TestMayUseMultipleFactoryAttributes(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
-        [Test, TestCases(typeof(DivideDataProvider), "HereIsTheData" )]
+        [Test, TestCaseSource(typeof(DivideDataProvider), "HereIsTheData" )]
         public void FactoryMayBeInAnotherClass(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
@@ -152,8 +152,10 @@ namespace NUnit.Core.Tests
                 {
 #if NET_2_0
                     yield return new TestCaseData(0, 0, 0)
-                        .WithName("ThisOneShouldThow")
-                        .WithDescription("Demonstrates use of ExpectedException")
+                        .SetName("ThisOneShouldThrow")
+                        .SetDescription("Demonstrates use of ExpectedException")
+                        .SetCategory("Junk")
+                        .SetProperty("MyProp", "zip")
                         .Throws(typeof(System.DivideByZeroException));
                     yield return new object[] { 100, 20, 5 };
                     yield return new object[] { 100, 4, 25 };
@@ -161,9 +163,11 @@ namespace NUnit.Core.Tests
                     ArrayList list = new ArrayList();
                     list.Add(
                         new TestCaseData( 0, 0, 0)
-                            .WithName("ThisOneShouldThow")
-                            .WithDescription("Demonstrates use of ExpectedException")
-                            .Throws( typeof (System.DivideByZeroException) ));
+                            .SetName("ThisOneShouldThrow")
+                            .SetDescription("Demonstrates use of ExpectedException")
+							.SetCategory("Junk")
+							.SetProperty("MyProp", "zip")
+							.Throws( typeof (System.DivideByZeroException) ));
                     list.Add(new object[] { 100, 20, 5 });
                     list.Add(new object[] {100, 4, 25});
                     return list;

@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -272,8 +272,8 @@
       <Link>ListMapper.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCasesAttribute.cs">
-      <Link>TestCasesAttribute.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCaseSourceAttribute.cs">
+      <Link>TestCaseSourceAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Text.cs">
       <Link>Text.cs</Link>
@@ -327,9 +327,6 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ValuesAttribute.cs">
       <Link>ValuesAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\DataSourceAttribute.cs">
-      <Link>DataSourceAttribute.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\RandomAttribute.cs">
       <Link>RandomAttribute.cs</Link>
     </Compile>
@@ -359,6 +356,9 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PartialConstraintExpression.cs">
       <Link>Constraints\PartialConstraintExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\ValueSourceAttribute.cs">
+      <Link>ValueSourceAttribute.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

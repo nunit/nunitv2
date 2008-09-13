@@ -9,11 +9,11 @@ using System;
 namespace NUnit.Framework
 {
     /// <summary>
-    /// FactoryAttribute indicates the source to be used to
-    /// provide test cases for a test method.
+    /// ValueSourceAttribute indicates the source to be used to
+    /// provide data for one parameter of a test method.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public class TestCasesAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true, Inherited = false)]
+    public class ValueSourceAttribute : Attribute
     {
         private readonly string sourceName;
         private readonly Type sourceType;
@@ -22,8 +22,8 @@ namespace NUnit.Framework
         /// Construct with the name of the factory - for use with languages
         /// that don't support params arrays.
         /// </summary>
-        /// <param name="sourceName">An array of the names of the factories that will provide data</param>
-        public TestCasesAttribute(string sourceName)
+        /// <param name="sourceName">The name of the data source to be used</param>
+        public ValueSourceAttribute(string sourceName)
         {
             this.sourceName = sourceName;
         }
@@ -34,7 +34,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="sourceType">The Type that will provide data</param>
         /// <param name="sourceName">The name of the method, property or field that will provide data</param>
-        public TestCasesAttribute(Type sourceType, string sourceName)
+        public ValueSourceAttribute(Type sourceType, string sourceName)
         {
             this.sourceType = sourceType;
             this.sourceName = sourceName;
@@ -45,7 +45,7 @@ namespace NUnit.Framework
         /// </summary>
         public string SourceName
         {
-            get { return sourceName; }   
+            get { return sourceName; }
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace NUnit.Framework
         /// </summary>
         public Type SourceType
         {
-            get { return sourceType;  }
+            get { return sourceType; }
         }
     }
 }

@@ -1,3 +1,9 @@
+// ****************************************************************
+// Copyright 2008, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ****************************************************************
+
 using System;
 using System.Text;
 using System.Reflection;
@@ -134,9 +140,13 @@ namespace NUnit.Core.Builders
                     testMethod.TestName.FullName = method.ReflectedType.FullName + "." + name;
                 }
 
-                if (parms.ExceptionName != null)
+                if (parms.ExpectedExceptionName != null)
                     testMethod.exceptionProcessor = new ExpectedExceptionProcessor( testMethod, parms );
 
+                foreach (string key in parms.Properties.Keys)
+                    testMethod.Properties.Add(key, parms.Properties[key]);
+                
+                // Description is stored in parms.Properties
                 if (parms.Description != null)
                     testMethod.Description = parms.Description;
             }
@@ -193,7 +203,8 @@ namespace NUnit.Core.Builders
             ParameterInfo[] parameters = testMethod.Method.GetParameters();
             int argsNeeded = parameters.Length;
 
-            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && parms.Result == null && parms.ExceptionName == null)
+            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && 
+                parms.Result == null && parms.ExpectedExceptionName == null)
             {
                 testMethod.RunState = RunState.NotRunnable;
                 testMethod.IgnoreReason = "Method has non-void return value";

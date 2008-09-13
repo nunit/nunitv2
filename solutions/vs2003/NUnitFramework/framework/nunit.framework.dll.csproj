@@ -132,12 +132,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DataSourceAttribute.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\DataSourceAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "DescriptionAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs"
                     SubType = "Code"
@@ -158,12 +152,6 @@
                 <File
                     RelPath = "ExplicitAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\ExplicitAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "FactoriesAttribute.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\FactoriesAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -330,6 +318,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestCaseSourceAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TestCaseSourceAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestFixtureAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\TestFixtureAttribute.cs"
                     SubType = "Code"
@@ -368,6 +362,12 @@
                 <File
                     RelPath = "ValuesAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\ValuesAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ValueSourceAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\ValueSourceAttribute.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

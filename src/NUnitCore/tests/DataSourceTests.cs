@@ -10,7 +10,7 @@ namespace NUnit.Core.Tests
     {
         [Test]
         public void DataSourceCanBeStaticProperty(
-            [DataSource("StaticProperty")] string source)
+            [ValueSource("StaticProperty")] string source)
         {
             Assert.AreEqual("StaticProperty", source);
         }
@@ -29,7 +29,7 @@ namespace NUnit.Core.Tests
 
         [Test]
         public void DataSourceCanBeInstanceProperty(
-            [DataSource("InstanceProperty")] string source)
+            [ValueSource("InstanceProperty")] string source)
         {
             Assert.AreEqual("InstanceProperty", source);
         }
@@ -41,7 +41,7 @@ namespace NUnit.Core.Tests
 
         [Test]
         public void DataSourceCanBeStaticMethod(
-            [DataSource("StaticMethod")] string source)
+            [ValueSource("StaticMethod")] string source)
         {
             Assert.AreEqual("StaticMethod", source);
         }
@@ -53,7 +53,7 @@ namespace NUnit.Core.Tests
 
         [Test]
         public void DataSourceCanBeInstanceMethod(
-            [DataSource("InstanceMethod")] string source)
+            [ValueSource("InstanceMethod")] string source)
         {
             Assert.AreEqual("InstanceMethod", source);
         }
@@ -65,7 +65,7 @@ namespace NUnit.Core.Tests
 
         [Test]
         public void DataSourceCanBeStaticField(
-            [DataSource("StaticField")] string source)
+            [ValueSource("StaticField")] string source)
         {
             Assert.AreEqual("StaticField", source);
         }
@@ -74,7 +74,7 @@ namespace NUnit.Core.Tests
 
         [Test]
         public void DataSourceCanBeInstanceField(
-            [DataSource("InstanceField")] string source)
+            [ValueSource("InstanceField")] string source)
         {
             Assert.AreEqual("InstanceField", source);
         }
@@ -83,7 +83,7 @@ namespace NUnit.Core.Tests
 
         [Test]
         public void DataSourceIsInvokedWithCorrectCurrentDirectory(
-            [DataSource("CheckCurrentDirectory")] bool isOK)
+            [ValueSource("CheckCurrentDirectory")] bool isOK)
         {
             Assert.That(isOK);
         }
@@ -98,9 +98,9 @@ namespace NUnit.Core.Tests
 
         [Test, Sequential]
         public void MultipleArguments(
-            [DataSource("Numerators")] int n, 
-            [DataSource("Denominators")] int d, 
-            [DataSource("Quotients")] int q)
+            [ValueSource("Numerators")] int n, 
+            [ValueSource("Denominators")] int d, 
+            [ValueSource("Quotients")] int q)
         {
             Assert.AreEqual(q, n / d);
         }
@@ -111,9 +111,9 @@ namespace NUnit.Core.Tests
 
         [Test, Sequential]
         public void DataSourceMayBeInAnotherClass(
-            [DataSource(typeof(DivideDataProvider), "Numerators")] int n,
-            [DataSource(typeof(DivideDataProvider), "Denominators")] int d,
-            [DataSource(typeof(DivideDataProvider), "Quotients")] int q)
+            [ValueSource(typeof(DivideDataProvider), "Numerators")] int n,
+            [ValueSource(typeof(DivideDataProvider), "Denominators")] int d,
+            [ValueSource(typeof(DivideDataProvider), "Quotients")] int q)
         {
             Assert.AreEqual(q, n / d);
         }
