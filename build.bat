@@ -1,2 +1,2 @@
-call vars.bat
-msbuild NUnit.proj
+nant %* build
+
