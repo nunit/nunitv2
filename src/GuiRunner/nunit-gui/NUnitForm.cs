@@ -1220,8 +1220,9 @@ namespace NUnit.Gui
 				foreach( TestAssemblyInfo info in infoList )
 				{
 					sb.AppendFormat( "{0}\r\n", info.Name );
-					sb.AppendFormat( "Runtime Version:   {0}\r\n", info.RuntimeVersion.ToString() );
-					if ( info.TestFrameworks != null )
+                    sb.AppendFormat("Image Runtime Version:   {0}     Running Under:   {1}\r\n",
+                        info.ImageRuntimeVersion.ToString(), info.RunnerRuntimeVersion.ToString());
+                    if (info.TestFrameworks != null)
 					{
 						string prefix = "Uses: ";
 						foreach( AssemblyName framework in info.TestFrameworks )
@@ -1624,8 +1625,8 @@ namespace NUnit.Gui
 			{
 				Version version = Environment.Version;
 				foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
-					if ( info.RuntimeVersion < version )
-						version = info.RuntimeVersion;
+					if ( info.ImageRuntimeVersion < version )
+						version = info.ImageRuntimeVersion;
 			
 				recentFilesService.SetMostRecent( new RecentFileEntry( e.Name, version ) );
 			}

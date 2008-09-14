@@ -47,6 +47,11 @@ namespace NUnit.Util
 			return base.Load (package);
 		}
 
+        public override void Unload()
+        {
+            this.Dispose();
+        }
+
 		#region IDisposable Members
 		public void Dispose()
 		{
@@ -54,7 +59,7 @@ namespace NUnit.Util
 				this.TestRunner.Unload();
 
 			if ( this.agent != null )
-				Services.TestAgency.ReleaseAgent(this.agent);
+				Services.TestAgency.DestroyAgent(this.agent);
 
 			this.TestRunner = null;
 			this.agent = null;

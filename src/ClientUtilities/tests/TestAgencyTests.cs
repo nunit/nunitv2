@@ -54,7 +54,8 @@ namespace NUnit.Util.Tests
             TestAgent agent = agency.GetAgent(AgentType.DomainAgent);
         }
 
-        [Test]
+        // TODO: Decide if we really want to do this
+        //[Test]
         public void CanReuseReleasedAgents()
         {
             TestAgent agent1 = agency.GetAgent(AgentType.ProcessAgent, 20000);

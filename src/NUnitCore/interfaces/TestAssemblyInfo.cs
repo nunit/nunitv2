@@ -18,20 +18,23 @@ namespace NUnit.Core
 	public class TestAssemblyInfo
 	{
 		private string assemblyName;
-		private Version runtimeVersion;
-		private IList testFrameworks;
+        private Version imageRuntimeVersion;
+        private Version runnerRuntimeVersion;
+        private IList testFrameworks;
 
         /// <summary>
         /// Constructs a TestAssemblyInfo
         /// </summary>
         /// <param name="assemblyName">The name of the assembly</param>
-        /// <param name="runtimeVersion">The version of the runtime for which the assembly was built</param>
+        /// <param name="imageRuntimeVersion">The version of the runtime for which the assembly was built</param>
+        /// <param name="runnerRuntimeVersion">The version of the runtime under which the assembly is loaded</param>
         /// <param name="testFrameworks">A list of test framework useds by the assembly</param>
-		public TestAssemblyInfo( string assemblyName, Version runtimeVersion, IList testFrameworks )
+		public TestAssemblyInfo( string assemblyName, Version imageRuntimeVersion, Version runnerRuntimeVersion, IList testFrameworks )
 		{
 			this.assemblyName = assemblyName;
-			this.runtimeVersion = runtimeVersion;
-			this.testFrameworks = testFrameworks;
+            this.imageRuntimeVersion = imageRuntimeVersion;
+            this.runnerRuntimeVersion = runnerRuntimeVersion;
+            this.testFrameworks = testFrameworks;
 		}
 
         /// <summary>
@@ -45,10 +48,18 @@ namespace NUnit.Core
         /// <summary>
         /// Gets the runtime version for which the assembly was built
         /// </summary>
-		public Version RuntimeVersion
-		{
-			get { return runtimeVersion; }
-		}
+        public Version ImageRuntimeVersion
+        {
+            get { return imageRuntimeVersion; }
+        }
+
+        /// <summary>
+        /// Gets the runtime version under which the assembly is loaded
+        /// </summary>
+        public Version RunnerRuntimeVersion
+        {
+            get { return runnerRuntimeVersion; }
+        }
 
         /// <summary>
         /// Gets a list of testframeworks referenced by the assembly

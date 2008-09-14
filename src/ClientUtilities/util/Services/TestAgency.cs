@@ -149,9 +149,11 @@ namespace NUnit.Util
 					string.Format( "AgentType {0} is not supported by this agency", type ),
 					"type" );
 
-			AgentRecord r = FindAvailableRemoteAgent(type);
-			if ( r == null )
-				r = CreateRemoteAgent(type, framework, waitTime);
+            // TODO: Decide if we should reuse agents
+            //AgentRecord r = FindAvailableRemoteAgent(type);
+            //if ( r == null )
+            //    r = CreateRemoteAgent(type, framework, waitTime);
+            AgentRecord r = CreateRemoteAgent(type, framework, waitTime);
 
 			return new TestAgent( this, r.Process.Id, r.Agent );
 		}
@@ -198,7 +200,7 @@ namespace NUnit.Util
                 agentExePath = agentExePath
                     .Replace("1.1", "2.0")
                     .Replace("1.0", "2.0")
-                    .Replace("vs2003", "vs2005");
+                    .Replace("vs2003", "vs2008");
             }
 
 			//ProcessStartInfo startInfo = new ProcessStartInfo( TestAgentExePath, ServerUtilities.MakeUrl( this.uri, this.port ) );
@@ -212,7 +214,7 @@ namespace NUnit.Util
 			}
 			else
 			{
-				p.StartInfo.FileName = TestAgentExePath;
+				p.StartInfo.FileName = agentExePath;
 				p.StartInfo.Arguments = ServerUtilities.MakeUrl( this.uri, this.port );
 			}
 			
