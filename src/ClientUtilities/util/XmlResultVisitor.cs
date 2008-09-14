@@ -10,6 +10,7 @@ namespace NUnit.Util
 	using System.Globalization;
 	using System.IO;
 	using System.Xml;
+    using System.Collections;
 	using System.Reflection;
 	using NUnit.Core;
 
@@ -180,17 +181,34 @@ namespace NUnit.Util
 
 		private void WritePropertiesElement(TestResult result)
 		{
-			if (result.Test.Properties != null && result.Test.Properties.Count > 0)
+            IDictionary props = result.Test.Properties;
+
+			if (result.Test.Properties != null && props.Count > 0)
 			{
-				xmlWriter.WriteStartElement("properties");
+                int nprops = 0;
+
 				foreach (string key in result.Test.Properties.Keys)
 				{
-					xmlWriter.WriteStartElement("property");
-					xmlWriter.WriteAttributeString("name", key);
-					xmlWriter.WriteAttributeString("value", result.Test.Properties[key].ToString() );
-					xmlWriter.WriteEndElement();
+                    if ( !key.StartsWith("_") )
+                    {
+                        object val = result.Test.Properties[key];
+                        if (val != null)
+                        {
+                            if ( nprops == 0 )
+                                xmlWriter.WriteStartElement("properties");
+
+                            xmlWriter.WriteStartElement("property");
+                            xmlWriter.WriteAttributeString("name", key);
+                            xmlWriter.WriteAttributeString("value", val.ToString());
+                            xmlWriter.WriteEndElement();
+
+                            ++nprops;
+                        }
+                    }
 				}
-				xmlWriter.WriteEndElement();
+
+                if ( nprops > 0 )
+				    xmlWriter.WriteEndElement();
 			}
 		}
 
@@ -208,12 +226,14 @@ namespace NUnit.Util
 			xmlWriter.WriteStartElement("failure");
 
 			xmlWriter.WriteStartElement("message");
-			xmlWriter.WriteCData(EncodeCData(result.Message));
+            WriteCData(result.Message);
+			//xmlWriter.WriteCData(EncodeCData(result.Message));
 			xmlWriter.WriteEndElement();
 
 			xmlWriter.WriteStartElement("stack-trace");
-			if (result.StackTrace != null)
-				xmlWriter.WriteCData(EncodeCData(StackTraceFilter.Filter(result.StackTrace)));
+            if (result.StackTrace != null)
+                WriteCData(StackTraceFilter.Filter(result.StackTrace));
+				//xmlWriter.WriteCData(EncodeCData(StackTraceFilter.Filter(result.StackTrace)));
 			xmlWriter.WriteEndElement();
 
 			xmlWriter.WriteEndElement();
@@ -231,7 +251,7 @@ namespace NUnit.Util
 		}
 		#endregion
 
-		#region Static Helpers
+		#region Output Helpers
 		/// <summary>
 		/// Makes string safe for xml parsing, replacing control chars with '?'
 		/// </summary>
@@ -265,10 +285,30 @@ namespace NUnit.Util
 			return System.Text.Encoding.Default.GetString(System.Text.Encoding.Default.GetBytes(encodedChars));
 		}
 
-		private static string EncodeCData( string text )
-		{
-			return CharacterSafeString( text ).Replace( "]]>", "]]&gt;" );
-		}
+        private void WriteCData(string text)
+        {
+            //int start = 0;
+            //while (true)
+            //{
+            //    int illegal = text.IndexOf("]]>", start);
+            //    if (illegal < 0)
+            //        break;
+            //    xmlWriter.WriteCData(text.Substring(start, illegal - start + 2));
+            //    start = illegal + 2;
+            //    if (start >= text.Length)
+            //        return;
+            //}
+            //if (start > 0)
+            //    xmlWriter.WriteCData(text.Substring(start));
+            //else
+            //    xmlWriter.WriteCData(text);
+            xmlWriter.WriteCData(CharacterSafeString(text));
+        }
+        
+        private static string EncodeCData(string text)
+        {
+            return CharacterSafeString( text ).Replace( "]]>", "]]&gt;" );
+        }
 		#endregion
 	}
 }
