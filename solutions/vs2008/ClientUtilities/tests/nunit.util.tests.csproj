@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{74EF7165-117E-48ED-98EA-068EAE438E53}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -267,9 +267,8 @@
       <Link>VSProjectTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\tests\XmlResultVisitorTest.cs">
-      <Link>XmlResultVisitorTest.cs</Link>
-      <SubType>Code</SubType>
+    <Compile Include="..\..\..\..\src\ClientUtilities\tests\XmlResultWriterTest.cs">
+      <Link>XmlResultWriterTest.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>

@@ -343,8 +343,8 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "XmlResultVisitorTest.cs"
-                    Link = "..\..\..\..\src\ClientUtilities\tests\XmlResultVisitorTest.cs"
+                    RelPath = "XmlResultWriterTest.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\tests\XmlResultWriterTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

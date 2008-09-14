@@ -266,9 +266,8 @@
       <Link>VSProjectTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\tests\XmlResultVisitorTest.cs">
-      <Link>XmlResultVisitorTest.cs</Link>
-      <SubType>Code</SubType>
+    <Compile Include="..\..\..\..\src\ClientUtilities\tests\XmlResultWriterTest.cs">
+      <Link>XmlResultWriterTest.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>

@@ -79,8 +79,8 @@ namespace NUnit.Util.Tests
 		{
 			XmlNodeList properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property[@name=\"TargetMethod\"]");
 			Assert.AreEqual("SomeClassName", properties[0].Attributes["value"].Value);
-			properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property[@name=\"TargetType\"]");
-			Assert.AreEqual("System.Threading.Thread", properties[0].Attributes["value"].Value);
+            //properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property[@name=\"TargetType\"]");
+            //Assert.AreEqual("System.Threading.Thread", properties[0].Attributes["value"].Value);
 			properties = resultDoc.SelectNodes("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.TestWithManyProperties\"]/properties/property[@name=\"Size\"]");
 			Assert.AreEqual("5", properties[0].Attributes["value"].Value);
 		}
