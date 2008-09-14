@@ -32,8 +32,14 @@ namespace NUnit.Util
 
 		public override bool Load(TestPackage package)
 		{
-			if ( this.agent == null )
-				this.agent = Services.TestAgency.GetAgent( AgentType.ProcessAgent, 20000 );		
+            string targetRuntime = package.Settings["RuntimeFramework"] as string;
+
+            RuntimeFramework runtimeFramework = targetRuntime == null
+                ? RuntimeFramework.CurrentFramework
+                : new RuntimeFramework(targetRuntime);
+            
+            if (this.agent == null)
+				this.agent = Services.TestAgency.GetAgent( AgentType.ProcessAgent, runtimeFramework, 20000 );		
 	
 			if ( this.TestRunner == null )
 				this.TestRunner = agent.CreateRunner(this.runnerID);

@@ -7,7 +7,15 @@ namespace NUnit.Util
     {
         public static TestRunner MakeTestRunner(TestPackage package)
         {
-            if ( package.GetSetting("SeparateProcess", false) )
+            string targetRuntime = package.Settings["RuntimeFramework"] as string;
+
+            RuntimeFramework runtimeFramework = targetRuntime == null
+                ? RuntimeFramework.CurrentFramework
+                : new RuntimeFramework( targetRuntime );
+
+            if ( package.GetSetting("SeparateProcess", false) ||
+                 runtimeFramework.Runtime != RuntimeFramework.CurrentFramework.Runtime ||
+                 runtimeFramework.Version != RuntimeFramework.CurrentFramework.Version)
             {
                 package.Settings.Remove("SeparateProcess");
                 return new ProcessRunner();

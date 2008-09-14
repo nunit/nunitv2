@@ -45,6 +45,27 @@ namespace NUnit.Core
 			this.version = version;
 		}
 
+        public RuntimeFramework(string framework)
+        {
+            switch (framework)
+            {
+                case "net-1.0":
+                    this.runtime = RuntimeType.Net;
+                    this.version = new Version(1, 0, 3075);
+                    break;
+                case "net-1.1":
+                    this.runtime = RuntimeType.Net;
+                    this.version = new Version(1, 1, 4322);
+                    break;
+                case "net-2.0":
+                    this.runtime = RuntimeType.Net;
+                    this.version = new Version(2, 0, 50727);
+                    break;
+                default:
+                    throw new InvalidOperationException("Unsupported runtime: " + framework);
+            }
+        }
+
 		/// <summary>
 		/// Static method to return a RuntimeFramework object
 		/// for the frameowrk that is currently in use.

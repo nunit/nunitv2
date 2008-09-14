@@ -126,15 +126,20 @@ namespace NUnit.Util
 		#region Public Methods - Called by Clients
 		public TestAgent GetAgent()
 		{
-			return GetAgent( AgentType.Default, Timeout.Infinite );
+			return GetAgent( AgentType.Default, RuntimeFramework.CurrentFramework, Timeout.Infinite );
 		}
 
 		public TestAgent GetAgent( AgentType type )
 		{
-			return GetAgent( type, Timeout.Infinite );
+			return GetAgent( type, RuntimeFramework.CurrentFramework, Timeout.Infinite );
 		}
 
-		public TestAgent GetAgent(AgentType type, int waitTime)
+        public TestAgent GetAgent(AgentType type, int waitTime)
+        {
+            return GetAgent(type, RuntimeFramework.CurrentFramework, Timeout.Infinite);
+        }
+
+		public TestAgent GetAgent(AgentType type, RuntimeFramework framework, int waitTime)
 		{
 			if ( type == AgentType.Default )
 				type = defaultAgentType;
@@ -146,7 +151,7 @@ namespace NUnit.Util
 
 			AgentRecord r = FindAvailableRemoteAgent(type);
 			if ( r == null )
-				r = CreateRemoteAgent(type, waitTime);
+				r = CreateRemoteAgent(type, framework, waitTime);
 
 			return new TestAgent( this, r.Process.Id, r.Agent );
 		}
@@ -176,15 +181,34 @@ namespace NUnit.Util
 		#endregion
 
 		#region Helper Methods
-		private int LaunchAgentProcess()
+		private int LaunchAgentProcess(RuntimeFramework targetRuntime)
 		{
+            string agentExePath = TestAgentExePath;
+
+            // TODO: Replace adhoc code
+            if (targetRuntime.Version.Major == 1 && RuntimeFramework.CurrentFramework.Version.Major == 2)
+            {
+                agentExePath = agentExePath
+                    .Replace("2.0", "1.1")
+                    .Replace("vs2008", "vs2003")
+                    .Replace("vs2005", "vs2003");
+            }
+            else if (targetRuntime.Version.Major == 2 && RuntimeFramework.CurrentFramework.Version.Major == 1)
+            {
+                agentExePath = agentExePath
+                    .Replace("1.1", "2.0")
+                    .Replace("1.0", "2.0")
+                    .Replace("vs2003", "vs2005");
+            }
+
 			//ProcessStartInfo startInfo = new ProcessStartInfo( TestAgentExePath, ServerUtilities.MakeUrl( this.uri, this.port ) );
 			//startInfo.CreateNoWindow = true;
 			Process p = new Process();
-			if ( Type.GetType( "Mono.Runtime", false ) != null )
+			if ( targetRuntime.Runtime == RuntimeType.Mono )
 			{
-				p.StartInfo.FileName = @"C:\Program Files\mono-1.2.5\bin\mono.exe";
-				p.StartInfo.Arguments = TestAgentExePath + " " + ServerUtilities.MakeUrl( this.uri, this.port );
+                // TODO: Replace hard-coded path
+				p.StartInfo.FileName = @"C:\Program Files\Mono-2.0\bin\mono.exe";
+				p.StartInfo.Arguments = agentExePath + " " + ServerUtilities.MakeUrl( this.uri, this.port );
 			}
 			else
 			{
@@ -209,7 +233,7 @@ namespace NUnit.Util
 		private AgentRecord FindAvailableRemoteAgent(AgentType type)
 		{
 			foreach( AgentRecord r in agentData )
-				if ( r.Status == AgentStatus.Ready )
+				if ( r.Status == AgentStatus.Ready)
 				{
 					NTrace.DebugFormat( "Reusing agent {0}", r.Id );
 					r.Status = AgentStatus.Busy;
@@ -219,9 +243,9 @@ namespace NUnit.Util
 			return null;
 		}
 
-		private AgentRecord CreateRemoteAgent(AgentType type, int waitTime)
+		private AgentRecord CreateRemoteAgent(AgentType type, RuntimeFramework framework, int waitTime)
 		{
-			int pid = LaunchAgentProcess();
+			int pid = LaunchAgentProcess(framework);
 
 			NTrace.DebugFormat( "Waiting for agent {0} to register", pid );
 

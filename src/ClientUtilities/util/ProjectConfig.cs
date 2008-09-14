@@ -57,6 +57,11 @@ namespace NUnit.Util
 		/// True if assembly paths should be added to bin path
 		/// </summary>
 		private BinPathType binPathType = BinPathType.Auto;
+        
+        /// <summary>
+        /// The CLR under which tests are to be run
+        /// </summary>
+        private string runtimeFramework;
 
 		#endregion
 
@@ -219,6 +224,12 @@ namespace NUnit.Util
 		{
 			get { return assemblies; }
 		}
+
+        public string RuntimeFramework
+        {
+            get { return runtimeFramework; }
+            set { runtimeFramework = value; }
+        }
 		#endregion
 
 		public TestPackage MakeTestPackage()
@@ -237,6 +248,7 @@ namespace NUnit.Util
 			}
 
 			package.AutoBinPath = this.BinPathType == BinPathType.Auto;
+            package.Settings["RuntimeFramework"] = this.RuntimeFramework;
 
 			return package;
 		}

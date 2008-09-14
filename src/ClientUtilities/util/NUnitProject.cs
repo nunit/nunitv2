@@ -362,7 +362,11 @@ namespace NUnit.Util
 											currentConfig.BinPathType = BinPathType.Manual;
 									else
 										currentConfig.BinPathType = (BinPathType)Enum.Parse( typeof( BinPathType ), type, true );
-									Configs.Add( currentConfig );
+
+                                    string runtime = reader.GetAttribute("runtimeFramework");
+                                    currentConfig.RuntimeFramework = runtime;
+
+                                    Configs.Add(currentConfig);
 									if ( configName == activeConfigName )
 										activeConfig = currentConfig;
 								}
@@ -445,6 +449,9 @@ namespace NUnit.Util
 					writer.WriteAttributeString( "binpath", config.PrivateBinPath );
 				else
 					writer.WriteAttributeString( "binpathtype", config.BinPathType.ToString() );
+
+                if (config.RuntimeFramework != null)
+                    writer.WriteAttributeString("runtimeFramework", config.RuntimeFramework);
 
 				foreach( string assembly in config.Assemblies )
 				{

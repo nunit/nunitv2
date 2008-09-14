@@ -552,7 +552,7 @@ namespace NUnit.Util
                 TestPackage package = MakeTestPackage(testName);
 				testRunner = TestRunnerFactory.MakeTestRunner(package);
 
-				bool loaded = testRunner.Load( MakeTestPackage( testName ) );
+				bool loaded = testRunner.Load( package );
 
 				loadedTest = testRunner.Test;
 				loadedTestName = testName;
