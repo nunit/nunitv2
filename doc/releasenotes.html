@@ -32,7 +32,7 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.5 Alpha 4 Release - TBD</h3>
+<h3>NUnit 2.5 Alpha 4 Release - September 14, 2008</h3>
 
 <h4>General</h4>
 
@@ -41,9 +41,89 @@ dt { font-weight: bold }
 
 <h4>Framework</h4>
 <ul>
-<li>The FactoryAttribute has been renamed FactoriesAttribute and takes
-    an array of factory names rather than a comma-separated string.
-<li>Use of the TestFixtureAttribute is now optional.
+<li>Use of the TestFixtureAttribute is now optional in designating
+    classes that contain tests.
+<li>More than one method may now be marked with the <b>SetUp</b>, <b>TearDown</b>,
+	<b>TestFixtureSetUp</b> and <b>TestFixtureTearDown</b> attributes. Setups
+	in a base class are executed before those in a derived class and teardowns
+	are executed in the reverse order. If there are multiple setups or teardowns
+	defined at the same level, the order is unspecified so this practice is
+	not generally recommended.
+<li>The <b>FactoryAttribute</b> and <b>TestCaseFactoryAttribute</b> introduced 
+   in alhpa-3 have been removed. The new <b>TestCaseSourceAttribute</b> allows
+	specification of the name of the source of test cases and - optionally - the 
+	type providing the source if it is not the same as the type that contains the 
+	test. Only one source may be specified per attribute but the attribute may be 
+	applied more than once to indicate multiple sources.
+<li>It is now possibe to specify Categories and Properties on test cases
+    defined using the TestCaseData class.
+<li>Named fields, properties or methods may be used to provide values for
+    individual method parameters using the new <b>ValueSourceAttribute</b>.
+<li>New constraints and corresponding syntactic constructs are provided: 
+	<ul>
+	<li><b>Is.InRange</b> tests that a value lies within a specified range.
+	<li><b>Has.Attribute()</b> tests for the presence of a specified attribute
+		on a type.
+	<li><b>Is.AssignableTo</b> allows reversing the operands of AssignableFrom 
+		for increased clarity in the code and in any error messages when the
+		actual value is of the derived type.
+	<li><b>Throws.Exception</b> allows testing the exception thrown by a
+	    delegate in place and provides the ability to make arbitrary tests
+		on the caught exception. <b>Throws.TypeOf()</b> and <b>Throws.InstanceOf()</b>
+		are provided as shorthand for the commonly used <b>Throws.Exception.TypeOf()</b>
+		and <b>Throws.Exception.InstanceOf</b>.
+	<li><b>Throws.Nothing</b> provides for testing that a delegate does
+	    not throw. While it doesn't do much, it serves the purpose of
+		converting an unexpected error into a test failure.
+	</ul>
+<li>The parsing of constraint expressions written using the fluent interface
+    has been reorganized internally, with the following benefits:
+    <ul>
+	<li>Meaningless sequences like "...Null.Null..." or "...And.Or..."
+	    will no longer compile - the NUnit tests actually verify this
+		by attempting to compile them.
+	<li>Syntax modifiers like <b>Within</b> and <b>IgnoreCase</b> are
+	    now only accepted - and shown by intellisense - on constraints that
+	    actually make use of them.
+    <li>New <b>And</b> and <b>Or</b> infix operators are provided.
+	<li>The <b>With</b> provides some ability to group constraints.
+    </ul>	
+    
+	<p><p><b>Note:</b> Operators are evaluated in the following order:
+	<ol>
+	<li>Postfix modifiers (highest)
+	<li>Not Operator
+	<li>And operator (see below)
+	<li>Or operator  (see below)
+	<li>With operator
+	<li>Some, None and All operators
+	<li>And operator when followed directly by Some, None or All
+	<li>Or operator when followed directly by Some, None or All
+	<li>Overloaded operator &amp;
+	<li>Overloaded operator | (lowest)
+	</ol>
+	Operators of equal precedence associate left to right.
+	
+<li>The "syntax helper" classes, <b>Is</b>, <b>Has</b>, <b>Text</b> and
+    <b>List</b> have been moved to the NUnit.Framework namespace, since they 
+	seem to have entered the mainstream.
+<li>NUnit 2.5 is able to recognize, load and run NUnitLite tests.
+<li>PropertyConstraint now works with Types when testing for the
+    existence of a named property.
+</ul>
+
+<h4>Core</h4>
+<ul>
+<li>Experimental support is provided for running tests in a separate process.
+    Currently, this is only exposed in the Gui runner.
+<li>NUnit recognizes a special attribute on
+    the config element of the nunit project file, <b>runtimeFramework</b>,
+	which may be set to "net-1.1" or "net-2.0." This causes use of the
+	appropriate runner if tests are run in a separate process.
+	<p><p>
+	<b>Note:</b> Both of the above features are experimental and
+	somewhat fragile. Results are expected to vary for different
+	installations and we ask that problems be reported.
 </ul>
 
 <h4>Gui</h4>
@@ -51,12 +131,17 @@ dt { font-weight: bold }
 <ul>
 <li>The Addin Dialog now shows an error message for any addin that
     fails to load.  (from 2.4.8)
+<li>The TestLoader settings dialog provides an option for running tests
+    in a separate process.
+<li>The Assembly Info display now shows two runtime versions for each
+    test assembly: the one for which it was built and the one under
+	which it is currently loaded.
 </ul>
 
 <h4>Extensibility</h4>
 
 <ul>
-<li>The RequiredAddinAttribute is now only permitted at the assembly level.
+<li>The <b>RequiredAddinAttribute</b> is now only permitted at the assembly level.
 </ul>
 
 <h4>Bug Fixes</h4>
@@ -346,6 +431,37 @@ this release may be removed or changed in future releases.
 		native TestCase syntax.
 	<li>The XmlConstraint extension, which allows comparing two xml files
 	</ul> 
+</ul>
+<h3>NUnit 2.4.8 - July 21, 2008</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>NUnit is now built using NAnt 0.86 beta 1
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li><b>PlatformAttribute</b> has been extended to accept the new keywords
+    <b>NT6</b>, <b>Vista</b> and <b>Win2008Server</b>.
+	<br><br>
+	<b>Note:</b> In the current release, NUnit is still unable to 
+	distintuish between Vista and Windows 2008 Server. Either
+	of them will match all the above values. This problem will
+	be addressed in the 2.5 release.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>The Gui output panes were failing to use a fixed font.
+<li>An NUnitSettings.xml file of zero length was causing a crash.
+<li>Invoking the gui with /exclude:XXX, where XXX is a non-existent
+    category, was causing all tests to be excluded.
+<li>Categories were not working properly on repeated tests.
+<li>A serious memory leak was fixed in the NUnit test runners.
+<li>Addins now work with the console runner.
 </ul>
 <h3>NUnit 2.4.7 - March 30, 2008</h3>
 
