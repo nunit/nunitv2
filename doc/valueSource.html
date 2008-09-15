@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - DataSource</title>
+<title>NUnit - ValueSource</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -26,44 +26,40 @@
 
 <script language="JavaScript" src="codeFuncs.js" ></script> <!-- Do it this way for IE -->
 
-<h3>DataSourceAttribute (NUnit 2.5)</h3>
+<h3>ValueSourceAttribute (NUnit 2.5)</h3>
 
 <div style="text-align: center; margin: 2em 10%; padding: 4px 0; border: 2px solid black">
   <h4>Preliminary documentation, subject to change.</h4>
 </div>
 
-<p><b>DataSourceAttribute</b> is used on individual parameters of a test method to
-identify the source from which arguments will be suppoied. The attribute has 
-four public constructors.
+<p><b>ValueSourceAttribute</b> is used on individual parameters of a test method to
+identify a named source for the argument values to be supplied. The attribute has 
+two public constructors.
 
 <div class="code">
 <pre>
-DataSourceAttribute(Type sourceType, string name1, 
-        params string[] moreNames);
-DataSourceAttribute(string name1, params string[] moreNames);
-
-// For CLS-Compliance
-FactoriesAttribute(Type sourceType, string sourceName);
-FactoriesAttribute(string sourceName);
+ValueSourceAttribute(Type sourceType, string sourceName);
+ValueSourceAttribute(string sourceName);
 </pre>
 </div>
 
 <p>If <b>sourceType</b> is specified, it represents the class that provides
 the data. If not, the class containing the test method is used.
 
-<p>Each <b>sourceName</b>, represents the name of a field, property or
-method that will provide the arguments.
-
-<p>Each individually named source has the following characteristics:
+<p>The <b>sourceName</b>, represents the name of the source that will 
+provide the arguments. It should have the following characteristics:
 <ul>
-<li>It may be a field, property or method.
+<li>It may be a field, a non-indexed property or a method taking no arguments.
 <li>It may be either an instance or a static member.
-<li>It must be an IEnumerable or a type that implements IEnumerable.
+<li>It must return an IEnumerable or a type that implements IEnumerable.
+<li>The individual items returned from the enumerator must be compatible
+    with the type of the parameter on which the attribute appears.
+<li>
 </ul>
 
-<p>NUnit locates the data sources at the time the tests are loaded, creates
+<p>NUnit locates value sources at the time the tests are loaded, creates
 instances of each class having non-static sources and builds a list of 
-tests to be executed. Each instancet is only created once at this
+tests to be executed. Each instance is only created once at this
 time and is destroyed after all tests are loaded. In the case of sources
 located within the same class as the tests, a different instance is created
 each time the test is run, so no communication is possible using non-static
@@ -89,14 +85,14 @@ members of the class.
 <li><a href="parameterizedTests.html">Parameterized&nbsp;Tests</a></li>
 <ul>
 <li><a href="combinatorial.html">Combinatorial</a></li>
-<li><a href="factories.html">Factories</a></li>
 <li><a href="pairwise.html">Pairwise</a></li>
 <li><a href="random.html">Random</a></li>
 <li><a href="range.html">Range</a></li>
 <li><a href="sequential.html">Sequential</a></li>
-<li id="current"><a href="dataSource.html">DataSource</a></li>
 <li><a href="testCase.html">TestCase</a></li>
+<li><a href="testCaseSource.html">TestCaseSource</a></li>
 <li><a href="values.html">Values</a></li>
+<li id="current"><a href="valueSource.html">ValueSource</a></li>
 </ul>
 </ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
