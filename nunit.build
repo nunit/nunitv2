@@ -220,10 +220,19 @@
       <buildfiles refid="project.buildfiles"/>
     </nant>
 
-    <!-- Copy files for running tests -->
-    <copy todir="${current.build.dir}" flatten="true">
+    <!-- Copy test project, setting runtime framework -->
+    <copy todir="${current.build.dir}">
       <fileset basedir="${project.base.dir}">
         <include name="NUnitTests.nunit"/>
+      </fileset>
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </copy>
+
+    <!-- Copy other files for running tests -->
+    <copy todir="${current.build.dir}" flatten="true">
+      <fileset basedir="${project.base.dir}">
         <include name="NUnitTests.config" />
         <include name="NUnitFitTests.html" />
         <include name="clr.bat" />
@@ -291,7 +300,7 @@
       workingdir="${current.build.dir}" 
 	  program="nunit-console.exe" 
       managed="strict"
-	  commandline="NUnitTests.nunit ${nunit.options} /xml:${result.file}.xml" />
+	  commandline="NUnitTests.nunit ${nunit.options} /xml:${result.file}.xml /domain:Multiple" />
 
   </target>
 
