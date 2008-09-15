@@ -625,7 +625,7 @@
         <include name="tests.wxs" />
         <include name="samples.wxs" />
         <include name="pnunit.wxs" />
-        <include name="addins.wxs" />
+<!--        <include name="addins.wxs" />-->
         <include name="NUnit.wxs" />
       </sources>
     </candle>
@@ -787,7 +787,7 @@
 <!-- ***           Copy a set of binaries for a package            *** -->
 <!-- ***************************************************************** -->
 
-  <target name="copy-bins" depends="build,build-addins">
+  <target name="copy-bins" depends="build">
 
     <mkdir dir="${package.bin.dir}"/>
 

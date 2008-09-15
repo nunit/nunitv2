@@ -20,6 +20,7 @@
     <ComponentGroup Id="Net_1.1_ConsoleRunnerGroup">
       <ComponentRef Id="console.exe_1.1"/>
       <ComponentRef Id="console.dll_1.1"/>
+      <ComponentRef Id="agent.exe_1.1"/>
     </ComponentGroup>
 
     <ComponentGroup Id="Net_2.0_FrameworkGroup">
@@ -41,6 +42,7 @@
       <ComponentRef Id="console.exe_2.0"/>
       <ComponentRef Id="consolex86.exe"/>
       <ComponentRef Id="console.dll_2.0"/>
+      <ComponentRef Id="agent.exe_2.0"/>
     </ComponentGroup>
 
     <DirectoryRef Id="net_1.1" FileSource="net-1.1">
@@ -70,13 +72,18 @@
         <File Id="console.dll_1.1" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
       </Component>
 
-        <!--
+ <!--
       <Component Id="NUnitServer" DiskId="1" Guid="Need Guid">
         <File Id="F__nunit_server_exe" Name="NUS.EXE" LongName="nunit-server.exe" Source="nunit-server.exe" />
         <File Id="F__nunit_test_server_dll" Name="NUNTS.DLL" LongName="nunit-test-server.dll" Source="nunit-test-server.dll" /> 
       </Component>
-      -->
-    	  
+   -->
+
+      <Component Id="agent.exe_1.1" DiskId="1" Guid="91C3ED1C-16A0-49f1-9FD3-ED72AF060CD6">
+        <File Id="agent.exe_1.1" Name="AGENT.EXE" LongName="nunit-agent.exe" />
+        <File Id="agent.config_1.1" Name="AGENT.CFG" LongName="nunit-agent.exe.config" />
+      </Component>
+          	  
     </DirectoryRef>
     	
     <DirectoryRef Id="addins_1.1">
@@ -148,6 +155,11 @@
         <File Id="consolex86.config" Name="CONSOL86.CFG" LongName="nunit-console-x86.exe.config" />
       </Component>
                 
+      <Component Id="agent.exe_2.0" DiskId="1" Guid="E0819EB1-2DCE-4648-81CB-0C101ECB0109">
+        <File Id="agent.exe_2.0" Name="AGENT.EXE" LongName="nunit-agent.exe" />
+        <File Id="agent.config_2.0" Name="AGENT.CFG" LongName="nunit-agent.exe.config" />
+      </Component>
+          	  
     </DirectoryRef>
 
     <DirectoryRef Id="addins_2.0">
