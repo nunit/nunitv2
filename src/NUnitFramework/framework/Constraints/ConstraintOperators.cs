@@ -1,4 +1,10 @@
-﻿using System;
+// ****************************************************************
+// Copyright 2008, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ****************************************************************
+
+using System;
 using System.Collections;
 #if NET_2_0
 using System.Collections.Generic;
@@ -202,8 +208,6 @@ namespace NUnit.Framework.Constraints
     public class PropOperator : ConstraintOperator
     {
         private string name;
-        public bool HasOperand;
-
         public string Name
         {
             get { return name; }
@@ -218,18 +222,52 @@ namespace NUnit.Framework.Constraints
             this.left_precedence = this.right_precedence = 1;
         }
 
-		/// <summary>
-		/// Reduce produces a constraint from the operator and 
-		/// any arguments. It takes the arguments from the constraint 
-		/// stack and pushes the resulting constraint on it.
-		/// </summary>
-		/// <param name="stack"></param>
-		public override void Reduce(ConstraintBuilder.ConstraintStack stack)
+        /// <summary>
+        /// Reduce produces a constraint from the operator and 
+        /// any arguments. It takes the arguments from the constraint 
+        /// stack and pushes the resulting constraint on it.
+        /// </summary>
+        /// <param name="stack"></param>
+        public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
             if (RightContext == null || RightContext is BinaryOperator)
                 stack.Push(new PropertyExistsConstraint(name));
             else
                 stack.Push(new PropertyConstraint(name, stack.Pop()));
+        }
+    }
+    #endregion
+
+    #region AttributeOperator
+    /// <summary>
+    /// AttributeOperator
+    /// </summary>
+    public class AttributeOperator : ConstraintOperator
+    {
+        private Type type;
+
+        public AttributeOperator(Type type)
+        {
+            this.type = type;
+
+            // Prop stacks on anything and allows only 
+            // prefix operators to stack on it.
+            this.left_precedence = this.right_precedence = 1;
+        }
+
+        /// <summary>
+        /// Reduce produces a constraint from the operator and 
+        /// any arguments. It takes the arguments from the constraint 
+        /// stack and pushes the resulting constraint on it.
+        /// </summary>
+        /// <param name="stack"></param>
+        public override void Reduce(ConstraintBuilder.ConstraintStack stack)
+        {
+            stack.Push( new AttributeConstraint( type ) );
+            //if (RightContext == null || RightContext is BinaryOperator)
+            //    stack.Push(new PropertyExistsConstraint(name));
+            //else
+            //    stack.Push(new PropertyConstraint(name, stack.Pop()));
         }
     }
     #endregion
