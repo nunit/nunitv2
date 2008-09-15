@@ -166,13 +166,10 @@ namespace NUnit.Framework.Constraints
 
         private string _displayable(object o)
         {
-            if (o == null)
-                return "null";
-            else if (o is string)
-                return string.Format("\"{0}\"", o);
-            else
-                return o.ToString();
+            if (o == null) return "null";
 
+            string fmt = o is string ? "\"{0}\"" : "{0}";
+            return string.Format( System.Globalization.CultureInfo.InvariantCulture, fmt, o );
         }
         #endregion
 
