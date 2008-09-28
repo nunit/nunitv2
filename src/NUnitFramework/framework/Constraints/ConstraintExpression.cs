@@ -550,7 +550,7 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// CollectionEquivalentConstraint as base.
         /// </summary>
-        public CollectionEquivalentConstraint EquivalentTo(ICollection expected)
+        public CollectionEquivalentConstraint EquivalentTo(IEnumerable expected)
         {
             return this.Append(new CollectionEquivalentConstraint(expected)) as CollectionEquivalentConstraint;
         }
@@ -568,7 +568,7 @@ namespace NUnit.Framework.Constraints
         /// Resolves the chain of constraints using a
         /// CollectionSubsetConstraint as base.
         /// </summary>
-        public CollectionSubsetConstraint SubsetOf(ICollection expected)
+        public CollectionSubsetConstraint SubsetOf(IEnumerable expected)
         {
             return this.Append(new CollectionSubsetConstraint(expected)) as CollectionSubsetConstraint;
         }

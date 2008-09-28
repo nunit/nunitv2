@@ -381,7 +381,7 @@ namespace NUnit.Framework.Constraints
         /// the actual value is a collection containing the same
         /// elements as the collection supplied as an arument
         /// </summary>
-        public CollectionEquivalentConstraint EquivalentTo(ICollection expected)
+        public CollectionEquivalentConstraint EquivalentTo(IEnumerable expected)
         {
             return Is.EquivalentTo(expected);
         }
@@ -391,7 +391,7 @@ namespace NUnit.Framework.Constraints
         /// the actual value is a subset of the collection 
         /// supplied as an arument
         /// </summary>
-        public CollectionSubsetConstraint SubsetOf(ICollection expected)
+        public CollectionSubsetConstraint SubsetOf(IEnumerable expected)
         {
             return Is.SubsetOf(expected);
         }
