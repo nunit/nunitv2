@@ -36,7 +36,7 @@ namespace NUnit.Framework.Constraints.Tests
             new object[] { 1, 2, 3 }
         };
 
-        static string[] ActualValues= new string[]
+        static string[] ActualValues = new string[]
         {
             "\"Hello\"",
             "< 1, 2, 3 >"
@@ -45,6 +45,39 @@ namespace NUnit.Framework.Constraints.Tests
         static object[] InvalidData = new object[]
             {
                 null,
+                5
+            };
+    }
+
+    [TestFixture]
+    public class NullOrEmptyStringConstraintTest : ConstraintTestBaseWithArgumentException
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            theConstraint = new NullOrEmptyStringConstraint();
+            expectedDescription = "null or empty string";
+            stringRepresentation = "<nullorempty>";
+        }
+
+        static object[] SuccessData = new object[] 
+        {
+            string.Empty,
+            null
+        };
+
+        static object[] FailureData = new object[]
+        {
+            "Hello"
+        };
+
+        static string[] ActualValues = new string[]
+        {
+            "\"Hello\""
+        };
+
+        static object[] InvalidData = new object[]
+            {
                 5
             };
     }

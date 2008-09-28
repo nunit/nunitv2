@@ -501,26 +501,6 @@ namespace NUnit.Framework.Constraints
                 ? string.Format("<ordered {0}>", this.compareWith.GetType().FullName)
                 : string.Format("<ordered {0} {1}>", this.compareWith.GetType().FullName, propertyName);
         }
-
-        public class Modifier : ConstraintModifier
-        {
-            private readonly CollectionOrderedConstraint constraint;
-
-            public Modifier(CollectionOrderedConstraint constraint, ConstraintExpression expression) 
-                : base(constraint, expression)
-            {
-                this.constraint = constraint;
-            }
-
-            public Modifier Descending
-            {
-                get
-                {
-                    constraint.descending = true;
-                    return this;
-                }
-            }
-        }
     }
     #endregion
 }

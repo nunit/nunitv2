@@ -2,6 +2,7 @@
 <project name="NUnitFramework" default="build" basedir=".">
 
   <patternset id="source-files">
+        <include name="Constraints/BasicConstraints.cs"/>
         <include name="Constraints/BinaryOperations.cs"/>
         <include name="Constraints/CollectionConstraints.cs"/>
         <include name="Constraints/ComparisonConstraints.cs"/>
@@ -9,17 +10,15 @@
         <include name="Constraints/ConstraintBuilder.cs"/>
         <include name="Constraints/ConstraintExpression.cs"/>
         <include name="Constraints/ConstraintFactory.cs"/>
-        <include name="Constraints/ConstraintModifier.cs"/>
         <include name="Constraints/ConstraintOperators.cs"/>
         <include name="Constraints/ContainsConstraint.cs"/>
         <include name="Constraints/DirectoryConstraints.cs"/>
         <include name="Constraints/EmptyConstraint.cs"/>
         <include name="Constraints/EqualConstraint.cs"/>
-        <include name="Constraints/IConstraint.cs"/>
+        <include name="Constraints/IResolveConstraint.cs"/>
         <include name="Constraints/MessageWriter.cs"/>
         <include name="Constraints/MsgUtils.cs"/>
         <include name="Constraints/Numerics.cs"/>
-        <include name="Constraints/PartialConstraintExpression.cs"/>
         <include name="Constraints/PathConstraints.cs"/>
         <include name="Constraints/PrefixConstraints.cs"/>
         <include name="Constraints/PropertyConstraint.cs"/>

@@ -26,14 +26,14 @@ namespace NUnit.Framework
 		public class HasNoPrefixBuilder
 		{
             /// <summary>
-            /// Return a ConstraintBuilder conditioned to apply
-            /// the following constraint to a property.
+            /// Return a Constraint that succeeds if the actual object
+            /// does not have the specified property.
             /// </summary>
             /// <param name="name">The property name</param>
-            /// <returns>A ConstraintBuilder</returns>
-			public ConstraintExpression Property(string name)
+            /// <returns>A NotConstraint wrapping a PropertyExistsConstraint</returns>
+			public NotConstraint Property(string name)
 			{
-				return new PartialConstraintExpression().Not.Append( new PropertyExistsConstraint (name) );
+				return new NotConstraint( new PropertyExistsConstraint (name) );
 			}
 
             /// <summary>
@@ -41,8 +41,8 @@ namespace NUnit.Framework
             /// not contained in a collection.
             /// </summary>
             /// <param name="expected">The expected object</param>
-            /// <returns>A Constraint</returns>
-            public Constraint Member(object expected)
+            /// <returns>A NotConstraint wrapping a CollectionContainsConstraint</returns>
+            public NotConstraint Member(object expected)
 			{
 				return new NotConstraint( new CollectionContainsConstraint(expected) ) ;
 			}
@@ -63,9 +63,9 @@ namespace NUnit.Framework
 		/// the following constraint to all members of a collection,
 		/// succeeding if all of them succeed.
 		/// </summary>
-		public static PartialConstraintExpression All
+		public static ConstraintExpression All
 		{
-			get { return new PartialConstraintExpression().All; }
+			get { return new ConstraintExpression().All; }
 		}
 
 		/// <summary>
@@ -74,9 +74,9 @@ namespace NUnit.Framework
 		/// succeeding if any of them succeed. It is a synonym
 		/// for Has.Item.
 		/// </summary>
-		public static PartialConstraintExpression Some
+		public static ConstraintExpression Some
 		{
-			get { return new PartialConstraintExpression().Some; }
+			get { return new ConstraintExpression().Some; }
 		}
 
 		/// <summary>
@@ -84,9 +84,9 @@ namespace NUnit.Framework
 		/// the following constraint to all members of a collection,
 		/// succeeding only if none of them succeed.
 		/// </summary>
-		public static PartialConstraintExpression None
+		public static ConstraintExpression None
 		{
-			get { return new PartialConstraintExpression().None; }
+			get { return new ConstraintExpression().None; }
 		}
 
         /// <summary>
@@ -95,10 +95,9 @@ namespace NUnit.Framework
         /// being tested.
         /// </summary>
         /// <param name="name">The name of the property</param>
-		public static PendingConstraintExpression Property( string name )
+		public static PropertyConstraintExpression Property( string name )
 		{
-            //return new ResolvableConstraintExpression( new PropOperator() );
-            return new PartialConstraintExpression().Property(name);
+            return new PropertyConstraintExpression(name);
 		}
 
         /// <summary>
@@ -106,9 +105,9 @@ namespace NUnit.Framework
         /// following constraint to the Length property of the object
         /// being tested.
         /// </summary>
-        public static PendingConstraintExpression Length
+        public static PropertyConstraintExpression Length
         {
-            get { return new PartialConstraintExpression().Length; }
+            get { return Property("Length"); }
         }
 
         /// <summary>
@@ -116,9 +115,9 @@ namespace NUnit.Framework
         /// following constraint to the Count property of the object
         /// being tested.
         /// </summary>
-        public static PendingConstraintExpression Count
+        public static PropertyConstraintExpression Count
         {
-            get { return new PartialConstraintExpression().Count; }
+            get { return Property("Count");  }
         }
 
         /// <summary>
@@ -126,9 +125,9 @@ namespace NUnit.Framework
         /// following constraint to the Message property of the object
         /// being tested.
         /// </summary>
-        public static PendingConstraintExpression Message
+        public static PropertyConstraintExpression Message
         {
-            get { return new PartialConstraintExpression().Message; }
+            get { return Property("Message"); }
         }
         #endregion
 
@@ -138,30 +137,31 @@ namespace NUnit.Framework
 		/// presence of a particular object in the collection.
 		/// </summary>
 		/// <param name="expected">The expected object</param>
-		public static ConstraintExpression Member( object expected )
+		public static CollectionContainsConstraint Member( object expected )
 		{
-			return new PartialConstraintExpression().Member( expected );
+			return new CollectionContainsConstraint( expected );
 		}
 		#endregion
 
         #region Attribute Constraint
         /// <summary>
-        /// Returns a new ConstraintExpression checking for the
+        /// Returns a new AttributeConstraint checking for the
         /// presence of a particular attribute on an object.
         /// </summary>
-        /// <param name="expected">The expected object</param>
-        public static ConstraintExpression Attribute(Type type)
+        /// <param name="type">The expected attribute type</param>
+        public static AttributeConstraint Attribute(Type type)
         {
-            return new PartialConstraintExpression().Attribute(type);
+            return new AttributeConstraint(type);
         }
 
 #if NET_2_0
         /// <summary>
-        /// Returns a new ConstraintExpression checking for the
+        /// Returns a new AttributeConstraint checking for the
         /// presence of a particular attribute on an object.
         /// </summary>
-        /// <param name="expected">The expected object</param>
-        public static ConstraintExpression Attribute<T>()
+        /// <param name="type">The expected object</param>
+        /// <typeparam name="T">The expected attribute type</typeparam>
+        public static AttributeConstraint Attribute<T>()
         {
             return Attribute( typeof(T) );
         }

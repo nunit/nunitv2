@@ -43,37 +43,10 @@ namespace NUnit.Framework.Constraints
             get { caseInsensitive = false; return this; }
         }
 
-        //private Modifier modifier;
-        //public Modifier GetModifier()
-        //{
-        //    if (modifier == null)
-        //        modifier = new Modifier(this);
-
-        //    return modifier;
-        //}
-
-        #region Nested Modifier Class
-        public class Modifier : ConstraintModifier
+        public override string ToString()
         {
-            private PathConstraint constraint;
-
-            public Modifier(PathConstraint constraint, ConstraintExpression builder)
-                : base(constraint, builder)
-            {
-                this.constraint = constraint;
-            }
-
-            public Modifier IgnoreCase
-            {
-                get { constraint.caseInsensitive = true; return this; }
-            }
-
-            public Modifier RespectCase
-            {
-                get { constraint.caseInsensitive = false; return this; }
-            }
+            return string.Format( "<{0} \"{1}\" {2}>", DisplayName, expected, caseInsensitive ? "ignorecase" : "respectcase" );
         }
-        #endregion
 
         #region Helper Methods
         /// <summary>

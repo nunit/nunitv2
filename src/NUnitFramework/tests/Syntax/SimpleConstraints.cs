@@ -7,7 +7,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<equal null>";
+            parseTree = "<null>";
             staticSyntax = Is.Null;
             inheritedSyntax = Helper().Null;
             builderSyntax = Builder().Null;
@@ -19,7 +19,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<equal True>";
+            parseTree = "<true>";
             staticSyntax = Is.True;
             inheritedSyntax = Helper().True;
             builderSyntax = Builder().True;
@@ -31,7 +31,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<equal False>";
+            parseTree = "<false>";
             staticSyntax = Is.False;
             inheritedSyntax = Helper().False;
             builderSyntax = Builder().False;
@@ -43,7 +43,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<equal NaN>";
+            parseTree = "<nan>";
             staticSyntax = Is.NaN;
             inheritedSyntax = Helper().NaN;
             builderSyntax = Builder().NaN;

@@ -113,6 +113,9 @@
       <Link>CollectionAssert.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\BasicConstraints.cs">
+      <Link>Constraints\BasicConstraints.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\BinaryOperations.cs">
       <Link>Constraints\BinaryOperations.cs</Link>
       <SubType>Code</SubType>
@@ -144,6 +147,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\EqualConstraint.cs">
       <Link>Constraints\EqualConstraint.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\IResolveConstraint.cs">
+      <Link>Constraints\IResolveConstraint.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\MessageWriter.cs">
       <Link>Constraints\MessageWriter.cs</Link>
@@ -336,14 +342,8 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\RangeConstraint.cs">
       <Link>Constraints\RangeConstraint.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\IConstraint.cs">
-      <Link>Constraints\IConstraint.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs">
       <Link>Constraints\ConstraintFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintModifier.cs">
-      <Link>Constraints\ConstraintModifier.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintOperators.cs">
       <Link>Constraints\ConstraintOperators.cs</Link>
@@ -353,9 +353,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintExpression.cs">
       <Link>Constraints\ConstraintExpression.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PartialConstraintExpression.cs">
-      <Link>Constraints\PartialConstraintExpression.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ValueSourceAttribute.cs">
       <Link>ValueSourceAttribute.cs</Link>

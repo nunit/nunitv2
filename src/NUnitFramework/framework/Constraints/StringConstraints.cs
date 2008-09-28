@@ -17,10 +17,20 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class StringConstraint : Constraint
     {
+        /// <summary>
+        /// The expected value
+        /// </summary>
         protected string expected;
 
+        /// <summary>
+        /// Indicates whether tests should be case-insensitive
+        /// </summary>
         protected bool caseInsensitive;
 
+        /// <summary>
+        /// Construct a StringConstraint given an expected value
+        /// </summary>
+        /// <param name="expected"></param>
         public StringConstraint(string expected) : base(expected)
         {
             this.expected = expected;
@@ -33,59 +43,78 @@ namespace NUnit.Framework.Constraints
         {
             get { caseInsensitive = true; return this; }
         }
-
-        #region Nested Modifier Class
-        /// <summary>
-        /// 
-        /// </summary>
-        public class Modifier : ConstraintModifier
-        {
-            private StringConstraint constraint;
-
-            public Modifier(StringConstraint constraint, ConstraintExpression builder)
-                : base(constraint, builder)
-            {
-                this.constraint = constraint;
-            }
-
-            public Modifier IgnoreCase
-            {
-                get { constraint.caseInsensitive = true; return this; }
-            }
-        }
-        #endregion
     }
     #endregion
 
     #region EmptyStringConstraint
     /// <summary>
-	/// EmptyStringConstraint tests whether a string is empty.
-	/// </summary>
-	public class EmptyStringConstraint : Constraint
-	{
+    /// EmptyStringConstraint tests whether a string is empty.
+    /// </summary>
+    public class EmptyStringConstraint : Constraint
+    {
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
         /// </summary>
         /// <param name="actual">The value to be tested</param>
         /// <returns>True for success, false for failure</returns>
         public override bool Matches(object actual)
-		{
-			this.actual = actual;
+        {
+            this.actual = actual;
 
-			if ( !(actual is string) )
-				return false;
+            if (!(actual is string))
+                return false;
 
-			return (string)actual == string.Empty;
-		}
+            return (string)actual == string.Empty;
+        }
 
         /// <summary>
         /// Write the constraint description to a MessageWriter
         /// </summary>
         /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(MessageWriter writer)
-		{
-			writer.Write( "<empty>" );
-		}
+        {
+            writer.Write("<empty>");
+        }
+    }
+    #endregion
+
+    #region NullOrEmptyStringConstraint
+    /// <summary>
+    /// NullEmptyStringConstraint tests whether a string is either null or empty.
+    /// </summary>
+    public class NullOrEmptyStringConstraint : Constraint
+    {
+        public NullOrEmptyStringConstraint()
+        {
+            this.DisplayName = "nullorempty";
+        }
+
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+
+            if (actual == null)
+                return true;
+
+            if (!(actual is string))
+                throw new ArgumentException("Actual value must be a string", "actual");
+
+            return (string)actual == string.Empty;
+        }
+
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            writer.Write("null or empty string");
+        }
     }
     #endregion
 

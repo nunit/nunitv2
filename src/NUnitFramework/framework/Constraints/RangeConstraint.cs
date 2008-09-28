@@ -13,12 +13,22 @@ namespace NUnit.Framework.Constraints
         private IComparable from;
         private IComparable to;
 
-        public RangeConstraint(IComparable from, IComparable to)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:RangeConstraint"/> class.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
+        public RangeConstraint(IComparable from, IComparable to) : base( from, to )
         {
             this.from = from;
             this.to = to;
         }
 
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -27,6 +37,10 @@ namespace NUnit.Framework.Constraints
                    Numerics.Compare(to, actual) >= 0;
         }
 
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
 

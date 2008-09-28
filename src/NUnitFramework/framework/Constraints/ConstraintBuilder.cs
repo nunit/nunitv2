@@ -23,14 +23,21 @@ namespace NUnit.Framework.Constraints
     public class ConstraintBuilder
     {
         #region Nested Operator Stack Class
+        /// <summary>
+        /// OperatorStack is a type-safe stack for holding ConstraintOperators
+        /// </summary>
         public class OperatorStack
         {
 #if NET_2_0
             private Stack<ConstraintOperator> stack = new Stack<ConstraintOperator>();
 #else
-		private Stack stack = new Stack();
+		    private Stack stack = new Stack();
 #endif
-            public OperatorStack()
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:OperatorStack"/> class.
+            /// </summary>
+            /// <param name="builder">The builder.</param>
+            public OperatorStack(ConstraintBuilder builder)
             {
                 stack.Clear();
             }
@@ -74,15 +81,25 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Nested Constraint Stack Class
+        /// <summary>
+        /// ConstraintStack is a type-safe stack for holding Constraints
+        /// </summary>
         public class ConstraintStack
         {
 #if NET_2_0
             private Stack<Constraint> stack = new Stack<Constraint>();
 #else
-		private Stack stack = new Stack();
+		    private Stack stack = new Stack();
 #endif
-            public ConstraintStack()
+            private ConstraintBuilder builder;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="T:ConstraintStack"/> class.
+            /// </summary>
+            /// <param name="builder">The builder.</param>
+            public ConstraintStack(ConstraintBuilder builder)
             {
+                this.builder = builder;
                 stack.Clear();
             }
 
@@ -105,30 +122,58 @@ namespace NUnit.Framework.Constraints
             }
 
             /// <summary>
-            /// Pushes the specified constraint.
+            /// Pushes the specified constraint. As a side effect,
+            /// the constraint's builder field is set to the 
+            /// ConstraintBuilder owning this stack.
             /// </summary>
             /// <param name="constraint">The constraint.</param>
             public void Push(Constraint constraint)
             {
                 stack.Push(constraint);
+                constraint.SetBuilder( this.builder );
             }
 
+            /// <summary>
+            /// Pops this topmost constrait from the stack.
+            /// As a side effect, the constraint's builder
+            /// field is set to null.
+            /// </summary>
+            /// <returns></returns>
             public Constraint Pop()
             {
-                return (Constraint)stack.Pop();
+                Constraint constraint = (Constraint)stack.Pop();
+                constraint.SetBuilder( null );
+                return constraint;
             }
         }
         #endregion
 
         #region Instance Fields
-        protected OperatorStack ops = new OperatorStack();
+        private OperatorStack ops;
 
-        protected ConstraintStack constraints = new ConstraintStack();
+        private ConstraintStack constraints;
 
         private object lastPushed;
         #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ConstraintBuilder"/> class.
+        /// </summary>
+        public ConstraintBuilder()
+        {
+            this.ops = new OperatorStack(this);
+            this.constraints = new ConstraintStack(this);
+        }
+        #endregion
+
         #region Properties
+        /// <summary>
+        /// Gets a value indicating whether this instance is resolvable.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> if this instance is resolvable; otherwise, <c>false</c>.
+        /// </value>
         public bool IsResolvable
         {
             get { return lastPushed is Constraint || lastPushed is PropOperator || lastPushed is ThrowsOperator; }
@@ -167,8 +212,13 @@ namespace NUnit.Framework.Constraints
 
             constraints.Push(constraint);
             lastPushed = constraint;
+            constraint.SetBuilder( this );
         }
 
+        /// <summary>
+        /// Sets the top operator right context.
+        /// </summary>
+        /// <param name="rightContext">The right context.</param>
         private void SetTopOperatorRightContext(object rightContext)
         {
             // Some operators change their precedence based on
@@ -187,12 +237,22 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Reduces the operator stack until the topmost item
+        /// precedence is greater than or equal to the target precedence.
+        /// </summary>
+        /// <param name="targetPrecedence">The target precedence.</param>
         private void ReduceOperatorStack(int targetPrecedence)
         {
             while (!ops.Empty && ops.Top.RightPrecedence < targetPrecedence)
                 ops.Pop().Reduce(constraints);
         }
 
+        /// <summary>
+        /// Resolves this instance, returning a Constraint. If the builder
+        /// is not currently in a resolvable state, an exception is thrown.
+        /// </summary>
+        /// <returns>The resolved constraint</returns>
         public Constraint Resolve()
         {
             if (!IsResolvable)

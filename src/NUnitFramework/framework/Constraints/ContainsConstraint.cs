@@ -56,27 +56,6 @@ namespace NUnit.Framework.Constraints
 			this.expected = expected;
 		}
 
-        #region Nested Modifier Class
-        /// <summary>
-        /// 
-        /// </summary>
-        public class Modifier : ConstraintModifier
-        {
-            private ContainsConstraint constraint;
-
-            public Modifier(ContainsConstraint constraint, ConstraintExpression builder)
-                : base(constraint, builder)
-            {
-                this.constraint = constraint;
-            }
-
-            public Modifier IgnoreCase
-            {
-                get { constraint.ignoreCase = true; return this; }
-            }
-        }
-        #endregion
-
         public ContainsConstraint IgnoreCase
         {
             get { this.ignoreCase = true; return this; }

@@ -28,7 +28,7 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="left">The first constraint</param>
 		/// <param name="right">The second constraint</param>
-        public BinaryConstraint(Constraint left, Constraint right) : base( left, right )
+        public BinaryConstraint(Constraint left, Constraint right) : base(left, right)
         {
             this.left = left;
             this.right = right;
@@ -86,6 +86,13 @@ namespace NUnit.Framework.Constraints
             right.WriteDescriptionTo(writer);
         }
 
+        /// <summary>
+        /// Write the actual value for a failing constraint test to a
+        /// MessageWriter. The default implementation simply writes
+        /// the raw value of actual, leaving it to the writer to
+        /// perform any formatting.
+        /// </summary>
+        /// <param name="writer">The writer on which the actual value is displayed</param>
         public override void WriteActualValueTo(MessageWriter writer)
         {
             switch (failurePoint)

@@ -21,46 +21,85 @@ namespace NUnit.Framework
 	public class AssertionHelper : ConstraintFactory
 	{
 		#region Expect
-		/// <summary>
-		/// Apply a constraint to an actual value, succeeding if the constraint
-		/// is satisfied and throwing an assertion exception on failure. Works
-		/// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint)"/>
-		/// </summary>
-		/// <param name="constraint">A Constraint to be applied</param>
-		/// <param name="actual">The actual value to test</param>
-		static public void Expect( object actual, IConstraint constraint )
-		{
-			Assert.That( actual, constraint, null, null );
-		}
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure. Works
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint)"/>
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        static public void Expect(object actual, Constraint constraint)
+        {
+            Assert.That(actual, constraint, null, null);
+        }
 
-		/// <summary>
-		/// Apply a constraint to an actual value, succeeding if the constraint
-		/// is satisfied and throwing an assertion exception on failure. Works
-		/// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint, string)"/>
-		/// </summary>
-		/// <param name="constraint">A Constraint to be applied</param>
-		/// <param name="actual">The actual value to test</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void Expect( object actual, IConstraint constraint, string message )
-		{
-			Assert.That( actual, constraint, message, null );
-		}
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure. Works
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint, string)"/>
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void Expect(object actual, Constraint constraint, string message)
+        {
+            Assert.That(actual, constraint, message, null);
+        }
 
-		/// <summary>
-		/// Apply a constraint to an actual value, succeeding if the constraint
-		/// is satisfied and throwing an assertion exception on failure. Works
-		/// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint, string, object[])"/>
-		/// </summary>
-		/// <param name="constraint">A Constraint to be applied</param>
-		/// <param name="actual">The actual value to test</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Expect( object actual, IConstraint constraint, string message, params object[] args )
-		{
-			Assert.That( actual, constraint, message, args );
-		}
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure. Works
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint, string, object[])"/>
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void Expect(object actual, Constraint constraint, string message, params object[] args)
+        {
+            Assert.That(actual, constraint, message, args);
+        }
 
-		/// <summary>
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure. Works
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint)"/>
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        static public void Expect(object actual, IResolveConstraint constraint)
+        {
+            Assert.That(actual, constraint, null, null);
+        }
+
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure. Works
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint, string)"/>
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void Expect(object actual, IResolveConstraint constraint, string message)
+        {
+            Assert.That(actual, constraint, message, null);
+        }
+
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure. Works
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, IResolvable, string, object[])"/>
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void Expect(object actual, IResolveConstraint constraint, string message, params object[] args)
+        {
+            Assert.That(actual, constraint, message, args);
+        }
+
+        /// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
 		/// an <see cref="AssertionException"/>. Works Identically to 
         /// <see cref="Assert.That(bool, string, object[])"/>.

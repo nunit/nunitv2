@@ -327,34 +327,34 @@ namespace NUnit.Framework
         #region IsEmpty
 
         /// <summary>
-		/// Assert that a string is empty - that is equal to string.Empty
-		/// </summary>
-		/// <param name="aString">The string to be tested</param>
-		/// <param name="message">The message to be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		public static void IsEmpty( string aString, string message, params object[] args )
-		{
+        /// Assert that a string is empty - that is equal to string.Empty
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsEmpty(string aString, string message, params object[] args)
+        {
             Assert.That(aString, new EmptyStringConstraint(), message, args);
-		}
+        }
 
-		/// <summary>
-		/// Assert that a string is empty - that is equal to string.Emtpy
-		/// </summary>
-		/// <param name="aString">The string to be tested</param>
-		/// <param name="message">The message to be displayed on failure</param>
-		public static void IsEmpty( string aString, string message )
-		{
-			IsEmpty( aString, message, null );
-		}
+        /// <summary>
+        /// Assert that a string is empty - that is equal to string.Emtpy
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        public static void IsEmpty(string aString, string message)
+        {
+            IsEmpty(aString, message, null);
+        }
 
-		/// <summary>
-		/// Assert that a string is empty - that is equal to string.Emtpy
-		/// </summary>
-		/// <param name="aString">The string to be tested</param>
-		public static void IsEmpty( string aString )
-		{
-			IsEmpty( aString, string.Empty, null );
-		}
+        /// <summary>
+        /// Assert that a string is empty - that is equal to string.Emtpy
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        public static void IsEmpty(string aString)
+        {
+            IsEmpty(aString, string.Empty, null);
+        }
 
 		/// <summary>
 		/// Assert that an array, list or other collection is empty
@@ -387,8 +387,8 @@ namespace NUnit.Framework
 		}
 		#endregion
 
-		#region IsNotEmpty
-		/// <summary>
+        #region IsNotEmpty
+        /// <summary>
 		/// Assert that a string is not empty - that is not equal to string.Empty
 		/// </summary>
 		/// <param name="aString">The string to be tested</param>
@@ -400,7 +400,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// Assert that a string is not empty - that is not equal to string.Emtpy
 		/// </summary>
 		/// <param name="aString">The string to be tested</param>
 		/// <param name="message">The message to be displayed on failure</param>
@@ -410,7 +410,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert that a string is empty - that is equal to string.Emtpy
+		/// Assert that a string is not empty - that is not equal to string.Emtpy
 		/// </summary>
 		/// <param name="aString">The string to be tested</param>
 		public static void IsNotEmpty( string aString )
@@ -448,6 +448,70 @@ namespace NUnit.Framework
 			IsNotEmpty( collection, string.Empty, null );
 		}
 		#endregion
+
+        #region IsNullOrEmpty
+        /// <summary>
+        /// Assert that a string is either null or equal to string.Empty
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsNullOrEmpty(string aString, string message, params object[] args)
+        {
+            Assert.That(aString, new NullOrEmptyStringConstraint(), message, args);
+        }
+
+        /// <summary>
+        /// Assert that a string is either null or equal to string.Emtpy
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        public static void IsNullOrEmpty(string aString, string message)
+        {
+            IsNullOrEmpty(aString, message, null);
+        }
+
+        /// <summary>
+        /// Assert that a string is either null or equal to string.Emtpy
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        public static void IsNullOrEmpty(string aString)
+        {
+            IsNullOrEmpty(aString, string.Empty, null);
+        }
+        #endregion
+
+        #region IsNotNullOrEmpty
+        /// <summary>
+        /// Assert that a string is not null or empty
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static void IsNotNullOrEmpty(string aString, string message, params object[] args)
+        {
+            Assert.That(aString, new NotConstraint( new NullOrEmptyStringConstraint() ), message, args);
+        }
+
+        /// <summary>
+        /// Assert that a string is not null or empty
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        /// <param name="message">The message to be displayed on failure</param>
+        public static void IsNotNullOrEmpty(string aString, string message)
+        {
+            IsNotNullOrEmpty(aString, message, null);
+        }
+
+        /// <summary>
+        /// Assert that a string is not null or empty
+        /// </summary>
+        /// <param name="aString">The string to be tested</param>
+        public static void IsNotNullOrEmpty(string aString)
+        {
+            IsNotNullOrEmpty(aString, string.Empty, null);
+        }
+        #endregion
 
         #region IsAssignableFrom
         /// <summary>
@@ -2471,10 +2535,10 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
-        static public void That(object actual, IConstraint constraint)
-        {
-            Assert.That(actual, constraint, null, null);
-        }
+        //static public void That(object actual, Constraint constraint)
+        //{
+        //    Assert.That(actual, constraint, null, null);
+        //}
 
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
@@ -2483,10 +2547,10 @@ namespace NUnit.Framework
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void That(object actual, IConstraint constraint, string message)
-        {
-            Assert.That(actual, constraint, message, null);
-        }
+        //static public void That(object actual, Constraint constraint, string message)
+        //{
+        //    Assert.That(actual, constraint, message, null);
+        //}
 
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
@@ -2496,16 +2560,16 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void That(object actual, IConstraint constraint, string message, params object[] args)
-        {
-            Assert.IncrementAssertCount();
-            if (!constraint.Matches(actual))
-            {
-                MessageWriter writer = new TextMessageWriter(message, args);
-                constraint.WriteMessageTo(writer);
-                throw new AssertionException(writer.ToString());
-            }
-        }
+        //static private void That(object actual, Constraint constraint, string message, params object[] args)
+        //{
+        //    Assert.IncrementAssertCount();
+        //    if (!constraint.Matches(actual))
+        //    {
+        //        MessageWriter writer = new TextMessageWriter(message, args);
+        //        constraint.WriteMessageTo(writer);
+        //        throw new AssertionException(writer.ToString());
+        //    }
+        //}
 
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
@@ -2513,7 +2577,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
-        static public void That(object actual, PendingConstraintExpression constraint)
+        static public void That(object actual, IResolveConstraint constraint)
         {
             Assert.That(actual, constraint.Resolve(), null, null);
         }
@@ -2525,7 +2589,7 @@ namespace NUnit.Framework
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void That(object actual, PendingConstraintExpression constraint, string message)
+        static public void That(object actual, IResolveConstraint constraint, string message)
         {
             Assert.That(actual, constraint.Resolve(), message, null);
         }
@@ -2538,9 +2602,17 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void That(object actual, PendingConstraintExpression constraint, string message, params object[] args)
+        static public void That(object actual, IResolveConstraint expression, string message, params object[] args)
         {
-            Assert.That(actual, constraint.Resolve(), message, args);
+            Constraint constraint = expression.Resolve();
+
+            Assert.IncrementAssertCount();
+            if (!constraint.Matches(actual))
+            {
+                MessageWriter writer = new TextMessageWriter(message, args);
+                constraint.WriteMessageTo(writer);
+                throw new AssertionException(writer.ToString());
+            }
         }
 
         /// <summary>

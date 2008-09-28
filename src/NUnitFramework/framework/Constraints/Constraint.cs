@@ -14,7 +14,7 @@ namespace NUnit.Framework.Constraints
     /// within NUnit. It provides the operator overloads used to combine 
     /// constraints.
 	/// </summary>
-    public abstract class Constraint : IConstraint
+    public abstract class Constraint : IResolveConstraint
     {
         #region UnsetObject Class
         /// <summary>
@@ -39,15 +39,6 @@ namespace NUnit.Framework.Constraints
         protected static object UNSET = new UnsetObject();
 
 		/// <summary>
-		/// Dictionary containing property values set by individual constraints
-		/// and used by them in evaluating the match and/or reporting results.
-		/// 
-		/// The following properties are currently defined:
-		///   PathConstraint_IsWindows
-		/// </summary>
-		protected ListDictionary properties = new System.Collections.Specialized.ListDictionary();
-
-		/// <summary>
         /// The actual value being tested against a constraint
         /// </summary>
         protected object actual = UNSET;
@@ -63,6 +54,11 @@ namespace NUnit.Framework.Constraints
         private readonly int argcnt;
         private readonly object arg1;
         private readonly object arg2;
+
+        /// <summary>
+        /// The builder holding this constraint
+        /// </summary>
+        private ConstraintBuilder builder;
         #endregion
 
         #region Constructors
@@ -85,9 +81,22 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
+        #region Set Containing ConstraintBuilder
+        /// <summary>
+        /// Sets the ConstraintBuilder holding this constraint
+        /// </summary>
+        internal void SetBuilder(ConstraintBuilder builder)
+        {
+            this.builder = builder;
+        }
+        #endregion
+
         #region Properties
         /// <summary>
-        /// The display name of this Constraint for use by ToString()
+        /// The display name of this Constraint for use by ToString().
+        /// The default value is the name of the constraint with
+        /// trailing "Constraint" removed. Derived classes may set
+        /// this to another name in their constructors.
         /// </summary>
         public string DisplayName
         {
@@ -107,7 +116,7 @@ namespace NUnit.Framework.Constraints
         }
 		#endregion
 
-		#region IConstraint Members
+		#region Abstract and Virtual Methods
         /// <summary>
         /// Write the failure message to the MessageWriter provided
         /// as an argument. The default implementation simply passes
@@ -149,7 +158,12 @@ namespace NUnit.Framework.Constraints
 		}
 		#endregion
 
-        #region ToString()
+        #region ToString Override
+        /// <summary>
+        /// Default override of ToString returns the constraint DisplayName
+        /// followed by any arguments within angle brackets.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             switch (argcnt)
@@ -173,14 +187,16 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
-        #region Operator Overloads
+        #region Operator Overrides
         /// <summary>
         /// This operator creates a constraint that is satisfied only if both 
         /// argument constraints are satisfied.
         /// </summary>
         public static Constraint operator &(Constraint left, Constraint right)
         {
-            return new AndConstraint(left, right);
+            IResolveConstraint l = (IResolveConstraint)left;
+            IResolveConstraint r = (IResolveConstraint)right;
+            return new AndConstraint(l.Resolve(), r.Resolve());
         }
 
         /// <summary>
@@ -189,28 +205,70 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public static Constraint operator |(Constraint left, Constraint right)
         {
-            return new OrConstraint(left, right);
+            IResolveConstraint l = (IResolveConstraint)left;
+            IResolveConstraint r = (IResolveConstraint)right;
+            return new OrConstraint(l.Resolve(), r.Resolve());
         }
 
         /// <summary>
         /// This operator creates a constraint that is satisfied if the 
         /// argument constraint is not satisfied.
         /// </summary>
-        public static Constraint operator !(Constraint m)
+        public static Constraint operator !(Constraint constraint)
         {
-            return new NotConstraint(m == null ? new EqualConstraint(null) : m);
+            IResolveConstraint r = constraint as IResolveConstraint;
+            return new NotConstraint(r == null ? new NullConstraint() : r.Resolve());
         }
         #endregion
 
         #region Binary Operators
-        public PartialConstraintExpression And
+        public ConstraintExpression And
         {
-            get { return new PartialConstraintExpression().Append(this).And; }
+            get
+            {
+                ConstraintBuilder builder = this.builder;
+                if (builder == null)
+                {
+                    builder = new ConstraintBuilder();
+                    builder.Append(this);
+                }
+
+                builder.Append(new AndOperator());
+
+                return new ConstraintExpression(builder);
+            }
         }
 
-        public PartialConstraintExpression Or
+        /// <summary>
+        /// With is equivalent to And after a Constraint
+        /// </summary>
+        public ConstraintExpression With
         {
-            get { return new PartialConstraintExpression().Append(this).Or; }
+            get { return this.And; }
+        }
+
+        public ConstraintExpression Or
+        {
+            get
+            {
+                ConstraintBuilder builder = this.builder;
+                if (builder == null)
+                {
+                    builder = new ConstraintBuilder();
+                    builder.Append(this);
+                }
+
+                builder.Append(new OrOperator());
+
+                return new ConstraintExpression(builder);
+            }
+        }
+        #endregion
+
+        #region IResolveConstraint Members
+        Constraint IResolveConstraint.Resolve()
+        {
+            return builder == null ? this : builder.Resolve();
         }
         #endregion
     }

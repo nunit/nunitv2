@@ -1,4 +1,5 @@
 ﻿using System;
+using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework.Syntax
 {
@@ -8,73 +9,82 @@ namespace NUnit.Framework.Syntax
         [Test]
         public void ThrowsException()
         {
+            IResolveConstraint expr = Throws.Exception;
             Assert.AreEqual(
                 "<throws>",
-                Throws.Exception.ToString());
+                expr.Resolve().ToString());
         }
 
         [Test]
         public void ThrowsExceptionWithConstraint()
         {
+            IResolveConstraint expr = Throws.Exception.With.Property("ParamName").EqualTo("myParam");
             Assert.AreEqual(
                 @"<throws <property ParamName <equal ""myParam"">>>",
-                Throws.Exception.With.Property("ParamName").EqualTo("myParam").ToString());
+                expr.Resolve().ToString());
         }
 
         [Test]
         public void ThrowsExceptionTypeOf()
         {
+            IResolveConstraint expr = Throws.Exception.TypeOf(typeof(ArgumentException));
             Assert.AreEqual(
                 "<throws <typeof System.ArgumentException>>",
-                Throws.Exception.TypeOf(typeof(ArgumentException)).ToString());
+                expr.Resolve().ToString());
         }
 
         [Test]
         public void ThrowsTypeOf()
         {
+            IResolveConstraint expr = Throws.TypeOf(typeof(ArgumentException));
             Assert.AreEqual(
                 "<throws <typeof System.ArgumentException>>",
-                Throws.TypeOf(typeof(ArgumentException)).ToString());
+                expr.Resolve().ToString());
         }
 
         [Test]
         public void ThrowsTypeOfAndConstraint()
         {
+            IResolveConstraint expr = Throws.TypeOf(typeof(ArgumentException)).And.Property("ParamName").EqualTo("myParam");
             Assert.AreEqual(
                 @"<throws <and <typeof System.ArgumentException> <property ParamName <equal ""myParam"">>>>",
-                Throws.TypeOf(typeof(ArgumentException)).And.Property("ParamName").EqualTo("myParam").ToString());
+                expr.Resolve().ToString());
         }
 
         [Test]
         public void ThrowsExceptionTypeOfAndConstraint()
         {
+            IResolveConstraint expr = Throws.Exception.TypeOf(typeof(ArgumentException)).And.Property("ParamName").EqualTo("myParam");
             Assert.AreEqual(
                 @"<throws <and <typeof System.ArgumentException> <property ParamName <equal ""myParam"">>>>",
-                Throws.Exception.TypeOf(typeof(ArgumentException)).And.Property("ParamName").EqualTo("myParam").ToString());
+                expr.Resolve().ToString());
         }
 
         [Test]
         public void ThrowsTypeOfWithConstraint()
         {
+            IResolveConstraint expr = Throws.TypeOf(typeof(ArgumentException)).With.Property("ParamName").EqualTo("myParam");
             Assert.AreEqual(
                 @"<throws <and <typeof System.ArgumentException> <property ParamName <equal ""myParam"">>>>",
-                Throws.TypeOf(typeof(ArgumentException)).With.Property("ParamName").EqualTo("myParam").ToString());
+                expr.Resolve().ToString());
         }
 
         [Test]
         public void ThrowsInstanceOf()
         {
+            IResolveConstraint expr = Throws.InstanceOf(typeof(ArgumentException));
             Assert.AreEqual(
                 "<throws <instanceof System.ArgumentException>>",
-                Throws.InstanceOf(typeof(ArgumentException)).ToString());
+                expr.Resolve().ToString());
         }
 
         [Test]
         public void ThrowsExceptionInstanceOf()
         {
+            IResolveConstraint expr = Throws.Exception.InstanceOf(typeof(ArgumentException));
             Assert.AreEqual(
                 "<throws <instanceof System.ArgumentException>>",
-                Throws.Exception.InstanceOf(typeof(ArgumentException)).ToString());
+                expr.Resolve().ToString());
         }
     }
 }

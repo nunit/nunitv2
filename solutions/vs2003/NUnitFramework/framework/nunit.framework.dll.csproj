@@ -372,6 +372,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\BasicConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\BasicConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\BinaryOperations.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\BinaryOperations.cs"
                     SubType = "Code"
@@ -414,12 +420,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Constraints\ConstraintModifier.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintModifier.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Constraints\ConstraintOperators.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintOperators.cs"
                     SubType = "Code"
@@ -450,8 +450,8 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Constraints\IConstraint.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\IConstraint.cs"
+                    RelPath = "Constraints\IResolveConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\IResolveConstraint.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -470,12 +470,6 @@
                 <File
                     RelPath = "Constraints\Numerics.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\Numerics.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Constraints\PartialConstraintExpression.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\PartialConstraintExpression.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

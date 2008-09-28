@@ -132,13 +132,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintExpression.cs">
-      <Link>ConstraintExpression.cs</Link>
+      <Link>Constraints\ConstraintExpression.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs">
       <Link>Constraints\ConstraintFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintModifier.cs">
-      <Link>Constraints\ConstraintModifier.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintOperators.cs">
       <Link>Constraints\ConstraintOperators.cs</Link>
@@ -155,8 +152,8 @@
       <Link>Constraints\EqualConstraint.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\IConstraint.cs">
-      <Link>Constraints\IConstraint.cs</Link>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\IResolveConstraint.cs">
+      <Link>Constraints\IResolveConstraint.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\MessageWriter.cs">
       <Link>Constraints\MessageWriter.cs</Link>
@@ -169,9 +166,6 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\Numerics.cs">
       <Link>Constraints\Numerics.cs</Link>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PartialConstraintExpression.cs">
-      <Link>PartialConstraintExpression.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PathConstraints.cs">
       <Link>Constraints\PathConstraints.cs</Link>
@@ -352,6 +346,9 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ValueSourceAttribute.cs">
       <Link>ValueSourceAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\BasicConstraints.cs">
+      <Link>Constraints\BasicConstraints.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

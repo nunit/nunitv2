@@ -8,7 +8,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<not <equal null>>";
+            parseTree = "<not <null>>";
             staticSyntax = Is.Not.Null;
             inheritedSyntax = Helper().Not.Null;
             builderSyntax = Builder().Not.Null;
@@ -20,7 +20,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<not <not <not <equal null>>>>";
+            parseTree = "<not <not <not <null>>>>";
             staticSyntax = Is.Not.Not.Not.Null;
             inheritedSyntax = Helper().Not.Not.Not.Null;
             builderSyntax = Builder().Not.Not.Not.Null;
@@ -125,7 +125,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<and <not <equal null>> <and <not <lessthan 5>> <not <greaterthan 10>>>>";
+            parseTree = "<and <not <null>> <and <not <lessthan 5>> <not <greaterthan 10>>>>";
             staticSyntax = Is.Not.Null.And.Not.LessThan(5).And.Not.GreaterThan(10);
             inheritedSyntax = Helper().Not.Null.And.Not.LessThan(5).And.Not.GreaterThan(10);
             builderSyntax = Builder().Not.Null.And.Not.LessThan(5).And.Not.GreaterThan(10);

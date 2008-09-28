@@ -1,29 +1,30 @@
 ﻿using System;
+using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework.Syntax
 {
     public abstract class SyntaxTest
     {
         protected string parseTree;
-        protected object staticSyntax;
-        protected object inheritedSyntax;
-        protected object builderSyntax;
+        protected IResolveConstraint staticSyntax;
+        protected IResolveConstraint inheritedSyntax;
+        protected IResolveConstraint builderSyntax;
 
         protected AssertionHelper Helper()
         {
             return new AssertionHelper();
         }
 
-        protected Constraints.PartialConstraintExpression Builder()
+        protected ConstraintExpression Builder()
         {
-            return new Constraints.PartialConstraintExpression();
+            return new ConstraintExpression();
         }
 
         [Test]
         public void SupportedByStaticSyntax()
         {
             Assert.That(
-                staticSyntax.ToString(),
+                staticSyntax.Resolve().ToString(),
                 Is.EqualTo(parseTree).NoClip);
         }
 
@@ -31,7 +32,7 @@ namespace NUnit.Framework.Syntax
         public void SupportedByConstraintBuilder()
         {
             Assert.That(
-                builderSyntax.ToString(),
+                builderSyntax.Resolve().ToString(),
                 Is.EqualTo(parseTree).NoClip);
         }
 
@@ -39,7 +40,7 @@ namespace NUnit.Framework.Syntax
         public void SupportedByInheritedSyntax()
         {
             Assert.That(
-                inheritedSyntax.ToString(),
+                inheritedSyntax.Resolve().ToString(),
                 Is.EqualTo(parseTree).NoClip);
         }
     }

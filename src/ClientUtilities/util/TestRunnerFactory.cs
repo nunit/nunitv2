@@ -13,9 +13,10 @@ namespace NUnit.Util
                 ? RuntimeFramework.CurrentFramework
                 : new RuntimeFramework( targetRuntime );
 
-            if ( package.GetSetting("SeparateProcess", false) ||
-                 runtimeFramework.Runtime != RuntimeFramework.CurrentFramework.Runtime ||
-                 runtimeFramework.Version != RuntimeFramework.CurrentFramework.Version)
+            // TODO: Figure out how to trigger separate process based on Runtime target
+            if ( package.GetSetting("SeparateProcess", false) )//||
+                 //runtimeFramework.Runtime != RuntimeFramework.CurrentFramework.Runtime ||
+                 //runtimeFramework.Version != RuntimeFramework.CurrentFramework.Version)
             {
                 package.Settings.Remove("SeparateProcess");
                 return new ProcessRunner();

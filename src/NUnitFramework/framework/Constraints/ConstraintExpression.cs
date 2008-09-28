@@ -5,156 +5,677 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
 
 namespace NUnit.Framework.Constraints
 {
     /// <summary>
-    /// ConstraintExpression is one of the classes used to represent
-    /// a constraint in the process of being constructed from a series 
-    /// of syntactic elements. 
+    /// ConstraintExpression represents a compound constraint in the 
+    /// process of being constructed from a series of syntactic elements.
     /// 
-    /// Specifically, ConstraintExpression represents an expression
-    /// that is complete in itself. It can be resolved to an actual
-    /// constraint and, in fact, implements the IConstraint interface.
-    /// A ConstraintExpression may still be extended by appending a 
-    /// binary operator, which creates a PartialConstraintExpression.
+    /// Individual elements are appended to the expression as they are
+    /// reognized. Once an actual Constraint is appended, the expression
+    /// returns a resolvable Constraint.
     /// </summary>
-    public class ConstraintExpression : IConstraint
+    public class ConstraintExpression
     {
-        private ConstraintBuilder builder;
+        #region Instance Fields
+        /// <summary>
+        /// The ConstraintBuilder holding the elements recognized so far
+        /// </summary>
+        protected ConstraintBuilder builder;
+        #endregion
 
+        #region Constructor
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ConstraintExpression"/> class.
+        /// </summary>
+        public ConstraintExpression()
+        {
+            this.builder = new ConstraintBuilder();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:ConstraintExpression"/> 
+        /// class passing in a ConstraintBuilder, which may be pre-populated.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
         public ConstraintExpression(ConstraintBuilder builder)
         {
             this.builder = builder;
         }
+        #endregion
+
+        #region Prefix Operators
+
+        #region Not
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing a Not operator on the stack.
+        /// </summary>
+        public ConstraintExpression Not
+        {
+            get { return this.Append(new NotOperator()); }
+        }
 
         /// <summary>
-        /// Resolves the builder to a constraint by applying
-        /// all pending operators and operands from the stack.
-        /// The result is cached for further calls, and cleared
-        /// when any further pushes are done.
+        /// Modifies the ConstraintBuilder by pushing a Not operator on the stack.
         /// </summary>
-        /// <returns>A constraint that incorporates all pending operators</returns>
-        private Constraint resolvedConstraint = null;
-        public Constraint Resolve()
+        public ConstraintExpression No
         {
-            if (resolvedConstraint == null)
-                resolvedConstraint = builder.Resolve();
+            get { return this.Append(new NotOperator()); }
+        }
+        #endregion
 
-            return resolvedConstraint;
+        #region All
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing an All operator on the stack.
+        /// </summary>
+        public ConstraintExpression All
+        {
+            get { return this.Append(new AllOperator()); }
+        }
+        #endregion
+
+        #region Some
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing a Some operator on the stack.
+        /// </summary>
+        public ConstraintExpression Some
+        {
+            get { return this.Append(new SomeOperator()); }
+        }
+        #endregion
+
+        #region None
+        /// <summary>
+        /// Modifies the constraint builder by pushing a None operator on the stack
+        /// </summary>
+        public ConstraintExpression None
+        {
+            get { return this.Append(new NoneOperator()); }
+        }
+        #endregion
+
+        #region Prop
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing a Prop operator
+        /// with the specified name on the operator stack
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public ResolvableConstraintExpression Property(string name)
+        {
+            builder.Append(new PropOperator(name));
+            return new ResolvableConstraintExpression(builder);
         }
 
-        #region And
-        public PartialConstraintExpression And
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing a Prop operator
+        /// for the Length property on the operator stack.
+        /// </summary>
+        /// <returns></returns>
+        public ResolvableConstraintExpression Length
         {
-            get
-            {
-                builder.Append(new AndOperator());
-                return new PartialConstraintExpression(builder);
-            }
+            get { return Property("Length"); }
         }
+
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing a Prop operator
+        /// for the Count property on the operator stack.
+        /// </summary>
+        /// <returns></returns>
+        public ResolvableConstraintExpression Count
+        {
+            get { return Property("Count"); }
+        }
+
+        /// <summary>
+        /// Modifies the ConstraintBuilder by pushing a Prop operator
+        /// for the Message property on the operator stack.
+        /// </summary>
+        /// <returns></returns>
+        public ResolvableConstraintExpression Message
+        {
+            get { return Property("Message"); }
+        }
+        #endregion
+
+        #region Throws
+        //        public ResolvableConstraintBuilder Throws(Type type)
+        //        {
+        //            builder.Push(new ThrowsOperator());
+        //            builder.Push(new ExactTypeConstraint(type));
+        //            return new ResolvableConstraintBuilder(this);
+        //        }
+
+        //#if NET_2_0
+        //        public ResolvableConstraintBuilder Throws<T>()
+        //        {
+        //            return Throws(typeof(T));
+        //        }
+        //#endif
         #endregion
 
         #region With
         /// <summary>
-        /// With is equivalent to And after a completed expression
+        /// With is currently a NOP - reserved for future use.
         /// </summary>
-        public PartialConstraintExpression With
+        public ConstraintExpression With
         {
-            get
-            {
-                builder.Append(new AndOperator());
-                return new PartialConstraintExpression(builder);
-            }
+            get { return this.Append(new WithOperator()); }
         }
         #endregion
 
-        #region Or
-        public PartialConstraintExpression Or
+        #endregion
+
+        #region Constraints Without Arguments
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// EqualConstraint(null) as base.
+        /// </summary>
+        public NullConstraint Null
         {
-            get
-            {
-                builder.Append(new OrOperator());
-                return new PartialConstraintExpression(builder);
-            }
+            get { return this.Append(new NullConstraint()) as NullConstraint; }
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// EqualConstraint(true) as base.
+        /// </summary>
+        public TrueConstraint True
+        {
+            get { return this.Append(new TrueConstraint()) as TrueConstraint; }
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// EqualConstraint(false) as base.
+        /// </summary>
+        public FalseConstraint False
+        {
+            get { return this.Append(new FalseConstraint()) as FalseConstraint; }
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// Is.NaN as base.
+        /// </summary>
+        public NaNConstraint NaN
+        {
+            get { return this.Append(new NaNConstraint()) as NaNConstraint; }
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// Is.Empty as base.
+        /// </summary>
+        public EmptyConstraint Empty
+        {
+            get { return this.Append(new EmptyConstraint()) as EmptyConstraint; }
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// Is.Unique as base.
+        /// </summary>
+        public UniqueItemsConstraint Unique
+        {
+            get { return this.Append(new UniqueItemsConstraint()) as UniqueItemsConstraint; }
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionOrderedConstraint as base.
+        /// </summary>
+        public CollectionOrderedConstraint Ordered()
+        {
+            return this.Append(new CollectionOrderedConstraint()) as CollectionOrderedConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionOrderedConstraint as base.
+        /// </summary>
+        public CollectionOrderedConstraint Ordered(IComparer comparer)
+        {
+            return this.Append(new CollectionOrderedConstraint(comparer)) as CollectionOrderedConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionOrderedConstraint as base.
+        /// </summary>
+        public CollectionOrderedConstraint OrderedBy(string propertyName)
+        {
+            return this.Append(new CollectionOrderedConstraint(propertyName)) as CollectionOrderedConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionOrderedConstraint as base.
+        /// </summary>
+        public CollectionOrderedConstraint OrderedBy(string propertyName, IComparer comparer)
+        {
+            return this.Append(new CollectionOrderedConstraint(propertyName)) as CollectionOrderedConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// BinarySerializableConstraint as base.
+        /// </summary>
+        public BinarySerializableConstraint BinarySerializable
+        {
+            get { return Append(new BinarySerializableConstraint()) as BinarySerializableConstraint; }
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using
+        /// XmlSerializableConstraint as base.
+        /// </summary>
+        public XmlSerializableConstraint XmlSerializable
+        {
+            get { return Append(new XmlSerializableConstraint()) as XmlSerializableConstraint; }
         }
         #endregion
 
-        #region Operator Overloads
+        #region Constraints with an expected value argument
+
+        #region Equality and Identity
         /// <summary>
-        /// This operator creates a constraint that is satisfied only if both 
-        /// argument constraints are satisfied.
+        /// Resolves the chain of constraints using an
+        /// EqualConstraint as base.
         /// </summary>
-        public static Constraint operator &(ConstraintExpression left, ConstraintExpression right)
+        public EqualConstraint EqualTo(object expected)
         {
-            return new AndConstraint(left.Resolve(), right.Resolve());
+            return this.Append( new EqualConstraint(expected) ) as EqualConstraint;
         }
 
         /// <summary>
-        /// This operator creates a constraint that is satisfied only if both 
-        /// argument constraints are satisfied.
+        /// Resolves the chain of constraints using a
+        /// SameAsConstraint as base.
         /// </summary>
-        public static Constraint operator &(ConstraintExpression left, Constraint right)
+        public SameAsConstraint SameAs(object expected)
         {
-            return new AndConstraint(left.Resolve(), right);
+            return this.Append(new SameAsConstraint(expected)) as SameAsConstraint;
+        }
+        #endregion
+
+        #region Comparison Constraints
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// LessThanConstraint as base.
+        /// </summary>
+        public LessThanConstraint LessThan(IComparable expected)
+        {
+            return this.Append(new LessThanConstraint(expected)) as LessThanConstraint;
         }
 
         /// <summary>
-        /// This operator creates a constraint that is satisfied only if both 
-        /// argument constraints are satisfied.
+        /// Resolves the chain of constraints using a
+        /// GreaterThanConstraint as base.
         /// </summary>
-        public static Constraint operator &(Constraint left, ConstraintExpression right)
+        public GreaterThanConstraint GreaterThan(IComparable expected)
         {
-            return new AndConstraint(left, right.Resolve());
+            return this.Append(new GreaterThanConstraint(expected)) as GreaterThanConstraint;
         }
 
         /// <summary>
-        /// This operator creates a constraint that is satisfied if either 
-        /// of the argument constraints is satisfied.
+        /// Resolves the chain of constraints using a
+        /// LessThanOrEqualConstraint as base.
         /// </summary>
-        public static Constraint operator |(ConstraintExpression left, ConstraintExpression right)
+        public LessThanOrEqualConstraint LessThanOrEqualTo(IComparable expected)
         {
-            return new OrConstraint(left.Resolve(), right.Resolve());
-            //left.builder.Push(new OrOperator());
-            //left.builder.Push(right.Resolve());
-            //return left;
+            return this.Append(new LessThanOrEqualConstraint(expected)) as LessThanOrEqualConstraint;
         }
 
         /// <summary>
-        /// This operator creates a constraint that is satisfied if the 
-        /// argument constraint is not satisfied.
+        /// Resolves the chain of constraints using a
+        /// LessThanOrEqualConstraint as base.
         /// </summary>
-        public static Constraint operator !(ConstraintExpression m)
+        public LessThanOrEqualConstraint AtMost(IComparable expected)
         {
-            return new NotConstraint(m == null ? new EqualConstraint(null) : m.Resolve());
+            return this.Append(new LessThanOrEqualConstraint(expected)) as LessThanOrEqualConstraint;
         }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// GreaterThanOrEqualConstraint as base.
+        /// </summary>
+        public GreaterThanOrEqualConstraint GreaterThanOrEqualTo(IComparable expected)
+        {
+            return this.Append(new GreaterThanOrEqualConstraint(expected)) as GreaterThanOrEqualConstraint;
+        }
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// GreaterThanOrEqualConstraint as base.
+        /// </summary>
+        public GreaterThanOrEqualConstraint AtLeast(IComparable expected)
+        {
+            return this.Append(new GreaterThanOrEqualConstraint(expected)) as GreaterThanOrEqualConstraint;
+        }
+        #endregion
+
+        #region Type Constraints
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// ExactTypeConstraint as base.
+        /// </summary>
+        public ExactTypeConstraint TypeOf(Type expectedType)
+        {
+            return this.Append(new ExactTypeConstraint(expectedType)) as ExactTypeConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// InstanceOfTypeConstraint as base.
+        /// </summary>
+        public InstanceOfTypeConstraint InstanceOf(Type expectedType)
+        {
+            return this.Append(new InstanceOfTypeConstraint(expectedType)) as InstanceOfTypeConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// InstanceOfTypeConstraint as base.
+        /// </summary>
+        [Obsolete("Use InstanceOf")]
+        public InstanceOfTypeConstraint InstanceOfType(Type expectedType)
+        {
+            return this.Append(new InstanceOfTypeConstraint(expectedType)) as InstanceOfTypeConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AssignableFromConstraint as base.
+        /// </summary>
+        public AssignableFromConstraint AssignableFrom(Type expectedType)
+        {
+            return this.Append(new AssignableFromConstraint(expectedType)) as AssignableFromConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AssignableToConstraint as base.
+        /// </summary>
+        public AssignableToConstraint AssignableTo(Type expectedType)
+        {
+            return this.Append(new AssignableToConstraint(expectedType)) as AssignableToConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AttributeConstraint as base.
+        /// </summary>
+        public AttributeConstraint Attribute(Type expectedType)
+        {
+            return this.Append(new AttributeConstraint(expectedType)) as AttributeConstraint;
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// ExactTypeConstraint as base.
+        /// </summary>
+        public ExactTypeConstraint TypeOf<T>()
+        {
+            return TypeOf(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// InstanceOfTypeConstraint as base.
+        /// </summary>
+        [Obsolete("Use InstanceOf")]
+        public InstanceOfTypeConstraint InstanceOfType<T>()
+        {
+            return InstanceOfType(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// InstanceOfTypeConstraint as base.
+        /// </summary>
+        public InstanceOfTypeConstraint InstanceOf<T>()
+        {
+            return InstanceOf(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AssignableFromConstraint as base.
+        /// </summary>
+        public AssignableFromConstraint AssignableFrom<T>()
+        {
+            return AssignableFrom(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AssignableToConstraint as base.
+        /// </summary>
+        public AssignableToConstraint AssignableTo<T>()
+        {
+            return AssignableTo(typeof(T));
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AttributeConstraint as base.
+        /// </summary>
+        public AttributeConstraint Attribute<T>()
+        {
+            return Attribute(typeof(T));
+        }
+#endif
+        #endregion
+
+        #region Containing Constraint
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// ContainsConstraint as base. This constraint
+        /// will, in turn, make use of the appropriate
+        /// second-level constraint, depending on the
+        /// type of the actual argument.
+        /// </summary>
+        public ContainsConstraint Contains(string expected)
+        {
+            return this.Append(new ContainsConstraint(expected)) as ContainsConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a 
+        /// CollectionContainsConstraint as base.
+        /// </summary>
+        /// <param name="expected"></param>
+        /// <returns></returns>
+        public CollectionContainsConstraint Contains(object expected)
+        {
+            return this.Append(new CollectionContainsConstraint(expected)) as CollectionContainsConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a 
+        /// CollectionContainsConstraint as base.
+        /// </summary>
+        /// <param name="expected">The expected object</param>
+        public CollectionContainsConstraint Member(object expected)
+        {
+            return this.Append(new CollectionContainsConstraint(expected)) as CollectionContainsConstraint;
+        }
+        #endregion
+
+        #region String Constraints
+        /// <summary>
+        /// Pushes a SubstringConstraint on the stack and
+        /// returns a Modifier for it.
+        /// </summary>
+        /// <param name="substring"></param>
+        /// <returns></returns>
+        public SubstringConstraint ContainsSubstring(string substring)
+        {
+            return this.Append(new SubstringConstraint(substring)) as SubstringConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// StartsWithConstraint as base.
+        /// </summary>
+        public StartsWithConstraint StartsWith(string substring)
+        {
+            return this.Append(new StartsWithConstraint(substring)) as StartsWithConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// StringEndingConstraint as base.
+        /// </summary>
+        public EndsWithConstraint EndsWith(string substring)
+        {
+            return this.Append(new EndsWithConstraint(substring)) as EndsWithConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// StringMatchingConstraint as base.
+        /// </summary>
+        public RegexConstraint Matches(string pattern)
+        {
+            return this.Append(new RegexConstraint(pattern)) as RegexConstraint;
+        }
+        #endregion
+
+        #region Collection Constraints
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionEquivalentConstraint as base.
+        /// </summary>
+        public CollectionEquivalentConstraint EquivalentTo(ICollection expected)
+        {
+            return this.Append(new CollectionEquivalentConstraint(expected)) as CollectionEquivalentConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionContainingConstraint as base.
+        /// </summary>
+        public CollectionContainsConstraint CollectionContaining(object expected)
+        {
+            return this.Append(new CollectionContainsConstraint(expected)) as CollectionContainsConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// CollectionSubsetConstraint as base.
+        /// </summary>
+        public CollectionSubsetConstraint SubsetOf(ICollection expected)
+        {
+            return this.Append(new CollectionSubsetConstraint(expected)) as CollectionSubsetConstraint;
+        }
+        #endregion
+
+        #region Path Constraints
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// SamePathConstraint as base.
+        /// </summary>
+        public SamePathConstraint SamePath(string expected)
+        {
+            return this.Append(new SamePathConstraint(expected)) as SamePathConstraint;
+        }
+
+        /// <summary>
+        /// Resolves the chain of constraints using a
+        /// SamePathOrUnderConstraint as base.
+        /// </summary>
+        public SamePathOrUnderConstraint SamePathOrUnder(string expected)
+        {
+            return this.Append(new SamePathOrUnderConstraint(expected)) as SamePathOrUnderConstraint;
+        }
+        #endregion
+
+        #endregion
+
+        #region Constraints with two arguments
+
+        #region Range Constraint
+        public RangeConstraint InRange(IComparable from, IComparable to)
+        {
+            return this.Append(new RangeConstraint(from, to)) as RangeConstraint;
+        }
+        #endregion
+
         #endregion
 
         public override string ToString()
         {
-            return Resolve().ToString();
+            return builder.Resolve().ToString();
         }
 
-        #region IConstraint Members
-        bool IConstraint.Matches(object actual)
+        #region Append Methods
+        public ConstraintExpression Append(ConstraintOperator op)
         {
-            return Resolve().Matches(actual);
+            builder.Append(op);
+            return this;
         }
 
-        void IConstraint.WriteMessageTo(MessageWriter writer)
+        public Constraint Append(Constraint constraint)
         {
-            Resolve().WriteMessageTo(writer);
-        }
-
-        void IConstraint.WriteDescriptionTo(MessageWriter writer)
-        {
-            Resolve().WriteDescriptionTo(writer);
-        }
-
-        void IConstraint.WriteActualValueTo(MessageWriter writer)
-        {
-            Resolve().WriteActualValueTo(writer);
+            builder.Append(constraint);
+            return constraint;
         }
         #endregion
+    }
+
+    /// <summary>
+    /// ResolvableConstraintExpression is used to represent a compound
+    /// constraint being constructed at a point where the last operator
+    /// may either terminate the expression or may have additional 
+    /// qualifying constraints added to it. 
+    /// 
+    /// It is used, for example, for a Property element or for
+    /// an Exception element, either of which may be optionally
+    /// followed by constraints that apply to the property or 
+    /// exception.
+    /// </summary>
+    public class ResolvableConstraintExpression : ConstraintExpression, IResolveConstraint
+    {
+        public ResolvableConstraintExpression() { }
+
+        public ResolvableConstraintExpression(ConstraintBuilder builder)
+            : base(builder) { }
+
+        public ConstraintExpression And
+        {
+            get { return this.Append(new AndOperator()); }
+        }
+
+        public ConstraintExpression Or
+        {
+            get { return this.Append(new OrOperator()); }
+        }
+
+        #region IResolveConstraint Members
+        Constraint IResolveConstraint.Resolve()
+        {
+            return builder.Resolve();
+        }
+        #endregion
+    }
+
+    public class PropertyConstraintExpression : ResolvableConstraintExpression
+    {
+        public PropertyConstraintExpression( string name )
+        {
+            builder.Append( new PropOperator( name ) );
+        }
+    }
+
+    public class ThrowsConstraintExpression : ResolvableConstraintExpression
+    {
+        public ThrowsConstraintExpression()
+        {
+            builder.Append(new ThrowsOperator());
+        }
     }
 }

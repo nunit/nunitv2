@@ -29,9 +29,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="type">The expected type of exception.</param>
         /// <returns>A ThrowsConstraint</returns>
-        public static ConstraintExpression TypeOf(Type type)
+        public static ExactTypeConstraint TypeOf(Type type)
         {
-            return new PartialConstraintExpression().Append(new ThrowsOperator()).TypeOf(type);
+            return new ConstraintExpression().Append(new ThrowsOperator()).TypeOf(type);
         }
 
 #if NET_2_0
@@ -40,7 +40,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <typeparam name="T">The expected type of exception.</typeparam>
         /// <returns>A ResolvableConstraintBuilder</returns>
-        public static ConstraintExpression TypeOf<T>()
+        public static ExactTypeConstraint TypeOf<T>()
         {
             return TypeOf(typeof(T));
         }
@@ -51,9 +51,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="type">The expected type of exception.</param>
         /// <returns>A ThrowsConstraint</returns>
-        public static ConstraintExpression InstanceOf(Type type)
+        public static InstanceOfTypeConstraint InstanceOf(Type type)
         {
-            return new PartialConstraintExpression().Append(new ThrowsOperator()).InstanceOfType(type);
+            return new ConstraintExpression().Append(new ThrowsOperator()).InstanceOfType(type);
         }
 
 #if NET_2_0
@@ -62,7 +62,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <typeparam name="T">The expected type of exception.</typeparam>
         /// <returns>A ResolvableConstraintBuilder</returns>
-        public static ConstraintExpression InstanceOf<T>()
+        public static InstanceOfTypeConstraint InstanceOf<T>()
         {
             return InstanceOf(typeof(T));
         }

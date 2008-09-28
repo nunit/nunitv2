@@ -8,7 +8,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<not <equal null>>";
+            parseTree = "<not <null>>";
             staticSyntax = !Is.Null;
             inheritedSyntax = !Helper().Null;
             builderSyntax = !Builder().Null;
@@ -44,7 +44,7 @@ namespace NUnit.Framework.Syntax
         [Test]
         public void ComplexTests()
         {
-            string expected = "<and <and <not <equal null>> <not <lessthan 5>>> <not <greaterthan 10>>>";
+            string expected = "<and <and <not <null>> <not <lessthan 5>>> <not <greaterthan 10>>>";
 
             Constraint c =
                 Is.Not.Null & Is.Not.LessThan(5) & Is.Not.GreaterThan(10);

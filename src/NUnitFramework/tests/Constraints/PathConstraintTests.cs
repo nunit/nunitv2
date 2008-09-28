@@ -13,7 +13,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new SamePathConstraint( @"C:\folder1\file.tmp" ).IgnoreCase;
             expectedDescription = @"Path matching ""C:\folder1\file.tmp""";
-            stringRepresentation = "<samepath \"C:\\folder1\\file.tmp\">";
+            stringRepresentation = "<samepath \"C:\\folder1\\file.tmp\" ignorecase>";
         }
 
         object[] SuccessData = new object[] 
@@ -47,7 +47,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new SamePathConstraint(@"/folder1/file.tmp").RespectCase;
             expectedDescription = @"Path matching ""/folder1/file.tmp""";
-            stringRepresentation = @"<samepath ""/folder1/file.tmp"">";
+            stringRepresentation = @"<samepath ""/folder1/file.tmp"" respectcase>";
         }
 
         object[] SuccessData = new object[] 
@@ -84,7 +84,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new SamePathOrUnderConstraint( @"C:\folder1\folder2" ).IgnoreCase;
             expectedDescription = @"Path under or matching ""C:\folder1\folder2""";
-            stringRepresentation = @"<samepathorunder ""C:\folder1\folder2"">";
+            stringRepresentation = @"<samepathorunder ""C:\folder1\folder2"" ignorecase>";
         }
 
         object[] SuccessData = new object[]
@@ -123,7 +123,7 @@ namespace NUnit.Framework.Constraints.Tests
         {
             theConstraint = new SamePathOrUnderConstraint( @"/folder1/folder2"  ).RespectCase;
             expectedDescription = @"Path under or matching ""/folder1/folder2""";
-            stringRepresentation = @"<samepathorunder ""/folder1/folder2"">";
+            stringRepresentation = @"<samepathorunder ""/folder1/folder2"" respectcase>";
         }
 
         object[] SuccessData = new object[]
