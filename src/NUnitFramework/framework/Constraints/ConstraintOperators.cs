@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace NUnit.Framework.Constraints
 {
-    #region ConstraintOperator
+    #region ConstraintOperator Base Class
     /// <summary>
     /// The ConstraintOperator class is used internally by a
     /// ConstraintBuilder to represent an operator that 
@@ -85,8 +85,10 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
+    #region Prefix Operators
+
     #region PrefixOperator
-	/// <summary>
+    /// <summary>
 	/// PrefixOperator takes a single constraint and modifies
 	/// it's action in some way.
 	/// </summary>
@@ -104,46 +106,6 @@ namespace NUnit.Framework.Constraints
         }
 
         public abstract Constraint ApplyPrefix(Constraint constraint);
-    }
-    #endregion
-
-    #region BinaryOperator
-    public abstract class BinaryOperator : ConstraintOperator
-    {
-		/// <summary>
-		/// Reduce produces a constraint from the operator and 
-		/// any arguments. It takes the arguments from the constraint 
-		/// stack and pushes the resulting constraint on it.
-		/// </summary>
-		/// <param name="stack"></param>
-		public override void Reduce(ConstraintBuilder.ConstraintStack stack)
-        {
-            Constraint right = stack.Pop();
-            Constraint left = stack.Pop();
-            stack.Push(ApplyOperator(left, right));
-        }
-
-        public override int LeftPrecedence
-        {
-            get
-            {
-                return RightContext is CollectionOperator
-                    ? base.LeftPrecedence + 10
-                    : base.LeftPrecedence;
-            }
-        }
-
-        public override int RightPrecedence
-        {
-            get
-            {
-                return RightContext is CollectionOperator
-                    ? base.RightPrecedence + 10
-                    : base.RightPrecedence;
-            }
-        }
-
-        public abstract Constraint ApplyOperator(Constraint left, Constraint right);
     }
     #endregion
 
@@ -201,11 +163,40 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
+    #region WithOperator
+    public class WithOperator : PrefixOperator
+    {
+        public WithOperator()
+        {
+            this.left_precedence = 1;
+            this.right_precedence = 4;
+        }
+
+        public override Constraint ApplyPrefix(Constraint constraint)
+        {
+            return constraint;
+        }
+    }
+    #endregion
+
+    #region SelfResolving Operators
+
+    #region SelfResolvingOperator
+    /// <summary>
+    /// SelfResolvingOperator is an abstract class used as a marker
+    /// for derived operators that are able to reduce to a constraint
+    /// whether or not another syntactic element follows.
+    /// </summary>
+    public abstract class SelfResolvingOperator : ConstraintOperator
+    {
+    }
+    #endregion
+
     #region PropOperator
     /// <summary>
     /// PropOperator
     /// </summary>
-    public class PropOperator : ConstraintOperator
+    public class PropOperator : SelfResolvingOperator
     {
         private string name;
         public string Name
@@ -242,7 +233,7 @@ namespace NUnit.Framework.Constraints
     /// <summary>
     /// AttributeOperator
     /// </summary>
-    public class AttributeOperator : ConstraintOperator
+    public class AttributeOperator : SelfResolvingOperator
     {
         private Type type;
 
@@ -250,7 +241,7 @@ namespace NUnit.Framework.Constraints
         {
             this.type = type;
 
-            // Prop stacks on anything and allows only 
+            // Attribute stacks on anything and allows only 
             // prefix operators to stack on it.
             this.left_precedence = this.right_precedence = 1;
         }
@@ -263,17 +254,16 @@ namespace NUnit.Framework.Constraints
         /// <param name="stack"></param>
         public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
-            stack.Push( new AttributeConstraint( type ) );
-            //if (RightContext == null || RightContext is BinaryOperator)
-            //    stack.Push(new PropertyExistsConstraint(name));
-            //else
-            //    stack.Push(new PropertyConstraint(name, stack.Pop()));
+            if (RightContext == null || RightContext is BinaryOperator)
+                stack.Push(new AttributeExistsConstraint(type));
+            else
+                stack.Push(new AttributeConstraint(type, stack.Pop()));
         }
     }
     #endregion
 
     #region ThrowsOperator
-    public class ThrowsOperator : ConstraintOperator
+    public class ThrowsOperator : SelfResolvingOperator
     {
         public ThrowsOperator()
         {
@@ -291,6 +281,52 @@ namespace NUnit.Framework.Constraints
             else
                 stack.Push(new ThrowsConstraint(stack.Pop()));
         }
+    }
+    #endregion
+
+    #endregion
+
+    #endregion
+
+    #region Binary Operators
+
+    #region BinaryOperator
+    public abstract class BinaryOperator : ConstraintOperator
+    {
+        /// <summary>
+        /// Reduce produces a constraint from the operator and 
+        /// any arguments. It takes the arguments from the constraint 
+        /// stack and pushes the resulting constraint on it.
+        /// </summary>
+        /// <param name="stack"></param>
+        public override void Reduce(ConstraintBuilder.ConstraintStack stack)
+        {
+            Constraint right = stack.Pop();
+            Constraint left = stack.Pop();
+            stack.Push(ApplyOperator(left, right));
+        }
+
+        public override int LeftPrecedence
+        {
+            get
+            {
+                return RightContext is CollectionOperator
+                    ? base.LeftPrecedence + 10
+                    : base.LeftPrecedence;
+            }
+        }
+
+        public override int RightPrecedence
+        {
+            get
+            {
+                return RightContext is CollectionOperator
+                    ? base.RightPrecedence + 10
+                    : base.RightPrecedence;
+            }
+        }
+
+        public abstract Constraint ApplyOperator(Constraint left, Constraint right);
     }
     #endregion
 
@@ -324,19 +360,5 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
-    #region WithOperator
-    public class WithOperator : PrefixOperator
-    {
-        public WithOperator()
-        {
-            this.left_precedence = 1;
-            this.right_precedence = 4;
-        }
-
-        public override Constraint ApplyPrefix(Constraint constraint)
-        {
-            return constraint;
-        }
-    }
     #endregion
 }

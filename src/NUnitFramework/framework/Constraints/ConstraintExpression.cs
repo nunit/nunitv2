@@ -140,6 +140,28 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
+        #region Attribute
+        /// <summary>
+        /// Modifies the expression by appending an AttributeOperator.
+        /// </summary>
+        public ResolvableConstraintExpression Attribute(Type expectedType)
+        {
+            builder.Append(new AttributeOperator(expectedType));
+            return new ResolvableConstraintExpression(builder);
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Resolves the chain of constraints using an
+        /// AttributeConstraint as base.
+        /// </summary>
+        public ResolvableConstraintExpression Attribute<T>()
+        {
+            return Attribute(typeof(T));
+        }
+#endif
+        #endregion
+
         #region Throws
         //        public ResolvableConstraintBuilder Throws(Type type)
         //        {
@@ -403,15 +425,6 @@ namespace NUnit.Framework.Constraints
             return this.Append(new AssignableToConstraint(expectedType)) as AssignableToConstraint;
         }
 
-        /// <summary>
-        /// Resolves the chain of constraints using an
-        /// AttributeConstraint as base.
-        /// </summary>
-        public AttributeConstraint Attribute(Type expectedType)
-        {
-            return this.Append(new AttributeConstraint(expectedType)) as AttributeConstraint;
-        }
-
 #if NET_2_0
         /// <summary>
         /// Resolves the chain of constraints using an
@@ -457,15 +470,6 @@ namespace NUnit.Framework.Constraints
         public AssignableToConstraint AssignableTo<T>()
         {
             return AssignableTo(typeof(T));
-        }
-
-        /// <summary>
-        /// Resolves the chain of constraints using an
-        /// AttributeConstraint as base.
-        /// </summary>
-        public AttributeConstraint Attribute<T>()
-        {
-            return Attribute(typeof(T));
         }
 #endif
         #endregion
@@ -665,10 +669,23 @@ namespace NUnit.Framework.Constraints
 
     public class PropertyConstraintExpression : ResolvableConstraintExpression
     {
-        public PropertyConstraintExpression( string name )
+        public PropertyConstraintExpression(string name)
         {
-            builder.Append( new PropOperator( name ) );
+            builder.Append(new PropOperator(name));
         }
+    }
+
+    public class AttributeConstraintExpression : ResolvableConstraintExpression
+    {
+        public AttributeConstraintExpression(Type type)
+        {
+            builder.Append(new AttributeOperator(type));
+        }
+
+        //public AttributeConstraintExpression(string name)
+        //{
+        //    builder.Append(new AttributeOperator(name));
+        //}
     }
 
     public class ThrowsConstraintExpression : ResolvableConstraintExpression

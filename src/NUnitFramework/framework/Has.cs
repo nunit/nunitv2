@@ -129,6 +129,29 @@ namespace NUnit.Framework
         {
             get { return Property("Message"); }
         }
+
+        /// <summary>
+        /// Returns a new AttributeConstraint checking for the
+        /// presence of a particular attribute on an object.
+        /// </summary>
+        /// <param name="type">The expected attribute type</param>
+        public static AttributeConstraintExpression Attribute(Type type)
+        {
+            return new AttributeConstraintExpression(type);
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Returns a new AttributeConstraint checking for the
+        /// presence of a particular attribute on an object.
+        /// </summary>
+        /// <param name="type">The expected object</param>
+        /// <typeparam name="T">The expected attribute type</typeparam>
+        public static AttributeConstraintExpression Attribute<T>()
+        {
+            return Attribute(typeof(T));
+        }
+#endif
         #endregion
 
 		#region Member Constraint
@@ -142,30 +165,5 @@ namespace NUnit.Framework
 			return new CollectionContainsConstraint( expected );
 		}
 		#endregion
-
-        #region Attribute Constraint
-        /// <summary>
-        /// Returns a new AttributeConstraint checking for the
-        /// presence of a particular attribute on an object.
-        /// </summary>
-        /// <param name="type">The expected attribute type</param>
-        public static AttributeConstraint Attribute(Type type)
-        {
-            return new AttributeConstraint(type);
-        }
-
-#if NET_2_0
-        /// <summary>
-        /// Returns a new AttributeConstraint checking for the
-        /// presence of a particular attribute on an object.
-        /// </summary>
-        /// <param name="type">The expected object</param>
-        /// <typeparam name="T">The expected attribute type</typeparam>
-        public static AttributeConstraint Attribute<T>()
-        {
-            return Attribute( typeof(T) );
-        }
-#endif
-        #endregion
     }
 }

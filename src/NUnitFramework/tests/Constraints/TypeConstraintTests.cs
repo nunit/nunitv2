@@ -98,19 +98,19 @@ namespace NUnit.Framework.Constraints.Tests
     class D2 : D1 { }
 
     [TestFixture]
-    public class AttributeConstraintTest : ConstraintTestBase
+    public class AttributeExistsConstraintTest : ConstraintTestBase
     {
         [SetUp]
         public void SetUp()
         {
-            theConstraint = new AttributeConstraint(typeof(TestFixtureAttribute));
+            theConstraint = new AttributeExistsConstraint(typeof(TestFixtureAttribute));
             expectedDescription = "type with attribute <NUnit.Framework.TestFixtureAttribute>";
-            stringRepresentation = "<attribute NUnit.Framework.TestFixtureAttribute>";
+            stringRepresentation = "<attributeexists NUnit.Framework.TestFixtureAttribute>";
         }
 
-        object[] SuccessData = new object[] { typeof(AttributeConstraintTest) };
+        object[] SuccessData = new object[] { typeof(AttributeExistsConstraintTest) };
             
-        object[] FailureData = new object[] { new D2() };
+        object[] FailureData = new object[] { typeof(D2) };
 
         string[] ActualValues = new string[]
             {
@@ -120,7 +120,23 @@ namespace NUnit.Framework.Constraints.Tests
         [Test, ExpectedException(typeof(System.ArgumentException))]
         public void NonAttributeThrowsException()
         {
-            new AttributeConstraint(typeof(string));
+            new AttributeExistsConstraint(typeof(string));
+        }
+
+        [Test]
+        public void AttributeExistsOnMethodInfo()
+        {
+            Assert.That(
+                System.Reflection.MethodInfo.GetCurrentMethod(),
+                new AttributeExistsConstraint(typeof(TestAttribute)));
+        }
+
+        [Test, Description("my description")]
+        public void AttributeTestPropertyValueOnMethodInfo()
+        {
+            Assert.That(
+                System.Reflection.MethodInfo.GetCurrentMethod(),
+                Has.Attribute(typeof(DescriptionAttribute)).Property("Description").EqualTo("my description"));
         }
     }
 }

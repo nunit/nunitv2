@@ -372,6 +372,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\AttributeConstraints.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\BasicConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\BasicConstraints.cs"
                     SubType = "Code"

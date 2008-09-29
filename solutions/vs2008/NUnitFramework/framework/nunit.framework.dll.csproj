@@ -357,6 +357,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ValueSourceAttribute.cs">
       <Link>ValueSourceAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs">
+      <Link>Constraints\AttributeConstraints.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

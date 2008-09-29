@@ -60,10 +60,23 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<attribute NUnit.Framework.TestFixtureAttribute>";
+            parseTree = "<attributeexists NUnit.Framework.TestFixtureAttribute>";
             staticSyntax = Has.Attribute(typeof(TestFixtureAttribute));
             inheritedSyntax = Helper().Attribute(typeof(TestFixtureAttribute));
             builderSyntax = Builder().Attribute(typeof(TestFixtureAttribute));
+        }
+    }
+
+    [TestFixture]
+    public class AttributeTestWithFollowingConstraint : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = @"<attribute NUnit.Framework.TestFixtureAttribute <property Description <not <null>>>>";
+            staticSyntax = Has.Attribute(typeof(TestFixtureAttribute)).Property("Description").Not.Null;
+            inheritedSyntax = Helper().Attribute(typeof(TestFixtureAttribute)).Property("Description").Not.Null;
+            builderSyntax = Builder().Attribute(typeof(TestFixtureAttribute)).Property("Description").Not.Null;
         }
     }
 
@@ -126,7 +139,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<attribute NUnit.Framework.TestFixtureAttribute>";
+            parseTree = "<attributeexists NUnit.Framework.TestFixtureAttribute>";
             staticSyntax = Has.Attribute<TestFixtureAttribute>();
             inheritedSyntax = Helper().Attribute<TestFixtureAttribute>();
             builderSyntax = Builder().Attribute<TestFixtureAttribute>();

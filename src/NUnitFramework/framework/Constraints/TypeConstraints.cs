@@ -231,28 +231,4 @@ namespace NUnit.Framework.Constraints
             writer.WriteExpectedValue(expectedType);
         }
     }
-
-    public class AttributeConstraint : TypeConstraint
-    {
-        public AttributeConstraint(Type type) : base(type) 
-        {
-            if (!typeof(Attribute).IsAssignableFrom(expectedType))
-                throw new ArgumentException(string.Format(
-                    "Type {0} is not an attribute", expectedType), "type");
-        }
-
-        public override bool Matches(object actual)
-        {
-            this.actual = actual;
-            Type actualType = actual is Type ? (Type)actual : actual.GetType();
-
-            return actualType.GetCustomAttributes(expectedType, true).Length > 0;
-        }
-
-        public override void WriteDescriptionTo(MessageWriter writer)
-        {
-            writer.WritePredicate("type with attribute");
-            writer.WriteExpectedValue(expectedType);
-        }
-    }
 }

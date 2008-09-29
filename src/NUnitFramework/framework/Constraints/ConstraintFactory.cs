@@ -356,7 +356,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="expectedType"></param>
         /// <returns></returns>
-        public AttributeConstraint Attribute(Type expectedType)
+        public AttributeConstraintExpression Attribute(Type expectedType)
         {
             return Has.Attribute(expectedType);
         }
@@ -368,7 +368,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        public AttributeConstraint Attribute<T>()
+        public AttributeConstraintExpression Attribute<T>()
         {
             return Attribute(typeof(T));
         }

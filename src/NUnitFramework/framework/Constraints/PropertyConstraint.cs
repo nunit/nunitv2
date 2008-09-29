@@ -144,7 +144,7 @@ namespace NUnit.Framework.Constraints
                     writer.WritePredicate("equal to");
                 baseConstraint.WriteDescriptionTo(writer);
             }
-		}
+        }
 
 		/// <summary>
 		/// Write the actual value for a failing constraint test to a
