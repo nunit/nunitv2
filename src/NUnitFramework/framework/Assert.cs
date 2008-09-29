@@ -419,7 +419,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert that an array, list or other collection is empty
+		/// Assert that an array, list or other collection is not empty
 		/// </summary>
 		/// <param name="collection">An array, list or other collection implementing ICollection</param>
 		/// <param name="message">The message to be displayed on failure</param>
@@ -430,7 +430,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert that an array, list or other collection is empty
+		/// Assert that an array, list or other collection is not empty
 		/// </summary>
 		/// <param name="collection">An array, list or other collection implementing ICollection</param>
 		/// <param name="message">The message to be displayed on failure</param>
@@ -440,7 +440,7 @@ namespace NUnit.Framework
 		}
 
 		/// <summary>
-		/// Assert that an array,list or other collection is empty
+		/// Assert that an array,list or other collection is not empty
 		/// </summary>
 		/// <param name="collection">An array, list or other collection implementing ICollection</param>
 		public static void IsNotEmpty( ICollection collection )
