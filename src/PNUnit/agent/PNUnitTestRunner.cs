@@ -60,8 +60,8 @@ namespace PNUnit.Agent
                 ConsoleWriter outStream = new ConsoleWriter(Console.Out);
 
                 ConsoleWriter errorStream = new ConsoleWriter(Console.Error);                     
-          
-                bool testLoaded = MakeTest(testDomain, Path.Combine(mConfig.PathToAssemblies, mPNUnitTestInfo.AssemblyName));
+                          
+				bool testLoaded = MakeTest(testDomain, Path.Combine(mConfig.PathToAssemblies, mPNUnitTestInfo.AssemblyName), GetShadowCopyCacheConfig());
 
                 if( ! testLoaded )
                 {
@@ -148,12 +148,21 @@ namespace PNUnit.Agent
 			return null;
 		}
 
-        private bool MakeTest(TestDomain testDomain, string assemblyName)
+        private bool MakeTest(TestDomain testDomain, string assemblyName, bool bShadowCopyCache)
         {
             TestPackage package = new TestPackage( assemblyName );
-                                 
+			package.ShadowCopyCache = bShadowCopyCache;                                 
             return testDomain.Load(package);
         }
+
+		private bool GetShadowCopyCacheConfig()
+		{
+			if (mConfig.ShadowCopyCache != null)
+				if (mConfig.ShadowCopyCache.ToLower().IndexOf("false") != -1 )
+					return false;
+
+			return true;
+		}
 
         #region MarshallByRefObject
         // Lives forever

@@ -21,12 +21,12 @@ namespace PNUnit.Agent
         {
             AgentConfig config = new AgentConfig();
 
-            // Load the test configuration file
-            if( args.Length != 1 && args.Length != 2)
-            {
-                Console.WriteLine("Usage: agent [configfile | port path_to_assemblies]");
-                return;
-            }
+			// Load the test configuration file
+			if( args.Length != 1 && args.Length != 2 && args.Length != 3)
+			{
+				Console.WriteLine("Usage: agent [configfile | port path_to_assemblies | port path_to_assemblies flag_use_ShadowCopyCache ]");
+				return;
+			}
             else if (args.Length == 1) 
             {
 
@@ -44,6 +44,14 @@ namespace PNUnit.Agent
                 config.Port = int.Parse(args[0]);
                 config.PathToAssemblies = args[1];
             }
+			
+			else if (args.Length == 3)
+			{
+				config.Port = int.Parse(args[0]);
+				config.PathToAssemblies = args[1];
+				config.ShadowCopyCache = args[2];
+				System.AppDomain.CurrentDomain.SetupInformation.ShadowCopyFiles = config.ShadowCopyCache;
+			}
             
             ConfigureLogging();
 

@@ -76,12 +76,18 @@ namespace PNUnit.Framework
             return mInfo.TestParams;
         }
 
+		public string[] GetTestWaitBarriers()
+		{
+			CheckInfo();
+			return mInfo.WaitBarriers;
+		}
+
         public void WriteLine(string s)
         {
             if( mConsole != null )
                 mConsole.WriteLine(s);
         }
-
+		
         public void Write(char[] buf)
         {
             if( mConsole != null )

@@ -58,9 +58,15 @@ namespace NUnit.Util
 			FileInfo testFile = new FileInfo( package.FullName );
 
 			AppDomainSetup setup = new AppDomainSetup();
+			 
+			bool bUseShadowCopyCache = package.ShadowCopyCache;
 
-			// We always use the same application name
-			setup.ApplicationName = "Tests";
+			//For paralell tests, we need to use distinct application name
+			if(!bUseShadowCopyCache)
+				setup.ApplicationName = "Tests" + "_" + Environment.TickCount;
+			// We always use the same application name for unitary tests                        
+			else
+				setup.ApplicationName = "Tests";
 
 			string appBase = package.BasePath;
 			if ( appBase == null || appBase == string.Empty )
@@ -81,11 +87,16 @@ namespace NUnit.Util
 
 			setup.PrivateBinPath = binPath;
 
-			if ( package.GetSetting( "ShadowCopyFiles", true ) )
+			if(!bUseShadowCopyCache)
+				setup.ShadowCopyFiles = "false";
+			else
 			{
-				setup.ShadowCopyFiles = "true";
-				setup.ShadowCopyDirectories = appBase;
-				setup.CachePath = GetCachePath();
+				if ( package.GetSetting( "ShadowCopyFiles", true ) )
+				{
+					setup.ShadowCopyFiles = "true";
+					setup.ShadowCopyDirectories = appBase;
+					setup.CachePath = GetCachePath();
+				}
 			}
 
 			string domainName = "domain-" + package.Name;

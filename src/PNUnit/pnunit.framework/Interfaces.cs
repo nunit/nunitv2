@@ -29,26 +29,42 @@ namespace PNUnit.Framework
         void EnterBarrier(string barrier);
     }
 
-    [Serializable]
-    public class PNUnitTestInfo
-    {
-        public string TestName;
-        public string AssemblyName;
-        public string TestToRun;
-        public string[] TestParams;
-        public IPNUnitServices Services;
+	[Serializable]
+	public class PNUnitTestInfo
+	{
+		public string TestName;
+		public string AssemblyName;
+		public string TestToRun;
+		public string[] TestParams;
+		public IPNUnitServices Services;
+		public string StartBarrier;
+		public string EndBarrier;
+		public string[] WaitBarriers;
 
-        public PNUnitTestInfo(string TestName, string AssemblyName, 
-            string TestToRun, string[] TestParams, IPNUnitServices Services)
-        {
-            this.TestName = TestName;
-            this.AssemblyName = AssemblyName;
-            this.TestToRun = TestToRun;
-            this.TestParams = TestParams;
-            this.Services = Services;
-        }
+		public PNUnitTestInfo(string TestName, string AssemblyName, 
+			string TestToRun, string[] TestParams, IPNUnitServices Services)
+		{
+			this.TestName = TestName;
+			this.AssemblyName = AssemblyName;
+			this.TestToRun = TestToRun;
+			this.TestParams = TestParams;
+			this.Services = Services;
+		}
 
-    }
+		public PNUnitTestInfo(string TestName, string AssemblyName, 
+			string TestToRun, string[] TestParams, IPNUnitServices Services, string StartBarrier, string EndBarrier, string[] WaitBarriers)
+		{
+			this.TestName = TestName;
+			this.AssemblyName = AssemblyName;
+			this.TestToRun = TestToRun;
+			this.TestParams = TestParams;
+			this.Services = Services;
+			this.StartBarrier = StartBarrier;
+			this.EndBarrier = EndBarrier;
+			this.WaitBarriers = WaitBarriers;
+		}
+
+	}
 
     public interface IPNUnitAgent
     {
