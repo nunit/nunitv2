@@ -990,6 +990,14 @@
   </target>
 
 <!-- ***************************************************************** -->
+<!-- ***    Targets for building custom tools used in the build    *** -->
+<!-- ***************************************************************** -->
+
+  <target name="build-tools">
+    <nant target="build" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
+  </target>
+
+<!-- ***************************************************************** -->
 <!-- ****** Patternsets and Filesets Used by Various Targets  ******** -->
 <!-- ***************************************************************** -->
 
