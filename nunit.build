@@ -191,9 +191,20 @@
   </target>
 
 <!-- ***************************************************************** -->
-<!-- ***              Targets that perform builds                  *** -->
+<!-- ***              Targets that generate code                   *** -->
 <!-- ***************************************************************** -->
 
+  <target name="gen-syntax" 
+    description="Generate code for the fluent constraint builder interface">
+
+    <nant target="gen-syntax" 
+      buildfile="src/NUnitFramework/framework/nunit.framework.build"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***              Targets that perform builds                  *** -->
+<!-- ***************************************************************** -->
 
   <target name="rebuild" depends="clean,build"
     description="Rebuild NUnit for default runtime version and config"/>

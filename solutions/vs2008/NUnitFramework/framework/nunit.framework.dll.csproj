@@ -136,6 +136,12 @@
       <Link>Constraints\ConstraintBuilder.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintExpressionBase.cs">
+      <Link>Constraints\ConstraintExpressionBase.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs">
+      <Link>ConstraintFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ContainsConstraint.cs">
       <Link>Constraints\ContainsConstraint.cs</Link>
       <SubType>Code</SubType>
@@ -174,6 +180,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PropertyConstraint.cs">
       <Link>Constraints\PropertyConstraint.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ResolvableConstraintExpression.cs">
+      <Link>Constraints\ResolvableConstraintExpression.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\SameAsConstraint.cs">
       <Link>Constraints\SameAsConstraint.cs</Link>
@@ -216,6 +225,9 @@
       <Link>GlobalSettings.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Has.cs">
+      <Link>Has.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\IExpectException.cs">
       <Link>IExpectException.cs</Link>
       <SubType>Code</SubType>
@@ -231,6 +243,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\IncludeExcludeAttributes.cs">
       <Link>IncludeExcludeAttributes.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Is.cs">
+      <Link>Is.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\JoinTypeAttributes.cs">
       <Link>JoinTypeAttributes.cs</Link>
@@ -262,14 +277,6 @@
       <Link>SuiteAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Has.cs">
-      <Link>Has.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Is.cs">
-      <Link>Is.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\List.cs">
       <Link>List.cs</Link>
       <SubType>Code</SubType>
@@ -280,10 +287,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestCaseSourceAttribute.cs">
       <Link>TestCaseSourceAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Text.cs">
-      <Link>Text.cs</Link>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TearDownAttribute.cs">
       <Link>TearDownAttribute.cs</Link>
@@ -304,6 +307,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestFixtureTearDownAttribute.cs">
       <Link>TestFixtureTearDownAttribute.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Text.cs">
+      <Link>Text.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\TextMessageWriter.cs">
       <Link>TextMessageWriter.cs</Link>
@@ -342,9 +348,6 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\RangeConstraint.cs">
       <Link>Constraints\RangeConstraint.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs">
-      <Link>Constraints\ConstraintFactory.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintOperators.cs">
       <Link>Constraints\ConstraintOperators.cs</Link>
     </Compile>
@@ -360,6 +363,15 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs">
       <Link>Constraints\AttributeConstraints.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Iz.cs">
+      <Link>Iz.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">
+      <Link>SyntaxElements.txt</Link>
+      <CustomToolNamespace>NUnitSyntaxGenerator</CustomToolNamespace>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

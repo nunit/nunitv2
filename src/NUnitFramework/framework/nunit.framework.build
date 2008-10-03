@@ -10,6 +10,7 @@
         <include name="Constraints/Constraint.cs"/>
         <include name="Constraints/ConstraintBuilder.cs"/>
         <include name="Constraints/ConstraintExpression.cs"/>
+        <include name="Constraints/ConstraintExpressionBase.cs"/>
         <include name="Constraints/ConstraintFactory.cs"/>
         <include name="Constraints/ConstraintOperators.cs"/>
         <include name="Constraints/ContainsConstraint.cs"/>
@@ -24,6 +25,7 @@
         <include name="Constraints/PrefixConstraints.cs"/>
         <include name="Constraints/PropertyConstraint.cs"/>
         <include name="Constraints/RangeConstraint.cs"/>
+        <include name="Constraints/ResolvableConstraintExpression.cs"/>
         <include name="Constraints/SameAsConstraint.cs"/>
         <include name="Constraints/SerializableConstraints.cs"/>
         <include name="Constraints/StringConstraints.cs"/>
@@ -49,6 +51,7 @@
         <include name="IncludeExcludeAttributes.cs"/>
         <include name="InconclusiveException.cs"/>
         <include name="Is.cs"/>
+        <include name="Iz.cs"/>
         <include name="ITestCaseData.cs"/>
         <include name="JoinTypeAttributes.cs"/>
         <include name="List.cs"/>
@@ -78,7 +81,15 @@
         <include name="ValueSourceAttribute.cs"/>
   </patternset>
 
-  <target name="build">
+  <target name="gen-syntax">
+
+    <exec program="GenSyntax.exe"
+      basedir="${project.tools.dir}/bin"
+      commandline="SyntaxElements.txt"/>
+
+  </target>
+
+  <target name="build" depends="gen-syntax">
 
     <csc target="library"
         output="${current.lib.dir}/nunit.framework.dll"
@@ -105,6 +116,7 @@
       <fileset>
         <patternset refid="source-files"/>
         <include name="nunit.framework.build"/>
+        <include name="SyntaxElements.txt"/>
       </fileset>
     </copy>
   </target>

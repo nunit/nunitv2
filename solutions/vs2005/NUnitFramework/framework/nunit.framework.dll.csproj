@@ -251,6 +251,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ITestCaseData.cs">
       <Link>ITestCaseData.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Iz.cs">
+      <Link>Iz.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\List.cs">
       <Link>List.cs</Link>
     </Compile>
@@ -353,6 +356,17 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\BasicConstraints.cs">
       <Link>Constraints\BasicConstraints.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ResolvableConstraintExpression.cs">
+      <Link>Constraints\ResolvableConstraintExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintExpressionBase.cs">
+      <Link>Constraints\ConstraintExpressionBase.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">
+      <Link>SyntaxElements.txt</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
