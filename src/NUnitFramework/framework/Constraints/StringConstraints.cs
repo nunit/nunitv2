@@ -39,7 +39,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Modify the constraint to ignore case in matching.
         /// </summary>
-        public new StringConstraint IgnoreCase
+        public StringConstraint IgnoreCase
         {
             get { caseInsensitive = true; return this; }
         }
