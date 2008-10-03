@@ -2654,7 +2654,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="code">A TestDelegate to be executed</param>
         /// <param name="constraint">A ThrowsConstraint used in the test</param>
-        static public void That( TestDelegate code, ThrowsConstraint constraint )
+        static public void That( TestDelegate code, IResolveConstraint constraint )
         {
             Assert.That( (object)code, constraint );
         }
@@ -3471,7 +3471,9 @@ namespace NUnit.Framework
             }
             catch (Exception ex)
             {
-                Assert.Fail( "Delegate threw {0}", ex.GetType() );
+                TextMessageWriter writer = new TextMessageWriter(message, args);
+                writer.WriteLine("Unexpected exception: {0}", ex.GetType());
+                Assert.Fail( writer.ToString() );
             }
         }
 
