@@ -62,17 +62,26 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// Construct a constraint with no arguments
+        /// </summary>
         public Constraint()
         {
             argcnt = 0;
         }
 
+        /// <summary>
+        /// Construct a constraint with one argument
+        /// </summary>
         public Constraint(object arg)
         {
             argcnt = 1;
             this.arg1 = arg;
         }
 
+        /// <summary>
+        /// Construct a constraint with two arguments
+        /// </summary>
         public Constraint(object arg1, object arg2)
         {
             argcnt = 2;
@@ -222,6 +231,10 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Binary Operators
+        /// <summary>
+        /// Returns a ConstraintExpression by appending And
+        /// to the current constraint.
+        /// </summary>
         public ConstraintExpression And
         {
             get
