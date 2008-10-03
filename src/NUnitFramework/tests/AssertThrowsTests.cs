@@ -17,6 +17,9 @@ namespace NUnit.Framework.Tests
             Assert.Throws<ArgumentException>(
                 delegate { throw new ArgumentException(); });
             Assert.Throws<ArgumentException>(TestDelegates.ThrowsArgumentException);
+
+            Assert.That(delegate { throw new ArgumentException(); },
+                    Throws.Exception.TypeOf<ArgumentException>() );
 #else
 			Assert.Throws(typeof(ArgumentException),
 				new TestDelegate( TestDelegates.ThrowsArgumentException ) );
