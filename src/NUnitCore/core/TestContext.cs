@@ -98,6 +98,12 @@ namespace NUnit.Core
 			get { return current.CurrentCulture; }
 			set { current.CurrentCulture = value; }
 		}
+
+        public static int TestCaseTimeout
+        {
+            get { return current.TestCaseTimeout; }
+            set { current.TestCaseTimeout = value; }
+        }
 		
 		/// <summary>
 		/// Saves the old context and makes a fresh one 
@@ -165,6 +171,11 @@ namespace NUnit.Core
 			/// </summary>
 			private TextWriter traceWriter;
 
+            /// <summary>
+            /// Default timeout for test cases
+            /// </summary>
+            private int testCaseTimeout;
+
 			private Log4NetCapture logCapture;
 
 			/// <summary>
@@ -191,6 +202,7 @@ namespace NUnit.Core
 				this.errorWriter = Console.Error;
 				this.traceWriter = null;
 				this.logCapture = new Log4NetCapture();
+                this.testCaseTimeout = 0;
 
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
@@ -205,6 +217,7 @@ namespace NUnit.Core
 				this.errorWriter = other.errorWriter;
 				this.traceWriter = other.traceWriter;
 				this.logCapture = other.logCapture;
+                this.testCaseTimeout = other.testCaseTimeout;
 
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
@@ -224,6 +237,7 @@ namespace NUnit.Core
 				this.Error = prior.Error;
 				this.CurrentDirectory = prior.CurrentDirectory;
 				this.CurrentCulture = prior.CurrentCulture;
+                this.TestCaseTimeout = prior.TestCaseTimeout;
 			}
 
 			/// <summary>
@@ -356,6 +370,12 @@ namespace NUnit.Core
 					Thread.CurrentThread.CurrentCulture = currentCulture;
 				}
 			}
+
+            public int TestCaseTimeout
+            {
+                get { return testCaseTimeout; }
+                set { testCaseTimeout = value; }
+            }
 		}
 		#endregion
 	}

@@ -76,6 +76,7 @@
         <include name="TestFixtureTearDownAttribute.cs"/>
         <include name="Text.cs"/>
         <include name="TextMessageWriter.cs"/>
+        <include name="ThreadingAttributes.cs"/>
         <include name="Throws.cs"/>
         <include name="ValuesAttribute.cs"/>
         <include name="ValueSourceAttribute.cs"/>

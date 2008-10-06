@@ -8,6 +8,7 @@ namespace NUnit.Core
 {
 	using System;
     using System.Text;
+    using System.Threading;
 	using System.Collections;
 	using System.Reflection;
 	using NUnit.Core.Filters;
@@ -150,7 +151,7 @@ namespace NUnit.Core
             get { return fixture; }
             set { fixture = value; }
         }
-		#endregion
+        #endregion
 
 		#region Test Overrides
 		public override int CountTestCases(ITestFilter filter)
@@ -180,21 +181,10 @@ namespace NUnit.Core
 				{
 					case RunState.Runnable:
 					case RunState.Explicit:
-                        suiteResult.Success(); // Assume success
-                        DoOneTimeSetUp(suiteResult);
-						if ( suiteResult.IsFailure || suiteResult.IsError )
-							MarkTestsFailed(Tests, suiteResult, listener, filter);
-						else
-						{
-							try
-							{
-								RunAllTests(suiteResult, listener, filter);
-							}
-							finally
-							{
-								DoOneTimeTearDown(suiteResult);
-							}
-						}
+                        if (RequiresThread || ApartmentState != GetCurrentApartment())
+                            new TestSuiteThread(this).Run(suiteResult, listener, filter);
+                        else
+                            Run(suiteResult, listener, filter);
 						break;
 
 					default:
@@ -217,6 +207,25 @@ namespace NUnit.Core
 				return suiteResult;
 			}
 		}
+
+        public void Run(TestResult suiteResult, EventListener listener, ITestFilter filter)
+        {
+            suiteResult.Success(); // Assume success
+            DoOneTimeSetUp(suiteResult);
+            if (suiteResult.IsFailure || suiteResult.IsError)
+                MarkTestsFailed(Tests, suiteResult, listener, filter);
+            else
+            {
+                try
+                {
+                    RunAllTests(suiteResult, listener, filter);
+                }
+                finally
+                {
+                    DoOneTimeTearDown(suiteResult);
+                }
+            }
+        }
 		#endregion
 
 		#region Virtual Methods
@@ -323,6 +332,9 @@ namespace NUnit.Core
         private void RunAllTests(
 			TestResult suiteResult, EventListener listener, ITestFilter filter )
 		{
+            if (Properties.Contains("Timeout"))
+                TestContext.TestCaseTimeout = (int)Properties["Timeout"];
+
             foreach (Test test in ArrayList.Synchronized(Tests))
             {
                 if (filter.Pass(test))

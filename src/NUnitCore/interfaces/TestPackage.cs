@@ -171,20 +171,33 @@ namespace NUnit.Core
 			set { bShadowCopyCache = value; }
 		}
 
-		/// <summary>
-		/// Return the value of a bool setting or a default.
-		/// </summary>
-		/// <param name="name">The name of the setting</param>
-		/// <param name="defaultSetting">The default value</param>
-		/// <returns></returns>
-		public bool GetSetting( string name, bool defaultSetting )
-		{
-			object setting = settings[name];
-			
-			return setting == null ? defaultSetting : (bool)setting;
-		}
+        /// <summary>
+        /// Return the value of a bool setting or a default.
+        /// </summary>
+        /// <param name="name">The name of the setting</param>
+        /// <param name="defaultSetting">The default value</param>
+        /// <returns></returns>
+        public bool GetSetting(string name, bool defaultSetting)
+        {
+            object setting = settings[name];
 
-		private static bool IsAssemblyFileType( string path )
+            return setting == null ? defaultSetting : (bool)setting;
+        }
+
+        /// <summary>
+        /// Return the value of an int setting or a default.
+        /// </summary>
+        /// <param name="name">The name of the setting</param>
+        /// <param name="defaultSetting">The default value</param>
+        /// <returns></returns>
+        public int GetSetting(string name, int defaultSetting)
+        {
+            object setting = settings[name];
+
+            return setting == null ? defaultSetting : (int)setting;
+        }
+
+        private static bool IsAssemblyFileType(string path)
 		{
 			string extension = Path.GetExtension( path ).ToLower();
 			return extension == ".dll" || extension == ".exe";

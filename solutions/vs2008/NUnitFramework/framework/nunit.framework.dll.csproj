@@ -366,6 +366,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Iz.cs">
       <Link>Iz.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\ThreadingAttributes.cs">
+      <Link>ThreadingAttributes.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">

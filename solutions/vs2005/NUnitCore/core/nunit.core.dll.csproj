@@ -350,6 +350,9 @@
       <Link>TestSuiteBuilder.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\TestThread.cs">
+      <Link>TestThread.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\TextCapture.cs">
       <Link>TextCapture.cs</Link>
     </Compile>

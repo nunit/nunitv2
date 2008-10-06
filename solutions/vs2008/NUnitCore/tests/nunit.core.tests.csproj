@@ -384,6 +384,9 @@
       <Link>ThreadedTestRunnerTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\ThreadingTests.cs">
+      <Link>ThreadingTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\UnhandledExceptionTests.cs">
       <Link>UnhandledExceptionTests.cs</Link>
       <SubType>Code</SubType>

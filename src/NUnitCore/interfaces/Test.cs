@@ -9,6 +9,7 @@ namespace NUnit.Core
 	using System;
 	using System.Collections;
 	using System.Collections.Specialized;
+    using System.Threading;
 	using System.Reflection;
 
 	/// <summary>
@@ -47,9 +48,35 @@ namespace NUnit.Core
 
 		#endregion
 
-		#region Construction
+        #region Properties
+        public bool RequiresThread
+        {
+            get { return Properties.Contains("RequiresThread") && (bool)Properties["RequiresThread"]; }
+        }
 
-		/// <summary>
+        public ApartmentState ApartmentState
+        {
+            get
+            {
+                return Properties.Contains("APARTMENT_STATE")
+                    ? (ApartmentState)Properties["APARTMENT_STATE"]
+                    : GetCurrentApartment();
+            }
+        }
+
+        protected ApartmentState GetCurrentApartment()
+        {
+#if NET_2_0
+            return Thread.CurrentThread.GetApartmentState();
+#else
+            return Thread.CurrentThread.ApartmentState;
+#endif
+        }
+        #endregion
+
+        #region Construction
+
+        /// <summary>
 		/// Constructs a test given its name
 		/// </summary>
 		/// <param name="name">The name of the test</param>

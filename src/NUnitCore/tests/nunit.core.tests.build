@@ -66,6 +66,7 @@
         <include name="TestRunnerThreadTests.cs"/>
         <include name="TestSuiteTest.cs"/>
         <include name="ThreadedTestRunnerTests.cs"/>
+        <include name="ThreadingTests.cs"/>
         <include name="UnhandledExceptionTests.cs"/>
         <include name="XmlTest.cs"/>
   </patternset>

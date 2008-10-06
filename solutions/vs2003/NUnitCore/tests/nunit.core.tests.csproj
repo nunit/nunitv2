@@ -500,6 +500,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "ThreadingTests.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\ThreadingTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "UnhandledExceptionTests.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\UnhandledExceptionTests.cs"
                     SubType = "Code"

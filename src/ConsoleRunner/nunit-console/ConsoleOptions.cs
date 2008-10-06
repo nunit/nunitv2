@@ -62,6 +62,9 @@ namespace NUnit.ConsoleRunner
 		[Option (Description = "Disable use of a separate thread for tests")]
 		public bool nothread;
 
+        [Option(Description = "Set timeout for each test case in milliseconds")]
+        public int timeout;
+
 		[Option(Description = "Wait for input before closing console window")]
 		public bool wait = false;
 

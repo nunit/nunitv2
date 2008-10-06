@@ -25,6 +25,7 @@
     <include name="TestFixtureExtensionTests.cs"/>
     <include name="TestFixtureTests.cs"/>
     <include name="TestMethodSignatureFixture.cs"/>
+    <include name="ThreadingFixture.cs"/>
     <include name="UnhandledExceptions.cs"/>
   </patternset>
 

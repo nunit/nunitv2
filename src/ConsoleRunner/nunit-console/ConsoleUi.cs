@@ -214,6 +214,7 @@ namespace NUnit.ConsoleRunner
 			package.TestName = options.fixture;
 			package.Settings["ShadowCopyFiles"] = !options.noshadow;
 			package.Settings["UseThreadedRunner"] = !options.nothread;
+            package.Settings["DefaultTimeout"] = options.timeout;
 			testRunner.Load( package );
 
 			return testRunner;

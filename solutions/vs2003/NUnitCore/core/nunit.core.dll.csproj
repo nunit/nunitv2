@@ -422,6 +422,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestThread.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\TestThread.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TextCapture.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\TextCapture.cs"
                     SubType = "Code"

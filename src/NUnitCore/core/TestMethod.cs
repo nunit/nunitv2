@@ -7,6 +7,7 @@
 namespace NUnit.Core
 {
 	using System;
+    using System.Threading;
 	using System.Text;
 	using System.Text.RegularExpressions;
 	using System.Reflection;
@@ -97,7 +98,17 @@ namespace NUnit.Core
             get { return fixture; }
             set { fixture = value; }
         }
-		#endregion
+
+        public int Timeout
+        {
+            get
+            {
+                return Properties.Contains("Timeout")
+                    ? (int)Properties["Timeout"]
+                    : TestContext.TestCaseTimeout;
+            }
+        }
+        #endregion
 
 		#region Run Methods
         public override TestResult Run(EventListener listener, ITestFilter filter)
@@ -151,7 +162,10 @@ namespace NUnit.Core
                     TestContext.CurrentCulture =
                         new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
-                doRun(testResult);
+                if (RequiresThread || Timeout > 0 || ApartmentState != GetCurrentApartment())
+                    new TestMethodThread(this).Run(testResult, NullListener.NULL, TestFilter.Empty);
+                else
+                    doRun(testResult);
             }
             catch (Exception ex)
             {

@@ -212,6 +212,9 @@
     <Compile Include="..\..\..\..\src\tests\test-assembly\MaxTimeFixture.cs">
       <Link>MaxTimeFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\ThreadingFixture.cs">
+      <Link>ThreadingFixture.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

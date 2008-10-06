@@ -53,6 +53,7 @@
         <include name="TestRunnerThread.cs"/>
         <include name="TestSuite.cs"/>
         <include name="TestSuiteBuilder.cs"/>
+        <include name="TestThread.cs"/>
         <include name="TextCapture.cs"/>
         <include name="ThreadedTestRunner.cs"/>
         <include name="TypeHelper.cs"/>
