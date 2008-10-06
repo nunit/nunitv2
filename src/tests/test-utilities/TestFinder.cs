@@ -45,13 +45,13 @@ namespace NUnit.TestUtilities
 			return null;
 		}
 
-		public static Test RequiredChildTest(string name, Test test)
-		{
-			Test t = FindChildTest(name, test);
-			if ( t == null )
-				Assert.Fail("Test not found: " + name );
-			return t;
-		}
+        public static Test RequiredChildTest(string name, Test test)
+        {
+            Test t = FindChildTest(name, test);
+            if (t == null)
+                Assert.Fail("Test not found: " + name);
+            return t;
+        }
 
 		public static TestResult Find(string name, TestResult result) 
 		{
@@ -81,6 +81,14 @@ namespace NUnit.TestUtilities
 			return null;
 		}
 
-		private TestFinder() { }
+        public static TestResult RequiredChildResult(string name, TestResult result)
+        {
+            TestResult r = FindChildResult(name, result);
+            if (r == null)
+                Assert.Fail("Result not found: " + name);
+            return r;
+        }
+
+        private TestFinder() { }
 	}
 }
