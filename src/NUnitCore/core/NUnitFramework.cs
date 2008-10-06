@@ -228,19 +228,23 @@ namespace NUnit.Core
                             test.IgnoreReason = string.Format("Required addin {0} not available", required);
                         }
                         break;
-					default:
+                    case "System.STAThreadAttribute":
+                        test.Properties.Add("APARTMENT_STATE", System.Threading.ApartmentState.STA);
+                        break;
+                    case "System.MTAThreadAttribute":
+                        test.Properties.Add("APARTMENT_STATE", System.Threading.ApartmentState.MTA);
+                        break;
+                    default:
 						if ( Reflect.InheritsFrom( attributeType, CategoryAttribute ) )
 						{	
 							test.Categories.Add( Reflect.GetPropertyValue( attribute, "Name" ) );
 						}
 						else if ( Reflect.InheritsFrom( attributeType, PropertyAttribute ) )
 						{
-							string name = (string)Reflect.GetPropertyValue( attribute, "Name" );
-							if ( name != null && name != string.Empty )
-							{
-								object val = Reflect.GetPropertyValue( attribute, "Value" );
-								test.Properties[name] = val;
-							}
+							IDictionary props = (IDictionary)Reflect.GetPropertyValue( attribute, "Properties" );
+							if ( props != null )
+                                foreach( DictionaryEntry entry in props )
+                                    test.Properties.Add(entry.Key, entry.Value);
 						}
 						break;
                 }
