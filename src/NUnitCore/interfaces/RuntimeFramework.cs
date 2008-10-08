@@ -61,10 +61,32 @@ namespace NUnit.Core
                     this.runtime = RuntimeType.Net;
                     this.version = new Version(2, 0, 50727);
                     break;
-                default:
+				case "mono-1.0":
+					this.runtime = RuntimeType.Mono;
+					this.version = new Version(1, 1, 4322);
+					break;
+				case "mono-2.0":
+					this.runtime = RuntimeType.Mono;
+					this.version = new Version(2, 0, 50727);
+					break;
+				default:
                     throw new InvalidOperationException("Unsupported runtime: " + framework);
             }
         }
+
+		public override string ToString()
+		{
+			switch( runtime )
+			{
+				case RuntimeType.Net:
+					return "net-" + version.ToString(2);
+				case RuntimeType.Mono:
+					return "mono- " + version.Major.ToString() + ".0";
+				default:
+					return runtime.ToString().ToLower() + version.ToString(2);
+			}
+		}
+
 
 		/// <summary>
 		/// Static method to return a RuntimeFramework object
