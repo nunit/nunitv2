@@ -76,10 +76,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <Name>log4net</Name>
-      <HintPath>..\..\..\..\lib\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
