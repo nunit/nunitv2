@@ -228,7 +228,14 @@ namespace NUnit.Util
         public string RuntimeFramework
         {
             get { return runtimeFramework; }
-            set { runtimeFramework = value; }
+            set 
+			{
+				if ( runtimeFramework != value )
+				{
+					runtimeFramework = value; 
+					FireChangedEvent();
+				}
+			}
         }
 		#endregion
 

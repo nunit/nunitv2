@@ -56,6 +56,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox assemblyPathTextBox;
 		private System.Windows.Forms.Button assemblyPathBrowseButton;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.ComboBox runtimeComboBox;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -110,6 +112,8 @@ namespace NUnit.Gui
 			this.projectBaseTextBox = new System.Windows.Forms.TextBox();
 			this.projectTabControl = new System.Windows.Forms.TabControl();
 			this.generalTabPage = new System.Windows.Forms.TabPage();
+			this.runtimeComboBox = new System.Windows.Forms.ComboBox();
+			this.label7 = new System.Windows.Forms.Label();
 			this.autoBinPathRadioButton = new System.Windows.Forms.RadioButton();
 			this.manualBinPathRadioButton = new System.Windows.Forms.RadioButton();
 			this.noBinPathRadioButton = new System.Windows.Forms.RadioButton();
@@ -121,6 +125,7 @@ namespace NUnit.Gui
 			this.applicationBaseTextBox = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.assemblyTabPage = new System.Windows.Forms.TabPage();
+			this.assemblyPathBrowseButton = new System.Windows.Forms.Button();
 			this.assemblyPathTextBox = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
 			this.assemblyListBox = new System.Windows.Forms.ListBox();
@@ -131,7 +136,6 @@ namespace NUnit.Gui
 			this.label1 = new System.Windows.Forms.Label();
 			this.projectBaseBrowseButton = new System.Windows.Forms.Button();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.assemblyPathBrowseButton = new System.Windows.Forms.Button();
 			this.projectTabControl.SuspendLayout();
 			this.generalTabPage.SuspendLayout();
 			this.assemblyTabPage.SuspendLayout();
@@ -218,6 +222,8 @@ namespace NUnit.Gui
 			// 
 			// generalTabPage
 			// 
+			this.generalTabPage.Controls.Add(this.runtimeComboBox);
+			this.generalTabPage.Controls.Add(this.label7);
 			this.generalTabPage.Controls.Add(this.autoBinPathRadioButton);
 			this.generalTabPage.Controls.Add(this.manualBinPathRadioButton);
 			this.generalTabPage.Controls.Add(this.noBinPathRadioButton);
@@ -235,9 +241,33 @@ namespace NUnit.Gui
 			this.generalTabPage.TabIndex = 0;
 			this.generalTabPage.Text = "General";
 			// 
+			// runtimeComboBox
+			// 
+			this.runtimeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.runtimeComboBox.Items.AddRange(new object[] {
+																 "=Unspecified=",
+																 "net-1.0",
+																 "net-1.1",
+																 "net-2.0",
+																 "mono-1.0",
+																 "mono-2.0"});
+			this.runtimeComboBox.Location = new System.Drawing.Point(104, 8);
+			this.runtimeComboBox.Name = "runtimeComboBox";
+			this.runtimeComboBox.Size = new System.Drawing.Size(128, 24);
+			this.runtimeComboBox.TabIndex = 12;
+			this.runtimeComboBox.SelectedIndexChanged += new System.EventHandler(this.runtimeComboBox_SelectedIndexChanged);
+			// 
+			// label7
+			// 
+			this.label7.Location = new System.Drawing.Point(16, 8);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(72, 24);
+			this.label7.TabIndex = 11;
+			this.label7.Text = "Runtime:";
+			// 
 			// autoBinPathRadioButton
 			// 
-			this.autoBinPathRadioButton.Location = new System.Drawing.Point(32, 96);
+			this.autoBinPathRadioButton.Location = new System.Drawing.Point(32, 128);
 			this.autoBinPathRadioButton.Name = "autoBinPathRadioButton";
 			this.helpProvider1.SetShowHelp(this.autoBinPathRadioButton, false);
 			this.autoBinPathRadioButton.Size = new System.Drawing.Size(328, 24);
@@ -247,7 +277,7 @@ namespace NUnit.Gui
 			// 
 			// manualBinPathRadioButton
 			// 
-			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 128);
+			this.manualBinPathRadioButton.Location = new System.Drawing.Point(32, 160);
 			this.manualBinPathRadioButton.Name = "manualBinPathRadioButton";
 			this.helpProvider1.SetShowHelp(this.manualBinPathRadioButton, false);
 			this.manualBinPathRadioButton.TabIndex = 9;
@@ -256,7 +286,7 @@ namespace NUnit.Gui
 			// 
 			// noBinPathRadioButton
 			// 
-			this.noBinPathRadioButton.Location = new System.Drawing.Point(32, 160);
+			this.noBinPathRadioButton.Location = new System.Drawing.Point(32, 192);
 			this.noBinPathRadioButton.Name = "noBinPathRadioButton";
 			this.helpProvider1.SetShowHelp(this.noBinPathRadioButton, false);
 			this.noBinPathRadioButton.Size = new System.Drawing.Size(424, 24);
@@ -269,7 +299,7 @@ namespace NUnit.Gui
 			this.configBaseBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.configBaseBrowseButton, "Browse to locate ApplicationBase directory.");
 			this.configBaseBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("configBaseBrowseButton.Image")));
-			this.configBaseBrowseButton.Location = new System.Drawing.Point(448, 8);
+			this.configBaseBrowseButton.Location = new System.Drawing.Point(448, 40);
 			this.configBaseBrowseButton.Name = "configBaseBrowseButton";
 			this.helpProvider1.SetShowHelp(this.configBaseBrowseButton, true);
 			this.configBaseBrowseButton.Size = new System.Drawing.Size(24, 24);
@@ -282,7 +312,7 @@ namespace NUnit.Gui
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.privateBinPathTextBox, "Path searched when probing for private asemblies. Directories must be descendants" +
 				" of the ApplicationBase.");
-			this.privateBinPathTextBox.Location = new System.Drawing.Point(136, 128);
+			this.privateBinPathTextBox.Location = new System.Drawing.Point(136, 160);
 			this.privateBinPathTextBox.Name = "privateBinPathTextBox";
 			this.helpProvider1.SetShowHelp(this.privateBinPathTextBox, true);
 			this.privateBinPathTextBox.Size = new System.Drawing.Size(336, 22);
@@ -294,7 +324,7 @@ namespace NUnit.Gui
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(16, 72);
+			this.label6.Location = new System.Drawing.Point(16, 104);
 			this.label6.Name = "label6";
 			this.helpProvider1.SetShowHelp(this.label6, false);
 			this.label6.Size = new System.Drawing.Size(97, 18);
@@ -307,7 +337,7 @@ namespace NUnit.Gui
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.configFileTextBox, "Configuration file to use when loading assemblies if it exists. Defaults to <proj" +
 				"ectname>.config. Must be located in the ApplicationBase directory.");
-			this.configFileTextBox.Location = new System.Drawing.Point(176, 40);
+			this.configFileTextBox.Location = new System.Drawing.Point(176, 72);
 			this.configFileTextBox.Name = "configFileTextBox";
 			this.helpProvider1.SetShowHelp(this.configFileTextBox, true);
 			this.configFileTextBox.Size = new System.Drawing.Size(296, 22);
@@ -319,7 +349,7 @@ namespace NUnit.Gui
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(16, 40);
+			this.label4.Location = new System.Drawing.Point(16, 72);
 			this.label4.Name = "label4";
 			this.helpProvider1.SetShowHelp(this.label4, false);
 			this.label4.Size = new System.Drawing.Size(153, 18);
@@ -332,7 +362,7 @@ namespace NUnit.Gui
 				| System.Windows.Forms.AnchorStyles.Right)));
 			this.helpProvider1.SetHelpString(this.applicationBaseTextBox, "The ApplicationBase for this configuration. May be absolute or relative to the pr" +
 				"oject base. Defaults to the project base if not set.");
-			this.applicationBaseTextBox.Location = new System.Drawing.Point(128, 8);
+			this.applicationBaseTextBox.Location = new System.Drawing.Point(128, 40);
 			this.applicationBaseTextBox.Name = "applicationBaseTextBox";
 			this.helpProvider1.SetShowHelp(this.applicationBaseTextBox, true);
 			this.applicationBaseTextBox.Size = new System.Drawing.Size(304, 22);
@@ -344,7 +374,7 @@ namespace NUnit.Gui
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(16, 8);
+			this.label3.Location = new System.Drawing.Point(16, 40);
 			this.label3.Name = "label3";
 			this.helpProvider1.SetShowHelp(this.label3, false);
 			this.label3.Size = new System.Drawing.Size(105, 18);
@@ -366,6 +396,18 @@ namespace NUnit.Gui
 			this.assemblyTabPage.TabIndex = 1;
 			this.assemblyTabPage.Text = "Assemblies";
 			this.assemblyTabPage.Visible = false;
+			// 
+			// assemblyPathBrowseButton
+			// 
+			this.assemblyPathBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.helpProvider1.SetHelpString(this.assemblyPathBrowseButton, "Browse to locate ApplicationBase directory.");
+			this.assemblyPathBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("assemblyPathBrowseButton.Image")));
+			this.assemblyPathBrowseButton.Location = new System.Drawing.Point(448, 168);
+			this.assemblyPathBrowseButton.Name = "assemblyPathBrowseButton";
+			this.helpProvider1.SetShowHelp(this.assemblyPathBrowseButton, true);
+			this.assemblyPathBrowseButton.Size = new System.Drawing.Size(24, 24);
+			this.assemblyPathBrowseButton.TabIndex = 11;
+			this.assemblyPathBrowseButton.Click += new System.EventHandler(this.assemblyPathBrowseButton_Click);
 			// 
 			// assemblyPathTextBox
 			// 
@@ -482,18 +524,6 @@ namespace NUnit.Gui
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "Configuration Properties";
 			// 
-			// assemblyPathBrowseButton
-			// 
-			this.assemblyPathBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.helpProvider1.SetHelpString(this.assemblyPathBrowseButton, "Browse to locate ApplicationBase directory.");
-			this.assemblyPathBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("assemblyPathBrowseButton.Image")));
-			this.assemblyPathBrowseButton.Location = new System.Drawing.Point(448, 168);
-			this.assemblyPathBrowseButton.Name = "assemblyPathBrowseButton";
-			this.helpProvider1.SetShowHelp(this.assemblyPathBrowseButton, true);
-			this.assemblyPathBrowseButton.Size = new System.Drawing.Size(24, 24);
-			this.assemblyPathBrowseButton.TabIndex = 11;
-			this.assemblyPathBrowseButton.Click += new System.EventHandler(this.assemblyPathBrowseButton_Click);
-			// 
 			// ProjectEditor
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
@@ -571,6 +601,11 @@ namespace NUnit.Gui
 		private void configComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			selectedConfig = project.Configs[(string)configComboBox.SelectedItem];
+
+			string runtime = selectedConfig.RuntimeFramework;
+			int index = runtimeComboBox.FindStringExact(runtime,0);
+			if ( index < 0 ) index = 0;
+			runtimeComboBox.SelectedIndex = index;
 			
 			applicationBaseTextBox.Text = selectedConfig.RelativeBasePath;
 
@@ -816,6 +851,16 @@ namespace NUnit.Gui
 				selectedConfig.ConfigurationFile = null;
 			else
 				selectedConfig.ConfigurationFile = configFileTextBox.Text;
+		}
+		#endregion
+
+		#region Runtime Framework Methods and Events
+		private void runtimeComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+		{
+			project.ActiveConfig.RuntimeFramework = 
+				runtimeComboBox.SelectedIndex > 0
+					? (string)runtimeComboBox.SelectedItem
+					: null;
 		}
 		#endregion
 
