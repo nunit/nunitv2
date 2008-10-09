@@ -2535,48 +2535,6 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
-        //static public void That(object actual, Constraint constraint)
-        //{
-        //    Assert.That(actual, constraint, null, null);
-        //}
-
-        /// <summary>
-        /// Apply a constraint to an actual value, succeeding if the constraint
-        /// is satisfied and throwing an assertion exception on failure.
-        /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
-        /// <param name="actual">The actual value to test</param>
-        /// <param name="message">The message that will be displayed on failure</param>
-        //static public void That(object actual, Constraint constraint, string message)
-        //{
-        //    Assert.That(actual, constraint, message, null);
-        //}
-
-        /// <summary>
-        /// Apply a constraint to an actual value, succeeding if the constraint
-        /// is satisfied and throwing an assertion exception on failure.
-        /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
-        /// <param name="actual">The actual value to test</param>
-        /// <param name="message">The message that will be displayed on failure</param>
-        /// <param name="args">Arguments to be used in formatting the message</param>
-        //static private void That(object actual, Constraint constraint, string message, params object[] args)
-        //{
-        //    Assert.IncrementAssertCount();
-        //    if (!constraint.Matches(actual))
-        //    {
-        //        MessageWriter writer = new TextMessageWriter(message, args);
-        //        constraint.WriteMessageTo(writer);
-        //        throw new AssertionException(writer.ToString());
-        //    }
-        //}
-
-        /// <summary>
-        /// Apply a constraint to an actual value, succeeding if the constraint
-        /// is satisfied and throwing an assertion exception on failure.
-        /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
-        /// <param name="actual">The actual value to test</param>
         static public void That(object actual, IResolveConstraint constraint)
         {
             Assert.That(actual, constraint.Resolve(), null, null);
