@@ -182,12 +182,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MultipleTestDomainRunner.cs"
-                    Link = "..\..\..\..\src\ClientUtilities\util\MultipleTestDomainRunner.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "NUnitProject.cs"
                     Link = "..\..\..\..\src\ClientUtilities\util\NUnitProject.cs"
                     SubType = "Code"

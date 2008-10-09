@@ -13,7 +13,8 @@ namespace NUnit.Util
 	using System.IO;
 	using NUnit.Core;
 
-	/// <summary>
+    #region AggregatingTestRunner
+    /// <summary>
 	/// AggregatingTestRunner allows running multiple TestRunners
 	/// and combining the results.
 	/// </summary>
@@ -128,7 +129,57 @@ namespace NUnit.Util
 		#endregion
 
 		#region Load and Unload Methods       
-		public abstract bool Load(TestPackage package);
+        public bool Load(TestPackage package)
+        {
+            this.testName.FullName = this.testName.Name = package.FullName;
+            runners = new ArrayList();
+
+            int nfound = 0;
+            int index = 0;
+
+            string targetAssemblyName = null;
+            if (package.TestName != null && package.Assemblies.Contains(package.TestName))
+            {
+                targetAssemblyName = package.TestName;
+                package.TestName = null;
+            }
+
+            foreach (string assembly in package.Assemblies)
+            {
+                if (targetAssemblyName == null || targetAssemblyName == assembly)
+                {
+                    TestRunner runner = CreateRunner(this.runnerID * 100 + index + 1);
+
+                    TestPackage p = new TestPackage(assembly);
+                    p.AutoBinPath = package.AutoBinPath;
+                    p.ConfigurationFile = package.ConfigurationFile;
+                    p.BasePath = package.BasePath;
+                    p.PrivateBinPath = package.PrivateBinPath;
+                    p.TestName = package.TestName;
+                    foreach (object key in package.Settings.Keys)
+                        p.Settings[key] = package.Settings[key];
+
+                    if (package.TestName == null)
+                    {
+                        runners.Add(runner);
+                        if (runner.Load(p))
+                            nfound++;
+                    }
+                    else if (runner.Load(p))
+                    {
+                        runners.Add(runner);
+                        nfound++;
+                    }
+                }
+            }
+
+            if (package.TestName == null && targetAssemblyName == null)
+                return nfound == package.Assemblies.Count;
+            else
+                return nfound > 0;
+        }
+
+        protected abstract TestRunner CreateRunner(int runnerID);
 
 		public virtual void Unload()
 		{
@@ -286,5 +337,45 @@ namespace NUnit.Util
 			return null;
 		}
 		#endregion
-	}
+    }
+    #endregion
+
+    #region MultipleTestDomainRunner
+    /// <summary>
+    /// Summary description for MultipleTestDomainRunner.
+    /// </summary>
+    public class MultipleTestDomainRunner : AggregatingTestRunner
+    {
+        #region Constructors
+        public MultipleTestDomainRunner() : base(0) { }
+
+        public MultipleTestDomainRunner(int runnerID) : base(runnerID) { }
+        #endregion
+
+        #region CreateRunner
+        protected override TestRunner CreateRunner(int runnerID)
+        {
+            return new TestDomain(runnerID);
+        }
+        #endregion
+    }
+    #endregion
+
+    #region MultipleTestProcessRunner
+    public class MultipleTestProcessRunner : AggregatingTestRunner
+    {
+        #region Constructors
+        public MultipleTestProcessRunner() : base(0) { }
+
+        public MultipleTestProcessRunner(int runnerID) : base(runnerID) { }
+        #endregion
+
+        #region CreateRunner
+        protected override TestRunner CreateRunner(int runnerID)
+        {
+            return new ProcessRunner(runnerID);
+        }
+        #endregion
+    }
+    #endregion
 }

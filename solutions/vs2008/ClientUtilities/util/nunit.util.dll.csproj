@@ -154,10 +154,6 @@
       <Link>MemorySettingsStorage.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\util\MultipleTestDomainRunner.cs">
-      <Link>MultipleTestDomainRunner.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\NUnitProject.cs">
       <Link>NUnitProject.cs</Link>
       <SubType>Code</SubType>
