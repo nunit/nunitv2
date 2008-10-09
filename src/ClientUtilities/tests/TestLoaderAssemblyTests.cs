@@ -36,10 +36,6 @@ namespace NUnit.Util.Tests
 		public void SetUp()
 		{
 			loader = new TestLoader( );
-			loader.MergeAssemblies = false;
-			loader.AutoNamespaceSuites = true;
-			loader.MultiDomain = false;
-
 			catcher = new TestEventCatcher( loader.Events );
 		}
 

@@ -13,6 +13,12 @@ namespace NUnit.Util
                 ? RuntimeFramework.CurrentFramework
                 : new RuntimeFramework( targetRuntime );
 
+            if (package.GetSetting("MultiProcess", false))
+            {
+                package.Settings.Remove("MultiProcess");
+                return new MultipleTestProcessRunner();
+            }
+
             if ( package.GetSetting("SeparateProcess", false) ||
                  runtimeFramework.Runtime != RuntimeFramework.CurrentFramework.Runtime ||
 				 runtimeFramework.Version.ToString(3) != RuntimeFramework.CurrentFramework.Version.ToString(3))

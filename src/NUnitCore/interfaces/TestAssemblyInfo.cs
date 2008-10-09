@@ -6,6 +6,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -19,7 +20,10 @@ namespace NUnit.Core
 	{
 		private string assemblyName;
         private Version imageRuntimeVersion;
-        private Version runnerRuntimeVersion;
+        private RuntimeFramework runnerRuntimeFramework;
+        private int processId;
+        private string moduleName;
+        private string domainName;
         private IList testFrameworks;
 
         /// <summary>
@@ -27,14 +31,18 @@ namespace NUnit.Core
         /// </summary>
         /// <param name="assemblyName">The name of the assembly</param>
         /// <param name="imageRuntimeVersion">The version of the runtime for which the assembly was built</param>
-        /// <param name="runnerRuntimeVersion">The version of the runtime under which the assembly is loaded</param>
+        /// <param name="runnerRuntimeFramework">The runtime framework under which the assembly is loaded</param>
         /// <param name="testFrameworks">A list of test framework useds by the assembly</param>
-		public TestAssemblyInfo( string assemblyName, Version imageRuntimeVersion, Version runnerRuntimeVersion, IList testFrameworks )
+		public TestAssemblyInfo( string assemblyName, Version imageRuntimeVersion, RuntimeFramework runnerRuntimeFramework, IList testFrameworks )
 		{
 			this.assemblyName = assemblyName;
             this.imageRuntimeVersion = imageRuntimeVersion;
-            this.runnerRuntimeVersion = runnerRuntimeVersion;
+            this.runnerRuntimeFramework = runnerRuntimeFramework;
             this.testFrameworks = testFrameworks;
+            Process p = Process.GetCurrentProcess();
+            this.processId = p.Id;
+            this.moduleName = p.MainModule.ModuleName;
+            this.domainName = AppDomain.CurrentDomain.FriendlyName;
 		}
 
         /// <summary>
@@ -54,11 +62,34 @@ namespace NUnit.Core
         }
 
         /// <summary>
+        /// Gets the runtime framework under which the assembly is loaded
+        /// </summary>
+        public RuntimeFramework RunnerRuntimeFramework
+        {
+            get { return runnerRuntimeFramework; }
+        }
+
+        /// <summary>
         /// Gets the runtime version under which the assembly is loaded
         /// </summary>
         public Version RunnerRuntimeVersion
         {
-            get { return runnerRuntimeVersion; }
+            get { return runnerRuntimeFramework.Version; }
+        }
+
+        public int ProcessId
+        {
+            get { return processId; }
+        }
+
+        public string DomainName
+        {
+            get { return domainName; }
+        }
+
+        public string ModuleName
+        {
+            get { return moduleName; }
         }
 
         /// <summary>

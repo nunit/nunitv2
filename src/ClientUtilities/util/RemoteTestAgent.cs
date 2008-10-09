@@ -67,7 +67,7 @@ namespace NUnit.Util
 		#region Public Methods - For Client Use
 		public TestRunner CreateRunner(int runnerID)
 		{
-			return new TestDomain( runnerID );
+            return new AgentRunner(runnerID);
 		}
 		#endregion
 
@@ -138,5 +138,20 @@ namespace NUnit.Util
 		}
 
 		#endregion
-	}
+
+        #region Nested AgentRunner class
+        class AgentRunner : ProxyTestRunner
+        {
+            public AgentRunner(int runnerID)
+                : base(runnerID) { }
+
+            public override bool Load(TestPackage package)
+            {
+                this.TestRunner = TestRunnerFactory.MakeTestRunner(package);
+
+                return base.Load(package);
+            }
+        }
+        #endregion
+    }
 }

@@ -175,7 +175,7 @@ namespace NUnit.Gui.SettingsPages
             // 
             // multiProcessRadioButton
             // 
-            this.multiProcessRadioButton.Enabled = false;
+            this.multiProcessRadioButton.Enabled = true;
             this.multiProcessRadioButton.Location = new System.Drawing.Point(32, 181);
             this.multiProcessRadioButton.Name = "multiProcessRadioButton";
             this.multiProcessRadioButton.Size = new System.Drawing.Size(319, 21);
@@ -247,14 +247,31 @@ namespace NUnit.Gui.SettingsPages
 		
 		public override void LoadSettings()
 		{
-            bool separateProcess = settings.GetSetting("Options.TestLoader.SeparateProcess", false);
-            sameProcessRadioButton.Checked = !separateProcess;
-            separateProcessRadioButton.Checked = separateProcess;
+            if ( settings.GetSetting("Options.TestLoader.SeparateProcess", false) )
+            {
+                separateProcessRadioButton.Checked = true;
+                sameProcessRadioButton.Checked = false;
+                multiProcessRadioButton.Checked = false;
+            }
+            else if (settings.GetSetting("Options.TestLoader.MultiProcess", false))
+            {
+                multiProcessRadioButton.Checked = true;
+                sameProcessRadioButton.Checked = false;
+                separateProcessRadioButton.Checked = false;
+            }
+            else
+            {
+                sameProcessRadioButton.Checked = true;
+                multiProcessRadioButton.Checked = false;
+                separateProcessRadioButton.Checked = false;
+            }
 
 			bool multiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
 			multiDomainRadioButton.Checked = multiDomain;
 			singleDomainRadioButton.Checked = !multiDomain;
             mergeAssembliesCheckBox.Enabled = !multiDomain;
+
+
 			mergeAssembliesCheckBox.Checked = settings.GetSetting( "Options.TestLoader.MergeAssemblies", false );
 			autoNamespaceSuites.Checked = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
 			flatTestList.Checked = !autoNamespaceSuites.Checked;
@@ -264,11 +281,12 @@ namespace NUnit.Gui.SettingsPages
 		{
 			TestLoader loader = Services.TestLoader;
 
-            settings.SaveSetting("Options.TestLoader.SeparateProcess", loader.SeparateProcess = separateProcessRadioButton.Checked);
+            settings.SaveSetting("Options.TestLoader.SeparateProcess", separateProcessRadioButton.Checked);
+            settings.SaveSetting("Options.TestLoader.MultiProcess", multiProcessRadioButton.Checked);
  
-			settings.SaveSetting( "Options.TestLoader.MultiDomain", loader.MultiDomain = multiDomainRadioButton.Checked );
-			settings.SaveSetting( "Options.TestLoader.MergeAssemblies", loader.MergeAssemblies = mergeAssembliesCheckBox.Checked );
-			settings.SaveSetting( "Options.TestLoader.AutoNamespaceSuites", loader.AutoNamespaceSuites = autoNamespaceSuites.Checked );
+			settings.SaveSetting( "Options.TestLoader.MultiDomain", multiDomainRadioButton.Checked );
+			settings.SaveSetting( "Options.TestLoader.MergeAssemblies", mergeAssembliesCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.AutoNamespaceSuites", autoNamespaceSuites.Checked );
 		}
 
 		private void toggleTestStructure(object sender, System.EventArgs e)
@@ -277,29 +295,30 @@ namespace NUnit.Gui.SettingsPages
 			flatTestList.Checked = !auto;
 		}
 
-
+        // TODO: Combine toggleProcessUsage and toggleMultiDomain
         private void toggleProcessUsage(object sender, EventArgs e)
         {
-            bool sameProcess = sameProcessRadioButton.Checked;
-            singleDomainRadioButton.Enabled = sameProcess;
-            multiDomainRadioButton.Enabled = sameProcess;
-            mergeAssembliesCheckBox.Enabled = sameProcess;
+            bool enable = sameProcessRadioButton.Checked || separateProcessRadioButton.Checked;
+            singleDomainRadioButton.Enabled = enable;
+            multiDomainRadioButton.Enabled = enable;
+            mergeAssembliesCheckBox.Enabled = enable && singleDomainRadioButton.Checked;
         }
         
         private void toggleMultiDomain(object sender, System.EventArgs e)
 		{
 			bool multiDomain = multiDomainRadioButton.Checked = ! multiDomainRadioButton.Checked;
 			singleDomainRadioButton.Checked = !multiDomain;
-			mergeAssembliesCheckBox.Enabled = !multiDomain;
+			mergeAssembliesCheckBox.Enabled = !multiDomain && !multiProcessRadioButton.Checked;
 		}
 
 		public override bool HasChangesRequiringReload
 		{
 			get 
 			{
-				return 
-                    settings.GetSetting( "Options.TestLoader.SeparateProcess", false ) != separateProcessRadioButton.Checked ||
-					settings.GetSetting( "Options.TestLoader.MultiDomain", false ) != multiDomainRadioButton.Checked ||
+				return
+                    settings.GetSetting("Options.TestLoader.SeparateProcess", false) != separateProcessRadioButton.Checked ||
+                    settings.GetSetting("Options.TestLoader.MultiDomain", false) != multiDomainRadioButton.Checked ||
+                    settings.GetSetting("Options.TestLoader.MultiProcess", false) != multiProcessRadioButton.Checked ||
 					settings.GetSetting( "Options.TestLoader.MergeAssemblies", false ) != mergeAssembliesCheckBox.Checked ||
 					settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true ) != autoNamespaceSuites.Checked;
 			}

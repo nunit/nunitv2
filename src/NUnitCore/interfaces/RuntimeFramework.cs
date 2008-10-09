@@ -29,6 +29,7 @@ namespace NUnit.Core
 	/// RuntimeFramework represents a particular version
 	/// of a common language runtime implementation.
 	/// </summary>
+    [Serializable]
 	public sealed class RuntimeFramework
 	{
 		private RuntimeType runtime;

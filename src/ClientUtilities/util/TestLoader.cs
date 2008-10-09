@@ -38,28 +38,6 @@ namespace NUnit.Util
 		/// </summary>
 		private TestEventDispatcher events;
 
-        /// <summary>
-        /// Run in a separate process if true
-        /// </summary>
-        private bool separateProcess;
-
-		/// <summary>
-		/// Use MuiltipleTestDomainRunner if true
-		/// </summary>
-		private bool multiDomain;
-
-		/// <summary>
-		/// Merge namespaces across multiple assemblies
-		/// </summary>
-		private bool mergeAssemblies;
-
-		/// <summary>
-		/// Generate suites for each level of namespace containing tests
-		/// </summary>
-		private bool autoNamespaceSuites;
-
-		private bool shadowCopyFiles;
-
 		/// <summary>
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
@@ -146,11 +124,6 @@ namespace NUnit.Util
 			this.ReloadOnRun = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
 			this.ReloadOnChange = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
 			this.RerunOnChange = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
-            this.SeparateProcess = settings.GetSetting("Options.TestLoader.SeparateProcess", false);
-			this.MultiDomain = settings.GetSetting( "Options.TestLoader.MultiDomain", false );
-			this.MergeAssemblies = settings.GetSetting( "Options.TestLoader.MergeAssemblies", false );
-			this.AutoNamespaceSuites = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
-			this.ShadowCopyFiles = settings.GetSetting( "Options.TestLoader.ShadowCopyFiles", true );
 
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler( OnUnhandledException );
 		}
@@ -215,36 +188,6 @@ namespace NUnit.Util
 		{
 			get { return reloadOnRun; }
 			set { reloadOnRun = value; }
-		}
-
-        public bool SeparateProcess
-        {
-            get { return separateProcess; }
-            set { separateProcess = value; }
-        }
-
-		public bool MultiDomain
-		{
-			get { return multiDomain; }
-			set { multiDomain = value; }
-		}
-
-		public bool MergeAssemblies
-		{
-			get { return mergeAssemblies; }
-			set { mergeAssemblies = value; }
-		}
-
-		public bool AutoNamespaceSuites
-		{
-			get { return autoNamespaceSuites; }
-			set { autoNamespaceSuites = value; }
-		}
-
-		public bool ShadowCopyFiles
-		{
-			get { return shadowCopyFiles; }
-			set { shadowCopyFiles = value; }
 		}
 
 		public IList AssemblyInfo
@@ -613,7 +556,6 @@ namespace NUnit.Util
 					RemoveWatcher();
 
 					testRunner.Unload();
-
 					testRunner = null;
 
 					loadedTest = null;
@@ -640,9 +582,14 @@ namespace NUnit.Util
 			{
 				events.FireTestReloading( TestFileName );
 
-				testRunner.Load( MakeTestPackage( loadedTestName ) );
+                TestPackage package = MakeTestPackage(loadedTestName);
 
-				loadedTest = testRunner.Test;
+                testRunner.Unload();
+                testRunner = TestRunnerFactory.MakeTestRunner(package);
+
+                testRunner.Load(package);
+
+                loadedTest = testRunner.Test;
 				reloadPending = false;
 
 				events.FireTestReloaded( TestFileName, loadedTest );				
@@ -757,11 +704,14 @@ namespace NUnit.Util
 		{
 			TestPackage package = TestProject.ActiveConfig.MakeTestPackage();
 			package.TestName = testName;
-			package.Settings["MergeAssemblies"] = mergeAssemblies;
-			package.Settings["AutoNamespaceSuites"] = autoNamespaceSuites;
-			package.Settings["ShadowCopyFiles"] = shadowCopyFiles;
-            package.Settings["MultiDomain"] = multiDomain;
-            package.Settings["SeparateProcess"] = separateProcess;
+
+            ISettings settings = Services.UserSettings;
+            package.Settings["MergeAssemblies"] = settings.GetSetting("Options.TestLoader.MergeAssemblies", false);
+            package.Settings["AutoNamespaceSuites"] = settings.GetSetting("Options.TestLoader.AutoNamespaceSuites", true);
+            package.Settings["ShadowCopyFiles"] = settings.GetSetting("Options.TestLoader.ShadowCopyFiles", true);
+            package.Settings["MultiDomain"] = settings.GetSetting("Options.TestLoader.MultiDomain", false);
+            package.Settings["MultiProcess"] = settings.GetSetting("Options.TestLoader.MultiProcess", false);
+            package.Settings["SeparateProcess"] = settings.GetSetting("Options.TestLoader.SeparateProcess", false);
 			return package;
 		}
 		#endregion

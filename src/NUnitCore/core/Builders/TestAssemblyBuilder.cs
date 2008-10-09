@@ -50,7 +50,7 @@ namespace NUnit.Core.Builders
 					AssemblyReader rdr = new AssemblyReader( path );
 					Version imageRuntimeVersion = new Version( rdr.ImageRuntimeVersion.Substring( 1 ) );
 					IList frameworks = CoreExtensions.Host.TestFrameworks.GetReferencedFrameworks( assembly );
-					assemblyInfo = new TestAssemblyInfo( path, imageRuntimeVersion, Environment.Version, frameworks );
+					assemblyInfo = new TestAssemblyInfo( path, imageRuntimeVersion, RuntimeFramework.CurrentFramework, frameworks );
 				}
 
 				return assemblyInfo;
