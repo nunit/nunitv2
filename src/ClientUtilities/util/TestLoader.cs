@@ -709,10 +709,18 @@ namespace NUnit.Util
             package.Settings["MergeAssemblies"] = settings.GetSetting("Options.TestLoader.MergeAssemblies", false);
             package.Settings["AutoNamespaceSuites"] = settings.GetSetting("Options.TestLoader.AutoNamespaceSuites", true);
             package.Settings["ShadowCopyFiles"] = settings.GetSetting("Options.TestLoader.ShadowCopyFiles", true);
-            package.Settings["MultiDomain"] = settings.GetSetting("Options.TestLoader.MultiDomain", false);
-            package.Settings["MultiProcess"] = settings.GetSetting("Options.TestLoader.MultiProcess", false);
-            package.Settings["SeparateProcess"] = settings.GetSetting("Options.TestLoader.SeparateProcess", false);
-			return package;
+
+            if (settings.GetSetting("Options.TestLoader.MultiProcess", false))
+                package.Settings["MultiProcess"] = true;
+            else
+            {
+                if (settings.GetSetting("Options.TestLoader.SeparateProcess", false))
+                        package.Settings["SeparateProcess"] = true;
+                if (settings.GetSetting("Options.TestLoader.MultiDomain", false))
+                    package.Settings["MultiDomain"] = true;
+            }
+			
+            return package;
 		}
 		#endregion
 
