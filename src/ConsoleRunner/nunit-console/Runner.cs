@@ -53,7 +53,7 @@ namespace NUnit.ConsoleRunner
 			ServiceManager.Services.AddService( new AddinManager() );
 			// TODO: Resolve conflict with gui testagency when running
 			// console tests under the gui.
-			//ServiceManager.Services.AddService( new TestAgency() );
+			ServiceManager.Services.AddService( new TestAgency() );
 
 			// Initialize Services
 			ServiceManager.Services.InitializeServices();

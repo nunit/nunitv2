@@ -191,32 +191,24 @@ namespace NUnit.ConsoleRunner
 
 			if (options.domain != DomainUsage.Default)
 				domainUsage = options.domain;
-                    
-			TestRunner testRunner = null;
-				
-			switch( domainUsage )
-			{
-				case DomainUsage.None:
-					testRunner = new NUnit.Core.RemoteTestRunner();
-					// Make sure that addins are available
-					CoreExtensions.Host.AddinRegistry = Services.AddinRegistry;
-					break;
-
-				case DomainUsage.Single:
-					testRunner = new TestDomain();
-					break;
-
-				case DomainUsage.Multiple:
-					testRunner = new MultipleTestDomainRunner();
-					break;
-			}
 
 			package.TestName = options.fixture;
-			package.Settings["ShadowCopyFiles"] = !options.noshadow;
+            
+            package.Settings["ProcessModel"] = options.process;
+            package.Settings["DomainUsage"] = domainUsage;
+
+            if (domainUsage == DomainUsage.None)
+            {
+                // Make sure that addins are available
+                CoreExtensions.Host.AddinRegistry = Services.AddinRegistry;
+            }
+
+            package.Settings["ShadowCopyFiles"] = !options.noshadow;
 			package.Settings["UseThreadedRunner"] = !options.nothread;
             package.Settings["DefaultTimeout"] = options.timeout;
-			testRunner.Load( package );
 
+            TestRunner testRunner = TestRunnerFactory.MakeTestRunner(package);
+			testRunner.Load( package );
 			return testRunner;
 		}
 
