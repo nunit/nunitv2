@@ -710,15 +710,14 @@ namespace NUnit.Util
             package.Settings["AutoNamespaceSuites"] = settings.GetSetting("Options.TestLoader.AutoNamespaceSuites", true);
             package.Settings["ShadowCopyFiles"] = settings.GetSetting("Options.TestLoader.ShadowCopyFiles", true);
 
-            if (settings.GetSetting("Options.TestLoader.MultiProcess", false))
-                package.Settings["MultiProcess"] = true;
-            else
-            {
-                if (settings.GetSetting("Options.TestLoader.SeparateProcess", false))
-                        package.Settings["SeparateProcess"] = true;
-                if (settings.GetSetting("Options.TestLoader.MultiDomain", false))
-                    package.Settings["MultiDomain"] = true;
-            }
+            ProcessModel processModel = (ProcessModel)settings.GetSetting("Options.TestLoader.ProcessModel", ProcessModel.Default);
+            DomainUsage domainUsage = (DomainUsage)settings.GetSetting("Options.TestLoader.DomainUsage", DomainUsage.Default);
+
+            if (processModel != ProcessModel.Default)
+                package.Settings["ProcessModel"] = processModel;
+
+            if (processModel != ProcessModel.Multiple && domainUsage == DomainUsage.Multiple)
+                package.Settings["DomainUsage"] = domainUsage;
 			
             return package;
 		}

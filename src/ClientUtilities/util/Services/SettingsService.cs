@@ -115,10 +115,14 @@ namespace NUnit.Util
 				Convert( "Options.RerunOnChange", "Options.TestLoader.RerunOnChange", "False", "True" );
 				Convert( "Options.ReloadOnRun", "Options.TestLoader.ReloadOnRun", "False", "True" );
 				Convert( "Options.MergeAssemblies", "Options.TestLoader.MergeAssemblies", "False", "True" );
-				Convert( "Options.MultiDomain", "Options.TestLoader.MultiDomain", "False", "True" );
+				//Convert( "Options.MultiDomain", "Options.TestLoader.MultiDomain", "False", "True" );
 				Convert( "Options.AutoNamespaceSuites", "Options.TestLoader.AutoNamespaceSuites", "False", "True" );
 				Convert( "Options.VisualStudioSupport", "Options.TestLoader.VisualStudioSupport", "False", "True" );
 				Convert( "Recent-Projects.MaxFiles", "RecentProjects.MaxFiles" );
+
+                object val = legacy.GetSetting("Options.MultiDomain");
+                if (val != null && (bool)val)
+                    this.SaveSetting("Options.TestLoader.DomainUsage", NUnit.Core.DomainUsage.Multiple);
 
 				int maxFiles = this.GetSetting( "RecentProjects.MaxFiles", 5 );
 				for( int i = 1; i <= maxFiles; i++ )

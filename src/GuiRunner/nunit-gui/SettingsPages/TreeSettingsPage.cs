@@ -17,6 +17,10 @@ namespace NUnit.Gui.SettingsPages
 		private System.Windows.Forms.CheckBox saveVisualStateCheckBox;
 		private System.Windows.Forms.CheckBox showCheckBoxesCheckBox;
 		private System.Windows.Forms.HelpProvider helpProvider1;
+		private System.Windows.Forms.RadioButton flatTestList;
+		private System.Windows.Forms.RadioButton autoNamespaceSuites;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.GroupBox groupBox2;
 		private System.ComponentModel.IContainer components = null;
 
 		public TreeSettingsPage(string key) : base(key)
@@ -57,6 +61,10 @@ namespace NUnit.Gui.SettingsPages
 			this.saveVisualStateCheckBox = new System.Windows.Forms.CheckBox();
 			this.showCheckBoxesCheckBox = new System.Windows.Forms.CheckBox();
 			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+			this.flatTestList = new System.Windows.Forms.RadioButton();
+			this.autoNamespaceSuites = new System.Windows.Forms.RadioButton();
+			this.label3 = new System.Windows.Forms.Label();
+			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.SuspendLayout();
 			// 
 			// groupBox1
@@ -83,13 +91,13 @@ namespace NUnit.Gui.SettingsPages
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(144, 24);
 			this.label2.TabIndex = 32;
-			this.label2.Text = "Initial display on load:";
+			this.label2.Text = "Initial display on load";
 			// 
 			// initialDisplayComboBox
 			// 
 			this.initialDisplayComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.helpProvider1.SetHelpString(this.initialDisplayComboBox, "Selects the initial display style of the tree when an assembly is loaded");
-			this.initialDisplayComboBox.ItemHeight = 16;
+			this.initialDisplayComboBox.ItemHeight = 13;
 			this.initialDisplayComboBox.Items.AddRange(new object[] {
 																		"Auto",
 																		"Expand",
@@ -98,7 +106,7 @@ namespace NUnit.Gui.SettingsPages
 			this.initialDisplayComboBox.Location = new System.Drawing.Point(184, 24);
 			this.initialDisplayComboBox.Name = "initialDisplayComboBox";
 			this.helpProvider1.SetShowHelp(this.initialDisplayComboBox, true);
-			this.initialDisplayComboBox.Size = new System.Drawing.Size(87, 24);
+			this.initialDisplayComboBox.Size = new System.Drawing.Size(87, 21);
 			this.initialDisplayComboBox.TabIndex = 33;
 			// 
 			// clearResultsCheckBox
@@ -132,8 +140,58 @@ namespace NUnit.Gui.SettingsPages
 			this.showCheckBoxesCheckBox.TabIndex = 36;
 			this.showCheckBoxesCheckBox.Text = "Show CheckBoxes";
 			// 
+			// flatTestList
+			// 
+			this.flatTestList.AutoCheck = false;
+			this.helpProvider1.SetHelpString(this.flatTestList, "If selected, the tree will consist of a flat list of fixtures, without any higher" +
+				"-level structure beyond the assemblies.");
+			this.flatTestList.Location = new System.Drawing.Point(24, 240);
+			this.flatTestList.Name = "flatTestList";
+			this.helpProvider1.SetShowHelp(this.flatTestList, true);
+			this.flatTestList.Size = new System.Drawing.Size(216, 24);
+			this.flatTestList.TabIndex = 40;
+			this.flatTestList.Text = "Flat list of TestFixtures";
+			this.flatTestList.Click += new System.EventHandler(this.toggleTestStructure);
+			// 
+			// autoNamespaceSuites
+			// 
+			this.autoNamespaceSuites.AutoCheck = false;
+			this.autoNamespaceSuites.Checked = true;
+			this.helpProvider1.SetHelpString(this.autoNamespaceSuites, "If selected, the tree will follow the namespace structure of the tests, with suit" +
+				"es automatically created at each level.");
+			this.autoNamespaceSuites.Location = new System.Drawing.Point(24, 208);
+			this.autoNamespaceSuites.Name = "autoNamespaceSuites";
+			this.helpProvider1.SetShowHelp(this.autoNamespaceSuites, true);
+			this.autoNamespaceSuites.Size = new System.Drawing.Size(224, 24);
+			this.autoNamespaceSuites.TabIndex = 39;
+			this.autoNamespaceSuites.TabStop = true;
+			this.autoNamespaceSuites.Text = "Automatic Namespace suites";
+			this.autoNamespaceSuites.Click += new System.EventHandler(this.toggleTestStructure);
+			// 
+			// label3
+			// 
+			this.label3.Location = new System.Drawing.Point(8, 184);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(88, 16);
+			this.label3.TabIndex = 38;
+			this.label3.Text = "Test Structure";
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+				| System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox2.Location = new System.Drawing.Point(112, 184);
+			this.groupBox2.Name = "groupBox2";
+			this.groupBox2.Size = new System.Drawing.Size(336, 8);
+			this.groupBox2.TabIndex = 37;
+			this.groupBox2.TabStop = false;
+			// 
 			// TreeSettingsPage
 			// 
+			this.Controls.Add(this.label3);
+			this.Controls.Add(this.flatTestList);
+			this.Controls.Add(this.autoNamespaceSuites);
+			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.showCheckBoxesCheckBox);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.initialDisplayComboBox);
@@ -153,6 +211,9 @@ namespace NUnit.Gui.SettingsPages
 			clearResultsCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ClearResultsOnReload", true );
 			saveVisualStateCheckBox.Checked = settings.GetSetting( "Gui.TestTree.SaveVisualState", true );
 			showCheckBoxesCheckBox.Checked = settings.GetSetting( "Options.ShowCheckBoxes", false );
+		
+			autoNamespaceSuites.Checked = settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true );
+			flatTestList.Checked = !autoNamespaceSuites.Checked;
 		}
 
 		public override void ApplySettings()
@@ -161,7 +222,23 @@ namespace NUnit.Gui.SettingsPages
 			settings.SaveSetting( "Options.TestLoader.ClearResultsOnReload", clearResultsCheckBox.Checked );
 			settings.SaveSetting( "Gui.TestTree.SaveVisualState", saveVisualStateCheckBox.Checked );
 			settings.SaveSetting( "Options.ShowCheckBoxes", showCheckBoxesCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.AutoNamespaceSuites", autoNamespaceSuites.Checked );
 		}
+
+		private void toggleTestStructure(object sender, System.EventArgs e)
+		{
+			bool auto = autoNamespaceSuites.Checked = !autoNamespaceSuites.Checked;
+			flatTestList.Checked = !auto;
+		}
+	
+		public override bool HasChangesRequiringReload
+		{
+			get
+			{
+				return settings.GetSetting( "Options.TestLoader.AutoNamespaceSuites", true ) != autoNamespaceSuites.Checked;
+			}
+		}
+
 	}
 }
 
