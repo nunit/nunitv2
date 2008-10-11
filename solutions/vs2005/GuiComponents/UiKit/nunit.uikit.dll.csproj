@@ -181,6 +181,10 @@
       <Link>ResultTabs.cs</Link>
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\GuiComponents\UiKit\ScrollingTextDisplayForm.cs">
+      <Link>ScrollingTextDisplayForm.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiComponents\UiKit\SettingsDialogBase.cs">
       <Link>SettingsDialogBase.cs</Link>
       <SubType>Form</SubType>

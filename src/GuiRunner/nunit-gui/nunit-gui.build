@@ -12,6 +12,7 @@
         <include name="NUnitForm.cs"/>
         <include name="OptionsDialog.cs"/>
         <include name="ProjectEditor.cs"/>
+        <include name="TestAssemblyInfoForm.cs"/>
         <include name="SettingsPages/AdvancedLoaderSettingsPage.cs"/>
         <include name="SettingsPages/AssemblyReloadSettingsPage.cs"/>
         <include name="SettingsPages/GuiSettingsPage.cs"/>

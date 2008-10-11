@@ -23,6 +23,7 @@
         <include name="SettingsDialogBase.cs"/>
         <include name="SimpleSettingsDialog.cs"/>
         <include name="SimpleTextDisplay.cs"/>
+        <include name="ScrollingTextDisplayForm.cs"/>
         <include name="SettingsPage.cs"/>
         <include name="StatusBar.cs"/>
         <include name="TabbedSettingsDialog.cs"/>

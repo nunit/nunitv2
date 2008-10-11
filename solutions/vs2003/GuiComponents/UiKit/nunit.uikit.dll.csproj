@@ -320,6 +320,12 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "ScrollingTextDisplayForm.cs"
+                    Link = "..\..\..\..\src\GuiComponents\UiKit\ScrollingTextDisplayForm.cs"
+                    SubType = "Form"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SettingsDialogBase.cs"
                     Link = "..\..\..\..\src\GuiComponents\UiKit\SettingsDialogBase.cs"
                     SubType = "Form"

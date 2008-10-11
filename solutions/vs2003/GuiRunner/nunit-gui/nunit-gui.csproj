@@ -221,6 +221,12 @@
                     BuildAction = "EmbeddedResource"
                 />
                 <File
+                    RelPath = "TestAssemblyInfoForm.cs"
+                    Link = "..\..\..\..\src\GuiRunner\nunit-gui\TestAssemblyInfoForm.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "SettingsPages\AdvancedLoaderSettingsPage.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\SettingsPages\AdvancedLoaderSettingsPage.cs"
                     SubType = "UserControl"

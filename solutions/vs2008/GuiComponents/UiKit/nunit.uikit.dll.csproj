@@ -270,6 +270,10 @@
       <Link>WaitCursor.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\GuiComponents\UiKit\ScrollingTextDisplayForm.cs">
+      <SubType>Form</SubType>
+      <Link>ScrollingTextDisplayForm.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\GuiComponents\UiKit\AddConfigurationDialog.resx">
       <Link>AddConfigurationDialog.resx</Link>
       <DependentUpon>AddConfigurationDialog.cs</DependentUpon>

@@ -1210,38 +1210,7 @@ namespace NUnit.Gui
 
 		private void assemblyDetailsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			IList infoList = TestLoader.AssemblyInfo;
-			string msg = "No assemblies are loaded.";
-
-			if ( infoList != null && infoList.Count > 0 )
-			{
-				StringBuilder sb = new StringBuilder( "Test Assemblies - \r\n\r\n" );
-
-				foreach( TestAssemblyInfo info in infoList )
-				{
-                    RuntimeFramework runtime = info.RunnerRuntimeFramework;
-                    Version imageVersion = info.RunnerRuntimeFramework.Version;
-					sb.AppendFormat( "{0}\r\n", info.Name );
-                    sb.AppendFormat("Image Runtime Version: {0}     Running Under: {1} ( {2} )\r\n",
-                        imageVersion.ToString(), runtime.Version.ToString(), runtime.GetDisplayName());
-                    sb.AppendFormat("Process Id: {0}  Module Name: {1}  Domain Name: {2}\r\n", 
-                        info.ProcessId, info.ModuleName, info.DomainName);
-                    if (info.TestFrameworks != null)
-					{
-						string prefix = "Uses: ";
-						foreach( AssemblyName framework in info.TestFrameworks )
-						{
-							sb.AppendFormat( "{0}{1}\r\n", prefix, framework.FullName );
-							prefix = "      ";
-						}
-					}
-					sb.Append("\r\n" );
-				}
-
-				msg = sb.ToString();
-			}
-
-			UserMessage.Display( msg, "Test Assembly Info" );
+            new TestAssemblyInfoForm().ShowDialog();
 		}
 
 		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
