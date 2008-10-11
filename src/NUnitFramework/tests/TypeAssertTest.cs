@@ -73,7 +73,6 @@ namespace NUnit.Framework.Tests
             int[] array10 = new int[10];
 
             Assert.IsAssignableFrom(typeof(int[]), array10);
-            Assert.IsAssignableFrom(typeof(System.Collections.IEnumerable), array10);
             Expect(array10, AssignableFrom(typeof(int[])));
 #if NET_2_0
             Assert.IsAssignableFrom<int[]>(array10);
