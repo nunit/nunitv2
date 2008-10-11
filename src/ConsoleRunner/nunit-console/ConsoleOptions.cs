@@ -9,17 +9,10 @@ namespace NUnit.ConsoleRunner
 	using System;
 	using Codeblast;
 	using NUnit.Util;
+    using NUnit.Core;
 
 	public class ConsoleOptions : CommandLineOptions
 	{
-		public enum DomainUsage
-		{
-			Default,
-			None,
-			Single,
-			Multiple
-		}
-
 		[Option(Short="load", Description = "Test fixture to be loaded")]
 		public string fixture;
 
@@ -50,10 +43,10 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "List of categories to exclude")]
 		public string exclude;
 
-//		[Option(Description = "Run in a separate process")]
-//		public bool process;
+		[Option(Description = "Process model for tests: Single, Separate, Multiple")]
+		public ProcessModel process;
 
-		[Option(Description = "AppDomain Usage for Tests")]
+		[Option(Description = "AppDomain Usage for tests: None, Single, Multiple")]
 		public DomainUsage domain;
 
 		[Option(Description = "Disable shadow copy when running in separate domain")]

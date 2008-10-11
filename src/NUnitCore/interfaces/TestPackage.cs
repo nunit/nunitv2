@@ -10,7 +10,57 @@ using System.Collections.Specialized;
 
 namespace NUnit.Core
 {
-	/// <summary>
+    /// <summary>
+    /// Represents the manner in which test assemblies are
+    /// distributed across processes.
+    /// </summary>
+    public enum ProcessModel
+    {
+        /// <summary>
+        /// Use the default setting, depending on the runner
+        /// and the nature of the tests to be loaded.
+        /// </summary>
+        Default,
+        /// <summary>
+        /// Run tests directly in the NUnit process
+        /// </summary>
+        Single,
+        /// <summary>
+        /// Run tests in a single separate process
+        /// </summary>
+        Separate,
+        /// <summary>
+        /// Run tests in a separate process per assembly
+        /// </summary>
+        Multiple
+    }
+
+    /// <summary>
+    /// Represents the manner in which test assemblies use
+    /// AppDomains to provide isolation
+    /// </summary>
+    public enum DomainUsage
+    {
+        /// <summary>
+        /// Use the default setting, depending on the runner
+        /// and the nature of the tests to be loaded.
+        /// </summary>
+        Default,
+        /// <summary>
+        /// Don't create a test domain - run in the primary AppDomain
+        /// </summary>
+        None,
+        /// <summary>
+        /// Run tests in a single separate test domain
+        /// </summary>
+        Single,
+        /// <summary>
+        /// Run tests in a separate domain per assembly
+        /// </summary>
+        Multiple
+    }
+
+    /// <summary>
 	/// TestPackage holds information about a set of tests to
 	/// be loaded by a TestRunner. It may represent a single
 	/// assembly or a set of assemblies. It supports selection
@@ -172,6 +222,32 @@ namespace NUnit.Core
 		}
 
         /// <summary>
+        /// Return the value of a setting or a default.
+        /// </summary>
+        /// <param name="name">The name of the setting</param>
+        /// <param name="defaultSetting">The default value</param>
+        /// <returns></returns>
+        public object GetSetting(string name, object defaultSetting)
+        {
+            object setting = settings[name];
+
+            return setting == null ? defaultSetting : setting;
+        }
+
+        /// <summary>
+        /// Return the value of a string setting or a default.
+        /// </summary>
+        /// <param name="name">The name of the setting</param>
+        /// <param name="defaultSetting">The default value</param>
+        /// <returns></returns>
+        public string GetSetting(string name, string defaultSetting)
+        {
+            object setting = settings[name];
+
+            return setting == null ? defaultSetting : (string)setting;
+        }
+
+        /// <summary>
         /// Return the value of a bool setting or a default.
         /// </summary>
         /// <param name="name">The name of the setting</param>
@@ -195,6 +271,19 @@ namespace NUnit.Core
             object setting = settings[name];
 
             return setting == null ? defaultSetting : (int)setting;
+        }
+
+        /// <summary>
+        /// Return the value of a enum setting or a default.
+        /// </summary>
+        /// <param name="name">The name of the setting</param>
+        /// <param name="defaultSetting">The default value</param>
+        /// <returns></returns>
+        public System.Enum GetSetting(string name, System.Enum defaultSetting)
+        {
+            object setting = settings[name];
+
+            return setting == null ? defaultSetting : (System.Enum)setting;
         }
 
         private static bool IsAssemblyFileType(string path)

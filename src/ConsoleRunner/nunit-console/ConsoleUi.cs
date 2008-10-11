@@ -162,7 +162,7 @@ namespace NUnit.ConsoleRunner
 		private static TestRunner MakeRunnerFromCommandLine( ConsoleOptions options )
 		{
 			TestPackage package;
-			ConsoleOptions.DomainUsage domainUsage = ConsoleOptions.DomainUsage.Default;
+			DomainUsage domainUsage = DomainUsage.Default;
 
 			if (options.IsTestProject)
 			{
@@ -176,37 +176,37 @@ namespace NUnit.ConsoleRunner
 				package = project.ActiveConfig.MakeTestPackage();
 				package.TestName = options.fixture;
 
-				domainUsage = ConsoleOptions.DomainUsage.Single;
+				domainUsage = DomainUsage.Single;
 			}
 			else if (options.Parameters.Count == 1)
 			{
 				package = new TestPackage((string)options.Parameters[0]);
-				domainUsage = ConsoleOptions.DomainUsage.Single;
+				domainUsage = DomainUsage.Single;
 			}
 			else
 			{
 				package = new TestPackage("UNNAMED", options.Parameters);
-				domainUsage = ConsoleOptions.DomainUsage.Multiple;
+				domainUsage = DomainUsage.Multiple;
 			}
 
-			if (options.domain != ConsoleOptions.DomainUsage.Default)
+			if (options.domain != DomainUsage.Default)
 				domainUsage = options.domain;
                     
 			TestRunner testRunner = null;
 				
 			switch( domainUsage )
 			{
-				case ConsoleOptions.DomainUsage.None:
+				case DomainUsage.None:
 					testRunner = new NUnit.Core.RemoteTestRunner();
 					// Make sure that addins are available
 					CoreExtensions.Host.AddinRegistry = Services.AddinRegistry;
 					break;
 
-				case ConsoleOptions.DomainUsage.Single:
+				case DomainUsage.Single:
 					testRunner = new TestDomain();
 					break;
 
-				case ConsoleOptions.DomainUsage.Multiple:
+				case DomainUsage.Multiple:
 					testRunner = new MultipleTestDomainRunner();
 					break;
 			}
