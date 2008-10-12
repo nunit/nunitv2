@@ -27,7 +27,6 @@ namespace GenSyntax
 
         public void WriteFileHeader()
         {
-            string timeNow = DateTime.Now.ToString();
             string[] argList = Environment.GetCommandLineArgs();
             argList[0] = Path.GetFileName(argList[0]);
             string commandLine = string.Join(" ", argList);
@@ -36,7 +35,6 @@ namespace GenSyntax
             while (line != null && line.IndexOf("$$GENERATE$$") < 0)
             {
                 line = line.Replace("__CLASSNAME__", this.className)
-                           .Replace("__DATETIME__", timeNow)
                            .Replace("__COMMANDLINE__", commandLine);
                 WriteLine(line);
                 line = template.ReadLine();
