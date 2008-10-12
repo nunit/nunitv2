@@ -79,6 +79,8 @@ namespace NUnit.Util
 		/// </summary>
 		private ProjectConfigCollection configs;
 
+        private bool autoConfig;
+
 		/// <summary>
 		/// The currently active configuration
 		/// </summary>
@@ -89,6 +91,10 @@ namespace NUnit.Util
 		/// temporary wrapper for an assembly.
 		/// </summary>
 		private bool isAssemblyWrapper = false;
+
+        private ProcessModel processModel;
+
+        private DomainUsage domainUsage;
 
 		#endregion
 
@@ -170,6 +176,12 @@ namespace NUnit.Util
 			get { return Path.GetFileNameWithoutExtension( projectPath ); }
 		}
 
+        public bool AutoConfig
+        {
+            get { return autoConfig; }
+            set { autoConfig = value; }
+        }
+
 		public ProjectConfig ActiveConfig
 		{
 			get 
@@ -230,6 +242,26 @@ namespace NUnit.Util
 			get { return isDirty; }
 			set { isDirty = value; }
 		}
+
+        public ProcessModel ProcessModel
+        {
+            get { return processModel; }
+            set
+            {
+                processModel = value;
+                IsDirty = true;
+            }
+        }
+
+        public DomainUsage DomainUsage
+        {
+            get { return domainUsage; }
+            set
+            {
+                domainUsage = value;
+                IsDirty = true;
+            }
+        }
 
 		public ProjectConfigCollection Configs
 		{
@@ -336,12 +368,25 @@ namespace NUnit.Util
 								if ( reader.NodeType == XmlNodeType.Element )
 								{
 									activeConfigName = reader.GetAttribute( "activeconfig" );
-                                    if (activeConfigName == "NUnitAutoConfig")
+
+                                    string autoConfig = reader.GetAttribute("autoconfig");
+                                    if (autoConfig != null)
+                                        this.AutoConfig = autoConfig.ToLower() == "true";
+                                    if (this.AutoConfig)
 										activeConfigName = NUnitConfiguration.BuildConfiguration;
-									string appbase = reader.GetAttribute( "appbase" );
+									
+                                    string appbase = reader.GetAttribute( "appbase" );
 									if ( appbase != null )
 										this.BasePath = appbase;
-								}
+
+                                    string processModel = reader.GetAttribute("processModel");
+                                    if (processModel != null)
+                                        this.ProcessModel = (ProcessModel)Enum.Parse(typeof(ProcessModel), processModel);
+
+                                    string domainUsage = reader.GetAttribute("domainUsage");
+                                    if (domainUsage != null)
+                                        this.DomainUsage = (DomainUsage)Enum.Parse(typeof(DomainUsage), domainUsage);
+                                }
 								break;
 
 							case "Config":
@@ -428,6 +473,12 @@ namespace NUnit.Util
 					writer.WriteAttributeString( "activeconfig", ActiveConfigName );
 				if ( this.BasePath != this.DefaultBasePath )
 					writer.WriteAttributeString( "appbase", this.BasePath );
+                if (this.AutoConfig)
+                    writer.WriteAttributeString("autoconfig", "true");
+                if (this.ProcessModel != ProcessModel.Default)
+                    writer.WriteAttributeString("processModel", this.ProcessModel.ToString());
+                if (this.DomainUsage != DomainUsage.Default)
+                    writer.WriteAttributeString("domainUsage", this.DomainUsage.ToString());
 				writer.WriteEndElement();
 			}
 			

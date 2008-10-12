@@ -713,10 +713,11 @@ namespace NUnit.Util
             ProcessModel processModel = (ProcessModel)settings.GetSetting("Options.TestLoader.ProcessModel", ProcessModel.Default);
             DomainUsage domainUsage = (DomainUsage)settings.GetSetting("Options.TestLoader.DomainUsage", DomainUsage.Default);
 
-            if (processModel != ProcessModel.Default)
+            if (processModel != ProcessModel.Default && !package.Settings.Contains("ProcessModel"))
                 package.Settings["ProcessModel"] = processModel;
 
-            if (processModel != ProcessModel.Multiple && domainUsage == DomainUsage.Multiple)
+            if (processModel != ProcessModel.Multiple && domainUsage == DomainUsage.Multiple
+                    && !package.Settings.Contains("DomainUsage"))
                 package.Settings["DomainUsage"] = domainUsage;
 			
             return package;

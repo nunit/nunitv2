@@ -1146,13 +1146,23 @@ namespace NUnit.Gui
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
+            bool reloadRequired = false;
+
 			using ( ProjectEditor editor = new ProjectEditor( TestProject ) )
 			{
 				this.Site.Container.Add( editor );
-				editor.VisualStudioSupport = userSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
 				editor.ShowDialog( this );
+                reloadRequired = editor.ReloadRequired;
 			}
-		}
+
+            if (reloadRequired)
+            {
+                if (IsProjectLoaded)
+                    TestLoader.ReloadTest();
+                else
+                    TestLoader.LoadTest();
+            }
+        }
 
 		#endregion
 

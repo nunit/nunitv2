@@ -257,6 +257,12 @@ namespace NUnit.Util
 			package.AutoBinPath = this.BinPathType == BinPathType.Auto;
             package.Settings["RuntimeFramework"] = this.RuntimeFramework;
 
+            if (project.ProcessModel != ProcessModel.Default)
+                package.Settings["ProcessModel"] = project.ProcessModel;
+
+            if (project.DomainUsage != DomainUsage.Default)
+                package.Settings["DomainUsage"] = project.DomainUsage;
+
 			return package;
 		}
 
