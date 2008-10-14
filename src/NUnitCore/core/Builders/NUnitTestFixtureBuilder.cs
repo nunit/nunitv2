@@ -39,7 +39,8 @@ namespace NUnit.Core.Builders
 		{
 			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true ) ||
                    type.IsPublic && !type.IsAbstract &&
-                   Reflect.HasMethodWithAttribute(type, NUnitFramework.TestAttribute, true);
+                   ( Reflect.HasMethodWithAttribute(type, NUnitFramework.TestAttribute, true) ||
+                     Reflect.HasMethodWithAttribute(type, NUnitFramework.TestCaseAttribute, true) );
 		}
 
 		/// <summary>
