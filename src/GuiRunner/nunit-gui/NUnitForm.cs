@@ -1702,6 +1702,8 @@ namespace NUnit.Gui
 		/// </summary>
 		private void OnTestChanged( object sender, TestEventArgs e )
 		{
+            SetTitleBar(TestProject.Name);
+
 			if ( longOpDisplay != null )
 			{
 				longOpDisplay.Dispose();
