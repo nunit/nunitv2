@@ -48,9 +48,17 @@ namespace NUnit.UiKit
 
 		#endregion
 
-		#region Instance Variables
+        #region TreeStructureChangedException
+        private class TreeStructureChangedException : Exception
+        {
+            public TreeStructureChangedException(string message)
+                :base( message ) { }
+        }
+        #endregion
 
-		/// <summary>
+        #region Instance Variables
+
+        /// <summary>
 		/// Hashtable provides direct access to TestNodes
 		/// </summary>
 		private Hashtable treeMap = new Hashtable();
@@ -806,7 +814,20 @@ namespace NUnit.UiKit
 		/// <param name="test">Test suite to be loaded</param>
 		public void Reload( TestNode test )
 		{
-			UpdateNode( (TestSuiteTreeNode) Nodes[0], test );
+            bool reloadOK = false;
+            try
+            {
+                UpdateNode((TestSuiteTreeNode)Nodes[0], test);
+                reloadOK = true;
+            }
+            catch (TreeStructureChangedException)
+            {
+            }
+
+            // The tree has changed, probably due to settings
+            // changes, so just load it cleanly.
+            if ( !reloadOK )
+                Load(test);
 		}
 
 		/// <summary>
@@ -1086,7 +1107,7 @@ namespace NUnit.UiKit
 		private bool UpdateNode( TestSuiteTreeNode node, TestNode test )
 		{
 			if ( node.Test.TestName.FullName != test.TestName.FullName )
-				throw( new ArgumentException( 
+				throw( new TreeStructureChangedException( 
 					string.Format( "Attempting to update {0} with {1}", node.Test.TestName.FullName, test.TestName.FullName ) ) );
 
 			treeMap.Remove( node.Test.TestName.UniqueName );
