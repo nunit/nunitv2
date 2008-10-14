@@ -28,7 +28,7 @@ namespace NUnit.Util
 		bool Running { get; }
 
 		// The loaded test project
-		NUnitProject TestProject { get; set; }
+		NUnitProject TestProject { get; }
 
 		string TestFileName { get; }
 

@@ -185,11 +185,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\tests\ProcessRunnerTests.cs">
       <Link>ProcessRunnerTests.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\tests\ProjectConfigCollectionTests.cs">
-      <Link>ProjectConfigCollectionTests.cs</Link>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\tests\ProjectConfigTests.cs">
       <Link>ProjectConfigTests.cs</Link>

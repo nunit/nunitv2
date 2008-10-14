@@ -73,6 +73,11 @@ namespace NUnit.Util
 		///  Whether the project is dirty
 		/// </summary>
 		private bool isDirty = false;
+
+        /// <summary>
+        /// Whether canges have been made requiring a reload
+        /// </summary>
+        private bool reloadRequired = false;
 		
 		/// <summary>
 		/// Collection of configs for the project
@@ -151,21 +156,21 @@ namespace NUnit.Util
 					return DefaultBasePath; 
 				return basePath;
 			}
-			set	
-			{ 
-				basePath = value;
-				
-				if ( basePath != null && basePath != string.Empty 
-					&& !Path.IsPathRooted( basePath ) )
-				{
-					basePath = Path.Combine( 
-						DefaultBasePath, 
-						basePath );	
-				}
+            set
+            {
+                basePath = value;
 
-				basePath = PathUtils.Canonicalize( basePath );
-				OnProjectChange( ProjectChangeType.Other, null );
-			}
+                if (basePath != null && basePath != string.Empty
+                    && !Path.IsPathRooted(basePath))
+                {
+                    basePath = Path.Combine(
+                        DefaultBasePath,
+                        basePath);
+                }
+
+                basePath = PathUtils.Canonicalize(basePath);
+                HasChangesRequiringReload = IsDirty = true;
+            }
 		}
 
 		/// <summary>
@@ -191,8 +196,8 @@ namespace NUnit.Util
 					activeConfig = null;
 				
 				// In case no active config is set or it was removed
-				if ( activeConfig == null && configs.Count > 0 )
-					activeConfig = configs[0];
+                if (activeConfig == null && configs.Count > 0)
+                    activeConfig = configs[0];
 				
 				return activeConfig; 
 			}
@@ -240,8 +245,24 @@ namespace NUnit.Util
 		public bool IsDirty
 		{
 			get { return isDirty; }
-			set { isDirty = value; }
+			set 
+            { 
+                isDirty = value;
+
+                if (isAssemblyWrapper && value == true)
+                {
+                    projectPath = Path.ChangeExtension(projectPath, ".nunit");
+                    isAssemblyWrapper = false;
+                    HasChangesRequiringReload = true;
+                }
+            }
 		}
+
+        public bool HasChangesRequiringReload
+        {
+            get { return reloadRequired; }
+            set { reloadRequired = value; }
+        }
 
         public ProcessModel ProcessModel
         {
@@ -249,7 +270,7 @@ namespace NUnit.Util
             set
             {
                 processModel = value;
-                IsDirty = true;
+                HasChangesRequiringReload = IsDirty = true;
             }
         }
 
@@ -259,7 +280,7 @@ namespace NUnit.Util
             set
             {
                 domainUsage = value;
-                IsDirty = true;
+                HasChangesRequiringReload = IsDirty = true;
             }
         }
 
@@ -290,7 +311,7 @@ namespace NUnit.Util
         public void SetActiveConfig( int index )
 		{
 			activeConfig = configs[index];
-			OnProjectChange( ProjectChangeType.ActiveConfig, activeConfig.Name );
+            HasChangesRequiringReload = IsDirty = true;
 		}
 
 		public void SetActiveConfig( string name )
@@ -300,31 +321,8 @@ namespace NUnit.Util
 				if ( config.Name == name )
 				{
 					activeConfig = config;
-					OnProjectChange( ProjectChangeType.ActiveConfig, activeConfig.Name );
-					break;
-				}
-			}
-		}
-
-		public void OnProjectChange( ProjectChangeType type, string configName )
-		{
-			isDirty = true;
-
-			if ( isAssemblyWrapper )
-			{
-				projectPath = Path.ChangeExtension( projectPath, ".nunit" );
-				isAssemblyWrapper = false;
-			}
-
-			if ( Changed != null )
-				Changed( this, new ProjectEventArgs( type, configName ) );
-
-			if ( type == ProjectChangeType.RemoveConfig )
-			{
-				if ( activeConfig == null || activeConfig.Name == configName )
-				{
-					if ( configs.Count > 0 )
-						SetActiveConfig( 0 );
+                    HasChangesRequiringReload = IsDirty = true;
+                    break;
 				}
 			}
 		}
@@ -433,6 +431,7 @@ namespace NUnit.Util
 						}
 
 				this.IsDirty = false;
+                this.reloadRequired = false;
 			}
 			catch( FileNotFoundException )
 			{

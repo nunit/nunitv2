@@ -224,12 +224,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "ProjectConfigCollectionTests.cs"
-                    Link = "..\..\..\..\src\ClientUtilities\tests\ProjectConfigCollectionTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ProjectConfigTests.cs"
                     Link = "..\..\..\..\src\ClientUtilities\tests\ProjectConfigTests.cs"
                     SubType = "Code"

@@ -76,11 +76,8 @@ namespace NUnit.Util
 
 		#region Properties and Events
 
-		public event EventHandler Changed;
-
 		public NUnitProject Project
 		{
-//			get { return project; }
 			set { project = value; }
 		}
 
@@ -91,8 +88,8 @@ namespace NUnit.Util
 			{
 				if ( name != value )
 				{
-					name = value; 
-					FireChangedEvent();
+					name = value;
+					NotifyProjectOfChange();
 				}
 			}
 		}
@@ -126,7 +123,7 @@ namespace NUnit.Util
 				if ( BasePath != value )
 				{
 					basePath = value;
-					FireChangedEvent();
+					NotifyProjectOfChange();
 				}
 			}
 		}
@@ -163,7 +160,7 @@ namespace NUnit.Util
 				if ( ConfigurationFile != value )
 				{
 					configFile = value;
-					FireChangedEvent();
+					NotifyProjectOfChange();
 				}
 			}
 		}
@@ -196,7 +193,7 @@ namespace NUnit.Util
 				{
 					binPath = value;
 					binPathType = binPath == null ? BinPathType.Auto : BinPathType.Manual;
-					FireChangedEvent();
+					NotifyProjectOfChange();
 				}
 			}
 		}
@@ -212,7 +209,7 @@ namespace NUnit.Util
 				if ( binPathType != value )
 				{
 					binPathType = value;
-					FireChangedEvent();
+					NotifyProjectOfChange();
 				}
 			}
 		}
@@ -233,7 +230,7 @@ namespace NUnit.Util
 				if ( runtimeFramework != value )
 				{
 					runtimeFramework = value; 
-					FireChangedEvent();
+					NotifyProjectOfChange();
 				}
 			}
         }
@@ -268,13 +265,17 @@ namespace NUnit.Util
 
 		private void assemblies_Changed( object sender, EventArgs e )
 		{
-			FireChangedEvent();
+			NotifyProjectOfChange();
 		}
 
-		private void FireChangedEvent()
-		{
-			if ( Changed != null )
-				Changed( this, EventArgs.Empty );
-		}
+        private void NotifyProjectOfChange()
+        {
+            if (project != null)
+            {
+                project.IsDirty = true;
+                if (ReferenceEquals(this, project.ActiveConfig))
+                    project.HasChangesRequiringReload = true;
+            }
+        }
 	}
 }

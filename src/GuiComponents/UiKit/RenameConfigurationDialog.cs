@@ -14,8 +14,11 @@ using NUnit.Util;
 namespace NUnit.UiKit
 {
 	/// <summary>
-	/// Summary description for AssemblyNameDialog.
-	/// </summary>
+    /// Displays a dialog for entry of a new name for an
+    /// existing configuration. This dialog collects and
+    /// validates the name. The caller is responsible for
+    /// actually renaming the cofiguration.
+    /// </summary>
 	public class RenameConfigurationDialog : System.Windows.Forms.Form
 	{
 		#region Instance Variables

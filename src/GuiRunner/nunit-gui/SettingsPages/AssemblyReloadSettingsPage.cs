@@ -130,11 +130,9 @@ namespace NUnit.Gui.SettingsPages
 
 		public override void ApplySettings()
 		{
-			TestLoader loader = Services.TestLoader;
-
-			settings.SaveSetting( "Options.TestLoader.ReloadOnChange", loader.ReloadOnChange = reloadOnChangeCheckBox.Checked );
-			settings.SaveSetting( "Options.TestLoader.RerunOnChange", loader.RerunOnChange = rerunOnChangeCheckBox.Checked );
-			settings.SaveSetting( "Options.TestLoader.ReloadOnRun", loader.ReloadOnRun = reloadOnRunCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.ReloadOnChange", reloadOnChangeCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.RerunOnChange", rerunOnChangeCheckBox.Checked );
+			settings.SaveSetting( "Options.TestLoader.ReloadOnRun", reloadOnRunCheckBox.Checked );
 		}
 
 

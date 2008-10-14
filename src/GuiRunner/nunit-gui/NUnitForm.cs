@@ -880,14 +880,22 @@ namespace NUnit.Gui
 		private void saveAsMenuItem_Click(object sender, System.EventArgs e)
 		{
 			TestLoaderUI.SaveProjectAs( this );
+            SetTitleBar(TestProject.Name);
 		}
 
 		private void reloadProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			if ( TestProject.IsAssemblyWrapper )
-				TestLoaderUI.OpenProject( this, TestProject.ProjectPath );
+            bool wrapper = TestProject.IsAssemblyWrapper;
+            string projectPath = TestProject.ProjectPath;
+            string activeConfigName = TestProject.ActiveConfigName;
+
+            // Unload first to avoid message asking about saving
+            TestLoader.UnloadProject();
+
+			if ( wrapper )
+				TestLoaderUI.OpenProject( this, projectPath );
 			else
-				TestLoaderUI.OpenProject( this, TestProject.ProjectPath, TestProject.ActiveConfigName, null );
+				TestLoaderUI.OpenProject( this, projectPath, activeConfigName, null );
 		}
 
 		private void reloadTestsMenuItem_Click(object sender, System.EventArgs e)
@@ -1112,8 +1120,11 @@ namespace NUnit.Gui
 		private void configMenuItem_Click( object sender, EventArgs e )
 		{
 			MenuItem item = (MenuItem)sender;
-			if ( !item.Checked )
-				TestProject.SetActiveConfig( TestProject.Configs[item.Index].Name );
+            if (!item.Checked)
+            {
+                TestProject.SetActiveConfig(TestProject.Configs[item.Index].Name);
+                LoadOrReloadTestAsNeeded();
+            }
 		}
 
 		private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
@@ -1123,6 +1134,8 @@ namespace NUnit.Gui
 				this.Site.Container.Add( dlg );
 				dlg.ShowDialog();
 			}
+
+            LoadOrReloadTestAsNeeded();
 		}
 
 		private void editConfigurationsMenuItem_Click( object sender, System.EventArgs e )
@@ -1132,35 +1145,46 @@ namespace NUnit.Gui
 				this.Site.Container.Add( editor );
 				editor.ShowDialog();
 			}
+
+            LoadOrReloadTestAsNeeded();
 		}
 
 		private void addAssemblyMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.AddAssembly( this );
+            TestLoaderUI.AddAssembly(this);
+            LoadOrReloadTestAsNeeded();
 		}
 
 		private void addVSProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.AddVSProject( this );
+            TestLoaderUI.AddVSProject(this);
+            LoadOrReloadTestAsNeeded();
 		}
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-            bool reloadRequired = false;
-
 			using ( ProjectEditor editor = new ProjectEditor( TestProject ) )
 			{
 				this.Site.Container.Add( editor );
 				editor.ShowDialog( this );
-                reloadRequired = editor.ReloadRequired;
 			}
 
-            if (reloadRequired)
+            LoadOrReloadTestAsNeeded();
+        }
+
+        private void LoadOrReloadTestAsNeeded()
+        {
+            if (TestProject.HasChangesRequiringReload)
             {
-                if (IsProjectLoaded)
-                    TestLoader.ReloadTest();
+                if (TestProject.IsLoadable)
+                {
+                    if (IsProjectLoaded)
+                        TestLoader.ReloadTest();
+                    else
+                        TestLoader.LoadTest();
+                }
                 else
-                    TestLoader.LoadTest();
+                    TestLoader.UnloadTest();
             }
         }
 
@@ -1345,11 +1369,11 @@ namespace NUnit.Gui
 						// TODO: Temporary fix to avoid problem when /run is used 
 						// with ReloadOnRun turned on. Refactor TestLoader so
 						// we can just do a run without reload.
-						bool reload = TestLoader.ReloadOnRun;
+						bool reload = Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", false);
 					
 						try
 						{
-							TestLoader.ReloadOnRun = false;
+							Services.UserSettings.SaveSetting("Options.TestLoader.ReloadOnRun", false);
 							if ( guiOptions.runselected )
 								testTree.RunSelectedTests();
 							else
@@ -1357,7 +1381,7 @@ namespace NUnit.Gui
 						}
 						finally
 						{
-							TestLoader.ReloadOnRun = reload;
+							Services.UserSettings.SaveSetting("Options.TestLoader.ReloadOnRun", reload);
 						}
 					}
 			}

@@ -1,5 +1,5 @@
 // ****************************************************************
-// Copyright 2002-2003, Charlie Poole
+// Copyright 2002-2008, Charlie Poole
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
@@ -86,28 +86,10 @@ namespace NUnit.Util
 		private bool reloadPending = false;
 
 		/// <summary>
-		/// Indicates whether to watch for changes
-		/// and reload the tests when a change occurs.
-		/// </summary>
-		private bool reloadOnChange = false;
-
-		/// <summary>
-		/// Indicates whether to automatically rerun
-		/// the tests when a change occurs.
-		/// </summary>
-		private bool rerunOnChange = false;
-
-		/// <summary>
 		/// The last filter used for a run - used to 
 		/// rerun tests when a change occurs
 		/// </summary>
 		private ITestFilter lastFilter;
-
-		/// <summary>
-		/// Indicates whether to reload the tests
-		/// before each run.
-		/// </summary>
-		private bool reloadOnRun = false;
 
 		#endregion
 
@@ -119,12 +101,6 @@ namespace NUnit.Util
 		public TestLoader(TestEventDispatcher eventDispatcher )
 		{
 			this.events = eventDispatcher;
-
-			ISettings settings = Services.UserSettings;
-			this.ReloadOnRun = settings.GetSetting( "Options.TestLoader.ReloadOnRun", true );
-			this.ReloadOnChange = settings.GetSetting( "Options.TestLoader.ReloadOnChange", true );
-			this.RerunOnChange = settings.GetSetting( "Options.TestLoader.RerunOnChange", false );
-
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler( OnUnhandledException );
 		}
 
@@ -149,7 +125,6 @@ namespace NUnit.Util
 		public NUnitProject TestProject
 		{
 			get { return testProject; }
-			set	{ OnProjectLoad( value ); }
 		}
 
 		public ITestEvents Events
@@ -170,24 +145,6 @@ namespace NUnit.Util
 		public Exception LastException
 		{
 			get { return lastException; }
-		}
-
-		public bool ReloadOnChange
-		{
-			get { return reloadOnChange; }
-			set { reloadOnChange = value; }
-		}
-
-		public bool RerunOnChange
-		{
-			get { return rerunOnChange; }
-			set { rerunOnChange = value; }
-		}
-
-		public bool ReloadOnRun
-		{
-			get { return reloadOnRun; }
-			set { reloadOnRun = value; }
 		}
 
 		public IList AssemblyInfo
@@ -413,7 +370,6 @@ namespace NUnit.Util
 				if ( IsTestLoaded )
 					UnloadTest();
 
-				testProject.Changed -= new ProjectEventHandler( OnProjectChanged );
 				testProject = null;
 
 				events.FireProjectUnloaded( testFileName );
@@ -436,43 +392,8 @@ namespace NUnit.Util
 				UnloadProject();
 
 			this.testProject = testProject;
-			testProject.Changed += new ProjectEventHandler( OnProjectChanged );
 
 			events.FireProjectLoaded( TestFileName );
-		}
-
-		private void OnProjectChanged( object sender, ProjectEventArgs e )
-		{
-			switch ( e.type )
-			{
-				case ProjectChangeType.ActiveConfig:
-				case ProjectChangeType.Other:
-					if( TestProject.IsLoadable )
-						TryToLoadOrReloadTest();
-					break;
-
-				case ProjectChangeType.AddConfig:
-				case ProjectChangeType.UpdateConfig:
-					if ( e.configName == TestProject.ActiveConfigName && TestProject.IsLoadable )
-						TryToLoadOrReloadTest();
-					break;
-
-				case ProjectChangeType.RemoveConfig:
-					if ( IsTestLoaded && TestProject.Configs.Count == 0 )
-						UnloadTest();
-					break;
-
-				default:
-					break;
-			}
-		}
-
-		private void TryToLoadOrReloadTest()
-		{
-			if ( IsTestLoaded ) 
-				ReloadTest();
-			else 
-				LoadTest();
 		}
 
 		#endregion
@@ -502,16 +423,19 @@ namespace NUnit.Util
 				testResult = null;
 				reloadPending = false;
 			
-				if ( ReloadOnChange )
+				if ( Services.UserSettings.GetSetting( "Options.TestLoader.ReloadOnChange", true ) )
 					InstallWatcher( );
 
-				if ( loaded )
-					events.FireTestLoaded( TestFileName, loadedTest );
-				else
-				{
-					lastException = new ApplicationException( string.Format ( "Unable to find test {0} in assembly", testName ) );
-					events.FireTestLoadFailed( TestFileName, lastException );
-				}
+                if (loaded)
+                {
+                    testProject.HasChangesRequiringReload = false;
+                    events.FireTestLoaded(TestFileName, loadedTest);
+                }
+                else
+                {
+                    lastException = new ApplicationException(string.Format("Unable to find test {0} in assembly", testName));
+                    events.FireTestLoadFailed(TestFileName, lastException);
+                }
 			}
 			catch( FileNotFoundException exception )
 			{
@@ -592,7 +516,8 @@ namespace NUnit.Util
                 loadedTest = testRunner.Test;
 				reloadPending = false;
 
-				events.FireTestReloaded( TestFileName, loadedTest );				
+                testProject.HasChangesRequiringReload = false;
+                events.FireTestReloaded(TestFileName, loadedTest);				
 			}
 			catch( Exception exception )
 			{
@@ -616,7 +541,7 @@ namespace NUnit.Util
 			{
 				ReloadTest();
 
-				if ( rerunOnChange && lastFilter != null )
+                if (lastFilter != null && Services.UserSettings.GetSetting("Options.TestLoader.RerunOnChange", false))
 					testRunner.BeginRun( this, lastFilter );
 			}
 		}
@@ -639,7 +564,7 @@ namespace NUnit.Util
 		{
 			if ( !Running )
 			{
-				if ( reloadPending || ReloadOnRun )
+                if (reloadPending || Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", true))
 					ReloadTest();
 
 				this.lastFilter = filter;

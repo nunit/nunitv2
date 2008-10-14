@@ -147,7 +147,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RunTest()
 		{
-			loader.ReloadOnRun = false;
+            //loader.ReloadOnRun = false;
 			
 			LoadTest( assembly );
 			loader.RunTests();

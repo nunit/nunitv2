@@ -178,9 +178,9 @@ namespace NUnit.UiKit
 		}
 		#endregion
 
-		#region UI Event Handlers
+        #region UI Event Handlers
 
-		private void ConfigurationEditor_Load(object sender, System.EventArgs e)
+        private void ConfigurationEditor_Load(object sender, System.EventArgs e)
 		{
 			FillListBox();
 			if ( configListBox.Items.Count > 0 )
@@ -197,6 +197,7 @@ namespace NUnit.UiKit
 					return;
 			}
 
+            bool wasActive = project.ActiveConfigName == project.Configs[selectedIndex].Name;
 			project.Configs.RemoveAt( selectedIndex );
 			FillListBox();
 		}
@@ -219,7 +220,6 @@ namespace NUnit.UiKit
 		private void activeButton_Click(object sender, System.EventArgs e)
 		{
 			project.SetActiveConfig( selectedIndex );
-			//AppUI.TestLoader.LoadConfig( project.Configs[selectedIndex].Name );
 			FillListBox();
 		}
 

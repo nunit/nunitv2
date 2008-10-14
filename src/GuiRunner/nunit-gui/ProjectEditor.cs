@@ -99,18 +99,6 @@ namespace NUnit.Gui
 
 		#endregion
 
-        #region Public Properties
-        private bool reloadRequired;
-        /// <summary>
-        /// Returns true if changes have been made that require
-        /// a reload before they will take effect;
-        /// </summary>
-        public bool ReloadRequired
-        {
-            get { return reloadRequired; }
-        }
-        #endregion
-
         #region Windows Form Designer generated code
         /// <summary>
 		/// Required method for Designer support - do not modify
@@ -722,7 +710,7 @@ namespace NUnit.Gui
 			else 
 			{
 				assemblyPathTextBox.Text = selectedAssembly = //(string)assemblyListBox.SelectedItem;
-					project.ActiveConfig.Assemblies[assemblyListBox.SelectedIndex];
+					selectedConfig.Assemblies[assemblyListBox.SelectedIndex];
 				removeAssemblyButton.Enabled = true;
 			}
 		}
@@ -915,7 +903,7 @@ namespace NUnit.Gui
 		#region Runtime Framework Methods and Events
 		private void runtimeComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			project.ActiveConfig.RuntimeFramework = 
+			selectedConfig.RuntimeFramework = 
 				runtimeComboBox.SelectedIndex > 0
 					? (string)runtimeComboBox.SelectedItem
 					: null;
@@ -972,7 +960,7 @@ namespace NUnit.Gui
 			{
 				selectedConfig.Assemblies[assemblyListBox.SelectedIndex] = dlg.FileName;
 				assemblyListBox_Populate();
-			}
+            }
 		}
 
 		private void assemblyPathTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -1124,8 +1112,7 @@ namespace NUnit.Gui
         private void processModelComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
             project.ProcessModel = this.ProcessModel;
-            reloadRequired = true;
-
+            
             domainUsageComboBox.Items.Clear();
             domainUsageComboBox.Items.Add("Default");
             //domainUsageComboBox.Items.Add("None");
@@ -1139,7 +1126,6 @@ namespace NUnit.Gui
 		private void domainUsageComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
             project.DomainUsage = this.DomainUsage;
-            reloadRequired = true;
 		}
 		#endregion
 	}

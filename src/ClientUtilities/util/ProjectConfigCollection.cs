@@ -42,7 +42,6 @@ namespace NUnit.Util
 		{
 			List.Add( config );
 			config.Project = this.project;
-			config.Changed += new EventHandler(config_Changed);
 		}
 
 		public void Add( string name )
@@ -81,22 +80,25 @@ namespace NUnit.Util
 			return IndexOf( name ) >= 0;
 		}
 
-		protected override void OnRemoveComplete( int index, object obj )
-		{
-			ProjectConfig config = obj as ProjectConfig;
-			this.project.OnProjectChange( ProjectChangeType.RemoveConfig, config.Name );
-		}
+        protected override void OnRemove(int index, object value)
+        {
+            if (project != null)
+            {
+                ProjectConfig config = value as ProjectConfig;
+                project.IsDirty = true;
+                if ( config.Name == project.ActiveConfigName )
+                    project.HasChangesRequiringReload =  true;
+            }
+        }
 
 		protected override void OnInsertComplete( int index, object obj )
 		{
-			ProjectConfig config = obj as ProjectConfig;
-			project.OnProjectChange( ProjectChangeType.AddConfig, config.Name );
-		}
-
-		private void config_Changed(object sender, EventArgs e)
-		{
-			ProjectConfig config = sender as ProjectConfig;
-			project.OnProjectChange( ProjectChangeType.UpdateConfig, config.Name );
+            if (project != null)
+            {
+                project.IsDirty = true;
+                if (this.Count == 1)
+                    project.HasChangesRequiringReload = true;
+            }
 		}
 		#endregion
 	}

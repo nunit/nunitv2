@@ -16,7 +16,6 @@
         <include name="NUnitRegistryTests.cs"/>
         <include name="PathUtilTests.cs"/>
         <include name="ProcessRunnerTests.cs"/>
-        <include name="ProjectConfigCollectionTests.cs"/>
         <include name="ProjectConfigTests.cs"/>
         <include name="RecentFileEntryTests.cs"/>
         <include name="RecentFilesTests.cs"/>

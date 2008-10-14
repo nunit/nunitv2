@@ -49,14 +49,14 @@ namespace NUnit.Util.Tests
 			AppDomain domain = testDomain.AppDomain;
 			AppDomainSetup setup = testDomain.AppDomain.SetupInformation;
 			
-			Assert.AreEqual( "Tests", setup.ApplicationName, "ApplicationName" );
+			Assert.AreEqual( "mock-assembly.dll", setup.ApplicationName, "ApplicationName" );
 			Assert.AreEqual( Environment.CurrentDirectory, setup.ApplicationBase, "ApplicationBase" );
 			Assert.AreEqual( "mock-assembly.dll.config", Path.GetFileName( setup.ConfigurationFile ), "ConfigurationFile" );
 			Assert.AreEqual( null, setup.PrivateBinPath, "PrivateBinPath" );
 			Assert.AreEqual( Environment.CurrentDirectory, setup.ShadowCopyDirectories, "ShadowCopyDirectories" );
 
 			Assert.AreEqual( Environment.CurrentDirectory, domain.BaseDirectory, "BaseDirectory" );
-			Assert.AreEqual( "domain-mock-assembly.dll", domain.FriendlyName, "FriendlyName" );
+			Assert.AreEqual( "test-domain-mock-assembly.dll", domain.FriendlyName, "FriendlyName" );
 			Assert.IsTrue( testDomain.AppDomain.ShadowCopyFiles, "ShadowCopyFiles" );
 		}	
 

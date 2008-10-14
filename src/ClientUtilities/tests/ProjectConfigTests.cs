@@ -17,15 +17,20 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class ProjectConfigTests
 	{
-		private ProjectConfig config;
+		private ProjectConfig activeConfig;
+        private ProjectConfig inactiveConfig;
 		private NUnitProject project;
 
 		[SetUp]
 		public void SetUp()
 		{
-			config = new ProjectConfig( "Debug" );
+			activeConfig = new ProjectConfig( "Debug" );
+            inactiveConfig = new ProjectConfig("Release");
 			project = new NUnitProject( TestPath( "/test/myproject.nunit" ) );
-			project.Configs.Add( config );
+			project.Configs.Add( activeConfig );
+            project.Configs.Add(inactiveConfig);
+            project.IsDirty = false;
+            project.HasChangesRequiringReload = false;
 		}
 
         /// <summary>
@@ -48,8 +53,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void EmptyConfig()
 		{
-			Assert.AreEqual( "Debug", config.Name );
-			Assert.AreEqual( 0, config.Assemblies.Count );
+			Assert.AreEqual( "Debug", activeConfig.Name );
+			Assert.AreEqual( 0, activeConfig.Assemblies.Count );
 		}
 
 		[Test]
@@ -57,11 +62,11 @@ namespace NUnit.Util.Tests
 		{
             string path1 = TestPath("/test/assembly1.dll");
             string path2 = TestPath("/test/assembly2.dll");
-            config.Assemblies.Add(path1);
-			config.Assemblies.Add( path2 );
-			Assert.AreEqual( 2, config.Assemblies.Count );
-			Assert.AreEqual( path1, config.Assemblies[0] );
-			Assert.AreEqual( path2, config.Assemblies[1] );
+            activeConfig.Assemblies.Add(path1);
+			activeConfig.Assemblies.Add( path2 );
+			Assert.AreEqual( 2, activeConfig.Assemblies.Count );
+			Assert.AreEqual( path1, activeConfig.Assemblies[0] );
+			Assert.AreEqual( path2, activeConfig.Assemblies[1] );
 		}
 
 		[Test]
@@ -69,115 +74,294 @@ namespace NUnit.Util.Tests
 		{
             string path1 = TestPath("/test/assembly1.dll");
             string path2 = TestPath("/test/assembly2.dll");
-            config.Assemblies.Add( path1 );
-			config.Assemblies.Add( path2 );
+            activeConfig.Assemblies.Add( path1 );
+			activeConfig.Assemblies.Add( path2 );
 
-			string[] files = config.Assemblies.ToArray();
+			string[] files = activeConfig.Assemblies.ToArray();
 			Assert.AreEqual( path1, files[0] );
 			Assert.AreEqual( path2, files[1] );
 		}
 
-		[Test]
-		public void AddMarksProjectDirty()
-		{
-			config.Assemblies.Add( TestPath( "/test/bin/debug/assembly1.dll" ) );
-			Assert.IsTrue( project.IsDirty );
-		}
+        [Test]
+        public void AddToActiveConfigMarksProjectDirty()
+        {
+            activeConfig.Assemblies.Add(TestPath("/test/bin/debug/assembly1.dll"));
+            Assert.IsTrue(project.IsDirty);
+        }
 
-		[Test]
-		public void RenameMarksProjectDirty()
-		{
-			config.Name = "Renamed";
-			Assert.IsTrue( project.IsDirty );
-		}
+        [Test]
+        public void AddToActiveConfigRequiresReload()
+        {
+            activeConfig.Assemblies.Add(TestPath("/test/bin/debug/assembly1.dll"));
+            Assert.IsTrue(project.HasChangesRequiringReload);
+        }
 
-		[Test]
-		public void RemoveMarksProjectDirty()
-		{
+        [Test]
+        public void AddToInactiveConfigMarksProjectDirty()
+        {
+            inactiveConfig.Assemblies.Add(TestPath("/test/bin/release/assembly1.dll"));
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void AddToInactiveConfigDoesNotRequireReload()
+        {
+            inactiveConfig.Assemblies.Add(TestPath("/test/bin/release/assembly1.dll"));
+            Assert.IsFalse(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void AddingConfigMarksProjectDirty()
+        {
+            project.Configs.Add("New");
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void AddingInitialConfigRequiresReload()
+        {
+            NUnitProject newProj = new NUnitProject("/junk");
+            newProj.HasChangesRequiringReload = false;
+            newProj.Configs.Add("New");
+            Assert.That(newProj.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void AddingSubsequentConfigDoesNotRequireReload()
+        {
+            project.Configs.Add("New");
+            Assert.IsFalse(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void RenameActiveConfigMarksProjectDirty()
+        {
+            activeConfig.Name = "Renamed";
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void RenameActiveConfigRequiresReload()
+        {
+            activeConfig.Name = "Renamed";
+            Assert.IsTrue(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void RenameInctiveConfigMarksProjectDirty()
+        {
+            inactiveConfig.Name = "Renamed";
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void RenameInactiveConfigDoesNotRequireReload()
+        {
+            inactiveConfig.Name = "Renamed";
+            Assert.IsFalse(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void RemoveActiveConfigMarksProjectDirty()
+        {
             string path1 = TestPath("/test/bin/debug/assembly1.dll");
-			config.Assemblies.Add( path1 );
-			project.IsDirty = false;
-			config.Assemblies.Remove( path1 );
-			Assert.IsTrue( project.IsDirty );			
-		}
+            activeConfig.Assemblies.Add(path1);
+            project.IsDirty = false;
+            activeConfig.Assemblies.Remove(path1);
+            Assert.IsTrue(project.IsDirty);
+        }
 
-		[Test]
-		public void SettingApplicationBaseMarksProjectDirty()
-		{
-			config.BasePath = TestPath( "/junk" );
-			Assert.IsTrue( project.IsDirty );
-		}
+        [Test]
+        public void RemoveActiveConfigRequiresReload()
+        {
+            string path1 = TestPath("/test/bin/debug/assembly1.dll");
+            activeConfig.Assemblies.Add(path1);
+            project.IsDirty = false;
+            activeConfig.Assemblies.Remove(path1);
+            Assert.IsTrue(project.HasChangesRequiringReload);
+        }
 
-		[Test]
+        [Test]
+        public void RemoveInactiveConfigMarksProjectDirty()
+        {
+            string path1 = TestPath("/test/bin/debug/assembly1.dll");
+            inactiveConfig.Assemblies.Add(path1);
+            project.IsDirty = false;
+            inactiveConfig.Assemblies.Remove(path1);
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void RemoveInactiveConfigDoesNotRequireReload()
+        {
+            string path1 = TestPath("/test/bin/debug/assembly1.dll");
+            inactiveConfig.Assemblies.Add(path1);
+            project.HasChangesRequiringReload = false;
+            inactiveConfig.Assemblies.Remove(path1);
+            Assert.IsFalse(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void SettingActiveConfigApplicationBaseMarksProjectDirty()
+        {
+            activeConfig.BasePath = TestPath("/junk");
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void SettingActiveConfigApplicationBaseRequiresReload()
+        {
+            activeConfig.BasePath = TestPath("/junk");
+            Assert.IsTrue(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void SettingInactiveConfigApplicationBaseMarksProjectDirty()
+        {
+            inactiveConfig.BasePath = TestPath("/junk");
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void SettingInactiveConfigApplicationBaseDoesNotRequireReload()
+        {
+            inactiveConfig.BasePath = TestPath("/junk");
+            Assert.IsFalse(project.HasChangesRequiringReload);
+        }
+
+        [Test]
 		public void AbsoluteBasePath()
 		{
-            config.BasePath = TestPath("/junk");
+            activeConfig.BasePath = TestPath("/junk");
             string path1 = TestPath( "/junk/bin/debug/assembly1.dll" );
-			config.Assemblies.Add( path1 );
-			Assert.AreEqual( path1, config.Assemblies[0] );
+			activeConfig.Assemblies.Add( path1 );
+			Assert.AreEqual( path1, activeConfig.Assemblies[0] );
 		}
 
 		[Test]
 		public void RelativeBasePath()
 		{
-			config.BasePath = @"junk";
+			activeConfig.BasePath = @"junk";
             string path1 = TestPath("/test/junk/bin/debug/assembly1.dll");
-            config.Assemblies.Add( path1 );
-			Assert.AreEqual( path1, config.Assemblies[0] );
+            activeConfig.Assemblies.Add( path1 );
+			Assert.AreEqual( path1, activeConfig.Assemblies[0] );
 		}
 
 		[Test]
 		public void NoBasePathSet()
 		{
             string path1 = TestPath( "/test/bin/debug/assembly1.dll" );
-			config.Assemblies.Add( path1 );
-			Assert.AreEqual( path1, config.Assemblies[0] );
+			activeConfig.Assemblies.Add( path1 );
+			Assert.AreEqual( path1, activeConfig.Assemblies[0] );
 		}
 
-		[Test]
-		public void SettingConfigurationFileMarksProjectDirty()
-		{
-			config.ConfigurationFile = "MyProject.config";
-			Assert.IsTrue( project.IsDirty );
-		}
+        [Test]
+        public void SettingActiveConfigConfigurationFileMarksProjectDirty()
+        {
+            activeConfig.ConfigurationFile = "MyProject.config";
+            Assert.IsTrue(project.IsDirty);
+        }
 
-		[Test]
+        [Test]
+        public void SettingActiveConfigConfigurationFileRequiresReload()
+        {
+            activeConfig.ConfigurationFile = "MyProject.config";
+            Assert.IsTrue(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void SettingInactiveConfigConfigurationFileMarksProjectDirty()
+        {
+            inactiveConfig.ConfigurationFile = "MyProject.config";
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void SettingInactiveConfigConfigurationFileDoesNotRequireReload()
+        {
+            inactiveConfig.ConfigurationFile = "MyProject.config";
+            Assert.IsFalse(project.HasChangesRequiringReload);
+        }
+
+        [Test]
 		public void DefaultConfigurationFile()
 		{
-			Assert.AreEqual( "myproject.config", config.ConfigurationFile );
-			Assert.AreEqual( TestPath( "/test/myproject.config" ), config.ConfigurationFilePath );
+			Assert.AreEqual( "myproject.config", activeConfig.ConfigurationFile );
+			Assert.AreEqual( TestPath( "/test/myproject.config" ), activeConfig.ConfigurationFilePath );
 		}
 
 		[Test]
 		public void AbsoluteConfigurationFile()
 		{
             string path1 = TestPath("/configs/myconfig.config");
-			config.ConfigurationFile = path1;
-			Assert.AreEqual( path1, config.ConfigurationFilePath );
+			activeConfig.ConfigurationFile = path1;
+			Assert.AreEqual( path1, activeConfig.ConfigurationFilePath );
 		}
 
 		[Test]
 		public void RelativeConfigurationFile()
 		{
-			config.ConfigurationFile = "myconfig.config";
-			Assert.AreEqual( TestPath( "/test/myconfig.config" ), config.ConfigurationFilePath );
+			activeConfig.ConfigurationFile = "myconfig.config";
+			Assert.AreEqual( TestPath( "/test/myconfig.config" ), activeConfig.ConfigurationFilePath );
 		}
 
-		[Test]
-		public void SettingPrivateBinPathMarksProjectDirty()
-		{
-			config.PrivateBinPath = TestPath( "/junk" ) + Path.PathSeparator + TestPath( "/bin" );
-			Assert.IsTrue( project.IsDirty );
-		}
+        [Test]
+        public void SettingActiveConfigPrivateBinPathMarksProjectDirty()
+        {
+            activeConfig.PrivateBinPath = TestPath("/junk") + Path.PathSeparator + TestPath("/bin");
+            Assert.IsTrue(project.IsDirty);
+        }
 
-		[Test]
-		public void SettingBinPathTypeMarksProjectDirty()
-		{
-			config.BinPathType = BinPathType.Manual;
-			Assert.IsTrue( project.IsDirty );
-		}
+        [Test]
+        public void SettingActiveConfigPrivateBinPathRequiresReload()
+        {
+            activeConfig.PrivateBinPath = TestPath("/junk") + Path.PathSeparator + TestPath("/bin");
+            Assert.IsTrue(project.HasChangesRequiringReload);
+        }
 
-// TODO: Move to DomainManagerTests
+        [Test]
+        public void SettingInactiveConfigPrivateBinPathMarksProjectDirty()
+        {
+            inactiveConfig.PrivateBinPath = TestPath("/junk") + Path.PathSeparator + TestPath("/bin");
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void SettingInactiveConfigPrivateBinPathDoesNotRequireReload()
+        {
+            inactiveConfig.PrivateBinPath = TestPath("/junk") + Path.PathSeparator + TestPath("/bin");
+            Assert.IsFalse(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void SettingActiveConfigBinPathTypeMarksProjectDirty()
+        {
+            activeConfig.BinPathType = BinPathType.Manual;
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void SettingActiveConfigBinPathTypeRequiresReload()
+        {
+            activeConfig.BinPathType = BinPathType.Manual;
+            Assert.IsTrue(project.HasChangesRequiringReload);
+        }
+
+        [Test]
+        public void SettingInactiveConfigBinPathTypeMarksProjectDirty()
+        {
+            inactiveConfig.BinPathType = BinPathType.Manual;
+            Assert.IsTrue(project.IsDirty);
+        }
+
+        [Test]
+        public void SettingInactiveConfigBinPathTypeDoesNotRequireReload()
+        {
+            inactiveConfig.BinPathType = BinPathType.Manual;
+            Assert.IsFalse(project.HasChangesRequiringReload);
+        }
+
+        // TODO: Move to DomainManagerTests
 //		[Test]
 //		public void GetPrivateBinPath()
 //		{
@@ -194,20 +378,20 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void NoPrivateBinPath()
 		{
-			config.Assemblies.Add( TestPath( "/bin/assembly1.dll" ) );
-			config.Assemblies.Add( TestPath( "/bin/assembly2.dll" ) );
-			config.BinPathType = BinPathType.None;
-			Assert.IsNull( config.PrivateBinPath );
+			activeConfig.Assemblies.Add( TestPath( "/bin/assembly1.dll" ) );
+			activeConfig.Assemblies.Add( TestPath( "/bin/assembly2.dll" ) );
+			activeConfig.BinPathType = BinPathType.None;
+			Assert.IsNull( activeConfig.PrivateBinPath );
 		}
 
 		[Test]
 		public void ManualPrivateBinPath()
 		{
-			config.Assemblies.Add( TestPath( "/test/bin/assembly1.dll" ) );
-			config.Assemblies.Add( TestPath( "/test/bin/assembly2.dll" ) );
-			config.BinPathType = BinPathType.Manual;
-			config.PrivateBinPath = TestPath( "/test" );
-			Assert.AreEqual( TestPath( "/test" ), config.PrivateBinPath );
+			activeConfig.Assemblies.Add( TestPath( "/test/bin/assembly1.dll" ) );
+			activeConfig.Assemblies.Add( TestPath( "/test/bin/assembly2.dll" ) );
+			activeConfig.BinPathType = BinPathType.Manual;
+			activeConfig.PrivateBinPath = TestPath( "/test" );
+			Assert.AreEqual( TestPath( "/test" ), activeConfig.PrivateBinPath );
 		}
 
 // TODO: Move to DomainManagerTests
