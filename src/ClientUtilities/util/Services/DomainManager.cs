@@ -66,7 +66,7 @@ namespace NUnit.Util
 				setup.ApplicationName = "Tests" + "_" + Environment.TickCount;
 			// We always use the same application name for unitary tests                        
 			else
-				setup.ApplicationName = "Tests";
+				setup.ApplicationName = package.Name;
 
 			string appBase = package.BasePath;
 			if ( appBase == null || appBase == string.Empty )
@@ -99,7 +99,7 @@ namespace NUnit.Util
 				}
 			}
 
-			string domainName = "domain-" + package.Name;
+			string domainName = "test-domain-" + package.Name;
             // Setup the Evidence
             Evidence evidence = new Evidence(AppDomain.CurrentDomain.Evidence);
             if (evidence.Count == 0)
