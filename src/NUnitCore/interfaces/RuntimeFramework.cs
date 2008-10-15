@@ -35,6 +35,8 @@ namespace NUnit.Core
 		private RuntimeType runtime;
 		private Version version;
 
+        private static RuntimeFramework currentFramework;
+
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -96,11 +98,16 @@ namespace NUnit.Core
 		public static RuntimeFramework CurrentFramework
 		{
 			get 
-			{ 
-				RuntimeType runtime = Type.GetType( "Mono.Runtime", false ) != null
-					? RuntimeType.Mono : RuntimeType.Net;
+			{
+                if (currentFramework == null)
+                {
+                    RuntimeType runtime = Type.GetType("Mono.Runtime", false) != null
+                        ? RuntimeType.Mono : RuntimeType.Net;
 
-				return new RuntimeFramework( runtime, Environment.Version );
+                    currentFramework = new RuntimeFramework(runtime, Environment.Version);
+                }
+
+                return currentFramework;
 			}
 		}
 
