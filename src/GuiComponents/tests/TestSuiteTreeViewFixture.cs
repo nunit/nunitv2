@@ -210,7 +210,6 @@ namespace NUnit.UiKit.Tests
 		}
 
 		[Test]
-		[ExpectedException( typeof(ArgumentException) )]
 		public void ReloadTreeWithWrongTest()
 		{
 			treeView.Load( new TestNode( suite ) );
