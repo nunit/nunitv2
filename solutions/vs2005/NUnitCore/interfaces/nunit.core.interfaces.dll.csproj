@@ -186,6 +186,9 @@
       <Link>ITestFilter.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\OSPlatform.cs">
+      <Link>OSPlatform.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\ResultState.cs">
       <Link>ResultState.cs</Link>
       <SubType>Code</SubType>

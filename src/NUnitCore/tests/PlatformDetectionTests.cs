@@ -17,14 +17,14 @@ namespace NUnit.Core.Tests
 	public class PlatformDetectionTests
 	{
 		private static readonly PlatformHelper win95Helper = new PlatformHelper( 
-			new OperatingSystem( PlatformID.Win32Windows , new Version( 4, 0 ) ),
+			new OSPlatform( PlatformID.Win32Windows , new Version( 4, 0 ) ),
 			new RuntimeFramework( RuntimeType.Net, new Version( 1, 1, 4322, 0 ) ) );
 
 		private static readonly PlatformHelper winXPHelper = new PlatformHelper( 
-			new OperatingSystem( PlatformID.Win32NT , new Version( 5,1 ) ),
+			new OSPlatform( PlatformID.Win32NT , new Version( 5,1 ) ),
 			new RuntimeFramework( RuntimeType.Net, new Version( 1, 1, 4322, 0 ) ) );
 
-		private void CheckOSPlatforms( OperatingSystem os, 
+		private void CheckOSPlatforms( OSPlatform os, 
 			string expectedPlatforms )
 		{
 			CheckPlatforms(
@@ -37,7 +37,7 @@ namespace NUnit.Core.Tests
 			string expectedPlatforms )
 		{
 			CheckPlatforms(
-				new PlatformHelper( Environment.OSVersion, runtimeFramework ),
+				new PlatformHelper( OSPlatform.CurrentPlatform, runtimeFramework ),
 				expectedPlatforms,
 				PlatformHelper.RuntimePlatforms + ",NET-1.0,NET-1.1,NET-2.0,MONO-1.0,MONO-2.0" );
 		}
@@ -71,7 +71,7 @@ namespace NUnit.Core.Tests
 		public void DetectWin95()
 		{
 			CheckOSPlatforms( 
-				new OperatingSystem( PlatformID.Win32Windows, new Version( 4, 0 ) ),
+				new OSPlatform( PlatformID.Win32Windows, new Version( 4, 0 ) ),
 				"Win95,Win32Windows,Win32,Win" );
 		}
 
@@ -79,7 +79,7 @@ namespace NUnit.Core.Tests
 		public void DetectWin98()
 		{
 			CheckOSPlatforms( 
-				new OperatingSystem( PlatformID.Win32Windows, new Version( 4, 10 ) ),
+				new OSPlatform( PlatformID.Win32Windows, new Version( 4, 10 ) ),
 				"Win98,Win32Windows,Win32,Win" );
 		}
 
@@ -87,7 +87,7 @@ namespace NUnit.Core.Tests
 		public void DetectWinMe()
 		{
 			CheckOSPlatforms( 
-				new OperatingSystem( PlatformID.Win32Windows, new Version( 4, 90 ) ),
+				new OSPlatform( PlatformID.Win32Windows, new Version( 4, 90 ) ),
 				"WinMe,Win32Windows,Win32,Win" );
 		}
 
@@ -97,7 +97,7 @@ namespace NUnit.Core.Tests
 		{
             PlatformID winCE = (PlatformID)Enum.Parse(typeof(PlatformID), "WinCE");
 			CheckOSPlatforms(
-                new OperatingSystem(winCE, new Version(1, 0)),
+                new OSPlatform(winCE, new Version(1, 0)),
 				"WinCE,Win32,Win" );
 		}
 
@@ -105,7 +105,7 @@ namespace NUnit.Core.Tests
 		public void DetectNT3()
 		{
 			CheckOSPlatforms( 
-				new OperatingSystem( PlatformID.Win32NT, new Version( 3, 51 ) ),
+				new OSPlatform( PlatformID.Win32NT, new Version( 3, 51 ) ),
 				"NT3,Win32NT,Win32,Win" );
 		}
 
@@ -113,7 +113,7 @@ namespace NUnit.Core.Tests
 		public void DetectNT4()
 		{
 			CheckOSPlatforms( 
-				new OperatingSystem( PlatformID.Win32NT, new Version( 4, 0 ) ),
+				new OSPlatform( PlatformID.Win32NT, new Version( 4, 0 ) ),
 				"NT4,Win32NT,Win32,Win,Win-4.0" );
 		}
 
@@ -121,7 +121,7 @@ namespace NUnit.Core.Tests
 		public void DetectWin2K()
 		{
 			CheckOSPlatforms( 
-				new OperatingSystem( PlatformID.Win32NT, new Version( 5, 0 ) ),
+				new OSPlatform( PlatformID.Win32NT, new Version( 5, 0 ) ),
 				"Win2K,NT5,Win32NT,Win32,Win,Win-5.0" );
 		}
 
@@ -129,7 +129,7 @@ namespace NUnit.Core.Tests
 		public void DetectWinXP()
 		{
 			CheckOSPlatforms( 
-				new OperatingSystem( PlatformID.Win32NT, new Version( 5, 1 ) ),
+				new OSPlatform( PlatformID.Win32NT, new Version( 5, 1 ) ),
 				"WinXP,NT5,Win32NT,Win32,Win,Win-5.1" );
 		}
 
@@ -137,7 +137,7 @@ namespace NUnit.Core.Tests
 		public void DetectWin2003Server()
 		{
             CheckOSPlatforms(
-                new OperatingSystem(PlatformID.Win32NT, new Version(5, 2)),
+                new OSPlatform(PlatformID.Win32NT, new Version(5, 2)),
                 "Win2003Server,NT5,Win32NT,Win32,Win,Win-5.2");
         }
 
@@ -145,15 +145,23 @@ namespace NUnit.Core.Tests
         public void DetectVista()
         {
             CheckOSPlatforms(
-                new OperatingSystem(PlatformID.Win32NT, new Version(6, 0)),
+                new OSPlatform(PlatformID.Win32NT, new Version(6, 0), OSPlatform.ProductType.WorkStation),
                 "Vista,NT6,Win32NT,Win32,Win,Win-6.0");
+        }
+
+        [Test]
+        public void DetectWin2008Server()
+        {
+            CheckOSPlatforms(
+                new OSPlatform(PlatformID.Win32NT, new Version(6, 0), OSPlatform.ProductType.Server),
+                "Win2008Server,NT6,Win32NT,Win32,Win,Win-6.0");
         }
 
         [Test]
         public void DetectUnixUnderMicrosoftDotNet()
         {
             CheckOSPlatforms(
-                new OperatingSystem(PlatformHelper.UnixPlatformID_Microsoft, new Version()),
+                new OSPlatform(OSPlatform.UnixPlatformID_Microsoft, new Version()),
                 "UNIX,Linux");
         }
 
@@ -162,7 +170,7 @@ namespace NUnit.Core.Tests
         public void DetectUnixUnderMono()
         {
             CheckOSPlatforms(
-                new OperatingSystem(PlatformHelper.UnixPlatformID_Mono, new Version()),
+                new OSPlatform(OSPlatform.UnixPlatformID_Mono, new Version()),
                 "UNIX,Linux");
         }
 

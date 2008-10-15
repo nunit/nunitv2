@@ -11,18 +11,13 @@ namespace NUnit.Core
 {
 	public class PlatformHelper
 	{
-		private OperatingSystem os;
+		private OSPlatform os;
 		private RuntimeFramework rt;
 
 		// Set whenever we fail to support a list of platforms
 		private string reason = string.Empty;
 
-		// Defined here and used in tests. We can't use PlatformID.Unix
-		// if we are building on .NET 1.0 or 1.1 and the values are different on Mono
-		public static readonly PlatformID UnixPlatformID_Microsoft = (PlatformID) 4;
-        public static readonly PlatformID UnixPlatformID_Mono = (PlatformID)128;
-
-		/// <summary>
+        /// <summary>
 		/// Comma-delimited list of all supported OS platform constants
 		/// </summary>
 		public static readonly string OSPlatforms =
@@ -40,7 +35,7 @@ namespace NUnit.Core
 		/// </summary>
 		public PlatformHelper()
 		{
-			this.os = Environment.OSVersion;
+			this.os = OSPlatform.CurrentPlatform;
 			this.rt = RuntimeFramework.CurrentFramework;
 		}
 
@@ -49,7 +44,7 @@ namespace NUnit.Core
 		/// system and common language runtime. Used in testing.
 		/// </summary>
 		/// <param name="os">OperatingSystem to be used</param>
-		public PlatformHelper( OperatingSystem os, RuntimeFramework rt )
+		public PlatformHelper( OSPlatform os, RuntimeFramework rt )
 		{
 			this.os = os;
 			this.rt = rt;
@@ -137,61 +132,60 @@ namespace NUnit.Core
 			{
 				case "WIN":
 				case "WIN32":
-					nameOK = os.Platform.ToString().StartsWith( "Win" );
+					nameOK = os.IsWindows;
 					break;
 				case "WIN32S":
-					nameOK = os.Platform == PlatformID.Win32S;
+                    nameOK = os.IsWin32S;
 					break;
 				case "WIN32WINDOWS":
-					nameOK = os.Platform == PlatformID.Win32Windows;
+					nameOK = os.IsWin32Windows;
 					break;
 				case "WIN32NT":
-					nameOK = os.Platform == PlatformID.Win32NT;
+					nameOK = os.IsWin32NT;
 					break;
 				case "WINCE":
-					nameOK = (int)os.Platform == 3;  // Not defined in .NET 1.0
+                    nameOK = os.IsWinCE;
 					break;
 				case "WIN95":
-					nameOK = os.Platform == PlatformID.Win32Windows && os.Version.Major == 4 && os.Version.Minor == 0;
+                    nameOK = os.IsWin95;
 					break;
-				case "WIN98": 
-					nameOK = os.Platform == PlatformID.Win32Windows && os.Version.Major == 4 && os.Version.Minor == 10;
+				case "WIN98":
+                    nameOK = os.IsWin98;
 					break;
 				case "WINME":
-					nameOK = os.Platform == PlatformID.Win32Windows && os.Version.Major == 4 && os.Version.Minor == 90;
+					nameOK = os.IsWinME;
 					break;
 				case "NT3":
-					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 3;
+                    nameOK = os.IsNT3;
 					break;
 				case "NT4":
-					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 4;
+                    nameOK = os.IsNT4;
 					break;
                 case "NT5":
-                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5;
+                    nameOK = os.IsNT5;
                     break;
                 case "WIN2K":
-					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5 && os.Version.Minor == 0;
+                    nameOK = os.IsWin2K;
 					break;
 				case "WINXP":
-					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5 && os.Version.Minor == 1;
+                    nameOK = os.IsWinXP;
 					break;
 				case "WIN2003SERVER":
-					nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 5 && os.Version.Minor == 2;
+                    nameOK = os.IsWin2003Server;
 					break;
                 case "NT6":
-                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6;
+                    nameOK = os.IsNT6;
                     break;
                 // TODO: Distinguish Vista SP1 from Server 2008
                 case "VISTA":
-                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 0 && os.Version.Build != 6001;
+                    nameOK = os.IsVista;
                     break;
                 case "WIN2008SERVER":
-                    nameOK = os.Platform == PlatformID.Win32NT && os.Version.Major == 6 && os.Version.Minor == 0 && os.Version.Build == 6001;
+                    nameOK = os.IsWin2008Server;
                     break;
                 case "UNIX":
 				case "LINUX":
-					nameOK = os.Platform == UnixPlatformID_Microsoft
-                          || os.Platform == UnixPlatformID_Mono;
+                    nameOK = os.IsUnix;
 					break;
 				case "NET":
 					nameOK = rt.Runtime == RuntimeType.Net;

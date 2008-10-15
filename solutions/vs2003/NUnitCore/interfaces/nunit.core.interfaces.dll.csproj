@@ -126,6 +126,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "OSPlatform.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\OSPlatform.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ResultState.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\ResultState.cs"
                     SubType = "Code"

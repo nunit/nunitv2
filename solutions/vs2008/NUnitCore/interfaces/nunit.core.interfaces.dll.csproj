@@ -252,6 +252,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ITestCaseData.cs">
       <Link>Extensibility\ITestCaseData.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\OSPlatform.cs">
+      <Link>OSPlatform.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
