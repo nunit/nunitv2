@@ -369,6 +369,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ThreadingAttributes.cs">
       <Link>ThreadingAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\AfterConstraint.cs">
+      <Link>Constraints\AfterConstraint.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">

@@ -111,6 +111,9 @@
       <Link>CollectionAssert.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\AfterConstraint.cs">
+      <Link>Constraints\AfterConstraint.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs">
       <Link>Constraints\AttributeConstraints.cs</Link>
     </Compile>

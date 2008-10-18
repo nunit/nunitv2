@@ -122,6 +122,9 @@
       <Link>ConditionAssertTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\AfterConstraintTests.cs">
+      <Link>Constraints\AfterConstraintTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\AndTest.cs">
       <Link>Constraints\AndTest.cs</Link>
       <SubType>Code</SubType>
@@ -235,6 +238,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\StringAssertTests.cs">
       <Link>StringAssertTests.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\AfterTests.cs">
+      <Link>Syntax\AfterTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\CollectionTests.cs">
       <Link>Syntax\CollectionTests.cs</Link>

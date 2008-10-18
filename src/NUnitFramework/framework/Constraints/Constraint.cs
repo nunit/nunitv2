@@ -9,7 +9,13 @@ using System.Collections.Specialized;
 
 namespace NUnit.Framework.Constraints
 {
-	/// <summary>
+    /// <summary>
+    /// Delegate used to delay evaluation of the actual value
+    /// to be used in evaluating a constraint
+    /// </summary>
+    public delegate object ActualValueDelegate();
+    
+    /// <summary>
 	/// The Constraint class is the base of all built-in constraints
     /// within NUnit. It provides the operator overloads used to combine 
     /// constraints.
@@ -149,6 +155,46 @@ namespace NUnit.Framework.Constraints
         public abstract bool Matches(object actual);
 
         /// <summary>
+        /// Test whether the constraint is satisfied by an
+        /// ActualValueDelegate that returns the value to be tested.
+        /// The default implementation simply evaluates the delegate
+        /// but derived classes may override it to provide for delayed 
+        /// processing.
+        /// </summary>
+        /// <param name="del">An ActualValueDelegate</param>
+        /// <returns>True for success, false for failure</returns>
+        public virtual bool Matches(ActualValueDelegate del)
+        {
+            return Matches(del());
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given reference.
+        /// The default implementation simply dereferences the value but
+        /// derived classes may override it to provide for delayed processing.
+        /// </summary>
+        /// <param name="actual">A reference to the value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
+        public virtual bool Matches<T>(ref T actual)
+        {
+            return Matches(actual);
+        }
+#else
+		/// <summary>
+		/// Test whether the constraint is satisfied by a given bool reference.
+		/// The default implementation simply dereferences the value but
+		/// derived classes may override it to provide for delayed processing.
+		/// </summary>
+		/// <param name="actual">A reference to the value to be tested</param>
+		/// <returns>True for success, false for failure</returns>
+		public virtual bool Matches(ref bool actual)
+		{
+			return Matches(actual);
+		}
+#endif
+
+        /// <summary>
         /// Write the constraint description to a MessageWriter
         /// </summary>
         /// <param name="writer">The writer on which the description is displayed</param>
@@ -275,6 +321,23 @@ namespace NUnit.Framework.Constraints
 
                 return new ConstraintExpression(builder);
             }
+        }
+        #endregion
+
+        #region After Modifier
+        public AfterConstraint After(int delayInMilliseconds)
+        {
+            return new AfterConstraint(
+                builder == null ? this : builder.Resolve(),
+                delayInMilliseconds);
+        }
+
+        public AfterConstraint After(int delayInMilliseconds, int pollingInterval)
+        {
+            return new AfterConstraint(
+                builder == null ? this : builder.Resolve(),
+                delayInMilliseconds,
+                pollingInterval);
         }
         #endregion
 

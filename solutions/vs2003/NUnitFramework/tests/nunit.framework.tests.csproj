@@ -275,6 +275,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\AfterConstraintTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\AfterConstraintTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\AndTest.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\AndTest.cs"
                     SubType = "Code"
@@ -367,6 +373,12 @@
                 <File
                     RelPath = "Constraints\TypeConstraintTests.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\TypeConstraintTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Syntax\AfterTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Syntax\AfterTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

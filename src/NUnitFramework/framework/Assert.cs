@@ -2529,6 +2529,8 @@ namespace NUnit.Framework
         #endregion
 
         #region That
+
+        #region Object
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
@@ -2572,7 +2574,147 @@ namespace NUnit.Framework
                 throw new AssertionException(writer.ToString());
             }
         }
+        #endregion
 
+        #region ActualValueDelegate
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="expr">A Constraint expression to be applied</param>
+        /// <param name="del">An ActualValueDelegate returning the value to be tested</param>
+        static public void That(ActualValueDelegate del, IResolveConstraint expr)
+        {
+            Assert.That(del, expr.Resolve(), null, null);
+        }
+
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="expr">A Constraint expression to be applied</param>
+        /// <param name="del">An ActualValueDelegate returning the value to be tested</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void That(ActualValueDelegate del, IResolveConstraint expr, string message)
+        {
+            Assert.That(del, expr.Resolve(), message, null);
+        }
+
+        /// <summary>
+        /// Apply a constraint to an actual value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="del">An ActualValueDelegate returning the value to be tested</param>
+        /// <param name="expr">A Constraint expression to be applied</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void That(ActualValueDelegate del, IResolveConstraint expr, string message, params object[] args)
+        {
+            Constraint constraint = expr.Resolve();
+
+            Assert.IncrementAssertCount();
+            if (!constraint.Matches(del))
+            {
+                MessageWriter writer = new TextMessageWriter(message, args);
+                constraint.WriteMessageTo(writer);
+                throw new AssertionException(writer.ToString());
+            }
+        }
+        #endregion
+
+        #region ref Object
+#if NET_2_0
+        /// <summary>
+        /// Apply a constraint to a referenced value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        static public void That<T>(ref T actual, IResolveConstraint constraint)
+        {
+            Assert.That(ref actual, constraint.Resolve(), null, null);
+        }
+
+        /// <summary>
+        /// Apply a constraint to a referenced value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void That<T>(ref T actual, IResolveConstraint constraint, string message)
+        {
+            Assert.That(ref actual, constraint.Resolve(), message, null);
+        }
+
+        /// <summary>
+        /// Apply a constraint to a referenced value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void That<T>(ref T actual, IResolveConstraint expression, string message, params object[] args)
+        {
+            Constraint constraint = expression.Resolve();
+
+            Assert.IncrementAssertCount();
+            if (!constraint.Matches(ref actual))
+            {
+                MessageWriter writer = new TextMessageWriter(message, args);
+                constraint.WriteMessageTo(writer);
+                throw new AssertionException(writer.ToString());
+            }
+        }
+#else
+        /// <summary>
+        /// Apply a constraint to a referenced boolean, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        static public void That(ref bool actual, IResolveConstraint constraint)
+        {
+            Assert.That(ref actual, constraint.Resolve(), null, null);
+        }
+
+        /// <summary>
+        /// Apply a constraint to a referenced value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void That(ref bool actual, IResolveConstraint constraint, string message)
+        {
+            Assert.That(ref actual, constraint.Resolve(), message, null);
+        }
+
+        /// <summary>
+        /// Apply a constraint to a referenced value, succeeding if the constraint
+        /// is satisfied and throwing an assertion exception on failure.
+        /// </summary>
+        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="actual">The actual value to test</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void That(ref bool actual, IResolveConstraint expression, string message, params object[] args)
+        {
+            Constraint constraint = expression.Resolve();
+
+            Assert.IncrementAssertCount();
+            if (!constraint.Matches(ref actual))
+            {
+                MessageWriter writer = new TextMessageWriter(message, args);
+                constraint.WriteMessageTo(writer);
+                throw new AssertionException(writer.ToString());
+            }
+        }
+#endif
+        #endregion
+
+        #region Boolean
         /// <summary>
         /// Asserts that a condition is true. If the condition is false the method throws
         /// an <see cref="AssertionException"/>.
@@ -2605,6 +2747,7 @@ namespace NUnit.Framework
         {
             Assert.That(condition, Is.True, null, null);
         }
+        #endregion
 
         /// <summary>
         /// Asserts that the code represented by a delegate throws an exception
@@ -2612,11 +2755,10 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="code">A TestDelegate to be executed</param>
         /// <param name="constraint">A ThrowsConstraint used in the test</param>
-        static public void That( TestDelegate code, IResolveConstraint constraint )
+        static public void That(TestDelegate code, IResolveConstraint constraint)
         {
-            Assert.That( (object)code, constraint );
+            Assert.That((object)code, constraint);
         }
-
         #endregion
 
 		#region GreaterOrEqual
