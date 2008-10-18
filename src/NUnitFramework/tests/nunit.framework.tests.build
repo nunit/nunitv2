@@ -2,6 +2,7 @@
 <project name="NUnitFrameworkTests" default="build" basedir=".">
 
   <patternset id="source-files">
+    <include name="Constraints/AfterConstraintTests.cs"/>
     <include name="Constraints/AndTest.cs"/>
     <include name="Constraints/CollectionConstraintTests.cs"/>
     <include name="Constraints/ComparisonConstraintTests.cs"/>
@@ -18,6 +19,7 @@
     <include name="Constraints/StringConstraintTests.cs"/>
     <include name="Constraints/ThrowsConstraintTests.cs"/>
     <include name="Constraints/TypeConstraintTests.cs"/>
+    <include name="Syntax/AfterTests.cs"/>
     <include name="Syntax/CollectionTests.cs"/>
     <include name="Syntax/ComparisonTests.cs"/>
     <include name="Syntax/EqualityTests.cs"/>

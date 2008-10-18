@@ -2,6 +2,7 @@
 <project name="NUnitFramework" default="build" basedir=".">
 
   <patternset id="source-files">
+        <include name="Constraints/AfterConstraint.cs"/>
         <include name="Constraints/AttributeConstraints.cs"/>
         <include name="Constraints/BasicConstraints.cs"/>
         <include name="Constraints/BinaryOperations.cs"/>
