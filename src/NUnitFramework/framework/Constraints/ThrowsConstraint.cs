@@ -45,7 +45,8 @@ namespace NUnit.Framework.Constraints
         {
             TestDelegate code = actual as TestDelegate;
             if (code == null)
-                throw new ArgumentException("The actual value must be a TestDelegate", "actual");
+                throw new ArgumentException(
+                    string.Format("The actual value must be a TestDelegate but was {0}",actual.GetType().Name), "actual");
 
             this.caughtException = Catch.Exception(code);
 
