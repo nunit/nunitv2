@@ -111,10 +111,9 @@ namespace NUnit.Core
 			this.description = null;
 			this.isSuite = true;
 
-			foreach( ITest test in tests )
-			{
-				this.testCaseCount += test.TestCount;
-			}
+            if ( tests != null )
+			    foreach( ITest test in tests )
+    				this.testCaseCount += test.TestCount;
 		}
 
 		/// <summary>
