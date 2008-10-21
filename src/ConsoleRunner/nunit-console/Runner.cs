@@ -51,9 +51,10 @@ namespace NUnit.ConsoleRunner
 			//ServiceManager.Services.AddService( new TestLoader() );
 			ServiceManager.Services.AddService( new AddinRegistry() );
 			ServiceManager.Services.AddService( new AddinManager() );
-			// TODO: Resolve conflict with gui testagency when running
+			// Hack: Resolves conflict with gui testagency when running
 			// console tests under the gui.
-			ServiceManager.Services.AddService( new TestAgency() );
+            if ( !AppDomain.CurrentDomain.FriendlyName.StartsWith("test-domain-") )
+                ServiceManager.Services.AddService( new TestAgency() );
 
 			// Initialize Services
 			ServiceManager.Services.InitializeServices();
@@ -114,7 +115,7 @@ namespace NUnit.ConsoleRunner
 			RuntimeFramework framework = RuntimeFramework.CurrentFramework;
 			Console.WriteLine( string.Format("   OS Version: {0}", Environment.OSVersion ) );
 			Console.WriteLine( string.Format("  CLR Version: {0} ( {1} )",
-				Environment.Version,  framework.GetDisplayName() ) );
+				Environment.Version,  framework.DisplayName ) );
 
 			Console.WriteLine();
 		}
