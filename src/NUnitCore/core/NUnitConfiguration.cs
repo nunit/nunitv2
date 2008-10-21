@@ -111,14 +111,6 @@ namespace NUnit.Core
                 {
                     nunitDirectory =
                         AssemblyHelper.GetDirectoryName(Assembly.GetExecutingAssembly());
-
-                    // Special handling for running NUnit tests in the VS tree
-                    if (!File.Exists(Path.Combine(nunitDirectory, "nunit.exe")) &&
-                        nunitDirectory.EndsWith("bin\\" + BuildConfiguration))
-                    {
-                        DirectoryInfo fi = new DirectoryInfo(nunitDirectory).Parent.Parent.Parent.Parent;
-                        nunitDirectory = Path.Combine( fi.FullName, "GuiRunner\\nunit-gui-exe\\bin\\" + BuildConfiguration );
-                    }
                 }
 
                 return nunitDirectory;
@@ -133,9 +125,43 @@ namespace NUnit.Core
             get
             {
                 if (addinDirectory == null)
+                {
                     addinDirectory = System.IO.Path.Combine(NUnitDirectory, "addins");
 
+                    // Special handling for running NUnit in the VS tree
+                    if (addinDirectory.EndsWith("bin\\" + BuildConfiguration) && !Directory.Exists(addinDirectory))
+                    {
+                        DirectoryInfo fi = new DirectoryInfo(addinDirectory).Parent.Parent.Parent.Parent;
+                        addinDirectory = Path.Combine(fi.FullName, "GuiRunner/nunit-gui-exe/bin/" + BuildConfiguration + "/addins");
+                    }
+                }
+
                 return addinDirectory;
+            }
+        }
+        #endregion
+
+        #region TestAgentExePath
+        private static string testAgentExePath;
+        public static string TestAgentExePath
+        {
+            get
+            {
+                if (testAgentExePath == null)
+                {
+                    string agentDir = NUnitDirectory;
+
+                    // Special handling for running NUnit in the VS tree
+                    if (agentDir.EndsWith("bin\\" + BuildConfiguration))
+                    {
+                        DirectoryInfo fi = new DirectoryInfo(agentDir).Parent.Parent.Parent.Parent;
+                        agentDir = Path.Combine(fi.FullName, "NUnitTestServer/nunit-agent-exe/bin/" + BuildConfiguration);
+                    }
+
+                    testAgentExePath = Path.Combine(agentDir, "nunit-agent.exe");
+                }
+
+                return testAgentExePath;
             }
         }
         #endregion
