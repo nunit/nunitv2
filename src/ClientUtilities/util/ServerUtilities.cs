@@ -44,7 +44,7 @@ namespace NUnit.Util
 				object typeFilterLevel = Enum.Parse(typeFilterLevelType, "Full");
 				typeFilterLevelProperty.SetValue(serverProvider, typeFilterLevel, null);
 
-                props.Add("clientConnectionLimit", limit);
+//                props.Add("clientConnectionLimit", limit);
             }
 
 			BinaryClientFormatterSinkProvider clientProvider =
