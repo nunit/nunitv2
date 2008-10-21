@@ -28,7 +28,7 @@ namespace NUnit.Gui
                 foreach (TestAssemblyInfo info in infoList)
                 {
                     RuntimeFramework runtime = info.RunnerRuntimeFramework;
-                    Version imageVersion = info.RunnerRuntimeFramework.Version;
+                    Version imageVersion = info.ImageRuntimeVersion;
 
                     TextBox.Select(TextBox.Text.Length, 0);
                     TextBox.SelectionFont = new Font(TextBox.Font, FontStyle.Bold);
@@ -41,7 +41,7 @@ namespace NUnit.Gui
                     sb.AppendFormat("  Path: {0}\r\n", info.Name);
                     sb.AppendFormat("  Image Runtime Version: {0})\r\n", imageVersion.ToString());
                     sb.AppendFormat("  Running Under: {0} ( {1} )\r\n",
-                        runtime.Version.ToString(), runtime.GetDisplayName());
+                        runtime.Version.ToString(), runtime.DisplayName);
                     sb.AppendFormat("  Process: {0}  {1}\r\n", info.ProcessId, info.ModuleName);
                     sb.AppendFormat("  Domain: {0}\r\n", info.DomainName);
                     if (info.TestFrameworks != null)

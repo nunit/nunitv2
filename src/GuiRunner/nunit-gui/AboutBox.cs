@@ -65,7 +65,7 @@ namespace NUnit.Gui
 			versionLabel.Text = versionText;
 			copyright.Text = copyrightText;
 			dotNetVersionLabel.Text = string.Format( "{0} ( {1} )", Environment.Version, 
-				NUnit.Core.RuntimeFramework.CurrentFramework.GetDisplayName() );
+				NUnit.Core.RuntimeFramework.CurrentFramework.DisplayName );
 		}
 
 		/// <summary>

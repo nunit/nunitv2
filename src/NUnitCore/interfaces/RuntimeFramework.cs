@@ -32,8 +32,10 @@ namespace NUnit.Core
     [Serializable]
 	public sealed class RuntimeFramework
 	{
+		private string name;
 		private RuntimeType runtime;
 		private Version version;
+		private string displayName;
 
         private static RuntimeFramework currentFramework;
 
@@ -46,10 +48,18 @@ namespace NUnit.Core
 		{
 			this.runtime = runtime;
 			this.version = version;
+			this.name = string.Format( "{0}-{1}", 
+				runtime.ToString().ToLower(),
+				version.ToString(2));
+			if ( name == "mono-1.1" )
+				name = "mono-1.0";
+			this.displayName = GetDisplayName();
 		}
 
         public RuntimeFramework(string framework)
         {
+			this.name = framework;
+
             switch (framework)
             {
                 case "net-1.0":
@@ -77,17 +87,14 @@ namespace NUnit.Core
             }
         }
 
+		public string Name
+		{
+			get { return name; }
+		}
+
 		public override string ToString()
 		{
-			switch( runtime )
-			{
-				case RuntimeType.Net:
-					return "net-" + version.ToString(2);
-				case RuntimeType.Mono:
-					return "mono- " + version.Major.ToString() + ".0";
-				default:
-					return runtime.ToString().ToLower() + version.ToString(2);
-			}
+			return name;
 		}
 
 
@@ -127,11 +134,16 @@ namespace NUnit.Core
 			get { return version; }
 		}
 
+		public string DisplayName
+		{
+			get { return displayName; }
+		}
+
 		/// <summary>
 		/// Gets a display string for the particular framework version
 		/// </summary>
 		/// <returns>A string used to display the framework in use</returns>
-		public string GetDisplayName()
+		private string GetDisplayName()
 		{
 			if ( runtime == RuntimeType.Mono )
 			{
