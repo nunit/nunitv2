@@ -87,10 +87,12 @@ namespace NUnit.Framework
 		}
 
 		#endregion
-				
-		#region IsTrue
 
-		/// <summary>
+        #region Simple Asserts
+
+        #region IsTrue
+
+        /// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
 		/// an <see cref="AssertionException"/>.
 		/// </summary> 
@@ -513,6 +515,10 @@ namespace NUnit.Framework
         }
         #endregion
 
+        #endregion
+
+        #region Type Asserts
+
         #region IsAssignableFrom
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
@@ -682,6 +688,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object being examined</param>
         /// <param name="message">A message to display in case of failure</param>
         /// <param name="args">An array of objects to be used in formatting the message</param>
+        [Obsolete]
         public static void IsInstanceOfType(System.Type expected, object actual, string message, params object[] args)
         {
             Assert.That(actual, Is.InstanceOfType(expected), message, args);
@@ -790,6 +797,10 @@ namespace NUnit.Framework
         }
 #endif
         #endregion
+
+        #endregion
+
+        #region Equality and Identity Asserts
 
         #region AreEqual
 
@@ -1620,11 +1631,15 @@ namespace NUnit.Framework
    
 		#endregion
 
-		#region Greater
+        #endregion
 
-		#region Ints
+        #region Comparison Asserts
 
-		/// <summary>
+        #region Greater
+
+        #region Ints
+
+        /// <summary>
 		/// Verifies that the first value is greater than the second
 		/// value. If they are not, then an
 		/// <see cref="AssertionException"/> is thrown. 
@@ -2337,9 +2352,728 @@ namespace NUnit.Framework
 
 		#endregion
 
-		#region Collection Containment
+        #region GreaterOrEqual
 
-		/// <summary>
+        #region Ints
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown. 
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void GreaterOrEqual(int arg1,
+            int arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void GreaterOrEqual(int arg1, int arg2, string message)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        static public void GreaterOrEqual(int arg1, int arg2)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region UInts
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        [CLSCompliant(false)]
+        static public void GreaterOrEqual(uint arg1,
+            uint arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        [CLSCompliant(false)]
+        static public void GreaterOrEqual(uint arg1, uint arg2, string message)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater or equal to than the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        [CLSCompliant(false)]
+        static public void GreaterOrEqual(uint arg1, uint arg2)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Longs
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void GreaterOrEqual(long arg1,
+            long arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void GreaterOrEqual(long arg1, long arg2, string message)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater or equal to than the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        static public void GreaterOrEqual(long arg1, long arg2)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region ULongs
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        [CLSCompliant(false)]
+        static public void GreaterOrEqual(ulong arg1,
+            ulong arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        [CLSCompliant(false)]
+        static public void GreaterOrEqual(ulong arg1, ulong arg2, string message)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater or equal to than the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        [CLSCompliant(false)]
+        static public void GreaterOrEqual(ulong arg1, ulong arg2)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Decimals
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void GreaterOrEqual(decimal arg1,
+            decimal arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void GreaterOrEqual(decimal arg1, decimal arg2, string message)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        static public void GreaterOrEqual(decimal arg1, decimal arg2)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Doubles
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void GreaterOrEqual(double arg1,
+            double arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void GreaterOrEqual(double arg1,
+            double arg2, string message)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        static public void GreaterOrEqual(double arg1, double arg2)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Floats
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void GreaterOrEqual(float arg1,
+            float arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void GreaterOrEqual(float arg1, float arg2, string message)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than or equal to the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        static public void GreaterOrEqual(float arg1, float arg2)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region IComparables
+
+        /// <summary>
+        /// Verifies that the first value is greater than the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void GreaterOrEqual(IComparable arg1,
+            IComparable arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void GreaterOrEqual(IComparable arg1, IComparable arg2, string message)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is greater than the second
+        /// value. If they are not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be greater</param>
+        /// <param name="arg2">The second value, expected to be less</param>
+        static public void GreaterOrEqual(IComparable arg1, IComparable arg2)
+        {
+            Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region LessOrEqual
+
+        #region Ints
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void LessOrEqual(int arg1, int arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void LessOrEqual(int arg1, int arg2, string message)
+        {
+            Assert.LessOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        static public void LessOrEqual(int arg1, int arg2)
+        {
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region UInts
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        [CLSCompliant(false)]
+        static public void LessOrEqual(uint arg1, uint arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        [CLSCompliant(false)]
+        static public void LessOrEqual(uint arg1, uint arg2, string message)
+        {
+            Assert.LessOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        [CLSCompliant(false)]
+        static public void LessOrEqual(uint arg1, uint arg2)
+        {
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Longs
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void LessOrEqual(long arg1, long arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void LessOrEqual(long arg1, long arg2, string message)
+        {
+            Assert.LessOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        static public void LessOrEqual(long arg1, long arg2)
+        {
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region ULongs
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        [CLSCompliant(false)]
+        static public void LessOrEqual(ulong arg1, ulong arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        [CLSCompliant(false)]
+        static public void LessOrEqual(ulong arg1, ulong arg2, string message)
+        {
+            Assert.LessOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        [CLSCompliant(false)]
+        static public void LessOrEqual(ulong arg1, ulong arg2)
+        {
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Decimals
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void LessOrEqual(decimal arg1, decimal arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void LessOrEqual(decimal arg1, decimal arg2, string message)
+        {
+            Assert.LessOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        static public void LessOrEqual(decimal arg1, decimal arg2)
+        {
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Doubles
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void LessOrEqual(double arg1, double arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void LessOrEqual(double arg1, double arg2, string message)
+        {
+            Assert.LessOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        static public void LessOrEqual(double arg1, double arg2)
+        {
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region Floats
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void LessOrEqual(float arg1, float arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void LessOrEqual(float arg1, float arg2, string message)
+        {
+            Assert.LessOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        static public void LessOrEqual(float arg1, float arg2)
+        {
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #region IComparables
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void LessOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
+        {
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        static public void LessOrEqual(IComparable arg1, IComparable arg2, string message)
+        {
+            Assert.LessOrEqual(arg1, arg2, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the first value is less than or equal to the second
+        /// value. If it is not, then an 
+        /// <see cref="AssertionException"/> is thrown.
+        /// </summary>
+        /// <param name="arg1">The first value, expected to be less</param>
+        /// <param name="arg2">The second value, expected to be greater</param>
+        static public void LessOrEqual(IComparable arg1, IComparable arg2)
+        {
+            Assert.LessOrEqual(arg1, arg2, string.Empty, null);
+        }
+
+        #endregion
+
+        #endregion
+
+        #endregion
+
+        #region Collection Containment
+
+        /// <summary>
 		/// Asserts that an object is contained in a list.
 		/// </summary>
 		/// <param name="expected">The expected object</param>
@@ -2373,6 +3107,8 @@ namespace NUnit.Framework
 		}
 
 		#endregion
+
+        #region Utility Asserts
 
         #region Pass
 
@@ -2528,7 +3264,9 @@ namespace NUnit.Framework
 
         #endregion
 
-        #region That
+        #endregion
+
+        #region Assert.That
 
         #region Object
         /// <summary>
@@ -2761,722 +3499,7 @@ namespace NUnit.Framework
         }
         #endregion
 
-		#region GreaterOrEqual
-
-		#region Ints
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown. 
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void GreaterOrEqual(int arg1,
-		    int arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void GreaterOrEqual(int arg1, int arg2, string message)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		static public void GreaterOrEqual(int arg1, int arg2)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region UInts
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		[CLSCompliant(false)]
-		static public void GreaterOrEqual(uint arg1,
-			uint arg2, string message, params object[] args)
-		{
-			Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		[CLSCompliant(false)]
-		static public void GreaterOrEqual(uint arg1, uint arg2, string message)
-		{
-			Assert.GreaterOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater or equal to than the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		[CLSCompliant(false)]
-		static public void GreaterOrEqual(uint arg1, uint arg2)
-		{
-			Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region Longs
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void GreaterOrEqual(long arg1,
-			long arg2, string message, params object[] args)
-		{
-			Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void GreaterOrEqual(long arg1, long arg2, string message)
-		{
-			Assert.GreaterOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater or equal to than the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		static public void GreaterOrEqual(long arg1, long arg2)
-		{
-			Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region ULongs
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		[CLSCompliant(false)]
-		static public void GreaterOrEqual(ulong arg1,
-			ulong arg2, string message, params object[] args)
-		{
-			Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		[CLSCompliant(false)]
-		static public void GreaterOrEqual(ulong arg1, ulong arg2, string message)
-		{
-			Assert.GreaterOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater or equal to than the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		[CLSCompliant(false)]
-		static public void GreaterOrEqual(ulong arg1, ulong arg2)
-		{
-			Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region Decimals
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void GreaterOrEqual(decimal arg1,
-		    decimal arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void GreaterOrEqual(decimal arg1, decimal arg2, string message)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		static public void GreaterOrEqual(decimal arg1, decimal arg2)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region Doubles
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void GreaterOrEqual(double arg1,
-		    double arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void GreaterOrEqual(double arg1,
-		    double arg2, string message)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		static public void GreaterOrEqual(double arg1, double arg2)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region Floats
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void GreaterOrEqual(float arg1,
-		    float arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void GreaterOrEqual(float arg1, float arg2, string message)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater than or equal to the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		static public void GreaterOrEqual(float arg1, float arg2)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region IComparables
-
-		/// <summary>
-		/// Verifies that the first value is greater than the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void GreaterOrEqual(IComparable arg1,
-		    IComparable arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is greater than the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void GreaterOrEqual(IComparable arg1, IComparable arg2, string message)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is greater than the second
-		/// value. If they are not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be greater</param>
-		/// <param name="arg2">The second value, expected to be less</param>
-		static public void GreaterOrEqual(IComparable arg1, IComparable arg2)
-		{
-		    Assert.GreaterOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#endregion
-
-		#region LessOrEqual
-
-		#region Ints
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void LessOrEqual(int arg1, int arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void LessOrEqual(int arg1, int arg2, string message)
-		{
-		    Assert.LessOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		static public void LessOrEqual(int arg1, int arg2)
-		{
-		    Assert.LessOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region UInts
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		[CLSCompliant(false)]
-		static public void LessOrEqual(uint arg1, uint arg2, string message, params object[] args)
-		{
-			Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		[CLSCompliant(false)]
-		static public void LessOrEqual(uint arg1, uint arg2, string message)
-		{
-			Assert.LessOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		[CLSCompliant(false)]
-		static public void LessOrEqual(uint arg1, uint arg2)
-		{
-			Assert.LessOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region Longs
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void LessOrEqual(long arg1, long arg2, string message, params object[] args)
-		{
-			Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void LessOrEqual(long arg1, long arg2, string message)
-		{
-			Assert.LessOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		static public void LessOrEqual(long arg1, long arg2)
-		{
-			Assert.LessOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region ULongs
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		[CLSCompliant(false)]
-		static public void LessOrEqual(ulong arg1, ulong arg2, string message, params object[] args)
-		{
-			Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		[CLSCompliant(false)]
-		static public void LessOrEqual(ulong arg1, ulong arg2, string message)
-		{
-			Assert.LessOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		[CLSCompliant(false)]
-		static public void LessOrEqual(ulong arg1, ulong arg2)
-		{
-			Assert.LessOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region Decimals
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void LessOrEqual(decimal arg1, decimal arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void LessOrEqual(decimal arg1, decimal arg2, string message)
-		{
-		    Assert.LessOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		static public void LessOrEqual(decimal arg1, decimal arg2)
-		{
-		    Assert.LessOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region Doubles
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void LessOrEqual(double arg1, double arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void LessOrEqual(double arg1, double arg2, string message)
-		{
-		    Assert.LessOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		static public void LessOrEqual(double arg1, double arg2)
-		{
-		    Assert.LessOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region Floats
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void LessOrEqual(float arg1, float arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void LessOrEqual(float arg1, float arg2, string message)
-		{
-		    Assert.LessOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		static public void LessOrEqual(float arg1, float arg2)
-		{
-		    Assert.LessOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-		#region IComparables
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-        /// <param name="message">The message that will be displayed on failure</param>
-        /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void LessOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
-		{
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
-        }
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		/// <param name="message">The message that will be displayed on failure</param>
-		static public void LessOrEqual(IComparable arg1, IComparable arg2, string message)
-		{
-		    Assert.LessOrEqual(arg1, arg2, message, null);
-		}
-
-		/// <summary>
-		/// Verifies that the first value is less than or equal to the second
-		/// value. If it is not, then an 
-		/// <see cref="AssertionException"/> is thrown.
-		/// </summary>
-		/// <param name="arg1">The first value, expected to be less</param>
-		/// <param name="arg2">The second value, expected to be greater</param>
-		static public void LessOrEqual(IComparable arg1, IComparable arg2)
-		{
-		    Assert.LessOrEqual(arg1, arg2, string.Empty, null);
-		}
-
-		#endregion
-
-        #endregion
+        #region Throws and DoesNotThrow
 
         #region Throws
         /// <summary>
@@ -3595,6 +3618,8 @@ namespace NUnit.Framework
         {
             DoesNotThrow(code, string.Empty, null);
         }
+
+        #endregion
 
         #endregion
     }
