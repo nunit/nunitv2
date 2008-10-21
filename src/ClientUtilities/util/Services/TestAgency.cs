@@ -59,30 +59,6 @@ namespace NUnit.Util
 		public TestAgency( string uri, int port ) : base( uri, port ) { }
 		#endregion
 
-		#region Static Property - TestAgentExePath
-		public static string TestAgentExePath
-		{
-			get { return Path.Combine( NUnitConfiguration.NUnitDirectory, "nunit-agent.exe" ); }
-            //{
-            //    string agentPath = "nunit-agent.exe";
-
-            //    if (!File.Exists(agentPath))
-            //    {
-            //        DirectoryInfo dir = new DirectoryInfo(Environment.CurrentDirectory);
-            //        if (dir.Parent.Name == "bin")
-            //            dir = dir.Parent.Parent.Parent.Parent;
-
-            //        string path = PathUtils.Combine(dir.FullName, "NUnitTestServer", "nunit-agent-exe",
-            //            "bin", NUnitConfiguration.BuildConfiguration, "nunit-agent.exe");
-            //        if (File.Exists(path))
-            //            agentPath = path;
-            //    }
-
-            //    return agentPath;
-            //}
-		}
-		#endregion
-
 		#region ServerBase Overrides
 		public override void Stop()
 		{
@@ -91,9 +67,13 @@ namespace NUnit.Util
 				if ( !r.Process.HasExited )
 				{
 					if ( r.Agent != null )
+					{
 						r.Agent.Stop();
+						r.Process.WaitForExit(10000);
+					}
 
-					//r.Process.Kill();
+					if ( !r.Process.HasExited )
+						r.Process.Kill();
 				}
 			}
 
@@ -104,20 +84,24 @@ namespace NUnit.Util
 		#endregion
 
 		#region Public Methods - Called by Agents
-		public void Register( RemoteTestAgent agent, int pid )
+		public void Register( RemoteTestAgent agent, Guid agentId )
 		{
-			AgentRecord r = agentData[pid];
+			AgentRecord r = agentData[agentId];
 			if ( r == null )
-				throw new ArgumentException( "Specified process is not in the agency database", "pid" );
-			r.Agent = agent;
+                throw new ArgumentException(
+                    string.Format("Agent {0} is not in the agency database", agentId),
+                    "agentId");
+            r.Agent = agent;
 		}
 
-		public void ReportStatus( int pid, AgentStatus status )
+		public void ReportStatus( Guid agentId, AgentStatus status )
 		{
-			AgentRecord r = agentData[pid];
+			AgentRecord r = agentData[agentId];
 
 			if ( r == null )
-				throw new ArgumentException( "Specified process is not in the agency database", "pid" );
+                throw new ArgumentException(
+                    string.Format("Agent {0} is not in the agency database", agentId),
+                    "agentId" );
 
 			r.Status = status;
 		}
@@ -155,7 +139,7 @@ namespace NUnit.Util
             //    r = CreateRemoteAgent(type, framework, waitTime);
             AgentRecord r = CreateRemoteAgent(type, framework, waitTime);
 
-			return new TestAgent( this, r.Process.Id, r.Agent );
+			return new TestAgent( this, r.Id, r.Agent );
 		}
 
 		public void ReleaseAgent( TestAgent agent )
@@ -177,15 +161,15 @@ namespace NUnit.Util
 			{
 				if( !r.Process.HasExited )
 					r.Agent.Stop();
-				agentData[r.Process.Id] = null;
+				agentData[r.Id] = null;
 			}
 		}
 		#endregion
 
 		#region Helper Methods
-		private int LaunchAgentProcess(RuntimeFramework targetRuntime)
+		private Guid LaunchAgentProcess(RuntimeFramework targetRuntime)
 		{
-            string agentExePath = TestAgentExePath;
+            string agentExePath = NUnitConfiguration.TestAgentExePath;
 
             // TODO: Replace adhoc code
             if (targetRuntime.Version.Major == 1 && RuntimeFramework.CurrentFramework.Version.Major == 2)
@@ -203,26 +187,38 @@ namespace NUnit.Util
                     .Replace("vs2003", "vs2008");
             }
 
-			//ProcessStartInfo startInfo = new ProcessStartInfo( TestAgentExePath, ServerUtilities.MakeUrl( this.uri, this.port ) );
-			//startInfo.CreateNoWindow = true;
 			Process p = new Process();
-			if ( targetRuntime.Runtime == RuntimeType.Mono )
-			{
-                // TODO: Replace hard-coded path
-				p.StartInfo.FileName = @"C:\Program Files\Mono-2.0\bin\mono.exe";
-				p.StartInfo.Arguments = agentExePath + " " + ServerUtilities.MakeUrl( this.uri, this.port );
-			}
-			else
-			{
-				p.StartInfo.FileName = agentExePath;
-				p.StartInfo.Arguments = ServerUtilities.MakeUrl( this.uri, this.port );
+			p.StartInfo.UseShellExecute = false;
+            Guid agentId = Guid.NewGuid();
+            string arglist = agentId.ToString() + " " + ServerUtilities.MakeUrl(this.uri, this.port);
+
+            switch( targetRuntime.Name )
+            {
+                case "mono-1.0":
+                case "mono-2.0":
+                    // TODO: Replace hard-coded path
+				    p.StartInfo.FileName = @"C:\Program Files\Mono-2.0\bin\mono.exe";
+				    p.StartInfo.Arguments = agentExePath + " " + arglist;
+                    break;
+                case "net-1.0":
+                    p.StartInfo.FileName = agentExePath;
+					p.StartInfo.EnvironmentVariables["COMPLUS_Version"]="v1.0.3705";
+                    p.StartInfo.Arguments = arglist;
+                    break;
+                case "net-1.1":
+                case "net-2.0":
+                default:
+				    p.StartInfo.FileName = agentExePath;
+                    p.StartInfo.Arguments = arglist;
+                    break;
 			}
 			
 			//NTrace.Debug( "Launching {0}" p.StartInfo.FileName );
-			p.Start();
             p.Exited += new EventHandler(OnProcessExit);
-			agentData.Add( new AgentRecord( p.Id, p, null, AgentStatus.Starting ) );
-			return p.Id;
+            p.Start();
+
+			agentData.Add( new AgentRecord( agentId, p, null, AgentStatus.Starting ) );
+		    return agentId;
 		}
 
         private void OnProcessExit(object sender, EventArgs e)
@@ -247,9 +243,9 @@ namespace NUnit.Util
 
 		private AgentRecord CreateRemoteAgent(AgentType type, RuntimeFramework framework, int waitTime)
 		{
-			int pid = LaunchAgentProcess(framework);
+            Guid agentId = LaunchAgentProcess(framework);
 
-			NTrace.DebugFormat( "Waiting for agent {0} to register", pid );
+			NTrace.DebugFormat( "Waiting for agent {0} to register", agentId );
 
             int pollTime = 200;
             bool infinite = waitTime == Timeout.Infinite;
@@ -258,10 +254,10 @@ namespace NUnit.Util
 			{
 				Thread.Sleep( pollTime );
 				if ( !infinite ) waitTime -= pollTime;
-				if ( agentData[pid].Agent != null )
+				if ( agentData[agentId].Agent != null )
 				{
-					NTrace.DebugFormat( "Returning new agent record {0}", pid ); 
-					return agentData[pid];
+					NTrace.DebugFormat( "Returning new agent record {0}", agentId ); 
+					return agentData[agentId];
 				}
 			}
 
@@ -286,12 +282,12 @@ namespace NUnit.Util
 		#region Nested Class - AgentRecord
 		private class AgentRecord
 		{
-			public int Id;
+			public Guid Id;
 			public Process Process;
 			public RemoteTestAgent Agent;
 			public AgentStatus Status;
 
-			public AgentRecord( int id, Process p, RemoteTestAgent a, AgentStatus s )
+			public AgentRecord( Guid id, Process p, RemoteTestAgent a, AgentStatus s )
 			{
 				this.Id = id;
 				this.Process = p;
@@ -311,7 +307,7 @@ namespace NUnit.Util
 		{
 			private ListDictionary agentData = new ListDictionary();
 
-			public AgentRecord this[int id]
+			public AgentRecord this[Guid id]
 			{
 				get { return (AgentRecord)agentData[id]; }
 				set

@@ -19,7 +19,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// This agent's assigned id
 		/// </summary>
-		private int agentId;
+		private Guid agentId;
 
 		/// <summary>
 		/// Reference to the remote agent
@@ -28,7 +28,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region Constructor
-		public TestAgent( TestAgency agency, int agentId, RemoteTestAgent remoteAgent )
+		public TestAgent( TestAgency agency, Guid agentId, RemoteTestAgent remoteAgent )
 		{
 			this.agency = agency;
 			this.agentId = agentId;
@@ -42,7 +42,7 @@ namespace NUnit.Util
 			get { return agency; }
 		}
 
-		public int Id
+		public Guid Id
 		{
 			get { return agentId; }
 		}

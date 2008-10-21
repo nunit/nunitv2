@@ -59,7 +59,7 @@ namespace NUnit.Util.Tests
         public void CanReuseReleasedAgents()
         {
             TestAgent agent1 = agency.GetAgent(AgentType.ProcessAgent, 20000);
-            int id1 = agent1.Id;
+            Guid id1 = agent1.Id;
             agency.ReleaseAgent(agent1);
             TestAgent agent2 = agency.GetAgent(AgentType.ProcessAgent, 20000);
             Assert.AreEqual(id1, agent2.Id);

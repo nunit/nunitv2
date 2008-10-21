@@ -10,14 +10,14 @@ namespace NUnit.Util.Tests
         [Test]
         public void AgentReturnsProcessId()
         {
-            RemoteTestAgent agent = new RemoteTestAgent("dummy");
+            RemoteTestAgent agent = new RemoteTestAgent(Guid.NewGuid(), "dummy");
             Assert.AreEqual(Process.GetCurrentProcess().Id, agent.ProcessId);
         }
 
         [Test]
         public void CanLocateAgentExecutable()
         {
-            string path = TestAgency.TestAgentExePath;
+            string path = NUnit.Core.NUnitConfiguration.TestAgentExePath;
             Assert.That(System.IO.File.Exists(path), "Cannot find " + path);
         }
     }

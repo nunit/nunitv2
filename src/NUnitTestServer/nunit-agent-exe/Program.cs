@@ -10,12 +10,18 @@ namespace NUnit.Agent
 	/// </summary>
 	public class NUnitTestAgent
 	{
+        static Guid AgentId;
+        static string AgencyUrl;
+
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
 		[STAThread]
 		public static int Main(string[] args)
 		{
+            AgentId = new Guid(args[0]);
+            AgencyUrl = args[1];
+
             //System.Diagnostics.Debug.Assert(false);
 			// Add Standard Services to ServiceManager
 			ServiceManager.Services.AddService( new SettingsService(false) );
@@ -29,20 +35,20 @@ namespace NUnit.Agent
 			// Initialize Services
 			ServiceManager.Services.InitializeServices();
 
-			RemoteTestAgent agent = new RemoteTestAgent(args[0]);
+			RemoteTestAgent agent = new RemoteTestAgent(AgentId, AgencyUrl);
 
 			try
 			{
 				if ( agent.Start() )
-				    agent.WaitForStop();
+					agent.WaitForStop();
 			}
 			finally
 			{
 				ServiceManager.Services.StopAllServices();
 			}
 
-            //Console.WriteLine("Press Enter to Terminate");
-            //Console.ReadLine();
+//            Console.WriteLine("Press Enter to Terminate");
+//            Console.ReadLine();
 			return 0;
 		}
 	}

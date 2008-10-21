@@ -18,6 +18,11 @@ namespace NUnit.Util
 	public class RemoteTestAgent : MarshalByRefObject, IDisposable
 	{
 		#region Fields
+        /// <summary>
+        /// The identifying Id for this agent
+        /// </summary>
+        Guid agentId;
+
 		/// <summary>
 		/// Url of the agency that controls this agent
 		/// </summary>
@@ -46,8 +51,9 @@ namespace NUnit.Util
 		/// Construct a RemoteTestAgent given the Url of its agency
 		/// </summary>
 		/// <param name="agencyUrl"></param>
-		public RemoteTestAgent( string agencyUrl )
+		public RemoteTestAgent( Guid agentId, string agencyUrl )
 		{
+            this.agentId = agentId;
 			this.agencyUrl = agencyUrl;
 		}
 		#endregion
@@ -92,7 +98,7 @@ namespace NUnit.Util
 
 			try
 			{
-				this.agency.Register( this, ProcessId );
+				this.agency.Register( this, agentId );
 				NTrace.Debug( "Registered with TestAgency" );
 			}
 			catch( Exception ex )
