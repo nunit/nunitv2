@@ -27,9 +27,8 @@ namespace NUnit.Util
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if ( processModel == ProcessModel.Default )
-                if (runtimeFramework.Runtime != currentFramework.Runtime ||
-                    runtimeFramework.Version.ToString(3) != currentFramework.Version.ToString(3))
-                        processModel = ProcessModel.Separate;
+                if (runtimeFramework.Name != currentFramework.Name )
+                    processModel = ProcessModel.Separate;
 
             switch (processModel)
             {
