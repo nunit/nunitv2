@@ -142,8 +142,15 @@ namespace NUnit.Framework.Constraints
     #endregion
 
     #region Collection Operators
+    /// <summary>
+    /// Abstract base for operators that indicate how to
+    /// apply a constraint to items in a collection.
+    /// </summary>
     public abstract class CollectionOperator : PrefixOperator
     {
+        /// <summary>
+        /// Constructs a CollectionOperator
+        /// </summary>
         public CollectionOperator()
         {
             // Collection Operators stack on everything
@@ -153,24 +160,51 @@ namespace NUnit.Framework.Constraints
         }
     }
 
+    /// <summary>
+    /// Represents a constraint that succeeds if all the 
+    /// members of a collection match a base constraint.
+    /// </summary>
     public class AllOperator : CollectionOperator
     {
+        /// <summary>
+        /// Returns a constraint that will apply the argument
+        /// to the members of a collection, succeeding if
+        /// they all succeed.
+        /// </summary>
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new AllItemsConstraint(constraint);
         }
     }
 
+    /// <summary>
+    /// Represents a constraint that succeeds if any of the 
+    /// members of a collection match a base constraint.
+    /// </summary>
     public class SomeOperator : CollectionOperator
     {
+        /// <summary>
+        /// Returns a constraint that will apply the argument
+        /// to the members of a collection, succeeding if
+        /// any of them succeed.
+        /// </summary>
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new SomeItemsConstraint(constraint);
         }
     }
 
+    /// <summary>
+    /// Represents a constraint that succeeds if none of the 
+    /// members of a collection match a base constraint.
+    /// </summary>
     public class NoneOperator : CollectionOperator
     {
+        /// <summary>
+        /// Returns a constraint that will apply the argument
+        /// to the members of a collection, succeeding if
+        /// none of them succeed.
+        /// </summary>
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new NoItemConstraint(constraint);
@@ -179,14 +213,26 @@ namespace NUnit.Framework.Constraints
     #endregion
 
     #region WithOperator
+    /// <summary>
+    /// Represents a constraint that simply wraps the
+    /// constraint provided as an argument, without any
+    /// further functionality, but which modifes the
+    /// order of evaluation because of its precedence.
+    /// </summary>
     public class WithOperator : PrefixOperator
     {
+        /// <summary>
+        /// Constructor for the WithOperator
+        /// </summary>
         public WithOperator()
         {
             this.left_precedence = 1;
             this.right_precedence = 4;
         }
 
+        /// <summary>
+        /// Returns a constraint that wraps its argument
+        /// </summary>
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return constraint;
@@ -198,9 +244,8 @@ namespace NUnit.Framework.Constraints
 
     #region SelfResolvingOperator
     /// <summary>
-    /// SelfResolvingOperator is an abstract class used as a marker
-    /// for derived operators that are able to reduce to a constraint
-    /// whether or not another syntactic element follows.
+    /// Abstract base class for operators that are able to reduce to a 
+    /// constraint whether or not another syntactic element follows.
     /// </summary>
     public abstract class SelfResolvingOperator : ConstraintOperator
     {
@@ -209,16 +254,25 @@ namespace NUnit.Framework.Constraints
 
     #region PropOperator
     /// <summary>
-    /// PropOperator
+    /// Operator used to test for the presence of a named Property
+    /// on an object and optionally apply further tests to the
+    /// value of that property.
     /// </summary>
     public class PropOperator : SelfResolvingOperator
     {
         private string name;
+
+        /// <summary>
+        /// Gets the name of the property to which the operator applies
+        /// </summary>
         public string Name
         {
             get { return name; }
         }
 
+        /// <summary>
+        /// Constructs a PropOperator for a particular named property
+        /// </summary>
         public PropOperator(string name)
         {
             this.name = name;
@@ -246,12 +300,17 @@ namespace NUnit.Framework.Constraints
 
     #region AttributeOperator
     /// <summary>
-    /// AttributeOperator
+    /// Operator that tests for the presence of a particular attribute
+    /// on a type and optionally applies further tests to the attribute.
     /// </summary>
     public class AttributeOperator : SelfResolvingOperator
     {
         private Type type;
 
+        /// <summary>
+        /// Construct an AttributeOperator for a particular Type
+        /// </summary>
+        /// <param name="type">The Type of attribute tested</param>
         public AttributeOperator(Type type)
         {
             this.type = type;
@@ -266,7 +325,6 @@ namespace NUnit.Framework.Constraints
         /// any arguments. It takes the arguments from the constraint 
         /// stack and pushes the resulting constraint on it.
         /// </summary>
-        /// <param name="stack"></param>
         public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
             if (RightContext == null || RightContext is BinaryOperator)
@@ -278,8 +336,15 @@ namespace NUnit.Framework.Constraints
     #endregion
 
     #region ThrowsOperator
+    /// <summary>
+    /// Operator that tests that an exception is thrown and
+    /// optionally applies further tests to the exception.
+    /// </summary>
     public class ThrowsOperator : SelfResolvingOperator
     {
+        /// <summary>
+        /// Construct a ThrowsOperator
+        /// </summary>
         public ThrowsOperator()
         {
             // ThrowsOperator stacks on everything but
@@ -289,6 +354,11 @@ namespace NUnit.Framework.Constraints
             this.right_precedence = 100;
         }
 
+        /// <summary>
+        /// Reduce produces a constraint from the operator and 
+        /// any arguments. It takes the arguments from the constraint 
+        /// stack and pushes the resulting constraint on it.
+        /// </summary>
         public override void Reduce(ConstraintBuilder.ConstraintStack stack)
         {
             if (RightContext == null || RightContext is BinaryOperator)
@@ -306,6 +376,9 @@ namespace NUnit.Framework.Constraints
     #region Binary Operators
 
     #region BinaryOperator
+    /// <summary>
+    /// Abstract base class for all binary operators
+    /// </summary>
     public abstract class BinaryOperator : ConstraintOperator
     {
         /// <summary>
@@ -321,6 +394,9 @@ namespace NUnit.Framework.Constraints
             stack.Push(ApplyOperator(left, right));
         }
 
+        /// <summary>
+        /// Gets the left precedence of the operator
+        /// </summary>
         public override int LeftPrecedence
         {
             get
@@ -331,6 +407,9 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Gets the right precedence of the operator
+        /// </summary>
         public override int RightPrecedence
         {
             get
@@ -341,18 +420,31 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Abstract method that produces a constraint by applying
+        /// the operator to its left and right constraint arguments.
+        /// </summary>
         public abstract Constraint ApplyOperator(Constraint left, Constraint right);
     }
     #endregion
 
     #region AndOperator
+    /// <summary>
+    /// Operator that requires both it's arguments to succeed
+    /// </summary>
     public class AndOperator : BinaryOperator
     {
+        /// <summary>
+        /// Construct an AndOperator
+        /// </summary>
         public AndOperator()
         {
             this.left_precedence = this.right_precedence = 2;
         }
 
+        /// <summary>
+        /// Apply the operator to produce an AndConstraint
+        /// </summary>
         public override Constraint ApplyOperator(Constraint left, Constraint right)
         {
             return new AndConstraint(left, right);
@@ -361,13 +453,22 @@ namespace NUnit.Framework.Constraints
     #endregion
 
     #region OrOperator
+    /// <summary>
+    /// Operator that requires at least one of it's arguments to succeed
+    /// </summary>
     public class OrOperator : BinaryOperator
     {
+        /// <summary>
+        /// Construct an OrOperator
+        /// </summary>
         public OrOperator()
         {
             this.left_precedence = this.right_precedence = 3;
         }
 
+        /// <summary>
+        /// Apply the operator to produce an OrConstraint
+        /// </summary>
         public override Constraint ApplyOperator(Constraint left, Constraint right)
         {
             return new OrConstraint(left, right);
