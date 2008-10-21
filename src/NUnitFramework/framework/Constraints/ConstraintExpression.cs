@@ -465,7 +465,7 @@ namespace NUnit.Framework.Constraints
         /// constraint, depending on the type of the actual argument. 
         /// This overload is only used if the item sought is a string,
         /// since any other type implies that we are looking for a 
-        //// collection member.
+        /// collection member.
         /// </summary>
         public ContainsConstraint Contains(string expected)
         {
