@@ -288,9 +288,6 @@ namespace NUnit.Util
 		{
 			get { return configs; }
 		}
-
-		public event ProjectEventHandler Changed;
-
 		#endregion
 
         #region Static Methods
