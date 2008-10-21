@@ -105,13 +105,25 @@ namespace NUnit.Framework.Constraints
             stack.Push(ApplyPrefix(stack.Pop()));
         }
 
+        /// <summary>
+        /// Returns the constraint created by applying this
+        /// prefix to another constraint.
+        /// </summary>
+        /// <param name="constraint"></param>
+        /// <returns></returns>
         public abstract Constraint ApplyPrefix(Constraint constraint);
     }
     #endregion
 
     #region NotOperator
+    /// <summary>
+    /// Negates the test of the constraint it wraps.
+    /// </summary>
     public class NotOperator : PrefixOperator
     {
+        /// <summary>
+        /// Constructs a new NotOperator
+        /// </summary>
         public NotOperator()
         {
             // Not stacks on anything and only allows other
@@ -119,6 +131,9 @@ namespace NUnit.Framework.Constraints
             this.left_precedence = this.right_precedence = 1;
         }
 
+        /// <summary>
+        /// Returns a NotConstraint applied to its argument.
+        /// </summary>
         public override Constraint ApplyPrefix(Constraint constraint)
         {
             return new NotConstraint(constraint);

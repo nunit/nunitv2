@@ -299,13 +299,18 @@ namespace NUnit.Framework.Constraints
         }
 
         /// <summary>
-        /// With is equivalent to And after a Constraint
+        /// Returns a ConstraintExpression by appending And
+        /// to the current constraint.
         /// </summary>
         public ConstraintExpression With
         {
             get { return this.And; }
         }
 
+        /// <summary>
+        /// Returns a ConstraintExpression by appending Or
+        /// to the current constraint.
+        /// </summary>
         public ConstraintExpression Or
         {
             get
@@ -325,6 +330,11 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region After Modifier
+        /// <summary>
+        /// Returns an AfterConstraint with the specified delay time.
+        /// </summary>
+        /// <param name="delayInMilliseconds">The delay in milliseconds.</param>
+        /// <returns></returns>
         public AfterConstraint After(int delayInMilliseconds)
         {
             return new AfterConstraint(
@@ -332,6 +342,13 @@ namespace NUnit.Framework.Constraints
                 delayInMilliseconds);
         }
 
+        /// <summary>
+        /// Returns an AfterConstraint with the specified delay time
+        /// and polling interval.
+        /// </summary>
+        /// <param name="delayInMilliseconds">The delay in milliseconds.</param>
+        /// <param name="pollingInterval">The interval at which to test the constraint.</param>
+        /// <returns></returns>
         public AfterConstraint After(int delayInMilliseconds, int pollingInterval)
         {
             return new AfterConstraint(
