@@ -10,6 +10,7 @@ using System.Text;
 using System.Collections;
 
 using NUnit.Framework;
+using NUnit.Core;
 using NUnit.TestData.ConsoleRunnerTest;
 using NUnit.Tests.Assemblies;
 
