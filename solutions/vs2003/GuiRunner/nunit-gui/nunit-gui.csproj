@@ -223,7 +223,7 @@
                 <File
                     RelPath = "TestAssemblyInfoForm.cs"
                     Link = "..\..\..\..\src\GuiRunner\nunit-gui\TestAssemblyInfoForm.cs"
-                    SubType = "Code"
+                    SubType = "Form"
                     BuildAction = "Compile"
                 />
                 <File
