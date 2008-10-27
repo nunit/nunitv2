@@ -1,5 +1,5 @@
 using System;
-using NUnit.Framework.Constraints;
+//using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework.Tests
 {
@@ -18,8 +18,11 @@ namespace NUnit.Framework.Tests
                 delegate { throw new ArgumentException(); });
             Assert.Throws<ArgumentException>(TestDelegates.ThrowsArgumentException);
 
-            Assert.That(delegate { throw new ArgumentException(); },
+            // Without cast, delegate is ambiguous before C# 3.0.
+            Assert.That((TestDelegate)delegate { throw new ArgumentException(); },
                     Throws.Exception.TypeOf<ArgumentException>() );
+            Assert.Throws( Is.TypeOf(typeof(ArgumentException)),
+                    delegate { throw new ArgumentException(); } );
 #else
 			Assert.Throws(typeof(ArgumentException),
 				new TestDelegate( TestDelegates.ThrowsArgumentException ) );
