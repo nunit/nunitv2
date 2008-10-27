@@ -40,11 +40,11 @@ namespace NUnit.Core
         private static RuntimeFramework currentFramework;
 
 		/// <summary>
-		/// Constructor
+		/// Construct from a runtime type and version
 		/// </summary>
 		/// <param name="runtime">The runtime type of the framework</param>
 		/// <param name="version">The version of the framework</param>
-		public RuntimeFramework( RuntimeType runtime, Version version )
+		public RuntimeFramework( RuntimeType runtime, Version version)
 		{
 			this.runtime = runtime;
 			this.version = version;
@@ -53,9 +53,18 @@ namespace NUnit.Core
 				version.ToString(2));
 			if ( name == "mono-1.1" )
 				name = "mono-1.0";
-			this.displayName = GetDisplayName();
-		}
+            this.displayName = DefaultDisplayName(runtime, version);
+        }
 
+        private static string DefaultDisplayName(RuntimeType runtime, Version version)
+        {
+            return runtime.ToString() + " " + version.ToString();
+        }
+
+        /// <summary>
+        /// Construct from a short name
+        /// </summary>
+        /// <param name="framework"></param>
         public RuntimeFramework(string framework)
         {
 			this.name = framework;
@@ -85,13 +94,22 @@ namespace NUnit.Core
 				default:
                     throw new InvalidOperationException("Unsupported runtime: " + framework);
             }
+
+            this.displayName = DefaultDisplayName(runtime, version);
         }
 
+        /// <summary>
+        /// Returns the short name of this framework
+        /// </summary>
 		public string Name
 		{
 			get { return name; }
 		}
 
+        /// <summary>
+        /// Overridden to return the short name of the framework
+        /// </summary>
+        /// <returns></returns>
 		public override string ToString()
 		{
 			return name;
@@ -108,10 +126,20 @@ namespace NUnit.Core
 			{
                 if (currentFramework == null)
                 {
-                    RuntimeType runtime = Type.GetType("Mono.Runtime", false) != null
+                    Type monoRuntimeType = Type.GetType("Mono.Runtime", false);
+                    RuntimeType runtime = monoRuntimeType != null
                         ? RuntimeType.Mono : RuntimeType.Net;
 
-                    currentFramework = new RuntimeFramework(runtime, Environment.Version);
+                    if (monoRuntimeType != null)
+                    {
+                        currentFramework = new RuntimeFramework(RuntimeType.Mono, Environment.Version);
+                        MethodInfo getDisplayNameMethod = monoRuntimeType.GetMethod(
+                            "GetDisplayName", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.ExactBinding);
+                        if (getDisplayNameMethod != null)
+                            currentFramework.displayName = (string)getDisplayNameMethod.Invoke(null, new object[0]);
+                    }
+                    else
+                        currentFramework = new RuntimeFramework(runtime, Environment.Version);
                 }
 
                 return currentFramework;
@@ -134,27 +162,12 @@ namespace NUnit.Core
 			get { return version; }
 		}
 
+        /// <summary>
+        /// Returns the Display name for this framework
+        /// </summary>
 		public string DisplayName
 		{
 			get { return displayName; }
-		}
-
-		/// <summary>
-		/// Gets a display string for the particular framework version
-		/// </summary>
-		/// <returns>A string used to display the framework in use</returns>
-		private string GetDisplayName()
-		{
-			if ( runtime == RuntimeType.Mono )
-			{
-				Type monoRuntimeType = Type.GetType( "Mono.Runtime", false );
-				MethodInfo getDisplayNameMethod = monoRuntimeType.GetMethod(
-					"GetDisplayName", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.ExactBinding );
-				if ( getDisplayNameMethod != null )
-					return (string)getDisplayNameMethod.Invoke( null, new object[0] );
-			}
-
-			return runtime.ToString() + " " + Version.ToString();
 		}
 	}
 }
