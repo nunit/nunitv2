@@ -106,5 +106,21 @@ namespace NUnit.Core.Extensibility
 			set { message = value; }
 		}
 		#endregion
-	}
+
+        #region Object Overrides
+        public override bool Equals(object obj)
+        {
+            Addin addin = obj as Addin;
+            if (addin == null)
+                return false;
+
+            return this.typeName.Equals(addin.typeName);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.typeName.GetHashCode();
+        }
+        #endregion
+    }
 }
