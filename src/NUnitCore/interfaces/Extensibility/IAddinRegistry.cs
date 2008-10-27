@@ -25,6 +25,13 @@ namespace NUnit.Core.Extensibility
 		/// <param name="addin">The addin to be registered</param>
 		void Register( Addin addin );
 
+        /// <summary>
+        /// Returns true if an addin of a given name is registered
+        /// </summary>
+        /// <param name="name">The name of the addin</param>
+        /// <returns>True if an addin of that name is registered, otherwise false</returns>
+        bool IsAddinRegistered(string name);
+
 		/// <summary>
 		///  Sets the load status of an addin
 		/// </summary>
