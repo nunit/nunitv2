@@ -47,7 +47,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            IComparer comparer = new Comparer(System.Globalization.CultureInfo.CurrentCulture);
+            IComparer comparer = Comparer.Default;
             parseTree = "<ordered System.Collections.Comparer>";
             staticSyntax = Is.Ordered(comparer);
             inheritedSyntax = Helper().Ordered(comparer);
@@ -60,7 +60,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            IComparer comparer = new Comparer(System.Globalization.CultureInfo.CurrentCulture);
+            IComparer comparer = Comparer.Default;
             parseTree = "<ordered System.Collections.Comparer>";
             staticSyntax = Is.Ordered(comparer).Descending;
             inheritedSyntax = Helper().Ordered(comparer).Descending;
