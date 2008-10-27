@@ -106,9 +106,9 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			this.label3.Location = new System.Drawing.Point(16, 8);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(113, 18);
+			this.label3.Size = new System.Drawing.Size(165, 18);
 			this.label3.TabIndex = 35;
-			this.label3.Text = "Process Model";
+			this.label3.Text = "Default Process Model";
 			// 
 			// groupBox3
 			// 
@@ -153,9 +153,9 @@ namespace NUnit.Gui.SettingsPages
 			// 
 			this.label2.Location = new System.Drawing.Point(16, 128);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(104, 18);
+			this.label2.Size = new System.Drawing.Size(156, 18);
 			this.label2.TabIndex = 40;
-			this.label2.Text = "Domain Usage";
+			this.label2.Text = "Default Domain Usage";
 			// 
 			// groupBox2
 			// 
