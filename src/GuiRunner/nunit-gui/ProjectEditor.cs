@@ -1006,6 +1006,8 @@ namespace NUnit.Gui
 			projectBaseTextBox.Text = project.BasePath;
 
 			this.ProcessModel = project.ProcessModel;
+            populateDomainUsageComboBox();
+
             this.DomainUsage = project.DomainUsage;
 
             this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged);
@@ -1112,7 +1114,11 @@ namespace NUnit.Gui
         private void processModelComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
             project.ProcessModel = this.ProcessModel;
-            
+            populateDomainUsageComboBox();
+        }
+
+        private void populateDomainUsageComboBox()
+        {
             domainUsageComboBox.Items.Clear();
             domainUsageComboBox.Items.Add("Default");
             //domainUsageComboBox.Items.Add("None");
