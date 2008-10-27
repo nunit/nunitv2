@@ -20,6 +20,8 @@ namespace NUnit.Util
 
 		private static ServiceManager defaultServiceManager = new ServiceManager();
 
+		static Logger log = InternalTrace.GetLogger(typeof(ServiceManager));
+
 		public static ServiceManager Services
 		{
 			get { return defaultServiceManager; }
@@ -28,7 +30,7 @@ namespace NUnit.Util
 		public void AddService( IService service )
 		{
 			services.Add( service );
-			NTrace.Debug( "Added " + service.GetType().Name );
+			log.Debug( "Added " + service.GetType().Name );
 		}
 
 		public IService GetService( Type serviceType )
@@ -47,9 +49,9 @@ namespace NUnit.Util
 				}
 
 			if ( theService == null )
-				NTrace.Error( string.Format( "Requested service {0} was not found", serviceType.FullName ) );
+				log.Error( string.Format( "Requested service {0} was not found", serviceType.FullName ) );
 			else
-				NTrace.Info( string.Format( "Request for service {0} satisfied by {1}", serviceType.Name, theService.GetType().Name ) );
+				log.Debug( string.Format( "Request for service {0} satisfied by {1}", serviceType.Name, theService.GetType().Name ) );
 			
 			return theService;
 		}
@@ -58,24 +60,41 @@ namespace NUnit.Util
 		{
 			foreach( IService service in services )
 			{
-				NTrace.Info( "Initializing " + service.GetType().Name );
-				service.InitializeService();
+				log.Info( "Initializing " + service.GetType().Name );
+                try
+                {
+                    service.InitializeService();
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Failed to initialize service", ex);
+                }
 			}
 		}
 
 		public void StopAllServices()
 		{
-            NTrace.Info("Stopping Services");
-
 			// Stop services in reverse of initialization order
 			// TODO: Deal with dependencies explicitly
 			int index = services.Count;
-			while( --index >= 0 )
-				((IService)services[index]).UnloadService();
+            while (--index >= 0)
+            {
+                IService service = services[index] as IService;
+                log.Info( "Stopping " + service.GetType().Name );
+                try
+                {
+                    service.UnloadService();
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Failure stopping service", ex);
+                }
+            }
 		}
 
 		public void ClearServices()
 		{
+            log.Info("Clearing Service list");
 			services.Clear();
 		}
 

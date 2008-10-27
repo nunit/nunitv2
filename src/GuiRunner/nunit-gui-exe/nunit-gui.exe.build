@@ -17,6 +17,7 @@
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit-gui-runner.dll"/>
+        <include name="nunit.core.dll"/>
       </references>
     </csc>
 
@@ -34,6 +35,7 @@
       </sources>
       <references basedir="${current.build.dir}">
         <include name="nunit-gui-runner.dll"/>
+        <include name="nunit.core.dll"/>
       </references>
     </csc>
 

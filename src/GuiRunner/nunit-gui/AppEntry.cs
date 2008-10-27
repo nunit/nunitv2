@@ -18,89 +18,111 @@ using NUnit.Core.Extensibility;
 
 namespace NUnit.Gui
 {
-	/// <summary>
-	/// Class to manage application startup.
-	/// </summary>
-	public class AppEntry
-	{
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		public static int Main(string[] args) 
-		{
-			NTrace.Info( "Starting NUnit GUI" );
+    /// <summary>
+    /// Class to manage application startup.
+    /// </summary>
+    public class AppEntry
+    {
+        static Logger log = InternalTrace.GetLogger(typeof(AppEntry));
 
-			GuiOptions guiOptions = new GuiOptions(args);
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        public static int Main(string[] args)
+        {
+            InternalTrace.Initialize("nunit-gui_%p.log");
 
-			GuiAttachedConsole attachedConsole = null;
-			if ( guiOptions.console )
-				attachedConsole = new GuiAttachedConsole();
+            log.Info("Starting NUnit GUI");
 
-			if( !guiOptions.Validate() || guiOptions.help) 
-			{
-				string message = guiOptions.GetHelpText();
-				UserMessage.DisplayFailure( message,"Help Syntax" );
-				return 2;
-			}
+            GuiOptions guiOptions = new GuiOptions(args);
 
-			if ( guiOptions.cleanup )
-			{
-				DomainManager.DeleteShadowCopyPath();
-				return 0;
-			}
+            GuiAttachedConsole attachedConsole = null;
+            if (guiOptions.console)
+            {
+                log.Info("Creating attached console");
+                attachedConsole = new GuiAttachedConsole();
+            }
 
-			if(!guiOptions.NoArgs)
-			{
-				if (guiOptions.lang != null)
-					Thread.CurrentThread.CurrentUICulture =
-						new CultureInfo( guiOptions.lang );
-			}
+            if (!guiOptions.Validate() || guiOptions.help)
+            {
+                string message = guiOptions.GetHelpText();
+                UserMessage.DisplayFailure(message, "Help Syntax");
+                log.Error("Command line error: " + message);
+                return 2;
+            }
 
-			// Add Standard Services to ServiceManager
-			ServiceManager.Services.AddService( new SettingsService() );
-			ServiceManager.Services.AddService( new DomainManager() );
-			ServiceManager.Services.AddService( new RecentFilesService() );
-			ServiceManager.Services.AddService( new ProjectService() );
-			ServiceManager.Services.AddService( new TestLoader( new GuiTestEventDispatcher() ) );
-			ServiceManager.Services.AddService( new AddinRegistry() );
-			ServiceManager.Services.AddService( new AddinManager() );
-			ServiceManager.Services.AddService( new TestAgency() );
+            if (guiOptions.cleanup)
+            {
+                log.Info("Performing cleanup of shadow copy cache");
+                DomainManager.DeleteShadowCopyPath();
+                return 0;
+            }
 
-			// Initialize Services
-			ServiceManager.Services.InitializeServices();
+            if (!guiOptions.NoArgs)
+            {
+                if (guiOptions.lang != null)
+                {
+                    log.Info("Setting culture to " + guiOptions.lang);
+                    Thread.CurrentThread.CurrentUICulture =
+                        new CultureInfo(guiOptions.lang);
+                }
+            }
 
-			// Create container in order to allow ambient properties
-			// to be shared across all top-level forms.
-            NTrace.Info("Initializing AmbientProperties");
-			AppContainer c = new AppContainer();
-			AmbientProperties ambient = new AmbientProperties();
-			c.Services.AddService( typeof( AmbientProperties ), ambient );
+            // Add Standard Services to ServiceManager
+            log.Info("Adding Services");
+            ServiceManager.Services.AddService(new SettingsService());
+            ServiceManager.Services.AddService(new DomainManager());
+            ServiceManager.Services.AddService(new RecentFilesService());
+            ServiceManager.Services.AddService(new ProjectService());
+            ServiceManager.Services.AddService(new TestLoader(new GuiTestEventDispatcher()));
+            ServiceManager.Services.AddService(new AddinRegistry());
+            ServiceManager.Services.AddService(new AddinManager());
+            ServiceManager.Services.AddService(new TestAgency());
 
-            NTrace.Info("Constructing Form");
-			NUnitForm form = new NUnitForm( guiOptions );
-			c.Add( form );
+            // Initialize Services
+            log.Info("Initializing Services");
+            ServiceManager.Services.InitializeServices();
 
-			try
-			{
-                NTrace.Info("Staring Application");
-				Application.Run( form );
-			}
-			finally
-			{
-				ServiceManager.Services.StopAllServices();
-			}
-				
-			if ( attachedConsole != null )
-			{
-				Console.WriteLine( "Press Enter to exit" );
-				Console.ReadLine();
-				attachedConsole.Close();
-			}
+            // Create container in order to allow ambient properties
+            // to be shared across all top-level forms.
+            log.Info("Initializing AmbientProperties");
+            AppContainer c = new AppContainer();
+            AmbientProperties ambient = new AmbientProperties();
+            c.Services.AddService(typeof(AmbientProperties), ambient);
 
-			NTrace.Info( "Exiting NUnit GUI" );
+            log.Info("Constructing Form");
+            NUnitForm form = new NUnitForm(guiOptions);
+            c.Add(form);
 
-			return 0;
-		}
-	}
+            try
+            {
+                log.Info("Starting Gui Application");
+                Application.Run(form);
+                log.Info("Application Exit");
+            }
+            catch( Exception ex )
+            {
+                log.Error("Gui Application threw an excepion", ex );
+                throw;
+            }
+            finally
+            {
+                log.Info("Stopping Services");
+                ServiceManager.Services.StopAllServices();
+            }
+
+            if (attachedConsole != null)
+            {
+                Console.WriteLine("Press Enter to exit");
+                Console.ReadLine();
+                attachedConsole.Close();
+            }
+
+            log.Info("Exiting NUnit GUI");
+            InternalTrace.Close();
+
+            return 0;
+        }
+    }
 }

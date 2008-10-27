@@ -17,6 +17,7 @@ namespace NUnit.Core.Builders
 	/// </summary>
 	public class TestAssemblyBuilder
 	{
+		static Logger log = InternalTrace.GetLogger("TestAssemblyBuilder");
 
 		#region Instance Fields
 		/// <summary>
@@ -184,7 +185,7 @@ namespace NUnit.Core.Builders
             if ( assembly != null )
                 CoreExtensions.Host.InstallAdhocExtensions( assembly );
 
-			NTrace.Info( "Loaded assembly " + assembly.FullName, "'TestAssemblyBuilder'" );
+			log.Info( "Loaded assembly " + assembly.FullName );
 
 			return assembly;
 		}

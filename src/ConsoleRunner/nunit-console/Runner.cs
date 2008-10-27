@@ -12,10 +12,12 @@ namespace NUnit.ConsoleRunner
 	/// </summary>
 	public class Runner
 	{
+		static Logger log = InternalTrace.GetLogger(typeof(Runner));
+
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			NTrace.Info( "NUnit-console.exe starting" );
+			log.Info( "NUnit-console.exe starting" );
 
 			ConsoleOptions options = new ConsoleOptions(args);
 
@@ -82,7 +84,7 @@ namespace NUnit.ConsoleRunner
 					Console.ReadLine();
 				}
 
-				NTrace.Info( "NUnit-console.exe terminating" );
+				log.Info( "NUnit-console.exe terminating" );
 			}
 
 		}

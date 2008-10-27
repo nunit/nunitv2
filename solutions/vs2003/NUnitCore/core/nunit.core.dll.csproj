@@ -191,6 +191,18 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "InternalTrace.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\InternalTrace.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "InternalTraceWriter.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\InternalTraceWriter.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "InvalidSuiteException.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\InvalidSuiteException.cs"
                     SubType = "Code"
@@ -221,6 +233,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Logger.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Logger.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MethodHelper.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\MethodHelper.cs"
                     SubType = "Code"
@@ -235,12 +253,6 @@
                 <File
                     RelPath = "NoTestFixturesException.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\NoTestFixturesException.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "NTrace.cs"
-                    Link = "..\..\..\..\src\NUnitCore\core\NTrace.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

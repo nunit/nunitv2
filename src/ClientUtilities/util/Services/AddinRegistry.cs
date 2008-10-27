@@ -36,15 +36,29 @@ namespace NUnit.Util
 			}
 		}
 
+        public bool IsAddinRegistered(string name)
+        {
+            return FindAddinByName(name) == null;
+        }
+
 		public void SetStatus( string name, AddinStatus status, string message )
 		{
-			foreach( Addin addin in addins )
-				if ( addin.Name == name )
-				{
-					addin.Status = status;
-					addin.Message = message;
-				}
-		}
+            Addin addin = FindAddinByName(name);
+            if (addin != null)
+            {
+                addin.Status = status;
+                addin.Message = message;
+            }
+        }
+
+        private Addin FindAddinByName(string name)
+        {
+            foreach (Addin addin in addins)
+                if (addin.Name == name)
+                    return addin;
+
+            return null;
+        }
 		#endregion
 
 		#region IService Members

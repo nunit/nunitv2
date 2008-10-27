@@ -22,6 +22,8 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class ResultTabs : System.Windows.Forms.UserControl, TestObserver
 	{
+		static Logger log = InternalTrace.GetLogger(typeof(ResultTabs));
+
 		private ISettings settings;
 		private bool updating = false;
 		private TextDisplayController displayController;
@@ -233,7 +235,7 @@ namespace NUnit.UiKit
 			errorsTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayErrorsTab", true );
 			notRunTabMenuItem.Checked = settings.GetSetting( "Gui.ResultTabs.DisplayNotRunTab", true );
 
-			NTrace.Debug( "Updating tab pages" );
+			log.Debug( "Updating tab pages" );
 			updating = true;
 			
 			tabControl.TabPages.Clear();

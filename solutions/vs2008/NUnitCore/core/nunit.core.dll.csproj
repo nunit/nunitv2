@@ -226,6 +226,12 @@
       <Link>IgnoreDecorator.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\InternalTrace.cs">
+      <Link>InternalTrace.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\InternalTraceWriter.cs">
+      <Link>InternalTraceWriter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\InvalidSuiteException.cs">
       <Link>InvalidSuiteException.cs</Link>
       <SubType>Code</SubType>
@@ -251,9 +257,6 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\NoTestFixturesException.cs">
       <Link>NoTestFixturesException.cs</Link>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\NTrace.cs">
-      <Link>NTrace.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\NullListener.cs">
       <Link>NullListener.cs</Link>
@@ -396,6 +399,9 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\SequentialStrategy.cs">
       <Link>Builders\SequentialStrategy.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Logger.cs">
+      <Link>Logger.cs</Link>
     </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>

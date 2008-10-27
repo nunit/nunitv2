@@ -22,6 +22,8 @@ namespace NUnit.Core
 	/// </summary>
 	public abstract class TestMethod : Test
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(TestMethod));
+
 		#region Fields
 		/// <summary>
 		/// The test method
@@ -117,6 +119,7 @@ namespace NUnit.Core
             {
                 TestResult testResult = new TestResult(this);
 
+                log.Debug("Test Starting: " + this.TestName.FullName);
                 listener.TestStarted(this.TestName);
                 long startTime = DateTime.Now.Ticks;
 

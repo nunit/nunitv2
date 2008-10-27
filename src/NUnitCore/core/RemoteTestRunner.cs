@@ -6,9 +6,10 @@
 
 namespace NUnit.Core
 {
-	using System.Collections;
 	using System;
     using System.Reflection;
+	using System.Collections;
+	using System.Diagnostics;
 
 	/// <summary>
 	/// RemoteTestRunner is tailored for use as the initial runner to
@@ -18,6 +19,14 @@ namespace NUnit.Core
 	/// </summary>
 	public class RemoteTestRunner : ProxyTestRunner
 	{
+		/// <summary>
+		/// Returns a RemoteTestRunner in the target domain. This method
+		/// is used in the domain that wants to get a reference to 
+		/// a RemoteTestRunnner and not in the test domain itself.
+		/// </summary>
+		/// <param name="targetDomain">AppDomain in which to create the runner</param>
+		/// <param name="ID">Id for the new runner to use</param>
+		/// <returns></returns>
         public static RemoteTestRunner CreateInstance(AppDomain targetDomain, int ID)
         {
 #if NET_2_0
@@ -35,6 +44,8 @@ namespace NUnit.Core
             return (RemoteTestRunner)obj;
         }
 
+		static Logger log = InternalTrace.GetLogger("RemoteTestRunner");
+
 		#region Constructors
 		public RemoteTestRunner() : this( 0 ) { }
 
@@ -44,6 +55,8 @@ namespace NUnit.Core
 		#region Method Overrides
 		public override bool Load(TestPackage package)
 		{
+			log.Info("Loading Test Package " + package.Name );
+
 			// Initialize ExtensionHost if not already done
 			if ( !CoreExtensions.Host.Initialized )
 				CoreExtensions.Host.InitializeService();
@@ -58,16 +71,33 @@ namespace NUnit.Core
 
 			this.TestRunner = runner;
 
-			return base.Load (package);
+			if( base.Load (package) )
+			{
+				log.Info("Loaded package successfully" );
+				return true;
+			}
+			else
+			{
+				log.Info("Package load failed" );
+				return false;
+			}
 		}
 
-		public override TestResult Run( EventListener listener )
+        public override void Unload()
+        {
+            log.Info("Unloading test package");
+            base.Unload();
+        }
+
+        public override TestResult Run(EventListener listener)
 		{
 			return Run( listener, TestFilter.Empty );
 		}
 
 		public override TestResult Run( EventListener listener, ITestFilter filter )
 		{
+            log.Debug("Run");
+
             QueuingEventListener queue = new QueuingEventListener();
 
 			StartTextCapture( queue );
@@ -86,7 +116,8 @@ namespace NUnit.Core
 
 		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
-            NTrace.Debug("Running test asynchronously");
+            log.Debug("BeginRun");
+
 			QueuingEventListener queue = new QueuingEventListener();
 
 			StartTextCapture( queue );
@@ -108,5 +139,11 @@ namespace NUnit.Core
 			TestContext.Logging = true;
 		}
 		#endregion
+
+		private void CurrentDomain_DomainUnload(object sender, EventArgs e)
+		{
+			log.Debug(AppDomain.CurrentDomain.FriendlyName + " unloaded");
+			InternalTrace.Flush();
+		}
 	}
 }

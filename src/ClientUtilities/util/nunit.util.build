@@ -10,6 +10,7 @@
         <include name="CategoryManager.cs"/>
         <include name="CommandLineOptions.cs"/>
         <include name="ConsoleWriter.cs"/>
+        <include name="DomainAgent.cs"/>
         <include name="ISettings.cs"/>
         <include name="ITestEvents.cs"/>
         <include name="ITestLoader.cs"/>

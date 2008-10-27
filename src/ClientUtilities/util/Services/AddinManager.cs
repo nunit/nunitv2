@@ -16,6 +16,8 @@ namespace NUnit.Util
 {
 	public class AddinManager : IService
 	{
+		static Logger log = InternalTrace.GetLogger(typeof(AddinManager));
+
 		#region Instance Fields
 		IAddinRegistry addinRegistry;
 		#endregion
@@ -49,15 +51,20 @@ namespace NUnit.Util
 				assemblyName.Name = Path.GetFileNameWithoutExtension(path);
 				assemblyName.CodeBase = path;
 				Assembly assembly = Assembly.Load(assemblyName);
-				NTrace.Debug( "Loaded " + Path.GetFileName(path) );
+				log.Debug( "Loaded " + Path.GetFileName(path) );
 
 				foreach ( Type type in assembly.GetExportedTypes() )
 				{
 					if ( type.GetCustomAttributes(typeof(NUnitAddinAttribute), false).Length == 1 )
 					{
 						Addin addin = new Addin( type );
-						addinRegistry.Register( addin );
-						NTrace.Debug( "Registered addin: " + addin.Name );
+                        if ( addinRegistry.IsAddinRegistered(addin.Name) )
+                            log.Error( "Addin {0} was already registered", addin.Name );
+                        else
+                        {
+						    addinRegistry.Register( addin );
+						    log.Debug( "Registered addin: {0}", addin.Name );
+                        }
 					}
 				}
 			}
@@ -65,7 +72,7 @@ namespace NUnit.Util
 			{
 				// NOTE: Since the gui isn't loaded at this point, 
 				// the trace output will only show up in Visual Studio
-				NTrace.Error( "Failed to load" + path, ex  );
+				log.Error( "Failed to load" + path, ex  );
 			}
 		}
 		#endregion

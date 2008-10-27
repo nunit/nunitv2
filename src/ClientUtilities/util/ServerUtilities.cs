@@ -12,6 +12,7 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Reflection;
 using System.Diagnostics;
+using NUnit.Core;
 
 namespace NUnit.Util
 {
@@ -20,6 +21,8 @@ namespace NUnit.Util
 	/// </summary>
 	public class ServerUtilities
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(ServerUtilities));
+
 		/// <summary>
 		///  Create a TcpChannel with a given name, on a given port.
 		/// </summary>
@@ -102,7 +105,7 @@ namespace NUnit.Util
 					}
 					catch( Exception e )
 					{
-                        Trace.WriteLine(e);
+                        log.Error("Failed to create/register channel", e);
 						System.Threading.Thread.Sleep(300);
 					}
 			}

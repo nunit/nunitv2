@@ -32,6 +32,8 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TestSuiteTreeView : TreeView
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(TestSuiteTreeView));
+
 		#region DisplayStyle Enumeraton
 
 		/// <summary>
@@ -1055,12 +1057,12 @@ namespace NUnit.UiKit
 			string key = node.Test.TestName.UniqueName;
 
 			if ( treeMap.ContainsKey( key ) )
-				Trace.WriteLine( "Duplicate entry: " + key );
+				log.Error( "Duplicate entry: " + key );
 				//				UserMessage.Display( string.Format( 
 				//					"The test {0} is duplicated\r\rResults will not be displayed correctly in the tree.", node.Test.FullName ), "Duplicate Test" );
 			else
 			{
-				//Trace.WriteLine( "Added to map: " + node.Test.UniqueName );
+				log.Debug( "Added to map: " + node.Test.TestName.UniqueName );
 				treeMap.Add( key, node );
 			}
 		}
@@ -1151,7 +1153,7 @@ namespace NUnit.UiKit
 				TestSuiteTreeNode node = (TestSuiteTreeNode)nodes[nodeIndex];
 				if ( NodeWasDeleted( node, tests ) )
 				{
-					Trace.WriteLine( "Deleting " + node.Test.TestName.Name );
+					log.Debug( "Deleting " + node.Test.TestName.Name );
 					RemoveNode( node );
 					showChanges = true;
 				}

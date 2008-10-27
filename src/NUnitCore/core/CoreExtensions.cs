@@ -21,6 +21,8 @@ namespace NUnit.Core
 	/// </summary>
 	public class CoreExtensions : ExtensionHost, IService
 	{
+		static Logger log = InternalTrace.GetLogger("CoreExtensions");
+
 		#region Instance Fields
 		private IAddinRegistry addinRegistry;
 		private bool initialized;
@@ -146,7 +148,7 @@ namespace NUnit.Core
 		#region Public Methods	
 		public void InstallBuiltins()
 		{
-			NTrace.Info( "Installing Builtins" );
+			log.Info( "Installing Builtins" );
 
 			// Define NUnit Frameworks
 			frameworks.Register( "NUnit", "nunit.framework" );
@@ -172,7 +174,7 @@ namespace NUnit.Core
 
 		public void InstallAddins()
 		{
-			NTrace.Info( "Installing Addins" );
+			log.Info( "Installing Addins" );
 
 			if( AddinRegistry != null )
 			{
@@ -210,8 +212,8 @@ namespace NUnit.Core
 						AddinRegistry.SetStatus( addin.Name, status, message );
 						if ( status != AddinStatus.Loaded )
 						{
-							NTrace.ErrorFormat( "Failed to load {0}", addin.Name );
-							NTrace.Error( message );
+							log.Error( "Failed to load {0}", addin.Name );
+							log.Error( message );
 						}
 					}
 				}

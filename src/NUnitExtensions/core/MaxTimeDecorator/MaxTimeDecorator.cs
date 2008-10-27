@@ -20,11 +20,13 @@ namespace NUnit.Core.Extensions
 	[NUnitAddin(Description="Fails a test if its elapsed time is longer than a given maximum")]
 	public class MaxTimeDecorator : IAddin, ITestDecorator
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(MaxTimeDecorator));
+
 		#region IAddin Members
 
 		public bool Install(IExtensionHost host)
 		{
-			System.Diagnostics.Trace.WriteLine( "MaxTimeDecorator: Install called" );
+			log.Info( "Install called" );
 			IExtensionPoint decorators = host.GetExtensionPoint( "TestDecorators" );
 			if ( decorators == null ) return false;
 
