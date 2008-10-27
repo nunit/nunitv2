@@ -46,7 +46,7 @@ namespace NUnit.Framework.Constraints.Tests
             SetValueTrueAfterDelay(500);
 
             Assert.That(value, Is.False);
-            Assert.That(DelegateReturningValue, new AfterConstraint(new EqualConstraint(true), 1000));
+            Assert.That(DelegateReturningValue, new AfterConstraint(new EqualConstraint(true), 5000, 200));
         }
 
         [Test]
@@ -55,18 +55,7 @@ namespace NUnit.Framework.Constraints.Tests
             SetValueTrueAfterDelay(500);
 
             Assert.That(value, Is.False);
-            Assert.That(ref value, new AfterConstraint(new EqualConstraint(true), 1000));
-        }
-
-        [Test]
-        public void SimpleTestUsingPolling()
-        {
-            SetValueTrueAfterDelay(500);
-
-            Assert.That(value, Is.False);
-            DateTime startTime = DateTime.Now;
             Assert.That(ref value, new AfterConstraint(new EqualConstraint(true), 5000, 200));
-            Assert.That(DateTime.Now - startTime, Is.LessThan(TimeSpan.FromMilliseconds(1000)));
         }
 
         [Test]
