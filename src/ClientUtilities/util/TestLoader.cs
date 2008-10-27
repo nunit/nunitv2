@@ -31,6 +31,8 @@ namespace NUnit.Util
 	/// </summary>
 	public class TestLoader : MarshalByRefObject, NUnit.Core.EventListener, ITestLoader, IService
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(TestLoader));
+
 		#region Instance Variables
 
 		/// <summary>
@@ -162,7 +164,7 @@ namespace NUnit.Util
 
 		void EventListener.RunStarted(string name, int testCount)
 		{
-            System.Diagnostics.Trace.WriteLine("Got RunStarted Event");
+            log.Debug("Got RunStarted Event");
 			events.FireRunStarting( name, testCount );
 		}
 
@@ -243,7 +245,8 @@ namespace NUnit.Util
 					break;
 				case "NUnit.Framework.AssertionException":
 				default:
-					events.FireTestException( this.currentTestName, (Exception)args.ExceptionObject );
+                    Exception ex = args.ExceptionObject as Exception;
+					events.FireTestException( this.currentTestName, ex);
 					break;
 			}
 		}
@@ -460,7 +463,7 @@ namespace NUnit.Util
 			}
 
             double loadTime = (double)(DateTime.Now.Ticks - startTime) / (double)TimeSpan.TicksPerSecond;
-            System.Diagnostics.Trace.WriteLine(string.Format("TestLoader: Loaded in {0} seconds", loadTime)); 
+            log.Info("Loaded in {0} seconds", loadTime); 
 		}
 
 		/// <summary>
