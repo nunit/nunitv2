@@ -38,7 +38,7 @@ namespace NUnit.Util.Tests
             TestAgent agent = null;
             try
             {
-                agent = agency.GetAgent(AgentType.ProcessAgent, 30000);
+                agent = agency.GetAgent(AgentType.ProcessAgent, 10000);
                 Assert.IsNotNull(agent);
             }
             finally
