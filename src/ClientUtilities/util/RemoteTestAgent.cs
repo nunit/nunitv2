@@ -15,134 +15,75 @@ namespace NUnit.Util
 	/// to it. Rather, it reports back to the sponsoring TestAgency upon 
 	/// startup so that the agency may in turn provide it to clients for use.
 	/// </summary>
-	public class RemoteTestAgent : MarshalByRefObject, IDisposable
+	public class RemoteTestAgent : TestAgent
 	{
+		static Logger log = InternalTrace.GetLogger(typeof(RemoteTestAgent));
+
 		#region Fields
-        /// <summary>
-        /// The identifying Id for this agent
-        /// </summary>
-        Guid agentId;
-
-		/// <summary>
-		/// Url of the agency that controls this agent
-		/// </summary>
-		string agencyUrl;
-
-		/// <summary>
-		/// Reference to the TestAgency that controls this agent
-		/// </summary>
-		TestAgency agency;
-
-		/// <summary>
-		/// Channel used for communications with the agency
-		/// and with clients
-		/// </summary>
-		private TcpChannel channel;
-
 		/// <summary>
 		/// Lock used to avoid thread contention
 		/// </summary>
 		private object theLock = new object();
 
+        private ManualResetEvent stopSignal = new ManualResetEvent(false);
 		#endregion
 
 		#region Constructor
 		/// <summary>
-		/// Construct a RemoteTestAgent given the Url of its agency
+		/// Construct a RemoteTestAgent
 		/// </summary>
-		/// <param name="agencyUrl"></param>
-		public RemoteTestAgent( Guid agentId, string agencyUrl )
-		{
-            this.agentId = agentId;
-			this.agencyUrl = agencyUrl;
-		}
+		public RemoteTestAgent( Guid agentId, TestAgency agency )
+            : base(agentId, agency) { }
 		#endregion
 
 		#region Properties
-		public TestAgency Agency
-		{
-			get { return agency; }
-		}
-
 		public int ProcessId
 		{
 			get { return System.Diagnostics.Process.GetCurrentProcess().Id; }
 		}
 		#endregion
 
-		#region Public Methods - For Client Use
-		public TestRunner CreateRunner(int runnerID)
+		#region Public Methods
+		public override TestRunner CreateRunner(int runnerID)
 		{
-            return new AgentRunner(runnerID);
+			return new AgentRunner(runnerID);
 		}
-		#endregion
 
-		#region Public Methods - Used by Server
-		public bool Start()
+        public override bool Start()
 		{
-			NTrace.Info("Starting");
-			this.channel = ServerUtilities.GetTcpChannel();
-			NTrace.Debug("Acquired Tcp Channel");
+			log.Info("Agent starting");
 
 			try
 			{
-				this.agency = (TestAgency)Activator.GetObject( typeof( TestAgency ), agencyUrl );
-				NTrace.DebugFormat("Connected to TestAgency at {0}", agencyUrl);
+				this.Agency.Register( this );
+				log.Debug( "Registered with TestAgency" );
 			}
 			catch( Exception ex )
 			{
-				NTrace.ErrorFormat( "Unable to connect to test agency at {0}", agencyUrl );
-				NTrace.Error( ex.Message );
-                return false;
-			}
-
-			try
-			{
-				this.agency.Register( this, agentId );
-				NTrace.Debug( "Registered with TestAgency" );
-			}
-			catch( Exception ex )
-			{
-				NTrace.Error( "Failed to register with TestAgency", ex );
+				log.Error( "RemoteTestAgent: Failed to register with TestAgency", ex );
                 return false;
 			}
 
             return true;
 		}
 
-		[System.Runtime.Remoting.Messaging.OneWay]
-		public void Stop()
+        [System.Runtime.Remoting.Messaging.OneWay]
+        public override void Stop()
 		{
-			NTrace.Info( "Stopping" );
+			log.Info( "Stopping" );
             // This causes an error in the client because the agent 
             // database is not thread-safe.
             //if ( agency != null )
             //    agency.ReportStatus(this.ProcessId, AgentStatus.Stopping);
 
-			lock( theLock )
-			{
-				if ( this.channel != null )
-					ChannelServices.UnregisterChannel( this.channel );
-				Monitor.PulseAll( theLock );
-			}
+
+            stopSignal.Set();
 		}
 
 		public void WaitForStop()
 		{
-			lock( theLock )
-			{
-				Monitor.Wait( theLock );
-			}
+            stopSignal.WaitOne();
 		}
-		#endregion
-
-		#region IDisposable Members
-
-		public void Dispose()
-		{
-			this.Stop();
-		}
-
 		#endregion
 
         #region Nested AgentRunner class
@@ -154,7 +95,7 @@ namespace NUnit.Util
             public override bool Load(TestPackage package)
             {
                 this.TestRunner = TestRunnerFactory.MakeTestRunner(package);
-
+                
                 return base.Load(package);
             }
         }

@@ -15,7 +15,8 @@ namespace NUnit.Util.Tests
 	/// <summary>
 	/// Summary description for ProcessRunnerTests.
 	/// </summary>
-    [TestFixture, Platform(Exclude = "Mono", Reason = "Process Start not working correctly")]
+    [TestFixture, Timeout(10000)]
+    [Platform(Exclude = "Mono", Reason = "Process Start not working correctly")]
     public class ProcessRunnerTests : BasicRunnerTests
     {
         private ProcessRunner myRunner;
@@ -23,14 +24,12 @@ namespace NUnit.Util.Tests
         protected override TestRunner CreateRunner(int runnerID)
         {
             myRunner = new ProcessRunner(runnerID);
-            NTrace.Debug("Creating ProcessRunner");
             return myRunner;
         }
 
         [TestFixtureTearDown]
         public void DestroyRunner()
         {
-            NTrace.Debug("Destroying ProcessRunner");
             if (myRunner != null)
                 myRunner.Dispose();
         }

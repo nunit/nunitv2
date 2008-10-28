@@ -32,37 +32,56 @@ namespace NUnit.Util
 
 		public override bool Load(TestPackage package)
 		{
+			Unload();
+
             string targetRuntime = package.Settings["RuntimeFramework"] as string;
 
             RuntimeFramework runtimeFramework = targetRuntime == null
                 ? RuntimeFramework.CurrentFramework
                 : new RuntimeFramework(targetRuntime);
-            
-            if (this.agent == null)
-				this.agent = Services.TestAgency.GetAgent( AgentType.ProcessAgent, runtimeFramework, 20000 );		
-	
-			if ( this.TestRunner == null )
-				this.TestRunner = agent.CreateRunner(this.runnerID);
 
-			return base.Load (package);
+			try
+			{
+				if (this.agent == null)
+					this.agent = Services.TestAgency.GetAgent( 
+						AgentType.ProcessAgent, 
+						runtimeFramework, 
+						20000 );
+		
+				if (this.agent == null)
+					return false;
+	
+				if ( this.TestRunner == null )
+					this.TestRunner = agent.CreateRunner(this.runnerID);
+
+				return base.Load (package);
+			}
+			catch
+			{
+				Unload();
+				throw;
+			}
 		}
 
         public override void Unload()
         {
-            this.Dispose();
-        }
+            if (TestRunner != null)
+            {
+                this.TestRunner.Unload();
+                this.TestRunner = null;
+            }
+
+            if (this.agent != null)
+            {
+                agent.Stop();
+                this.agent = null;
+            }
+		}
 
 		#region IDisposable Members
 		public void Dispose()
 		{
-			if ( TestRunner != null )
-				this.TestRunner.Unload();
-
-			if ( this.agent != null )
-				Services.TestAgency.DestroyAgent(this.agent);
-
-			this.TestRunner = null;
-			this.agent = null;
+			Unload();
 		}
 		#endregion
 	}

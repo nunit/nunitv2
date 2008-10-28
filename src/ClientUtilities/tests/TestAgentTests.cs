@@ -10,7 +10,7 @@ namespace NUnit.Util.Tests
         [Test]
         public void AgentReturnsProcessId()
         {
-            RemoteTestAgent agent = new RemoteTestAgent(Guid.NewGuid(), "dummy");
+            RemoteTestAgent agent = new RemoteTestAgent(Guid.NewGuid(), null);
             Assert.AreEqual(Process.GetCurrentProcess().Id, agent.ProcessId);
         }
 

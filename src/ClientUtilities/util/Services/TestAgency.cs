@@ -45,6 +45,8 @@ namespace NUnit.Util
 	/// </summary>
 	public class TestAgency : ServerBase, IService
 	{
+		static Logger log = InternalTrace.GetLogger(typeof(TestAgency));
+
 		#region Private Fields
 		private AgentDataBase agentData = new AgentDataBase();
 
@@ -84,12 +86,12 @@ namespace NUnit.Util
 		#endregion
 
 		#region Public Methods - Called by Agents
-		public void Register( RemoteTestAgent agent, Guid agentId )
+		public void Register( TestAgent agent )
 		{
-			AgentRecord r = agentData[agentId];
+			AgentRecord r = agentData[agent.Id];
 			if ( r == null )
                 throw new ArgumentException(
-                    string.Format("Agent {0} is not in the agency database", agentId),
+                    string.Format("Agent {0} is not in the agency database", agent.Id),
                     "agentId");
             r.Agent = agent;
 		}
@@ -120,7 +122,7 @@ namespace NUnit.Util
 
         public TestAgent GetAgent(AgentType type, int waitTime)
         {
-            return GetAgent(type, RuntimeFramework.CurrentFramework, Timeout.Infinite);
+            return GetAgent(type, RuntimeFramework.CurrentFramework, waitTime);
         }
 
 		public TestAgent GetAgent(AgentType type, RuntimeFramework framework, int waitTime)
@@ -139,31 +141,31 @@ namespace NUnit.Util
             //    r = CreateRemoteAgent(type, framework, waitTime);
             AgentRecord r = CreateRemoteAgent(type, framework, waitTime);
 
-			return new TestAgent( this, r.Id, r.Agent );
+			return r == null ? null : r.Agent;
 		}
 
 		public void ReleaseAgent( TestAgent agent )
 		{
 			AgentRecord r = agentData[agent.Id];
 			if ( r == null )
-				NTrace.Error( string.Format( "Unable to release agent {0} - not in database", agent.Id ) );
+				log.Error( string.Format( "Unable to release agent {0} - not in database", agent.Id ) );
 			else
 			{
 				r.Status = AgentStatus.Ready;
-				NTrace.Debug( "Releasing agent " + agent.Id.ToString() );
+				log.Debug( "Releasing agent " + agent.Id.ToString() );
 			}
 		}
 
-		public void DestroyAgent( TestAgent agent )
-		{
-			AgentRecord r = agentData[agent.Id];
-			if ( r != null )
-			{
-				if( !r.Process.HasExited )
-					r.Agent.Stop();
-				agentData[r.Id] = null;
-			}
-		}
+        //public void DestroyAgent( TestAgent agent )
+        //{
+        //    AgentRecord r = agentData[agent.Id];
+        //    if ( r != null )
+        //    {
+        //        if( !r.Process.HasExited )
+        //            r.Agent.Stop();
+        //        agentData[r.Id] = null;
+        //    }
+        //}
 		#endregion
 
 		#region Helper Methods
@@ -213,27 +215,27 @@ namespace NUnit.Util
                     break;
 			}
 			
-			//NTrace.Debug( "Launching {0}" p.StartInfo.FileName );
-            p.Exited += new EventHandler(OnProcessExit);
+            //p.Exited += new EventHandler(OnProcessExit);
             p.Start();
+			log.Debug( "Launching Agent {0} (pid={1})", agentId, p.Id );
 
 			agentData.Add( new AgentRecord( agentId, p, null, AgentStatus.Starting ) );
 		    return agentId;
 		}
 
-        private void OnProcessExit(object sender, EventArgs e)
-        {
-            Process p = sender as Process;
-            if (p != null)
-                agentData.Remove(p.Id);
-        }
+        //private void OnProcessExit(object sender, EventArgs e)
+        //{
+        //    Process p = sender as Process;
+        //    if (p != null)
+        //        agentData.Remove(p.Id);
+        //}
 
 		private AgentRecord FindAvailableRemoteAgent(AgentType type)
 		{
 			foreach( AgentRecord r in agentData )
 				if ( r.Status == AgentStatus.Ready)
 				{
-					NTrace.DebugFormat( "Reusing agent {0}", r.Id );
+					log.Debug( "Reusing agent {0}", r.Id );
 					r.Status = AgentStatus.Busy;
 					return r;
 				}
@@ -245,7 +247,7 @@ namespace NUnit.Util
 		{
             Guid agentId = LaunchAgentProcess(framework);
 
-			NTrace.DebugFormat( "Waiting for agent {0} to register", agentId );
+			log.Debug( "Waiting for agent {0} to register", agentId );
 
             int pollTime = 200;
             bool infinite = waitTime == Timeout.Infinite;
@@ -256,7 +258,7 @@ namespace NUnit.Util
 				if ( !infinite ) waitTime -= pollTime;
 				if ( agentData[agentId].Agent != null )
 				{
-					NTrace.DebugFormat( "Returning new agent record {0}", agentId ); 
+					log.Debug( "Returning new agent record {0}", agentId ); 
 					return agentData[agentId];
 				}
 			}
@@ -284,10 +286,10 @@ namespace NUnit.Util
 		{
 			public Guid Id;
 			public Process Process;
-			public RemoteTestAgent Agent;
+			public TestAgent Agent;
 			public AgentStatus Status;
 
-			public AgentRecord( Guid id, Process p, RemoteTestAgent a, AgentStatus s )
+			public AgentRecord( Guid id, Process p, TestAgent a, AgentStatus s )
 			{
 				this.Id = id;
 				this.Process = p;
@@ -319,7 +321,7 @@ namespace NUnit.Util
 				}
 			}
 
-			public AgentRecord this[RemoteTestAgent agent]
+			public AgentRecord this[TestAgent agent]
 			{
 				get
 				{
@@ -339,7 +341,7 @@ namespace NUnit.Util
 				agentData[r.Id] = r;
 			}
 
-            public void Remove(int agentId)
+            public void Remove(Guid agentId)
             {
                 agentData.Remove(agentId);
             }
