@@ -392,11 +392,13 @@ namespace NUnit.Core
 
 			this.results.Add(result);
 
-			if( this.ResultState == ResultState.Success &&
-				(result.ResultState == ResultState.Failure || result.ResultState == ResultState.Error) )
-			{
-				this.Failure( "Child test failed", null, FailureSite.Child );
-			}
+            if (!this.IsFailure && !this.IsError &&
+                (result.IsFailure || result.IsError))
+            {
+                this.Failure("Child test failed", null, FailureSite.Child);
+            }
+            else if (this.ResultState == ResultState.Inconclusive && result.ResultState == ResultState.Success)
+                this.Success();
 		}
 		#endregion
 
