@@ -21,8 +21,8 @@ namespace NUnit.Framework.Tests
             // Without cast, delegate is ambiguous before C# 3.0.
             Assert.That((TestDelegate)delegate { throw new ArgumentException(); },
                     Throws.Exception.TypeOf<ArgumentException>() );
-            Assert.Throws( Is.TypeOf(typeof(ArgumentException)),
-                    delegate { throw new ArgumentException(); } );
+            //Assert.Throws( Is.TypeOf(typeof(ArgumentException)),
+            //        delegate { throw new ArgumentException(); } );
 #else
 			Assert.Throws(typeof(ArgumentException),
 				new TestDelegate( TestDelegates.ThrowsArgumentException ) );
