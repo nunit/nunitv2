@@ -122,7 +122,9 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)"
+copy "$(TargetPath)" "$(SolutionDir)ConsoleRunner\nunit-console-exe\$(OutDir)"
+copy "$(TargetPath)" "$(SolutionDir)NUnitTestServer\nunit-agent-exe\$(OutDir)"
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

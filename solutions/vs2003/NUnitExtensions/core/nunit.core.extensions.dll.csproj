@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "Library"
                 PreBuildEvent = ""
-                PostBuildEvent = ""
+                PostBuildEvent = "mkdir $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)addins&#xd;&#xa;copy $(TargetPath) $(SolutionDir)GuiRunner\nunit-gui-exe\$(OutDir)addins&#xd;&#xa;mkdir $(SolutionDir)ConsoleRunner\nunit-console-exe\$(OutDir)addins&#xd;&#xa;copy $(TargetPath) $(SolutionDir)ConsoleRunner\nunit-console-exe\$(OutDir)addins&#xd;&#xa;mkdir $(SolutionDir)NUnitTestServer\nunit-agent-exe\$(OutDir)addins&#xd;&#xa;copy $(TargetPath) $(SolutionDir)NUnitTestServer\nunit-agent-exe\$(OutDir)addins&#xd;&#xa;"
                 RootNamespace = "NUnit.Core.Extensions"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
