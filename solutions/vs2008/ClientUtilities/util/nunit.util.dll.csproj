@@ -132,6 +132,9 @@
       <Link>ConsoleWriter.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\DomainAgent.cs">
+      <Link>DomainAgent.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\Extensibility\IProjectConverter.cs">
       <Link>Extensibility\IProjectConverter.cs</Link>
     </Compile>

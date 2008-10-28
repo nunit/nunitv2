@@ -158,6 +158,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DomainAgent.cs"
+                    Link = "..\..\..\..\src\ClientUtilities\util\DomainAgent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ISettings.cs"
                     Link = "..\..\..\..\src\ClientUtilities\util\ISettings.cs"
                     SubType = "Code"

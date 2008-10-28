@@ -26,6 +26,11 @@ namespace NUnit.Util
 		/// </summary>
 		private AppDomain domain; 
 
+		/// <summary>
+		/// The TestAgent in the domain
+		/// </summary>
+		private DomainAgent agent;
+
 		#endregion
 
 		#region Constructors
@@ -50,9 +55,17 @@ namespace NUnit.Util
 			{
 				if ( this.domain == null )
 					this.domain = Services.DomainManager.CreateDomain( package );
+
+//				if ( this.agent == null )
+//					this.agent = Services.TestAgency.GetAgent(
+//						AgentType.DomainAgent,
+//						5000);
+
+				if ( this.agent == null )
+					this.agent = DomainAgent.CreateInstance( domain, InternalTrace.Level );
             
 				if ( this.TestRunner == null )
-					this.TestRunner = RemoteTestRunner.CreateInstance( domain, this.ID );
+					this.TestRunner = this.agent.CreateRunner( this.ID );
 
 				return TestRunner.Load( package );
 			}
@@ -65,7 +78,17 @@ namespace NUnit.Util
 
 		public override void Unload()
 		{
-			this.TestRunner = null;
+            if (this.TestRunner != null)
+            {
+                this.TestRunner.Unload();
+                this.TestRunner = null;
+            }
+
+            if (this.agent != null)
+            {
+                this.agent.Dispose();
+                this.agent = null;
+            }
 
 			if(domain != null) 
 			{
