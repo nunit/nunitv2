@@ -24,6 +24,8 @@ namespace NUnit.Util
 	/// </summary>
 	public class DomainManager : IService
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(DomainManager));
+
 		#region Properties
 		private static string shadowCopyPath;
 		public static string ShadowCopyPath
@@ -156,8 +158,9 @@ namespace NUnit.Util
                 thread.Start();
                 if (!thread.Join(20000))
                 {
-                    Trace.WriteLine("Unable to unload AppDomain {0}", domain.FriendlyName);
-                    Trace.WriteLine("Unload thread timed out");
+                    log.Error("Unable to unload AppDomain {0}", domain.FriendlyName);
+                    log.Error("Unload thread timed out");
+                    thread.Abort();
                 }
             }
 
@@ -176,8 +179,7 @@ namespace NUnit.Util
                     // We assume that the tests did something bad and just leave
                     // the orphaned AppDomain "out there". 
                     // TODO: Something useful.
-                    Trace.WriteLine("Unable to unload AppDomain {0}", domainName);
-                    Trace.WriteLine(ex.ToString());
+                    log.Error("Unable to unload AppDomain " + domainName, ex);
                 }
                 finally
                 {
@@ -264,7 +266,7 @@ namespace NUnit.Util
 
 		private bool IsTestDomain(AppDomain domain)
 		{
-			return domain.FriendlyName.StartsWith( "domain-" );
+			return domain.FriendlyName.StartsWith( "test-domain-" );
 		}
 
 		public static string GetPrivateBinPath( string basePath, IList assemblies )
