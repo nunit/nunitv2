@@ -16,6 +16,7 @@
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.build.dir}">
+        <include name="System.Runtime.Remoting.dll"/>
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>

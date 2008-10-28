@@ -17,7 +17,7 @@
                 DelaySign = "false"
                 OutputType = "WinExe"
                 PreBuildEvent = ""
-                PostBuildEvent = "copy $(TargetPath) $(SolutionDir)GuiRunner\nunit-gui-exe\bin\$(ConfigurationName)\"
+                PostBuildEvent = "copy $(SolutionDir)..\..\Clr.bat&#xd;&#xa;"
                 RootNamespace = "NUnit.Agent"
                 RunPostBuildEvent = "OnBuildSuccess"
                 StartupObject = ""
@@ -98,6 +98,16 @@
                     Name = "nunit.core.interfaces.dll"
                     Project = "{435428F8-5995-4CE4-8022-93D595A8CC0F}"
                     Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "nunit.core.dll"
+                    Project = "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
+                    Package = "{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
+                />
+                <Reference
+                    Name = "System.Runtime.Remoting"
+                    AssemblyName = "System.Runtime.Remoting"
+                    HintPath = "C:\WINDOWS\Microsoft.NET\Framework\v1.1.4322\System.Runtime.Remoting.dll"
                 />
             </References>
         </Build>
