@@ -20,6 +20,8 @@ namespace NUnit.Util
 	/// </summary>
 	public abstract class AggregatingTestRunner : MarshalByRefObject, TestRunner, EventListener
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(AggregatingTestRunner));
+
 		static int AggregateTestID = 1000;
 
 		#region Instance Variables
@@ -131,6 +133,8 @@ namespace NUnit.Util
 		#region Load and Unload Methods       
         public bool Load(TestPackage package)
         {
+            log.Info("Loading " + package.Name);
+
             this.testName.FullName = this.testName.Name = package.FullName;
             runners = new ArrayList();
 
@@ -173,6 +177,8 @@ namespace NUnit.Util
                 }
             }
 
+            log.Info("Load complete");
+
             if (package.TestName == null && targetAssemblyName == null)
                 return nfound == package.Assemblies.Count;
             else
@@ -183,9 +189,11 @@ namespace NUnit.Util
 
 		public virtual void Unload()
 		{
+            log.Info("Unloading " + Path.GetFileName(Test.TestName.Name));
 			foreach( TestRunner runner in runners )
 				runner.Unload();
 			aggregateTest = null;
+            log.Info("Unload complete");
 		}
 		#endregion
 
