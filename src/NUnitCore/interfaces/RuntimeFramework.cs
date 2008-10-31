@@ -6,6 +6,7 @@
 
 using System;
 using System.Reflection;
+using Microsoft.Win32;
 
 namespace NUnit.Core
 {
@@ -39,6 +40,13 @@ namespace NUnit.Core
 
         private static RuntimeFramework currentFramework;
 
+        private static RuntimeFramework[] supportedFrameworks = new RuntimeFramework[] {
+                    new RuntimeFramework("net-2.0"),
+                    new RuntimeFramework("net-1.1"),
+                    new RuntimeFramework("net-1.0"),
+                    new RuntimeFramework("mono-2.0"),
+                    new RuntimeFramework("mono-1.0") };
+
 		/// <summary>
 		/// Construct from a runtime type and version
 		/// </summary>
@@ -54,6 +62,35 @@ namespace NUnit.Core
 			if ( name == "mono-1.1" )
 				name = "mono-1.0";
             this.displayName = DefaultDisplayName(runtime, version);
+        }
+
+        public bool IsSupported
+        {
+            get
+            {
+                return this.name == "net-2.0"
+                    || this.name == "net-1.1"
+                    || this.name == "net-1.0"
+                    || this.name == "mono-2.0"
+                    || this.name == "mono-1.0";
+            }
+        }
+
+        public bool IsAvailable
+        {
+            get
+            {
+                switch (runtime)
+                {
+                    case RuntimeType.Mono:
+                        return CurrentFramework.Runtime == RuntimeType.Mono;
+                    case RuntimeType.Net:
+                        return CurrentFramework.Name == this.Name
+                            || IsDotNetInstalled(this.Version);
+                    default:
+                        return false;
+                }
+            }
         }
 
         private static string DefaultDisplayName(RuntimeType runtime, Version version)
@@ -73,7 +110,7 @@ namespace NUnit.Core
             {
                 case "net-1.0":
                     this.runtime = RuntimeType.Net;
-                    this.version = new Version(1, 0, 3075);
+                    this.version = new Version(1, 0, 3705);
                     break;
                 case "net-1.1":
                     this.runtime = RuntimeType.Net;
@@ -169,5 +206,14 @@ namespace NUnit.Core
 		{
 			get { return displayName; }
 		}
+
+        private static bool IsDotNetInstalled(Version version)
+        {
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                return false;
+
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\.NETFramework\policy\v" + version.ToString(2));
+            return key != null && key.GetValue(version.Build.ToString()) != null;
+        }
 	}
 }
