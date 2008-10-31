@@ -61,8 +61,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A65042E1-D8BC-48DD-8DE1-F0991F07EA77}"
 	ProjectSection(SolutionItems) = preProject
 		nunit.snk = nunit.snk
-		NUnitDevTests.nunit = NUnitDevTests.nunit
 		NUnitTests.config = NUnitTests.config
+		NUnitTests.nunit = NUnitTests.nunit
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adhoc-tests", "tests\adhoc-tests\adhoc-tests.csproj", "{D10BC250-BDED-4A39-84A0-4DE6501694D5}"
