@@ -1,3 +1,9 @@
+// ****************************************************************
+// Copyright 2008, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org
+// ****************************************************************
+
 using System;
 using System.Threading;
 using System.Runtime.Remoting;
@@ -84,6 +90,13 @@ namespace NUnit.Util
 			this.Stop();
 		}
 
+		#endregion
+
+		#region InitializeLifetimeService
+		public override object InitializeLifetimeService()
+		{
+			return null;
+		}
 		#endregion
 	}
 }
