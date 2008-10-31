@@ -1,3 +1,9 @@
+// ****************************************************************
+// Copyright 2008, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org
+// ****************************************************************
+
 using System;
 using System.IO;
 using System.Threading;
@@ -43,7 +49,7 @@ namespace NUnit.Util
 	/// but only one, ProcessAgent is implemented
 	/// at this time.
 	/// </summary>
-	public class TestAgency : ServerBase, IService
+	public class TestAgency : ServerBase, IAgency, IService
 	{
 		static Logger log = InternalTrace.GetLogger(typeof(TestAgency));
 
@@ -130,10 +136,22 @@ namespace NUnit.Util
 			if ( type == AgentType.Default )
 				type = defaultAgentType;
 
+            log.Info("Getting agent type {0} running under {1}", type, framework.Name);
+ 
 			if ( (type & supportedAgentTypes) == 0 )
 				throw new ArgumentException( 
 					string.Format( "AgentType {0} is not supported by this agency", type ),
 					"type" );
+
+            if (!framework.IsSupported)
+                throw new ArgumentException(
+                    string.Format("The {0} framework is not supported", framework.Name),
+                    "framework");
+
+            if (!framework.IsAvailable)
+                throw new ArgumentException(
+                    string.Format("The {0} framework is not available", framework.Name),
+                    "framework");
 
             // TODO: Decide if we should reuse agents
             //AgentRecord r = FindAvailableRemoteAgent(type);
@@ -156,7 +174,7 @@ namespace NUnit.Util
 			}
 		}
 
-        //public void DestroyAgent( TestAgent agent )
+        //public void DestroyAgent( ITestAgent agent )
         //{
         //    AgentRecord r = agentData[agent.Id];
         //    if ( r != null )
@@ -189,6 +207,8 @@ namespace NUnit.Util
                     .Replace("vs2003", "vs2008");
             }
 
+            log.Debug("Using nunit-agent at " + agentExePath);
+
 			Process p = new Process();
 			p.StartInfo.UseShellExecute = false;
             Guid agentId = Guid.NewGuid();
@@ -217,7 +237,7 @@ namespace NUnit.Util
 			
             //p.Exited += new EventHandler(OnProcessExit);
             p.Start();
-			log.Debug( "Launching Agent {0} (pid={1})", agentId, p.Id );
+            log.Info("Launched Agent process {0} - see nunit-agent_{0}.log", p.Id); 
 
 			agentData.Add( new AgentRecord( agentId, p, null, AgentStatus.Starting ) );
 		    return agentId;
@@ -247,7 +267,7 @@ namespace NUnit.Util
 		{
             Guid agentId = LaunchAgentProcess(framework);
 
-			log.Debug( "Waiting for agent {0} to register", agentId );
+			log.Debug( "Waiting for agent {0} to register", agentId.ToString("B") );
 
             int pollTime = 200;
             bool infinite = waitTime == Timeout.Infinite;
@@ -258,7 +278,7 @@ namespace NUnit.Util
 				if ( !infinite ) waitTime -= pollTime;
 				if ( agentData[agentId].Agent != null )
 				{
-					log.Debug( "Returning new agent record {0}", agentId ); 
+					log.Debug( "Returning new agent record {0}", agentId.ToString("B") ); 
 					return agentData[agentId];
 				}
 			}

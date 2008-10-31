@@ -158,12 +158,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "DomainAgent.cs"
-                    Link = "..\..\..\..\src\ClientUtilities\util\DomainAgent.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "ISettings.cs"
                     Link = "..\..\..\..\src\ClientUtilities\util\ISettings.cs"
                     SubType = "Code"
@@ -298,12 +292,6 @@
                 <File
                     RelPath = "StackTraceFilter.cs"
                     Link = "..\..\..\..\src\ClientUtilities\util\StackTraceFilter.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "TestAgent.cs"
-                    Link = "..\..\..\..\src\ClientUtilities\util\TestAgent.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -1,7 +1,7 @@
 // ****************************************************************
 // Copyright 2007, Charlie Poole
 // This is free software licensed under the NUnit license. You may
-// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
 using System;
@@ -22,6 +22,8 @@ namespace NUnit.Util
 	/// </summary>
 	public class ProcessRunner : ProxyTestRunner, IDisposable
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(ProcessRunner));
+
 		private TestAgent agent;
 
 		#region Constructors
@@ -32,6 +34,7 @@ namespace NUnit.Util
 
 		public override bool Load(TestPackage package)
 		{
+            log.Info("Loading " + package.Name);
 			Unload();
 
             string targetRuntime = package.Settings["RuntimeFramework"] as string;
@@ -67,12 +70,14 @@ namespace NUnit.Util
         {
             if (TestRunner != null)
             {
+                log.Info("Unloading " + Path.GetFileName(Test.TestName.Name));
                 this.TestRunner.Unload();
                 this.TestRunner = null;
             }
 
             if (this.agent != null)
             {
+                log.Info("Stopping remote agent");
                 agent.Stop();
                 this.agent = null;
             }

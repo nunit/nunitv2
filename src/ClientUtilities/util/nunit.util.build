@@ -10,7 +10,6 @@
         <include name="CategoryManager.cs"/>
         <include name="CommandLineOptions.cs"/>
         <include name="ConsoleWriter.cs"/>
-        <include name="DomainAgent.cs"/>
         <include name="ISettings.cs"/>
         <include name="ITestEvents.cs"/>
         <include name="ITestLoader.cs"/>
@@ -34,7 +33,6 @@
         <include name="SettingsGroup.cs"/>
         <include name="SettingsStorage.cs"/>
         <include name="StackTraceFilter.cs"/>
-        <include name="TestAgent.cs"/>
         <include name="TestDomain.cs"/>
         <include name="TestEventArgs.cs"/>
         <include name="TestEventDispatcher.cs"/>

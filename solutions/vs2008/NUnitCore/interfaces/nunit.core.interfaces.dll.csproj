@@ -178,6 +178,9 @@
       <Link>Filters\SimpleNameFilter.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\IAgency.cs">
+      <Link>IAgency.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\IService.cs">
       <Link>IService.cs</Link>
       <SubType>Code</SubType>
@@ -205,6 +208,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\Test.cs">
       <Link>Test.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestAgent.cs">
+      <Link>TestAgent.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestAssemblyInfo.cs">
       <Link>TestAssemblyInfo.cs</Link>

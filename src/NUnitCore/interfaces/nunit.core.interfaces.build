@@ -4,6 +4,7 @@
   <patternset id="source-files">
         <include name="AssemblyInfo.cs"/>
         <include name="EventListener.cs"/>
+        <include name="IAgency.cs"/>
         <include name="IService.cs"/>
         <include name="ITest.cs"/>
         <include name="ITestFilter.cs"/>
@@ -12,6 +13,7 @@
         <include name="RunState.cs"/>
         <include name="RuntimeFramework.cs"/>
         <include name="Test.cs"/>
+        <include name="TestAgent.cs"/>
         <include name="TestAssemblyInfo.cs"/>
         <include name="TestFilter.cs"/>
         <include name="TestID.cs"/>

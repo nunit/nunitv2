@@ -91,6 +91,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\DomainAgent.cs">
+      <Link>DomainAgent.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
       <SubType>Code</SubType>

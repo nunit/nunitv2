@@ -102,6 +102,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "IAgency.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\IAgency.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "IService.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\IService.cs"
                     SubType = "Code"
@@ -152,6 +158,12 @@
                 <File
                     RelPath = "Test.cs"
                     Link = "..\..\..\..\src\NUnitCore\interfaces\Test.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestAgent.cs"
+                    Link = "..\..\..\..\src\NUnitCore\interfaces\TestAgent.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

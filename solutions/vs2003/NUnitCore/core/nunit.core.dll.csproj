@@ -149,6 +149,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DomainAgent.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\DomainAgent.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "EventListenerTextWriter.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\EventListenerTextWriter.cs"
                     SubType = "Code"
