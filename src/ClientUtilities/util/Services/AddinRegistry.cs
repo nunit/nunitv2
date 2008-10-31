@@ -38,7 +38,7 @@ namespace NUnit.Util
 
         public bool IsAddinRegistered(string name)
         {
-            return FindAddinByName(name) == null;
+            return FindAddinByName(name) != null;
         }
 
 		public void SetStatus( string name, AddinStatus status, string message )
