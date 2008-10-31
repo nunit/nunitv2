@@ -85,10 +85,9 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
     </Reference>
-    <ProjectReference Include="..\..\NUnitExtensions\core\nunit.core.extensions.dll.csproj">
-      <Name>nunit.core.extensions.dll</Name>
-      <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll.csproj">
+      <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
+      <Name>nunit.core.dll</Name>
     </ProjectReference>
     <ProjectReference Include="..\nunit-console\nunit-console.csproj">
       <Name>nunit-console</Name>

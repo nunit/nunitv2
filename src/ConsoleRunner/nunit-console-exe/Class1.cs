@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using NUnit.Core;
 
 namespace NUnit.ConsoleRunner
 {
@@ -19,7 +20,11 @@ namespace NUnit.ConsoleRunner
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			return Runner.Main( args );
-		}
+            InternalTrace.Initialize("nunit-console_%p.log");
+
+            return Runner.Main(args);
+
+            //InternalTrace.Close();
+        }
 	}
 }
