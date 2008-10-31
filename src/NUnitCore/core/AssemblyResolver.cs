@@ -17,7 +17,7 @@ namespace NUnit.Core
 	/// </summary>
     public class AssemblyResolver : MarshalByRefObject, IDisposable
 	{
-		static Logger log = InternalTrace.GetLogger("AssemblyResolver");
+		static Logger log = InternalTrace.GetLogger(typeof(AssemblyResolver));
 
 		private class AssemblyCache
 		{
