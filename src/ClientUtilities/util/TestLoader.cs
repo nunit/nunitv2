@@ -269,7 +269,8 @@ namespace NUnit.Util
 		/// </summary>
 		public void NewProject()
 		{
-			try
+            log.Info("Creating empty project");
+            try
 			{
 				events.FireProjectLoading( "New Project" );
 
@@ -277,7 +278,8 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
-				lastException = exception;
+                log.Error("Project creation failed", exception);
+                lastException = exception;
 				events.FireProjectLoadFailed( "New Project", exception );
 			}
 		}
@@ -287,7 +289,8 @@ namespace NUnit.Util
 		/// </summary>
 		public void NewProject( string filePath )
 		{
-			try
+            log.Info("Creating project " + filePath);
+            try
 			{
 				events.FireProjectLoading( filePath );
 
@@ -301,7 +304,8 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
-				lastException = exception;
+                log.Error("Project creation failed", exception);
+                lastException = exception;
 				events.FireProjectLoadFailed( filePath, exception );
 			}
 		}
@@ -313,7 +317,8 @@ namespace NUnit.Util
 		{
 			try
 			{
-				events.FireProjectLoading( filePath );
+                log.Info("Loading project {0}, {1} config", filePath, configName == null ? "default" : configName);
+                events.FireProjectLoading(filePath);
 
 				NUnitProject newProject = Services.ProjectService.LoadProject( filePath );
 				if ( configName != null ) 
@@ -326,7 +331,8 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
-				lastException = exception;
+                log.Error("Project load failed", exception);
+                lastException = exception;
 				events.FireProjectLoadFailed( filePath, exception );
 			}
 		}
@@ -346,6 +352,7 @@ namespace NUnit.Util
 		{
 			try
 			{
+                log.Info("Loading multiple assemblies as new project");
 				events.FireProjectLoading( "New Project" );
 
 				NUnitProject newProject = Services.ProjectService.WrapAssemblies( assemblies );
@@ -354,7 +361,8 @@ namespace NUnit.Util
 			}
 			catch( Exception exception )
 			{
-				lastException = exception;
+                log.Error("Project load failed", exception);
+                lastException = exception;
 				events.FireProjectLoadFailed( "New Project", exception );
 			}
 		}
@@ -366,6 +374,7 @@ namespace NUnit.Util
 		{
 			string testFileName = TestFileName;
 
+            log.Info("Unloading project " + testFileName);
 			try
 			{
 				events.FireProjectUnloading( testFileName );
@@ -379,7 +388,8 @@ namespace NUnit.Util
 			}
 			catch (Exception exception )
 			{
-				lastException = exception;
+                log.Error("Project unload failed", exception);
+                lastException = exception;
 				events.FireProjectUnloadFailed( testFileName, exception );
 			}
 
@@ -410,6 +420,8 @@ namespace NUnit.Util
 		
 		public void LoadTest( string testName )
 		{
+            log.Info("Loading tests for " + Path.GetFileName(TestFileName));
+
             long startTime = DateTime.Now.Ticks;
 
 			try
@@ -442,6 +454,7 @@ namespace NUnit.Util
 			}
 			catch( FileNotFoundException exception )
 			{
+                log.Error("File not found", exception);
 				lastException = exception;
 
 				foreach( string assembly in TestProject.ActiveConfig.Assemblies )
@@ -455,15 +468,17 @@ namespace NUnit.Util
 				}
 
 				events.FireTestLoadFailed( TestFileName, lastException );
-			}
+
+                double loadTime = (double)(DateTime.Now.Ticks - startTime) / (double)TimeSpan.TicksPerSecond;
+                log.Info("Load completed in {0} seconds", loadTime);
+            }
 			catch( Exception exception )
 			{
+                log.Error("Failed to load test", exception);
+
 				lastException = exception;
 				events.FireTestLoadFailed( TestFileName, exception );
 			}
-
-            double loadTime = (double)(DateTime.Now.Ticks - startTime) / (double)TimeSpan.TicksPerSecond;
-            log.Info("Loaded in {0} seconds", loadTime); 
 		}
 
 		/// <summary>
@@ -473,6 +488,8 @@ namespace NUnit.Util
 		{
 			if( IsTestLoaded )
 			{
+                log.Info("Unloading tests for " + Path.GetFileName(TestFileName));
+
 				// Hold the name for notifications after unload
 				string fileName = TestFileName;
 
@@ -491,10 +508,12 @@ namespace NUnit.Util
 					reloadPending = false;
 
 					events.FireTestUnloaded( fileName );
+                    log.Info("Unload complete");
 				}
 				catch( Exception exception )
 				{
-					lastException = exception;
+                    log.Error("Failed to unload tests", exception);
+                    lastException = exception;
 					events.FireTestUnloadFailed( fileName, exception );
 				}
 			}
@@ -505,6 +524,7 @@ namespace NUnit.Util
 		/// </summary>
 		public void ReloadTest()
 		{
+            log.Info("Reloading tests for " + Path.GetFileName(TestFileName));
 			try
 			{
 				events.FireTestReloading( TestFileName );
@@ -520,11 +540,14 @@ namespace NUnit.Util
 				reloadPending = false;
 
                 testProject.HasChangesRequiringReload = false;
-                events.FireTestReloaded(TestFileName, loadedTest);				
+                events.FireTestReloaded(TestFileName, loadedTest);
+
+                log.Info("Reload complete");
 			}
 			catch( Exception exception )
 			{
-				lastException = exception;
+                log.Error("Reload failed", exception);
+                lastException = exception;
 				events.FireTestReloadFailed( TestFileName, exception );
 			}
 		}

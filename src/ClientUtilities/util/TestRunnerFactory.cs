@@ -8,6 +8,8 @@ namespace NUnit.Util
     /// </summary>
     public class TestRunnerFactory
     {
+        static Logger log = InternalTrace.GetLogger(typeof(TestRunnerFactory));
+
         /// <summary>
         /// Returns a test runner based on the settings in a TestPackage.
         /// Any setting that is "consumed" by the factory is removed, so
@@ -24,6 +26,8 @@ namespace NUnit.Util
                 ? RuntimeFramework.CurrentFramework
                 : new RuntimeFramework( targetRuntime );
             RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
+
+            log.Debug("Test requires {0} framework", runtimeFramework.Name);
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if ( processModel == ProcessModel.Default )

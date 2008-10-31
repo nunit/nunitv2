@@ -114,6 +114,9 @@ namespace NUnit.Util
                 Hash hash = new Hash(assembly);
                 evidence.AddHost(hash);
             }
+
+            log.Info("Creating AppDomain " + domainName);
+
             AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 
 			// Inject assembly resolver into remote domain to help locate our assemblies
@@ -154,12 +157,13 @@ namespace NUnit.Util
 
             public void Unload()
             {
+                log.Info("Unloading AppDomain " + domain.FriendlyName);
+
                 thread = new Thread(new ThreadStart(UnloadOnThread));
                 thread.Start();
                 if (!thread.Join(20000))
                 {
-                    log.Error("Unable to unload AppDomain {0}", domain.FriendlyName);
-                    log.Error("Unload thread timed out");
+                    log.Error("Unable to unload AppDomain {0}, Unload thread timed out", domain.FriendlyName);
                     thread.Abort();
                 }
             }
