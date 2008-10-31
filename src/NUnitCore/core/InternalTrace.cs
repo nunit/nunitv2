@@ -15,27 +15,37 @@ namespace NUnit.Core
 	public class InternalTrace
 	{
 		private readonly static string NL = Environment.NewLine;
+        private readonly static string TIME_FMT = "HH:mm:ss.fff";
+
+		private static bool initialized;
+
         private static InternalTraceWriter writer;
         public static InternalTraceWriter Writer
         {
             get { return writer; }
         }
 
-		public static TraceLevel Level = new TraceSwitch( "NTrace", "NUnit internal trace" ).Level;
-
-        public static void Initialize(string logName, TraceLevel level)
-        {
-            Level = level;
-            Initialize(logName);
-        }
+		public static TraceLevel Level;
 
         public static void Initialize(string logName)
         {
-            if (writer == null && Level > TraceLevel.Off)
-            {
-                writer = new InternalTraceWriter(logName);
-                writer.WriteLine("InternalTrace: Initializing at level " + Level.ToString());
-            }
+			Initialize(logName, new TraceSwitch( "NTrace", "NUnit internal trace" ).Level);
+        }
+
+        public static void Initialize(string logName, TraceLevel level)
+        {
+			if (!initialized)
+			{
+				Level = level;
+
+				if (writer == null && Level > TraceLevel.Off)
+				{
+					writer = new InternalTraceWriter(logName);
+					writer.WriteLine("InternalTrace: Initializing at level " + Level.ToString());
+				}
+
+				initialized = true;
+			}
         }
 
         public static void Flush()
@@ -62,9 +72,26 @@ namespace NUnit.Core
 			return new Logger( type.FullName );
 		}
 
-        public static void WriteLine(string message, string category)
+        public static void Log(TraceLevel level, string message, string category)
         {
-            Writer.WriteLine("{0} {1}: {2}", DateTime.Now.ToString("HH:mm:ss.fff"), category, message);
+            Log(level, message, category, null);
+        }
+
+        public static void Log(TraceLevel level, string message, string category, Exception ex)
+        {
+            Writer.WriteLine("{0} {1,-5} [{2,2}] {3}: {4}",
+                DateTime.Now.ToString(TIME_FMT),
+                level == TraceLevel.Verbose ? "Debug" : level.ToString(),
+#if NET_2_0
+                System.Threading.Thread.CurrentThread.ManagedThreadId,
+#else
+                AppDomain.GetCurrentThreadId(),
+#endif
+                category,
+                message);
+
+            if (ex != null)
+                Writer.WriteLine(ex.ToString());
         }
     }
 }

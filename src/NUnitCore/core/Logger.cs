@@ -19,23 +19,19 @@ namespace NUnit.Core
         #region Error
         public void Error(string message)
         {
-            if (InternalTrace.Level >= TraceLevel.Error)
-                InternalTrace.WriteLine(message, name);
+            Log(TraceLevel.Error, message);
         }
 
         public void Error(string message, params object[] args)
         {
-            if (InternalTrace.Level >= TraceLevel.Error)
-                WriteFormat(message, args);
+            Log(TraceLevel.Error, message, args);
         }
 
         public void Error(string message, Exception ex)
         {
             if (InternalTrace.Level >= TraceLevel.Error)
             {
-                InternalTrace.WriteLine(message, name);
-                if ( ex != null )
-				    InternalTrace.WriteLine(ex.ToString(), name);
+                InternalTrace.Log(TraceLevel.Error, message, name, ex);
             }
         }
         #endregion
@@ -43,50 +39,50 @@ namespace NUnit.Core
         #region Warning
         public void Warning(string message)
         {
-            if (InternalTrace.Level >= TraceLevel.Warning)
-                InternalTrace.WriteLine(message, name);
+            Log(TraceLevel.Warning, message);
         }
 
         public void Warning(string message, params object[] args)
         {
-            if (InternalTrace.Level >= TraceLevel.Warning)
-                WriteFormat(message, args);
+            Log(TraceLevel.Warning, message, args);
         }
         #endregion
 
         #region Info
         public void Info(string message)
         {
-            if (InternalTrace.Level >= TraceLevel.Info)
-                InternalTrace.WriteLine(message, name);
+            Log(TraceLevel.Info, message);
         }
 
         public void Info(string message, params object[] args)
         {
-            if (InternalTrace.Level >= TraceLevel.Info)
-                WriteFormat(message, args);
+            Log(TraceLevel.Info, message, args);
         }
         #endregion
 
         #region Debug
         public void Debug(string message)
         {
-            if (InternalTrace.Level >= TraceLevel.Verbose)
-                InternalTrace.WriteLine(message, name);
+            Log(TraceLevel.Verbose, message);
         }
 
         public void Debug(string message, params object[] args)
         {
-            if (InternalTrace.Level >= TraceLevel.Verbose)
-                WriteFormat(message, args);
+            Log(TraceLevel.Verbose, message, args);
         }
         #endregion
 
         #region Helper Methods
-        private void WriteFormat(string format, params object[] args)
+        public void Log(TraceLevel level, string message)
         {
-            string message = string.Format(format, args);
-            InternalTrace.WriteLine(message, name);
+            if (InternalTrace.Level >= level)
+                InternalTrace.Log(level, message, name);
+        }
+
+        private void Log(TraceLevel level, string format, params object[] args)
+        {
+            if (InternalTrace.Level >= level)
+                Log(level, string.Format( format, args ) );
         }
         #endregion
     }
