@@ -86,7 +86,7 @@
         <patternset refid="resource-files"/>
       </resources>
       <references>
-        <include name="${current.lib.dir}/nunit.framework.dll"/>
+        <include name="${current.framework.dir}/nunit.framework.dll"/>
         <include name="System.Data.dll"/>
         <include name="System.Drawing.dll"/>
       </references>

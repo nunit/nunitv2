@@ -94,8 +94,8 @@
   <target name="build" depends="gen-syntax">
 
     <csc target="library"
-        output="${current.lib.dir}/nunit.framework.dll"
-        doc="${current.lib.dir}/nunit.framework.xml"
+        output="${current.framework.dir}/nunit.framework.dll"
+        doc="${current.framework.dir}/nunit.framework.xml"
         debug="${build.debug}" 
         define="${build.defines}">
       <nowarn>
@@ -109,7 +109,7 @@
     </csc>
 
     <!-- Needed locally by some NUnit tests -->
-    <copy file="${current.lib.dir}/nunit.framework.dll"
+    <copy file="${current.framework.dir}/nunit.framework.dll"
       todir="${current.test.dir}"/>
   </target>
 

@@ -15,7 +15,7 @@
         <patternset refid="source-files"/>
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
-      <references basedir="${current.lib.dir}">
+      <references basedir="${current.framework.dir}">
         <include name="nunit.framework.dll"/>
         <include name="nunit.mocks.dll"/>
       </references>

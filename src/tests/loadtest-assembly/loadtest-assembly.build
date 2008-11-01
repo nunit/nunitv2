@@ -11,7 +11,7 @@
       <nowarn>
         <warning number="618,672"/>
       </nowarn>
-      <references basedir="${current.lib.dir}">
+      <references basedir="${current.framework.dir}">
         <include name="nunit.framework.dll"/>
       </references>
     </csc>

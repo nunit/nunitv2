@@ -18,7 +18,7 @@
 
   <target name="build">
     <csc target="library" 
-        output="${current.lib.dir}/nunit.mocks.dll"
+        output="${current.framework.dir}/nunit.mocks.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
@@ -27,7 +27,7 @@
       <nowarn>
         <warning number="1699" if="${runtime.version=='2.0'}"/>
       </nowarn>
-      <references basedir="${current.lib.dir}">
+      <references basedir="${current.framework.dir}">
         <include name="nunit.framework.dll"/>
       </references>
     </csc>

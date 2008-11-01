@@ -20,7 +20,7 @@
 	  <include name="System.Drawing.dll"/>
         <include name="${current.build.dir}/nunit-gui-runner.dll"/>
         <include name="${current.build.dir}/nunit.util.dll"/>
-        <include name="${current.lib.dir}/nunit.framework.dll"/>
+        <include name="${current.framework.dir}/nunit.framework.dll"/>
         <include name="${current.test.dir}/test-utilities.dll"/>
       </references>
     </csc>

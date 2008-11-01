@@ -16,8 +16,8 @@
         <patternset refid="source-files"/>
       </sources>
       <references>
-        <include name="${current.lib.dir}/nunit.framework.dll"/>
-        <include name="${current.lib.dir}/pnunit.framework.dll"/>
+        <include name="${current.framework.dir}/nunit.framework.dll"/>
+        <include name="${current.framework.dir}/pnunit.framework.dll"/>
       </references>
     </csc>
   </target>

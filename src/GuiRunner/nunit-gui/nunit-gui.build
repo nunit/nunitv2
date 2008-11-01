@@ -64,7 +64,6 @@
         <include name="${current.build.dir}/nunit.util.dll"/>
         <include name="${current.build.dir}/nunit.uikit.dll"/>
         <include name="${current.build.dir}/nunit.core.dll"/>
-        <include name="${current.lib.dir}/nunit.framework.dll"/>
       </references>
     </csc>
   </target>

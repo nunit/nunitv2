@@ -86,7 +86,6 @@
         <include name="System.Configuration.dll"/>
 	<include name="${current.build.dir}/nunit.core.interfaces.dll"/>
         <include name="${current.build.dir}/nunit.core.dll"/>
-        <include name="${current.lib.dir}/nunit.framework.dll"/>
       </references>
     </csc>
   </target>

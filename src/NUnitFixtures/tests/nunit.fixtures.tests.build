@@ -15,7 +15,7 @@
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <references>
-        <include name="${current.lib.dir}/nunit.framework.dll"/>
+        <include name="${current.framework.dir}/nunit.framework.dll"/>
         <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
         <include name="${current.build.dir}/nunit.core.dll"/>
         <include name="${current.build.dir}/nunit.util.dll"/>
