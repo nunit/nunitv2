@@ -101,6 +101,23 @@ namespace NUnit.Core
         }
         #endregion
 
+        #region NUnitLibDirectory
+        private static string nunitLibDirectory;
+        public static string NUnitLibDirectory
+        {
+            get
+            {
+                if (nunitLibDirectory == null)
+                {
+                    nunitLibDirectory =
+                        AssemblyHelper.GetDirectoryName(Assembly.GetExecutingAssembly());
+                }
+
+                return nunitLibDirectory;
+            }
+        }
+        #endregion
+
         #region NUnitDirectory
         private static string nunitDirectory;
         public static string NUnitDirectory
@@ -109,8 +126,10 @@ namespace NUnit.Core
             {
                 if (nunitDirectory == null)
                 {
-                    nunitDirectory =
-                        AssemblyHelper.GetDirectoryName(Assembly.GetExecutingAssembly());
+                    nunitDirectory = NUnitLibDirectory;
+
+                    if (nunitDirectory.EndsWith(Path.DirectorySeparatorChar + "lib"))
+                        nunitDirectory = Path.GetDirectoryName(nunitDirectory);
                 }
 
                 return nunitDirectory;

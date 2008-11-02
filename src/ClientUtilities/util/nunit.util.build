@@ -68,7 +68,7 @@
 
   <target name="build">
     <csc target="library" 
-        output="${current.build.dir}/nunit.util.dll"
+        output="${current.lib.dir}/nunit.util.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
@@ -84,8 +84,8 @@
       <references>
         <include name="System.Runtime.Remoting.dll"/>
         <include name="System.Configuration.dll"/>
-	<include name="${current.build.dir}/nunit.core.interfaces.dll"/>
-        <include name="${current.build.dir}/nunit.core.dll"/>
+	  <include name="${current.lib.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.lib.dir}/nunit.core.dll"/>
       </references>
     </csc>
   </target>

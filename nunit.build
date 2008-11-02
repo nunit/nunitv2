@@ -220,7 +220,7 @@
     <copy file="${project.base.dir}/nunit.snk" todir="${project.build.dir}"/>-->
 
     <!-- Copy lib files to build dir -->
-    <copy todir="${current.build.dir}">
+    <copy todir="${current.lib.dir}">
       <fileset basedir="${project.lib.dir}">
         <include name="*.dll"/>
       </fileset>
@@ -378,6 +378,14 @@
     <echo message="* Restored runtime to ${nant.settings.currentframework}" />
     <echo message="*" />
 
+  </target>
+
+  <target name="test-under-net-1.0">
+    <if test="${framework::exists('net-1.0')}">
+      <property name="nant.settings.currentframework" value="net-1.0"/>
+      <call target="run-test"/>
+      <property name="nant.settings.currentframework" value="${runtime.config}" />
+    </if>
   </target>
 
   <target name="test-all-under-each"
@@ -788,6 +796,35 @@
     <copy file="${project.src.dir}/GuiRunner/nunit-gui/Logo.ico"
           todir="${package.working.dir}" />
     <copy file="NUnitFitTests.html"
+          todir="${package.bin.dir}/${runtime.config}" />
+    <copy file="${project.addins.dir}/RowTest/License.txt" 
+          tofile="${package.working.dir}/rowtest-license.txt" />
+
+  </target>
+
+  <target name="build-experimental-image" depends="clean-package-dir">
+
+    <property name="package.config" value="${runtime.config}"
+      unless="${property::exists('package.config')}"/>
+
+    <foreach item="String" delim="+"
+      property="runtime" in="${package.config}">
+
+      <if test="${framework::sdk-exists( runtime )}">
+        <call target="set-${runtime}-runtime-config"/>
+        <call target="copy-bins-experimental" />
+      </if>
+    </foreach>
+
+    <call target="copy-docs" />
+    <call target="copy-samples" />
+
+    <copy file="license.txt" todir="${package.working.dir}" />
+    <copy file="${project.tools.dir}/fit/license.txt"
+          tofile="${package.working.dir}/fit-license.txt" />
+    <copy file="${project.src.dir}/GuiRunner/nunit-gui/Logo.ico"
+          todir="${package.working.dir}" />
+    <copy file="NUnitFitTests.html"
           todir="${package.bin.dir}" />
     <copy file="${project.addins.dir}/RowTest/License.txt" 
           tofile="${package.working.dir}/rowtest-license.txt" />
@@ -802,11 +839,33 @@
 
     <mkdir dir="${package.bin.dir}"/>
 
+    <copy todir="${package.bin.dir}/${runtime.config}">
+      <fileset basedir="${current.build.dir}">
+        <include name="*"/>
+        <include name="lib/*"/>
+        <include name="tests/*"/>
+        <include name="framework/*"/>
+        <include name="addins/*"/>
+        <include name="${runtime.config}/*"/>
+        <exclude name="*.wixobj"/>
+        <exclude name="nunit-server.*"/>
+        <exclude name="nunit-test-server.*"/>
+      </fileset>
+    </copy>
+
+  </target>
+  
+  <target name="copy-bins-experimental" depends="build">
+
+    <property name="package.bin.dir" value="${package.working.dir}/bin"/>
+    <mkdir dir="${package.bin.dir}"/>
+
     <copy todir="${package.bin.dir}">
       <fileset basedir="${current.build.dir}">
         <include name="*"/>
-        <include name="tests/*"/>
         <include name="lib/*"/>
+        <include name="tests/*"/>
+        <include name="framework/*"/>
         <include name="addins/*"/>
         <include name="${runtime.config}/*"/>
         <exclude name="*.wixobj"/>

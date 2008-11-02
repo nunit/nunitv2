@@ -20,11 +20,15 @@
       <references>
         <include name="System.Runtime.Remoting.dll"/>
         <include name="${current.framework.dir}/pnunit.framework.dll"/>
-        <include name="${current.build.dir}/nunit.core.dll"/>
-        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
-        <include name="${current.build.dir}/log4net.dll"/>
+        <include name="${current.lib.dir}/nunit.core.dll"/>
+        <include name="${current.lib.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.lib.dir}/log4net.dll"/>
       </references>
     </csc>
+
+    <copy file="Ship.config"
+      tofile="${current.build.dir}/pnunit-launcher.exe.config"/>
+
   </target>
 
   <target name="package">

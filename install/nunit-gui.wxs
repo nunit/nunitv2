@@ -25,7 +25,7 @@
       <ComponentRef Id="MenuShortcut_Mono_2.0" />
     </ComponentGroup>
         
-    <DirectoryRef Id="net_1.1" FileSource="net-1.1">
+    <DirectoryRef Id="net_1.1" FileSource="bin\net-1.1">
              
       <Component Id="nunit.exe_1.1" DiskId="1" Guid="8F677B87-1379-4721-B527-6EC53A3613F4">
         <File Id="nunit.exe_1.1" Name="nunit.exe">
@@ -41,24 +41,12 @@
         <File Id="clr.bat" Name="clr.bat" KeyPath="yes" DiskId="1" />
       </Component>
 
-      <Component Id="nunit_gui_runner_1.1" DiskId="1" Guid="7A62D7B2-1D0D-4cb4-9C52-00DBBBDAA0A2">
-        <File Id="nunit_gui_runner_1.1" Name="GUI.DLL" LongName="nunit-gui-runner.dll" />
-      </Component>
-      		
-      <Component Id="nunit.uikit_1.1" DiskId="1" Guid="5B256DDD-668C-4bdd-AC91-7EF0D961F6E6">
-        <File Id="nunit.uikit_1.1" Name="UIKIT.DLL" LongName="nunit.uikit.dll" />
-        <File Id="success.jpg_1.1" Name="SUCCESS.JPG" LongName="success.jpg" />
-        <File Id="failure.jpg_1.1" Name="FAILURE.JPG" LongName="failure.jpg" />
-        <File Id="ignored.jpg_1.1" Name="IGNORED.JPG" LongName="ignored.jpg" />
-        <RemoveFile Id="RemoveThumbnails_GUI_1.1" On="uninstall" Name="*" />
-      </Component>
-      				
       <Component Id="MenuShortcut_1.0" DiskId="1" Guid="2B9915B2-3C65-45fa-B6DB-7CB47F19EEA0">
         <Condition>FRAMEWORK10 = "3321-3705"</Condition>
         <Shortcut Id="MenuShortcut_1.0" Name="SNUNIT10" LongName="NUnit (.NET 1.0)"  
-                  Target="[!clr.bat]" Arguments="1.0 start nunit.exe" Directory="NUnitMenu" 
-                  Advertise="no" Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
-                  WorkingDirectory="net_1.1" />
+                  Target="[!clr.bat]" Arguments="1.0 start nunit.exe" 
+                  Directory="NUnitMenu" Advertise="no" Icon="nunit_icon.exe" IconIndex="0" 
+                  Show="normal" WorkingDirectory="net_1.1" />
       </Component>
       		
       <Component Id="MenuShortcut_1.1" DiskId="1" Guid="BC64C9F2-8CA8-4cc1-BD86-1B036DDC1E26">
@@ -129,7 +117,23 @@
     		
     </DirectoryRef>
     	
-    <DirectoryRef Id="net_2.0" FileSource="net-2.0">
+    <DirectoryRef Id="lib_1.1" FileSource="bin\net-1.1\lib">
+
+      <Component Id="nunit_gui_runner_1.1" DiskId="1" Guid="7A62D7B2-1D0D-4cb4-9C52-00DBBBDAA0A2">
+        <File Id="nunit_gui_runner_1.1" Name="GUI.DLL" LongName="nunit-gui-runner.dll" />
+      </Component>
+      		
+      <Component Id="nunit.uikit_1.1" DiskId="1" Guid="5B256DDD-668C-4bdd-AC91-7EF0D961F6E6">
+        <File Id="nunit.uikit_1.1" Name="UIKIT.DLL" LongName="nunit.uikit.dll" />
+        <File Id="success.jpg_1.1" Name="SUCCESS.JPG" LongName="success.jpg" />
+        <File Id="failure.jpg_1.1" Name="FAILURE.JPG" LongName="failure.jpg" />
+        <File Id="ignored.jpg_1.1" Name="IGNORED.JPG" LongName="ignored.jpg" />
+        <RemoveFile Id="RemoveThumbnails_GUI_1.1" On="uninstall" Name="*" />
+      </Component>
+      				
+    </DirectoryRef>
+
+    <DirectoryRef Id="net_2.0" FileSource="bin\net-2.0">
              
       <Component Id="nunit.exe_2.0" DiskId="1" Guid="E0AFF731-3B75-4a29-A885-076A46533D2D">
         <File Id="nunit.exe_2.0" Name="nunit.exe">
@@ -146,18 +150,6 @@
         <File Id="nunit_x86.config" Name="NUNITX86.CFG" LongName="nunit-x86.exe.config" />
       </Component>
 
-      <Component Id="nunit_gui_runner_2.0" DiskId="1" Guid="7A62D7B2-1D0D-4cb4-9C52-00DBBBDAA0A2">
-        <File Id="nunit_gui_runner_2.0" Name="GUI.DLL" LongName="nunit-gui-runner.dll" />
-      </Component>
-      		
-      <Component Id="nunit.uikit_2.0" DiskId="1" Guid="5B256DDD-668C-4bdd-AC91-7EF0D961F6E6">
-        <File Id="nunit.uikit_2.0" Name="UIKIT.DLL" LongName="nunit.uikit.dll" />
-        <File Id="success.jpg_2.0" Name="SUCCESS.JPG" LongName="success.jpg" />
-        <File Id="failure.jpg_2.0" Name="FAILURE.JPG" LongName="failure.jpg" />
-        <File Id="ignored.jpg_2.0" Name="IGNORED.JPG" LongName="ignored.jpg" />
-        <RemoveFile Id="RemoveThumbnails_GUI_2.0" On="uninstall" Name="*" />
-      </Component>
-      		
       <Component Id="DllFileAssociation_2.0" Guid="51496B17-0252-4adf-9850-1E0841E5A51B">
 
         <Registry Id="R__OpenDllWith_2.0" Root="HKCR" Key=".dll\OpenWithList\nunit.exe"/>
@@ -191,7 +183,23 @@
 
     </DirectoryRef>
     	
-    <Icon Id="nunit_icon.exe" SourceFile="net-1.1\nunit.exe" />
+    <DirectoryRef Id="lib_2.0" FileSource="bin\net-2.0\lib">
+
+      <Component Id="nunit_gui_runner_2.0" DiskId="1" Guid="7A62D7B2-1D0D-4cb4-9C52-00DBBBDAA0A2">
+        <File Id="nunit_gui_runner_2.0" Name="GUI.DLL" LongName="nunit-gui-runner.dll" />
+      </Component>
+      		
+      <Component Id="nunit.uikit_2.0" DiskId="1" Guid="5B256DDD-668C-4bdd-AC91-7EF0D961F6E6">
+        <File Id="nunit.uikit_2.0" Name="UIKIT.DLL" LongName="nunit.uikit.dll" />
+        <File Id="success.jpg_2.0" Name="SUCCESS.JPG" LongName="success.jpg" />
+        <File Id="failure.jpg_2.0" Name="FAILURE.JPG" LongName="failure.jpg" />
+        <File Id="ignored.jpg_2.0" Name="IGNORED.JPG" LongName="ignored.jpg" />
+        <RemoveFile Id="RemoveThumbnails_GUI_2.0" On="uninstall" Name="*" />
+      </Component>
+      		
+    </DirectoryRef>
+
+    <Icon Id="nunit_icon.exe" SourceFile="bin\net-1.1\nunit.exe" />
 	
   </Fragment>
 </Wix>

@@ -89,9 +89,9 @@
       <references>
         <include name="${current.framework.dir}/nunit.framework.dll"/>
         <include name="${current.framework.dir}/nunit.mocks.dll"/>
-        <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
-        <include name="${current.build.dir}/nunit.core.dll"/>
-        <include name="${current.build.dir}/nunit.util.dll"/>
+        <include name="${current.lib.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.lib.dir}/nunit.core.dll"/>
+        <include name="${current.lib.dir}/nunit.util.dll"/>
         <include name="${current.test.dir}/test-assembly.dll"/>
         <include name="${current.test.dir}/test-utilities.dll"/>
         <include name="${current.test.dir}/mock-assembly.dll"/>

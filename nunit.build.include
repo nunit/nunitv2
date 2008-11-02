@@ -34,6 +34,8 @@
   <!-- Set paths to various package directories -->
   <property name="package.working.dir" 
     value="${path::combine(project.package.dir,package.name)}"/>
+  <property name="package.bin.dir" 
+    value="${path::combine(package.working.dir,'bin')}"/>
   <property name="package.doc.dir" 
     value="${path::combine(package.working.dir,'doc')}"/>
   <property name="package.samples.dir" 
@@ -223,15 +225,15 @@
     <property name="current.build.dir" 
       value="${path::combine(runtime.version.dir,build.config)}"/>
 
-    <property name="current.framework.dir" 
-      value="${path::combine(current.build.dir,'framework')}"/>
     <property name="current.lib.dir" 
       value="${path::combine(current.build.dir,'lib')}"/>
+    <property name="current.framework.dir" 
+      value="${path::combine(current.build.dir,'framework')}"/>
     <property name="current.test.dir" 
       value="${path::combine(current.build.dir,'tests')}"/>
 
-    <property name="package.bin.dir" 
-      value="${path::combine(package.working.dir,runtime.config)}"/>
+<!--    <property name="package.bin.dir" 
+      value="${path::combine(package.working.dir,runtime.config)}"/>-->
   </target>
   
   <target name="make-build-dir" depends="set-build-dir">
