@@ -102,9 +102,6 @@
       <Link>RepeatAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\MaxTimeAttribute.cs">
-      <Link>MaxTimeAttribute.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitExtensions\framework\Xml\XmlConstraint.cs">
       <Link>Xml\XmlConstraint.cs</Link>
     </Compile>

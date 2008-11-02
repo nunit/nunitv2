@@ -125,12 +125,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "MaxTimeDecoratorTests.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\tests\MaxTimeDecoratorTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "RepeatedTestFixture.cs"
                     Link = "..\..\..\..\src\NUnitExtensions\tests\RepeatedTestFixture.cs"
                     SubType = "Code"

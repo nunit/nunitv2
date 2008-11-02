@@ -250,6 +250,9 @@
       <Link>LegacySuiteTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\MaxTimeTests.cs">
+      <Link>MaxTimeTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\MockTestRunner.cs">
       <Link>MockTestRunner.cs</Link>
       <SubType>Code</SubType>

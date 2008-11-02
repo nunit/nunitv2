@@ -131,9 +131,6 @@
       <Link>RepeatedTestFixture.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\MaxTimeDecoratorTests.cs">
-      <Link>MaxTimeDecoratorTests.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\XmlDiffFixture.cs">
       <Link>XmlDiffFixture.cs</Link>
     </Compile>

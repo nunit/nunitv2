@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\..\src\CommonAssemblyInfo.cs">
-      <Link>MaxTimeDecorator\CommonAssemblyInfo.cs</Link>
+      <Link>CommonAssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitExtensions\core\AssemblyInfo.cs">
@@ -111,12 +111,6 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\core\RepeatedTestDecorator.cs">
       <Link>RepeatedTestDecorator.cs</Link>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\MaxTimeDecorator\MaxTimeDecorator.cs">
-      <Link>MaxTimeDecorator\MaxTimeDecorator.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\MaxTimeDecorator\MaxTimeTestCase.cs">
-      <Link>MaxTimeDecorator\MaxTimeTestCase.cs</Link>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -131,9 +131,6 @@
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RepeatedTestFixture.cs">
       <Link>RepeatedTestFixture.cs</Link>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\MaxTimeDecoratorTests.cs">
-      <Link>MaxTimeDecoratorTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\XmlDiffFixture.cs">
       <Link>XmlDiffFixture.cs</Link>

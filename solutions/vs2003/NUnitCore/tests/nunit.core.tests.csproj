@@ -279,6 +279,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "MaxTimeTests.cs"
+                    Link = "..\..\..\..\src\nunitcore\tests\MaxTimeTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "MockTestRunner.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\MockTestRunner.cs"
                     SubType = "Code"

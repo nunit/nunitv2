@@ -263,6 +263,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\ListMapper.cs">
       <Link>ListMapper.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\MaxTimeAttribute.cs">
+      <Link>MaxTimeAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\PropertyAttribute.cs">
       <Link>PropertyAttribute.cs</Link>
       <SubType>Code</SubType>

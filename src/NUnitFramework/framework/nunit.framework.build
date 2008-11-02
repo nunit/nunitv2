@@ -57,6 +57,7 @@
         <include name="JoinTypeAttributes.cs"/>
         <include name="List.cs"/>
         <include name="ListMapper.cs"/>
+    <include name="MaxTimeAttribute.cs"/>
         <include name="PropertyAttribute.cs"/>
         <include name="RandomAttribute.cs"/>
         <include name="RangeAttribute.cs"/>

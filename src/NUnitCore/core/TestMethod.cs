@@ -169,6 +169,7 @@ namespace NUnit.Core
                     new TestMethodThread(this).Run(testResult, NullListener.NULL, TestFilter.Empty);
                 else
                     doRun(testResult);
+
             }
             catch (Exception ex)
             {
@@ -213,6 +214,19 @@ namespace NUnit.Core
 				DateTime stop = DateTime.Now;
 				TimeSpan span = stop.Subtract(start);
 				testResult.Time = (double)span.Ticks / (double)TimeSpan.TicksPerSecond;
+
+
+                if (testResult.IsSuccess && this.Properties.Contains("MaxTime"))
+                {
+                    int elapsedTime = (int)Math.Round(testResult.Time * 1000.0);
+                    int maxTime = (int)this.Properties["MaxTime"];
+
+                    if (maxTime > 0 && elapsedTime > maxTime)
+                        testResult.Failure(
+                            string.Format("Elapsed time of {0}ms exceeds maximum of {1}ms",
+                                elapsedTime, maxTime),
+                            null);
+                }
 			}
 		}
 		#endregion

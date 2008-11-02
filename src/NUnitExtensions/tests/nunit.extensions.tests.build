@@ -2,7 +2,6 @@
 <project name="NUnitExtensionsTests" default="build" basedir=".">
 
   <patternset id="source-files">
-    <include name="MaxTimeDecoratorTests.cs"/>
     <include name="RepeatedTestFixture.cs"/>
     <include name="RowTest/*.cs"/>
     <include name="RowTest/UnitTests/*.cs"/>
