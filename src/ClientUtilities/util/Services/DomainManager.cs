@@ -119,20 +119,16 @@ namespace NUnit.Util
 
             AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 
-			// Inject assembly resolver into remote domain to help locate our assemblies
-#if NET_2_0
-            Activator.CreateInstanceFrom(
-                runnerDomain,
-#else
-			runnerDomain.CreateInstanceFrom(
-#endif
-                typeof(AssemblyResolver).Assembly.CodeBase,
-                typeof(AssemblyResolver).FullName);
-
 			// HACK: Only pass down our AddinRegistry one level so that tests of NUnit
 			// itself start without any addins defined.
 			if ( !IsTestDomain( AppDomain.CurrentDomain ) )
 				runnerDomain.SetData("AddinRegistry", Services.AddinRegistry);
+
+            // Inject DomainInitializer into the remote domain - there are other
+            // approaches, but this works for all CLR versions.
+            DomainInitializer initializer = DomainInitializer.CreateInstance(runnerDomain);
+            initializer.InitializeDomain( IsTestDomain(AppDomain.CurrentDomain)
+                ? TraceLevel.Off : InternalTrace.Level );
 
 			return runnerDomain;
 		}
@@ -304,8 +300,8 @@ namespace NUnit.Util
 
 		public void UnloadService()
 		{
-			// TODO:  Add DomainManager.UnloadService implementation
-		}
+            // TODO:  Add DomainManager.UnloadService implementation
+        }
 
 		public void InitializeService()
 		{

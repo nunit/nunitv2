@@ -589,8 +589,8 @@ namespace NUnit.Gui
 			// assemblyDetailsMenuItem
 			// 
 			this.assemblyDetailsMenuItem.Index = 0;
-			this.assemblyDetailsMenuItem.Text = "&Assembly Details...";
-			this.assemblyDetailsMenuItem.Click += new System.EventHandler(this.assemblyDetailsMenuItem_Click);
+            this.assemblyDetailsMenuItem.Text = "&Test Assemblies...";
+            this.assemblyDetailsMenuItem.Click += new System.EventHandler(this.assemblyDetailsMenuItem_Click);
 			// 
 			// saveXmlResultsMenuItem
 			// 
@@ -1245,7 +1245,7 @@ namespace NUnit.Gui
 		private void assemblyDetailsMenuItem_Click(object sender, System.EventArgs e)
 		{
             new TestAssemblyInfoForm().ShowDialog();
-		}
+        }
 
 		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
 		{

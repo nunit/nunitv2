@@ -99,7 +99,7 @@ namespace NUnit.UiKit
             this.Controls.Add(this.message);
 			this.Controls.Add(this.okButton);
 			this.Name = "ScrollingTextDisplayForm";
-			this.Text = "Assembly Info";
+			this.Text = "NUnit";
 			this.Resize += new System.EventHandler(this.ScrollingTextDisplayForm_Resize);
 			this.ResumeLayout(false);
 

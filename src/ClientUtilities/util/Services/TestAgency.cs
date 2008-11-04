@@ -19,17 +19,6 @@ using NUnit.Core;
 namespace NUnit.Util
 {
 	/// <summary>
-	/// Enumeration of agent types used to request agents
-	/// </summary>
-	[Flags]
-	public enum AgentType
-	{
-		Default = 0,
-		DomainAgent = 1, // NYI
-		ProcessAgent = 2
-	}
-
-	/// <summary>
 	/// Enumeration used to report AgentStatus
 	/// </summary>
 	public enum AgentStatus
@@ -55,10 +44,6 @@ namespace NUnit.Util
 
 		#region Private Fields
 		private AgentDataBase agentData = new AgentDataBase();
-
-		private AgentType supportedAgentTypes = AgentType.ProcessAgent;
-
-		private AgentType defaultAgentType = AgentType.ProcessAgent;
 		#endregion
 
 		#region Constructors
@@ -118,31 +103,18 @@ namespace NUnit.Util
 		#region Public Methods - Called by Clients
 		public TestAgent GetAgent()
 		{
-			return GetAgent( AgentType.Default, RuntimeFramework.CurrentFramework, Timeout.Infinite );
+			return GetAgent( RuntimeFramework.CurrentFramework, Timeout.Infinite );
 		}
 
-		public TestAgent GetAgent( AgentType type )
-		{
-			return GetAgent( type, RuntimeFramework.CurrentFramework, Timeout.Infinite );
-		}
-
-        public TestAgent GetAgent(AgentType type, int waitTime)
+        public TestAgent GetAgent(int waitTime)
         {
-            return GetAgent(type, RuntimeFramework.CurrentFramework, waitTime);
+            return GetAgent(RuntimeFramework.CurrentFramework, waitTime);
         }
 
-		public TestAgent GetAgent(AgentType type, RuntimeFramework framework, int waitTime)
+		public TestAgent GetAgent(RuntimeFramework framework, int waitTime)
 		{
-			if ( type == AgentType.Default )
-				type = defaultAgentType;
-
-            log.Info("Getting agent type {0} running under {1}", type, framework.Name);
+            log.Info("Getting agent for use under {0}", framework.Name);
  
-			if ( (type & supportedAgentTypes) == 0 )
-				throw new ArgumentException( 
-					string.Format( "AgentType {0} is not supported by this agency", type ),
-					"type" );
-
             if (!framework.IsSupported)
                 throw new ArgumentException(
                     string.Format("The {0} framework is not supported", framework.Name),
@@ -157,9 +129,7 @@ namespace NUnit.Util
             //AgentRecord r = FindAvailableRemoteAgent(type);
             //if ( r == null )
             //    r = CreateRemoteAgent(type, framework, waitTime);
-            AgentRecord r = CreateRemoteAgent(type, framework, waitTime);
-
-			return r == null ? null : r.Agent;
+            return CreateRemoteAgent(framework, waitTime);
 		}
 
 		public void ReleaseAgent( TestAgent agent )
@@ -250,7 +220,7 @@ namespace NUnit.Util
         //        agentData.Remove(p.Id);
         //}
 
-		private AgentRecord FindAvailableRemoteAgent(AgentType type)
+		private AgentRecord FindAvailableAgent()
 		{
 			foreach( AgentRecord r in agentData )
 				if ( r.Status == AgentStatus.Ready)
@@ -263,7 +233,7 @@ namespace NUnit.Util
 			return null;
 		}
 
-		private AgentRecord CreateRemoteAgent(AgentType type, RuntimeFramework framework, int waitTime)
+		private TestAgent CreateRemoteAgent(RuntimeFramework framework, int waitTime)
 		{
             Guid agentId = LaunchAgentProcess(framework);
 
@@ -276,10 +246,11 @@ namespace NUnit.Util
 			{
 				Thread.Sleep( pollTime );
 				if ( !infinite ) waitTime -= pollTime;
-				if ( agentData[agentId].Agent != null )
+                TestAgent agent = agentData[agentId].Agent;
+				if ( agent != null )
 				{
-					log.Debug( "Returning new agent record {0}", agentId.ToString("B") ); 
-					return agentData[agentId];
+					log.Debug( "Returning new agent {0}", agentId.ToString("B") );
+                    return agent;
 				}
 			}
 

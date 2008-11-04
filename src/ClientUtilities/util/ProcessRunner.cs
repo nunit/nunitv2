@@ -47,7 +47,6 @@ namespace NUnit.Util
 			{
 				if (this.agent == null)
 					this.agent = Services.TestAgency.GetAgent( 
-						AgentType.ProcessAgent, 
 						runtimeFramework, 
 						20000 );
 		
@@ -68,7 +67,7 @@ namespace NUnit.Util
 
         public override void Unload()
         {
-            if (TestRunner != null)
+            if (Test != null)
             {
                 log.Info("Unloading " + Path.GetFileName(Test.TestName.Name));
                 this.TestRunner.Unload();

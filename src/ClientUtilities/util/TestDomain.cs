@@ -59,17 +59,9 @@ namespace NUnit.Util
 				if ( this.domain == null )
 					this.domain = Services.DomainManager.CreateDomain( package );
 
-//				if ( this.agent == null )
-//					this.agent = Services.TestAgency.GetAgent(
-//						AgentType.DomainAgent,
-//						5000);
-
                 if (this.agent == null)
                 {
                     this.agent = DomainAgent.CreateInstance(domain);
-                    this.agent.InitializeDomain(
-						AppDomain.CurrentDomain.FriendlyName.StartsWith("test-domain-")
-							? TraceLevel.Off : InternalTrace.Level);
                     this.agent.Start();
                 }
             
@@ -91,7 +83,7 @@ namespace NUnit.Util
 		{
             if (this.TestRunner != null)
             {
-                log.Info("Unloading");  // " + Path.GetFileName(Test.TestName.Name));
+                log.Info("Unloading");
                 this.TestRunner.Unload();
                 this.TestRunner = null;
             }

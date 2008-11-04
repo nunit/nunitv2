@@ -48,9 +48,6 @@ namespace NUnit.Core
 
 		public AssemblyResolver()
 		{
-            this.AddDirectory(NUnitConfiguration.NUnitLibDirectory);
-            this.AddDirectory(NUnitConfiguration.AddinDirectory);
-
 			AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
 		}
 

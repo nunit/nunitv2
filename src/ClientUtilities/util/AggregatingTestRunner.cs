@@ -189,11 +189,14 @@ namespace NUnit.Util
 
 		public virtual void Unload()
 		{
-            log.Info("Unloading " + Path.GetFileName(Test.TestName.Name));
-			foreach( TestRunner runner in runners )
-				runner.Unload();
-			aggregateTest = null;
-            log.Info("Unload complete");
+            if (aggregateTest != null)
+            {
+                log.Info("Unloading " + Path.GetFileName(aggregateTest.TestName.Name));
+                foreach (TestRunner runner in runners)
+                    runner.Unload();
+                aggregateTest = null;
+                log.Info("Unload complete");
+            }
 		}
 		#endregion
 

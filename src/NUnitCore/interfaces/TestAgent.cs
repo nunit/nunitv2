@@ -8,7 +8,7 @@ using System;
 
 namespace NUnit.Core
 {
-	/// <summary>
+    /// <summary>
 	/// Abstract base for all types of TestAgents.
     /// A TestAgent provides services of locating,
     /// loading and running tests in a particular

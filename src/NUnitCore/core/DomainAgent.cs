@@ -24,43 +24,32 @@ namespace NUnit.Core
         /// <param name="targetDomain">The domain in which to create the agent</param>
         /// <param name="traceLevel">The level of internal tracing to use</param>
         /// <returns>A proxy for the DomainAgent in the other domain</returns>
-		static public DomainAgent CreateInstance(AppDomain targetDomain)
-		{
+        static public DomainAgent CreateInstance(AppDomain targetDomain)
+        {
 #if NET_2_0
             System.Runtime.Remoting.ObjectHandle oh = Activator.CreateInstance(
                 targetDomain,
 #else
 			System.Runtime.Remoting.ObjectHandle oh = targetDomain.CreateInstance(
 #endif
-				Assembly.GetExecutingAssembly().FullName,
-				typeof(DomainAgent).FullName,
-				false, BindingFlags.Default, null, null, null, null, null);
+ Assembly.GetExecutingAssembly().FullName,
+                typeof(DomainAgent).FullName,
+                false, BindingFlags.Default, null, null, null, null, null);
 
-			object obj = oh.Unwrap();
-			Type type = obj.GetType();
-			return (DomainAgent)obj;
-		}
+            object obj = oh.Unwrap();
+            Type type = obj.GetType();
+            return (DomainAgent)obj;
+        }
 
         private bool isActive;
+
+        private AppDomain domain;
 
         /// <summary>
         /// Constructs a DomainAgent specifying the trace level.
         /// </summary>
         /// <param name="traceLevel">The level of internal tracing to use</param>
-		public DomainAgent() : base( Guid.NewGuid() )
-		{
-		}
-
-        // HACK: First domain agent created initializes domain.
-        // Really, there should be only one domain agent, but
-        // nothing currently enforces that because we don't
-        // have a ServiceManager in the test domain.
-        public void InitializeDomain(TraceLevel traceLevel)
-        {
-            InternalTrace.Initialize("%a_%p.log", traceLevel);
-            log.Info("Initializing domain " + AppDomain.CurrentDomain.FriendlyName);
-            AppDomain.CurrentDomain.DomainUnload += new EventHandler(CurrentDomain_DomainUnload);
-        }
+		public DomainAgent() : base( Guid.NewGuid() ) { }
 
 		#region Public Methods
         /// <summary>
@@ -102,13 +91,57 @@ namespace NUnit.Core
                 this.isActive = false;
             }
         }
-		#endregion
 
-        void CurrentDomain_DomainUnload(object sender, EventArgs e)
+        public AppDomain AppDomain
+        {
+            get { return AppDomain.CurrentDomain; }
+        }
+		#endregion
+    }
+
+    public class DomainInitializer : MarshalByRefObject
+    {
+        static Logger log;
+
+        /// <summary>
+        /// Factory method used to create a DomainInitializer in an AppDomain.
+        /// </summary>
+        /// <param name="targetDomain">The domain in which to create the agent</param>
+        /// <param name="traceLevel">The level of internal tracing to use</param>
+        /// <returns>A proxy for the DomainAgent in the other domain</returns>
+        static public DomainInitializer CreateInstance(AppDomain targetDomain)
+        {
+#if NET_2_0
+            System.Runtime.Remoting.ObjectHandle oh = Activator.CreateInstanceFrom(
+                targetDomain,
+#else
+			System.Runtime.Remoting.ObjectHandle oh = targetDomain.CreateInstanceFrom(
+#endif
+                typeof(DomainInitializer).Assembly.CodeBase,
+                typeof(DomainInitializer).FullName,
+                false, BindingFlags.Default, null, null, null, null, null);
+
+            object obj = oh.Unwrap();
+            Type type = obj.GetType();
+            return (DomainInitializer)obj;
+        }
+
+        public void InitializeDomain(TraceLevel traceLevel)
+        {
+            InternalTrace.Initialize("%a_%p.log", traceLevel);
+            log = InternalTrace.GetLogger(typeof(DomainInitializer));
+
+            log.Info("Initializing domain " + AppDomain.CurrentDomain.FriendlyName);
+            AppDomain.CurrentDomain.DomainUnload += new EventHandler(OnDomainUnload);
+
+            AssemblyResolver resolver = new AssemblyResolver();
+            resolver.AddDirectory(NUnitConfiguration.NUnitLibDirectory);
+            resolver.AddDirectory(NUnitConfiguration.AddinDirectory);
+        }
+
+        void OnDomainUnload(object sender, EventArgs e)
         {
             log.Info("Unloading domain " + AppDomain.CurrentDomain.FriendlyName);
-            this.Stop();
-
             InternalTrace.Flush();
         }
     }

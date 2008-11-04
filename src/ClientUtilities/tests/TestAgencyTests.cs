@@ -39,7 +39,7 @@ namespace NUnit.Util.Tests
             TestAgent agent = null;
             try
             {
-                agent = agency.GetAgent(AgentType.ProcessAgent, 10000);
+                agent = agency.GetAgent(10000);
                 Assert.IsNotNull(agent);
             }
             finally
@@ -49,20 +49,14 @@ namespace NUnit.Util.Tests
             }
         }
 
-        [Test, ExpectedException(typeof(ArgumentException))]
-        public void UnsupportedAgentTypeRequestThrowsException()
-        {
-            TestAgent agent = agency.GetAgent(AgentType.DomainAgent);
-        }
-
         // TODO: Decide if we really want to do this
         //[Test]
         public void CanReuseReleasedAgents()
         {
-            TestAgent agent1 = agency.GetAgent(AgentType.ProcessAgent, 20000);
+            TestAgent agent1 = agency.GetAgent(20000);
             Guid id1 = agent1.Id;
             agency.ReleaseAgent(agent1);
-            TestAgent agent2 = agency.GetAgent(AgentType.ProcessAgent, 20000);
+            TestAgent agent2 = agency.GetAgent(20000);
             Assert.AreEqual(id1, agent2.Id);
         }
     }
