@@ -5,7 +5,6 @@
 // ****************************************************************
 
 using System.Collections;
-using System.Collections.Specialized;
 
 namespace NUnit.Framework.Constraints
 {
@@ -16,10 +15,10 @@ namespace NUnit.Framework.Constraints
     public delegate object ActualValueDelegate();
     
     /// <summary>
-	/// The Constraint class is the base of all built-in constraints
+    /// The Constraint class is the base of all built-in constraints
     /// within NUnit. It provides the operator overloads used to combine 
     /// constraints.
-	/// </summary>
+    /// </summary>
     public abstract class Constraint : IResolveConstraint
     {
         #region UnsetObject Class
@@ -238,7 +237,7 @@ namespace NUnit.Framework.Constraints
             if (o == null) return "null";
 
             string fmt = o is string ? "\"{0}\"" : "{0}";
-            return string.Format( System.Globalization.CultureInfo.InvariantCulture, fmt, o );
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, fmt, o);
         }
         #endregion
 
