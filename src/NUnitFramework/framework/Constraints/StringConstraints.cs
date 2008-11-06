@@ -28,10 +28,11 @@ namespace NUnit.Framework.Constraints
         protected bool caseInsensitive;
 
         /// <summary>
-        /// Construct a StringConstraint given an expected value
+        /// Constructs a StringConstraint given an expected value
         /// </summary>
-        /// <param name="expected"></param>
-        public StringConstraint(string expected) : base(expected)
+        /// <param name="expected">The expected value</param>
+        public StringConstraint(string expected)
+            : base(expected)
         {
             this.expected = expected;
         }
