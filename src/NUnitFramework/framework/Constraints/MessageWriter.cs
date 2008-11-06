@@ -4,10 +4,8 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 
-using System;
 using System.IO;
 using System.Collections;
-using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework.Constraints
 {
