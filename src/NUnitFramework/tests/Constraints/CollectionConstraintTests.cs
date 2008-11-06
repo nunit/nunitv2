@@ -17,7 +17,7 @@ namespace NUnit.Framework.Constraints.Tests
         public void AllItemsAreNotNull()
         {
             object[] c = new object[] { 1, "hello", 3, Environment.OSVersion };
-            Assert.That(c, new AllItemsConstraint(new NotConstraint( new EqualConstraint(null))));
+            Assert.That(c, new AllItemsConstraint( Is.Not.Null ));
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
