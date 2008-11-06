@@ -18,7 +18,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Static string used when strings are clipped
         /// </summary>
-        public static readonly string ELLIPSIS = "...";
+        private static readonly string ELLIPSIS = "...";
 
         /// <summary>
         /// Returns the representation of a type as used in NUnitLite.
@@ -101,10 +101,8 @@ namespace NUnit.Framework.Constraints
         {
             Array array = collection as Array;
 
-            if ( array == null || array.Rank == 1)
-                return new int[] { index };
-
-            int[] result = new int[array.Rank];
+            int rank = array == null ? 1 : array.Rank;
+            int[] result = new int[rank];
 
             for (int r = array.Rank; --r > 0; )
             {
