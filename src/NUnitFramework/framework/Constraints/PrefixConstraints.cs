@@ -23,10 +23,10 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct given a base constraint
         /// </summary>
-        /// <param name="baseConstraint"></param>
-        protected PrefixConstraint(Constraint baseConstraint) : base(baseConstraint)
+        /// <param name="resolvable"></param>
+        protected PrefixConstraint(IResolveConstraint resolvable) : base(resolvable)
         {
-            this.baseConstraint = baseConstraint;
+            this.baseConstraint = resolvable.Resolve();
         }
     }
 	#endregion
@@ -175,11 +175,11 @@ namespace NUnit.Framework.Constraints
 	#endregion
 
 	#region NoItemConstraint
-	/// <summary>
-	/// SomeItemsConstraint applies another constraint to each
-	/// item in a collection, succeeding if any of them succeeds.
-	/// </summary>
-	public class NoItemConstraint : PrefixConstraint
+    /// <summary>
+    /// NoItemConstraint applies another constraint to each
+    /// item in a collection, failing if any of them succeeds.
+    /// </summary>
+    public class NoItemConstraint : PrefixConstraint
 	{
 		/// <summary>
 		/// Construct a SomeItemsConstraint on top of an existing constraint
