@@ -303,6 +303,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "PairwiseTests.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\PairwiseTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ParameterizedTestFixtureTests.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\ParameterizedTestFixtureTests.cs"
                     SubType = "Code"

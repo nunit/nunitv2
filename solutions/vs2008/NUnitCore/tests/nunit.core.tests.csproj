@@ -265,6 +265,9 @@
       <Link>NamespaceAssemblyTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\PairwiseTests.cs">
+      <Link>PairwiseTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\PlatformDetectionTests.cs">
       <Link>PlatformDetectionTests.cs</Link>
       <SubType>Code</SubType>

@@ -34,6 +34,7 @@
         <include name="MockTestRunner.cs"/>
         <include name="NameFilterTest.cs"/>
         <include name="NamespaceAssemblyTests.cs"/>
+        <include name="PairwiseTests.cs"/>
         <include name="ParameterizedTestCaseTests.cs"/>
         <include name="ParameterizedTestFixtureTests.cs"/>
         <include name="PlatformDetectionTests.cs"/>
