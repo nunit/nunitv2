@@ -104,7 +104,7 @@ namespace NUnit.Framework.Constraints
             int rank = array == null ? 1 : array.Rank;
             int[] result = new int[rank];
 
-            for (int r = array.Rank; --r > 0; )
+            for (int r = rank; --r > 0; )
             {
                 int l = array.GetLength(r);
                 result[r] = index % l;
