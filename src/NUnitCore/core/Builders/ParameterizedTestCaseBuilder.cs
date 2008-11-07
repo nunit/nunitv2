@@ -35,6 +35,7 @@ namespace NUnit.Core.Builders
         public bool CanBuildFrom(MethodInfo method)
         {
             return Reflect.HasAttribute( method, NUnitFramework.TestCaseAttribute, false ) ||
+                   Reflect.HasAttribute( method, NUnitFramework.TestCaseSourceAttribute, false ) ||
                    Reflect.HasAttribute( method, NUnitFramework.TestAttribute, false ) &&
                    CoreExtensions.Host.TestCaseProviders.HasTestCasesFor( method );
         }

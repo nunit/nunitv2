@@ -18,7 +18,6 @@ namespace NUnit.Core.Builders
     public class TestCaseFactoryProvider : ITestCaseProvider
     {
         #region Constants
-        public const string TestCasesAttribute = "NUnit.Framework.TestCaseSourceAttribute";
         public const string SourceTypeProperty = "SourceType";
         public const string SourceNameProperty = "SourceName";
         #endregion
@@ -32,7 +31,7 @@ namespace NUnit.Core.Builders
         /// <returns>True if any cases are available, otherwise false.</returns>
         public bool HasTestCasesFor(MethodInfo method)
         {
-            return Reflect.HasAttribute(method, TestCasesAttribute, false);
+            return Reflect.HasAttribute(method, NUnitFramework.TestCaseSourceAttribute, false);
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace NUnit.Core.Builders
         private static IList GetSourcesFor(MethodInfo method)
         {
             ArrayList sources = new ArrayList();
-            foreach (Attribute sourceAttr in Reflect.GetAttributes(method, TestCasesAttribute, false))
+            foreach (Attribute sourceAttr in Reflect.GetAttributes(method, NUnitFramework.TestCaseSourceAttribute, false))
             {
                 Type sourceType = Reflect.GetPropertyValue(sourceAttr, SourceTypeProperty) as Type;
                 if (sourceType == null)
@@ -82,32 +81,6 @@ namespace NUnit.Core.Builders
 
                 string sourceName = Reflect.GetPropertyValue(sourceAttr, SourceNameProperty) as string;
                 sources.Add(new ProviderInfo(sourceType, sourceName));
-                //else
-                //{
-                //    int found = 0;
-                //    foreach (MemberInfo member in factoryType.GetMembers(
-                //        BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) )
-                //    {
-                //        Attribute testFactoryAttr = Reflect.GetAttribute(member, TestCaseFactoryAttribute, false);
-                //        if ( testFactoryAttr != null )
-                //        {
-                //            Type[] argTypes = Reflect.GetPropertyValue(testFactoryAttr, ArgTypesProperty) as Type[];
-                //            if (argTypes != null && argTypes.Length == method.GetParameters().Length)
-                //            {
-                //                bool isOK = true;
-                //                for (int i = 0; i < argTypes.Length && isOK; i++)
-                //                    if (argTypes[i] != method.GetParameters()[i].ParameterType)
-                //                        isOK = false;
-
-                //                if (isOK)
-                //                {
-                //                    ++found;
-                //                    factories.Add(new ProviderInfo(factoryType, member.Name));
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
             }
             return sources;
         }

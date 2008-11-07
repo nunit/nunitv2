@@ -42,6 +42,7 @@ namespace NUnit.Core
         // Attributes that apply only to Methods
         public const string TestAttribute = "NUnit.Framework.TestAttribute";
         public const string TestCaseAttribute = "NUnit.Framework.TestCaseAttribute";
+        public const string TestCaseSourceAttribute = "NUnit.Framework.TestCaseSourceAttribute";
         public static readonly string SetUpAttribute = "NUnit.Framework.SetUpAttribute";
         public static readonly string TearDownAttribute = "NUnit.Framework.TearDownAttribute";
         public static readonly string FixtureSetUpAttribute = "NUnit.Framework.TestFixtureSetUpAttribute";
