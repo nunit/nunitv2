@@ -31,11 +31,6 @@ namespace NUnit.Util
 		#region Addin Registration
 		public void RegisterAddins()
 		{
-			// Load nunit.core.extensions if available
-            string coreExtensions = Path.Combine(NUnitConfiguration.NUnitDirectory, "nunit.core.extensions.dll");
-            if (File.Exists(coreExtensions))
-				Register( coreExtensions );
-
 			// Load any extensions in the addins directory
 			DirectoryInfo dir = new DirectoryInfo( NUnitConfiguration.AddinDirectory );
 			if ( dir.Exists )

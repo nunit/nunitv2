@@ -99,10 +99,6 @@
       <Link>AssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\framework\RepeatAttribute.cs">
-      <Link>RepeatAttribute.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitExtensions\framework\Xml\XmlConstraint.cs">
       <Link>Xml\XmlConstraint.cs</Link>
     </Compile>

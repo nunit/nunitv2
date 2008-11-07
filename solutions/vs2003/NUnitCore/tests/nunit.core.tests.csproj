@@ -339,6 +339,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RepeatedTestFixture.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\RepeatedTestFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Results.xsd"
                     Link = "..\..\..\..\src\NUnitCore\core\Results.xsd"
                     BuildAction = "EmbeddedResource"

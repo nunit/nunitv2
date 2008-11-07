@@ -108,11 +108,6 @@
       <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\..\NUnitExtensions\core\nunit.core.extensions.dll.csproj">
-      <Name>nunit.core.extensions.dll</Name>
-      <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
     <ProjectReference Include="..\..\NUnitTestServer\nunit-agent-exe\nunit-agent.exe.csproj">
       <Project>{3E469CD9-FED2-4955-AE4C-669A74CA6767}</Project>
       <Name>nunit-agent.exe</Name>

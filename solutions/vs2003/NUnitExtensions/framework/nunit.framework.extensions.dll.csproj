@@ -100,12 +100,6 @@
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
-                <File
-                    RelPath = "RepeatAttribute.cs"
-                    Link = "..\..\..\..\src\NUnitExtensions\framework\RepeatAttribute.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
             </Include>
         </Files>
     </CSHARP>

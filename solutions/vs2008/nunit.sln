@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.tests", "GuiRunne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.tests", "NUnitExtensions\tests\nunit.extensions.tests.csproj", "{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.extensions.dll", "NUnitExtensions\core\nunit.core.extensions.dll.csproj", "{98B10E98-003C-45A0-9587-119142E39986}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server.exe", "NUnitTestServer\nunit-server-exe\nunit-server.exe.csproj", "{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.dll", "NUnitCore\core\nunit.core.dll.csproj", "{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}"
@@ -139,10 +137,6 @@ Global
 		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98B10E98-003C-45A0-9587-119142E39986}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98B10E98-003C-45A0-9587-119142E39986}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98B10E98-003C-45A0-9587-119142E39986}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98B10E98-003C-45A0-9587-119142E39986}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -165,10 +165,19 @@ namespace NUnit.Core
                     TestContext.CurrentCulture =
                         new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
-                if (RequiresThread || Timeout > 0 || ApartmentState != GetCurrentApartment())
-                    new TestMethodThread(this).Run(testResult, NullListener.NULL, TestFilter.Empty);
-                else
-                    doRun(testResult);
+                int repeatCount = this.Properties.Contains("Repeat")
+                    ? (int)this.Properties["Repeat"] : 1;
+
+                while (repeatCount-- > 0)
+                {
+                    if (RequiresThread || Timeout > 0 || ApartmentState != GetCurrentApartment())
+                        new TestMethodThread(this).Run(testResult, NullListener.NULL, TestFilter.Empty);
+                    else
+                        doRun(testResult);
+
+                    if (testResult.IsFailure || testResult.IsError)
+                        break;
+                }
 
             }
             catch (Exception ex)

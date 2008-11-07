@@ -111,11 +111,6 @@
       <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>
       <Name>test-utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\core\nunit.core.extensions.dll.csproj">
-      <Name>nunit.core.extensions.dll</Name>
-      <Project>{98B10E98-003C-45A0-9587-119142E39986}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
     <ProjectReference Include="..\framework\nunit.framework.extensions.dll.csproj">
       <Name>nunit.framework.extensions.dll</Name>
       <Project>{486C498D-B9F8-477F-ACA7-CED9245BBFCF}</Project>
@@ -125,10 +120,6 @@
   <ItemGroup>
     <Compile Include="..\..\..\..\src\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\tests\RepeatedTestFixture.cs">
-      <Link>RepeatedTestFixture.cs</Link>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitExtensions\tests\XmlDiffFixture.cs">

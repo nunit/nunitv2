@@ -1071,8 +1071,7 @@
     <include name="NUnitFramework/framework/nunit.framework.build" />
     <include name="NUnitCore/interfaces/nunit.core.interfaces.build" />
     <include name="NUnitCore/core/nunit.core.build" />
-    <include name="NUnitExtensions/framework/nunit.framework.extensions.build" />
-    <include name="NUnitExtensions/core/nunit.core.extensions.build" />
+    <include name="NUnitExtensions/framework/nunit.framework.extensions.build" if="${build.v2plus}"/>
     <include name="NUnitMocks/mocks/nunit.mocks.build" />
     <include name="ClientUtilities/util/nunit.util.build" />
 

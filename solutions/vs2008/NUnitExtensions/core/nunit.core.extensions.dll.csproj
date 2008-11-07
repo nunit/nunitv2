@@ -104,14 +104,6 @@
       <Link>AssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\RepeatedTestCase.cs">
-      <Link>RepeatedTestCase.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitExtensions\core\RepeatedTestDecorator.cs">
-      <Link>RepeatedTestDecorator.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -258,6 +258,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RepeatAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\RepeatAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "RequiredAddinAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\RequiredAddinAttribute.cs"
                     SubType = "Code"
