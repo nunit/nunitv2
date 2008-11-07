@@ -2,9 +2,6 @@
 <project name="NUnitExtensionsTests" default="build" basedir=".">
 
   <patternset id="source-files">
-    <include name="RepeatedTestFixture.cs"/>
-    <include name="RowTest/*.cs"/>
-    <include name="RowTest/UnitTests/*.cs"/>
     <include name="XmlDiffFixture.cs"/>
   </patternset>
 

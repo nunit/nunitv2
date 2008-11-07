@@ -5,14 +5,12 @@
     <ComponentGroup Id="Net_1.1_FrameworkGroup">
       <ComponentRef Id="nunit.framework_1.1"/>
       <ComponentRef Id="nunit.mocks_1.1"/>
-      <ComponentRef Id="nunit.framework.extensions_1.1"/>
       <ComponentRef Id="AssemblyReferenceFolder_1.1"/>
     </ComponentGroup>
 
     <ComponentGroup Id="Net_1.1_CoreGroup">
       <ComponentRef Id="nunit.core_1.1"/>
       <ComponentRef Id="nunit.core.interfaces_1.1"/>
-      <ComponentRef Id="nunit.core.extensions_1.1"/>
       <ComponentRef Id="nunit.util_1.1"/>
       <ComponentRef Id="Net_1.1_AddinsFolder"/>
     </ComponentGroup>
@@ -33,7 +31,6 @@
     <ComponentGroup Id="Net_2.0_CoreGroup">
       <ComponentRef Id="nunit.core_2.0"/>
       <ComponentRef Id="nunit.core.interfaces_2.0"/>
-      <ComponentRef Id="nunit.core.extensions_2.0"/>
       <ComponentRef Id="nunit.util_2.0"/>
       <ComponentRef Id="Net_2.0_AddinsFolder"/>
     </ComponentGroup>
@@ -80,10 +77,6 @@
         <File Id="nunit.util_1.1" Name="UTIL.DLL" LongName="nunit.util.dll" />
       </Component>
 
-      <Component Id="nunit.core.extensions_1.1" DiskId="1" Guid="030363BE-F0DD-42b1-A47A-84C1F03876E2">
-        <File Id="nunit.core.extensions_1.1" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" />
-      </Component>
-
       <Component Id="console.dll_1.1" DiskId="1" Guid="DE968C7C-5145-416f-8E85-82E7989CBC83">
         <File Id="console.dll_1.1" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
       </Component>
@@ -109,10 +102,6 @@
 
       <Component Id="nunit.mocks_1.1" DiskId="1" Guid="E495EDF2-8A89-4e6c-A59B-D94A7703E22C">
         <File Id="nunit.mocks_1.1" Name="MOCKS.DLL" LongName="nunit.mocks.dll" />
-      </Component>
-
-      <Component Id="nunit.framework.extensions_1.1" DiskId="1" Guid="480FD54A-4C25-4b2e-9C17-8F7FD7785F32">
-        <File Id="nunit.framework.extensions_1.1" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" />
       </Component>
 
       <Component Id="AssemblyReferenceFolder_1.1" DiskId="1" Guid="DE37BD75-E15B-4df6-8E33-FEDE23AA6DF6">
@@ -160,10 +149,6 @@
         <File Id="nunit.util_2.0" Name="UTIL.DLL" LongName="nunit.util.dll" />
       </Component>
       
-      <Component Id="nunit.core.extensions_2.0" DiskId="1" Guid="98486859-6516-494a-A1B4-1EFCB843DB23">
-        <File Id="nunit.core.extensions_2.0" Name="CORE_EX.DLL" LongName="nunit.core.extensions.dll" />
-      </Component>
-
       <Component Id="console.dll_2.0" DiskId="1" Guid="50CB13FF-AC66-4de9-8BCE-0AAB3E96DE70">
         <File Id="console.dll_2.0" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
       </Component>
