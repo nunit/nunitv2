@@ -6,10 +6,10 @@ using System.Collections;
 namespace NUnit.Core.Tests
 {
     [TestFixture]
-    public class DataSourceTests
+    public class ValueSourceTests
     {
         [Test]
-        public void DataSourceCanBeStaticProperty(
+        public void ValueSourceCanBeStaticProperty(
             [ValueSource("StaticProperty")] string source)
         {
             Assert.AreEqual("StaticProperty", source);
@@ -28,7 +28,7 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void DataSourceCanBeInstanceProperty(
+        public void ValueSourceCanBeInstanceProperty(
             [ValueSource("InstanceProperty")] string source)
         {
             Assert.AreEqual("InstanceProperty", source);
@@ -40,7 +40,7 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void DataSourceCanBeStaticMethod(
+        public void ValueSourceCanBeStaticMethod(
             [ValueSource("StaticMethod")] string source)
         {
             Assert.AreEqual("StaticMethod", source);
@@ -52,7 +52,7 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void DataSourceCanBeInstanceMethod(
+        public void ValueSourceCanBeInstanceMethod(
             [ValueSource("InstanceMethod")] string source)
         {
             Assert.AreEqual("InstanceMethod", source);
@@ -64,7 +64,7 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void DataSourceCanBeStaticField(
+        public void ValueSourceCanBeStaticField(
             [ValueSource("StaticField")] string source)
         {
             Assert.AreEqual("StaticField", source);
@@ -73,7 +73,7 @@ namespace NUnit.Core.Tests
         static object[] StaticField = { "StaticField" };
 
         [Test]
-        public void DataSourceCanBeInstanceField(
+        public void ValueSourceCanBeInstanceField(
             [ValueSource("InstanceField")] string source)
         {
             Assert.AreEqual("InstanceField", source);
@@ -82,7 +82,7 @@ namespace NUnit.Core.Tests
         static object[] InstanceField = { "InstanceField" };
 
         [Test]
-        public void DataSourceIsInvokedWithCorrectCurrentDirectory(
+        public void ValueSourceIsInvokedWithCorrectCurrentDirectory(
             [ValueSource("CheckCurrentDirectory")] bool isOK)
         {
             Assert.That(isOK);
@@ -110,7 +110,7 @@ namespace NUnit.Core.Tests
         static int[] Quotients = new int[] { 4, 3, 2 };
 
         [Test, Sequential]
-        public void DataSourceMayBeInAnotherClass(
+        public void ValueSourceMayBeInAnotherClass(
             [ValueSource(typeof(DivideDataProvider), "Numerators")] int n,
             [ValueSource(typeof(DivideDataProvider), "Denominators")] int d,
             [ValueSource(typeof(DivideDataProvider), "Quotients")] int q)

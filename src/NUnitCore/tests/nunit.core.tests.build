@@ -20,7 +20,6 @@
         <include name="CombinatorialTests.cs"/>
         <include name="CoreExtensionsTests.cs"/>
         <include name="CultureSettingAndDetectionTests.cs"/>
-        <include name="DataSourceTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>
         <include name="EventQueueTests.cs"/>
         <include name="EventTestFixture.cs"/>
@@ -71,6 +70,7 @@
         <include name="ThreadedTestRunnerTests.cs"/>
         <include name="ThreadingTests.cs"/>
         <include name="UnhandledExceptionTests.cs"/>
+        <include name="ValueSourceTests.cs"/>
         <include name="XmlTest.cs"/>
   </patternset>
 

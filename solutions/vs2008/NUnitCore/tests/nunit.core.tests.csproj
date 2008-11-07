@@ -397,12 +397,12 @@
       <Link>UnhandledExceptionTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\ValueSourceTests.cs">
+      <Link>ValueSourceTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\XmlTest.cs">
       <Link>XmlTest.cs</Link>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\tests\DataSourceTests.cs">
-      <Link>DataSourceTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\ParameterizedTestFixtureTests.cs">
       <Link>ParameterizedTestFixtureTests.cs</Link>
