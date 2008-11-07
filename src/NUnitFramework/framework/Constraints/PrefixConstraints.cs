@@ -26,7 +26,8 @@ namespace NUnit.Framework.Constraints
         /// <param name="resolvable"></param>
         protected PrefixConstraint(IResolveConstraint resolvable) : base(resolvable)
         {
-            this.baseConstraint = resolvable.Resolve();
+            if ( resolvable != null )
+                this.baseConstraint = resolvable.Resolve();
         }
     }
 	#endregion
