@@ -203,9 +203,6 @@
       <Link>ExpectExceptionTest.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\tests\FactoryTests.cs">
-      <Link>FactoryTests.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\FailFixture.cs">
       <Link>FailFixture.cs</Link>
       <SubType>Code</SubType>
@@ -313,6 +310,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\tests\TestCaseResultFixture.cs">
       <Link>TestCaseResultFixture.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\TestCaseSourceTests.cs">
+      <Link>TestCaseSourceTests.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\TestCaseTest.cs">
       <Link>TestCaseTest.cs</Link>

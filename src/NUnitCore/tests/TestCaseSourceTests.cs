@@ -6,12 +6,12 @@ using System.Collections;
 namespace NUnit.Core.Tests
 {
     [TestFixture]
-    public class FactoryTests
+    public class TestCaseSourceTests
     {
         [Test, TestCaseSource("StaticProperty")]
-        public void FactoryCanBeStaticProperty(string factory)
+        public void SourceCanBeStaticProperty(string source)
         {
-            Assert.AreEqual("StaticProperty", factory);
+            Assert.AreEqual("StaticProperty", source);
         }
 
         static IEnumerable StaticProperty
@@ -20,9 +20,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test, TestCaseSource("InstanceProperty")]
-        public void FactoryCanBeInstanceProperty(string factory)
+        public void SourceCanBeInstanceProperty(string source)
         {
-            Assert.AreEqual("InstanceProperty", factory);
+            Assert.AreEqual("InstanceProperty", source);
         }
 
         IEnumerable InstanceProperty
@@ -31,9 +31,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test, TestCaseSource("StaticMethod")]
-        public void FactoryCanBeStaticMethod(string factory)
+        public void SourceCanBeStaticMethod(string source)
         {
-            Assert.AreEqual("StaticMethod", factory);
+            Assert.AreEqual("StaticMethod", source);
         }
 
         static IEnumerable StaticMethod()
@@ -42,9 +42,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test, TestCaseSource("InstanceMethod")]
-        public void FactoryCanBeInstanceMethod(string factory)
+        public void SourceCanBeInstanceMethod(string source)
         {
-            Assert.AreEqual("InstanceMethod", factory);
+            Assert.AreEqual("InstanceMethod", source);
         }
 
         IEnumerable InstanceMethod()
@@ -53,49 +53,55 @@ namespace NUnit.Core.Tests
         }
 
         [Test, TestCaseSource("StaticField")]
-        public void FactoryCanBeStaticField(string factory)
+        public void SourceCanBeStaticField(string source)
         {
-            Assert.AreEqual("StaticField", factory);
+            Assert.AreEqual("StaticField", source);
         }
 
         static object[] StaticField =
             { new object[] { "StaticField" } };
 
         [Test, TestCaseSource("InstanceField")]
-        public void FactoryCanBeInstanceField(string factory)
+        public void SourceCanBeInstanceField(string source)
         {
-            Assert.AreEqual("InstanceField", factory);
+            Assert.AreEqual("InstanceField", source);
         }
 
         static object[] InstanceField =
             { new object[] { "InstanceField" } };
 
         [Test, TestCaseSource("CheckCurrentDirectory")]
-        public void FactoryIsInvokedWithCorrectCurrentDirectory(bool isOK)
+        public void SourceIsInvokedWithCorrectCurrentDirectory(bool isOK)
         {
             Assert.That(isOK);
         }
 
         [Test, TestCaseSource("MyData")]
-        public void FactoryMayReturnArgumentsAsObjectArray(int n, int d, int q)
+        public void SourceMayReturnArgumentsAsObjectArray(int n, int d, int q)
+        {
+            Assert.AreEqual(q, n / d);
+        }
+
+        [TestCaseSource("MyData")]
+        public void TestAttributeIsOptional(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
         [Test, TestCaseSource("MyIntData")]
-        public void FactoryMayReturnArgumentsAsIntArray(int n, int d, int q)
+        public void SourceMayReturnArgumentsAsIntArray(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
         [Test, TestCaseSource("EvenNumbers")]
-        public void FactoryMayReturnSinglePrimitiveArgumentAlone(int n)
+        public void SourceMayReturnSinglePrimitiveArgumentAlone(int n)
         {
             Assert.AreEqual(0, n % 2);
         }
 
         [Test, TestCaseSource("Params")]
-        public int FactoryMayReturnArgumentsAsParamSet(int n, int d)
+        public int SourceMayReturnArgumentsAsParamSet(int n, int d)
         {
             return n / d;
         }
@@ -104,18 +110,18 @@ namespace NUnit.Core.Tests
         [TestCaseSource("MyData")]
         [TestCaseSource("MoreData")]
         [TestCase(12, 0, 0, ExpectedException = typeof(System.DivideByZeroException))]
-        public void TestMayUseMultipleFactoryAttributes(int n, int d, int q)
+        public void TestMayUseMultipleSourceAttributes(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
 
         [Test, TestCaseSource(typeof(DivideDataProvider), "HereIsTheData" )]
-        public void FactoryMayBeInAnotherClass(int n, int d, int q)
+        public void SourceMayBeInAnotherClass(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
         }
        
-        #region Factories used by the tests
+        #region Sources used by the tests
         static object[] MyData = new object[] {
             new object[] { 12, 3, 4 },
             new object[] { 12, 4, 3 },

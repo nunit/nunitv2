@@ -249,12 +249,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "FactoryTests.cs"
-                    Link = "..\..\..\..\src\NUnitCore\tests\FactoryTests.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "FailFixture.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\FailFixture.cs"
                     SubType = "Code"
@@ -418,6 +412,12 @@
                 <File
                     RelPath = "TestCaseResultFixture.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\TestCaseResultFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "TestCaseSourceTests.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\TestCaseSourceTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
