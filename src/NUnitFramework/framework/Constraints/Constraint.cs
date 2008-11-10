@@ -241,7 +241,7 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
-        #region Operator Overrides
+        #region Operator Overloads
         /// <summary>
         /// This operator creates a constraint that is satisfied only if both 
         /// argument constraints are satisfied.
