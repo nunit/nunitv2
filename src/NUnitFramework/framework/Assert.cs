@@ -3505,17 +3505,49 @@ namespace NUnit.Framework
         /// <summary>
         /// Verifies that a delegate throws a particular exception when called.
         /// </summary>
+        /// <param name="expression">A constraint to be satisfied by the exception</param>
+        /// <param name="code">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static Exception Throws(IResolveConstraint expression, TestDelegate code, string message, params object[] args)
+        {
+            Exception caughtException = Catch.Exception(code);
+            Assert.That(caughtException, expression, message, args);
+
+            return caughtException;
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <param name="expression">A constraint to be satisfied by the exception</param>
+        /// <param name="code">A TestSnippet delegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        public static Exception Throws(IResolveConstraint expression, TestDelegate code, string message)
+        {
+            return Throws(expression, code, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
+        /// <param name="expression">A constraint to be satisfied by the exception</param>
+        /// <param name="code">A TestSnippet delegate</param>
+        public static Exception Throws(IResolveConstraint expression, TestDelegate code)
+        {
+            return Throws(expression, code, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws a particular exception when called.
+        /// </summary>
         /// <param name="expectedExceptionType">The exception Type expected</param>
         /// <param name="code">A TestSnippet delegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
         public static Exception Throws(Type expectedExceptionType, TestDelegate code, string message, params object[] args)
         {
-            Exception caughtException = Catch.Exception( code );
-            Type caughtExceptionType = caughtException == null ? null : caughtException.GetType();
-            Assert.AreEqual(expectedExceptionType, caughtExceptionType, message, args);
-
-            return caughtException;
+            return Throws(new ExactTypeConstraint(expectedExceptionType), code, message, args);
         }
 
         /// <summary>
@@ -3526,7 +3558,7 @@ namespace NUnit.Framework
         /// <param name="message">The message that will be displayed on failure</param>
         public static Exception Throws(Type expectedExceptionType, TestDelegate code, string message)
         {
-            return Throws(expectedExceptionType, code, message, null);
+            return Throws(new ExactTypeConstraint(expectedExceptionType), code, message, null);
         }
 
         /// <summary>
@@ -3536,7 +3568,7 @@ namespace NUnit.Framework
         /// <param name="code">A TestSnippet delegate</param>
         public static Exception Throws(Type expectedExceptionType, TestDelegate code)
         {
-            return Throws(expectedExceptionType, code, string.Empty, null);
+            return Throws(new ExactTypeConstraint(expectedExceptionType), code, string.Empty, null);
         }
 
         #endregion
