@@ -39,7 +39,6 @@ namespace NUnit.Framework.Constraints
             /// <param name="builder">The builder.</param>
             public OperatorStack(ConstraintBuilder builder)
             {
-                stack.Clear();
             }
 
             /// <summary>
@@ -100,7 +99,6 @@ namespace NUnit.Framework.Constraints
             public ConstraintStack(ConstraintBuilder builder)
             {
                 this.builder = builder;
-                stack.Clear();
             }
 
             /// <summary>
