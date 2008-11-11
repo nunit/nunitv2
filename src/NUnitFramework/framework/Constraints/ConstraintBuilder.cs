@@ -111,7 +111,7 @@ namespace NUnit.Framework.Constraints
             }
 
             /// <summary>
-            /// Gets the topmost constraint without modifying the stac.
+            /// Gets the topmost constraint without modifying the stack.
             /// </summary>
             /// <value>The topmost constraint</value>
             public Constraint Top
