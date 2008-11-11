@@ -8,7 +8,6 @@ using System;
 using System.Collections;
 using System.ComponentModel;
 using NUnit.Framework.Constraints;
-using NUnit.Framework;
 
 namespace NUnit.Framework
 {
@@ -3275,9 +3274,9 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
-        static public void That(object actual, IResolveConstraint constraint)
+        static public void That(object actual, IResolveConstraint expression)
         {
-            Assert.That(actual, constraint.Resolve(), null, null);
+            Assert.That(actual, expression, null, null);
         }
 
         /// <summary>
@@ -3287,9 +3286,9 @@ namespace NUnit.Framework
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void That(object actual, IResolveConstraint constraint, string message)
+        static public void That(object actual, IResolveConstraint expression, string message)
         {
-            Assert.That(actual, constraint.Resolve(), message, null);
+            Assert.That(actual, expression, message, null);
         }
 
         /// <summary>
