@@ -41,7 +41,7 @@ namespace NUnit.Core
         }
         #endregion
 
-        #region Members used for Windows only
+        #region Members used for Win32NT platform only
         public enum ProductType
         {
             Unknown,
