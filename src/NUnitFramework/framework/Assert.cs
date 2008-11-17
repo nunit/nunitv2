@@ -89,159 +89,297 @@ namespace NUnit.Framework
 
         #region Simple Asserts
 
-        #region IsTrue
+        #region True
 
         /// <summary>
-		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>.
-		/// </summary> 
-		/// <param name="condition">The evaluated condition</param>
-		/// <param name="message">The message to display if the condition is false</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void IsTrue(bool condition, string message, params object[] args) 
-		{
+        /// Asserts that a condition is true. If the condition is false the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary> 
+        /// <param name="condition">The evaluated condition</param>
+        /// <param name="message">The message to display if the condition is false</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void True(bool condition, string message, params object[] args)
+        {
             Assert.That(condition, Is.True, message, args);
-		}
-    
-		/// <summary>
-		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>.
-		/// </summary>
-		/// <param name="condition">The evaluated condition</param>
-		/// <param name="message">The message to display if the condition is false</param>
-		static public void IsTrue(bool condition, string message) 
-		{
-			Assert.IsTrue(condition, message, null);
-		}
+        }
 
-		/// <summary>
-		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>.
-		/// </summary>
-		/// <param name="condition">The evaluated condition</param>
-		static public void IsTrue(bool condition) 
-		{
-			Assert.IsTrue(condition, null, null);
-		}
+        /// <summary>
+        /// Asserts that a condition is true. If the condition is false the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        /// <param name="message">The message to display if the condition is false</param>
+        static public void True(bool condition, string message)
+        {
+            Assert.True(condition, message, null);
+        }
 
-		#endregion
+        /// <summary>
+        /// Asserts that a condition is true. If the condition is false the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        static public void True(bool condition)
+        {
+            Assert.True(condition, null, null);
+        }
 
-		#region IsFalse
+        /// <summary>
+        /// Asserts that a condition is true. If the condition is false the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary> 
+        /// <param name="condition">The evaluated condition</param>
+        /// <param name="message">The message to display if the condition is false</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void IsTrue(bool condition, string message, params object[] args)
+        {
+            Assert.That(condition, Is.True, message, args);
+        }
 
-		/// <summary>
-		/// Asserts that a condition is false. If the condition is true the method throws
-		/// an <see cref="AssertionException"/>.
-		/// </summary>
-		/// <param name="condition">The evaluated condition</param>
-		/// <param name="message">The message to display if the condition is true</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void IsFalse(bool condition, string message, params object[] args) 
-		{
+        /// <summary>
+        /// Asserts that a condition is true. If the condition is false the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        /// <param name="message">The message to display if the condition is false</param>
+        static public void IsTrue(bool condition, string message)
+        {
+            Assert.IsTrue(condition, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that a condition is true. If the condition is false the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        static public void IsTrue(bool condition)
+        {
+            Assert.IsTrue(condition, null, null);
+        }
+
+        #endregion
+
+        #region False
+
+        /// <summary>
+        /// Asserts that a condition is false. If the condition is true the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        /// <param name="message">The message to display if the condition is true</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void False(bool condition, string message, params object[] args)
+        {
             Assert.That(condition, Is.False, message, args);
-		}
-		
-		/// <summary>
-		/// Asserts that a condition is false. If the condition is true the method throws
-		/// an <see cref="AssertionException"/>.
-		/// </summary>
-		/// <param name="condition">The evaluated condition</param>
-		/// <param name="message">The message to display if the condition is true</param>
-		static public void IsFalse(bool condition, string message) 
-		{
-			Assert.IsFalse( condition, message, null );
-		}
-		
-		/// <summary>
-		/// Asserts that a condition is false. If the condition is true the method throws
-		/// an <see cref="AssertionException"/>.
-		/// </summary>
-		/// <param name="condition">The evaluated condition</param>
-		static public void IsFalse(bool condition) 
-		{
-			Assert.IsFalse(condition, string.Empty, null);
-		}
+        }
 
-		#endregion
+        /// <summary>
+        /// Asserts that a condition is false. If the condition is true the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        /// <param name="message">The message to display if the condition is true</param>
+        static public void False(bool condition, string message)
+        {
+            Assert.False(condition, message, null);
+        }
 
-		#region IsNotNull
+        /// <summary>
+        /// Asserts that a condition is false. If the condition is true the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        static public void False(bool condition)
+        {
+            Assert.False(condition, string.Empty, null);
+        }
 
-		/// <summary>
-		/// Verifies that the object that is passed in is not equal to <code>null</code>
-		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="anObject">The object that is to be tested</param>
-		/// <param name="message">The message to be displayed when the object is null</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void IsNotNull(Object anObject, string message, params object[] args) 
-		{
+        /// <summary>
+        /// Asserts that a condition is false. If the condition is true the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        /// <param name="message">The message to display if the condition is true</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void IsFalse(bool condition, string message, params object[] args)
+        {
+            Assert.That(condition, Is.False, message, args);
+        }
+
+        /// <summary>
+        /// Asserts that a condition is false. If the condition is true the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        /// <param name="message">The message to display if the condition is true</param>
+        static public void IsFalse(bool condition, string message)
+        {
+            Assert.IsFalse(condition, message, null);
+        }
+
+        /// <summary>
+        /// Asserts that a condition is false. If the condition is true the method throws
+        /// an <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="condition">The evaluated condition</param>
+        static public void IsFalse(bool condition)
+        {
+            Assert.IsFalse(condition, string.Empty, null);
+        }
+
+        #endregion
+
+        #region NotNull
+
+        /// <summary>
+        /// Verifies that the object that is passed in is not equal to <code>null</code>
+        /// If the object is <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is null</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void NotNull(Object anObject, string message, params object[] args)
+        {
             Assert.That(anObject, Is.Not.Null, message, args);
-		}
+        }
 
-		/// <summary>
-		/// Verifies that the object that is passed in is not equal to <code>null</code>
-		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="anObject">The object that is to be tested</param>
-		/// <param name="message">The message to be displayed when the object is null</param>
-		static public void IsNotNull(Object anObject, string message) 
-		{
-			Assert.IsNotNull(anObject, message, null);
-		}
-    
-		/// <summary>
-		/// Verifies that the object that is passed in is not equal to <code>null</code>
-		/// If the object is <code>null</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="anObject">The object that is to be tested</param>
-		static public void IsNotNull(Object anObject) 
-		{
-			Assert.IsNotNull(anObject, string.Empty, null);
-		}
-    
-		#endregion
+        /// <summary>
+        /// Verifies that the object that is passed in is not equal to <code>null</code>
+        /// If the object is <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is null</param>
+        static public void NotNull(Object anObject, string message)
+        {
+            Assert.NotNull(anObject, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the object that is passed in is not equal to <code>null</code>
+        /// If the object is <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        static public void NotNull(Object anObject)
+        {
+            Assert.NotNull(anObject, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Verifies that the object that is passed in is not equal to <code>null</code>
+        /// If the object is <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is null</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void IsNotNull(Object anObject, string message, params object[] args)
+        {
+            Assert.That(anObject, Is.Not.Null, message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the object that is passed in is not equal to <code>null</code>
+        /// If the object is <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is null</param>
+        static public void IsNotNull(Object anObject, string message)
+        {
+            Assert.IsNotNull(anObject, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the object that is passed in is not equal to <code>null</code>
+        /// If the object is <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        static public void IsNotNull(Object anObject)
+        {
+            Assert.IsNotNull(anObject, string.Empty, null);
+        }
+
+        #endregion
 		    
-		#region IsNull
+		#region Null
 
-		/// <summary>
-		/// Verifies that the object that is passed in is equal to <code>null</code>
-		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="anObject">The object that is to be tested</param>
-		/// <param name="message">The message to be displayed when the object is not null</param>
-		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void IsNull(Object anObject, string message, params object[] args) 
-		{
-			Assert.That( anObject, Is.Null, message, args );
-		}
+        /// <summary>
+        /// Verifies that the object that is passed in is equal to <code>null</code>
+        /// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is not null</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void Null(Object anObject, string message, params object[] args)
+        {
+            Assert.That(anObject, Is.Null, message, args);
+        }
 
-		/// <summary>
-		/// Verifies that the object that is passed in is equal to <code>null</code>
-		/// If the object is not <code>null</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="anObject">The object that is to be tested</param>
-		/// <param name="message">The message to be displayed when the object is not null</param>
-		static public void IsNull(Object anObject, string message) 
-		{
-			Assert.IsNull(anObject, message, null);
-		}
-    
-		/// <summary>
-		/// Verifies that the object that is passed in is equal to <code>null</code>
-		/// If the object is not null <code>null</code> then an <see cref="AssertionException"/>
-		/// is thrown.
-		/// </summary>
-		/// <param name="anObject">The object that is to be tested</param>
-		static public void IsNull(Object anObject) 
-		{
-			Assert.IsNull(anObject, string.Empty, null);
-		}
-    
-		#endregion
+        /// <summary>
+        /// Verifies that the object that is passed in is equal to <code>null</code>
+        /// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is not null</param>
+        static public void Null(Object anObject, string message)
+        {
+            Assert.Null(anObject, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the object that is passed in is equal to <code>null</code>
+        /// If the object is not null <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        static public void Null(Object anObject)
+        {
+            Assert.Null(anObject, string.Empty, null);
+        }
+
+        /// <summary>
+        /// Verifies that the object that is passed in is equal to <code>null</code>
+        /// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is not null</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        static public void IsNull(Object anObject, string message, params object[] args)
+        {
+            Assert.That(anObject, Is.Null, message, args);
+        }
+
+        /// <summary>
+        /// Verifies that the object that is passed in is equal to <code>null</code>
+        /// If the object is not <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        /// <param name="message">The message to be displayed when the object is not null</param>
+        static public void IsNull(Object anObject, string message)
+        {
+            Assert.IsNull(anObject, message, null);
+        }
+
+        /// <summary>
+        /// Verifies that the object that is passed in is equal to <code>null</code>
+        /// If the object is not null <code>null</code> then an <see cref="AssertionException"/>
+        /// is thrown.
+        /// </summary>
+        /// <param name="anObject">The object that is to be tested</param>
+        static public void IsNull(Object anObject)
+        {
+            Assert.IsNull(anObject, string.Empty, null);
+        }
+
+        #endregion
 
 		#region IsNaN
 
