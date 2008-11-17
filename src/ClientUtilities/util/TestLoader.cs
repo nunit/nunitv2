@@ -149,11 +149,6 @@ namespace NUnit.Util
 			get { return lastException; }
 		}
 
-        public TestProcessInfo GetProcessInfo()
-        {
-            return new TestProcessInfo(this.testRunner);
-        }
-
 		public IList AssemblyInfo
 		{
 			get { return testRunner == null ? null : testRunner.AssemblyInfo; }

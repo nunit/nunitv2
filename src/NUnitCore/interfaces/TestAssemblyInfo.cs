@@ -12,32 +12,6 @@ using System.Text;
 
 namespace NUnit.Core
 {
-    public class TestProcessInfo
-    {
-        private string moduleName;
-        private int processId;
-        private RuntimeFramework runtimeFramework;
-
-        public TestProcessInfo( TestRunner runner )
-        {
-        }
-
-        public int ProcessId
-        {
-            get { return processId; }
-        }
-
-        public string ModuleName
-        {
-            get { return moduleName; }
-        }
-
-        public RuntimeFramework RuntimeFramework
-        {
-            get { return runtimeFramework; }
-        }
-    }
-
 	/// <summary>
 	/// TestAssemblyInfo holds information about a loaded test assembly
 	/// </summary>
