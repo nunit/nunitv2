@@ -28,8 +28,6 @@
     value="${path::combine(project.base.dir,'lib')}"/>
   <property name="project.install.dir"
     value="${path::combine(project.base.dir, 'install')}"/>
-  <property name="project.addins.dir" 
-    value="${path::combine(project.base.dir, 'addins')}"/>
 
   <!-- Set paths to various package directories -->
   <property name="package.working.dir" 
