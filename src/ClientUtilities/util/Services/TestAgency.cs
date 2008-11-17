@@ -113,16 +113,11 @@ namespace NUnit.Util
 
 		public TestAgent GetAgent(RuntimeFramework framework, int waitTime)
 		{
-            log.Info("Getting agent for use under {0}", framework.Name);
+            log.Info("Getting agent for use under {0}", framework);
  
-            if (!framework.IsSupported)
-                throw new ArgumentException(
-                    string.Format("The {0} framework is not supported", framework.Name),
-                    "framework");
-
             if (!framework.IsAvailable)
                 throw new ArgumentException(
-                    string.Format("The {0} framework is not available", framework.Name),
+                    string.Format("The {0} framework is not available", framework),
                     "framework");
 
             // TODO: Decide if we should reuse agents
@@ -184,21 +179,19 @@ namespace NUnit.Util
             Guid agentId = Guid.NewGuid();
             string arglist = agentId.ToString() + " " + ServerUtilities.MakeUrl(this.uri, this.port);
 
-            switch( targetRuntime.Name )
+            switch( targetRuntime.Runtime )
             {
-                case "mono-1.0":
-                case "mono-2.0":
+                case RuntimeType.Mono:
                     // TODO: Replace hard-coded path
-				    p.StartInfo.FileName = @"C:\Program Files\Mono-2.0\bin\mono.exe";
+				    p.StartInfo.FileName = @"C:\Program Files\Mono-2.0.1\bin\mono.exe";
 				    p.StartInfo.Arguments = agentExePath + " " + arglist;
                     break;
-                case "net-1.0":
+                case RuntimeType.Net:
                     p.StartInfo.FileName = agentExePath;
-					p.StartInfo.EnvironmentVariables["COMPLUS_Version"]="v1.0.3705";
+                    if ( targetRuntime.Version == new Version("1.0.3705") )
+					    p.StartInfo.EnvironmentVariables["COMPLUS_Version"]="v1.0.3705";
                     p.StartInfo.Arguments = arglist;
                     break;
-                case "net-1.1":
-                case "net-2.0":
                 default:
 				    p.StartInfo.FileName = agentExePath;
                     p.StartInfo.Arguments = arglist;

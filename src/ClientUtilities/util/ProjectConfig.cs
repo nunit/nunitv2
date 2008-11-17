@@ -61,7 +61,7 @@ namespace NUnit.Util
         /// <summary>
         /// The CLR under which tests are to be run
         /// </summary>
-        private string runtimeFramework;
+        private RuntimeFramework runtimeFramework;
 
 		#endregion
 
@@ -222,7 +222,7 @@ namespace NUnit.Util
 			get { return assemblies; }
 		}
 
-        public string RuntimeFramework
+        public RuntimeFramework RuntimeFramework
         {
             get { return runtimeFramework; }
             set 

@@ -63,6 +63,8 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.ComboBox processModelComboBox;
 		private System.Windows.Forms.ComboBox domainUsageComboBox;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.TextBox runtimeVersionTextBox;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -145,6 +147,8 @@ namespace NUnit.Gui
 			this.label10 = new System.Windows.Forms.Label();
 			this.processModelComboBox = new System.Windows.Forms.ComboBox();
 			this.domainUsageComboBox = new System.Windows.Forms.ComboBox();
+			this.label11 = new System.Windows.Forms.Label();
+			this.runtimeVersionTextBox = new System.Windows.Forms.TextBox();
 			this.projectTabControl.SuspendLayout();
 			this.generalTabPage.SuspendLayout();
 			this.assemblyTabPage.SuspendLayout();
@@ -231,6 +235,8 @@ namespace NUnit.Gui
 			// 
 			// generalTabPage
 			// 
+			this.generalTabPage.Controls.Add(this.runtimeVersionTextBox);
+			this.generalTabPage.Controls.Add(this.label11);
 			this.generalTabPage.Controls.Add(this.runtimeComboBox);
 			this.generalTabPage.Controls.Add(this.label7);
 			this.generalTabPage.Controls.Add(this.autoBinPathRadioButton);
@@ -254,17 +260,13 @@ namespace NUnit.Gui
 			// 
 			this.runtimeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.runtimeComboBox.Items.AddRange(new object[] {
-																 "=Unspecified=",
-																 "net-1.0",
-																 "net-1.1",
-																 "net-2.0",
-																 "mono-1.0",
-																 "mono-2.0"});
+																 "=Any=",
+																 "Net",
+																 "Mono"});
 			this.runtimeComboBox.Location = new System.Drawing.Point(87, 7);
 			this.runtimeComboBox.Name = "runtimeComboBox";
-			this.runtimeComboBox.Size = new System.Drawing.Size(106, 21);
+			this.runtimeComboBox.Size = new System.Drawing.Size(65, 21);
 			this.runtimeComboBox.TabIndex = 12;
-			this.runtimeComboBox.SelectedIndexChanged += new System.EventHandler(this.runtimeComboBox_SelectedIndexChanged);
 			// 
 			// label7
 			// 
@@ -575,6 +577,24 @@ namespace NUnit.Gui
 			this.domainUsageComboBox.Size = new System.Drawing.Size(112, 21);
 			this.domainUsageComboBox.TabIndex = 14;
 			// 
+			// label11
+			// 
+			this.label11.Location = new System.Drawing.Point(192, 8);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(48, 16);
+			this.label11.TabIndex = 13;
+			this.label11.Text = "Version:";
+			// 
+			// runtimeVersionTextBox
+			// 
+			this.runtimeVersionTextBox.Location = new System.Drawing.Point(256, 8);
+			this.runtimeVersionTextBox.Name = "runtimeVersionTextBox";
+			this.runtimeVersionTextBox.Size = new System.Drawing.Size(72, 20);
+			this.runtimeVersionTextBox.TabIndex = 14;
+			this.runtimeVersionTextBox.Text = "";
+            this.runtimeVersionTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.runtimeVersionTextBox_Validating);
+            this.runtimeVersionTextBox.Validated += new System.EventHandler(this.runtimeVersionTextBox_Validated);
+            // 
 			// ProjectEditor
 			// 
 			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
@@ -648,10 +668,13 @@ namespace NUnit.Gui
 		{
 			selectedConfig = project.Configs[(string)configComboBox.SelectedItem];
 
-			string runtime = selectedConfig.RuntimeFramework;
-			int index = runtimeComboBox.FindStringExact(runtime,0);
+			RuntimeFramework framework = selectedConfig.RuntimeFramework;
+			RuntimeType runtime = framework == null ? RuntimeType.Any : framework.Runtime;
+			int index = runtimeComboBox.FindStringExact(runtime.ToString(), 0);
 			if ( index < 0 ) index = 0;
 			runtimeComboBox.SelectedIndex = index;
+			if ( framework != null )
+				runtimeVersionTextBox.Text = framework.Version.ToString();
 			
 			applicationBaseTextBox.Text = selectedConfig.RelativeBasePath;
 
@@ -905,10 +928,31 @@ namespace NUnit.Gui
 		{
 			selectedConfig.RuntimeFramework = 
 				runtimeComboBox.SelectedIndex > 0
-					? (string)runtimeComboBox.SelectedItem
-					: null;
+				? RuntimeFramework.Parse((string)runtimeComboBox.SelectedItem)
+				: null;
 		}
-		#endregion
+
+        private void runtimeVersionTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            try
+            {
+                Version version = new Version(runtimeVersionTextBox.Text);
+            }
+            catch(Exception ex)
+            {
+                runtimeVersionTextBox.SelectAll();
+                UserMessage.DisplayFailure(ex, "Invalid Entry");
+                e.Cancel = true;
+            }
+        }
+
+        private void runtimeVersionTextBox_Validated(object sender, System.EventArgs e)
+        {
+            selectedConfig.RuntimeFramework = new RuntimeFramework(
+                (RuntimeType)System.Enum.Parse(typeof(RuntimeType), (string)runtimeComboBox.SelectedItem),
+                new Version(runtimeVersionTextBox.Text));
+        }
+        #endregion
 
 		#region PrivateBinPath Methods and Events
 		private void privateBinPathTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -1002,18 +1046,17 @@ namespace NUnit.Gui
 				project.Name );
 
 			projectPathLabel.Text = project.ProjectPath;
-
 			projectBaseTextBox.Text = project.BasePath;
 
 			this.ProcessModel = project.ProcessModel;
-            populateDomainUsageComboBox();
+			this.DomainUsage = project.DomainUsage;
 
-            this.DomainUsage = project.DomainUsage;
+			configComboBox_Populate();
+			populateDomainUsageComboBox();
 
-            this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged);
-            this.domainUsageComboBox.SelectedIndexChanged += new System.EventHandler(this.domainUsageComboBox_SelectedIndexChanged);
-            
-            configComboBox_Populate();
+			this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged);
+			this.domainUsageComboBox.SelectedIndexChanged += new System.EventHandler(this.domainUsageComboBox_SelectedIndexChanged);
+			this.runtimeComboBox.SelectedIndexChanged += new System.EventHandler(this.runtimeComboBox_SelectedIndexChanged);
 		}
 
 		private void editConfigsButton_Click(object sender, System.EventArgs e)

@@ -16,6 +16,8 @@ namespace NUnit.Core
 	/// </summary>
 	public enum RuntimeType
 	{
+        /// <summary>Any supported runtime framework</summary>
+        Any,
 		/// <summary>Microsoft .NET Framework</summary>
 		Net,
 		/// <summary>Microsoft .NET Compact Framework</summary>
@@ -32,135 +34,24 @@ namespace NUnit.Core
 	/// </summary>
     [Serializable]
 	public sealed class RuntimeFramework
-	{
-		private string name;
-		private RuntimeType runtime;
-		private Version version;
-		private string displayName;
-
+    {
+        #region Static and Instance Fields
         private static RuntimeFramework currentFramework;
 
-        private static RuntimeFramework[] supportedFrameworks = new RuntimeFramework[] {
-                    new RuntimeFramework("net-2.0"),
-                    new RuntimeFramework("net-1.1"),
-                    new RuntimeFramework("net-1.0"),
-                    new RuntimeFramework("mono-2.0"),
-                    new RuntimeFramework("mono-1.0") };
+        private RuntimeType runtime;
+		private Version version;
+		private string displayName;
+        #endregion
 
-		/// <summary>
-		/// Construct from a runtime type and version
-		/// </summary>
-		/// <param name="runtime">The runtime type of the framework</param>
-		/// <param name="version">The version of the framework</param>
-		public RuntimeFramework( RuntimeType runtime, Version version)
-		{
-			this.runtime = runtime;
-			this.version = version;
-			this.name = string.Format( "{0}-{1}", 
-				runtime.ToString().ToLower(),
-				version.ToString(2));
-			if ( name == "mono-1.1" )
-				name = "mono-1.0";
-            this.displayName = DefaultDisplayName(runtime, version);
-        }
-
-        public bool IsSupported
+        #region Static Properties and Methods Members
+        /// <summary>
+        /// Static method to return a RuntimeFramework object
+        /// for the framework that is currently in use.
+        /// </summary>
+        public static RuntimeFramework CurrentFramework
         {
             get
             {
-                return this.name == "net-2.0"
-                    || this.name == "net-1.1"
-                    || this.name == "net-1.0"
-                    || this.name == "mono-2.0"
-                    || this.name == "mono-1.0";
-            }
-        }
-
-        public bool IsAvailable
-        {
-            get
-            {
-                switch (runtime)
-                {
-                    case RuntimeType.Mono:
-                        return CurrentFramework.Runtime == RuntimeType.Mono;
-                    case RuntimeType.Net:
-                        return CurrentFramework.Name == this.Name
-                            || IsDotNetInstalled(this.Version);
-                    default:
-                        return false;
-                }
-            }
-        }
-
-        private static string DefaultDisplayName(RuntimeType runtime, Version version)
-        {
-            return runtime.ToString() + " " + version.ToString();
-        }
-
-        /// <summary>
-        /// Construct from a short name
-        /// </summary>
-        /// <param name="framework"></param>
-        public RuntimeFramework(string framework)
-        {
-			this.name = framework;
-
-            switch (framework)
-            {
-                case "net-1.0":
-                    this.runtime = RuntimeType.Net;
-                    this.version = new Version(1, 0, 3705);
-                    break;
-                case "net-1.1":
-                    this.runtime = RuntimeType.Net;
-                    this.version = new Version(1, 1, 4322);
-                    break;
-                case "net-2.0":
-                    this.runtime = RuntimeType.Net;
-                    this.version = new Version(2, 0, 50727);
-                    break;
-				case "mono-1.0":
-					this.runtime = RuntimeType.Mono;
-					this.version = new Version(1, 1, 4322);
-					break;
-				case "mono-2.0":
-					this.runtime = RuntimeType.Mono;
-					this.version = new Version(2, 0, 50727);
-					break;
-				default:
-                    throw new InvalidOperationException("Unsupported runtime: " + framework);
-            }
-
-            this.displayName = DefaultDisplayName(runtime, version);
-        }
-
-        /// <summary>
-        /// Returns the short name of this framework
-        /// </summary>
-		public string Name
-		{
-			get { return name; }
-		}
-
-        /// <summary>
-        /// Overridden to return the short name of the framework
-        /// </summary>
-        /// <returns></returns>
-		public override string ToString()
-		{
-			return name;
-		}
-
-
-		/// <summary>
-		/// Static method to return a RuntimeFramework object
-		/// for the frameowrk that is currently in use.
-		/// </summary>
-		public static RuntimeFramework CurrentFramework
-		{
-			get 
-			{
                 if (currentFramework == null)
                 {
                     Type monoRuntimeType = Type.GetType("Mono.Runtime", false);
@@ -180,32 +71,204 @@ namespace NUnit.Core
                 }
 
                 return currentFramework;
-			}
-		}
+            }
+        }
 
-		/// <summary>
-		/// The type of this runtime framework
-		/// </summary>
-		public RuntimeType Runtime
-		{
-			get { return runtime; }
-		}
+        /// <summary>
+        /// Parses a string representing a RuntimeFramework.
+        /// The string may be just a RuntimeType name or just
+        /// a Version or a hyphentated RuntimeType-Version or
+        /// a Version prefixed by 'v'.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static RuntimeFramework Parse(string s)
+        {
+            RuntimeType runtime;
+            Version version;
 
-		/// <summary>
-		/// The version of this runtime framework
+            string[] parts = s.Split(new char[] { '-' });
+            if (parts.Length == 2)
+            {
+                runtime = (RuntimeType)System.Enum.Parse(typeof(RuntimeType), parts[0], true);
+                string vstring = parts[1];
+                if (runtime == RuntimeType.Mono && vstring == "1.0")
+                    vstring = "1.1";
+                version = new Version(vstring);
+            }
+            else if (char.ToLower(s[0]) == 'v')
+            {
+                runtime = RuntimeType.Any;
+                version = new Version(s.Substring(1));
+            }
+            else
+            {
+                runtime = (RuntimeType)System.Enum.Parse(typeof(RuntimeType), s, true);
+                version = new Version();
+            }
+
+            return new RuntimeFramework(runtime, version);
+        }
+        #endregion
+
+        #region Constructor
+        /// <summary>
+		/// Construct from a runtime type and version
 		/// </summary>
-		public Version Version
+		/// <param name="runtime">The runtime type of the framework</param>
+		/// <param name="version">The version of the framework</param>
+		public RuntimeFramework( RuntimeType runtime, Version version)
 		{
-			get { return version; }
-		}
+			this.runtime = runtime;
+			this.version = version;
+            this.displayName = DefaultDisplayName(runtime, version);
+        }
+        #endregion
+
+        #region Properties
+        /// <summary>
+        /// The type of this runtime framework
+        /// </summary>
+        public RuntimeType Runtime
+        {
+            get { return runtime; }
+        }
+
+        /// <summary>
+        /// The version of this runtime framework
+        /// </summary>
+        public Version Version
+        {
+            get { return version; }
+        }
 
         /// <summary>
         /// Returns the Display name for this framework
         /// </summary>
-		public string DisplayName
+        public string DisplayName
+        {
+            get { return displayName; }
+        }
+
+        public bool IsAvailable
+        {
+            get
+            {
+                switch (runtime)
+                {
+                    case RuntimeType.Mono:
+                        return CurrentFramework.Runtime == RuntimeType.Mono
+                            || IsMonoInstalled();
+                    case RuntimeType.Net:
+                        return CurrentFramework.Matches(this)
+                            || IsDotNetInstalled(this.Version);
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        private static string DefaultDisplayName(RuntimeType runtime, Version version)
+        {
+            return runtime.ToString() + " " + version.ToString();
+        }
+
+        public bool IsMono
+        {
+            get { return this.runtime == RuntimeType.Mono; }
+        }
+
+        public bool IsNet
+        {
+            get { return this.runtime == RuntimeType.Net; }
+        }
+
+        public bool IsNetCF
+        {
+            get { return this.runtime == RuntimeType.NetCF; }
+        }
+
+        public bool IsSSCLI
+        {
+            get { return this.runtime == RuntimeType.SSCLI; }
+        }
+        #endregion
+
+        #region Public Methods
+        /// <summary>
+        /// Overridden to return the short name of the framework
+        /// </summary>
+        /// <returns></returns>
+		public override string ToString()
 		{
-			get { return displayName; }
+            string vstring = version.ToString();
+
+            switch (runtime)
+            {
+                case RuntimeType.Any:
+                    if (vstring != "")
+                        vstring = "v" + vstring;
+                    return vstring;
+                case RuntimeType.Mono:
+                    if (vstring == "1.1")
+                        vstring = "1.0";
+                    break;
+                case RuntimeType.Net:
+                case RuntimeType.NetCF:
+                case RuntimeType.SSCLI:
+                default:
+                    break;
+            }
+
+            return runtime.ToString().ToLower() + "-" + vstring;
 		}
+
+        /// <summary>
+        /// Returns true if the current framework matches the
+        /// one supplied as an argument. Two frameworks match
+        /// if their runtime types are the same or either one
+        /// is RuntimeType.Any and all specified version components
+        /// are equal. Negative (i.e. unspecified) version
+        /// components are ignored.
+        /// </summary>
+        /// <param name="other">The RuntimeFramework to be matched.</param>
+        /// <returns>True on match, otherwise false</returns>
+        public bool Matches(RuntimeFramework other)
+        {
+            return (   this.Runtime == RuntimeType.Any
+                    || other.Runtime == RuntimeType.Any
+                    || this.Runtime == other.Runtime )
+                && this.Version.Major == other.Version.Major
+                && this.Version.Minor == other.Version.Minor
+                && (   this.Version.Build < 0 
+                    || other.Version.Build < 0 
+                    || this.Version.Build == other.Version.Build ) 
+                && (   this.Version.Revision < 0
+                    || other.Version.Revision < 0
+                    || this.Version.Revision == other.Version.Revision );
+        }
+        #endregion
+
+        #region Private Methods
+        private static bool IsMonoInstalled()
+        {
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                return false;
+
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Novell\Mono");
+            if (key == null) 
+                return false;
+
+            string version = key.GetValue("DefaultCLR") as string;
+            if (version == null || version == "")
+                return false;
+
+            key = key.OpenSubKey(version);
+            if (key == null)
+                return false;
+
+            return true;
+        }
 
         private static bool IsDotNetInstalled(Version version)
         {
@@ -213,7 +276,10 @@ namespace NUnit.Core
                 return false;
 
             RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\.NETFramework\policy\v" + version.ToString(2));
-            return key != null && key.GetValue(version.Build.ToString()) != null;
+            if ( key == null ) return false;
+            
+            return version.Build < 0 || key.GetValue(version.Build.ToString()) != null;
         }
-	}
+        #endregion
+    }
 }

@@ -404,7 +404,8 @@ namespace NUnit.Util
 										currentConfig.BinPathType = (BinPathType)Enum.Parse( typeof( BinPathType ), type, true );
 
                                     string runtime = reader.GetAttribute("runtimeFramework");
-                                    currentConfig.RuntimeFramework = runtime;
+                                    if ( runtime != null )
+                                        currentConfig.RuntimeFramework = RuntimeFramework.Parse(runtime);
 
                                     Configs.Add(currentConfig);
 									if ( configName == activeConfigName )
@@ -498,7 +499,7 @@ namespace NUnit.Util
 					writer.WriteAttributeString( "binpathtype", config.BinPathType.ToString() );
 
                 if (config.RuntimeFramework != null)
-                    writer.WriteAttributeString("runtimeFramework", config.RuntimeFramework);
+                    writer.WriteAttributeString("runtimeFramework", config.RuntimeFramework.ToString());
 
 				foreach( string assembly in config.Assemblies )
 				{

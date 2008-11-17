@@ -20,18 +20,21 @@ namespace NUnit.Util
         /// <returns>A TestRunner</returns>
         public static TestRunner MakeTestRunner(TestPackage package)
         {
-            string targetRuntime = package.Settings["RuntimeFramework"] as string;
-
-            RuntimeFramework runtimeFramework = targetRuntime == null
-                ? RuntimeFramework.CurrentFramework
-                : new RuntimeFramework( targetRuntime );
             RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
+            RuntimeFramework targetFramework = package.Settings["RuntimeFramework"] as RuntimeFramework;
+            if (targetFramework == null)
+                targetFramework = currentFramework;
+            else if (targetFramework.Runtime == RuntimeType.Any)
+            {
+                targetFramework = new RuntimeFramework(currentFramework.Runtime, targetFramework.Version);
+                package.Settings["RuntimeFramework"] = targetFramework;
+            }
 
-            log.Debug("Test requires {0} framework", runtimeFramework.Name);
+            log.Debug("Test requires {0} framework", targetFramework);
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if ( processModel == ProcessModel.Default )
-                if (runtimeFramework.Name != currentFramework.Name )
+                if ( !targetFramework.Matches( currentFramework ) )
                     processModel = ProcessModel.Separate;
 
             switch (processModel)

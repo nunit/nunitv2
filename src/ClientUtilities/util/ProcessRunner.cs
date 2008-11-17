@@ -37,11 +37,9 @@ namespace NUnit.Util
             log.Info("Loading " + package.Name);
 			Unload();
 
-            string targetRuntime = package.Settings["RuntimeFramework"] as string;
-
-            RuntimeFramework runtimeFramework = targetRuntime == null
-                ? RuntimeFramework.CurrentFramework
-                : new RuntimeFramework(targetRuntime);
+            RuntimeFramework runtimeFramework = package.Settings["RuntimeFramework"] as RuntimeFramework;
+            if ( runtimeFramework == null )
+                 runtimeFramework = RuntimeFramework.CurrentFramework;
 
 			try
 			{

@@ -176,7 +176,6 @@ namespace NUnit.Core
                 case "NT6":
                     nameOK = os.IsNT6;
                     break;
-                // TODO: Distinguish Vista SP1 from Server 2008
                 case "VISTA":
                     nameOK = os.IsVista;
                     break;
@@ -188,17 +187,17 @@ namespace NUnit.Core
                     nameOK = os.IsUnix;
 					break;
 				case "NET":
-					nameOK = rt.Runtime == RuntimeType.Net;
+					nameOK = rt.IsNet;
 					break;
 				case "NETCF":
-					nameOK = rt.Runtime == RuntimeType.NetCF;
+					nameOK = rt.IsNetCF;
 					break;
 				case "SSCLI":
 				case "ROTOR":
-					nameOK = rt.Runtime == RuntimeType.SSCLI;
+					nameOK = rt.IsSSCLI;
 					break;
 				case "MONO":
-					nameOK = rt.Runtime == RuntimeType.Mono;
+                    nameOK = rt.IsMono;
 					// Special handling because Mono 1.0 profile has version 1.1
 					if ( versionSpecification == "1.0" )
 						versionSpecification = "1.1";
