@@ -77,16 +77,25 @@ namespace NUnit.Core
             get { return runnerRuntimeFramework.Version; }
         }
 
+        /// <summary>
+        /// The Id of the process in which the assembly is loaded
+        /// </summary>
         public int ProcessId
         {
             get { return processId; }
         }
 
+        /// <summary>
+        /// The friendly name of the AppDomain in which the assembly is loaded
+        /// </summary>
         public string DomainName
         {
             get { return domainName; }
         }
 
+        /// <summary>
+        /// The name of the main module of the process in which the assembly is loaded 
+        /// </summary>
         public string ModuleName
         {
             get { return moduleName; }
