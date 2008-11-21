@@ -9,9 +9,14 @@ using System.IO;
 using System.Reflection;
 using System.Collections.Specialized;
 using System.Threading;
+using Microsoft.Win32;
 
 namespace NUnit.Core
 {
+    /// <summary>
+    /// Provides static methods for accessing the NUnit config
+    /// file 
+    /// </summary>
     public class NUnitConfiguration
     {
         #region Class Constructor
@@ -62,7 +67,9 @@ namespace NUnit.Core
         }
         #endregion
 
-        #region AllowOldStypeTests
+        #region Public Properties
+
+        #region AllowOldStyleTests
         private static bool allowOldStyleTests = false;
         public static bool AllowOldStyleTests
         {
@@ -101,23 +108,6 @@ namespace NUnit.Core
         }
         #endregion
 
-        #region NUnitLibDirectory
-        private static string nunitLibDirectory;
-        public static string NUnitLibDirectory
-        {
-            get
-            {
-                if (nunitLibDirectory == null)
-                {
-                    nunitLibDirectory =
-                        AssemblyHelper.GetDirectoryName(Assembly.GetExecutingAssembly());
-                }
-
-                return nunitLibDirectory;
-            }
-        }
-        #endregion
-
         #region NUnitDirectory
         private static string nunitDirectory;
         public static string NUnitDirectory
@@ -126,10 +116,8 @@ namespace NUnit.Core
             {
                 if (nunitDirectory == null)
                 {
-                    nunitDirectory = NUnitLibDirectory;
-
-                    if (nunitDirectory.EndsWith(Path.DirectorySeparatorChar + "lib"))
-                        nunitDirectory = Path.GetDirectoryName(nunitDirectory);
+                    nunitDirectory =
+                        AssemblyHelper.GetDirectoryName(Assembly.GetExecutingAssembly());
                 }
 
                 return nunitDirectory;
@@ -145,14 +133,7 @@ namespace NUnit.Core
             {
                 if (addinDirectory == null)
                 {
-                    addinDirectory = System.IO.Path.Combine(NUnitDirectory, "addins");
-
-                    // Special handling for running NUnit in the VS tree
-                    if (addinDirectory.EndsWith("bin\\" + BuildConfiguration) && !Directory.Exists(addinDirectory))
-                    {
-                        DirectoryInfo fi = new DirectoryInfo(addinDirectory).Parent.Parent.Parent.Parent;
-                        addinDirectory = Path.Combine(fi.FullName, "GuiRunner/nunit-gui-exe/bin/" + BuildConfiguration + "/addins");
-                    }
+                    addinDirectory = Path.Combine(GetGuiDirectory(), "addins");
                 }
 
                 return addinDirectory;
@@ -167,20 +148,78 @@ namespace NUnit.Core
             get
             {
                 if (testAgentExePath == null)
-                {
-                    string agentDir = NUnitDirectory;
-
-                    // Special handling for running NUnit in the VS tree
-                    if (agentDir.EndsWith("bin\\" + BuildConfiguration))
-                    {
-                        DirectoryInfo fi = new DirectoryInfo(agentDir).Parent.Parent.Parent.Parent;
-                        agentDir = Path.Combine(fi.FullName, "NUnitTestServer/nunit-agent-exe/bin/" + BuildConfiguration);
-                    }
-
-                    testAgentExePath = Path.Combine(agentDir, "nunit-agent.exe");
-                }
+                    testAgentExePath = Path.Combine(GetAgentDirectory(), "nunit-agent.exe");
 
                 return testAgentExePath;
+            }
+        }
+        #endregion
+
+        #region ApplicationDataDirectory
+        private static string applicationDirectory;
+        public static string ApplicationDirectory
+        {
+            get
+            {
+                if (applicationDirectory == null)
+                {
+                    applicationDirectory = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        "NUnit");
+                }
+
+                return applicationDirectory;
+            }
+        }
+        #endregion
+
+        #region InstallDirectory
+        private static string installDir;
+        public static string InstallDirectory
+        {
+            get
+            {
+                if (installDir == null)
+                {
+                    RegistryKey key = Registry.LocalMachine.OpenSubKey(
+                        @"Software\nunit.org\2.4");
+                    if (key != null)
+                        installDir = key.GetValue("InstallDir") as string;
+
+                }
+                 
+                return installDir;
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Private Properties and Methods
+        private static bool RunningFromSourceTree
+        {
+            get { return NUnitDirectory.EndsWith( Path.Combine( "bin", BuildConfiguration ) ); }
+        }
+
+        private static string GetAgentDirectory()
+        {
+            return RunningFromSourceTree
+                ? Path.Combine(SourceTreeRoot, "NUnitTestServer/nunit-agent-exe/bin/" + BuildConfiguration)
+                : NUnitDirectory;
+        }
+
+        private static string GetGuiDirectory()
+        {
+            return RunningFromSourceTree
+                ? Path.Combine(SourceTreeRoot, "GuiRunner/nunit-gui-exe/bin/" + BuildConfiguration)
+                : NUnitDirectory;
+        }
+
+        private static string SourceTreeRoot
+        {
+            get
+            {
+                return new DirectoryInfo(NUnitDirectory).Parent.Parent.Parent.Parent.FullName;
             }
         }
         #endregion
