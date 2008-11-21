@@ -88,7 +88,7 @@
 
   <target name="build">
     <csc target="library" 
-    output="${current.lib.dir}/nunit.uikit.dll"
+    output="${current.build.dir}/nunit.uikit.dll"
     debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
@@ -100,7 +100,7 @@
       <resources prefix="NUnit.UiKit">
         <patternset refid="resource-files"/>
       </resources>
-      <references basedir="${current.lib.dir}">
+      <references basedir="${current.build.dir}">
         <include name="System.Windows.Forms.dll"/>
         <include name="System.Drawing.dll"/>
         <include name="System.Data.dll"/>
@@ -110,7 +110,7 @@
       </references>
     </csc>
 
-    <copy todir="${current.lib.dir}">
+    <copy todir="${current.build.dir}">
       <fileset>
         <patternset refid="content-files"/>
       </fileset>

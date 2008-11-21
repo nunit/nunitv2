@@ -15,7 +15,7 @@
         <patternset refid="source-files"/>
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
-      <references basedir="${current.lib.dir}">
+      <references basedir="${current.build.dir}">
         <include name="nunit-gui-runner.dll"/>
         <include name="nunit.core.dll"/>
       </references>
@@ -33,7 +33,7 @@
         <patternset refid="source-files"/>
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
-      <references basedir="${current.lib.dir}">
+      <references basedir="${current.build.dir}">
         <include name="nunit-gui-runner.dll"/>
         <include name="nunit.core.dll"/>
       </references>

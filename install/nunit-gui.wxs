@@ -45,14 +45,14 @@
         <Condition>FRAMEWORK10 = "3321-3705"</Condition>
         <Shortcut Id="MenuShortcut_1.0" Name="SNUNIT10" LongName="NUnit (.NET 1.0)"  
                   Target="[!clr.bat]" Arguments="1.0 start nunit.exe" 
-                  Directory="NUnitMenu" Advertise="no" Icon="nunit_icon.exe" IconIndex="0" 
+                  Directory="RunUnderMenu" Advertise="no" Icon="nunit_icon.exe" IconIndex="0" 
                   Show="normal" WorkingDirectory="net_1.1" />
       </Component>
       		
       <Component Id="MenuShortcut_1.1" DiskId="1" Guid="BC64C9F2-8CA8-4cc1-BD86-1B036DDC1E26">
         <Condition>FRAMEWORK11 = "3706-4322"</Condition>
         <Shortcut Id="MenuShortcut_1.1" Name="SNUNIT11" LongName="NUnit (.NET 1.1)" 
-                  Target="[!nunit.exe_1.1]" Advertise="no" Directory="NUnitMenu" 
+                  Target="[!nunit.exe_1.1]" Advertise="no" Directory="RunUnderMenu" 
                   Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
                   WorkingDirectory="net_1.1" />
       </Component>
@@ -94,7 +94,7 @@
       <Component Id="MenuShortcut_2.0" DiskId="1" Guid="A771FB75-2488-4f2c-BA22-1F4C85D64AC7">
         <Condition>FRAMEWORK20 = "50727-50727"</Condition>
         <Shortcut Id="MenuShortcut_2.0" Name="SNUNIT20" LongName="NUnit (.NET 2.0)" 
-                  Target="[!nunit.exe_2.0]" Advertise="no" Directory="NUnitMenu" 
+                  Target="[!nunit.exe_2.0]" Advertise="no" Directory="RunUnderMenu" 
                   Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
                   WorkingDirectory="net_2.0" />
       </Component>
@@ -103,7 +103,7 @@
         <Condition>MONODIRECTORY</Condition>
         <Shortcut Id="MenuShortcut_Mono_1_0" Name="SNUNITMO" LongName="NUnit (Mono 1.0 Profile)" 
                   Target="[MONODIRECTORY]bin\mono.exe" Arguments="nunit.exe" Advertise="no"
-                  Directory="NUnitMenu" Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
+                  Directory="RunUnderMenu" Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
                   WorkingDirectory="net_1.1" />
       </Component>
 
@@ -111,14 +111,10 @@
         <Condition>MONODIRECTORY</Condition>
         <Shortcut Id="MenuShortcut_Mono_2.0" Name="SNUNITMO" LongName="NUnit (Mono 2.0 Profile)" 
                   Target="[MONODIRECTORY]bin\mono.exe" Arguments="nunit.exe"  Advertise="no"
-                  Directory="NUnitMenu" Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
+                  Directory="RunUnderMenu" Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
                   WorkingDirectory="net_2.0" />
       </Component>
     		
-    </DirectoryRef>
-    	
-    <DirectoryRef Id="lib_1.1" FileSource="bin\net-1.1\lib">
-
       <Component Id="nunit_gui_runner_1.1" DiskId="1" Guid="7A62D7B2-1D0D-4cb4-9C52-00DBBBDAA0A2">
         <File Id="nunit_gui_runner_1.1" Name="GUI.DLL" LongName="nunit-gui-runner.dll" />
       </Component>
@@ -180,10 +176,6 @@
           Action="write" Type="string" Value='"[!nunit.exe_2.0]" "%1"' />
 
       </Component>
-
-    </DirectoryRef>
-    	
-    <DirectoryRef Id="lib_2.0" FileSource="bin\net-2.0\lib">
 
       <Component Id="nunit_gui_runner_2.0" DiskId="1" Guid="7A62D7B2-1D0D-4cb4-9C52-00DBBBDAA0A2">
         <File Id="nunit_gui_runner_2.0" Name="GUI.DLL" LongName="nunit-gui-runner.dll" />

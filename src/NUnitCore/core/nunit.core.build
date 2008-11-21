@@ -88,7 +88,7 @@
 
   <target name="build">
     <csc target="library" 
-        output="${current.lib.dir}/nunit.core.dll"
+        output="${current.build.dir}/nunit.core.dll"
         debug="${build.debug}" 
         define="${build.defines}">
       <sources>
@@ -100,7 +100,7 @@
       </nowarn>
       <references>
 	<include name="System.Configuration.dll"/>
-    <include name="${current.lib.dir}/nunit.core.interfaces.dll"/>
+    <include name="${current.build.dir}/nunit.core.interfaces.dll"/>
       </references>
     </csc>
   </target>

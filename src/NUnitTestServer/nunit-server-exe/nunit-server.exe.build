@@ -9,7 +9,7 @@
         <include name="TestServerConsoleApp.cs"/>
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
-      <references basedir="${current.lib.dir}">
+      <references basedir="${current.build.dir}">
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>

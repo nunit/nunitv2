@@ -33,10 +33,6 @@
         <File Id="runFile.exe.config_1.1" Name="runFile.cfg" LongName="runFile.exe.config" />
       </Component>
 
-    </DirectoryRef>
-
-    <DirectoryRef Id="lib_1.1" FileSource="bin\net-1.1\lib">
-
       <Component Id="fit_lib_1.1" DiskId="1" Guid="589A4209-3A65-4335-932E-745F9A4D4568" >
         <File Id="nunit.fixtures.dll_1.1" Name="FIXTURES.DLL" LongName="nunit.fixtures.dll" />
         <File Id="fit.dll_1.1" Name="fit.dll"/>
@@ -87,10 +83,6 @@
         <File Id="runFile.exe.config_2.0" Name="runFile.cfg" LongName="runFile.exe.config" />
       </Component>
  
-    </DirectoryRef>
-    
-    <DirectoryRef Id="lib_2.0" FileSource="bin\net-2.0\lib">
-
       <Component Id="fit_lib_2.0" DiskId="1" Guid="DD9E8F25-DD22-4791-962E-0717BDE5E21D" >
         <File Id="nunit.fixtures.dll_2.0" Name="FIXTURES.DLL" LongName="nunit.fixtures.dll" />
         <File Id="fit.dll_2.0" Name="fit.dll"/>

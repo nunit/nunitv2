@@ -220,7 +220,7 @@
     <copy file="${project.base.dir}/nunit.snk" todir="${project.build.dir}"/>-->
 
     <!-- Copy lib files to build dir -->
-    <copy todir="${current.lib.dir}">
+    <copy todir="${current.build.dir}">
       <fileset basedir="${project.lib.dir}">
         <include name="*.dll"/>
       </fileset>

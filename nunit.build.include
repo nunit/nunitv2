@@ -228,8 +228,6 @@
     <property name="current.build.dir" 
       value="${path::combine(runtime.version.dir,build.config)}"/>
 
-    <property name="current.lib.dir" 
-      value="${path::combine(current.build.dir,'lib')}"/>
     <property name="current.framework.dir" 
       value="${path::combine(current.build.dir,'framework')}"/>
     <property name="current.test.dir" 
@@ -244,8 +242,6 @@
       unless="${directory::exists(current.build.dir)}"/>
     <mkdir dir="${current.framework.dir}"
       unless="${directory::exists(current.framework.dir)}"/>
-    <mkdir dir="${current.lib.dir}"
-      unless="${directory::exists(current.lib.dir)}"/>
     <mkdir dir="${current.test.dir}"
       unless="${directory::exists(current.test.dir)}"/>
   </target>
