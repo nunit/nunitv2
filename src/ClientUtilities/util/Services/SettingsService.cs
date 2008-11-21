@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using Microsoft.Win32;
+using NUnit.Core;
 
 namespace NUnit.Util
 {
@@ -15,10 +16,6 @@ namespace NUnit.Util
 	/// </summary>
 	public class SettingsService : SettingsGroup, NUnit.Core.IService
 	{
-		static readonly string applicationDirectory = 
-			Environment.GetFolderPath( Environment.SpecialFolder.ApplicationData ) 
-			+ Path.DirectorySeparatorChar + "NUnit" + Path.DirectorySeparatorChar;
-
 		static readonly string settingsFileName = "NUnitSettings.xml";
 
         private bool writeable;
@@ -34,7 +31,7 @@ namespace NUnit.Util
 			string settingsFile = System.Configuration.ConfigurationSettings.AppSettings["settingsFile"];
 #endif
 			if ( settingsFile == null )
-				settingsFile = applicationDirectory + settingsFileName;
+				settingsFile = Path.Combine( NUnitConfiguration.ApplicationDirectory, settingsFileName );
 
 			this.storage = new XmlSettingsStorage( settingsFile, writeable );
 
