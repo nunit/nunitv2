@@ -12,6 +12,24 @@ namespace NUnit.Core
 	{
         StreamWriter writer;
 
+        static string logDirectory;
+        public static string LogDirectory
+        {
+            get
+            {
+                if (logDirectory == null)
+                {
+                    logDirectory = Path.Combine(
+                        NUnitConfiguration.ApplicationDirectory, "logs");
+
+                    if (!Directory.Exists(logDirectory))
+                        Directory.CreateDirectory(logDirectory);
+                }
+
+                return logDirectory;
+            }
+        }
+
 		public InternalTraceWriter(string logName)
 		{
 			int pId = Process.GetCurrentProcess().Id;
@@ -21,7 +39,8 @@ namespace NUnit.Core
 				.Replace("%p", Process.GetCurrentProcess().Id.ToString() )
 				.Replace("%a", AppDomain.CurrentDomain.FriendlyName );
 
-            this.writer = new StreamWriter(fileName, true);
+            string logPath = Path.Combine(LogDirectory, fileName);
+            this.writer = new StreamWriter(logPath, true);
             this.writer.AutoFlush = true;
 		}
 
