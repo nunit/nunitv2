@@ -37,13 +37,17 @@ namespace NUnit.Core
     {
         #region Static and Instance Fields
         private static RuntimeFramework currentFramework;
+        private static Version[] knownVersions = new Version[] {
+            new Version( "1.0.3705" ),
+            new Version( "1.1.4322" ),
+            new Version( "2.0.50727" ) };
 
         private RuntimeType runtime;
 		private Version version;
 		private string displayName;
         #endregion
 
-        #region Static Properties and Methods Members
+        #region Static Properties and Methods
         /// <summary>
         /// Static method to return a RuntimeFramework object
         /// for the framework that is currently in use.
@@ -84,8 +88,8 @@ namespace NUnit.Core
         /// <returns></returns>
         public static RuntimeFramework Parse(string s)
         {
-            RuntimeType runtime;
-            Version version;
+            RuntimeType runtime = RuntimeType.Any;
+            Version version = new Version();
 
             string[] parts = s.Split(new char[] { '-' });
             if (parts.Length == 2)
@@ -94,20 +98,72 @@ namespace NUnit.Core
                 string vstring = parts[1];
                 if (runtime == RuntimeType.Mono && vstring == "1.0")
                     vstring = "1.1";
-                version = new Version(vstring);
+                if ( vstring != "" )
+                    version = new Version(vstring);
             }
             else if (char.ToLower(s[0]) == 'v')
             {
-                runtime = RuntimeType.Any;
                 version = new Version(s.Substring(1));
             }
             else
             {
                 runtime = (RuntimeType)System.Enum.Parse(typeof(RuntimeType), s, true);
-                version = new Version();
             }
 
             return new RuntimeFramework(runtime, version);
+        }
+
+        /// <summary>
+        /// Returns true if a particular target runtime is available.
+        /// </summary>
+        /// <param name="framework">The framework being sought</param>
+        /// <returns>True if it's available, false if not</returns>
+        public static bool IsAvailable(RuntimeFramework framework)
+        {
+            switch (framework.Runtime)
+            {
+                case RuntimeType.Mono:
+                    return IsMonoInstalled();
+                case RuntimeType.Net:
+                    return CurrentFramework.Matches( framework ) || IsDotNetInstalled(framework.Version);
+                default:
+                    return false;
+            }
+        }
+
+        public static bool IsMonoInstalled()
+        {
+            if (CurrentFramework.IsMono) return true;
+
+            // Don't know how to do this on linux yet, but it's not
+            // a problem since we are only supporting Mono on Linux
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                return false;
+
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Novell\Mono");
+            if (key == null)
+                return false;
+
+            string version = key.GetValue("DefaultCLR") as string;
+            if (version == null || version == "")
+                return false;
+
+            key = key.OpenSubKey(version);
+            if (key == null)
+                return false;
+
+            return true;
+        }
+
+        public static bool IsDotNetInstalled(Version version)
+        {
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+                return false;
+
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\.NETFramework\policy\v" + version.ToString(2));
+            if (key == null) return false;
+
+            return version.Build < 0 || key.GetValue(version.Build.ToString()) != null;
         }
         #endregion
 
@@ -120,7 +176,7 @@ namespace NUnit.Core
 		public RuntimeFramework( RuntimeType runtime, Version version)
 		{
 			this.runtime = runtime;
-			this.version = version;
+            this.version = version;
             this.displayName = DefaultDisplayName(runtime, version);
         }
         #endregion
@@ -150,44 +206,47 @@ namespace NUnit.Core
             get { return displayName; }
         }
 
-        public bool IsAvailable
-        {
-            get
-            {
-                switch (runtime)
-                {
-                    case RuntimeType.Mono:
-                        return CurrentFramework.Runtime == RuntimeType.Mono
-                            || IsMonoInstalled();
-                    case RuntimeType.Net:
-                        return CurrentFramework.Matches(this)
-                            || IsDotNetInstalled(this.Version);
-                    default:
-                        return false;
-                }
-            }
-        }
+        /// <summary>
+        /// Indicates whether the current framework is available on
+        /// this machine.
+        /// </summary>
+        //public bool IsAvailable
+        //{
+        //    get { return IsAvailable(this); }
+        //}
 
         private static string DefaultDisplayName(RuntimeType runtime, Version version)
         {
             return runtime.ToString() + " " + version.ToString();
         }
 
+        /// <summary>
+        /// Indicates whether the current runtime is Mono
+        /// </summary>
         public bool IsMono
         {
             get { return this.runtime == RuntimeType.Mono; }
         }
 
+        /// <summary>
+        /// Indicates whether the current runtime is Microsoft .NET
+        /// </summary>
         public bool IsNet
         {
             get { return this.runtime == RuntimeType.Net; }
         }
 
+        /// <summary>
+        /// Indicates whether the current runtime is the .NET Compact Framework
+        /// </summary>
         public bool IsNetCF
         {
             get { return this.runtime == RuntimeType.NetCF; }
         }
 
+        /// <summary>
+        /// Indicates whether the current runtime is the Shared Source CLI (Rotor)
+        /// </summary>
         public bool IsSSCLI
         {
             get { return this.runtime == RuntimeType.SSCLI; }
@@ -247,38 +306,13 @@ namespace NUnit.Core
                     || other.Version.Revision < 0
                     || this.Version.Revision == other.Version.Revision );
         }
-        #endregion
 
-        #region Private Methods
-        private static bool IsMonoInstalled()
+        public void SpecifyBuild()
         {
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-                return false;
-
-            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Novell\Mono");
-            if (key == null) 
-                return false;
-
-            string version = key.GetValue("DefaultCLR") as string;
-            if (version == null || version == "")
-                return false;
-
-            key = key.OpenSubKey(version);
-            if (key == null)
-                return false;
-
-            return true;
-        }
-
-        private static bool IsDotNetInstalled(Version version)
-        {
-            if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-                return false;
-
-            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\.NETFramework\policy\v" + version.ToString(2));
-            if ( key == null ) return false;
-            
-            return version.Build < 0 || key.GetValue(version.Build.ToString()) != null;
+            if (version.Build < 0)
+                foreach (Version v in knownVersions)
+                    if (version.Major == v.Major && version.Minor == v.Minor)
+                        version = v;
         }
         #endregion
     }

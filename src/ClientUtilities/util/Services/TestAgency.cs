@@ -115,10 +115,12 @@ namespace NUnit.Util
 		{
             log.Info("Getting agent for use under {0}", framework);
  
-            if (!framework.IsAvailable)
+            if (!RuntimeFramework.IsAvailable(framework))
                 throw new ArgumentException(
                     string.Format("The {0} framework is not available", framework),
                     "framework");
+
+            framework.SpecifyBuild();
 
             // TODO: Decide if we should reuse agents
             //AgentRecord r = FindAvailableRemoteAgent(type);
@@ -183,8 +185,8 @@ namespace NUnit.Util
             {
                 case RuntimeType.Mono:
                     // TODO: Replace hard-coded path
-				    p.StartInfo.FileName = @"C:\Program Files\Mono-2.0.1\bin\mono.exe";
-				    p.StartInfo.Arguments = agentExePath + " " + arglist;
+                    p.StartInfo.FileName = NUnitConfiguration.MonoExePath;
+				    p.StartInfo.Arguments = string.Format( "\"{0}\" {1}", agentExePath, arglist );
                     break;
                 case RuntimeType.Net:
                     p.StartInfo.FileName = agentExePath;
@@ -200,7 +202,8 @@ namespace NUnit.Util
 			
             //p.Exited += new EventHandler(OnProcessExit);
             p.Start();
-            log.Info("Launched Agent process {0} - see nunit-agent_{0}.log", p.Id); 
+            log.Info("Launched Agent process {0} - see nunit-agent_{0}.log", p.Id);
+            log.Info("Command line: \"{0}\" {1}", p.StartInfo.FileName, p.StartInfo.Arguments);
 
 			agentData.Add( new AgentRecord( agentId, p, null, AgentStatus.Starting ) );
 		    return agentId;

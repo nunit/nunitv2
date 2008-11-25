@@ -155,6 +155,40 @@ namespace NUnit.Core
         }
         #endregion
 
+        #region MonoExePath
+        private static string monoExePath;
+        public static string MonoExePath
+        {
+            get
+            {
+                if (monoExePath == null)
+                {
+                    if (RuntimeFramework.CurrentFramework.IsMono)
+                        return AssemblyHelper.GetAssemblyPath(Assembly.GetEntryAssembly());
+                    
+                    // Assume it's windows for now
+                    RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Novell\Mono");
+                    if (key != null)
+                    {
+                        string version = key.GetValue("DefaultCLR") as string;
+                        if (version != null)
+                        {
+                            key = key.OpenSubKey(version);
+                            if (key != null)
+                            {
+                                string installDir = key.GetValue("SdkInstallRoot") as string;
+                                if (installDir != null)
+                                    monoExePath = Path.Combine(installDir, @"bin\mono.exe");
+                            }
+                        }
+                    }
+                }
+
+                return monoExePath;
+            }
+        }
+        #endregion
+
         #region ApplicationDataDirectory
         private static string applicationDirectory;
         public static string ApplicationDirectory
