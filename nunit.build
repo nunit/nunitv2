@@ -75,7 +75,7 @@
   <property name="package.version" value="${base.package.version}.${package.build.number}"/>
 
   <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
-  <property name="package.configuration" value="Alpha-3"/>
+  <property name="package.configuration" value="Beta-1"/>
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
@@ -1080,7 +1080,7 @@
     <!-- NUnit Base Tests -->
     <include name="NUnitFramework/tests/nunit.framework.tests.build" />
     <include name="NUnitCore/tests/nunit.core.tests.build" />
-    <include name="NUnitExtensions/tests/nunit.extensions.tests.build" />
+    <include name="NUnitExtensions/tests/nunit.extensions.tests.build" if="${build.v2plus}" />
     <include name="NUnitMocks/tests/nunit.mocks.tests.build" />
     <include name="ClientUtilities/tests/nunit.util.tests.build" />
 
