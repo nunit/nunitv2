@@ -16,7 +16,7 @@ namespace NUnit.Framework.Constraints.Tests
 			stringRepresentation = "<after 500 <equal True>>";
 
             value = false;
-            SetValueTrueAfterDelay(300);
+            //SetValueTrueAfterDelay(300);
 		}
 
         object[] SuccessData = new object[] { true };
@@ -31,6 +31,7 @@ namespace NUnit.Framework.Constraints.Tests
         [Test, TestCaseSource("SuccessDelegates")]
         public void SucceedsWithGoodDelegates(ActualValueDelegate del)
         {
+            SetValueTrueAfterDelay(300);
             Assert.That(theConstraint.Matches(del));
         }
 
@@ -44,8 +45,6 @@ namespace NUnit.Framework.Constraints.Tests
         public void SimpleTest()
         {
             SetValueTrueAfterDelay(500);
-
-            Assert.That(value, Is.False);
             Assert.That(DelegateReturningValue, new AfterConstraint(new EqualConstraint(true), 5000, 200));
         }
 
@@ -53,8 +52,6 @@ namespace NUnit.Framework.Constraints.Tests
         public void SimpleTestUsingReference()
         {
             SetValueTrueAfterDelay(500);
-
-            Assert.That(value, Is.False);
             Assert.That(ref value, new AfterConstraint(new EqualConstraint(true), 5000, 200));
         }
 
@@ -72,7 +69,9 @@ namespace NUnit.Framework.Constraints.Tests
 
 		private void SetValueTrueAfterDelay(int delay)
 		{
-			new Timer( SetValueTrueDelegate, null, delay, Timeout.Infinite);
+            Thread thread = new Thread( SetValueTrueDelegate );
+            //thread.Priority = ThreadPriority.Highest;
+            thread.Start();
 		}
 
 		private static void MethodReturningVoid() { }
@@ -87,7 +86,7 @@ namespace NUnit.Framework.Constraints.Tests
 		private static object MethodReturningZero() { return 0; }
 		private static ActualValueDelegate DelegateReturningZero = new ActualValueDelegate(MethodReturningZero);
 
-		private static void MethodSetsValueTrue(object state) { value = true; }
-		private TimerCallback SetValueTrueDelegate = new TimerCallback(MethodSetsValueTrue);
+		private static void MethodSetsValueTrue() { value = true; }
+		private ThreadStart SetValueTrueDelegate = new ThreadStart(MethodSetsValueTrue);
 	}
 }
