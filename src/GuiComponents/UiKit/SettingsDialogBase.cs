@@ -101,7 +101,7 @@ namespace NUnit.UiKit
 			this.Name = "SettingsDialogBase";
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "Options";
+			this.Text = "Settings";
 			this.Closed += new System.EventHandler(this.SettingsDialogBase_Closed);
 			this.ResumeLayout(false);
 

@@ -83,7 +83,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem projectMenuSeparator2;
 
 		private System.Windows.Forms.MenuItem toolsMenu;
-		private System.Windows.Forms.MenuItem optionsMenuItem;
+		private System.Windows.Forms.MenuItem settingsMenuItem;
 		private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
 
 		public System.Windows.Forms.MenuItem helpMenuItem;
@@ -214,7 +214,7 @@ namespace NUnit.Gui
 			this.saveXmlResultsMenuItem = new System.Windows.Forms.MenuItem();
 			this.exceptionDetailsMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenuSeparator1 = new System.Windows.Forms.MenuItem();
-			this.optionsMenuItem = new System.Windows.Forms.MenuItem();
+			this.settingsMenuItem = new System.Windows.Forms.MenuItem();
 			this.toolsMenuSeparator2 = new System.Windows.Forms.MenuItem();
 			this.addinInfoMenuItem = new System.Windows.Forms.MenuItem();
 			this.helpItem = new System.Windows.Forms.MenuItem();
@@ -580,7 +580,7 @@ namespace NUnit.Gui
 																					  this.saveXmlResultsMenuItem,
 																					  this.exceptionDetailsMenuItem,
 																					  this.toolsMenuSeparator1,
-																					  this.optionsMenuItem,
+																					  this.settingsMenuItem,
 																					  this.toolsMenuSeparator2,
 																					  this.addinInfoMenuItem});
 			this.toolsMenu.Text = "T&ools";
@@ -609,11 +609,11 @@ namespace NUnit.Gui
 			this.toolsMenuSeparator1.Index = 3;
 			this.toolsMenuSeparator1.Text = "-";
 			// 
-			// optionsMenuItem
+			// settingsMenuItem
 			// 
-			this.optionsMenuItem.Index = 4;
-			this.optionsMenuItem.Text = "&Options...";
-			this.optionsMenuItem.Click += new System.EventHandler(this.optionsMenuItem_Click);
+			this.settingsMenuItem.Index = 4;
+			this.settingsMenuItem.Text = "&Settings...";
+			this.settingsMenuItem.Click += new System.EventHandler(this.settingsMenuItem_Click);
 			// 
 			// toolsMenuSeparator2
 			// 
@@ -1237,7 +1237,7 @@ namespace NUnit.Gui
 			}
 		}
 
-		private void optionsMenuItem_Click(object sender, System.EventArgs e)
+		private void settingsMenuItem_Click(object sender, System.EventArgs e)
 		{
 			OptionsDialog.Display( this );
 		}
