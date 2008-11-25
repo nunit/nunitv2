@@ -103,5 +103,13 @@ namespace NUnit.Util
 			}
 		}
 		#endregion
-	}
+
+        #region Running Tests
+        public override void BeginRun(EventListener listener, ITestFilter filter)
+        {
+            log.Info("BeginRun in AppDomain {0}", domain.FriendlyName);
+            base.BeginRun(listener, filter);
+        }
+        #endregion
+    }
 }

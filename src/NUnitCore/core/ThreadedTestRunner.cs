@@ -15,6 +15,8 @@ namespace NUnit.Core
 	/// </summary>
 	public class ThreadedTestRunner : ProxyTestRunner
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(ThreadedTestRunner));
+
 		#region Instance Variables
 		private TestRunnerThread testRunnerThread;
 		#endregion
@@ -38,21 +40,22 @@ namespace NUnit.Core
 
 		public override void BeginRun( EventListener listener )
 		{
-			testRunnerThread = new TestRunnerThread( this.TestRunner );
-
-			testRunnerThread.StartRun( listener );
+            log.Info("BeginRun");
+   			testRunnerThread = new TestRunnerThread( this.TestRunner );
+            testRunnerThread.StartRun( listener );
 		}
 
 		public override void BeginRun( EventListener listener, ITestFilter filter )
 		{
-			testRunnerThread = new TestRunnerThread( this.TestRunner );
-
+            log.Info("BeginRun");
+            testRunnerThread = new TestRunnerThread(this.TestRunner);
 			testRunnerThread.StartRun( listener, filter );
 		}
 
 		public override TestResult EndRun()
 		{
-			this.Wait();
+            log.Info("EndRun");
+            this.Wait();
 			return this.TestRunner.TestResult;
 		}
 

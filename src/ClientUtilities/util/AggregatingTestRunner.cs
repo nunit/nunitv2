@@ -20,7 +20,17 @@ namespace NUnit.Util
 	/// </summary>
 	public abstract class AggregatingTestRunner : MarshalByRefObject, TestRunner, EventListener
 	{
-        static Logger log = InternalTrace.GetLogger(typeof(AggregatingTestRunner));
+        private Logger log;
+        private Logger Log
+        {
+            get
+            {
+                if (log == null)
+                    log = InternalTrace.GetLogger(this.GetType());
+
+                return log;
+            }
+        }
 
 		static int AggregateTestID = 1000;
 
@@ -133,7 +143,7 @@ namespace NUnit.Util
 		#region Load and Unload Methods       
         public bool Load(TestPackage package)
         {
-            log.Info("Loading " + package.Name);
+            Log.Info("Loading " + package.Name);
 
             this.testName.FullName = this.testName.Name = package.FullName;
             runners = new ArrayList();
@@ -177,7 +187,7 @@ namespace NUnit.Util
                 }
             }
 
-            log.Info("Load complete");
+            Log.Info("Load complete");
 
             if (package.TestName == null && targetAssemblyName == null)
                 return nfound == package.Assemblies.Count;
@@ -191,11 +201,11 @@ namespace NUnit.Util
 		{
             if (aggregateTest != null)
             {
-                log.Info("Unloading " + Path.GetFileName(aggregateTest.TestName.Name));
+                Log.Info("Unloading " + Path.GetFileName(aggregateTest.TestName.Name));
                 foreach (TestRunner runner in runners)
                     runner.Unload();
                 aggregateTest = null;
-                log.Info("Unload complete");
+                Log.Info("Unload complete");
             }
 		}
 		#endregion
@@ -218,6 +228,8 @@ namespace NUnit.Util
 
 		public virtual TestResult Run(EventListener listener, ITestFilter filter )
 		{
+            Log.Info("Run - EventListener={0}", listener.GetType().Name);
+
 			// Save active listener for derived classes
 			this.listener = listener;
 
@@ -225,9 +237,13 @@ namespace NUnit.Util
 			for( int index = 0; index < runners.Count; index++ )
 				tests[index] = ((TestRunner)runners[index]).Test;
 
-			this.listener.RunStarted( this.Test.TestName.Name, this.CountTestCases( filter ) );
+            string name = this.testName.Name;
+            int count = this.CountTestCases(filter);
+            Log.Info("Signalling RunStarted({0},{1})", name, count);
+            //this.listener.RunStarted(name, count);
 
-			this.listener.SuiteStarted( this.Test.TestName );
+            Log.Info("Signalling SuiteStarted");
+            //this.listener.SuiteStarted( this.Test.TestName );
 			long startTime = DateTime.Now.Ticks;
 
 		    TestResult result = new TestResult(new TestInfo(testName, tests));
@@ -258,6 +274,7 @@ namespace NUnit.Util
 			// Save active listener for derived classes
 			this.listener = listener;
 
+            Log.Info("BeginRun");
 #if RUN_IN_PARALLEL
 			this.listener.RunStarted( this.Test.TestName.Name, this.CountTestCases( filter ) );
 
@@ -274,7 +291,8 @@ namespace NUnit.Util
 
 		public virtual TestResult EndRun()
 		{
-			TestResult suiteResult = new TestResult( Test as TestInfo );
+            Log.Info("EndRun");
+            TestResult suiteResult = new TestResult(Test as TestInfo);
 			foreach( TestRunner runner in runners )
 				suiteResult.Results.Add( runner.EndRun() );
 
