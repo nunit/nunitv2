@@ -105,10 +105,10 @@ namespace NUnit.Core
 							return _cache.Resolve( fullName );
 						}
 					}
-					catch
+					catch(Exception ex)
 					{
-						// Keep going if there's a bad assembly
-						log.Debug( string.Format( "Bad assembly: {0}", fullFile  ) );
+                        log.Error( "Unable to load addin assembly", ex );
+                        throw;
 					}
 				}
 			}
