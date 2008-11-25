@@ -24,6 +24,8 @@ namespace NUnit.Core
         private int processId;
         private string moduleName;
         private string domainName;
+        private string appBase;
+        private string binPath;
         private IList testFrameworks;
 
         /// <summary>
@@ -43,6 +45,8 @@ namespace NUnit.Core
             this.processId = p.Id;
             this.moduleName = p.MainModule.ModuleName;
             this.domainName = AppDomain.CurrentDomain.FriendlyName;
+            this.appBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            this.binPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath;
 		}
 
         /// <summary>
@@ -91,6 +95,22 @@ namespace NUnit.Core
         public string DomainName
         {
             get { return domainName; }
+        }
+
+        /// <summary>
+        /// The Application Base of the AppDomain in which the assembly is loaded
+        /// </summary>
+        public string ApplicationBase
+        {
+            get { return appBase; }
+        }
+
+        /// <summary>
+        /// The PrivateBinPath of the AppDonain in which the assembly is loaded
+        /// </summary>
+        public string PrivateBinPath
+        {
+            get { return binPath; }
         }
 
         /// <summary>

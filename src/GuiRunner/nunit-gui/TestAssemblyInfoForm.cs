@@ -14,13 +14,12 @@ namespace NUnit.Gui
 {
     public class TestAssemblyInfoForm : ScrollingTextDisplayForm
     {
-        bool skipLine = false;
-
         protected override void OnLoad(EventArgs e)
         {
             this.Text = "Test Assemblies";
             this.TextBox.WordWrap = false;
-            this.TextBox.ContentsResized += new ContentsResizedEventHandler(TextBox_ContentsResized);
+            //this.TextBox.ContentsResized += new ContentsResizedEventHandler(TextBox_ContentsResized);
+            this.TextBox.Font = new System.Drawing.Font("Courier New", 8.25F);
 
             base.OnLoad(e);
 
@@ -34,6 +33,7 @@ namespace NUnit.Gui
             {
                 if (info.ProcessId != currentProcessId)
                 {
+                    this.TextBox.AppendText("\r\n");
                     AppendProcessInfo(info);
                     currentProcessId = info.ProcessId;
                 }
@@ -50,9 +50,7 @@ namespace NUnit.Gui
 
         private void AppendProcessInfo(TestAssemblyInfo info)
         {
-            if (skipLine) TextBox.AppendText("\r\n");
             AppendProcessInfo(info.ProcessId, info.ModuleName, info.RunnerRuntimeFramework);
-            skipLine = false;
         }
 
         private void AppendProcessInfo( int pid, string moduleName, RuntimeFramework framework )
@@ -60,15 +58,30 @@ namespace NUnit.Gui
             AppendBoldText(string.Format("{0} ( {1} )\r\n", moduleName, pid));
 
             TextBox.AppendText(string.Format(
-                "  CLR Version: {0} ( {1} )\r\n\r\n",
+                "  CLR Version: {0} ( {1} )\r\n",
                 framework.Version.ToString(), 
                 framework.DisplayName));
         }
 
         private void AppendDomainInfo(TestAssemblyInfo info)
         {
-            AppendBoldText(string.Format("  {0}\r\n", info.DomainName));
-            skipLine = true;
+            AppendBoldText(string.Format("\r\n  {0}\r\n", info.DomainName));
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendFormat( "    ApplicationBase: {0}\r\n", info.ApplicationBase );
+
+            if (info.PrivateBinPath != null)
+            {
+                string prefix = "    PrivateBinPath: ";
+                foreach (string s in info.PrivateBinPath.Split(new char[] { ';' }))
+                {
+                    sb.AppendFormat("{0}{1}\r\n", prefix, s);
+                    prefix = "                    ";
+                }
+            }
+
+            TextBox.AppendText(sb.ToString());
         }
 
         private void AppendAssemblyInfo(TestAssemblyInfo info)
@@ -78,21 +91,20 @@ namespace NUnit.Gui
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendFormat("        Path: {0}\r\n", info.Name);
-            sb.AppendFormat("        Image Runtime Version: {0}\r\n", info.ImageRuntimeVersion.ToString());
+            sb.AppendFormat("      Path: {0}\r\n", info.Name);
+            sb.AppendFormat("      Image Runtime Version: {0}\r\n", info.ImageRuntimeVersion.ToString());
 
             if (info.TestFrameworks != null)
             {
-                string prefix = "        Uses: ";
+                string prefix = "      Uses: ";
                 foreach (AssemblyName framework in info.TestFrameworks)
                 {
                     sb.AppendFormat("{0}{1}\r\n", prefix, framework.FullName);
-                    prefix = "              ";
+                    prefix = "            ";
                 }
             }
 
             TextBox.AppendText(sb.ToString());
-            skipLine = true;
         }
 
         private void AppendBoldText(string text)
@@ -105,12 +117,12 @@ namespace NUnit.Gui
 
 		void TextBox_ContentsResized(object sender, ContentsResizedEventArgs e)
 		{
-			int increase = e.NewRectangle.Width-TextBox.ClientSize.Width;
-			if (increase > 0)
-			{
-				TextBox.Width += increase;
-				this.Width += increase;
-			}
+            int increase = e.NewRectangle.Width - TextBox.ClientSize.Width;
+            if (increase > 0)
+            {
+                TextBox.Width += increase;
+                this.Width += increase;
+            }
 		}
 	}
 }
