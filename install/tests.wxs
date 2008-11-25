@@ -57,7 +57,6 @@
 		    <File Id="nunit.framework.tests_1.1" Name="TESTFRAM.DLL" LongName="nunit.framework.tests.dll" />
 		    <File Id="nunit.mocks.tests_1.1" Name="TESTMOCK.DLL" LongName="nunit.mocks.tests.dll" />
 		    <File Id="console.tests_1.1" Name="TESTCONS.DLL" LongName="nunit-console.tests.dll" />
-        <File Id="nunit.extensions.tests_1.1" Name="TESTEXTN.DLL"	LongName="nunit.extensions.tests.dll" />
 		    <File Id="nunit.core.tests_1.1" Name="TESTCORE.DLL" LongName="nunit.core.tests.dll" />
         <!-- <File Id="F__nunit_server_tests_dll_1.1" Name="NUST.DLL" LongName="nunit-server.tests.dll" /> -->
         <File Id="nunit.fixtures.tests.dll_1.1" Name="FIXTESTS.DLL" LongName="nunit.fixtures.tests.dll" />

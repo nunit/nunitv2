@@ -21,6 +21,7 @@
       <ComponentRef Id="nunit.uikit_2.0" />
       <ComponentRef Id="DllFileAssociation_2.0" />
       <ComponentRef Id="NUnitProjectFileAssociation_2.0" />
+      <ComponentRef Id="MenuShortcut_NUnit" />
       <ComponentRef Id="MenuShortcut_2.0" />
       <ComponentRef Id="MenuShortcut_Mono_2.0" />
     </ComponentGroup>
@@ -91,6 +92,14 @@
       -->
       </Component>
       				
+      <Component Id="MenuShortcut_NUnit" DiskId="1" Guid="55FE94D3-743A-4733-BF01-B296240931C1">
+        <Condition>FRAMEWORK20 = "50727-50727"</Condition>
+        <Shortcut Id="MenuShortcut_NUnit" Name="NUnit" 
+                  Target="[!nunit.exe_2.0]" Advertise="no" Directory="NUnitMenu" 
+                  Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
+                  WorkingDirectory="net_2.0" />
+      </Component>
+      		
       <Component Id="MenuShortcut_2.0" DiskId="1" Guid="A771FB75-2488-4f2c-BA22-1F4C85D64AC7">
         <Condition>FRAMEWORK20 = "50727-50727"</Condition>
         <Shortcut Id="MenuShortcut_2.0" Name="SNUNIT20" LongName="NUnit (.NET 2.0)" 
