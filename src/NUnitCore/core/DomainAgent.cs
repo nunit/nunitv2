@@ -135,7 +135,7 @@ namespace NUnit.Core
             AppDomain.CurrentDomain.DomainUnload += new EventHandler(OnDomainUnload);
 
             AssemblyResolver resolver = new AssemblyResolver();
-            resolver.AddDirectory(NUnitConfiguration.NUnitLibDirectory);
+            resolver.AddDirectory(NUnitConfiguration.NUnitDirectory);
             resolver.AddDirectory(NUnitConfiguration.AddinDirectory);
         }
 
