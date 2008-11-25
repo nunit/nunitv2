@@ -260,7 +260,7 @@ namespace NUnit.Gui
 			// 
 			this.runtimeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.runtimeComboBox.Items.AddRange(new object[] {
-																 "=Any=",
+																 "Any",
 																 "Net",
 																 "Mono"});
 			this.runtimeComboBox.Location = new System.Drawing.Point(87, 7);
@@ -926,10 +926,7 @@ namespace NUnit.Gui
 		#region Runtime Framework Methods and Events
 		private void runtimeComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
-			selectedConfig.RuntimeFramework = 
-				runtimeComboBox.SelectedIndex > 0
-				? RuntimeFramework.Parse((string)runtimeComboBox.SelectedItem)
-				: null;
+            SetRuntimeFramework();
 		}
 
         private void runtimeVersionTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -948,9 +945,13 @@ namespace NUnit.Gui
 
         private void runtimeVersionTextBox_Validated(object sender, System.EventArgs e)
         {
-            selectedConfig.RuntimeFramework = new RuntimeFramework(
-                (RuntimeType)System.Enum.Parse(typeof(RuntimeType), (string)runtimeComboBox.SelectedItem),
-                new Version(runtimeVersionTextBox.Text));
+            SetRuntimeFramework();
+        }
+
+        private void SetRuntimeFramework()
+        {
+            selectedConfig.RuntimeFramework = RuntimeFramework.Parse(
+                (string)runtimeComboBox.SelectedItem + "-" + runtimeVersionTextBox.Text);
         }
         #endregion
 
