@@ -47,12 +47,20 @@ namespace NUnit.Core.Tests
         [Test]
         public void ConstructFromTypeWithoutTestFixtureAttribute()
         {
-			TestSuite fixture = TestBuilder.MakeFixture( typeof( FixtureWithoutTestFixtureAttribute ) );
-			Assert.AreEqual( "FixtureWithoutTestFixtureAttribute", fixture.TestName.Name );
-			Assert.AreEqual( "NUnit.TestData.TestFixtureTests.FixtureWithoutTestFixtureAttribute", fixture.TestName.FullName );
+            TestSuite fixture = TestBuilder.MakeFixture(typeof(FixtureWithoutTestFixtureAttribute));
+            Assert.AreEqual("FixtureWithoutTestFixtureAttribute", fixture.TestName.Name);
+            Assert.AreEqual("NUnit.TestData.TestFixtureTests.FixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
         }
 
-		private void AssertRunnable( Type type )
+        [Test]
+        public void ConstructFromStaticTypeWithoutTestFixtureAttribute()
+        {
+            TestSuite fixture = TestBuilder.MakeFixture(typeof(StaticFixtureWithoutTestFixtureAttribute));
+            Assert.AreEqual("StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.Name);
+            Assert.AreEqual("NUnit.TestData.TestFixtureTests.StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
+        }
+
+        private void AssertRunnable(Type type)
 		{
 			TestSuite suite = TestBuilder.MakeFixture( type );
 			Assert.AreEqual( RunState.Runnable, suite.RunState );
@@ -121,6 +129,12 @@ namespace NUnit.Core.Tests
 		{
 			AssertNotRunnable( typeof( AbstractTestFixture ) );
 		}
+
+        [Test]
+        public void CanRunStaticFixture()
+        {
+            AssertRunnable(typeof(StaticFixtureWithoutTestFixtureAttribute));
+        }
 
 		[Test]
 		public void CannotRunAbstractDerivedFixture()

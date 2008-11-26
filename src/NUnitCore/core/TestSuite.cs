@@ -236,7 +236,7 @@ namespace NUnit.Core
                 try
                 {
 					// In case TestFixture was created with fixture object
-					if (Fixture == null)
+					if (Fixture == null && !IsStaticClass( FixtureType ) )
 						CreateUserFixture();
 
                     if (this.Properties["_SETCULTURE"] != null)
@@ -328,6 +328,11 @@ namespace NUnit.Core
         #endregion
 
         #region Helper Methods
+
+        private bool IsStaticClass(Type type)
+        {
+            return type.IsAbstract && type.IsSealed;
+        }
 
         private void RunAllTests(
 			TestResult suiteResult, EventListener listener, ITestFilter filter )

@@ -38,7 +38,8 @@ namespace NUnit.Core.Builders
 		public bool CanBuildFrom(Type type)
 		{
 			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true ) ||
-                   type.IsPublic && !type.IsAbstract &&
+                   type.IsPublic && 
+                   ( !type.IsAbstract || type.IsSealed ) &&
                    ( Reflect.HasMethodWithAttribute(type, NUnitFramework.TestAttribute, true) ||
                      Reflect.HasMethodWithAttribute(type, NUnitFramework.TestCaseAttribute, true) );
 		}
@@ -178,7 +179,7 @@ namespace NUnit.Core.Builders
                 fixture.RunState = RunState.NotRunnable;
                 fixture.IgnoreReason = reason;
             }
-            else
+            else if( !IsStaticClass( fixtureType ) )
             {
                 object[] args = fixture.arguments;
 
@@ -194,6 +195,11 @@ namespace NUnit.Core.Builders
             }
         }
 
+        private static bool IsStaticClass(Type type)
+        {
+            return type.IsAbstract && type.IsSealed;
+        }
+
 		/// <summary>
         /// Check that the fixture type is valid. This method ensures that 
         /// the type is not abstract and that there is no more than one of 
@@ -204,7 +210,7 @@ namespace NUnit.Core.Builders
         /// <returns>True if the fixture is valid, false if not</returns>
         private bool IsValidFixtureType(Type fixtureType, ref string reason)
         {
-            if (fixtureType.IsAbstract)
+            if (fixtureType.IsAbstract && !fixtureType.IsSealed)
             {
                 reason = string.Format("{0} is an abstract class", fixtureType.FullName);
                 return false;
