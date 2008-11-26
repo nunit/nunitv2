@@ -52,6 +52,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("NUnit.TestData.TestFixtureTests.FixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
         }
 
+#if NET_2_0
         [Test]
         public void ConstructFromStaticTypeWithoutTestFixtureAttribute()
         {
@@ -59,6 +60,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.Name);
             Assert.AreEqual("NUnit.TestData.TestFixtureTests.StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
         }
+#endif
 
         private void AssertRunnable(Type type)
 		{
@@ -130,11 +132,13 @@ namespace NUnit.Core.Tests
 			AssertNotRunnable( typeof( AbstractTestFixture ) );
 		}
 
+#if NET_2_0
         [Test]
         public void CanRunStaticFixture()
         {
             AssertRunnable(typeof(StaticFixtureWithoutTestFixtureAttribute));
         }
+#endif
 
 		[Test]
 		public void CannotRunAbstractDerivedFixture()

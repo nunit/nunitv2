@@ -49,11 +49,13 @@ namespace NUnit.TestData.TestFixtureTests
         public void SomeTest() { }
     }
 
+#if NET_2_0
     public static class StaticFixtureWithoutTestFixtureAttribute
     {
         [Test]
         public static void StaticTest() { }
     }
+#endif
 
     [TestFixture]
 	public class MultipleSetUpAttributes
