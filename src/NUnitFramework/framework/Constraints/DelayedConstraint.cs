@@ -6,28 +6,28 @@ namespace NUnit.Framework.Constraints
     ///<summary>
     /// Applies a delay to the match so that a match can be evaluated in the future.
     ///</summary>
-    public class AfterConstraint : PrefixConstraint
+    public class DelayedConstraint : PrefixConstraint
     {
         private readonly int delayInMilliseconds;
         private readonly int pollingInterval;
 
         ///<summary>
-        /// Creates a new AfterConstraint
+        /// Creates a new DelayedConstraint
         ///</summary>
         ///<param name="baseConstraint">The inner constraint two decorate</param>
         ///<param name="delayInMilliseconds">The time interval after which the match is performed</param>
         ///<exception cref="InvalidOperationException">If the value of <paramref name="delayInMilliseconds"/> is less than 0</exception>
-        public AfterConstraint(Constraint baseConstraint, int delayInMilliseconds)
+        public DelayedConstraint(Constraint baseConstraint, int delayInMilliseconds)
             : this(baseConstraint, delayInMilliseconds, 0) { }
 
         ///<summary>
-        /// Creates a new AfterConstraint
+        /// Creates a new DelayedConstraint
         ///</summary>
         ///<param name="baseConstraint">The inner constraint two decorate</param>
         ///<param name="delayInMilliseconds">The time interval after which the match is performed</param>
         ///<param name="pollingInterval">The time interval used for polling</param>
         ///<exception cref="InvalidOperationException">If the value of <paramref name="delayInMilliseconds"/> is less than 0</exception>
-        public AfterConstraint(Constraint baseConstraint, int delayInMilliseconds, int pollingInterval)
+        public DelayedConstraint(Constraint baseConstraint, int delayInMilliseconds, int pollingInterval)
             : base(baseConstraint)
         {
             if (delayInMilliseconds < 0)

@@ -330,27 +330,27 @@ namespace NUnit.Framework.Constraints
 
         #region After Modifier
         /// <summary>
-        /// Returns an AfterConstraint with the specified delay time.
+        /// Returns a DelayedConstraint with the specified delay time.
         /// </summary>
         /// <param name="delayInMilliseconds">The delay in milliseconds.</param>
         /// <returns></returns>
-        public AfterConstraint After(int delayInMilliseconds)
+        public DelayedConstraint After(int delayInMilliseconds)
         {
-            return new AfterConstraint(
+            return new DelayedConstraint(
                 builder == null ? this : builder.Resolve(),
                 delayInMilliseconds);
         }
 
         /// <summary>
-        /// Returns an AfterConstraint with the specified delay time
+        /// Returns a DelayedConstraint with the specified delay time
         /// and polling interval.
         /// </summary>
         /// <param name="delayInMilliseconds">The delay in milliseconds.</param>
         /// <param name="pollingInterval">The interval at which to test the constraint.</param>
         /// <returns></returns>
-        public AfterConstraint After(int delayInMilliseconds, int pollingInterval)
+        public DelayedConstraint After(int delayInMilliseconds, int pollingInterval)
         {
-            return new AfterConstraint(
+            return new DelayedConstraint(
                 builder == null ? this : builder.Resolve(),
                 delayInMilliseconds,
                 pollingInterval);

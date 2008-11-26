@@ -390,12 +390,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Constraints\AfterConstraint.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\AfterConstraint.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Constraints\AttributeConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\AttributeConstraints.cs"
                     SubType = "Code"
@@ -464,6 +458,12 @@
                 <File
                     RelPath = "Constraints\ContainsConstraint.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ContainsConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\DelayedConstraint.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\DelayedConstraint.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
