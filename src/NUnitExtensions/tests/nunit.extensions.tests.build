@@ -8,7 +8,8 @@
   <target name="build">
     <csc target="library" 
         output="${current.test.dir}/nunit.extensions.tests.dll"
-        debug="${build.debug}" define="${build.defines}">
+        debug="${build.debug}" define="${build.defines}"
+        if="${build.v2plus}">
       <sources>
         <patternset refid="source-files"/>
         <include name="../../GeneratedAssemblyInfo.cs"/>
