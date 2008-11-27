@@ -43,7 +43,7 @@ ul.across li { float: left; display: block; width: 9em }
 #subnav li a:hover { background-image: url(img/bulletOn.gif) }
 
 /* Main Content */
-#content { margin: 3em 25% 0 0; padding: 0 5% 1em 5%; }
+#content { margin: 3em 25% 10px 0; padding: 0 5% 1em 5%; }
 #content.wide { margin: 3em 5% 0 5%; padding: 0 5% 1em 5%; }
 #content p { padding: 0; margin: 0 0 1em 0; max-width: 660px; }
 #content ul { max-width: 660px; }

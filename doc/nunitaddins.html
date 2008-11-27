@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 <html>
 <!-- Standard Head Part -->
 <head>
@@ -26,7 +26,7 @@
 
 <h2>NUnit Addins</h2>
 
-<div style="text-align: center; margin: 2em 10%; padding: 4px 0; border: 2px solid black">
+<div style="text-align: center; margin: 2em 4em; padding: 4px 0; border: 1px solid black; background: #ccc; max-width: 600px">
   <h4>Preliminary documentation, subject to change.</h4>
 </div>
 
@@ -134,7 +134,6 @@ interface is defined as follows:</p>
 		string Name { get; }
 		IExtensionHost Host { get; }
 		void Install( object extension );
-		void Install( object extension, int priority );
 		void Remove( object extension );
 	}
 </pre>
@@ -145,11 +144,25 @@ to the <b>Extension Point</b> where it is installed. Generally, extensions
 do not need to remove themselves once installed, but the method is
 provided in any case.</p>
 
-<p>With NUnit 2.5, an overload of <b>Install</b> is provided, which allows
-setting the priority order in which the extension will be called in
-comparison to other extensions on the same extension point. This call is
-only valid on extension points which implement a priority scheme. In
-the 2.5 release, only the TestDecorators extension point uses priorities.
+<p>With NUnit 2.5, an additional interface, <b>IExtensionPoint2</b> is
+available. It derives from <b>IExtensionPoint</b> and also allows setting
+the priority order in which the extension will be called in comparison to 
+other extensions on the same extension point. The interface is defined
+as follows:
+
+<pre>
+	public interface IExtensionPoint2 : IExtensionPoint
+	{
+		void Install( object extension, int priority );
+	}
+</pre>
+
+<p>Only extension points that use a priority scheme implement this interface.
+In general, extension points with a priority scheme will use a default value
+for priority if the Install method without a priority is called. 
+
+<p>In the NUnit 2.5 release, only the <b>TestDecorators</b> extension point implements
+<b>IExtensionPoint2</b>.
 
 <h3>Extension Point Details</h3>
 
@@ -158,198 +171,16 @@ need to implement one or more interfaces. The following <b>ExtensionPoints</b>
 are implemented in this release of NUnit:
 
 <ul>
-	<li><a href="#suiteBuilders">SuiteBuilders</a>
-	<li><a href="#testBuilders">TestCaseBuilders</a>
-	<li><a href="#testDecorators">TestDecorators</a>
-	<li><a href="#parameterProviders">ParameterProviders</a>
-	<li><a href="#eventListeners">Listeners</a>
-</ul></p>
+	<li><a href="suiteBuilders.html">SuiteBuilders</a>	<li><a href="testcaseBuilders.html">TestCaseBuilders</a>	<li><a href="testDecorators.html">TestDecorators</a>	<li><a href="testcaseProviders.html">TestCaseProviders</a>	<li><a href="datapointProviders.html">DataPointProviders</a>	<li><a href="eventListeners.html">EventListeners</a></ul></p>
 
 <p>For examples of implementing each type of extension, see the Extensibility
 samples provided with NUnit. More complete examples are available in the
 code of NUnit itself, since NUnit uses the same mechanism internally.</p>
 
-<h4><a name="suiteBuilders">SuiteBuilders</a></h4>
-<p>
-<p>Addins use the host to access this extension point by name:
+<h4>See also...</h4>
 
-<pre>
-	IExtensionPoint suiteBuilders = host.GetExtensionPoint( "SuiteBuilders" );</pre>
-
-<p>The extension object passed to Install must implement the ISuiteBuilder interface:
-
-<pre>
-	public interface ISuiteBuilder
-	{
-		bool CanBuildFrom( Type type );
-		Test BuildFrom( Type type );
-	}
-</pre>
-
-<p>The BuildFrom method should return a test fixture completely populated
-with its contained test cases.
-
-<h4><a name="testBuilders">TestCaseBuilders</a></h4>
-<p>
-<p>Addins use the host to access this extension point by name:
-
-<pre>
-	IExtensionPoint testCaseBuilders = host.GetExtensionPoint( "TestCaseBuilders" );</pre>
-
-<p>The extension object passed to Install must implement the ITestCaseBuilder interface:
-
-<pre>
-	public interface ITestCaseBuilder
-	{
-		bool CanBuildFrom( MethodInfo method, Test suite );
-		Test BuildFrom( MethodInfo method, Test suite );
-	}
-</pre>
-
-<p>Note that this extension point will be called for methods in any type
-of fixture. If the addin is intended to only work on methods within
-a particular type of fixture, the CanBuildFrom method must check
-the fixture type. This is facilitated by the secod argument to each
-method, which is the fixture to which the test case will be added
-if it is built.
-
-<h4><a name="testDecorators">TestDecorators</a></h4>
-<p>
-<p>Addins use the host to access this extension point by name:
-
-<pre>
-	IExtensionPoint testDecorators = host.GetExtensionPoint( "TestDecorators" );</pre>
-
-<p>The extension object passed to Install must implement the ITestDecorator interface:
-
-<pre>
-	public interface ITestDecorator
-	{
-		Test Decorate( Test test, MemberInfo member );
-	}
-</pre>
-
-<p>The Decorator may do several things, depending on what it needs
-to accomplish:
-<ol>
-  <li>Return test unmodified
-  <li>Modify properties of the test object and return it
-  <li>Replace test with another object, either discarding the
-  original or aggregating it in the new test.
-</ol>
-
-<p>Depending on what the decorator does, it may need to run
-ahead of other decorators or after them. Decorators should
-be installed using the Install method overload that takes
-a priority. The priorities range from 1 to 9 and decorators
-with lower priority values are installed first. The following
-standard values are defined for use if desired:
 <ul>
-<li>DecoratorPriority.Default = 0
-<li>DecoratorPriority.First = 1
-<li>DecoratorPriority.Normal = 5
-<li>DecoratorPriority.Last = 9
-</ul>
-
-<h4><a name="parameterProviders">ParameterProviders</a></h4>
-<p>
-<p>Addins use the host to access this extension point by name:
-
-<pre>
-	IExtensionPoint listeners = host.GetExtensionPoint( "ParameterProviders" );</pre>
-
-<p>The extension object passed to Install must implement the IParameterProvider interface:
-
-<pre>
-	public interface IParameterProvider
-	{
-		bool HasParamtersFor( MethodInfo method );
-		IList GetParametersFor( MethodInfo method );
-	}
-</pre>
-
-<p>If a provider only wants to be used on certain types of tests, it should
-   examine the provided MethodInfo to find out the type of test being built
-   and return true or false from HasParametersFor accordingly.
-
-<p>The GetParametersFor method should return a list of individual ParameterSets.
-   The ParameterSet class defines the following properties:
-   <ul>
-   <li>Arguments
-   <li>RunState
-   <li>NotRunReason
-   <li>ExpectedExceptionType
-   <li>ExpectedExceptionName
-   <li>ExpectedExceptionMessage
-   <li>Result
-   <li>Description
-   <li>TestName
-   </ul>
-   
-<p>The extension may set these individually or use the static FromDataSource
-   method, which populates the ParameterSet via reflection on like-named
-   properties and fields of another object.
-     
-<h4><a name="eventListeners">EventListeners</a></h4>
-<p>
-<p>Addins use the host to access this extension point by name:
-
-<pre>
-	IExtensionPoint listeners = host.GetExtensionPoint( "EventListeners" );</pre>
-
-<p>The extension object passed to Install must implement the EventListener interface:
-
-<pre>
-	public interface EventListener
-	{
-		void RunStarted( string name, int testCount );
-		void RunFinished( TestResult result );
-		void RunFinished( Exception exception );
-		void TestStarted(TestName testName);
-		void TestFinished(TestCaseResult result);
-		void SuiteStarted(TestName testName);
-		void SuiteFinished(TestSuiteResult result);
-		void UnhandledException( Exception exception );
-		void TestOutput(TestOutput testOutput);
-	}
-</pre>
-
-<p>You must provide all the methods, but the body may be empty for any
-that you have no need of.
-
-<h3>Tips for Writing Extensions</h3>
-
-<p>An Extenders Guide will be published in the future. At the moment, writing an
-extension is a bit of an adventure. Extension authors are advised to join the 
-nunit-developer list and post questions and comments there.
-
-<p>For the moment, the following tips may be of assistance.
-<ul>
-<li>The <b>nunit.core.interfaces</b> assembly is intended to be stable in the future
-while the <b>nunit.core</b> assembly will change from release to release. Right now,
-both assemblies are still in flux, but extensions that depend solely on the interfaces
-assembly will have a much better chance of surviving NUnit version changes. Unfortunately,
-this is rather difficult to do without duplicating a great deal of NUnit code. Most
-of the add-in samples provided with NUnit are currently version dependent.
-
-<li>If you place the definition of a custom attribute in the same assembly as your
-add-in, then user tests are dependent on the add-in assembly. If the add-in is 
-version-dependent, then the user tests will also be version-dependent. We suggest
-placing any types referenced by user tests in a separate assembly, particularly if
-your extension relies on nunit.core.
-
-<li>If using Visual Studio, set Copy Local to false for any references to nunit.core
-or nunit.core.interfaces. This is especially important if you are also building
-NUnit itself.
-
-<li>There is currently no mechanism to allow decorators to apply in a particular order.
-NUnit applies decorators in the order in which they are returned through reflection,
-which may vary among different runtimes.
-
-<li>Avoid trying to "stretch" the existing extension points to do more than they were
-intended to do. Rather, let us know what further extension points you would like to see!
-</ul>
-
+<li><a href="extensionTips.html">Tips for Writing Extensions</a></ul>
 
 </div>
 
@@ -360,11 +191,10 @@ intended to do. Rather, let us know what further extension points you would like
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
-<li><a href="features.html">Other&nbsp;Features</a></li>
-<ul>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
@@ -372,7 +202,15 @@ intended to do. Rather, let us know what further extension points you would like
 <ul>
 <li><a href="customConstraints.html">Custom&nbsp;Constraints</a></li>
 <li id="current"><a href="nunitAddins.html">NUnit&nbsp;Addins</a></li>
+<ul>
+<li><a href="suiteBuilders.html">SuiteBuilders</a></li>
+<li><a href="testcaseBuilders.html">TestcaseBuilders</a></li>
+<li><a href="testDecorators.html">TestDecorators</a></li>
+<li><a href="testcaseProviders.html">TestcaseProviders</a></li>
+<li><a href="datapointProviders.html">DatapointProviders</a></li>
+<li><a href="eventListeners.html">EventListeners</a></li>
 </ul>
+<li><a href="extensionTips.html">Tips&nbsp;for&nbsp;Extenders</a></li>
 </ul>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>

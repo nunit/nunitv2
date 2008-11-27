@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 <html>
 <!-- Standard Head Part -->
 <head>
@@ -37,16 +37,16 @@
 	take values may use an equal sign, a colon or a space to separate the option 
 	from its value.</p>
 <h4>Specifying an Assembly</h4>
-The console program must always have an assembly or project specified. To run 
-the tests contained in the nunit.tests.dll use the following command:
+<p>The console program must always have an assembly or project specified. To run 
+the tests contained in the nunit.tests.dll use the following command:</p>
 <pre class="programtext">        nunit-console nunit.tests.dll</pre>
-</p>
-<p>To run the tests in nunit.tests.dll through the Visual Studio project, use:
+
+<p>To run the tests in nunit.tests.dll through the Visual Studio project, use:</p>
 	<pre class="programtext">        nunit-console nunit.tests.csproj</pre>
-</p>
-<p>To run the same tests through an NUnit test project you have defined, use:
+
+<p>To run the same tests through an NUnit test project you have defined, use:</p>
 	<pre class="programtext">        nunit-console nunit.tests.nunit</pre>
-</p>
+
 <h4>Specifying an Assembly and a Test to be Run</h4>
 <p>You may specify a test to be run by proviig the full name of the test along
 with the containing assembly. For example to run NUnit.Tests.AssertionTests
@@ -145,6 +145,12 @@ of evaluation is as follows:
 <li>Low-precedence union operator (|)
 </ol>
 
+<p><b>Note:</b> Because the operator characters have special meaning,
+you should avoid creating a category that uses any of them in it's name.
+For example, the category "db-tests" could not be used on the command
+line, since it appears to means "run category db, except for category tests."
+The same limitation applies to characters that have special meaning for
+the shell you are using.
    
 <p>For a clear understanding of how category 
 	selection works, review the documentation for both the 
@@ -202,6 +208,18 @@ of evaluation is as follows:
 	option, when used with multiple assemblies, will run tests matching the 
 	fixture name in all the assemblies. In earlier versions, only the first
 	test found was executed.</p>
+<h4>Controlling the Use of Processes</h4>
+<p>The <b>/process</b> option controls how NUnit loads tests in processes. The
+   following values are recognized.
+   <dl style="margin-left: 2em">
+   <dt><b>Single</b>
+   <dd>All the tests are run in the nunit-console process. This is the default.
+   <dt><b>Separate</b>
+   <dd>A separate process is created to run the tests.
+   <dt><b>Multiple</b>
+   <dd>A separate process is created for each test assembly, whether specified
+   on the command line or listed in an NUnit project file.
+   </dl>
 <h4>Controlling the Use of AppDomains</h4>
 <p>The <b>/domain</b> option controls of the creation of AppDomains for running tests.
     The following values are recognized:</p>
@@ -216,6 +234,16 @@ of evaluation is as follows:
 	</dl>
 <p>The default is to use multiple domains if multiple assemblies are listed on 
 	the command line. Otherwise a single domain is used.</p>
+	
+<h4>Specifying a Default Timeout Value</h4>
+<p>The <b>/timeout</b> option takes an int value representing the default timeout
+to be used for test cases in this run. If any test exceeds the timeout value,
+it is cancelled and reported as an error. The default value may be overridden
+for selected tests by use of <b>TimeoutAttribute</b>.
+
+<p><b>Note:</b> If you do not use this option, no timeout is set and tests
+may run for any amount of time.
+
 <h4>Other Options</h4>
 <p>The <b>/noshadow</b> option disables shadow copying of the assembly in order to 
 	provide improved performance.</p>
@@ -238,13 +266,17 @@ of evaluation is as follows:
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <ul>
 <li id="current"><a href="consoleCommandLine.html">Command-Line</a></li>
 </ul>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
-<li><a href="features.html">Other&nbsp;Features</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>

@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 <html>
 <!-- Standard Head Part -->
 <head>
@@ -30,11 +30,18 @@
 
 <p>This attribute is used inside a TestFixture to provide a single set of 
 	functions that are performed once prior to executing any of the tests
-	in the fixture. A TestFixture can have only one TestFixtureSetUp method. 
-	If more than one is defined the TestFixture will compile successfully
-	but its tests will not run.</p>
+	in the fixture. 
+	
+<p><b>Before NUnit 2.5</b>, a TestFixture could have only one TestFixtureSetUp method
+	and it was required to be an instance method. 
 
-<p>Beginning with NUnit 2.5, TestFixtureSetUp methods may be static.
+<p><b>Beginning with NUnit 2.5</b>, TestFixtureSetUp methods may be either static or
+   instance methods and you may define more than one of them in a fixture.
+   Normally, multiple TestFixtureSetUp methods are only defined at different levels
+   of an inheritance hierarchy, as explained below.
+
+<p>If a TestFixtueSetUp method fails or throws an exception, none of the tests
+   in the fixure are executed and a failure or error is reported.
 
 <h4>Example:</h4>
 
@@ -139,14 +146,24 @@ public class SuccessTests
 
 </div>
 
-<h4>Inheritance</h4>
+<h3>Inheritance</h3>
 
 <p>The TestFixtureSetUp attribute is inherited from any base class. Therefore, if a base 
 	class has defined a SetFixtureSetUp method, that method will be called 
-	after each test method in the derived class. If you wish to add more 
-	functionality in a derived class you need to mark the method 
-	with the appropriate attribute and then call the base class method.</p>
+	after each test method in the derived class. 
+	
+<p>Before NUnit 2.5, you were permitted only one TestFixtureSetUp method. If you wanted to 
+   have some TestFixtureSetUp functionality in the base class and add more in the derived 
+   class you needed to call the base class method yourself.
 
+<p>With NUnit 2.5, you can achieve the same result by defining a TestFixtureSetUp method
+   in the base class and another in the derived class. NUnit will call base
+   class TestFixtureSetUp methods before those in the derived classes.
+   
+<p><b>Note:</b> Although it is possible to define multiple TestFixtureSetUp methods
+   in the same class, you should rarely do so. Unlike methods defined in
+   separate classes in the inheritance hierarchy, the order in which they
+   are executed is not guaranteed.
 
 <h4>See also...</h4>
 <ul>
@@ -161,6 +178,7 @@ public class SuccessTests
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <ul>
 <li><a href="testIdentification.html">Test&nbsp;Identification</a></li>
@@ -178,7 +196,10 @@ public class SuccessTests
 </ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
-<li><a href="features.html">Other&nbsp;Features</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
