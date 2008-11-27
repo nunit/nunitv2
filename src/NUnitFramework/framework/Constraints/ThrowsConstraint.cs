@@ -86,6 +86,9 @@ namespace NUnit.Framework.Constraints
         }
         #endregion
 
+        /// <summary>
+        /// Returns the string representation of this constraint
+        /// </summary>
         public override string ToString()
         {
             if (baseConstraint == null)

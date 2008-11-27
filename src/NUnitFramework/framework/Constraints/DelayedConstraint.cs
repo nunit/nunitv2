@@ -1,4 +1,9 @@
-﻿using System;
+﻿// ****************************************************************
+// Copyright 2008, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ****************************************************************
+using System;
 using System.Threading;
 
 namespace NUnit.Framework.Constraints
@@ -42,13 +47,18 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual">The value to be tested</param>
         /// <returns>True for if the base constraint fails, false if it succeeds</returns>
-		public override bool Matches(object actual)
+        public override bool Matches(object actual)
         {
             Thread.Sleep(delayInMilliseconds);
             this.actual = actual;
             return baseConstraint.Matches(actual);
         }
 
+        /// <summary>
+        /// Test whether the constraint is satisfied by a delegate
+        /// </summary>
+        /// <param name="del">The delegate whose value is to be tested</param>
+        /// <returns>True for if the base constraint fails, false if it succeeds</returns>
         public override bool Matches(ActualValueDelegate del)
         {
 			int remainingDelay = delayInMilliseconds;

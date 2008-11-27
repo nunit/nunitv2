@@ -73,6 +73,9 @@ namespace NUnit.Framework.Constraints
             writer.Write("<{0}>", actual.GetType().Name);
         }
 
+        /// <summary>
+        /// Returns the string representation
+        /// </summary>
         public override string ToString()
         {
             return "<binaryserializable>";
@@ -148,6 +151,9 @@ namespace NUnit.Framework.Constraints
             writer.Write("<{0}>", actual.GetType().Name);
         }
 
+        /// <summary>
+        /// Returns the string representation of this constraint
+        /// </summary>
         public override string ToString()
         {
             return "<xmlserializable>";
