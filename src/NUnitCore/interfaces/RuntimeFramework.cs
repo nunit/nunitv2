@@ -131,6 +131,12 @@ namespace NUnit.Core
             }
         }
 
+        /// <summary>
+        /// Determines whether Mono is installed].
+        /// </summary>
+        /// <returns>
+        /// 	<c>true</c> if Mono is installed, otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsMonoInstalled()
         {
             if (CurrentFramework.IsMono) return true;
@@ -155,6 +161,9 @@ namespace NUnit.Core
             return true;
         }
 
+        /// <summary>
+        /// Determines whether the specified version of Microsoft .NET is installed.
+        /// </summary>
         public static bool IsDotNetInstalled(Version version)
         {
             if (Environment.OSVersion.Platform != PlatformID.Win32NT)
