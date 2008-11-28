@@ -32,6 +32,7 @@
     <copy todir="${package.src.dir}/NUnitTestServer/nunit-agent-exe">
       <fileset>
         <patternset refid="source-files" />
+        <include name="App.config" />
         <include name="Ship.config"/>
         <include name="nunit-agent.exe.build"/>
       </fileset>

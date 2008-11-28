@@ -33,6 +33,7 @@
       <fileset>
         <patternset refid="source-files"/>
         <include name="nunit-console.build"/>
+        <include name="App.ico"/>
       </fileset>
     </copy>
   </target>
