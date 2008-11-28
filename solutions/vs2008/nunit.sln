@@ -63,8 +63,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.fixtures.tests", "NUn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-agent.exe", "NUnitTestServer\nunit-agent-exe\nunit-agent.exe.csproj", "{3E469CD9-FED2-4955-AE4C-669A74CA6767}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "adhoc-tests", "tests\adhoc-tests\adhoc-tests.csproj", "{D10BC250-BDED-4A39-84A0-4DE6501694D5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "loadtest-assembly", "tests\loadtest-assembly\loadtest-assembly.csproj", "{20ABDB3C-EA46-468A-A574-0552299A32DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit.framework", "PNUnit\pnunit.framework\pnunit.framework.csproj", "{1AE4D3A7-DA37-45C0-B300-AB7B84DFF216}"
@@ -193,10 +191,6 @@ Global
 		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E469CD9-FED2-4955-AE4C-669A74CA6767}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D10BC250-BDED-4A39-84A0-4DE6501694D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D10BC250-BDED-4A39-84A0-4DE6501694D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D10BC250-BDED-4A39-84A0-4DE6501694D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D10BC250-BDED-4A39-84A0-4DE6501694D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{20ABDB3C-EA46-468A-A574-0552299A32DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{20ABDB3C-EA46-468A-A574-0552299A32DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20ABDB3C-EA46-468A-A574-0552299A32DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
