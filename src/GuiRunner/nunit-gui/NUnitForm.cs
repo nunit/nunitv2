@@ -1260,11 +1260,13 @@ namespace NUnit.Gui
 		private void helpMenuItem_Click(object sender, System.EventArgs e)
 		{
 			FileInfo exe = new FileInfo( Assembly.GetExecutingAssembly().Location );
-			// In normal install, exe is in bin directory, so we get parent
-			DirectoryInfo dir = exe.Directory.Parent;
-			// If running from bin\Release or bin\Debug, go down four more
+			DirectoryInfo dir = exe.Directory;
+			// If running from bin\Release or bin\Debug, go down six more
 			// to the parent of the src and doc directories
-			if ( dir.Name == "bin" ) dir = dir.Parent.Parent.Parent.Parent;
+            if (dir.Parent.Name == "bin" && dir.Name == NUnitConfiguration.BuildConfiguration)
+                dir = dir.Parent.Parent.Parent.Parent.Parent.Parent;
+            else // Running from installed version, go down to install directory
+                dir = dir.Parent.Parent;
 
 #if NET_2_0
             string helpUrl = ConfigurationManager.AppSettings["helpUrl"];
