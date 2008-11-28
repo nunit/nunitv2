@@ -1010,6 +1010,7 @@
         <include name="fit/runFile.exe"/>
         <include name="fit/runFile.exe.config"/>
         <include name="fit/license.txt"/>
+        <include name="bin/GenSyntax.exe"/>
       </fileset>
     </copy>
 
