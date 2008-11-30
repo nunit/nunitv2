@@ -95,6 +95,9 @@
       <Link>Assert.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\AssertBase.cs">
+      <Link>AssertBase.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\AssertionException.cs">
       <Link>AssertionException.cs</Link>
       <SubType>Code</SubType>
@@ -102,6 +105,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\AssertionHelper.cs">
       <Link>AssertionHelper.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Assume.cs">
+      <Link>Assume.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\CategoryAttribute.cs">
       <Link>CategoryAttribute.cs</Link>

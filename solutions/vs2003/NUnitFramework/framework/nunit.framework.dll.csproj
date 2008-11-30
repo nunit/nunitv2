@@ -96,6 +96,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "AssertBase.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\AssertBase.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "AssertionException.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\AssertionException.cs"
                     SubType = "Code"
@@ -104,6 +110,12 @@
                 <File
                     RelPath = "AssertionHelper.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\AssertionHelper.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Assume.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Assume.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

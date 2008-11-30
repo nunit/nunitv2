@@ -39,6 +39,7 @@
     <include name="ArrayEqualsFixture.cs"/>
     <include name="ArrayNotEqualFixture.cs"/>
     <include name="AssertThrowsTests.cs"/>
+    <include name="AssumeThatTests.cs"/>
     <include name="CollectionAssertTest.cs"/>
     <include name="CollectionAdapter.cs"/>
     <include name="ConditionAssertTests.cs"/>

@@ -110,6 +110,9 @@
       <Link>ArrayNotEqualFixture.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\AssumeThatTests.cs">
+      <Link>AssumeThatTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\CollectionAdapter.cs">
       <Link>CollectionAdapter.cs</Link>
       <SubType>Code</SubType>

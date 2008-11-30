@@ -308,6 +308,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\AfterTests.cs">
       <Link>Syntax\AfterTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\AssumeThatTests.cs">
+      <Link>AssumeThatTests.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitFramework\tests\TestImage1.jpg">
       <Link>TestImage1.jpg</Link>
     </EmbeddedResource>

@@ -19,8 +19,15 @@ namespace NUnit.Framework
 	/// behavior, in certain mock object frameworks.
 	/// </summary>
 	public class AssertionHelper : ConstraintFactory
-	{
-		#region Expect
+    {
+        #region Assert
+        //public Assertions Assert
+        //{
+        //    get { return new Assertions(); }
+        //}
+        #endregion
+
+        #region Expect
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure. Works
