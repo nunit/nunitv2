@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Runtime.Serialization.Formatters;
 using System.Reflection;
+using System.Threading;
 
 using log4net;
 using log4net.Config;
@@ -21,53 +22,81 @@ namespace PNUnit.Agent
         {
             AgentConfig config = new AgentConfig();
 
-			// Load the test configuration file
-			if( args.Length != 1 && args.Length != 2 && args.Length != 3)
-			{
-				Console.WriteLine("Usage: agent [configfile | port path_to_assemblies | port path_to_assemblies flag_use_ShadowCopyCache ]");
-				return;
-			}
-            else if (args.Length == 1) 
-            {
+            // read --daemon
+            bool bDaemonMode = ReadFlag(args, "--daemon");
 
-                string configfile = args[0];
-                        
+            string configfile = ReadArg(args);
+
+            int port = -1;
+
+            string pathtoassemblies = ReadArg(args);
+
+            if (pathtoassemblies != null)
+            {
+                port = int.Parse(configfile);
+                configfile = null;
+            }
+
+            // Load the test configuration file
+            if (pathtoassemblies == null && configfile == null)
+            {
+                Console.WriteLine("Usage: agent [configfile | port path_to_assemblies] [--daemon]");
+                return;
+            }
+
+            if (configfile != null)
+            {
                 config = AgentConfigLoader.LoadFromFile(configfile);
-      
-                if( config == null )
+
+                if (config == null)
                 {
                     Console.WriteLine("No agent.conf file found");
                 }
             }
-            else if (args.Length == 2)
+            else
             {
-                config.Port = int.Parse(args[0]);
-                config.PathToAssemblies = args[1];
+                config.Port = port;
+                config.PathToAssemblies = pathtoassemblies;
             }
-			
-			else if (args.Length == 3)
-			{
-				config.Port = int.Parse(args[0]);
-				config.PathToAssemblies = args[1];
-				config.ShadowCopyCache = args[2];
-				System.AppDomain.CurrentDomain.SetupInformation.ShadowCopyFiles = config.ShadowCopyCache;
-			}
-            
+
             ConfigureLogging();
 
             PNUnitAgent agent = new PNUnitAgent();
-            agent.Run(config);
+            agent.Run(config, bDaemonMode);
+        }
+
+        private static bool ReadFlag(string[] args, string flag)
+        {
+            for (int i = args.Length - 1; i >= 0; --i)
+                if (args[i] == flag)
+                {
+                    args[i] = null;
+                    return true;
+                }
+
+            return false;
+        }
+
+        private static string ReadArg(string[] args)
+        {
+            for (int i = 0; i < args.Length; ++i)
+                if (args[i] != null)
+                {
+                    string result = args[i];
+                    args[i] = null;
+                    return result;
+                }
+            return null;
         }
 
         private static void ConfigureLogging()
         {
             string log4netpath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "agent.log.conf");
-            Console.WriteLine(log4netpath);
             XmlConfigurator.Configure(new FileInfo(log4netpath));
         }
     }
 
-    public class PNUnitAgent: MarshalByRefObject, IPNUnitAgent
+    public class PNUnitAgent : MarshalByRefObject, IPNUnitAgent
     {
 
 
@@ -94,17 +123,17 @@ namespace PNUnit.Agent
         }
         #endregion
 
-        public void Run(AgentConfig config)
+        public void Run(AgentConfig config, bool bDaemonMode)
         {
             mConfig = config;
             // init remoting
-            BinaryClientFormatterSinkProvider clientProvider = 
+            BinaryClientFormatterSinkProvider clientProvider =
                 new BinaryClientFormatterSinkProvider();
-            BinaryServerFormatterSinkProvider serverProvider = 
+            BinaryServerFormatterSinkProvider serverProvider =
                 new BinaryServerFormatterSinkProvider();
-            serverProvider.TypeFilterLevel = 
+            serverProvider.TypeFilterLevel =
                 System.Runtime.Serialization.Formatters.TypeFilterLevel.Full;
-                
+
             IDictionary props = new Hashtable();
             props["port"] = mConfig.Port;
             string s = System.Guid.NewGuid().ToString();
@@ -112,18 +141,13 @@ namespace PNUnit.Agent
             props["typeFilterLevel"] = TypeFilterLevel.Full;
             try
             {
-
                 TcpChannel chan = new TcpChannel(
-                    props,clientProvider,serverProvider);
-    
+                    props, clientProvider, serverProvider);
+
                 log.InfoFormat("Registering channel on port {0}", mConfig.Port);
-#if NET_2_0
-                ChannelServices.RegisterChannel(chan, false);
-#else
                 ChannelServices.RegisterChannel(chan);
-#endif
             }
-            catch( Exception e )
+            catch (Exception e)
             {
                 log.InfoFormat("Can't register channel.\n{0}", e.Message);
                 return;
@@ -132,10 +156,20 @@ namespace PNUnit.Agent
             // publish
             RemotingServices.Marshal(this, PNUnit.Framework.Names.PNUnitAgentServiceName);
 
-            // wait for a key to finish
-            Console.ReadLine();
+            GC.GetTotalMemory(true);
 
-            RemotingServices.Disconnect(this);
+            if (bDaemonMode)
+            {
+                // wait continously
+                while (true)
+                {
+                    Thread.Sleep(10000);
+                }
+            }
+            else
+                Console.ReadLine();
+
+            //RemotingServices.Disconnect(this);
         }
     }
 

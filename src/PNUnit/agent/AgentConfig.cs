@@ -10,7 +10,7 @@ namespace PNUnit.Agent
     {
         public int Port;
         public string PathToAssemblies;
-		public string ShadowCopyCache;
+        public string ShadowCopyCache;
     }
 
     public class AgentConfigLoader

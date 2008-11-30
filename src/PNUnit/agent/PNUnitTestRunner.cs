@@ -34,7 +34,7 @@ namespace PNUnit.Agent
             // Add Standard Services to ServiceManager
             ServiceManager.Services.AddService( new SettingsService() );
             ServiceManager.Services.AddService( new DomainManager() );
-			ServiceManager.Services.AddService( new ProjectService() );
+            ServiceManager.Services.AddService( new ProjectService() );
 
             // Initialize Services
             ServiceManager.Services.InitializeServices();
@@ -59,110 +59,129 @@ namespace PNUnit.Agent
                     mPNUnitTestInfo.TestName, mPNUnitTestInfo.TestToRun, mPNUnitTestInfo.AssemblyName);
                 ConsoleWriter outStream = new ConsoleWriter(Console.Out);
 
-                ConsoleWriter errorStream = new ConsoleWriter(Console.Error);                     
-                          
-				bool testLoaded = MakeTest(testDomain, Path.Combine(mConfig.PathToAssemblies, mPNUnitTestInfo.AssemblyName), GetShadowCopyCacheConfig());
+                ConsoleWriter errorStream = new ConsoleWriter(Console.Error);
+
+                bool testLoaded = MakeTest(testDomain, Path.Combine(mConfig.PathToAssemblies, mPNUnitTestInfo.AssemblyName), GetShadowCopyCacheConfig());
 
                 if( ! testLoaded )
                 {
                     Console.Error.WriteLine("Unable to locate tests");
-                
+
                     mPNUnitTestInfo.Services.NotifyResult(
                         mPNUnitTestInfo.TestName, null);
-                
+
                     return;
                 }
 
                 Directory.SetCurrentDirectory(mConfig.PathToAssemblies); // test directory ?
-        
+
                 EventListener collector = new EventCollector( outStream );
 
                 string savedDirectory = Environment.CurrentDirectory;
 
                 log.Info("Creating PNUnitServices in the AppDomain of the test");
-                object[] param = { mPNUnitTestInfo, (ITestConsoleAccess)this }; 
+                object[] param = { mPNUnitTestInfo, (ITestConsoleAccess)this };
 
-                object obj = testDomain.AppDomain.CreateInstanceAndUnwrap(
-                    typeof(PNUnitServices).Assembly.FullName, 
-                    typeof(PNUnitServices).FullName,
-                    false, BindingFlags.Default, null, param, null, null, null);
+                try
+                {
+                    object obj = testDomain.AppDomain.CreateInstance(
+                        typeof(PNUnitServices).Assembly.FullName,
+                        typeof(PNUnitServices).FullName,
+                        false, BindingFlags.Default, null, param, null, null, null).Unwrap();
+                }
+                catch( Exception e )
+                {
+                    result = BuildError(e);
+                    log.ErrorFormat("Error running test {0}", e.Message);
+                    return;
+                }
+
 
                 log.Info("Running tests");
 
                 try
-                { 
-//					ITestFilter filter = new PNUnitTestFilter(mPNUnitTestInfo.TestToRun);
-//					result = new PNUnitTestResult(testDomain.Run(collector, filter));                     
-					ITestFilter filter = new NUnit.Core.Filters.SimpleNameFilter(mPNUnitTestInfo.TestToRun);                    
-					result =
-						FindResult(
-							mPNUnitTestInfo.TestToRun, 
-							testDomain.Run(collector, filter) );
-					
-				}
+                {
+                    ITestFilter filter = new NUnit.Core.Filters.SimpleNameFilter(mPNUnitTestInfo.TestToRun);
+                    result =
+                        FindResult(
+                            mPNUnitTestInfo.TestToRun,
+                            testDomain.Run(collector, filter) );
+
+                }
                 catch( Exception e )
                 {
-					TestName testName = new TestName();
-					testName.Name = mPNUnitTestInfo.TestName;
-					testName.FullName = mPNUnitTestInfo.TestName;
-					testName.TestID = new TestID();
-                    result = new TestResult(testName);
-					result.Error(e);
+                    result = BuildError(e);
+                    log.ErrorFormat("Error running test {0}", e.Message);
                 }
-                
+
             }
             finally
             {
                 log.Info("Notifying the results");
+
                 mPNUnitTestInfo.Services.NotifyResult(
                     mPNUnitTestInfo.TestName, result);
+
                 //Bug with framework
                 if (IsWindows())
                 {
                     lock(obj)
                     {
-                        log.Info("Unloading test appdomain");
+                        Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Unloading test appdomain");
                         testDomain.Unload();
-                        log.Info("Unloaded test appdomain");
+                        Console.WriteLine("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Unloaded test appdomain");
                     }
                 }
             }
 
         }
 
-		private static TestResult FindResult(string name, TestResult result) 
-		{
-			if (result.Test.TestName.FullName == name)
-				return result;
+        private TestResult BuildError(Exception e)
+        {
+            TestName testName = new TestName();
+            testName.Name = mPNUnitTestInfo.TestName;
+            testName.FullName = mPNUnitTestInfo.TestName;
+            testName.TestID = new TestID();
 
-			if ( result.HasResults )
-			{
-				foreach( TestResult r in result.Results ) 
-				{
-					TestResult myResult = FindResult( name, r );
-					if ( myResult != null )
-						return myResult;
-				}
-			}
+            TestResult result = new TestResult(testName);
+            result.Error(e);
+            return result;
+        }
 
-			return null;
-		}
+        private static TestResult FindResult(string name, TestResult result)
+        {
+            if (result.Test.TestName.FullName == name)
+                return result;
+
+            if ( result.HasResults )
+            {
+                foreach( TestResult r in result.Results )
+                {
+                    TestResult myResult = FindResult( name, r );
+                    if ( myResult != null )
+                        return myResult;
+                }
+            }
+
+            return null;
+        }
 
         private bool MakeTest(TestDomain testDomain, string assemblyName, bool bShadowCopyCache)
         {
             TestPackage package = new TestPackage( assemblyName );
-			package.ShadowCopyCache = bShadowCopyCache;                                 
+            package.ShadowCopyCache = bShadowCopyCache;
             return testDomain.Load(package);
         }
 
-		private bool GetShadowCopyCacheConfig()
-		{
-			if (mConfig.ShadowCopyCache != null)
-				if (mConfig.ShadowCopyCache.ToLower().IndexOf("false") != -1 )
-					return false;
+        private bool GetShadowCopyCacheConfig()
+        {
+            return false;
+            if (mConfig.ShadowCopyCache != null)
+                if (mConfig.ShadowCopyCache.ToLower().IndexOf("false") != -1 )
+                    return false;
 
-			return true;
-		}
+            return true;
+        }
 
         #region MarshallByRefObject
         // Lives forever
@@ -186,7 +205,7 @@ namespace PNUnit.Agent
             private ConsoleWriter writer;
 
             StringCollection messages = new StringCollection();
-        
+
             private bool debugger = false;
             private string currentTestName;
 
@@ -223,9 +242,9 @@ namespace PNUnit.Agent
                 if(testResult.Executed)
                 {
                     testRunCount++;
-                    
+
                     if(testResult.IsFailure)
-                    {    
+                    {
                         failureCount++;
                         Console.Write("F");
                         if ( debugger )
@@ -272,7 +291,7 @@ namespace PNUnit.Agent
             }
 
 
-            public void SuiteStarted(TestName name) 
+            public void SuiteStarted(TestName name)
             {
                 if ( debugger && level++ == 0 )
                 {
@@ -284,21 +303,21 @@ namespace PNUnit.Agent
                 }
             }
 
-            public void SuiteFinished(TestResult suiteResult) 
+            public void SuiteFinished(TestResult suiteResult)
             {
-                if ( debugger && --level == 0) 
+                if ( debugger && --level == 0)
                 {
                     Trace.WriteLine( "############################################################################" );
 
-                    if (messages.Count == 0) 
+                    if (messages.Count == 0)
                     {
                         Trace.WriteLine( "##############                 S U C C E S S               #################" );
                     }
-                    else 
+                    else
                     {
                         Trace.WriteLine( "##############                F A I L U R E S              #################" );
-                        
-                        foreach ( string s in messages ) 
+
+                        foreach ( string s in messages )
                         {
                             Trace.WriteLine(s);
                         }
@@ -328,7 +347,7 @@ namespace PNUnit.Agent
                     Trace.WriteLine( exception.ToString() );
                 }
             }
-            
+
             public void TestOutput( TestOutput output)
             {
             }
@@ -345,7 +364,7 @@ namespace PNUnit.Agent
         {
             Console.Write(buf);
         }
-        
+
         public void Write(char[] buf, int index, int count)
         {
             Console.Write(buf, index, count);
@@ -355,7 +374,7 @@ namespace PNUnit.Agent
         {
             switch (Environment.OSVersion.Platform)
             {
-                case PlatformID.Win32Windows: 
+                case PlatformID.Win32Windows:
                 case System.PlatformID.Win32S:
                 case PlatformID.Win32NT:
                     return true;

@@ -13,7 +13,7 @@ using PNUnit.Framework;
 
 namespace PNUnit.Launcher
 {
-    public class Runner: MarshalByRefObject, IPNUnitServices
+    public class Runner : MarshalByRefObject, IPNUnitServices
     {
 
         private static readonly ILog log = LogManager.GetLogger(typeof(Runner));
@@ -36,12 +36,12 @@ namespace PNUnit.Launcher
 
         public string TestGroupName
         {
-            get{ return mTestGroup.Name; }
+            get { return mTestGroup.Name; }
         }
 
         public void Run()
         {
-            if( mTestGroup.Tests.Length == 0 )
+            if (mTestGroup.Tests.Length == 0)
             {
                 log.Fatal("No tests to run, exiting");
                 return;
@@ -52,7 +52,7 @@ namespace PNUnit.Launcher
 
         public void Join()
         {
-            if( mThread != null )
+            if (mThread != null)
                 mThread.Join();
         }
 
@@ -66,10 +66,10 @@ namespace PNUnit.Launcher
             RemotingServices.Marshal(this, mTestGroup.Name);
 
             mLaunchedTests = 0;
-            foreach( TestConf test in mTestGroup.Tests )
+            foreach (TestConf test in mTestGroup.Tests)
             {
                 if (test.Machine.StartsWith(agentkey))
-                    test.Machine = mTestGroup.Agents[int.Parse(test.Machine.Substring(agentkey.Length))-1];
+                    test.Machine = mTestGroup.Agents[int.Parse(test.Machine.Substring(agentkey.Length)) - 1];
 
                 log.InfoFormat("Starting {0} test {1} on {2}", mTestGroup.Name, test.Name, test.Machine);
                 // contact the machine
@@ -77,34 +77,34 @@ namespace PNUnit.Launcher
                 {
                     IPNUnitAgent agent = (IPNUnitAgent)
                         Activator.GetObject(
-                        typeof(IPNUnitAgent), 
+                        typeof(IPNUnitAgent),
                         string.Format(
-                        "tcp://{0}/{1}", 
-                        test.Machine, 
+                        "tcp://{0}/{1}",
+                        test.Machine,
                         PNUnit.Framework.Names.PNUnitAgentServiceName));
 
-                    lock( mResultLock )
+                    lock (mResultLock)
                     {
                         ++mLaunchedTests;
                     }
-                                    
-                    agent.RunTest(new PNUnitTestInfo(test.Name, test.Assembly, test.TestToRun, test.TestParams, this));
+
+                    agent.RunTest(new PNUnitTestInfo(test.Name, test.Assembly, test.TestToRun, test.TestParams, this, test.StartBarrier, test.EndBarrier, test.WaitBarriers));
                 }
-                catch( Exception e )
+                catch (Exception e)
                 {
                     log.ErrorFormat(
-                        "An error occurred trying to contact {0} [{1}]", 
+                        "An error occurred trying to contact {0} [{1}]",
                         test.Machine, e.Message);
 
-                    lock( mResultLock )
+                    lock (mResultLock)
                     {
                         --mLaunchedTests;
                     }
                 }
             }
-            
+
             log.DebugFormat("Thread going to wait for results for TestGroup {0}", mTestGroup.Name);
-            if( HasToWait() )
+            if (HasToWait())
                 // wait for all tests to end
                 mFinish.WaitOne();
 
@@ -113,10 +113,10 @@ namespace PNUnit.Launcher
             RemotingServices.Disconnect(this);
             log.DebugFormat("Thread going to finish for TestGroup {0}", mTestGroup.Name);
         }
-        
+
         private bool HasToWait()
         {
-            lock( mResultLock )
+            lock (mResultLock)
             {
                 return (mLaunchedTests > 0) && (mResults.Count < mLaunchedTests);
             }
@@ -124,13 +124,13 @@ namespace PNUnit.Launcher
 
         public TestResult[] GetTestResults()
         {
-            lock(mResultLock)
+            lock (mResultLock)
             {
                 TestResult[] result = new TestResult[mResults.Count];
                 int i = 0;
-                foreach( TestResult res in mResults )
+                foreach (TestResult res in mResults)
                     result[i++] = res;
-                
+
                 return result;
             }
         }
@@ -146,30 +146,30 @@ namespace PNUnit.Launcher
         #region IPNUnitServices
 
         public void NotifyResult(string TestName, TestResult result)
-        {   
+        {
             log.DebugFormat("NotifyResult called for TestGroup {0}, Test {1}",
                 mTestGroup.Name, TestName);
-            lock(mResultLock)
+            lock (mResultLock)
             {
                 log.DebugFormat("NotifyResult lock entered for TestGroup {0}, Test {1}",
                     mTestGroup.Name, TestName);
-                
+
                 mResults.Add(result);
-                if( mResults.Count == mLaunchedTests )
+                if (mResults.Count == mLaunchedTests)
                 {
                     log.DebugFormat("All the tests notified the results, waking up. mResults.Count == {0}",
                         mResults.Count);
                     mFinish.Set();
                 }
 
-            }   
-            lock( mBarriers )
+            }
+            lock (mBarriers)
             {
-                if( mBarriersOfTests.Contains(TestName) )
+                if (mBarriersOfTests.Contains(TestName))
                 {
                     log.DebugFormat("Going to abandon barriers of test {0}", TestName);
-                    IList list = (IList) mBarriersOfTests[TestName];
-                    foreach( string barrier in list )
+                    IList list = (IList)mBarriersOfTests[TestName];
+                    foreach (string barrier in list)
                     {
                         log.DebugFormat("Abandoning barrier {0}", barrier);
                         ((Barrier)mBarriers[barrier]).Abandon();
@@ -177,23 +177,23 @@ namespace PNUnit.Launcher
                 }
             }
             log.DebugFormat("NotifyResult finishing for TestGroup {0}, Test {1}.",
-                mTestGroup.Name, TestName); 
+                mTestGroup.Name, TestName);
             log.InfoFormat("Result for TestGroup {0}, Test {1}: {2}",
-                mTestGroup.Name, TestName, result.IsSuccess ? "PASS" : "FAIL");
+                mTestGroup.Name, TestName, result != null ? (result.IsSuccess ? "PASS" : "FAIL") : "NULL RESULT");
         }
 
         public void InitBarrier(string TestName, string barrier, int Max)
         {
-            lock( mBarriers )
+            lock (mBarriers)
             {
-                if( ! mBarriers.Contains(barrier) )
+                if (!mBarriers.Contains(barrier))
                 {
                     mBarriers.Add(barrier, new Barrier(Max));
                 }
 
-                if( mBarriersOfTests.Contains(TestName) )
+                if (mBarriersOfTests.Contains(TestName))
                 {
-                    IList listofbarriers = (IList) mBarriersOfTests[TestName];
+                    IList listofbarriers = (IList)mBarriersOfTests[TestName];
                     listofbarriers.Add(barrier);
                     log.DebugFormat("Adding barrier {0} to {1}", barrier, TestName);
                 }
@@ -204,8 +204,6 @@ namespace PNUnit.Launcher
                     log.DebugFormat("Adding barrier {0} to {1}", barrier, TestName);
                     mBarriersOfTests.Add(TestName, list);
                 }
-
-                
             }
         }
 
@@ -214,42 +212,38 @@ namespace PNUnit.Launcher
             InitBarrier(TestName, barrier, mTestGroup.Tests.Length);
         }
 
-        private const int indexStartBarrier = 2;
-        private const int indexEndBarrier = 3;
-
-        public void InitBarriers (string TestName)
+        public void InitBarriers(string TestName)
         {
             Hashtable barriers = new Hashtable();
-            for (int i=1; i< mTestGroup.Tests.Length; i++)
+            for (int i = 1; i < mTestGroup.Tests.Length; i++)
             {
-                string sb = mTestGroup.Tests[i].TestParams[indexStartBarrier];
-                string eb = mTestGroup.Tests[i].TestParams[indexEndBarrier];
+                string sb = mTestGroup.Tests[i].StartBarrier;
+                string eb = mTestGroup.Tests[i].EndBarrier;
 
-                if (sb.Trim() != "") 
+                if (sb.Trim() != "")
                 {
-                    if(barriers.Contains(sb))
-                        barriers[sb] = (int)barriers[sb]+1;
+                    if (barriers.Contains(sb))
+                        barriers[sb] = (int)barriers[sb] + 1;
                     else
                         barriers[sb] = 1;
                 }
 
-                if (eb.Trim() != "") 
+                if (eb.Trim() != "")
                 {
-                    if(barriers.Contains(eb))
-                        barriers[eb] = (int)barriers[eb]+1;
+                    if (barriers.Contains(eb))
+                        barriers[eb] = (int)barriers[eb] + 1;
                     else
                         barriers[eb] = 1;
                 }
-
             }
 
             foreach (string key in barriers.Keys)
             {
                 if (!key.Equals(Names.ServerBarrier) && !key.Equals(Names.EndBarrier))
-                    InitBarrier (TestName, key, (int)barriers[key]);
-                
-                InitBarrier (TestName, Names.ServerBarrier);
-                InitBarrier (TestName, Names.EndBarrier);
+                    InitBarrier(TestName, key, (int)barriers[key]);
+
+                InitBarrier(TestName, Names.ServerBarrier);
+                InitBarrier(TestName, Names.EndBarrier);
             }
         }
 
@@ -261,16 +255,4 @@ namespace PNUnit.Launcher
 
         #endregion
     }
-
-    /*    public class TestResult
-        {
-            public string TestName;
-            public string Result;
-
-            public TestResult(string name, string result)
-            {
-                TestName = name;
-                Result = result;
-            }
-        }*/
 }
