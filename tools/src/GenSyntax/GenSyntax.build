@@ -32,6 +32,8 @@
 
   <target name="build">
 
+    <mkdir dir="${build.dir}"/>
+
     <csc target="exe"
         output="${build.dir}/GenSyntax.exe"
         debug="${debug}" 
