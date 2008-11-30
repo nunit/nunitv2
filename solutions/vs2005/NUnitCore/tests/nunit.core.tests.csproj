@@ -265,6 +265,9 @@
       <Link>RemoteRunnerTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\RepeatedTestFixture.cs">
+      <Link>RepeatedTestFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\SerializationBug.cs">
       <Link>SerializationBug.cs</Link>
       <SubType>Code</SubType>
