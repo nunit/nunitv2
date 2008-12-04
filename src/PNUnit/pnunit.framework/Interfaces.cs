@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 
 using NUnit.Core;
 
@@ -19,101 +20,109 @@ namespace PNUnit.Framework
         void Write(char[] buf, int index, int count);
     }
 
+
     public interface IPNUnitServices
     {
         void NotifyResult(string TestName, TestResult result);
 
-        void InitBarriers(string TestName);
-        void InitBarrier(string TestName, string barrier);
-        void InitBarrier(string TestName, string barrier, int Max);
+        void InitBarriers();
+
         void EnterBarrier(string barrier);
     }
 
-	[Serializable]
-	public class PNUnitTestInfo
-	{
-		public string TestName;
-		public string AssemblyName;
-		public string TestToRun;
-		public string[] TestParams;
-		public IPNUnitServices Services;
-		public string StartBarrier;
-		public string EndBarrier;
-		public string[] WaitBarriers;
+    [Serializable]
+    public class PNUnitTestInfo
+    {
+        public string TestName;
+        public string AssemblyName;
+        public string TestToRun;
+        public string[] TestParams;
+        public IPNUnitServices Services;
+        public string StartBarrier;
+        public string EndBarrier;
+        public string[] WaitBarriers;
 
-		public PNUnitTestInfo(string TestName, string AssemblyName, 
-			string TestToRun, string[] TestParams, IPNUnitServices Services)
-		{
-			this.TestName = TestName;
-			this.AssemblyName = AssemblyName;
-			this.TestToRun = TestToRun;
-			this.TestParams = TestParams;
-			this.Services = Services;
-		}
+        public PNUnitTestInfo(string TestName, string AssemblyName, 
+            string TestToRun, string[] TestParams, IPNUnitServices Services)
+        {
+            this.TestName = TestName;
+            this.AssemblyName = AssemblyName;
+            this.TestToRun = TestToRun;
+            this.TestParams = TestParams;
+            this.Services = Services;
+        }
 
-		public PNUnitTestInfo(string TestName, string AssemblyName, 
-			string TestToRun, string[] TestParams, IPNUnitServices Services, string StartBarrier, string EndBarrier, string[] WaitBarriers)
-		{
-			this.TestName = TestName;
-			this.AssemblyName = AssemblyName;
-			this.TestToRun = TestToRun;
-			this.TestParams = TestParams;
-			this.Services = Services;
-			this.StartBarrier = StartBarrier;
-			this.EndBarrier = EndBarrier;
-			this.WaitBarriers = WaitBarriers;
-		}
+        public PNUnitTestInfo(string TestName, string AssemblyName, 
+            string TestToRun, string[] TestParams, IPNUnitServices Services, string StartBarrier, string EndBarrier, string[] WaitBarriers)
+        {
+            this.TestName = TestName;
+            this.AssemblyName = AssemblyName;
+            this.TestToRun = TestToRun;
+            this.TestParams = TestParams;
+            this.Services = Services;
+            this.StartBarrier = StartBarrier;
+            this.EndBarrier = EndBarrier;
+            this.WaitBarriers = WaitBarriers;
+        }
 
-	}
+    }
 
     public interface IPNUnitAgent
     {
         void RunTest(PNUnitTestInfo info);
     }
 
-//    [Serializable]
-//    public class PNUnitTestResult
-//    {
-//        public bool Executed;
-//        public bool AllTestsExecuted;
-//        public string Name;
-//        public bool IsSuccess;
-//        public bool IsFailure;
-//        public string Description;
-//        public double Time;
-//        public string Message;
-//        public string StackTrace;
-//        public int AssertCount;
-//
-//        public PNUnitTestResult(TestResult result)
-//        {
-//            if( result == null )
-//                return;
-//            this.Executed = result.Executed;
-//            this.Name = result.Name;
-//            this.IsSuccess = result.IsSuccess;
-//            this.IsFailure = result.IsFailure;
-//            this.Description = result.Description;
-//            this.Time = result.Time;
-//            this.Message = result.Message;
-//            this.StackTrace = result.StackTrace;
-//            this.AssertCount  = result.AssertCount;                        
-//        }
-//
-//        public PNUnitTestResult(Exception e)
-//        {
-//            this.Executed = false;
-//            this.AllTestsExecuted = false;
-//            this.AssertCount = 0;
-//            this.Description = "Not controlled exception raised";
-//            this.StackTrace = e.StackTrace;
-//            this.Name = "";
-//            this.IsSuccess = false;
-//            this.IsFailure = true;
-//            this.Time = 0;
-//            this.Message = e.Message;
-//        }
-//    }
+    [Serializable]
+    public class PNUnitRetryException : Exception
+    {
+        public static string RETRY_EXCEPTION = "RETRY_EXCEPTION:";
+        #region "constructors"
+        public PNUnitRetryException(string message)
+            : base(RETRY_EXCEPTION + message)
+        {
+        }
+
+        public PNUnitRetryException(string message, Exception innerException)
+            : base(RETRY_EXCEPTION + message, innerException)
+        {
+        }
+
+        public PNUnitRetryException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+        #endregion
+    }
+
+    [Serializable]
+    public class PNUnitTestResult : TestResult
+    {
+        private string mOutput = string.Empty;
+        private bool mRetryTest = false;
+
+        public PNUnitTestResult(TestName testName, string output)
+            : base(testName)
+        {
+            mOutput = output;
+        }
+
+        public PNUnitTestResult(TestResult testResult, string output): base(testResult.Test)
+        {
+            mOutput = output;
+            if (testResult.Message != null && (testResult.Message.IndexOf(PNUnitRetryException.RETRY_EXCEPTION) >= 0))
+                this.mRetryTest = true;
+
+            if (testResult.IsSuccess)
+                this.Success(testResult.Message);
+            else
+                this.Failure(testResult.Message, testResult.StackTrace);
+            this.Time = testResult.Time;
+        }
+
+        public string Output { get { return mOutput; } }
+        public bool RetryTest { get { return mRetryTest; } }
+    }
+
 
 }
 

@@ -13,6 +13,8 @@ using log4net.Config;
 
 using PNUnit.Framework;
 
+using NUnit.Util;
+
 namespace PNUnit.Agent
 {
     class Agent
@@ -60,6 +62,16 @@ namespace PNUnit.Agent
             }
 
             ConfigureLogging();
+
+            // initialize NUnit services
+            // Add Standard Services to ServiceManager
+            ServiceManager.Services.AddService(new SettingsService());
+            ServiceManager.Services.AddService(new DomainManager());
+            ServiceManager.Services.AddService(new ProjectService());
+
+            // Initialize Services
+            ServiceManager.Services.InitializeServices();
+
 
             PNUnitAgent agent = new PNUnitAgent();
             agent.Run(config, bDaemonMode);
@@ -156,7 +168,8 @@ namespace PNUnit.Agent
             // publish
             RemotingServices.Marshal(this, PNUnit.Framework.Names.PNUnitAgentServiceName);
 
-            GC.GetTotalMemory(true);
+            // otherwise in .NET 2.0 memory grows continuosly
+            FreeMemory();
 
             if (bDaemonMode)
             {
@@ -167,10 +180,18 @@ namespace PNUnit.Agent
                 }
             }
             else
+            {
                 Console.ReadLine();
+            }
 
             //RemotingServices.Disconnect(this);
         }
+
+        private void FreeMemory()
+        {
+            GC.GetTotalMemory(true);
+        }
+
     }
 
 }

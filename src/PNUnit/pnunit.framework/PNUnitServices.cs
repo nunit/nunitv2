@@ -37,19 +37,7 @@ namespace PNUnit.Framework
         public void InitBarriers()
         {
             CheckInfo();
-            mInfo.Services.InitBarriers(mInfo.TestName);
-        }
-
-        public void InitBarrier(string barrier)
-        {
-            CheckInfo();
-            mInfo.Services.InitBarrier(mInfo.TestName, barrier);
-        }
-
-        public void InitBarrier(string barrier, int Max)
-        {
-            CheckInfo();
-            mInfo.Services.InitBarrier(mInfo.TestName, barrier, Max);
+            mInfo.Services.InitBarriers();
         }
 
         public void EnterBarrier(string barrier)

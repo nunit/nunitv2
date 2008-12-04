@@ -21,7 +21,7 @@ namespace TestLibraries
         [Test]
         public void Server()
         {
-            PNUnitServices.Get().InitBarrier("BARRIER");
+            PNUnitServices.Get().InitBarriers();
             PNUnitServices.Get().WriteLine("Server started");
 
             Thread.Sleep(10000);
@@ -34,7 +34,7 @@ namespace TestLibraries
         public void Client()
         {   
             PNUnitServices.Get().WriteLine("The client should wait until the server starts");
-            PNUnitServices.Get().InitBarrier("BARRIER");                
+            PNUnitServices.Get().InitBarriers();                
             
             PNUnitServices.Get().EnterBarrier("BARRIER");
 
