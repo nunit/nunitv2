@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="NUnitFramework" default="build" basedir=".">
+<project name="GenSyntax" default="build" basedir=".">
 
   <property name="debug" value="true"/>
 
