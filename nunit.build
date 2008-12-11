@@ -1093,6 +1093,7 @@
     <include name="PNUnit/tests/pnunit.tests.build"/>
 
     <!-- GUI Tests -->
+    <include name="GuiException/tests/nunit.uiexception.tests.build" />
     <include name="GuiComponents/tests/nunit.uikit.tests.build" />
     <include name="GuiRunner/tests/nunit-gui.tests.build" />
 

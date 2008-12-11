@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<project name="NUnit.UiException.Tests" default="build" basedir=".">
+
+  <patternset id="source-files">
+    <include name="Controls/TestCodeBox.cs"/>
+    <include name="Controls/TestCodeBoxComposite.cs"/>
+    <include name="Controls/TestCodeViewport.cs"/>
+    <include name="Controls/TestExceptionList.cs"/>
+    <include name="Controls/TestPagineerControl.cs"/>
+    <include name="CSharpParser/TestCSCode.cs"/>
+    <include name="CSharpParser/TestCSParser.cs"/>
+    <include name="CSharpParser/TestLexer.cs"/>
+    <include name="CSharpParser/TestToken.cs"/>
+    <include name="CSharpParser/TestTokenClassifier.cs"/>
+    <include name="data/TestResource.cs"/>
+    <include name="TestDefaultTextManager.cs"/>
+    <include name="TestExceptionBrowserLink.cs"/>
+    <include name="TestExceptionItem.cs"/>
+    <include name="TestExceptionItemCollection.cs"/>
+    <include name="TestMouseWatcher.cs"/>
+    <include name="TestPaintLineLocation.cs"/>
+    <include name="TestStackTraceParser.cs"/>
+    <include name="TestTextPainter.cs"/>
+  </patternset>
+
+  <patternset id="resource-files">
+    <include name="data/HelloWorld.txt"/>
+    <include name="data/TextCode.txt"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+        output="${current.test.dir}/nunit.uiexception.tests.dll" 
+        debug="${build.debug}" define="${build.defines}"
+        if="${build.v2plus}">
+      <sources>
+        <patternset refid="source-files"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
+      </sources>
+      <resources prefix="NUnit.UiException.Tests.data">
+        <patternset refid="resource-files"/>
+      </resources>
+      <references>
+        <include name="System.dll"/>
+        <include name="System.Drawing.dll"/>
+        <include name="System.Windows.Forms.dll"/>
+        <include name="${current.framework.dir}/nunit.framework.dll"/>
+        <include name="${current.build.dir}/nunit.uiexception.dll"/>
+        <include name="${current.test.dir}/test-utilities.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiException/tests">
+      <fileset>
+        <patternset refid="source-files"/>
+        <patternset refid="resource-files"/>
+        <include name="nunit.uikit.tests.build"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>
