@@ -14,6 +14,29 @@ using NUnit.Util;
 using NUnit.Core;
 using CP.Windows.Forms;
 
+#if !NET_2_0
+namespace NUnit.UiException
+{
+	/// <summary>
+	/// Fake version of ExceptionBrowserLink, which
+	/// is only present in .NET 2.0 builds.
+	/// </summary>
+	public class ExceptionBrowserLink : Label
+	{
+		public ExceptionBrowserLink()
+		{
+			this.Visible = false;
+		}
+
+		public string StackTrace
+		{
+			get { return ""; }
+			set { }
+		}
+	}
+}
+#endif
+
 namespace NUnit.UiKit
 {
 	/// <summary>
@@ -29,6 +52,7 @@ namespace NUnit.UiKit
 
 		private System.Windows.Forms.ListBox detailList;
 		public CP.Windows.Forms.ExpandingTextBox stackTrace;
+        public NUnit.UiException.ExceptionBrowserLink exceptionBrowser;
 		public System.Windows.Forms.Splitter tabSplitter;
 		private System.Windows.Forms.ContextMenu detailListContextMenu;
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
@@ -84,6 +108,7 @@ namespace NUnit.UiKit
 			this.detailList = new System.Windows.Forms.ListBox();
 			this.tabSplitter = new System.Windows.Forms.Splitter();
 			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
+            this.exceptionBrowser = new NUnit.UiException.ExceptionBrowserLink();
 			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();
@@ -119,7 +144,14 @@ namespace NUnit.UiKit
 			this.tabSplitter.TabIndex = 3;
 			this.tabSplitter.TabStop = false;
 			this.tabSplitter.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.tabSplitter_SplitterMoved);
-			// 
+            //
+            // exceptionBrowser
+            // 
+            this.exceptionBrowser.Dock = System.Windows.Forms.DockStyle.Top;
+            this.exceptionBrowser.Location = new System.Drawing.Point(0, 134);
+            this.exceptionBrowser.Name = "exceptionBrowser";
+            this.exceptionBrowser.Visible = false;
+            // 
 			// stackTrace
 			// 
 			this.stackTrace.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -134,8 +166,8 @@ namespace NUnit.UiKit
 			this.stackTrace.Text = "";
 			this.stackTrace.WordWrap = false;
 			this.stackTrace.KeyUp += new System.Windows.Forms.KeyEventHandler(this.stackTrace_KeyUp);
-			// 
-			// detailListContextMenu
+			//
+            // detailListContextMenu
 			// 
 			this.detailListContextMenu.MenuItems.AddRange(new System.Windows.Forms.MenuItem[] {
 																								  this.copyDetailMenuItem});
@@ -149,6 +181,7 @@ namespace NUnit.UiKit
 			// ErrorDisplay
 			// 
 			this.Controls.Add(this.stackTrace);
+            this.Controls.Add(this.exceptionBrowser);
 			this.Controls.Add(this.tabSplitter);
 			this.Controls.Add(this.detailList);
 			this.Name = "ErrorDisplay";
@@ -191,6 +224,7 @@ namespace NUnit.UiKit
 			detailList.Items.Clear();
 			detailList.ContextMenu = null;
 			stackTrace.Text = "";
+            exceptionBrowser.Visible = false;
 		}
 		#endregion
 
@@ -211,7 +245,9 @@ namespace NUnit.UiKit
 		{
 			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
 			//string stackTrace = resultItem.StackTrace;
-			stackTrace.Text = resultItem.StackTrace;
+            stackTrace.Text = resultItem.StackTrace == null 
+                ? "No stack trace is available" : resultItem.StackTrace;
+			exceptionBrowser.StackTrace = resultItem.StackTrace;
 
 			//			toolTip.SetToolTip(detailList,resultItem.GetToolTipMessage());
 			detailList.ContextMenu = detailListContextMenu;

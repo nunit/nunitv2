@@ -1,0 +1,56 @@
+﻿// ----------------------------------------------------------------
+// ExceptionBrowser
+// Version 1.0.0
+// Copyright 2008, Irénée HOTTIER,
+// 
+// This is free software licensed under the NUnit license, You may
+// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// ----------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using NUnit.Framework;
+using NUnit.UiException;
+using NUnit.UiException.CSharpParser;
+
+namespace NUnit.UiException.Tests.CSharpParser
+{
+    [TestFixture]
+    public class TestToken
+    {
+        [Test]
+        public void Test_Equals()
+        {
+            Assert.That(new TestingToken("text", 0, LexerTag.Text).Equals(null), Is.False);
+            Assert.That(new TestingToken("text", 1, LexerTag.Text).Equals("text"), Is.False);
+            Assert.That(new TestingToken("text", 0, LexerTag.Text).Equals(
+                new TestingToken("", 0, LexerTag.Text)), Is.False);
+            Assert.That(new TestingToken("text", 0, LexerTag.Text).Equals(
+                new TestingToken("text", 1, LexerTag.Text)), Is.False);
+            Assert.That(new TestingToken("text", 0, LexerTag.Text).Equals(
+                new TestingToken("text", 0, LexerTag.SingleQuote)), Is.False);
+            Assert.That(new TestingToken("text", 0, LexerTag.Text).Equals(
+                new TestingToken("text", 0, LexerTag.Text)), Is.True);
+
+            return;
+        }
+
+        #region TestingToken
+
+        class TestingToken :
+            LexToken
+        {
+            public TestingToken(string text, int start, LexerTag attr)
+            {
+                _text = text;
+                _start = start;
+                _tag = attr;
+
+                return;
+            }
+        }
+
+        #endregion
+    }
+}

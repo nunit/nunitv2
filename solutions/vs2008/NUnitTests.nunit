@@ -8,6 +8,7 @@
     <assembly path="NUnitExtensions\tests\bin\Debug\nunit.extensions.tests.dll" />
     <assembly path="ConsoleRunner\tests\bin\Debug\nunit-console.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Debug\nunit.uikit.tests.dll" />
+    <assembly path="GuiException\tests\bin\Debug\nunit.uiexception.tests.dll" />
     <assembly path="GuiRunner\tests\bin\Debug\nunit-gui.tests.dll" />
     <assembly path="NUnitFixtures\tests\bin\Debug\nunit.fixtures.tests.dll" />
   </Config>
@@ -19,6 +20,7 @@
     <assembly path="NUnitExtensions\tests\bin\Release\nunit.extensions.tests.dll" />
     <assembly path="ConsoleRunner\tests\bin\Release\nunit-console.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Release\nunit.uikit.tests.dll" />
+    <assembly path="GuiException\tests\bin\Release\nunit.uiexception.tests.dll" />
     <assembly path="GuiRunner\tests\bin\Release\nunit-gui.tests.dll" />
     <assembly path="NUnitFixtures\tests\bin\Release\nunit.fixtures.tests.dll" />
   </Config>

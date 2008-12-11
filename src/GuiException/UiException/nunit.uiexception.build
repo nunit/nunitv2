@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<project name="NUnitUiException" default="build" basedir=".">
+
+  <patternset id="source-files">
+    <include name="Properties/Resources.designer.cs"/>
+    <include name="Properties/Settings.designer.cs"/>
+    <include name="Controls/CodeBox.cs"/>
+    <include name="Controls/CodeBox.designer.cs"/>
+    <include name="Controls/CodeBoxComposite.cs"/>
+    <include name="Controls/CodeBoxComposite.designer.cs"/>
+    <include name="Controls/CodeBoxWindow.cs"/>
+    <include name="Controls/CodeBoxWindow.designer.cs"/>
+    <include name="Controls/CodeViewport.cs"/>
+    <include name="Controls/ExceptionList.cs"/>
+    <include name="Controls/ExceptionWindow.cs"/>
+    <include name="Controls/ExceptionWindow.designer.cs"/>
+    <include name="Controls/HoverButton.cs"/>
+    <include name="Controls/HoverButton.designer.cs"/>
+    <include name="Controls/PagineerControl.cs"/>
+    <include name="Controls/PagineerControl.designer.cs"/>
+    <include name="Controls/PaintLineLocation.cs"/>
+    <include name="CSharpParser/CSCode.cs"/>
+    <include name="CSharpParser/CSParser.cs"/>
+    <include name="CSharpParser/CSToken.cs"/>
+    <include name="CSharpParser/CSTokenCollection.cs"/>
+    <include name="CSharpParser/Lexer.cs"/>
+    <include name="CSharpParser/LexToken.cs"/>
+    <include name="CSharpParser/TokenClassifier.cs"/>
+    <include name="AssemblyInfo.cs"/>
+    <include name="DefaultTextManager.cs"/>
+    <include name="ExceptionBrowserLink.cs"/>
+    <include name="ExceptionBrowserLink.designer.cs"/>
+    <include name="ExceptionItem.cs"/>
+    <include name="ExceptionItemCollection.cs"/>
+    <include name="ITextManager.cs"/>
+    <include name="MouseWatcher.cs"/>
+    <include name="StackTraceParser.cs"/>
+    <include name="TextPainter.cs"/>
+    <include name="TraceExceptionHelper.cs"/>
+  </patternset>
+
+  <patternset id="resource-files">
+    <include name="Properties/Resources.resx"/>
+    <include name="Controls/CodeBox.resx"/>
+    <include name="Controls/CodeBoxComposite.resx"/>
+    <include name="Controls/CodeBoxWindow.resx"/>
+    <include name="Controls/ExceptionWindow.resx"/>
+    <include name="Controls/HoverButton.resx"/>
+    <include name="Controls/PagineerControl.resx"/>
+    <include name="ExceptionBrowserLink.resx"/>
+  </patternset>
+
+  <patternset id="content-files">
+    <include name="Resources/Arrows.png"/>
+    <include name="Resources/ExceptionListLeftBackground.bmp"/>
+    <include name="Resources/ExceptionListMarginIcon.png"/>
+    <include name="Resources/ExceptionListMarginLeft.png"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+    output="${current.build.dir}/nunit.uiexception.dll"
+    debug="${build.debug}" define="${build.defines}"
+    if="${build.v2plus}">
+      <sources>
+        <patternset refid="source-files"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
+      </sources>
+      <nowarn>
+        <warning number="1699" if="${runtime.version=='2.0'}"/>
+      </nowarn>
+      <resources prefix="NUnit.UiException" dynamicprefix="true">
+        <patternset refid="resource-files"/>
+      </resources>
+      <references basedir="${current.build.dir}">
+        <include name="System.dll"/>
+        <include name="System.Windows.Forms.dll"/>
+        <include name="System.Drawing.dll"/>
+      </references>
+    </csc>
+
+    <copy todir="${current.build.dir}" if="${build.v2plus}">
+      <fileset>
+        <patternset refid="content-files"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiException/UiException">
+      <fileset>
+        <patternset refid="source-files"/>
+        <patternset refid="resource-files"/>
+        <patternset refid="content-files"/>
+        <include name="nunit.uiexception.build"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>

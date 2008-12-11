@@ -73,6 +73,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit-launcher", "PNUnit\l
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pnunit.tests", "PNUnit\tests\pnunit.tests.csproj", "{319B9238-76BE-4335-9B4D-F8E43C4B124F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uiexception.dll", "GuiException\UIException\nunit.uiexception.dll.csproj", "{3E87A106-EB20-4147-84C8-95B0BB43A1D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uiexception.tests", "GuiException\tests\nunit.uiexception.tests.csproj", "{092486D0-6AB9-4134-932F-0FDA10704455}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -211,6 +215,14 @@ Global
 		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{319B9238-76BE-4335-9B4D-F8E43C4B124F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E87A106-EB20-4147-84C8-95B0BB43A1D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E87A106-EB20-4147-84C8-95B0BB43A1D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E87A106-EB20-4147-84C8-95B0BB43A1D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E87A106-EB20-4147-84C8-95B0BB43A1D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{092486D0-6AB9-4134-932F-0FDA10704455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{092486D0-6AB9-4134-932F-0FDA10704455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{092486D0-6AB9-4134-932F-0FDA10704455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{092486D0-6AB9-4134-932F-0FDA10704455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

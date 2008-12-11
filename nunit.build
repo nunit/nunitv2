@@ -1057,6 +1057,7 @@
     <include name="ConsoleRunner/nunit-console-exe/nunit-console.exe.build" />
 
     <!-- Gui Runner -->
+    <include name="GuiException/UiException/nunit.uiexception.build" />
     <include name="GuiComponents/UiKit/nunit.uikit.build" />
     <include name="GuiRunner/nunit-gui/nunit-gui.build" />
     <include name="GuiRunner/nunit-gui-exe/nunit-gui.exe.build" />

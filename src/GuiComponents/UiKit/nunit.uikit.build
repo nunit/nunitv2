@@ -104,6 +104,7 @@
         <include name="System.Windows.Forms.dll"/>
         <include name="System.Drawing.dll"/>
         <include name="System.Data.dll"/>
+        <include name="nunit.uiexception.dll"/>
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>

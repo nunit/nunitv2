@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{092486D0-6AB9-4134-932F-0FDA10704455}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>NUnit.UiException.Tests</RootNamespace>
+    <AssemblyName>nunit.uiexception.tests</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestCodeBox.cs">
+      <Link>Controls\TestCodeBox.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestCodeBoxComposite.cs">
+      <Link>Controls\TestCodeBoxComposite.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestCodeViewport.cs">
+      <Link>Controls\TestCodeViewport.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestExceptionList.cs">
+      <Link>Controls\TestExceptionList.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestPagineerControl.cs">
+      <Link>Controls\TestPagineerControl.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestCSCode.cs">
+      <Link>CSharpParser\TestCSCode.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestCSParser.cs">
+      <Link>CSharpParser\TestCSParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestLexer.cs">
+      <Link>CSharpParser\TestLexer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestToken.cs">
+      <Link>CSharpParser\TestToken.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestTokenClassifier.cs">
+      <Link>CSharpParser\TestTokenClassifier.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\data\TestResource.cs">
+      <Link>data\TestResource.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\TestDefaultTextManager.cs">
+      <Link>TestDefaultTextManager.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\TestExceptionBrowserLink.cs">
+      <Link>TestExceptionBrowserLink.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\TestExceptionItem.cs">
+      <Link>TestExceptionItem.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\TestExceptionItemCollection.cs">
+      <Link>TestExceptionItemCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\TestMouseWatcher.cs">
+      <Link>TestMouseWatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\TestPaintLineLocation.cs">
+      <Link>TestPaintLineLocation.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\TestStackTraceParser.cs">
+      <Link>TestStackTraceParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\TestTextPainter.cs">
+      <Link>TestTextPainter.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
+      <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
+      <Name>nunit.framework.dll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\tests\test-utilities\test-utilities.csproj">
+      <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>
+      <Name>test-utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UiException\nunit.uiexception.dll.csproj">
+      <Project>{3E87A106-EB20-4147-84C8-95B0BB43A1D4}</Project>
+      <Name>NUnitStacktrace</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\..\src\GuiException\tests\data\HelloWorld.txt">
+      <Link>data\HelloWorld.txt</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\..\..\src\GuiException\tests\data\TextCode.txt">
+      <Link>data\TextCode.txt</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

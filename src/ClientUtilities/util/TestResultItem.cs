@@ -65,11 +65,13 @@ namespace NUnit.Util
 		{
 			get 
 			{
-				string trace = "No stack trace is available";
-				if(stackTrace != null)
-					trace = StackTraceFilter.Filter(stackTrace);
+                return stackTrace == null ? null : StackTraceFilter.Filter(stackTrace);
 
-				return trace;
+                //string trace = "No stack trace is available";
+                //if(stackTrace != null)
+                //    trace = StackTraceFilter.Filter(stackTrace);
+
+                //return trace;
 			}
 		}
 	}

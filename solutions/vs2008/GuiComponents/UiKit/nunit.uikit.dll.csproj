@@ -35,7 +35,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -58,7 +58,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET_2_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>false</DebugSymbols>
@@ -94,6 +94,10 @@
       <Name>nunit.util.dll</Name>
       <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GuiException\UIException\nunit.uiexception.dll.csproj">
+      <Project>{3E87A106-EB20-4147-84C8-95B0BB43A1D4}</Project>
+      <Name>nunit.uiexception.dll</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll.csproj">
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
