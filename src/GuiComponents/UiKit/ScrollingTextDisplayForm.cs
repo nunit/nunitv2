@@ -98,7 +98,6 @@ namespace NUnit.UiKit
             // 
 			// TestAssemblyInfoForm
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
             this.ClientSize = new System.Drawing.Size(669, 480);
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.message);

@@ -152,7 +152,6 @@ namespace NUnit.UiKit
 			// ConfigurationEditor
 			// 
 			this.AcceptButton = this.closeButton;
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.closeButton;
 			this.ClientSize = new System.Drawing.Size(297, 267);
 			this.ControlBox = false;

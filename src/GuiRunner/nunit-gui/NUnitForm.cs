@@ -773,7 +773,6 @@ namespace NUnit.Gui
 			// 
 			// NUnitForm
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(744, 431);
 			this.Controls.Add(this.rightPanel);
 			this.Controls.Add(this.treeSplitter);

@@ -130,7 +130,6 @@ namespace NUnit.UiKit
 			// EditTabPagesDialog
 			// 
 			this.AcceptButton = this.closeButton;
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.closeButton;
 			this.ClientSize = new System.Drawing.Size(292, 260);
 			this.ControlBox = false;

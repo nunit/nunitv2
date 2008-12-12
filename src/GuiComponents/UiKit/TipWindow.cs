@@ -129,7 +129,6 @@ namespace CP.Windows.Forms
 			// 
 			// TipWindow
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.BackColor = System.Drawing.Color.LightYellow;
 			this.ClientSize = new System.Drawing.Size(292, 268);
 			this.ControlBox = false;

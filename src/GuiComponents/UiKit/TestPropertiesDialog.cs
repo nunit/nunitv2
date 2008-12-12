@@ -413,7 +413,6 @@ namespace NUnit.UiKit
 			// 
 			// TestPropertiesDialog
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(472, 634);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.groupBox1);

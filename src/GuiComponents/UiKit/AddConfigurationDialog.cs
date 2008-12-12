@@ -142,7 +142,6 @@ namespace NUnit.UiKit
 			// AddConfigurationDialog
 			// 
 			this.AcceptButton = this.okButton;
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(280, 149);
 			this.Controls.Add(this.label2);

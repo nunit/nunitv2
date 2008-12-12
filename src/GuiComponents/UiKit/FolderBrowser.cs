@@ -4,6 +4,7 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 
+#if !NET_2_0
 using System;
 using System.Text;
 using System.Windows.Forms;
@@ -258,3 +259,4 @@ namespace CP.Windows.Shell
 		#endregion
 	}
 }
+#endif

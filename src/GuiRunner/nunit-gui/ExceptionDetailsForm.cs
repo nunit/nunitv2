@@ -99,7 +99,6 @@ namespace NUnit.Gui
 			// 
 			// ExceptionDetailsForm
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(969, 551);
 			this.Controls.Add(this.stackTrace);
 			this.Controls.Add(this.message);

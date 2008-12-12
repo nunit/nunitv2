@@ -160,7 +160,6 @@ namespace NUnit.Gui
 			// 
 			// AddinDialog
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(464, 376);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.messageTextBox);

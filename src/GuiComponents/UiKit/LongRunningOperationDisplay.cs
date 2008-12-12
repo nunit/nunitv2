@@ -85,7 +85,6 @@ namespace NUnit.UiKit
 			// 
 			// LongRunningOperationDisplay
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.BackColor = System.Drawing.Color.LightYellow;
 			this.ClientSize = new System.Drawing.Size(320, 40);
 			this.ControlBox = false;

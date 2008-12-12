@@ -104,7 +104,6 @@ namespace NUnit.UiKit
 			// AddTabPageDialog
 			// 
 			this.AcceptButton = this.okButton;
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.cancelButton;
 			this.ClientSize = new System.Drawing.Size(344, 104);
 			this.ControlBox = false;

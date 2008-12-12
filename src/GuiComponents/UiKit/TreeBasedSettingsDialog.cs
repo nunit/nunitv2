@@ -117,7 +117,6 @@ namespace NUnit.UiKit
 			// 
 			// TreeBasedSettingsDialog
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(682, 426);
 			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.panel1);

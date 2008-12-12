@@ -219,7 +219,6 @@ namespace NUnit.Gui
 			// AboutBox
 			// 
 			this.AcceptButton = this.OkButton;
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.CancelButton = this.OkButton;
 			this.ClientSize = new System.Drawing.Size(490, 346);
 			this.Controls.Add(this.dotNetVersionLabel);

@@ -84,7 +84,6 @@ namespace NUnit.UiKit
 			// 
 			// TabbedSettingsDialog
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(6, 15);
 			this.ClientSize = new System.Drawing.Size(474, 426);
 			this.Controls.Add(this.tabControl1);
 			this.Name = "TabbedSettingsDialog";
