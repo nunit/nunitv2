@@ -36,8 +36,8 @@ namespace NUnit.Gui.Tests
 		[TearDown]
 		public void Close()
 		{
-            if ( editor != null )
-			    editor.Close();
+            //if ( editor != null )
+            //    editor.Close();
 		}
 		[Test]
 		public void CheckControls()
@@ -57,19 +57,19 @@ namespace NUnit.Gui.Tests
         public void InitialFieldValues()
 		{
 			editor.Show();
-			Assert.AreEqual( Path.GetFullPath( "temp.nunit" ), GetText( "projectPathLabel" ) );
-			Assert.AreEqual( Environment.CurrentDirectory, GetText( "projectBaseTextBox" ) );
+            Assert.AreEqual( Path.GetFullPath( "temp.nunit" ), GetText( "projectPathLabel" ) );
+            Assert.AreEqual( Environment.CurrentDirectory, GetText( "projectBaseTextBox" ) );
 		}
 
 		[Test, Platform(Exclude="Linux", Reason="Validate on focus change doesn't work on Mono")]
 		public void SetProjectBase()
 		{
 			editor.Show();
-			TextBox textBox = TextBoxes["projectBaseTextBox"];
-			textBox.Focus();
-			textBox.Text = Environment.SystemDirectory; // Guaranteed to exist
-			Buttons["closeButton"].Focus();
-			Assert.AreEqual( Environment.SystemDirectory, project.BasePath );
+            TextBox textBox = TextBoxes["projectBaseTextBox"];
+            textBox.Focus();
+            textBox.Text = Environment.SystemDirectory; // Guaranteed to exist
+            Buttons["closeButton"].Focus();
+            Assert.AreEqual( Environment.SystemDirectory, project.BasePath );
 		}
 	}
 }

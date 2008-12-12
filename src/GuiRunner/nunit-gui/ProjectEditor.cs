@@ -13,8 +13,6 @@ using System.Windows.Forms;
 using NUnit.Util;
 using NUnit.UiKit;
 using NUnit.Core;
-using CP.Windows.Forms;
-using CP.Windows.Shell;
 
 namespace NUnit.Gui
 {
@@ -597,7 +595,6 @@ namespace NUnit.Gui
             // 
 			// ProjectEditor
 			// 
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
 			this.ClientSize = new System.Drawing.Size(447, 410);
 			this.Controls.Add(this.domainUsageComboBox);
 			this.Controls.Add(this.processModelComboBox);
@@ -743,14 +740,29 @@ namespace NUnit.Gui
 		#region Project Base Methods and Events
 		private void projectBaseBrowseButton_Click(object sender, System.EventArgs e)
 		{
-			FolderBrowser browser = new FolderBrowser( this );
-			browser.Caption = "Project Editor";
-			browser.Title = string.Format( "Select ApplicationBase for the project", selectedConfig.Name );
-			browser.InitialSelection = project.BasePath;
-			string projectBase = browser.BrowseForFolder();
-			if ( projectBase != null && projectBase != project.BasePath )
-				UpdateProjectBase( projectBase );
-		}
+#if NET_2_0
+            FolderBrowserDialog browser = new FolderBrowserDialog();
+            browser.Description = string.Format("Select ApplicationBase for the project as a whole.");
+            if (browser.ShowDialog(this) == DialogResult.OK)
+            {
+                string projectBase = browser.SelectedPath;
+                if (projectBase != null && projectBase != project.BasePath)
+                    UpdateProjectBase(projectBase);
+            }
+#else
+            if (OSPlatform.CurrentPlatform.IsWindows)
+            {
+                CP.Windows.Shell.FolderBrowser browser 
+					= new CP.Windows.Shell.FolderBrowser(this);
+                browser.Caption = "Project Editor";
+                browser.Title = string.Format("Select ApplicationBase for the project as a whole.");
+                browser.InitialSelection = project.BasePath;
+                string projectBase = browser.BrowseForFolder();
+                if (projectBase != null && projectBase != project.BasePath)
+                    UpdateProjectBase(projectBase);
+            }
+#endif
+        }
 
 		private void projectBaseTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
 		{
@@ -765,7 +777,7 @@ namespace NUnit.Gui
 				catch( Exception ex )
 				{
 					projectBaseTextBox.SelectAll();
-					UserMessage.DisplayFailure( ex, "Invalid Entry" );
+					UserMessage.DisplayFailure( ex, "Invalid Project Base" );
 					e.Cancel = true;
 				}
 
@@ -807,13 +819,32 @@ namespace NUnit.Gui
 		#region Config Base Methods and Events
 		private void configBaseBrowseButton_Click(object sender, System.EventArgs e)
 		{
-			FolderBrowser browser = new FolderBrowser( this, project.BasePath );
-			browser.Caption = "Project Editor";
-			browser.Title = string.Format( "Select ApplicationBase for the {0} configuration", selectedConfig.Name );
-			browser.InitialSelection = selectedConfig.BasePath;
-			string appbase = browser.BrowseForFolder();
-			if ( appbase != null && appbase != selectedConfig.BasePath )
-				UpdateApplicationBase( appbase );
+#if NET_2_0
+            FolderBrowserDialog browser = new FolderBrowserDialog();
+            browser.Description = string.Format(
+                "Select ApplicationBase for the {0} configuration, if different from the project as a whole.",
+                selectedConfig.Name);
+            //browser.RootFolder = project.BasePath;
+            browser.SelectedPath = selectedConfig.BasePath;
+            if (browser.ShowDialog(this) == DialogResult.OK)
+            {
+                string appbase = browser.SelectedPath;
+                if (appbase != null && appbase != selectedConfig.BasePath)
+                    UpdateApplicationBase(appbase);
+            }
+#else
+            if (OSPlatform.CurrentPlatform.IsWindows)
+            {
+                CP.Windows.Shell.FolderBrowser browser 
+					= new CP.Windows.Shell.FolderBrowser(this, project.BasePath);
+                browser.Caption = "Project Editor";
+                browser.Title = string.Format("Select ApplicationBase for the {0} configuration", selectedConfig.Name);
+                browser.InitialSelection = selectedConfig.BasePath;
+                string appbase = browser.BrowseForFolder();
+                if (appbase != null && appbase != string.Empty && appbase != selectedConfig.BasePath)
+                    UpdateApplicationBase(appbase);
+            }
+#endif
 		}
 
 		private void applicationBaseTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -830,7 +861,7 @@ namespace NUnit.Gui
 				catch( Exception exception )
 				{
 					applicationBaseTextBox.SelectAll();
-					UserMessage.DisplayFailure( exception, "Invalid Entry" );
+					UserMessage.DisplayFailure( exception, "Invalid ApplicationBase" );
 					e.Cancel = true;
 				}
 
@@ -894,16 +925,17 @@ namespace NUnit.Gui
 			string configFile = configFileTextBox.Text;
 			if ( configFile != String.Empty )
 			{
-				try
-				{
-					File.Open( Path.Combine( selectedConfig.BasePath, configFile ), FileMode.Open );
-				}
-				catch( System.Exception exception )
-				{
-					configFileTextBox.SelectAll();
-					UserMessage.DisplayFailure( exception, "Invalid Entry" );
-					e.Cancel = true;
-				}
+                try
+                {
+                    FileInfo info = new FileInfo(
+                        Path.Combine(selectedConfig.BasePath, configFile));
+                }
+                catch (System.Exception exception)
+                {
+                    assemblyPathTextBox.SelectAll();
+                    UserMessage.DisplayFailure(exception, "Invalid Config File Entry");
+                    e.Cancel = true;
+                }
 
 				if ( configFile != Path.GetFileName( configFile ) )
 				{
@@ -931,15 +963,18 @@ namespace NUnit.Gui
 
         private void runtimeVersionTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            try
+            if (runtimeVersionTextBox.Text != string.Empty)
             {
-                Version version = new Version(runtimeVersionTextBox.Text);
-            }
-            catch(Exception ex)
-            {
-                runtimeVersionTextBox.SelectAll();
-                UserMessage.DisplayFailure(ex, "Invalid Entry");
-                e.Cancel = true;
+                try
+                {
+                    Version version = new Version(runtimeVersionTextBox.Text);
+                }
+                catch (Exception ex)
+                {
+                    runtimeVersionTextBox.SelectAll();
+                    UserMessage.DisplayFailure(ex, "Invalid Runtime Version");
+                    e.Cancel = true;
+                }
             }
         }
 
@@ -971,7 +1006,7 @@ namespace NUnit.Gui
 					catch(System.Exception exception)
 					{
 						privateBinPathTextBox.Select( binPath.IndexOf( element ), element.Length );
-						UserMessage.DisplayFailure( exception, "Invalid Entry" );
+						UserMessage.DisplayFailure( exception, "Invalid Path: " + element );
 						e.Cancel = true;
 					}
 				}
@@ -1012,24 +1047,27 @@ namespace NUnit.Gui
 		{
 			string path = assemblyPathTextBox.Text;
 
-			try
-			{
-				FileInfo info = new FileInfo( path );
+            if (path != string.Empty)
+            {
+                try
+                {
+                    FileInfo info = new FileInfo(path);
 
-				if ( !info.Exists )
-				{
-					DialogResult answer = UserMessage.Ask( string.Format( 
-						"The path {0} does not exist. Do you want to use it anyway?", path ) );
-					if ( answer != DialogResult.Yes )
-						e.Cancel = true;
-				}
-			}
-			catch( System.Exception exception )
-			{
-				assemblyPathTextBox.SelectAll();
-				UserMessage.DisplayFailure( exception, "Invalid Entry" );
-				e.Cancel = true;
-			}		
+                    if (!info.Exists)
+                    {
+                        DialogResult answer = UserMessage.Ask(string.Format(
+                            "The path {0} does not exist. Do you want to use it anyway?", path));
+                        if (answer != DialogResult.Yes)
+                            e.Cancel = true;
+                    }
+                }
+                catch (System.Exception exception)
+                {
+                    assemblyPathTextBox.SelectAll();
+                    UserMessage.DisplayFailure(exception, "Invalid Assembly Path");
+                    e.Cancel = true;
+                }
+            }
 		}
 
 		private void assemblyPathTextBox_Validated(object sender, System.EventArgs e)
@@ -1054,6 +1092,12 @@ namespace NUnit.Gui
 
 			configComboBox_Populate();
 			populateDomainUsageComboBox();
+
+#if !NET_2_0
+            this.projectBaseBrowseButton.Enabled
+                = this.configBaseBrowseButton.Enabled
+                = OSPlatform.CurrentPlatform.IsWindows;
+#endif
 
 			this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged);
 			this.domainUsageComboBox.SelectedIndexChanged += new System.EventHandler(this.domainUsageComboBox_SelectedIndexChanged);
