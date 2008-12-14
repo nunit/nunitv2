@@ -914,8 +914,8 @@ namespace NUnit.UiKit
 				propertiesDialog = new TestPropertiesDialog( node );
 				propertiesDialog.Owner = owner;
 				propertiesDialog.StartPosition = FormStartPosition.Manual;
-				propertiesDialog.Left = owner.Left + ( owner.Width - propertiesDialog.Width ) / 2;
-				propertiesDialog.Top = owner.Top + ( owner.Height - propertiesDialog.Height ) / 2;
+				propertiesDialog.Left = Math.Max(0, owner.Left + ( owner.Width - propertiesDialog.Width ) / 2);
+				propertiesDialog.Top = Math.Max(0, owner.Top + ( owner.Height - propertiesDialog.Height ) / 2);
 				propertiesDialog.Show();
 				propertiesDialog.Closed += new EventHandler( OnPropertiesDialogClosed );
 			}
