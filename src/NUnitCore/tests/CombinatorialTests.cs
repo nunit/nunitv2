@@ -61,7 +61,16 @@ namespace NUnit.Core.Tests
             [Random(32, 212, 5)] int x,
             [Random(5)] double y)
         {
-            Assert.AreEqual(x,(int)(y * 180 + 32) );
+            Assert.That(x,Is.InRange(32,212));
+            Assert.That(y,Is.InRange(0.0,1.0));
+        }
+
+        [Test, Sequential]
+        public void RandomArgsAreIndependent(
+            [Random(1)] double x,
+            [Random(1)] double y)
+        {
+            Assert.AreNotEqual(x, y);
         }
     }
 }

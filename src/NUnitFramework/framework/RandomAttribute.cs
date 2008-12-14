@@ -23,7 +23,7 @@ namespace NUnit.Framework
         public RandomAttribute(int count)
         {
             double[] rvals = new double[count];
-            Random random = new Random(0);
+            Random random = new Random();
             for (int index = 0; index < count; index++)
                 rvals[index] = random.NextDouble();
             this.data = rvals;
@@ -39,7 +39,7 @@ namespace NUnit.Framework
         {
             double range = max - min;
             double[] rvals = new double[count];
-            Random random = new Random(0);
+            Random random = new Random();
             for (int index = 0; index < count; index++)
                 rvals[index] = random.NextDouble() * range + min;
             this.data = rvals;
@@ -54,7 +54,7 @@ namespace NUnit.Framework
         public RandomAttribute(int min, int max, int count)
         {
             int[] rvals = new int[count];
-            Random random = new Random(0);
+            Random random = new Random();
             for (int index = 0; index < count; index++)
                 rvals[index] = random.Next(min, max);
             this.data = rvals;
