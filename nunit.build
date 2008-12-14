@@ -232,10 +232,10 @@
     </nant>
 
     <!-- Copy test project, setting runtime framework -->
-    <copy todir="${current.build.dir}">
-      <fileset basedir="${project.base.dir}">
-        <include name="NUnitTests.nunit"/>
-      </fileset>
+    <property name="projfile" value="NUnitTests.v1.nunit" unless="${build.v2plus}"/>
+    <property name="projfile" value="NUnitTests.v2.nunit" if="${build.v2plus}"/>
+    <copy file="${project.base.dir}/${projfile}"
+        tofile="${current.build.dir}/NUnitTests.nunit">
       <filterchain>
         <expandproperties/>
       </filterchain>
