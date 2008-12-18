@@ -279,6 +279,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\RandomAttribute.cs">
       <Link>RandomAttribute.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Randomizer.cs">
+      <Link>Randomizer.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\RangeAttribute.cs">
       <Link>RangeAttribute.cs</Link>
     </Compile>

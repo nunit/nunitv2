@@ -6,15 +6,26 @@
 
 using System;
 using System.Collections;
+using System.Reflection;
 
 namespace NUnit.Framework
 {
+    /// <summary>
+    /// Abstract base class for attributes that apply to parameters 
+    /// and supply data for the parameter.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    public abstract class ParameterDataAttribute : Attribute
+    {
+        public abstract IEnumerable GetData(ParameterInfo parameter);
+    }
+
     /// <summary>
     /// ValuesAttribute is used to provide literal arguments for
     /// an individual parameter of a test.
     /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
-    public class ValuesAttribute : Attribute
+    public class ValuesAttribute : ParameterDataAttribute
     {
         /// <summary>
         /// The collection of data to be returned. Must
@@ -64,9 +75,9 @@ namespace NUnit.Framework
         /// <summary>
         /// Get the collection of values to be used as arguments
         /// </summary>
-        public IEnumerable Values
+        public override IEnumerable GetData(ParameterInfo parameter)
         {
-			get { return data; }
+			return data;
         }
     }
 }

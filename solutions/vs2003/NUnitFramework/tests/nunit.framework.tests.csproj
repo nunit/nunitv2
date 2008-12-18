@@ -219,6 +219,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "RandomizerTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\RandomizerTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "RangeTests.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\RangeTests.cs"
                     SubType = "Code"
@@ -277,6 +283,12 @@
                 <File
                     RelPath = "TypeAssertTest.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\TypeAssertTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "ValuesAttributeTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\ValuesAttributeTests.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

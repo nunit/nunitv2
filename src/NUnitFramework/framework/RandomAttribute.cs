@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections;
+using System.Reflection;
 
 namespace NUnit.Framework
 {
@@ -13,8 +14,20 @@ namespace NUnit.Framework
     /// RandomAttribute is used to supply a set of random values
     /// to a single parameter of a parameterized test.
     /// </summary>
-    public class RandomAttribute : ValuesAttribute
+    public class RandomAttribute : ParameterDataAttribute
     {
+        enum SampleType
+        {
+            Raw,
+            IntRange,
+            DoubleRange
+        }
+
+        SampleType sampleType;
+        private int count;
+        private int min, max;
+        private double dmin, dmax;
+
         /// <summary>
         /// Construct a set of doubles from 0.0 to 1.0,
         /// specifying only the count.
@@ -22,11 +35,8 @@ namespace NUnit.Framework
         /// <param name="count"></param>
         public RandomAttribute(int count)
         {
-            double[] rvals = new double[count];
-            Random random = new Random();
-            for (int index = 0; index < count; index++)
-                rvals[index] = random.NextDouble();
-            this.data = rvals;
+            this.count = count;
+            this.sampleType = SampleType.Raw;
         }
 
         /// <summary>
@@ -37,12 +47,10 @@ namespace NUnit.Framework
         /// <param name="count"></param>
         public RandomAttribute(double min, double max, int count)
         {
-            double range = max - min;
-            double[] rvals = new double[count];
-            Random random = new Random();
-            for (int index = 0; index < count; index++)
-                rvals[index] = random.NextDouble() * range + min;
-            this.data = rvals;
+            this.count = count;
+            this.dmin = min;
+            this.dmax = max;
+            this.sampleType = SampleType.DoubleRange;
         }
 
         /// <summary>
@@ -53,11 +61,29 @@ namespace NUnit.Framework
         /// <param name="count"></param>
         public RandomAttribute(int min, int max, int count)
         {
-            int[] rvals = new int[count];
-            Random random = new Random();
-            for (int index = 0; index < count; index++)
-                rvals[index] = random.Next(min, max);
-            this.data = rvals;
+            this.count = count;
+            this.min = min;
+            this.max = max;
+            this.sampleType = SampleType.IntRange;
+        }
+
+        /// <summary>
+        /// Get the collection of values to be used as arguments
+        /// </summary>
+        public override IEnumerable GetData(ParameterInfo parameter)
+        {
+            Randomizer r = Randomizer.GetRandomizer(parameter);
+
+            switch (sampleType)
+            {
+                default:
+                case SampleType.Raw:
+                    return r.GetDoubles(count);
+                case SampleType.IntRange:
+                    return r.GetInts(min, max, count);
+                case SampleType.DoubleRange:
+                    return r.GetDoubles(dmin, dmax, count);
+            }
         }
     }
 }

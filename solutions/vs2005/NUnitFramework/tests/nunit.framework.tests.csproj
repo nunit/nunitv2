@@ -231,6 +231,9 @@
       <Link>NotSameFixture.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\RandomizerTests.cs">
+      <Link>RandomizerTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\RangeTests.cs">
       <Link>RangeTests.cs</Link>
     </Compile>
@@ -309,6 +312,9 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\TestFixtureAttributeTests.cs">
       <Link>TestFixtureAttributeTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\ValuesAttributeTests.cs">
+      <Link>ValuesAttributeTests.cs</Link>
     </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitFramework\tests\TestImage1.jpg">
       <Link>TestImage1.jpg</Link>

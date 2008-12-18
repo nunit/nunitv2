@@ -311,6 +311,12 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\AssumeThatTests.cs">
       <Link>AssumeThatTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\RandomizerTests.cs">
+      <Link>RandomizerTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\ValuesAttributeTests.cs">
+      <Link>ValuesAttributeTests.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitFramework\tests\TestImage1.jpg">
       <Link>TestImage1.jpg</Link>
     </EmbeddedResource>

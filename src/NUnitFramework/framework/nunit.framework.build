@@ -60,11 +60,12 @@
         <include name="List.cs"/>
         <include name="ListMapper.cs"/>
     <include name="MaxTimeAttribute.cs"/>
-        <include name="PropertyAttribute.cs"/>
-        <include name="RandomAttribute.cs"/>
-        <include name="RangeAttribute.cs"/>
+    <include name="PropertyAttribute.cs"/>
+    <include name="RandomAttribute.cs"/>
+    <include name="Randomizer.cs"/>
+    <include name="RangeAttribute.cs"/>
     <include name="RepeatAttribute.cs"/>
-        <include name="RequiredAddinAttribute.cs"/>
+    <include name="RequiredAddinAttribute.cs"/>
         <include name="SetCultureAttribute.cs"/>
         <include name="SetUpAttribute.cs"/>
         <include name="SetUpFixtureAttribute.cs"/>

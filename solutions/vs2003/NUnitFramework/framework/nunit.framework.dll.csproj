@@ -264,6 +264,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Randomizer.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Randomizer.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "RangeAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\RangeAttribute.cs"
                     SubType = "Code"

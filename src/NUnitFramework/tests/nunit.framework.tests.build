@@ -55,6 +55,7 @@
     <include name="NotEqualFixture.cs"/>
     <include name="NotSameFixture.cs"/>
     <include name="NullableTypesTests.cs"/>
+    <include name="RandomizerTests.cs"/>
     <include name="RangeTests.cs"/>
     <include name="SameFixture.cs"/>
     <include name="StringAssertTests.cs"/>
@@ -62,6 +63,7 @@
     <include name="TestFixtureAttributeTests.cs"/>
     <include name="TextMessageWriterTests.cs"/>
     <include name="TypeAssertTest.cs"/>
+    <include name="ValuesAttributeTests.cs"/>
   </patternset>
 
   <patternset id="resource-files">

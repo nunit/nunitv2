@@ -13,25 +13,28 @@ namespace NUnit.Core.Builders
 {
     public class InlineDataPointProvider : IDataPointProvider
     {
-        private static readonly string ValuesAttribute = "NUnit.Framework.ValuesAttribute";
+        private static readonly string ParameterDataAttribute = "NUnit.Framework.ParameterDataAttribute";
 
-        private static readonly string ValuesProperty = "Values";
+        private static readonly string GetDataMethod = "GetData";
 
         #region IDataPointProvider Members
 
         public bool HasDataFor(ParameterInfo parameter)
         {
-            return Reflect.HasAttribute(parameter, ValuesAttribute, false);
+            return Reflect.HasAttribute(parameter, ParameterDataAttribute, false);
         }
-
-        public IEnumerable GetDataFor(ParameterInfo parameter)
+                public IEnumerable GetDataFor(ParameterInfo parameter)
         {
-            Attribute attr = Reflect.GetAttribute(parameter, ValuesAttribute, false);
-            return attr != null
-                ? Reflect.GetPropertyValue(attr, ValuesProperty) as IEnumerable
-                : null;
-        }
+            Attribute attr = Reflect.GetAttribute(parameter, ParameterDataAttribute, false);
+            if (attr == null) return null;
 
+            MethodInfo getData = attr.GetType().GetMethod(
+                GetDataMethod,
+                new Type[] { typeof(ParameterInfo) });
+            if ( getData == null) return null;
+            
+            return getData.Invoke(attr, new object[] { parameter }) as IEnumerable;
+        }
         #endregion
     }
 }
