@@ -94,11 +94,18 @@ namespace NUnit.ConsoleRunner.Tests
 		}
 
 		[Test]
-		public void InvalidAssembly()
+		public void AssemblyNotFound()
 		{
-			int resultCode = executeConsole( new string[] { "badassembly.dll" } );
-			Assert.AreEqual(ConsoleUi.FILE_NOT_FOUND, resultCode);
-		}
+            int resultCode = executeConsole(new string[] { "badassembly.dll" });
+            Assert.AreEqual(ConsoleUi.FILE_NOT_FOUND, resultCode);
+        }
+
+        [Test]
+        public void OneOfTwoAssembliesNotFound()
+        {
+            int resultCode = executeConsole(new string[] { GetType().Module.Name, "badassembly.dll" });
+            Assert.AreEqual(ConsoleUi.FILE_NOT_FOUND, resultCode);
+        }
 
 		[Test]
 		public void XmlToConsole() 
