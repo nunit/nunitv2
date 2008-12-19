@@ -122,6 +122,9 @@
       <Link>TempResourceFile.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-utilities\TestAssert.cs">
+      <Link>TestAssert.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-utilities\TestBuilder.cs">
       <Link>TestBuilder.cs</Link>
       <SubType>Code</SubType>

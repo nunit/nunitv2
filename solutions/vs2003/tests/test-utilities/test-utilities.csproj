@@ -133,6 +133,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestAssert.cs"
+                    Link = "..\..\..\..\src\tests\test-utilities\TestAssert.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestBuilder.cs"
                     Link = "..\..\..\..\src\tests\test-utilities\TestBuilder.cs"
                     SubType = "Code"

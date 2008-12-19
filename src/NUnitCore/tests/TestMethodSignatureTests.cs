@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 using NUnit.Util;
 using NUnit.TestUtilities;
@@ -8,6 +9,7 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class TestMethodSignatureTests
 	{
+        private static Type fixtureType = typeof(TestMethodSignatureFixture);
 		private Test fixture;
 
 		[SetUp]
@@ -23,31 +25,17 @@ namespace NUnit.Core.Tests
 
         private void AssertRunnable(string name, ResultState resultState)
         {
-            Test test = TestFinder.RequiredChildTest(name, fixture);
-            Assert.That(test.RunState, Is.EqualTo(RunState.Runnable));
-            Assert.That(test.TestCount, Is.EqualTo(1));
-            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-            if (result.HasResults)
-                result = (TestResult)result.Results[0];
-            Assert.That(result.ResultState, Is.EqualTo(resultState));
+            TestAssert.IsRunnable(typeof(TestMethodSignatureFixture), name, resultState);
         }
 
         private void AssertNotRunnable(string name)
         {
-            Test test = TestFinder.RequiredChildTest(name, fixture);
-            Assert.That(test.RunState, Is.EqualTo(RunState.NotRunnable));
-            Assert.That(test.TestCount, Is.EqualTo(1));
-            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-            Assert.That(result.ResultState, Is.EqualTo(ResultState.NotRunnable));
+            TestAssert.IsNotRunnable(fixtureType, name);
         }
 
         private void AssertChildNotRunnable(string name)
         {
-            Test test = (Test)TestFinder.RequiredChildTest(name, fixture).Tests[0];
-            Assert.That(test.RunState, Is.EqualTo(RunState.NotRunnable));
-            Assert.That(test.TestCount, Is.EqualTo(1));
-            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-            Assert.That(result.ResultState, Is.EqualTo(ResultState.NotRunnable));
+            TestAssert.ChildNotRunnable(fixtureType, name);
         }
 
         [Test]
@@ -198,5 +186,5 @@ namespace NUnit.Core.Tests
 				summary.TestsNotRun, 
 				Is.EqualTo( TestMethodSignatureFixture.NotRunnable ) );
 		}
-	}
+    }
 }

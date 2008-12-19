@@ -5,6 +5,7 @@
         <include name="FormTester.cs"/>
         <include name="MockTestEventSource.cs"/>
         <include name="TempResourceFile.cs"/>
+        <include name="TestAssert.cs"/>
         <include name="TestBuilder.cs"/>
         <include name="TestFinder.cs"/>
   </patternset>

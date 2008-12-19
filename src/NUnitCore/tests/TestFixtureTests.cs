@@ -62,60 +62,34 @@ namespace NUnit.Core.Tests
         }
 #endif
 
-        private void AssertRunnable(Type type)
-		{
-			TestSuite suite = TestBuilder.MakeFixture( type );
-			Assert.AreEqual( RunState.Runnable, suite.RunState );
-            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
-			Assert.AreEqual( ResultState.Success, result.ResultState );
-		}
-
-		private void AssertNotRunnable( Type type )
-		{
-			TestSuite suite = TestBuilder.MakeFixture( type );
-			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
-            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
-			Assert.AreEqual( ResultState.NotRunnable, result.ResultState );
-		}
-
-		private void AssertNotRunnable( Type type, string reason )
-		{
-			TestSuite suite = TestBuilder.MakeFixture( type );
-			Assert.AreEqual( RunState.NotRunnable, suite.RunState );
-			Assert.AreEqual( reason, suite.IgnoreReason );
-            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
-			Assert.AreEqual( ResultState.NotRunnable, result.ResultState );
-			Assert.AreEqual( reason, result.Message );
-		}
-
         [Test]
         public void CannotRunConstructorWithArgsNotSupplied()
         {
-            AssertNotRunnable(typeof(NoDefaultCtorFixture));
+            TestAssert.IsNotRunnable(typeof(NoDefaultCtorFixture));
         }
 
         [Test]
         public void CanRunConstructorWithArgsSupplied()
         {
-            AssertRunnable(typeof(FixtureWithArgsSupplied));
+            TestAssert.IsRunnable(typeof(FixtureWithArgsSupplied));
         }
 
         [Test]
 		public void CannotRunBadConstructor()
 		{
-			AssertNotRunnable( typeof( BadCtorFixture ) );
+            TestAssert.IsNotRunnable(typeof(BadCtorFixture));
 		}
 
 		[Test] 
 		public void CanRunMultipleSetUp()
 		{
-			AssertRunnable(typeof(MultipleSetUpAttributes));
+            TestAssert.IsRunnable(typeof(MultipleSetUpAttributes));
 		}
 
 		[Test] 
 		public void CanRunMultipleTearDown()
 		{
-			AssertRunnable(typeof(MultipleTearDownAttributes));
+            TestAssert.IsRunnable(typeof(MultipleTearDownAttributes));
 		}
 
 		[Test]
@@ -129,46 +103,46 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void CannotRunAbstractFixture()
 		{
-			AssertNotRunnable( typeof( AbstractTestFixture ) );
+            TestAssert.IsNotRunnable(typeof(AbstractTestFixture));
 		}
 
 #if NET_2_0
         [Test]
         public void CanRunStaticFixture()
         {
-            AssertRunnable(typeof(StaticFixtureWithoutTestFixtureAttribute));
+            TestAssert.IsRunnable(typeof(StaticFixtureWithoutTestFixtureAttribute));
         }
 #endif
 
 		[Test]
 		public void CannotRunAbstractDerivedFixture()
 		{
-			AssertNotRunnable( typeof( AbstractDerivedTestFixture ) );
+            TestAssert.IsNotRunnable(typeof(AbstractDerivedTestFixture));
 		}
 
 		[Test] 
 		public void CanRunMultipleTestFixtureSetUp()
 		{
-			AssertRunnable(typeof(MultipleFixtureSetUpAttributes));
+            TestAssert.IsRunnable(typeof(MultipleFixtureSetUpAttributes));
 		}
 
 		[Test] 
 		public void CanRunMultipleTestFixtureTearDown()
 		{
-			AssertRunnable(typeof(MultipleFixtureTearDownAttributes));
+            TestAssert.IsRunnable(typeof(MultipleFixtureTearDownAttributes));
 		}
 
 		#region SetUp Signature
 		[Test] 
 		public void CannotRunPrivateSetUp()
 		{
-			AssertNotRunnable(typeof(PrivateSetUp));
+            TestAssert.IsNotRunnable(typeof(PrivateSetUp));
 		}
 
 		[Test] 
 		public void CanRunProtectedSetUp()
 		{
-			AssertRunnable(typeof(ProtectedSetUp));
+            TestAssert.IsRunnable(typeof(ProtectedSetUp));
 		}
 
         /// <summary>
@@ -177,19 +151,19 @@ namespace NUnit.Core.Tests
 		[Test] 
 		public void CanRunStaticSetUp()
 		{
-			AssertRunnable(typeof(StaticSetUp));
+            TestAssert.IsRunnable(typeof(StaticSetUp));
 		}
 
 		[Test]
 		public void CannotRunSetupWithReturnValue()
 		{
-			AssertNotRunnable(typeof(SetUpWithReturnValue));
+            TestAssert.IsNotRunnable(typeof(SetUpWithReturnValue));
 		}
 
 		[Test]
 		public void CannotRunSetupWithParameters()
 		{
-			AssertNotRunnable(typeof(SetUpWithParameters));
+            TestAssert.IsNotRunnable(typeof(SetUpWithParameters));
 		}
 		#endregion
 
@@ -197,31 +171,31 @@ namespace NUnit.Core.Tests
 		[Test] 
 		public void CannotRunPrivateTearDown()
 		{
-			AssertNotRunnable(typeof(PrivateTearDown));
+            TestAssert.IsNotRunnable(typeof(PrivateTearDown));
 		}
 
 		[Test] 
 		public void CanRunProtectedTearDown()
 		{
-			AssertRunnable(typeof(ProtectedTearDown));
+            TestAssert.IsRunnable(typeof(ProtectedTearDown));
 		}
 
 		[Test] 
 		public void CanRunStaticTearDown()
 		{
-			AssertRunnable(typeof(StaticTearDown));
+            TestAssert.IsRunnable(typeof(StaticTearDown));
 		}
 
 		[Test]
 		public void CannotRunTearDownWithReturnValue()
 		{
-			AssertNotRunnable(typeof(TearDownWithReturnValue));
+            TestAssert.IsNotRunnable(typeof(TearDownWithReturnValue));
 		}
 
 		[Test]
 		public void CannotRunTearDownWithParameters()
 		{
-			AssertNotRunnable(typeof(TearDownWithParameters));
+            TestAssert.IsNotRunnable(typeof(TearDownWithParameters));
 		}
 		#endregion
 
@@ -229,31 +203,31 @@ namespace NUnit.Core.Tests
 		[Test] 
 		public void CannotRunPrivateFixtureSetUp()
 		{
-			AssertNotRunnable(typeof(PrivateFixtureSetUp));
+            TestAssert.IsNotRunnable(typeof(PrivateFixtureSetUp));
 		}
 
 		[Test] 
 		public void CanRunProtectedFixtureSetUp()
 		{
-			AssertRunnable(typeof(ProtectedFixtureSetUp));
+            TestAssert.IsRunnable(typeof(ProtectedFixtureSetUp));
 		}
 
 		[Test] 
 		public void CanRunStaticFixtureSetUp()
 		{
-			AssertRunnable(typeof(StaticFixtureSetUp));
+            TestAssert.IsRunnable(typeof(StaticFixtureSetUp));
 		}
 
 		[Test]
 		public void CannotRunFixtureSetupWithReturnValue()
 		{
-			AssertNotRunnable(typeof(FixtureSetUpWithReturnValue));
+            TestAssert.IsNotRunnable(typeof(FixtureSetUpWithReturnValue));
 		}
 
 		[Test]
 		public void CannotRunFixtureSetupWithParameters()
 		{
-			AssertNotRunnable(typeof(FixtureSetUpWithParameters));
+            TestAssert.IsNotRunnable(typeof(FixtureSetUpWithParameters));
 		}
 		#endregion
 
@@ -261,19 +235,19 @@ namespace NUnit.Core.Tests
 		[Test] 
 		public void CannotRunPrivateFixtureTearDown()
 		{
-			AssertNotRunnable(typeof(PrivateFixtureTearDown));
+            TestAssert.IsNotRunnable(typeof(PrivateFixtureTearDown));
 		}
 
 		[Test] 
 		public void CanRunProtectedFixtureTearDown()
 		{
-			AssertRunnable(typeof(ProtectedFixtureTearDown));
+            TestAssert.IsRunnable(typeof(ProtectedFixtureTearDown));
 		}
 
 		[Test] 
 		public void CanRunStaticFixtureTearDown()
 		{
-			AssertRunnable(typeof(StaticFixtureTearDown));
+            TestAssert.IsRunnable(typeof(StaticFixtureTearDown));
 		}
 
 //		[TestFixture]
@@ -296,13 +270,13 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void CannotRunFixtureTearDownWithReturnValue()
 		{
-			AssertNotRunnable(typeof(FixtureTearDownWithReturnValue));
+            TestAssert.IsNotRunnable(typeof(FixtureTearDownWithReturnValue));
 		}
 
 		[Test]
 		public void CannotRunFixtureTearDownWithParameters()
 		{
-			AssertNotRunnable(typeof(FixtureTearDownWithParameters));
+            TestAssert.IsNotRunnable(typeof(FixtureTearDownWithParameters));
 		}
 		#endregion
 	}
