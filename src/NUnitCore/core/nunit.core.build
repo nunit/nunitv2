@@ -76,7 +76,6 @@
     <include name="Builders/SetUpFixtureBuilder.cs"/>
     <include name="Builders/TestAssemblyBuilder.cs"/>
     <include name="Builders/TestCaseParameterProvider.cs"/>
-    <include name="Builders/ParameterizedTestCaseBuilder.cs"/>
     <include name="Extensibility/DataPointProviders.cs"/>
     <include name="Extensibility/EventListenerCollection.cs"/>
     <include name="Extensibility/FrameworkRegistry.cs"/>

@@ -370,9 +370,6 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\ParameterizedTestMethodSuite.cs">
       <Link>ParameterizedTestMethodSuite.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\ParameterizedTestCaseBuilder.cs">
-      <Link>Builders\ParameterizedTestCaseBuilder.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\NUnitConfiguration.cs">
       <Link>NUnitConfiguration.cs</Link>
     </Compile>

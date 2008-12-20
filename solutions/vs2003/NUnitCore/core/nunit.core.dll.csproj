@@ -513,12 +513,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Builders\ParameterizedTestCaseBuilder.cs"
-                    Link = "..\..\..\..\src\NUnitCore\core\Builders\ParameterizedTestCaseBuilder.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Builders\ProviderCache.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\ProviderCache.cs"
                     SubType = "Code"
