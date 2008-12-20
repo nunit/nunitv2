@@ -387,6 +387,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Randomizer.cs">
       <Link>Randomizer.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TheoryAttribute.cs">
+      <Link>TheoryAttribute.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">

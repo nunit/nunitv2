@@ -384,6 +384,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TheoryAttribute.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\TheoryAttribute.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ThreadingAttributes.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\ThreadingAttributes.cs"
                     SubType = "Code"

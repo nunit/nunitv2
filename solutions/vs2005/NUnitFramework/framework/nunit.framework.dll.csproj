@@ -362,6 +362,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\JoinTypeAttributes.cs">
       <Link>JoinTypeAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TheoryAttribute.cs">
+      <Link>TheoryAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Throws.cs">
       <Link>Throws.cs</Link>
     </Compile>
