@@ -6,6 +6,7 @@
 
 using System;
 using System.Reflection;
+using NUnit.Framework;
 using NUnit.Core;
 using NUnit.Core.Builders;
 using NUnit.Core.Extensibility;
@@ -34,8 +35,11 @@ namespace NUnit.TestUtilities
 
 		public static Test MakeTestCase( Type type, string methodName )
 		{
-			return testBuilder.BuildFrom( Reflect.GetNamedMethod( type,	methodName ) );
-		}
+            MethodInfo method = Reflect.GetNamedMethod(type, methodName);
+            if (method == null)
+                Assert.Fail("Method not found: " + methodName);
+            return testBuilder.BuildFrom(method);
+        }
 
 		public static Test MakeTestCase( object fixture, string methodName )
 		{

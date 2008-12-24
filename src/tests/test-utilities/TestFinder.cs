@@ -15,79 +15,46 @@ namespace NUnit.TestUtilities
 	/// </summary>
 	public class TestFinder
 	{
-		public static Test Find(string name, Test test)
+		public static Test Find(string name, Test test, bool recursive)
 		{
-			Test result = null;
-			if (test.TestName.Name == name)
-				result = test;
-			else if (test.Tests != null)
+			if (test.Tests != null)
 			{
-				foreach(Test t in test.Tests) 
+				foreach(Test child in test.Tests) 
 				{
-					result = Find(name, t);
-					if (result != null)
-						break;
+                    if (child.TestName.Name == name)
+                        return child;
+                    if (recursive)
+                    {
+                        Test grandchild = Find(name, child, true);
+                        if (grandchild != null)
+                            return grandchild;
+                    }
 				}
 			}
 
-			return result;
+			return null;
 		}
 		
-		public static Test FindChildTest(string name, Test test)
+		public static TestResult Find(string name, TestResult result, bool recursive) 
 		{
-			if ( test.Tests != null )
-				foreach(Test t in test.Tests )
-				{
-					if (t.TestName.Name == name)
-						return t;
-				}
-
-			return null;
-		}
-
-        public static Test RequiredChildTest(string name, Test test)
-        {
-            Test t = FindChildTest(name, test);
-            if (t == null)
-                Assert.Fail("Test not found: " + name);
-            return t;
-        }
-
-		public static TestResult Find(string name, TestResult result) 
-		{
-			if (result.Test.TestName.Name == name)
-				return result;
-
 			if ( result.HasResults )
 			{
-				foreach( TestResult r in result.Results ) 
+                foreach (TestResult childResult in result.Results) 
 				{
-					TestResult myResult = Find( name, r );
-					if ( myResult != null )
-						return myResult;
+                    if (childResult.Test.TestName.Name == name)
+                        return childResult;
+
+                    if (recursive)
+                    {
+                        TestResult r = Find(name, childResult, true);
+                        if (r != null)
+                            return r;
+                    }
 				}
 			}
 
 			return null;
 		}
-
-		public static TestResult FindChildResult(string name, TestResult result)
-		{
-			if ( result.HasResults )
-				foreach(TestResult r in result.Results )
-					if (r.Name == name)
-						return r;
-
-			return null;
-		}
-
-        public static TestResult RequiredChildResult(string name, TestResult result)
-        {
-            TestResult r = FindChildResult(name, result);
-            if (r == null)
-                Assert.Fail("Result not found: " + name);
-            return r;
-        }
 
         private TestFinder() { }
 	}

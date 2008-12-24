@@ -7,6 +7,11 @@ namespace NUnit.TestUtilities
     public class TestAssert
     {
         #region IsRunnable
+        public static void IsRunnable(Test test)
+        {
+            Assert.AreEqual(RunState.Runnable, test.RunState);
+        }
+
         public static void IsRunnable(Type type)
         {
             TestSuite suite = TestBuilder.MakeFixture(type);
@@ -22,10 +27,8 @@ namespace NUnit.TestUtilities
 
         public static void IsRunnable(Type type, string name, ResultState resultState)
         {
-            Test fixture = TestBuilder.MakeFixture(type);
-            Test test = TestFinder.RequiredChildTest(name, fixture);
+            Test test = TestBuilder.MakeTestCase(type, name);
             Assert.That(test.RunState, Is.EqualTo(RunState.Runnable));
-            Assert.That(test.TestCount, Is.EqualTo(1));
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
             if (result.HasResults)
                 result = (TestResult)result.Results[0];
@@ -34,32 +37,26 @@ namespace NUnit.TestUtilities
         #endregion
 
         #region IsNotRunnable
+        public static void IsNotRunnable(Test test)
+        {
+            Assert.AreEqual(RunState.NotRunnable, test.RunState);
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.NotRunnable, result.ResultState);
+        }
+
         public static void IsNotRunnable(Type type)
         {
-            TestSuite suite = TestBuilder.MakeFixture(type);
-            Assert.AreEqual(RunState.NotRunnable, suite.RunState);
-            TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
-            Assert.AreEqual(ResultState.NotRunnable, result.ResultState);
+            IsNotRunnable(TestBuilder.MakeFixture(type));
         }
 
         public static void IsNotRunnable(Type type, string name)
         {
-            Test fixture = TestBuilder.MakeFixture(type);
-            Test test = TestFinder.RequiredChildTest(name, fixture);
-            Assert.That(test.RunState, Is.EqualTo(RunState.NotRunnable));
-            Assert.That(test.TestCount, Is.EqualTo(1));
-            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-            Assert.That(result.ResultState, Is.EqualTo(ResultState.NotRunnable));
+            IsNotRunnable(TestBuilder.MakeTestCase(type, name));
         }
 
         public static void ChildNotRunnable(Type type, string name)
         {
-            Test fixture = TestBuilder.MakeFixture(type);
-            Test test = (Test)TestFinder.RequiredChildTest(name, fixture).Tests[0];
-            Assert.That(test.RunState, Is.EqualTo(RunState.NotRunnable));
-            Assert.That(test.TestCount, Is.EqualTo(1));
-            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-            Assert.That(result.ResultState, Is.EqualTo(ResultState.NotRunnable));
+            IsNotRunnable((Test)TestBuilder.MakeTestCase(type, name).Tests[0]);
         }
         #endregion
         

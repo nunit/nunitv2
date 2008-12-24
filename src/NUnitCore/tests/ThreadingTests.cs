@@ -110,7 +110,7 @@ namespace NUnit.Core.Tests
         {
             TestResult result = TestBuilder.RunTestFixture(typeof(ThreadingFixtureWithTimeout));
             Assert.That(result.ResultState, Is.EqualTo(ResultState.Failure));
-            result = TestFinder.RequiredChildResult("Test2WithInfiniteLoop", result);
+            result = TestFinder.Find("Test2WithInfiniteLoop", result, false);
             Assert.That(result.ResultState, Is.EqualTo(ResultState.Failure));
             Assert.That(result.Message, Text.Contains("50ms"));
         }

@@ -41,10 +41,10 @@ namespace NUnit.Core.Tests
             suite.Add(TestBuilder.MakeFixture(typeof(MockFixture)));
             TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 
-            TestResult caseResult = TestFinder.Find("Method", result);
+            TestResult caseResult = TestFinder.Find("Method", result, true);
             Assert.AreEqual("Test Description", caseResult.Description);
 
-            caseResult = TestFinder.Find("NoDescriptionMethod", result);
+            caseResult = TestFinder.Find("NoDescriptionMethod", result, true);
             Assert.IsNull(caseResult.Description);
         }
 
@@ -74,7 +74,7 @@ namespace NUnit.Core.Tests
 			suite.Add( TestBuilder.MakeFixture( typeof( MockFixture ) ) );
             TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 
-		    TestResult fixtureResult = TestFinder.Find("MockFixture", result);
+		    TestResult fixtureResult = TestFinder.Find("MockFixture", result, true);
             Assert.AreEqual("Fixture Description", fixtureResult.Description);
 		}
 
@@ -92,7 +92,7 @@ namespace NUnit.Core.Tests
             suite.Add(TestBuilder.MakeFixture(typeof(MockFixture)));
             TestResult result = suite.Run(NullListener.NULL, TestFilter.Empty);
 
-            TestResult caseResult = TestFinder.Find("SeparateDescriptionMethod", result);
+            TestResult caseResult = TestFinder.Find("SeparateDescriptionMethod", result, true);
             Assert.AreEqual("Separate Description", caseResult.Description);
         }
 

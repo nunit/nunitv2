@@ -22,7 +22,7 @@ namespace NUnit.Core.Tests
 		{
 			string methodName = "TestVoid";
 			Test fixture = TestFixtureBuilder.BuildFrom( typeof( SignatureTestFixture ) );
-			Test foundTest = TestFinder.Find( methodName, fixture );
+			Test foundTest = TestFinder.Find( methodName, fixture, true );
 			Assert.IsNotNull( foundTest );
 			Assert.AreEqual( RunState.Runnable, foundTest.RunState );
 		}

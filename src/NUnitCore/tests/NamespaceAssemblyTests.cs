@@ -44,17 +44,20 @@ namespace NUnit.Core.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( testsDll ) );
 
-			suite = TestFinder.RequiredChildTest("NUnit", suite);
-			suite = TestFinder.RequiredChildTest("Tests", suite);
+            suite = (Test)suite.Tests[0];
+            Assert.AreEqual("NUnit", suite.TestName.Name);
+
+            suite = (Test)suite.Tests[0];
+            Assert.AreEqual("Tests", suite.TestName.Name);
 			Assert.AreEqual(MockAssembly.Fixtures, suite.Tests.Count);
 
-			Test singletonSuite = TestFinder.RequiredChildTest("Singletons", suite);
+			Test singletonSuite = TestFinder.Find("Singletons", suite, false);
 			Assert.AreEqual(1, singletonSuite.Tests.Count);
 
-			Test mockSuite = TestFinder.RequiredChildTest("Assemblies", suite);
+			Test mockSuite = TestFinder.Find("Assemblies", suite, false);
 			Assert.AreEqual(1, mockSuite.Tests.Count);
 
-			Test mockFixtureSuite = TestFinder.RequiredChildTest("MockTestFixture", mockSuite);
+			Test mockFixtureSuite = TestFinder.Find("MockTestFixture", mockSuite, false);
 			Assert.AreEqual(MockTestFixture.Tests, mockFixtureSuite.Tests.Count);
 
 			foreach(Test t in mockFixtureSuite.Tests)

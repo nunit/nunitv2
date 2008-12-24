@@ -43,7 +43,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(MockTestFixture.Errors, summarizer.Errors, "Errors");
             Assert.AreEqual(MockTestFixture.Failures, summarizer.Failures, "Failures");
 
-			result = TestFinder.Find( "ExplicitlyRunTest", result );
+			result = TestFinder.Find( "ExplicitlyRunTest", result, true );
 			Assert.IsNull( result, "ExplicitlyRunTest should not be in results" );
 
 			// TODO: Decide if we want to include Explicit tests that are not run in results
@@ -55,7 +55,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunExplicitTestDirectly()
 		{
-			Test test = TestFinder.Find( "ExplicitlyRunTest", mockTestFixture );
+			Test test = TestFinder.Find( "ExplicitlyRunTest", mockTestFixture, true );
 			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
 			Assert.AreEqual( RunState.Explicit, test.RunState );
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
@@ -66,7 +66,7 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void RunExplicitTestByName()
 		{
-			Test test = TestFinder.Find( "ExplicitlyRunTest", mockTestFixture );
+			Test test = TestFinder.Find( "ExplicitlyRunTest", mockTestFixture, true );
 			Assert.IsNotNull( test, "Cannot find ExplicitlyRunTest" );
 			Assert.AreEqual( RunState.Explicit, test.RunState );
 
@@ -179,8 +179,8 @@ namespace NUnit.Core.Tests
 			testSuite.Add(mockTestFixture);
 			Assert.AreEqual(MockTestFixture.Tests, testSuite.TestCount);
 			
-			Test mock3 = TestFinder.Find("MockTest3", testSuite);
-			Test mock1 = TestFinder.Find("MockTest1", testSuite);
+			Test mock3 = TestFinder.Find("MockTest3", testSuite, true);
+			Test mock1 = TestFinder.Find("MockTest1", testSuite, true);
 			NameFilter filter = new NameFilter(mock3.TestName);
 			Assert.AreEqual(1, testSuite.CountTestCases(filter));
 
