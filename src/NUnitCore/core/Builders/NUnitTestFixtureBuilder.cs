@@ -38,10 +38,11 @@ namespace NUnit.Core.Builders
 		public bool CanBuildFrom(Type type)
 		{
 			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true ) ||
-                   type.IsPublic && 
+                   ( type.IsPublic || type.IsNestedPublic ) && 
                    ( !type.IsAbstract || type.IsSealed ) &&
                    ( Reflect.HasMethodWithAttribute(type, NUnitFramework.TestAttribute, true) ||
-                     Reflect.HasMethodWithAttribute(type, NUnitFramework.TestCaseAttribute, true) );
+                     Reflect.HasMethodWithAttribute(type, NUnitFramework.TestCaseAttribute, true) ||
+                     Reflect.HasMethodWithAttribute(type, NUnitFramework.TheoryAttribute, true) );
 		}
 
 		/// <summary>
