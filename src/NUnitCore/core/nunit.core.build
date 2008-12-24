@@ -63,6 +63,7 @@
     <include name="Builders/CombinatorialStrategy.cs"/>
     <include name="Builders/CombinatorialTestCaseProvider.cs"/>
     <include name="Builders/CombiningStrategy.cs"/>
+    <include name="Builders/DatapointProvider.cs"/>
     <include name="Builders/DataSourceProvider.cs"/>
     <include name="Builders/InlineDataPointProvider.cs"/>
     <include name="Builders/TestCaseFactoryProvider.cs"/>

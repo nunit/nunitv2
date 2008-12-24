@@ -41,6 +41,7 @@
         <include name="CategoryAttribute.cs"/>
         <include name="Catch.cs"/>
         <include name="CollectionAssert.cs"/>
+        <include name="DatapointAttributes.cs"/>
         <include name="DescriptionAttribute.cs"/>
         <include name="DirectoryAssert.cs"/>
         <include name="ExpectedExceptionAttribute.cs"/>

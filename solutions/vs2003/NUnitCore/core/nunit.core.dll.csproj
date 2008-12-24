@@ -477,6 +477,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Builders\DatapointProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\DatapointProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Builders\DataSourceProvider.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\DataSourceProvider.cs"
                     SubType = "Code"

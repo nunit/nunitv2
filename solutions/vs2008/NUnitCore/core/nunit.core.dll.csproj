@@ -403,6 +403,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\Logger.cs">
       <Link>Logger.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\DatapointProvider.cs">
+      <Link>Builders\DatapointProvider.cs</Link>
+    </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
       <SubType>

@@ -61,7 +61,7 @@ namespace NUnit.Util.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( "mock-assembly.dll" ) );
 			
-			Test test = TestFinder.Find( "MockTest3", suite );
+			Test test = TestFinder.Find( "MockTest3", suite, true );
 			categoryManager.AddCategories( test );
 			Assert.AreEqual( 2, categoryManager.Categories.Count );
 		}

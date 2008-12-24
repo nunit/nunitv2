@@ -91,6 +91,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\DatapointProvider.cs">
+      <Link>Builders\DatapointProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\DomainAgent.cs">
       <Link>DomainAgent.cs</Link>
     </Compile>

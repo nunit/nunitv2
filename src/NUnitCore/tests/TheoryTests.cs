@@ -1,0 +1,77 @@
+﻿using System;
+using NUnit.Framework;
+using NUnit.TestUtilities;
+using NUnit.TestData;
+
+namespace NUnit.Core.Tests
+{
+    public class TheoryTests
+    {
+        static Type fixtureType = typeof(TheoryFixture);
+
+        [Test]
+        public void TheoryWithNoArgumentsIsTreatedAsTest()
+        {
+            TestAssert.IsRunnable(fixtureType, "TheoryWithNoArguments");
+        }
+
+        [Test]
+        public void TheoryWithNoDatapointsIsNotRunnable()
+        {
+            TestAssert.IsNotRunnable(fixtureType, "TheoryWithArgumentsButNoDatapoints");
+        }
+
+        [Test]
+        public void TheoryWithDatapointsIsRunnable()
+        {
+            Test test = TestBuilder.MakeTestCase(fixtureType, "TheoryWithArgumentsAndDatapoints");
+            TestAssert.IsRunnable(test);
+            Assert.That(test.TestCount, Is.EqualTo(9));
+        }
+
+        [Theory]
+        public void SquareRootWithAllGoodValues(
+            [Values(12.0, 4.0, 9.0)] double d)
+        {
+            SquareRootTest(d);
+        }
+
+        [Theory]
+        public void SquareRootWithOneBadValue(
+            [Values(12.0, -4.0, 9.0)] double d)
+        {
+            SquareRootTest(d);
+        }
+
+        [Theory]
+        public void SquareRootWithAllBadValues(
+            [Values(-12.0, -4.0, -9.0)] double d)
+        {
+            SquareRootTest(d);
+        }
+
+        [Datapoints]
+        string[] vals = new string[] { "xyz1", "xyz2", "xyz3" };
+
+        [Theory]
+        public void ArrayWithDatapointsAttributeIsUsed(string s)
+        {
+            Assert.That(s.StartsWith("xyz"));
+        }
+
+        private void SquareRootTest(double d)
+        {
+            Assume.That(d > 0);
+            double root = Math.Sqrt(d);
+            Assert.That(root * root, Is.EqualTo(d).Within(0.000001));
+            Assert.That(root > 0);
+        }
+
+        [Test]
+        public void SimpleTestIgnoresDataPoints()
+        {
+            Test test = TestBuilder.MakeTestCase(fixtureType, "TestWithArguments");
+            Assert.That(test.TestCount, Is.EqualTo(2));
+        }
+    }
+}

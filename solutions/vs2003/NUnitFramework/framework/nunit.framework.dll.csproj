@@ -144,6 +144,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "DatapointAttributes.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\DatapointAttributes.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "DescriptionAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\DescriptionAttribute.cs"
                     SubType = "Code"

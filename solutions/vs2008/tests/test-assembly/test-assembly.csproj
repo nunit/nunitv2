@@ -215,6 +215,9 @@
     <Compile Include="..\..\..\..\src\tests\test-assembly\ThreadingFixture.cs">
       <Link>ThreadingFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\TheoryFixture.cs">
+      <Link>TheoryFixture.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

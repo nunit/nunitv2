@@ -210,7 +210,7 @@ namespace NUnit.Core
 
         public void Run(TestResult suiteResult, EventListener listener, ITestFilter filter)
         {
-            suiteResult.Success(); // Assume success
+           // suiteResult.Success(); // Assume success
             DoOneTimeSetUp(suiteResult);
             if (suiteResult.IsFailure || suiteResult.IsError)
                 MarkTestsFailed(Tests, suiteResult, listener, filter);

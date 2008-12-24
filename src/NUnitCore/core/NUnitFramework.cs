@@ -43,6 +43,7 @@ namespace NUnit.Core
         public const string TestAttribute = "NUnit.Framework.TestAttribute";
         public const string TestCaseAttribute = "NUnit.Framework.TestCaseAttribute";
         public const string TestCaseSourceAttribute = "NUnit.Framework.TestCaseSourceAttribute";
+        public const string TheoryAttribute = "NUnit.Framework.TheoryAttribute";
         public static readonly string SetUpAttribute = "NUnit.Framework.SetUpAttribute";
         public static readonly string TearDownAttribute = "NUnit.Framework.TearDownAttribute";
         public static readonly string FixtureSetUpAttribute = "NUnit.Framework.TestFixtureSetUpAttribute";

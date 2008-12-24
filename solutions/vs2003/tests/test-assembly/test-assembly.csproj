@@ -237,6 +237,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TheoryFixture.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\TheoryFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ThreadingFixture.cs"
                     Link = "..\..\..\..\src\tests\test-assembly\ThreadingFixture.cs"
                     SubType = "Code"

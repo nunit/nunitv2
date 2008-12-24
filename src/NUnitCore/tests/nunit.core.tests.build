@@ -67,6 +67,7 @@
         <include name="TestNodeTests.cs"/>
         <include name="TestRunnerThreadTests.cs"/>
         <include name="TestSuiteTest.cs"/>
+        <include name="TheoryTests.cs"/>
         <include name="ThreadedTestRunnerTests.cs"/>
         <include name="ThreadingTests.cs"/>
         <include name="UnhandledExceptionTests.cs"/>

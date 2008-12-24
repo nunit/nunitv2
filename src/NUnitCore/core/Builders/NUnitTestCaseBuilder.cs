@@ -50,6 +50,7 @@ namespace NUnit.Core.Builders
             return Reflect.HasAttribute(method, NUnitFramework.TestAttribute, false)
                 || Reflect.HasAttribute(method, NUnitFramework.TestCaseAttribute, false)
                 || Reflect.HasAttribute(method, NUnitFramework.TestCaseSourceAttribute, false)
+                || Reflect.HasAttribute(method, NUnitFramework.TheoryAttribute, false)
                 || allowOldStyleTests && method.Name.ToLower().StartsWith("test")
                 && !Reflect.HasAttribute(method, NUnitFramework.SetUpAttribute, true)
                 && !Reflect.HasAttribute(method, NUnitFramework.TearDownAttribute, true)

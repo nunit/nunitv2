@@ -373,6 +373,9 @@
       <Link>TestSuiteTest.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\TheoryTests.cs">
+      <Link>TheoryTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\ThreadedTestRunnerTests.cs">
       <Link>ThreadedTestRunnerTests.cs</Link>
       <SubType>Code</SubType>

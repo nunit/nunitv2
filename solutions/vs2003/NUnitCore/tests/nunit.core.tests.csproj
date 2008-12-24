@@ -506,6 +506,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TheoryTests.cs"
+                    Link = "..\..\..\..\src\NUnitCore\tests\TheoryTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "ThreadedTestRunnerTests.cs"
                     Link = "..\..\..\..\src\NUnitCore\tests\ThreadedTestRunnerTests.cs"
                     SubType = "Code"
