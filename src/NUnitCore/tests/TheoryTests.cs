@@ -94,7 +94,7 @@ namespace NUnit.Core.Tests
             [Theory]
             public void SqrtTimesItselfGivesOriginal(double num)
             {
-                Assume.That(num >= 0.0);
+                Assume.That(num >= 0.0 && num < double.MaxValue);
 
                 double sqrt = Math.Sqrt(num);
 
