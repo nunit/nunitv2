@@ -26,6 +26,7 @@ namespace NUnit.Core
         private string domainName;
         private string appBase;
         private string binPath;
+        private string configFile;
         private IList testFrameworks;
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace NUnit.Core
             this.moduleName = p.MainModule.ModuleName;
             this.domainName = AppDomain.CurrentDomain.FriendlyName;
             this.appBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            this.configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
             this.binPath = AppDomain.CurrentDomain.SetupInformation.PrivateBinPath;
 		}
 
@@ -106,11 +108,19 @@ namespace NUnit.Core
         }
 
         /// <summary>
-        /// The PrivateBinPath of the AppDonain in which the assembly is loaded
+        /// The PrivateBinPath of the AppDomain in which the assembly is loaded
         /// </summary>
         public string PrivateBinPath
         {
             get { return binPath; }
+        }
+
+        /// <summary>
+        /// The ConfigurationFile of the AppDomain in which the assembly is loaded
+        /// </summary>
+        public string ConfigurationFile
+        {
+            get { return configFile; }
         }
 
         /// <summary>

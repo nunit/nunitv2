@@ -86,6 +86,8 @@ namespace NUnit.Gui
                 }
             }
 
+            sb.AppendFormat("    Configuration File: {0}\r\n", info.ConfigurationFile); 
+
             TextBox.AppendText(sb.ToString());
         }
 
