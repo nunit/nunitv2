@@ -51,6 +51,10 @@ namespace NUnit.Core
                             display = "double.PositiveInfinity";
                         else if (double.IsNegativeInfinity(d))
                             display = "double.NegativeInfinity";
+                        else if (d == double.MaxValue)
+                            display = "double.MaxValue";
+                        else if (d == double.MinValue)
+                            display = "double.MinValue";
                         else
                         {
                             if (display.IndexOf('.') == -1)
@@ -68,6 +72,10 @@ namespace NUnit.Core
                             display = "float.PositiveInfinity";
                         else if (float.IsNegativeInfinity(f))
                             display = "float.NegativeInfinity";
+                        else if (f == float.MaxValue)
+                            display = "float.MaxValue";
+                        else if (f == float.MinValue)
+                            display = "float.MinValue";
                         else
                         {
                             if (display.IndexOf('.') == -1)
@@ -79,6 +87,14 @@ namespace NUnit.Core
                     else if (arg is long) display += "L";
                     else if (arg is ulong) display += "UL";
                     else if (arg is string) display = "\"" + display + "\"";
+                    else if (arg is int)
+                    {
+                        int ival = (int)arg;
+                        if (ival == int.MaxValue)
+                            display = "int.MaxValue";
+                        else if (ival == int.MinValue)
+                            display = "int.MinValue";
+                    }
 
                     sb.Append(display);
                 }
