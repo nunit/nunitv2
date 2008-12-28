@@ -67,10 +67,12 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(DelegateReturningZero, new DelayedConstraint(new EqualConstraint(0), -1));
         }
 
+        private static int setValueTrueDelay;
+
 		private void SetValueTrueAfterDelay(int delay)
 		{
+            setValueTrueDelay = delay;
             Thread thread = new Thread( SetValueTrueDelegate );
-            //thread.Priority = ThreadPriority.Highest;
             thread.Start();
 		}
 
@@ -86,7 +88,11 @@ namespace NUnit.Framework.Constraints.Tests
 		private static object MethodReturningZero() { return 0; }
 		private static ActualValueDelegate DelegateReturningZero = new ActualValueDelegate(MethodReturningZero);
 
-		private static void MethodSetsValueTrue() { value = true; }
+        private static void MethodSetsValueTrue()
+        {
+            Thread.Sleep(setValueTrueDelay);
+            value = true;
+        }
 		private ThreadStart SetValueTrueDelegate = new ThreadStart(MethodSetsValueTrue);
 	}
 }

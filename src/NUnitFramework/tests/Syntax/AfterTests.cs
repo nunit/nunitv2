@@ -47,157 +47,131 @@ namespace NUnit.Framework.Syntax
 	}
 
 #if NET_2_0
-    public class AfterSyntaxUsingAnonymousDelegates
+    public abstract class AfterSyntaxTests
+    {
+        protected bool flag;
+        protected int num;
+        protected object ob1, ob2, ob3;
+        protected ArrayList list;
+        protected string greeting;
+
+        [SetUp]
+        public void InitializeValues()
+        {
+            this.flag = false;
+            this.num = 0;
+            this.ob1 = new object();
+            this.ob2 = new object();
+            this.ob3 = new object();
+            this.list = new ArrayList();
+            this.list.Add(1);
+            this.list.Add(2);
+            this.list.Add(3);
+            this.greeting = "hello";
+
+            new Thread(ModifyValuesAfterDelay).Start();
+        }
+
+        private void ModifyValuesAfterDelay()
+        {
+            Thread.Sleep(100);
+
+            this.flag = true;
+            this.num = 1;
+            this.ob1 = ob2;
+            this.ob3 = null;
+            this.list.Add(4);
+            this.greeting += "world";
+        }
+    }
+
+    public class AfterSyntaxUsingAnonymousDelegates : AfterSyntaxTests
     {
         [Test]
         public void TrueTest()
         {
-            bool value = false;
-
-            new Timer(delegate { value = true; }, null, 100, Timeout.Infinite);
-
-            Assert.That(delegate { return value; }, Is.True.After(5000, 200));
+            Assert.That(delegate { return flag; }, Is.True.After(5000, 200));
         }
 
         [Test]
         public void EqualToTest()
         {
-            int value = 0;
-
-            new Timer(delegate { value = 1; }, null, 100, Timeout.Infinite);
-
-            Assert.That(delegate { return value; }, Is.EqualTo(1).After(5000, 200));
+            Assert.That(delegate { return num; }, Is.EqualTo(1).After(5000, 200));
         }
 
         [Test]
         public void SameAsTest()
         {
-            object oldValue = new object();
-            object newValue = new object();
-
-            new Timer(delegate { oldValue = newValue; }, null, 100, Timeout.Infinite);
-
-            Assert.That(delegate { return oldValue; }, Is.SameAs(newValue).After(5000, 200));
+            Assert.That(delegate { return ob1; }, Is.SameAs(ob2).After(5000, 200));
         }
 
         [Test]
         public void GreaterTest()
         {
-            int value = 0;
-
-            new Timer(delegate { value = 5; }, null, 100, Timeout.Infinite);
-
-            Assert.That(delegate { return value; }, Is.GreaterThan(1).After(5000,200));
+            Assert.That(delegate { return num; }, Is.GreaterThan(0).After(5000,200));
         }
 
         [Test]
         public void HasMemberTest()
         {
-            ArrayList list = new ArrayList();
-            list.Add(1);
-            list.Add(2);
-            list.Add(3);
-
-            new Timer(delegate { list.Add(4); }, null, 100, Timeout.Infinite);
-
             Assert.That(delegate { return list; }, Has.Member(4).After(5000, 200));
         }
 
         [Test]
         public void NullTest()
         {
-            object value = new object();
-
-            new Timer(delegate { value = null; }, null, 100, Timeout.Infinite);
-
-            Assert.That(delegate { return value; }, Is.Null.After(5000, 200));
+            Assert.That(delegate { return ob3; }, Is.Null.After(5000, 200));
         }
 
         [Test]
         public void TextTest()
         {
-            string value = "hello";
-
-            new Timer(delegate { value += "world"; }, null, 100, Timeout.Infinite);
-
-            Assert.That(delegate { return value; }, Text.EndsWith("world").After(5000, 200));
+            Assert.That(delegate { return greeting; }, Text.EndsWith("world").After(5000, 200));
         }
     }
 
-    public class AfterSyntaxUsingActualPassedByRef
+    public class AfterSyntaxUsingActualPassedByRef : AfterSyntaxTests
     {
         [Test]
         public void TrueTest()
         {
-            bool value = false;
-
-            new Timer(delegate { value = true; }, null, 100, Timeout.Infinite);
-
-            Assert.That(ref value, Is.True.After(5000, 200));
+            Assert.That(ref flag, Is.True.After(5000, 200));
         }
 
         [Test]
         public void EqualToTest()
         {
-            int value = 0;
-
-            new Timer(delegate { value = 1; }, null, 100, Timeout.Infinite);
-
-            Assert.That(ref value, Is.EqualTo(1).After(5000, 200));
+            Assert.That(ref num, Is.EqualTo(1).After(5000, 200));
         }
 
         [Test]
         public void SameAsTest()
         {
-            object oldValue = new object();
-            object newValue = new object();
-
-            new Timer(delegate { oldValue = newValue; }, null, 100, Timeout.Infinite);
-
-            Assert.That(ref oldValue, Is.SameAs(newValue).After(5000, 200));
+            Assert.That(ref ob1, Is.SameAs(ob2).After(5000, 200));
         }
 
         [Test]
         public void GreaterTest()
         {
-            int value = 0;
-
-            new Timer(delegate { value = 5; }, null, 100, Timeout.Infinite);
-
-            Assert.That(ref value, Is.GreaterThan(1).After(5000, 200));
+            Assert.That(ref num, Is.GreaterThan(0).After(5000, 200));
         }
 
         [Test]
         public void HasMemberTest()
         {
-            ArrayList list = new ArrayList();
-            list.Add(1);
-            list.Add(2);
-            list.Add(3);
-
-            new Timer(delegate { list.Add(4); }, null, 100, Timeout.Infinite);
-
             Assert.That(ref list, Has.Member(4).After(5000, 200));
         }
 
         [Test]
         public void NullTest()
         {
-            object value = new object();
-
-            new Timer(delegate { value = null; }, null, 100, Timeout.Infinite);
-
-            Assert.That(ref value, Is.Null.After(5000, 200));
+            Assert.That(ref ob3, Is.Null.After(5000, 200));
         }
 
         [Test]
         public void TextTest()
         {
-            string value = "hello";
-
-            new Timer(delegate { value += "world"; }, null, 100, Timeout.Infinite);
-
-            Assert.That(ref value, Text.EndsWith("world").After(5000, 200));
+            Assert.That(ref greeting, Text.EndsWith("world").After(5000, 200));
         }
     }
 #endif
