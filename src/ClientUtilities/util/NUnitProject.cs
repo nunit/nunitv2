@@ -15,38 +15,6 @@ using NUnit.Core;
 namespace NUnit.Util
 {
 	/// <summary>
-	/// Types of changes that may occur to a config
-	/// </summary>
-	public enum ProjectChangeType
-	{
-		ActiveConfig,
-		AddConfig,
-		RemoveConfig,
-		UpdateConfig,
-		Other
-	}
-
-	/// <summary>
-	///  Arguments for a project event
-	/// </summary>
-	public class ProjectEventArgs : EventArgs
-	{
-		public ProjectChangeType type;
-		public string configName;
-
-		public ProjectEventArgs( ProjectChangeType type, string configName )
-		{
-			this.type = type;
-			this.configName = configName;
-		}
-	}
-
-	/// <summary>
-	/// Delegate to be used to handle project events
-	/// </summary>
-	public delegate void ProjectEventHandler( object sender, ProjectEventArgs e );
-
-	/// <summary>
 	/// Class that represents an NUnit test project
 	/// </summary>
 	public class NUnitProject
@@ -84,6 +52,10 @@ namespace NUnit.Util
 		/// </summary>
 		private ProjectConfigCollection configs;
 
+        /// <summary>
+        /// True for NUnit-related projects that follow the config
+        /// of the NUnit build under which they are running.
+        /// </summary>
         private bool autoConfig;
 
 		/// <summary>
@@ -97,8 +69,14 @@ namespace NUnit.Util
 		/// </summary>
 		private bool isAssemblyWrapper = false;
 
+        /// <summary>
+        /// The ProcessModel to be used in loading this project
+        /// </summary>
         private ProcessModel processModel;
 
+        /// <summary>
+        /// The DomainUsage setting to be used in loading this project
+        /// </summary>
         private DomainUsage domainUsage;
 
 		#endregion
