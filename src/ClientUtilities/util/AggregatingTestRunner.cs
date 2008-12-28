@@ -4,8 +4,6 @@
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
 
-//#define RUN_IN_PARALLEL
-
 namespace NUnit.Util
 {
 	using System;
@@ -18,6 +16,7 @@ namespace NUnit.Util
 	/// AggregatingTestRunner allows running multiple TestRunners
 	/// and combining the results.
 	/// </summary>
+    
 	public abstract class AggregatingTestRunner : MarshalByRefObject, TestRunner, EventListener
 	{
         private Logger log;
@@ -45,6 +44,11 @@ namespace NUnit.Util
 		/// The downstream TestRunners
 		/// </summary>
 		protected ArrayList runners;
+
+        /// <summary>
+        /// Indicates whether we should run test assemblies in parallel
+        /// </summary>
+        private bool runInParallel;
 
 		/// <summary>
 		/// The loaded test suite
@@ -158,6 +162,22 @@ namespace NUnit.Util
                 package.TestName = null;
             }
 
+            // NOTE: This is experimental. A normally created test package
+            // will never have this setting.
+            if (package.Settings.Contains("RunInParallel"))
+            {
+                this.runInParallel = true;
+                package.Settings.Remove("RunInParallel");
+            }
+
+            string basePath = package.BasePath;
+            if (basePath == null)
+                basePath = Path.GetDirectoryName(package.FullName);
+
+            string configFile = package.ConfigurationFile;
+            if (configFile == null)
+                configFile = Path.ChangeExtension(package.Name, ".config");
+
             foreach (string assembly in package.Assemblies)
             {
                 if (targetAssemblyName == null || targetAssemblyName == assembly)
@@ -166,8 +186,8 @@ namespace NUnit.Util
 
                     TestPackage p = new TestPackage(assembly);
                     p.AutoBinPath = package.AutoBinPath;
-                    p.ConfigurationFile = package.ConfigurationFile;
-                    p.BasePath = package.BasePath;
+                    p.ConfigurationFile = configFile;
+                    p.BasePath = basePath;
                     p.PrivateBinPath = package.PrivateBinPath;
                     p.TestName = package.TestName;
                     foreach (object key in package.Settings.Keys)
@@ -226,6 +246,7 @@ namespace NUnit.Util
 			return Run( listener, TestFilter.Empty );
 		}
 
+        // All forms of Run and BeginRun eventually come here
 		public virtual TestResult Run(EventListener listener, ITestFilter filter )
 		{
             Log.Info("Run - EventListener={0}", listener.GetType().Name);
@@ -240,16 +261,28 @@ namespace NUnit.Util
             string name = this.testName.Name;
             int count = this.CountTestCases(filter);
             Log.Info("Signalling RunStarted({0},{1})", name, count);
-            //this.listener.RunStarted(name, count);
+            this.listener.RunStarted(name, count);
 
             Log.Info("Signalling SuiteStarted");
             //this.listener.SuiteStarted( this.Test.TestName );
 			long startTime = DateTime.Now.Ticks;
 
 		    TestResult result = new TestResult(new TestInfo(testName, tests));
-			foreach( TestRunner runner in runners )
-				if ( filter.Pass( runner.Test ) )
-					result.AddResult( runner.Run( this, filter ) );
+
+            if (this.runInParallel)
+            {
+                foreach (TestRunner runner in runners)
+                    if (filter.Pass(runner.Test))
+                        runner.BeginRun(this, filter);
+
+                result = this.EndRun();
+            }
+            else
+            {
+                foreach (TestRunner runner in runners)
+                    if (filter.Pass(runner.Test))
+                        result.AddResult(runner.Run(this, filter));
+            }
 			
 			long stopTime = DateTime.Now.Ticks;
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
@@ -275,18 +308,10 @@ namespace NUnit.Util
 			this.listener = listener;
 
             Log.Info("BeginRun");
-#if RUN_IN_PARALLEL
-			this.listener.RunStarted( this.Test.TestName.Name, this.CountTestCases( filter ) );
 
-			foreach( TestRunner runner in runners )
-				if ( runner.Test != null )
-					runner.BeginRun( this, filter );
-
-			//this.listener.RunFinished( this.Results );
-#else
-			ThreadedTestRunner threadedRunner = new ThreadedTestRunner( this );
-			threadedRunner.BeginRun( listener, filter );
-#endif
+            // ThreadedTestRunner will call our Run method on a separate thread
+            ThreadedTestRunner threadedRunner = new ThreadedTestRunner(this);
+            threadedRunner.BeginRun(listener, filter);
 		}
 
 		public virtual TestResult EndRun()
@@ -331,7 +356,18 @@ namespace NUnit.Util
 
 		void NUnit.Core.EventListener.RunFinished(TestResult result)
 		{
-			// TODO: Issue combined RunFinished when all runs are done
+            if (this.runInParallel)
+            {
+                foreach (TestRunner runner in runners)
+                    if (runner.Running)
+                        return;
+
+                this.testResult = new TestResult(this.aggregateTest);
+                foreach (TestRunner runner in runners)
+                    this.testResult.AddResult(runner.TestResult);
+
+                listener.RunFinished(this.TestResult);
+            }
 		}
 
 		public void SuiteFinished(TestResult result)
