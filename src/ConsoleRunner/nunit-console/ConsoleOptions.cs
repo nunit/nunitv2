@@ -49,6 +49,9 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "AppDomain Usage for tests: None, Single, Multiple")]
 		public DomainUsage domain;
 
+        [Option(Description = "Framework version to be used for tests")]
+        public string framework;
+
 		[Option(Description = "Disable shadow copy when running in separate domain")]
 		public bool noshadow;
 

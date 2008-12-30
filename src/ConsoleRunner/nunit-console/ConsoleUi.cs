@@ -51,7 +51,19 @@ namespace NUnit.ConsoleRunner
 				errorWriter = errorStreamWriter;
 			}
 
-			TestRunner testRunner = MakeRunnerFromCommandLine( options );
+            TestPackage package = MakeTestPackage(options);
+            TestRunner testRunner = TestRunnerFactory.MakeTestRunner(package);
+            testRunner.Load(package);
+
+            Console.WriteLine("ProcessModel: {0}    DomainUsage: {1}", 
+                package.Settings.Contains("ProcessModel")
+                    ? package.Settings["ProcessModel"]
+                    : "Default", 
+                package.Settings.Contains("DomainUsage")
+                    ? package.Settings["DomainUsage"]
+                    : "Default");
+
+            Console.WriteLine("Execution Runtime: {0}", package.Settings["RuntimeFramework"]);
 
 			try
 			{
@@ -159,10 +171,12 @@ namespace NUnit.ConsoleRunner
 		}
 
 		#region Helper Methods
-		private static TestRunner MakeRunnerFromCommandLine( ConsoleOptions options )
-		{
+        private static TestPackage MakeTestPackage( ConsoleOptions options )
+        {
 			TestPackage package;
 			DomainUsage domainUsage = DomainUsage.Default;
+            ProcessModel processModel = ProcessModel.Default;
+            RuntimeFramework framework = RuntimeFramework.CurrentFramework;
 
 			if (options.IsTestProject)
 			{
@@ -174,9 +188,9 @@ namespace NUnit.ConsoleRunner
 					project.SetActiveConfig(configName);
 
 				package = project.ActiveConfig.MakeTestPackage();
-				package.TestName = options.fixture;
-
-				domainUsage = DomainUsage.Single;
+                processModel = project.ProcessModel;
+                domainUsage = project.DomainUsage;
+                framework = project.ActiveConfig.RuntimeFramework;
 			}
 			else if (options.Parameters.Count == 1)
 			{
@@ -189,13 +203,22 @@ namespace NUnit.ConsoleRunner
 				domainUsage = DomainUsage.Multiple;
 			}
 
+            if (options.process != ProcessModel.Default)
+                processModel = options.process;
+
 			if (options.domain != DomainUsage.Default)
 				domainUsage = options.domain;
 
+            if (options.framework != null)
+                framework = RuntimeFramework.Parse(options.framework);
+
 			package.TestName = options.fixture;
             
-            package.Settings["ProcessModel"] = options.process;
+            package.Settings["ProcessModel"] = processModel;
             package.Settings["DomainUsage"] = domainUsage;
+            package.Settings["RuntimeFramework"] = framework;
+
+            
 
             if (domainUsage == DomainUsage.None)
             {
@@ -207,9 +230,7 @@ namespace NUnit.ConsoleRunner
 			package.Settings["UseThreadedRunner"] = !options.nothread;
             package.Settings["DefaultTimeout"] = options.timeout;
 
-            TestRunner testRunner = TestRunnerFactory.MakeTestRunner(package);
-			testRunner.Load( package );
-			return testRunner;
+            return package;
 		}
 
 		private static string CreateXmlOutput( TestResult result )
