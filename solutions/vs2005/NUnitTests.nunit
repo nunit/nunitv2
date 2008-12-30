@@ -1,5 +1,5 @@
 ﻿<NUnitProject>
-  <Settings activeconfig="Debug" />
+  <Settings activeconfig="Debug" autoconfig="true" />
   <Config name="Debug" binpathtype="Auto" runtimeFramework="v2.0">
     <assembly path="NUnitFramework\tests\bin\Debug\nunit.framework.tests.dll" />
     <assembly path="NUnitCore\tests\bin\Debug\nunit.core.tests.dll" />
@@ -12,7 +12,7 @@
     <assembly path="GuiRunner\tests\bin\Debug\nunit-gui.tests.dll" />
     <assembly path="NUnitFixtures\tests\bin\Debug\nunit.fixtures.tests.dll" />
   </Config>
-  <Config name="Release" binpathtype="Auto" runtimeFramework="net-2.0">
+  <Config name="Release" binpathtype="Auto" runtimeFramework="v2.0">
     <assembly path="NUnitFramework\tests\bin\Release\nunit.framework.tests.dll" />
     <assembly path="NUnitCore\tests\bin\Release\nunit.core.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Release\nunit.util.tests.dll" />
