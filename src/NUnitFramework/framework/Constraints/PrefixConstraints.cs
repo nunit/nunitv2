@@ -104,10 +104,10 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-			if ( !(actual is ICollection) )
-				throw new ArgumentException( "The actual value must be a collection", "actual" );
+			if ( !(actual is IEnumerable) )
+				throw new ArgumentException( "The actual value must be an IEnumerable", "actual" );
 
-			foreach(object item in (ICollection)actual)
+			foreach(object item in (IEnumerable)actual)
 				if (!baseConstraint.Matches(item))
 					return false;
 
@@ -145,7 +145,7 @@ namespace NUnit.Framework.Constraints
 
 		/// <summary>
 		/// Apply the item constraint to each item in the collection,
-		/// failing if any item fails.
+		/// succeeding if any item succeeds.
 		/// </summary>
 		/// <param name="actual"></param>
 		/// <returns></returns>
@@ -153,10 +153,10 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-			if ( !(actual is ICollection) )
-				throw new ArgumentException( "The actual value must be a collection", "actual" );
+			if ( !(actual is IEnumerable) )
+				throw new ArgumentException( "The actual value must be an IEnumerable", "actual" );
 
-			foreach(object item in (ICollection)actual)
+			foreach(object item in (IEnumerable)actual)
 				if (baseConstraint.Matches(item))
 					return true;
 
@@ -202,10 +202,10 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
-			if ( !(actual is ICollection) )
-				throw new ArgumentException( "The actual value must be a collection", "actual" );
+			if ( !(actual is IEnumerable) )
+				throw new ArgumentException( "The actual value must be an IEnumerable", "actual" );
 
-			foreach(object item in (ICollection)actual)
+			foreach(object item in (IEnumerable)actual)
 				if (baseConstraint.Matches(item))
 					return false;
 
