@@ -132,6 +132,9 @@
     <Content Include="..\..\..\..\src\GuiException\UiException\Resources\ExceptionListMarginLeft.png">
       <Link>Resources\ExceptionListMarginLeft.png</Link>
     </Content>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CSharpParser\TokenDictionary.cs">
+      <Link>CSharpParser\TokenDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\DefaultTextManager.cs">
       <Link>DefaultTextManager.cs</Link>
     </Compile>

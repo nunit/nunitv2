@@ -86,13 +86,20 @@ namespace NUnit.UiException.CSharpParser
         private Dictionary<string, bool> _keywords;
 
         /// <summary>
+        /// Indicate whether Lexer is in escaping mode.
+        /// This flag is set to true when parsing "\\" and
+        /// can influate on the following LexerTag value.
+        /// </summary>
+        private bool _escaping;
+
+        /// <summary>
         /// Build a new instance of TokenClassifier.
         /// </summary>
         public TokenClassifier()
         {
             string[] words;
 
-            _sm = new StateMachine();            
+            _sm = new StateMachine();
 
             _tags = new Dictionary<int, ClassificationTag>();
             _tags.Add(SMSTATE_CODE, ClassificationTag.Code);
@@ -131,12 +138,18 @@ namespace NUnit.UiException.CSharpParser
             return;
         }
 
+        public bool Escaping
+        {
+            get { return (_escaping); }
+        }
+
         /// <summary>
         /// Reset the StateMachine to default value. (code block).
         /// </summary>
         public void Reset()
         {
             _sm_output = SMSTATE_CODE;
+            _escaping = false;
 
             return;
         }
@@ -158,6 +171,13 @@ namespace NUnit.UiException.CSharpParser
                 _keywords.ContainsKey(token.Text))
                 return (ClassificationTag.Keyword);
 
+            if (token.Text == "\\" &&
+                _sm_output == SMSTATE_STRING &&
+                !_escaping)
+                _escaping = true;
+            else
+                _escaping = false;
+
             return (_tags[classTag]);
         }
 
@@ -169,6 +189,9 @@ namespace NUnit.UiException.CSharpParser
         protected int AcceptLexToken(LexToken token)
         {
             int smState;
+
+            if (_escaping)
+                return (SMSTATE_STRING);
 
             smState = GetTokenSMSTATE(_sm_output, token.Tag);
             _sm_output = GetSMSTATE(_sm_output, token.Tag);

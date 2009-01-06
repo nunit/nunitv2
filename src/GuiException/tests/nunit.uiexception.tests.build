@@ -12,6 +12,7 @@
     <include name="CSharpParser/TestLexer.cs"/>
     <include name="CSharpParser/TestToken.cs"/>
     <include name="CSharpParser/TestTokenClassifier.cs"/>
+    <include name="CSharpParser/TestTokenDictionary.cs"/>
     <include name="data/TestResource.cs"/>
     <include name="TestDefaultTextManager.cs"/>
     <include name="TestExceptionBrowserLink.cs"/>

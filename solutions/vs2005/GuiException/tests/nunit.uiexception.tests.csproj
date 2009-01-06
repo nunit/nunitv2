@@ -77,6 +77,9 @@
     <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestTokenClassifier.cs">
       <Link>CSharpParser\TestTokenClassifier.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestTokenDictionary.cs">
+      <Link>CSharpParser\TestTokenDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\data\TestResource.cs">
       <Link>data\TestResource.cs</Link>
     </Compile>

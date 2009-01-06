@@ -103,6 +103,41 @@ namespace NUnit.UiException.Tests.CSharpParser
             return;
         }
 
+        [Test]
+        public void Test_Parse_3()
+        {
+            CSCode exp;
+
+            // Ensure that escaping sequences are
+            // handled correctly
+            //             0  2           14   17    21        
+            _parser.Parse("s=\"<font class=\\\"cls\\\">hi, there!</font>");
+
+            exp = new TestingCSCode(
+                "s=\"<font class=\\\"cls\\\">hi, there!</font>",
+                new int[] { 0, 2 },
+                new byte[] { 0, 3 },
+                new int[] { 0 });
+
+            Assert.That(_parser.CSCode, Is.EqualTo(exp));
+
+            _parser = new TestingCSParser();
+
+            //             0  2              
+            _parser.Parse("s=\"<font class=\\\\\"cls\\\">hi, there!</font>");
+            exp = new TestingCSCode(
+                "s=\"<font class=\\\\\"cls\\\">hi, there!</font>",
+                new int[] { 0, 2, 18, 22 },
+                new byte[] { 0, 3, 0, 3 },
+                new int[] { 0 });
+
+            Assert.That(_parser.CSCode, Is.EqualTo(exp));
+
+            _parser.Parse("s=\"<font class=\\\\\\\"cls\\\">hi, there!</font>");
+
+            return;
+        }
+
         #region TestingCSParser
 
         class TestingCSParser :

@@ -26,6 +26,7 @@
     <include name="CSharpParser/Lexer.cs"/>
     <include name="CSharpParser/LexToken.cs"/>
     <include name="CSharpParser/TokenClassifier.cs"/>
+    <include name="CSharpParser/TokenDictionary.cs"/>
     <include name="AssemblyInfo.cs"/>
     <include name="DefaultTextManager.cs"/>
     <include name="ExceptionBrowserLink.cs"/>

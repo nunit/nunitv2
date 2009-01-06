@@ -79,7 +79,6 @@ namespace NUnit.UiException.CSharpParser
 
             TraceExceptionHelper.CheckNotNull(csharp, "csharp");
 
-
             csharp = PreProcess(csharp);
 
             lexer = new Lexer();
@@ -105,8 +104,8 @@ namespace NUnit.UiException.CSharpParser
                     _flushToken(csToken, _info);
                     csToken = new ConcreteToken(
                         lexer.CurrentToken.Text, tag,
-                        lexer.CurrentToken.IndexStart, 
-                        _info.LineArray.Count);                    
+                        lexer.CurrentToken.IndexStart,
+                        _info.LineArray.Count);
                 }
 
                 // append token's text into text
@@ -123,7 +122,11 @@ namespace NUnit.UiException.CSharpParser
 
             // flush terminal token
             _flushToken(csToken, _info);
-            
+
+            if (csToken != null &&
+                _info.LineArray.Count == 0)
+                _info.LineArray.Add(tokenIndex);
+
             //_info.Text = text.ToString();
             _info.Text = csharp;
 
@@ -144,7 +147,7 @@ namespace NUnit.UiException.CSharpParser
             output.TagArray.Add((byte)token.Tag);
 
             return;
-        }        
+        }
 
         #region ConcreteCSCode
 
@@ -155,7 +158,7 @@ namespace NUnit.UiException.CSharpParser
             CSCode
         {
             public ConcreteCSCode(CSCode.CodeInfo info)
-            {                
+            {
                 _codeInfo = info;
             }
         }

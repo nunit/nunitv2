@@ -31,8 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestCodeBox.cs">
@@ -65,6 +67,9 @@
     <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestTokenClassifier.cs">
       <Link>CSharpParser\TestTokenClassifier.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestTokenDictionary.cs">
+	  <Link>CSharpParser\TestTokenDictionary.cs</Link>
+	</Compile>	
     <Compile Include="..\..\..\..\src\GuiException\tests\data\TestResource.cs">
       <Link>data\TestResource.cs</Link>
     </Compile>

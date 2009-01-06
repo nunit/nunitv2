@@ -28,7 +28,7 @@ namespace NUnit.UiException.Tests.CSharpParser
 
             return;
         }
-      
+
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void Test_Classify_Can_Throw_ArgumentNullException()
@@ -40,7 +40,7 @@ namespace NUnit.UiException.Tests.CSharpParser
         public void Test_NewState()
         {
             // STATE_CODE
-            
+
             Assert.That(
                 _classifier.GetSMSTATE(TokenClassifier.SMSTATE_CODE, LexerTag.EndOfLine),
                 Is.EqualTo(TokenClassifier.SMSTATE_CODE));
@@ -176,7 +176,7 @@ namespace NUnit.UiException.Tests.CSharpParser
 
             return;
         }
-        
+
         [Test]
         public void test_AcceptToken()
         {
@@ -199,7 +199,8 @@ namespace NUnit.UiException.Tests.CSharpParser
                     new Couple(TokenClassifier.SMSTATE_CODE,             "\n"),
                     new Couple(TokenClassifier.SMSTATE_CODE,             "char"),
                     new Couple(TokenClassifier.SMSTATE_CODE,             " "),
-                    new Couple(TokenClassifier.SMSTATE_CODE,             "c="),
+                    new Couple(TokenClassifier.SMSTATE_CODE,             "c"),
+                    new Couple(TokenClassifier.SMSTATE_CODE,             "="),
                     new Couple(TokenClassifier.SMSTATE_CHAR,             "'"),
                     new Couple(TokenClassifier.SMSTATE_CHAR,             "i"),
                     new Couple(TokenClassifier.SMSTATE_CHAR,             "'"),
@@ -207,7 +208,8 @@ namespace NUnit.UiException.Tests.CSharpParser
                     new Couple(TokenClassifier.SMSTATE_CODE,             ";"),
                     new Couple(TokenClassifier.SMSTATE_CODE,             "string"),
                     new Couple(TokenClassifier.SMSTATE_CODE,             " "),
-                    new Couple(TokenClassifier.SMSTATE_CODE,             "s="),
+                    new Couple(TokenClassifier.SMSTATE_CODE,             "s"),
+                    new Couple(TokenClassifier.SMSTATE_CODE,             "="),
                     new Couple(TokenClassifier.SMSTATE_STRING,           "\""),
                     new Couple(TokenClassifier.SMSTATE_STRING,           "test"),
                     new Couple(TokenClassifier.SMSTATE_STRING,           "\""),
@@ -247,7 +249,8 @@ namespace NUnit.UiException.Tests.CSharpParser
                 new Couple(ClassificationTag.Code,         "\n"),
                 new Couple(ClassificationTag.Keyword,      "char"),
                 new Couple(ClassificationTag.Code,         " "),
-                new Couple(ClassificationTag.Code,         "c="),
+                new Couple(ClassificationTag.Code,         "c"),
+                new Couple(ClassificationTag.Code,         "="),
                 new Couple(ClassificationTag.String,       "'"),
                 new Couple(ClassificationTag.String,       "i"),
                 new Couple(ClassificationTag.String,       "'"),
@@ -255,29 +258,14 @@ namespace NUnit.UiException.Tests.CSharpParser
                 new Couple(ClassificationTag.Code,         ";"),
                 new Couple(ClassificationTag.Keyword,      "string"),
                 new Couple(ClassificationTag.Code,         " "),
-                new Couple(ClassificationTag.Code,         "s="),
+                new Couple(ClassificationTag.Code,         "s"),
+                new Couple(ClassificationTag.Code,         "="),
                 new Couple(ClassificationTag.String,       "\""),
                 new Couple(ClassificationTag.String,       "test"),
                 new Couple(ClassificationTag.String,       "\""),
 
                 new Couple(ClassificationTag.Code,         ";")
             });
-
-            return;
-        }
-
-        [Test]
-        public void Test_Handle_EscapmentSequences()
-        {
-            _checkClassification("code\"\\\\\"code",
-                new Couple[] {
-                    new Couple(ClassificationTag.Code, "code"),
-                    new Couple(ClassificationTag.String, "\""),
-                    new Couple(ClassificationTag.String, "\\"),
-                    new Couple(ClassificationTag.String, "\\"),
-                    new Couple(ClassificationTag.String, "\""),
-                    new Couple(ClassificationTag.Code, "code")
-                });
 
             return;
         }
@@ -373,6 +361,125 @@ namespace NUnit.UiException.Tests.CSharpParser
             _classifier.Reset();
             lexer.Next();
             Assert.That(_classifier.Classify(lexer.CurrentToken), Is.EqualTo(ClassificationTag.Keyword));
+
+            return;
+        }
+
+        [Test]
+        public void Test_Escaping_sequence()
+        {
+            Lexer _lexer;
+
+            _lexer = new Lexer();
+
+            // this ensure that escaping can be set in string context only
+
+            _lexer.Parse("\\\\");
+            _classifier.Reset();
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\\"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.Code));
+            Assert.That(_classifier.Escaping, Is.False);
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\\"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.Code));
+            Assert.That(_classifier.Escaping, Is.False);
+
+
+            // this ensure that parsing "\\\\" two times
+            // set and unset Escaping flag correctly
+
+            _lexer.Parse("\"\\\\\"");
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\""));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+
+            Assert.That(_classifier.Escaping, Is.False);
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\\"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+            Assert.That(_classifier.Escaping, Is.True);
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\\"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+            Assert.That(_classifier.Escaping, Is.False);
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\""));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+            Assert.That(_classifier.Escaping, Is.False);
+
+
+            // this ensure that first 'a' is considered as string, second as code
+
+            _lexer.Parse("\"\\\"a\"a");
+            _classifier.Reset();
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\""));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\\"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+            Assert.That(_classifier.Escaping, Is.True);
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\""));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+            Assert.That(_classifier.Escaping, Is.False);
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("a"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\""));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("a"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.Code));
+
+
+            // another test, this time 'a' should be considered as code
+
+            _lexer.Parse("\"\\\\\"a\"");
+            _classifier.Reset();
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\""));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\\"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\\"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("\""));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.String));
+
+            Assert.That(_lexer.Next(), Is.True);
+            Assert.That(_lexer.CurrentToken.Text, Is.EqualTo("a"));
+            Assert.That(_classifier.Classify(_lexer.CurrentToken), Is.EqualTo(ClassificationTag.Code));
+
+
+            // this ensure that Reset() reset escaping to false
+
+            _lexer.Parse("\"\\");
+            _lexer.Next();
+            _classifier.Classify(_lexer.CurrentToken);
+            _lexer.Next();
+            _classifier.Classify(_lexer.CurrentToken);
+            Assert.That(_classifier.Escaping, Is.True);
+            _classifier.Reset();
+            Assert.That(_classifier.Escaping, Is.False);
 
             return;
         }

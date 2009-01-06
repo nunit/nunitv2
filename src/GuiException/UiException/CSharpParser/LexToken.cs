@@ -82,29 +82,45 @@ namespace NUnit.UiException.CSharpParser
         /// </summary>
         protected int _start;
 
-        protected LexToken()
+        public LexToken()
         {
-            // nothing to do
+            _text = null;
+            _tag = LexerTag.Text;
+            _start = -1;
+
+            return;
+        }
+
+        public LexToken(string text, LexerTag tag, int start)
+        {
+            _text = text;
+            _tag = tag;
+            _start = start;
+
+            return;
         }
 
         /// <summary>
         /// Gets the string value.
         /// </summary>
-        public string Text {
+        public string Text
+        {
             get { return (_text); }
         }
 
         /// <summary>
         /// Gets the tag value
         /// </summary>
-        public LexerTag Tag {
+        public LexerTag Tag
+        {
             get { return (_tag); }
         }
 
         /// <summary>
         /// Gets the starting startingPosition of the string.
         /// </summary>
-        public int IndexStart {
+        public int IndexStart
+        {
             get { return (_start); }
         }
 
@@ -122,7 +138,8 @@ namespace NUnit.UiException.CSharpParser
                     token.Tag == Tag);
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return base.GetHashCode();
         }
 

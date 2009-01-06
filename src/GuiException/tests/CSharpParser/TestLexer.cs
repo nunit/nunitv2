@@ -30,49 +30,6 @@ namespace NUnit.UiException.Tests.CSharpParser
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Test_AppendsSequence_throws_NullStringException()
-        {
-            _lexer.AppendsSequence(null, LexerTag.CommentC_Close); // throws exception
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentException),
-            ExpectedMessage = "Sequences must be appended from the longest to the shortest.",
-            MatchType = MessageMatch.Contains)]
-        public void Test_AppendsSequence_throws_InvalidSortException()
-        {
-            _lexer.Clear();
-
-            _lexer.AppendsSequence("one", LexerTag.CommentC_Close);
-            _lexer.AppendsSequence("to", LexerTag.CommentC_Close);
-            _lexer.AppendsSequence("four", LexerTag.CommentC_Close); // throws exception
-
-            return;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentException),
-            ExpectedMessage = "Sequence 'one' is already defined.",
-            MatchType = MessageMatch.Contains)]
-        public void Test_AppendsSequence_throws_AlreadyDefinedException()
-        {
-            _lexer.Clear();
-
-            _lexer.AppendsSequence("one", LexerTag.CommentC_Close);
-            _lexer.AppendsSequence("one", LexerTag.CommentC_Close); // throws exception
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentException),
-            ExpectedMessage = "Sequence must not be empty.",
-            MatchType = MessageMatch.Contains)]
-        public void Test_AppendsSequence_throws_EmptySequenceException()
-        {
-            _lexer.AppendsSequence("", LexerTag.CommentC_Close); // throws exception
-        }
-
-        [Test]
         public void Test_Default()
         {
             Assert.That(_lexer.CurrentToken, Is.Null);
@@ -131,7 +88,7 @@ namespace NUnit.UiException.Tests.CSharpParser
             Assert.That(i == expected.Length, "Error, more tokens were expected. {0}", error);
 
             return;
-        }       
+        }
 
         [Test]
         public void Test_Split_Words()
@@ -210,16 +167,6 @@ namespace NUnit.UiException.Tests.CSharpParser
                     new TestingToken("\"", 4, LexerTag.DoubleQuote)
                 });
 
-            // test to fail
-            // lexer should not be confused by \\ sequences
-
-            _checkOutput("\"\\\"",
-                new LexToken[] {
-                    new TestingToken("\"", 0, LexerTag.DoubleQuote),
-                    new TestingToken("\\", 1, LexerTag.Text),
-                    new TestingToken("\"", 2, LexerTag.DoubleQuote)
-                });
-
             return;
         }
 
@@ -279,7 +226,20 @@ namespace NUnit.UiException.Tests.CSharpParser
                     new TestingToken("a", 1, LexerTag.Text),
                     new TestingToken(",", 2, LexerTag.Separator)
                 });
-            
+
+            return;
+        }
+
+        [Test]
+        public void Test_Split_Equals()
+        {
+            _checkOutput("=a=",
+                new LexToken[] {
+                    new TestingToken("=", 0, LexerTag.Separator),
+                    new TestingToken("a", 1, LexerTag.Text),
+                    new TestingToken("=", 2, LexerTag.Separator)
+                });
+
             return;
         }
 
@@ -294,7 +254,7 @@ namespace NUnit.UiException.Tests.CSharpParser
                 });
 
             return;
-        }        
+        }
 
         [Test]
         public void Test_Split_WhiteSpaces()
@@ -306,7 +266,7 @@ namespace NUnit.UiException.Tests.CSharpParser
                     new TestingToken(" ", 0, LexerTag.Separator),
                     new TestingToken("hello", 1, LexerTag.Text),
                     new TestingToken(" ", 6, LexerTag.Separator)
-                });            
+                });
 
             /// test with '\r'
 
@@ -409,11 +369,6 @@ namespace NUnit.UiException.Tests.CSharpParser
         {
             public TestingLexer()
             {
-            }
-
-            public new void AppendsSequence(string sequence, LexerTag tag)
-            {
-                base.AppendsSequence(sequence, tag);
             }
 
             public new void Clear()
