@@ -12,13 +12,8 @@ namespace GenSyntax
         static string InputFile;
         static List<string> GenOptions = new List<string>();
 
-        static List<string> GenDefaults = new List<string>( 
-            new string[] { "Is", "Has", "Text", "Throws", "ConstraintFactory", "ConstraintExpression" } );
-
         static StreamReader InputReader;
         static List<StreamWriter> OutputWriters = new List<StreamWriter>();
-
-        static List<Stanza> SyntaxInfo = new List<Stanza>();
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -30,10 +25,16 @@ namespace GenSyntax
             {
                 if (ProcessArgs(args))
                 {
-                    ReadSyntaxInfo();
+                    SyntaxInfo.Instance.Load(InputReader);
+
+                    if (GenOptions.Count == 0)
+                        GenOptions = SyntaxInfo.Instance.Defaults;
 
                     foreach (string option in GenOptions)
-                        Generate(option);
+                    {
+                        CodeGenerator generator = new CodeGenerator(option);
+                        generator.GenerateClass();
+                    }
                 }
                 else
                     Usage();
@@ -66,54 +67,7 @@ namespace GenSyntax
 
             InputReader = new StreamReader(InputFile);
 
-            if (GenOptions.Count == 0)
-                GenOptions.AddRange(GenDefaults);
-
             return true;
-        }
-
-        static void ReadSyntaxInfo()
-        {
-            while (!InputReader.EndOfStream)
-            {
-                Stanza stanza = Stanza.Read(InputReader);
-                SyntaxInfo.Add(stanza);
-            }
-        }
-
-        static void Generate(string option)
-        {
-            string className;
-            string fileName;
-
-            int eq = option.IndexOf('=');
-            if (eq > 0)
-            {
-                className = option.Substring(0, eq);
-                fileName = option.Substring(eq + 1);
-            }
-            else
-            {
-                className = option;
-                fileName = className + ".cs";
-                if (className == "ConstraintFactory" || className == "ConstraintExpression")
-                    fileName = Path.Combine("Constraints", fileName);
-            }
-
-            Console.WriteLine("Generating " + fileName);
-
-            OutputWriter writer = new OutputWriter(className, fileName);
-
-            writer.WriteFileHeader();
-            writer.Indent += 2;
-
-            foreach (Stanza stanza in SyntaxInfo)
-                stanza.Generate(writer, className);
-
-            writer.Indent -= 2;
-            writer.WriteFileTrailer();
-
-            writer.Close();
         }
 
         static void Help()
@@ -137,7 +91,10 @@ namespace GenSyntax
             Console.Error.WriteLine("The <input_file> is required. If any -gen options are given, only the code");
             Console.Error.WriteLine("for the specified classes are generated. If <file_name> is not specified,");
             Console.Error.WriteLine("it defaults to the <class_name> with a .cs extension. If no -gen options");
-            Console.Error.WriteLine("are used, all the classes named in the input file are generated.");
+            Console.Error.WriteLine("are used, Default entries specified in the input file are generated.");
+            Console.Error.WriteLine();
+            Console.Error.WriteLine("Syntax for entries in the input file are described in the file");
+            Console.Error.WriteLine("SyntaxElements.txt, which is distributed with the NUnit source.");
         }
 	}
 

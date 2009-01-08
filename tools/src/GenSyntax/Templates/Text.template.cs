@@ -19,11 +19,11 @@ using NUnit.Framework.Constraints;
 namespace NUnit.Framework
 {
     /// <summary>
-    /// Helper class with static metods used to supply constraints
+    /// Helper class with static methods used to supply constraints
     /// that operate on strings.
     /// </summary>
     public class Text
     {
-        // $$GENERATE$$
+        // $$GENERATE$$ $$STATIC$$
     }
 }

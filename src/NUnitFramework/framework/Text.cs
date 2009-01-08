@@ -19,11 +19,13 @@ using NUnit.Framework.Constraints;
 namespace NUnit.Framework
 {
     /// <summary>
-    /// Helper class with static metods used to supply constraints
+    /// Helper class with static methods used to supply constraints
     /// that operate on strings.
     /// </summary>
     public class Text
     {
+        #region All
+        
         /// <summary>
         /// Returns a ConstraintExpression, which will apply
         /// the following constraint to all members of a collection,
@@ -34,6 +36,10 @@ namespace NUnit.Framework
             get { return new ConstraintExpression().All; }
         }
         
+        #endregion
+        
+        #region Contains
+        
         /// <summary>
         /// Returns a constraint that succeeds if the actual
         /// value contains the substring supplied as an argument.
@@ -42,6 +48,10 @@ namespace NUnit.Framework
         {
             return new SubstringConstraint(expected);
         }
+        
+        #endregion
+        
+        #region DoesNotContain
         
         /// <summary>
         /// Returns a constraint that fails if the actual
@@ -52,6 +62,10 @@ namespace NUnit.Framework
             return new ConstraintExpression().Not.ContainsSubstring(expected);
         }
         
+        #endregion
+        
+        #region StartsWith
+        
         /// <summary>
         /// Returns a constraint that succeeds if the actual
         /// value starts with the substring supplied as an argument.
@@ -60,6 +74,10 @@ namespace NUnit.Framework
         {
             return new StartsWithConstraint(expected);
         }
+        
+        #endregion
+        
+        #region DoesNotStartWith
         
         /// <summary>
         /// Returns a constraint that fails if the actual
@@ -70,6 +88,10 @@ namespace NUnit.Framework
             return new ConstraintExpression().Not.StartsWith(expected);
         }
         
+        #endregion
+        
+        #region EndsWith
+        
         /// <summary>
         /// Returns a constraint that succeeds if the actual
         /// value ends with the substring supplied as an argument.
@@ -78,6 +100,10 @@ namespace NUnit.Framework
         {
             return new EndsWithConstraint(expected);
         }
+        
+        #endregion
+        
+        #region DoesNotEndWith
         
         /// <summary>
         /// Returns a constraint that fails if the actual
@@ -88,6 +114,10 @@ namespace NUnit.Framework
             return new ConstraintExpression().Not.EndsWith(expected);
         }
         
+        #endregion
+        
+        #region Matches
+        
         /// <summary>
         /// Returns a constraint that succeeds if the actual
         /// value matches the pattern supplied as an argument.
@@ -97,6 +127,10 @@ namespace NUnit.Framework
             return new RegexConstraint(pattern);
         }
         
+        #endregion
+        
+        #region DoesNotMatch
+        
         /// <summary>
         /// Returns a constraint that fails if the actual
         /// value matches the pattern supplied as an argument.
@@ -105,6 +139,8 @@ namespace NUnit.Framework
         {
             return new ConstraintExpression().Not.Matches(pattern);
         }
+        
+        #endregion
         
     }
 }

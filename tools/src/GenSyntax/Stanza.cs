@@ -1,70 +1,205 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using System.CodeDom.Compiler;
 
 namespace GenSyntax
 {
     class Stanza
     {
-        private string typeName;
+        private List<string> lines = new List<string>();
+        private string typeName = "void";
         private List<string> comments = new List<string>();
         private List<GenSpec> genSpecs = new List<GenSpec>();
+        private List<string> defaults = new List<string>();
+
+        private string currentRegion;
 
         public static Stanza Read(TextReader rdr)
         {
             Stanza stanza = new Stanza();
-
             string line = rdr.ReadLine();
+
             while (line != null && line != "%")
             {
                 if (!line.StartsWith("#"))
-                {
-                    if (line.StartsWith("Type:"))
-                        stanza.typeName = line.Substring(5).Trim();
-                    else if (line.StartsWith("///"))
-                        stanza.comments.Add(line);
-                    else if (line.StartsWith("Gen:") || line.StartsWith("Obs:"))
-                        stanza.genSpecs.Add(new GenSpec(line));
-                    else
-                        throw new ArgumentException("Invalid line in spec file" + Environment.NewLine + line);
-                }
+                    stanza.AddLine(line);
 
                 line = rdr.ReadLine();
             }
 
+            stanza.ProcessLines();
+
             return stanza;
         }
 
-        public void Generate(OutputWriter writer, string className)
+        private void AddLine(string line)
+        {
+            int count = lines.Count;
+
+            if (char.IsWhiteSpace(line[0]) && count > 0)
+                lines[count - 1] += line.Trim();
+            else
+                lines.Add(line);
+        }
+
+        private void ProcessLines()
+        {
+            foreach (string line in lines)
+            {
+                if (line.StartsWith("Type:"))
+                    this.typeName = line.Substring(5).Trim();
+                else if (line.StartsWith("///"))
+                    this.comments.Add(line);
+                else if (line.StartsWith("Gen:") || line.StartsWith("Assert:"))
+                    AddSyntaxElement(line, typeName == "void");
+                else if (line.StartsWith("Gen3:"))
+                    AddStandardSyntaxElements(line.Substring(5).Trim());
+                //else if (line.StartsWith("Assert:"))
+                //    ProcessAssert(line.Substring(7).Trim());
+                else if (line.StartsWith("Default:"))
+                    this.defaults.Add(line.Substring(8).Trim());
+                else
+                    IssueFormatError(line);
+            }
+        }
+
+        private void AddSyntaxElement(string line, bool isVoid)
+        {
+            this.genSpecs.Add(new GenSpec(line, typeName == "void"));
+        }
+
+        private void AddStandardSyntaxElements(string element)
+        {
+            int arrow = element.IndexOf("=>");
+            if (arrow < 0) IssueFormatError(element);
+            string fullname = element.Substring(0, arrow);
+            string rightside = element.Substring(arrow + 2);
+            string constraint = rightside;
+            if (constraint.StartsWith("return "))
+                constraint = constraint.Substring(7);
+            if (constraint.StartsWith("new "))
+                constraint = constraint.Substring(4);
+
+            int dot = fullname.IndexOf('.');
+            if (dot < 0) IssueFormatError(element);
+            string name = fullname.Substring(dot + 1);
+
+            this.typeName = constraint.Substring(0, constraint.IndexOf("("));
+            this.genSpecs.Add(new GenSpec(
+                "Gen: " + fullname + "=>" + rightside));
+            this.genSpecs.Add(new GenSpec(
+                "Gen: ConstraintFactory." + name + "=>" + rightside));
+            this.genSpecs.Add(new GenSpec(
+                "Gen: ConstraintExpression." + name + "=>(" + typeName + ")this.Append(" + rightside + ")"));
+        }
+
+        private void IssueFormatError(string line)
+        {
+            throw new ArgumentException("Invalid line in spec file" + Environment.NewLine + line);
+        }
+
+        public void Generate(IndentedTextWriter writer, string className, bool isStatic)
         {
             foreach (GenSpec spec in genSpecs)
             {
                 if (spec.ClassName == className)
                 {
-                    bool generic = spec.MethodName.IndexOf('<') > 0;
-                    if (generic) writer.WriteLineNoTabs("#if NET_2_0");
+                    if (currentRegion == null)
+                    {
+                        currentRegion = spec.LeftPart;
+                        int dot = currentRegion.IndexOf('.');
+                        if (dot > 0) currentRegion = currentRegion.Substring(dot + 1);
+                        int lpar = currentRegion.IndexOf('(');
+                        if (lpar > 0) currentRegion = currentRegion.Substring(0, lpar);
 
-                    foreach (string comment in comments)
-                        writer.WriteLine(comment);
+                        writer.WriteLine("#region " + currentRegion);
+                        writer.WriteLine();
+                    }
 
-                    if (spec.Obsolete)
-                        writer.WriteLine(string.Format(@"[Obsolete(""Use {0}"")]", spec.RetVal));
+                    if (spec.IsGeneric)
+                        writer.WriteLineNoTabs("#if NET_2_0");
 
-                    if ( className == "Is" || className == "Has" || className == "Text" || className == "Throws")
-                        writer.WriteLine("public static {0} {1}", typeName, spec.MethodName);
+                    if (spec.ClassName == "Assert")
+                        GenerateAssertOverloads(writer, isStatic, spec);
                     else
-                        writer.WriteLine("public {0} {1}", typeName, spec.MethodName);
-                    writer.WriteLine("{");
-                    writer.Indent++;
-                    writer.WriteLine(spec.Body);
-                    writer.Indent--;
-                    writer.WriteLine("}");
-                    
-                    if (generic) writer.WriteLineNoTabs("#endif");
-                    
-                    writer.WriteLine();
+                        GenerateMethod(writer, isStatic, spec);
+
+                    if (spec.IsGeneric)
+                        writer.WriteLineNoTabs("#endif");
                 }
             }
+
+            if (currentRegion != null)
+            {
+                writer.WriteLine("#endregion");
+                writer.WriteLine();
+                currentRegion = null;
+            }
+        }
+
+        private void GenerateMethod(IndentedTextWriter writer, bool isStatic, GenSpec spec)
+        {
+            WriteComments(writer);
+            WriteMethodDefinition(writer, isStatic, spec);
+        }
+
+        private void WriteMethodDefinition(IndentedTextWriter writer, bool isStatic, GenSpec spec)
+        {
+            if (spec.Attributes != null)
+                writer.WriteLine(spec.Attributes);
+
+            if (isStatic)
+                writer.WriteLine("public static {0} {1}", typeName, spec.MethodName);
+            else
+                writer.WriteLine("public {0} {1}", typeName, spec.MethodName);
+            writer.WriteLine("{");
+            writer.Indent++;
+            writer.WriteLine(spec.MethodName.EndsWith(")")
+                    ? typeName == "void"
+                        ? spec.RightPart + ";"
+                        : "return " + spec.RightPart + ";"
+                    : "get { return " + spec.RightPart + "; }");
+            writer.Indent--;
+            writer.WriteLine("}");
+            writer.WriteLine();
+        }
+
+        private void WriteComments(IndentedTextWriter writer)
+        {
+            foreach (string comment in comments)
+                writer.WriteLine(comment);
+        }
+
+        private void GenerateAssertOverloads(IndentedTextWriter writer, bool isStatic, GenSpec spec)
+        {
+            if (!spec.LeftPart.EndsWith(")") || !spec.RightPart.EndsWith(")"))
+                IssueFormatError(spec.ToString());
+            string leftPart = spec.LeftPart.Substring(0, spec.LeftPart.Length - 1);
+            string rightPart = spec.RightPart.Substring(0, spec.RightPart.Length - 1);
+
+            GenSpec spec1 = new GenSpec(
+                "Gen: " + leftPart + ", string message, params object[] args)=>" + rightPart + " ,message, args)");
+            WriteComments(writer);
+            writer.WriteLine("/// <param name=\"message\">The message to display in case of failure</param>");
+            writer.WriteLine("/// <param name=\"args\">Array of objects to be used in formatting the message</param>");
+            WriteMethodDefinition(writer, isStatic, spec1);
+
+            GenSpec spec2 = new GenSpec(
+                "Gen: " + leftPart + ", string message)=>" + rightPart + " ,message, null)");
+            WriteComments(writer);
+            writer.WriteLine("/// <param name=\"message\">The message to display in case of failure</param>");
+            WriteMethodDefinition(writer, isStatic, spec2);
+
+            GenSpec spec3 = new GenSpec(
+                "Gen: " + leftPart + ")=>" + rightPart + " ,null, null)");
+            WriteComments(writer);
+            WriteMethodDefinition(writer, isStatic, spec3);
+        }
+
+        public List<string> Defaults
+        {
+            get { return defaults; }
         }
     }
 }

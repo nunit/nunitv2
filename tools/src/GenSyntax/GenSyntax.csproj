@@ -92,18 +92,23 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <Content Include="Assertions.txt" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GenSpec.cs" />
-    <Compile Include="OutputWriter.cs" />
+    <Compile Include="CodeGenerator.cs" />
     <Compile Include="Program.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Stanza.cs" />
+    <Compile Include="SyntaxInfo.cs" />
+    <EmbeddedResource Include="Templates\Assert.template.cs" />
     <EmbeddedResource Include="Templates\Throws.template.cs" />
     <EmbeddedResource Include="Templates\Default.template.cs" />
     <EmbeddedResource Include="Templates\ConstraintFactory.template.cs" />

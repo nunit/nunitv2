@@ -21,9 +21,10 @@ namespace NUnit.Framework
 	public class AssertionHelper : ConstraintFactory
     {
         #region Assert
-        //public Assertions Assert
+        //private Assertions assert = new Assertions();
+        //public virtual Assertions Assert
         //{
-        //    get { return new Assertions(); }
+        //    get { return assert; }
         //}
         #endregion
 
@@ -35,7 +36,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
-        static public void Expect(object actual, Constraint constraint)
+        public void Expect(object actual, Constraint constraint)
         {
             Assert.That(actual, constraint, null, null);
         }
@@ -48,7 +49,7 @@ namespace NUnit.Framework
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void Expect(object actual, Constraint constraint, string message)
+        public void Expect(object actual, Constraint constraint, string message)
         {
             Assert.That(actual, constraint, message, null);
         }
@@ -62,7 +63,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void Expect(object actual, Constraint constraint, string message, params object[] args)
+        public void Expect(object actual, Constraint constraint, string message, params object[] args)
         {
             Assert.That(actual, constraint, message, args);
         }
@@ -74,7 +75,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
-        static public void Expect(object actual, IResolveConstraint constraint)
+        public void Expect(object actual, IResolveConstraint constraint)
         {
             Assert.That(actual, constraint, null, null);
         }
@@ -87,7 +88,7 @@ namespace NUnit.Framework
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void Expect(object actual, IResolveConstraint constraint, string message)
+        public void Expect(object actual, IResolveConstraint constraint, string message)
         {
             Assert.That(actual, constraint, message, null);
         }
@@ -101,7 +102,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void Expect(object actual, IResolveConstraint constraint, string message, params object[] args)
+        public void Expect(object actual, IResolveConstraint constraint, string message, params object[] args)
         {
             Assert.That(actual, constraint, message, args);
         }
@@ -114,7 +115,7 @@ namespace NUnit.Framework
 		/// <param name="condition">The evaluated condition</param>
 		/// <param name="message">The message to display if the condition is false</param>
 		/// <param name="args">Arguments to be used in formatting the message</param>
-		static public void Expect(bool condition, string message, params object[] args)
+		public void Expect(bool condition, string message, params object[] args)
 		{
 			Assert.That(condition, Is.True, message, args);
 		}
@@ -126,7 +127,7 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
 		/// <param name="message">The message to display if the condition is false</param>
-		static public void Expect(bool condition, string message)
+		public void Expect(bool condition, string message)
 		{
 			Assert.That(condition, Is.True, message, null);
 		}
@@ -136,7 +137,7 @@ namespace NUnit.Framework
 		/// an <see cref="AssertionException"/>. Works Identically to <see cref="Assert.That(bool)"/>.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
-		static public void Expect(bool condition)
+		public void Expect(bool condition)
 		{
 			Assert.That(condition, Is.True, null, null);
 		}

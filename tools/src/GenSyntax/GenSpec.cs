@@ -6,34 +6,59 @@ namespace GenSyntax
 {
     class GenSpec
     {
-        private string spec;
+        private string fullSpec;
+        bool isVoid;
+
         private string specType;
-        private string fullName;
+        private string leftPart;
         private string className;
         private string methodName;
-        private string retval;
+        private string attributes;
+        private string rightPart;
         private string body;
 
-        public GenSpec(string spec)
+        public GenSpec(string spec) : this(spec, false) { }
+
+        public GenSpec(string spec, bool isVoid)
         {
-            this.spec = spec;
+            this.fullSpec = spec;
+            this.isVoid = isVoid;
 
             int colon = spec.IndexOf(':');
-            int arrow = spec.IndexOf( "=>", colon+1 );
+            int arrow = spec.IndexOf("=>", colon + 1);
             if (colon <= 0 || arrow <= 0)
                 throw new ArgumentException(string.Format("Invalid generation spec: {0}", spec), "spec");
 
             this.specType = spec.Substring(0, colon + 1);
-            this.fullName = spec.Substring(colon+1, arrow-colon-1);
-            this.retval = spec.Substring(arrow + 2);
+            this.leftPart = spec.Substring(colon+1, arrow-colon-1);
+            this.rightPart = spec.Substring(arrow + 2);
 
-            int dot = fullName.IndexOf('.');
+            int dot = leftPart.IndexOf('.');
 
-            this.className = fullName.Substring(0, dot).Trim();
-            this.methodName = fullName.Substring(dot + 1).Trim();
-            this.body = methodName.EndsWith(")")
-                ? "return " + retval + ";"
-                : "get { return " + retval + "; }";
+            this.className = leftPart.Substring(0, dot).Trim();
+            this.methodName = leftPart.Substring(dot + 1).Trim();
+
+            int rbrack = className.LastIndexOf("]");
+            if (rbrack > 0)
+            {
+                this.attributes = className.Substring(0, rbrack + 1);
+                this.className = className.Substring(rbrack + 1);
+            }
+        }
+
+        public string SpecType
+        {
+            get { return this.specType; }
+        }
+
+        public string LeftPart
+        {
+            get { return this.leftPart; }
+        }
+
+        public string RightPart
+        {
+            get { return this.rightPart; }
         }
 
         public string MethodName
@@ -46,19 +71,23 @@ namespace GenSyntax
             get { return className; }
         }
 
-        public string Body
+        public string Attributes
         {
-            get { return body; }
+            get { return attributes; }
         }
 
-        public bool Obsolete
+        public bool IsGeneric
         {
-            get { return specType == "Obs:"; }
+            get
+            { 
+                return this.MethodName.IndexOf('<') > 0
+                    || this.MethodName.IndexOf('?') > 0;
+            }
         }
 
-        public string RetVal
+        public override string ToString()
         {
-            get { return retval; }
+            return fullSpec;
         }
     }
 }

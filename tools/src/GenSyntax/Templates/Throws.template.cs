@@ -24,6 +24,6 @@ namespace NUnit.Framework
     /// </summary>
     public class Throws
     {
-        // $$GENERATE$$
+        // $$GENERATE$$ $$STATIC$$
     }
 }

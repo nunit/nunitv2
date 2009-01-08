@@ -23,6 +23,8 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class ConstraintFactory
     {
+        #region Not
+        
         /// <summary>
         /// Returns a ConstraintExpression that negates any
         /// following constraint.
@@ -41,6 +43,10 @@ namespace NUnit.Framework.Constraints
             get { return Has.No; }
         }
         
+        #endregion
+        
+        #region All
+        
         /// <summary>
         /// Returns a ConstraintExpression, which will apply
         /// the following constraint to all members of a collection,
@@ -50,6 +56,10 @@ namespace NUnit.Framework.Constraints
         {
             get { return Is.All; }
         }
+        
+        #endregion
+        
+        #region Some
         
         /// <summary>
         /// Returns a ConstraintExpression, which will apply
@@ -61,6 +71,10 @@ namespace NUnit.Framework.Constraints
             get { return Has.Some; }
         }
         
+        #endregion
+        
+        #region None
+        
         /// <summary>
         /// Returns a ConstraintExpression, which will apply
         /// the following constraint to all members of a collection,
@@ -70,6 +84,10 @@ namespace NUnit.Framework.Constraints
         {
             get { return Has.None; }
         }
+        
+        #endregion
+        
+        #region Property
         
         /// <summary>
         /// Returns a new PropertyConstraintExpression, which will either
@@ -81,6 +99,10 @@ namespace NUnit.Framework.Constraints
             return Has.Property(name);
         }
         
+        #endregion
+        
+        #region Length
+        
         /// <summary>
         /// Returns a new ConstraintExpression, which will apply the following
         /// constraint to the Length property of the object being tested.
@@ -89,6 +111,10 @@ namespace NUnit.Framework.Constraints
         {
             get { return Has.Length; }
         }
+        
+        #endregion
+        
+        #region Count
         
         /// <summary>
         /// Returns a new ConstraintExpression, which will apply the following
@@ -99,6 +125,10 @@ namespace NUnit.Framework.Constraints
             get { return Has.Count; }
         }
         
+        #endregion
+        
+        #region Message
+        
         /// <summary>
         /// Returns a new ConstraintExpression, which will apply the following
         /// constraint to the Message property of the object being tested.
@@ -107,6 +137,10 @@ namespace NUnit.Framework.Constraints
         {
             get { return Has.Message; }
         }
+        
+        #endregion
+        
+        #region Attribute
         
         /// <summary>
         /// Returns a new AttributeConstraint checking for the
@@ -126,47 +160,71 @@ namespace NUnit.Framework.Constraints
         {
             return Attribute(typeof(T));
         }
+        
 #endif
+        #endregion
+        
+        #region Null
         
         /// <summary>
         /// Returns a constraint that tests for null
         /// </summary>
         public NullConstraint Null
         {
-            get { return Is.Null; }
+            get { return new NullConstraint(); }
         }
+        
+        #endregion
+        
+        #region True
         
         /// <summary>
         /// Returns a constraint that tests for True
         /// </summary>
         public TrueConstraint True
         {
-            get { return Is.True; }
+            get { return new TrueConstraint(); }
         }
+        
+        #endregion
+        
+        #region False
         
         /// <summary>
         /// Returns a constraint that tests for False
         /// </summary>
         public FalseConstraint False
         {
-            get { return Is.False; }
+            get { return new FalseConstraint(); }
         }
+        
+        #endregion
+        
+        #region NaN
         
         /// <summary>
         /// Returns a constraint that tests for NaN
         /// </summary>
         public NaNConstraint NaN
         {
-            get { return Is.NaN; }
+            get { return new NaNConstraint(); }
         }
+        
+        #endregion
+        
+        #region Empty
         
         /// <summary>
         /// Returns a constraint that tests for empty
         /// </summary>
         public EmptyConstraint Empty
         {
-            get { return Is.Empty; }
+            get { return new EmptyConstraint(); }
         }
+        
+        #endregion
+        
+        #region Unique
         
         /// <summary>
         /// Returns a constraint that tests whether a collection 
@@ -174,40 +232,60 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public UniqueItemsConstraint Unique
         {
-            get { return Is.Unique; }
+            get { return new UniqueItemsConstraint(); }
         }
+        
+        #endregion
+        
+        #region BinarySerializable
         
         /// <summary>
         /// Returns a constraint that tests whether an object graph is serializable in binary format.
         /// </summary>
         public BinarySerializableConstraint BinarySerializable
         {
-            get { return Is.BinarySerializable; }
+            get { return new BinarySerializableConstraint(); }
         }
+        
+        #endregion
+        
+        #region XmlSerializable
         
         /// <summary>
         /// Returns a constraint that tests whether an object graph is serializable in xml format.
         /// </summary>
         public XmlSerializableConstraint XmlSerializable
         {
-            get { return Is.XmlSerializable; }
+            get { return new XmlSerializableConstraint(); }
         }
+        
+        #endregion
+        
+        #region EqualTo
         
         /// <summary>
         /// Returns a constraint that tests two items for equality
         /// </summary>
         public EqualConstraint EqualTo(object expected)
         {
-            return Is.EqualTo(expected);
+            return new EqualConstraint(expected);
         }
+        
+        #endregion
+        
+        #region SameAs
         
         /// <summary>
         /// Returns a constraint that tests that two references are the same object
         /// </summary>
         public SameAsConstraint SameAs(object expected)
         {
-            return Is.SameAs(expected);
+            return new SameAsConstraint(expected);
         }
+        
+        #endregion
+        
+        #region GreaterThan
         
         /// <summary>
         /// Returns a constraint that tests whether the
@@ -215,8 +293,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public GreaterThanConstraint GreaterThan(IComparable expected)
         {
-            return Is.GreaterThan(expected);
+            return new GreaterThanConstraint(expected);
         }
+        
+        #endregion
+        
+        #region GreaterThanOrEqualTo
         
         /// <summary>
         /// Returns a constraint that tests whether the
@@ -224,7 +306,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public GreaterThanOrEqualConstraint GreaterThanOrEqualTo(IComparable expected)
         {
-            return Is.GreaterThanOrEqualTo(expected);
+            return new GreaterThanOrEqualConstraint(expected);
         }
         
         /// <summary>
@@ -233,8 +315,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public GreaterThanOrEqualConstraint AtLeast(IComparable expected)
         {
-            return Is.AtLeast(expected);
+            return new GreaterThanOrEqualConstraint(expected);
         }
+        
+        #endregion
+        
+        #region LessThan
         
         /// <summary>
         /// Returns a constraint that tests whether the
@@ -242,8 +328,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public LessThanConstraint LessThan(IComparable expected)
         {
-            return Is.LessThan(expected);
+            return new LessThanConstraint(expected);
         }
+        
+        #endregion
+        
+        #region LessThanOrEqualTo
         
         /// <summary>
         /// Returns a constraint that tests whether the
@@ -251,7 +341,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public LessThanOrEqualConstraint LessThanOrEqualTo(IComparable expected)
         {
-            return Is.LessThanOrEqualTo(expected);
+            return new LessThanOrEqualConstraint(expected);
         }
         
         /// <summary>
@@ -260,8 +350,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public LessThanOrEqualConstraint AtMost(IComparable expected)
         {
-            return Is.AtMost(expected);
+            return new LessThanOrEqualConstraint(expected);
         }
+        
+        #endregion
+        
+        #region TypeOf
         
         /// <summary>
         /// Returns a constraint that tests whether the actual
@@ -269,7 +363,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public ExactTypeConstraint TypeOf(Type expectedType)
         {
-            return Is.TypeOf(expectedType);
+            return new ExactTypeConstraint(expectedType);
         }
         
 #if NET_2_0
@@ -279,31 +373,13 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public ExactTypeConstraint TypeOf<T>()
         {
-            return TypeOf(typeof(T));
-        }
-#endif
-        
-        /// <summary>
-        /// Returns a constraint that tests whether the actual value
-        /// is of the type supplied as an argument or a derived type.
-        /// </summary>
-        [Obsolete("Use InstanceOf(expectedType)")]
-        public InstanceOfTypeConstraint InstanceOfType(Type expectedType)
-        {
-            return InstanceOf(expectedType);
+            return new ExactTypeConstraint(typeof(T));
         }
         
-#if NET_2_0
-        /// <summary>
-        /// Returns a constraint that tests whether the actual value
-        /// is of the type supplied as an argument or a derived type.
-        /// </summary>
-        [Obsolete("Use InstanceOf<T>()")]
-        public InstanceOfTypeConstraint InstanceOfType<T>()
-        {
-            return InstanceOf<T>();
-        }
 #endif
+        #endregion
+        
+        #region InstanceOf
         
         /// <summary>
         /// Returns a constraint that tests whether the actual value
@@ -311,7 +387,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public InstanceOfTypeConstraint InstanceOf(Type expectedType)
         {
-            return Is.InstanceOf(expectedType);
+            return new InstanceOfTypeConstraint(expectedType);
         }
         
 #if NET_2_0
@@ -321,9 +397,33 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public InstanceOfTypeConstraint InstanceOf<T>()
         {
-            return InstanceOf(typeof(T));
+            return new InstanceOfTypeConstraint(typeof(T));
         }
+        
 #endif
+        /// <summary>
+        /// Returns a constraint that tests whether the actual value
+        /// is of the type supplied as an argument or a derived type.
+        /// </summary>
+        public InstanceOfTypeConstraint InstanceOfType(Type expectedType)
+        {
+            return new InstanceOfTypeConstraint(expectedType);
+        }
+        
+#if NET_2_0
+        /// <summary>
+        /// Returns a constraint that tests whether the actual value
+        /// is of the type supplied as an argument or a derived type.
+        /// </summary>
+        public InstanceOfTypeConstraint InstanceOfType<T>()
+        {
+            return new InstanceOfTypeConstraint(typeof(T));
+        }
+        
+#endif
+        #endregion
+        
+        #region AssignableFrom
         
         /// <summary>
         /// Returns a constraint that tests whether the actual value
@@ -331,7 +431,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public AssignableFromConstraint AssignableFrom(Type expectedType)
         {
-            return Is.AssignableFrom(expectedType);
+            return new AssignableFromConstraint(expectedType);
         }
         
 #if NET_2_0
@@ -341,9 +441,13 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public AssignableFromConstraint AssignableFrom<T>()
         {
-            return AssignableFrom(typeof(T));
+            return new AssignableFromConstraint(typeof(T));
         }
+        
 #endif
+        #endregion
+        
+        #region AssignableTo
         
         /// <summary>
         /// Returns a constraint that tests whether the actual value
@@ -351,7 +455,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public AssignableToConstraint AssignableTo(Type expectedType)
         {
-            return Is.AssignableTo(expectedType);
+            return new AssignableToConstraint(expectedType);
         }
         
 #if NET_2_0
@@ -361,9 +465,13 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public AssignableToConstraint AssignableTo<T>()
         {
-            return AssignableTo(typeof(T));
+            return new AssignableToConstraint(typeof(T));
         }
+        
 #endif
+        #endregion
+        
+        #region EquivalentTo
         
         /// <summary>
         /// Returns a constraint that tests whether the actual value
@@ -372,8 +480,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public CollectionEquivalentConstraint EquivalentTo(IEnumerable expected)
         {
-            return Is.EquivalentTo(expected);
+            return new CollectionEquivalentConstraint(expected);
         }
+        
+        #endregion
+        
+        #region SubsetOf
         
         /// <summary>
         /// Returns a constraint that tests whether the actual value
@@ -381,15 +493,19 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public CollectionSubsetConstraint SubsetOf(IEnumerable expected)
         {
-            return Is.SubsetOf(expected);
+            return new CollectionSubsetConstraint(expected);
         }
+        
+        #endregion
+        
+        #region Ordered
         
         /// <summary>
         /// Returns a constraint that tests whether a collection is ordered
         /// </summary>
         public CollectionOrderedConstraint Ordered()
         {
-            return Is.Ordered();
+            return new CollectionOrderedConstraint();
         }
         
         /// <summary>
@@ -397,7 +513,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public CollectionOrderedConstraint Ordered(IComparer comparer)
         {
-            return Is.Ordered(comparer);
+            return new CollectionOrderedConstraint(comparer);
         }
         
         /// <summary>
@@ -405,7 +521,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public CollectionOrderedConstraint OrderedBy(string propertyName)
         {
-            return Is.OrderedBy(propertyName);
+            return new CollectionOrderedConstraint(propertyName);
         }
         
         /// <summary>
@@ -413,7 +529,20 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public CollectionOrderedConstraint OrderedBy(string propertyName, IComparer comparer)
         {
-            return Is.OrderedBy(propertyName, comparer);
+            return new CollectionOrderedConstraint(propertyName, comparer);
+        }
+        
+        #endregion
+        
+        #region Member
+        
+        /// <summary>
+        /// Returns a new CollectionContainsConstraint checking for the
+        /// presence of a particular object in the collection.
+        /// </summary>
+        public CollectionContainsConstraint Member(object expected)
+        {
+            return new CollectionContainsConstraint(expected);
         }
         
         /// <summary>
@@ -425,14 +554,9 @@ namespace NUnit.Framework.Constraints
             return new CollectionContainsConstraint(expected);
         }
         
-        /// <summary>
-        /// Returns a new CollectionContainsConstraint checking for the
-        /// presence of a particular object in the collection.
-        /// </summary>
-        public CollectionContainsConstraint Member(object expected)
-        {
-            return new CollectionContainsConstraint(expected);
-        }
+        #endregion
+        
+        #region Contains
         
         /// <summary>
         /// Returns a new ContainsConstraint. This constraint
@@ -447,6 +571,10 @@ namespace NUnit.Framework.Constraints
             return new ContainsConstraint(expected);
         }
         
+        #endregion
+        
+        #region ContainsSubstring
+        
         /// <summary>
         /// Returns a constraint that succeeds if the actual
         /// value contains the substring supplied as an argument.
@@ -455,6 +583,10 @@ namespace NUnit.Framework.Constraints
         {
             return Text.Contains(expected);
         }
+        
+        #endregion
+        
+        #region DoesNotContain
         
         /// <summary>
         /// Returns a constraint that fails if the actual
@@ -465,14 +597,22 @@ namespace NUnit.Framework.Constraints
             return Text.DoesNotContain(expected);
         }
         
+        #endregion
+        
+        #region StartsWith
+        
         /// <summary>
         /// Returns a constraint that succeeds if the actual
         /// value starts with the substring supplied as an argument.
         /// </summary>
         public StartsWithConstraint StartsWith(string expected)
         {
-            return Text.StartsWith(expected);
+            return new StartsWithConstraint(expected);
         }
+        
+        #endregion
+        
+        #region DoesNotStartWith
         
         /// <summary>
         /// Returns a constraint that fails if the actual
@@ -483,14 +623,22 @@ namespace NUnit.Framework.Constraints
             return Text.DoesNotStartWith(expected);
         }
         
+        #endregion
+        
+        #region EndsWith
+        
         /// <summary>
         /// Returns a constraint that succeeds if the actual
         /// value ends with the substring supplied as an argument.
         /// </summary>
         public EndsWithConstraint EndsWith(string expected)
         {
-            return Text.EndsWith(expected);
+            return new EndsWithConstraint(expected);
         }
+        
+        #endregion
+        
+        #region DoesNotEndWith
         
         /// <summary>
         /// Returns a constraint that fails if the actual
@@ -501,14 +649,22 @@ namespace NUnit.Framework.Constraints
             return Text.DoesNotEndWith(expected);
         }
         
+        #endregion
+        
+        #region Matches
+        
         /// <summary>
         /// Returns a constraint that succeeds if the actual
         /// value matches the pattern supplied as an argument.
         /// </summary>
         public RegexConstraint Matches(string pattern)
         {
-            return Text.Matches(pattern);
+            return new RegexConstraint(pattern);
         }
+        
+        #endregion
+        
+        #region DoesNotMatch
         
         /// <summary>
         /// Returns a constraint that fails if the actual
@@ -519,14 +675,22 @@ namespace NUnit.Framework.Constraints
             return Text.DoesNotMatch(pattern);
         }
         
+        #endregion
+        
+        #region SamePath
+        
         /// <summary>
         /// Returns a constraint that tests whether the path provided 
         /// is the same as an expected path after canonicalization.
         /// </summary>
         public SamePathConstraint SamePath(string expected)
         {
-            return Is.SamePath(expected);
+            return new SamePathConstraint(expected);
         }
+        
+        #endregion
+        
+        #region SamePathOrUnder
         
         /// <summary>
         /// Returns a constraint that tests whether the path provided 
@@ -534,8 +698,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public SamePathOrUnderConstraint SamePathOrUnder(string expected)
         {
-            return Is.SamePathOrUnder(expected);
+            return new SamePathOrUnderConstraint(expected);
         }
+        
+        #endregion
+        
+        #region InRange
         
         /// <summary>
         /// Returns a constraint that tests whether the actual value falls 
@@ -543,8 +711,10 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public RangeConstraint InRange(IComparable from, IComparable to)
         {
-            return Is.InRange(from, to);
+            return new RangeConstraint(from, to);
         }
+        
+        #endregion
         
     }
 }
