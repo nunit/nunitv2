@@ -13,9 +13,10 @@
   <patternset id="source-files">
     <include name="AssemblyInfo.cs"/>
     <include name="GenSpec.cs"/>
-    <include name="OutputWriter.cs"/>
+    <include name="CodeGenerator.cs"/>
     <include name="Program.cs"/>
     <include name="Stanza.cs"/>
+    <include name="SyntaxInfo.cs"/>
   </patternset>
 
   <patternset id="resource-files">
