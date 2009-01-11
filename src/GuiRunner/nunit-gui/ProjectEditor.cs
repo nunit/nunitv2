@@ -273,7 +273,6 @@ namespace NUnit.Gui
 			this.label11.Size = new System.Drawing.Size(56, 16);
 			this.label11.TabIndex = 13;
 			this.label11.Text = "Version:";
-			this.label11.Click += new System.EventHandler(this.label11_Click);
 			// 
 			// runtimeComboBox
 			// 
@@ -294,7 +293,6 @@ namespace NUnit.Gui
 			this.label7.Size = new System.Drawing.Size(60, 16);
 			this.label7.TabIndex = 11;
 			this.label7.Text = "Runtime:";
-			this.label7.Click += new System.EventHandler(this.label7_Click);
 			// 
 			// autoBinPathRadioButton
 			// 
@@ -1239,15 +1237,5 @@ namespace NUnit.Gui
             project.DomainUsage = this.DomainUsage;
 		}
 		#endregion
-
-		private void label11_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-
-		private void label7_Click(object sender, System.EventArgs e)
-		{
-		
-		}
 	}
 }
