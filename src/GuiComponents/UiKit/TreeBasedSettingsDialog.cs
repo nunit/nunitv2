@@ -8,6 +8,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using NUnit.Util;
 
 namespace NUnit.UiKit
 {
@@ -141,20 +142,58 @@ namespace NUnit.UiKit
 			if ( treeView1.VisibleCount >= treeView1.GetNodeCount( true ) )
 				treeView1.ExpandAll();
 
-			if ( treeView1.Nodes.Count > 0 )
-				SelectInitialPage(treeView1.Nodes);
+            SelectInitialPage();
 
 			treeView1.Select();
 		}
 
-		private void SelectInitialPage(TreeNodeCollection nodes)
+        private void SelectInitialPage()
+        {
+            string initialPage = Services.UserSettings.GetSetting("Gui.Settings.InitialPage") as string;
+
+            if (initialPage != null)
+                SelectPage(initialPage);
+            else if (treeView1.Nodes.Count > 0)
+                SelectFirstPage(treeView1.Nodes);
+        }
+
+        private void SelectPage(string initialPage)
+        {
+            TreeNode node = FindNode(treeView1.Nodes, initialPage);
+            if (node != null)
+                treeView1.SelectedNode = node;
+            else
+                SelectFirstPage(treeView1.Nodes);
+        }
+
+        private TreeNode FindNode(TreeNodeCollection nodes, string key)
+        {
+            int dot = key.IndexOf('.');
+            string tail = null;
+
+            if (dot >= 0)
+            {
+                tail = key.Substring(dot + 1);
+                key = key.Substring(0, dot);
+            }
+
+            foreach (TreeNode node in nodes)
+                if (node.Text == key)
+                    return tail == null
+                        ? node
+                        : FindNode(node.Nodes, tail);
+
+            return null;
+        }
+
+		private void SelectFirstPage(TreeNodeCollection nodes)
 		{
 			if ( nodes[0].Nodes.Count == 0 )
 				treeView1.SelectedNode = nodes[0];
 			else
 			{
 				nodes[0].Expand();
-				SelectInitialPage(nodes[0].Nodes);
+				SelectFirstPage(nodes[0].Nodes);
 			}
 		}
 
@@ -191,6 +230,7 @@ namespace NUnit.UiKit
 		{
 			string key = e.Node.FullPath;
 			SettingsPage page = SettingsPages[key];
+            Services.UserSettings.SaveSetting("Gui.Settings.InitialPage", key);
 
 			if ( page != null && page != current )
 			{
