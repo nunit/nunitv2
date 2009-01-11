@@ -819,7 +819,16 @@ namespace NUnit.UiKit
             bool reloadOK = false;
             try
             {
-                UpdateNode((TestSuiteTreeNode)Nodes[0], test);
+                string selectedName = ((TestSuiteTreeNode)SelectedNode).Test.TestName.FullName;
+                UpdateNode((TestSuiteTreeNode)Nodes[0], test, new ArrayList());
+
+                TreeNode selectedNode = this.FindNodeByName(selectedName);
+                if (selectedNode != null)
+                {
+                    SelectedNode = selectedNode;
+                    selectedNode.EnsureVisible();
+                }
+
                 reloadOK = true;
             }
             catch (TreeStructureChangedException)
@@ -830,6 +839,8 @@ namespace NUnit.UiKit
             // changes, so just load it cleanly.
             if ( !reloadOK )
                 Load(test);
+
+            this.Focus();
 		}
 
 		/// <summary>
@@ -1106,7 +1117,7 @@ namespace NUnit.UiKit
 		/// <param name="node">Node to be updated</param>
 		/// <param name="test">Test to plug into node</param>
 		/// <returns>True if a child node was added or deleted</returns>
-		private bool UpdateNode( TestSuiteTreeNode node, TestNode test )
+		private bool UpdateNode( TestSuiteTreeNode node, TestNode test, IList deletedNodes )
 		{
 			if ( node.Test.TestName.FullName != test.TestName.FullName )
 				throw( new TreeStructureChangedException( 
@@ -1119,7 +1130,7 @@ namespace NUnit.UiKit
 			if ( !test.IsSuite )
 				return false;
 
-			bool showChildren = UpdateNodes( node.Nodes, test.Tests );
+			bool showChildren = UpdateNodes( node.Nodes, test.Tests, deletedNodes );
 
 			if ( showChildren ) node.Expand();
 
@@ -1134,8 +1145,10 @@ namespace NUnit.UiKit
 		/// </summary>
 		/// <param name="nodes">List of nodes to be matched</param>
 		/// <param name="tests">List of tests to be matched</param>
+        /// <param name="deletedNodes">List of nodes previously removed,
+        /// in case they show up lower in the tree.</param>
 		/// <returns>True if the parent should expand to show that something was added or deleted</returns>
-		private bool UpdateNodes( IList nodes, IList tests )
+		private bool UpdateNodes( IList nodes, IList tests, IList deletedNodes )
 		{
 			// As of NUnit 2.3.6006, the newly reloaded tests 
 			// are guaranteed to be in the same order as the
@@ -1146,7 +1159,10 @@ namespace NUnit.UiKit
 
 			bool showChanges = false;
 
-			// Pass1: delete nodes as needed
+			// Pass1: delete nodes that are not in the list of tests.
+            // Some of these nodes may reappear lower in the tree,
+            // if we are switching from fixture display to tree display,
+            // so we save them for checking later.
 			int nodeIndex = nodes.Count;
 			while( --nodeIndex >= 0 )
 			{
@@ -1154,6 +1170,7 @@ namespace NUnit.UiKit
 				if ( NodeWasDeleted( node, tests ) )
 				{
 					log.Debug( "Deleting " + node.Test.TestName.Name );
+                    deletedNodes.Add(node);
 					RemoveNode( node );
 					showChanges = true;
 				}
@@ -1168,17 +1185,34 @@ namespace NUnit.UiKit
 				TestSuiteTreeNode node = nodeIndex < nodes.Count ? (TestSuiteTreeNode)nodes[nodeIndex] : null;
 
 				if ( node != null && node.Test.TestName.FullName == test.TestName.FullName )
-					UpdateNode( node, test );
+					UpdateNode( node, test, deletedNodes );
 				else
 				{
-					TestSuiteTreeNode newNode = new TestSuiteTreeNode( test );
+                    // Create a new node or use a deleted node
+					TestSuiteTreeNode newNode = null;
+                    
+                    // Check previously deleted nodes
+                    foreach( TestSuiteTreeNode deletedNode in deletedNodes )
+                        if (deletedNode.Test.TestName.FullName == test.TestName.FullName)
+                        {
+                            newNode = deletedNode;
+                            deletedNodes.Remove(deletedNode);
+                            break;
+                        }
+
+                    // If not found, it's completely new
+                    if (newNode == null)
+                        newNode = new TestSuiteTreeNode(test);
+
 					AddToMap( newNode );
 					nodes.Insert( nodeIndex, newNode );
 			
 					if ( test.IsSuite )
 					{
-						foreach( TestNode childTest in test.Tests )
-							AddTreeNodes( newNode.Nodes, childTest, false );
+                        if ( UpdateNodes(newNode.Nodes, test.Tests, deletedNodes) )
+                            newNode.Expand();
+                        //foreach( TestNode childTest in test.Tests )
+                        //    AddTreeNodes(newNode.Nodes, childTest, false);
 					}
 
 					showChanges = true;
@@ -1296,6 +1330,19 @@ namespace NUnit.UiKit
 		{
 			return treeMap[test.TestName.UniqueName] as TestSuiteTreeNode;
 		}
+
+        private TestSuiteTreeNode FindNodeByName( string fullName )
+        {
+            foreach( string uname in treeMap.Keys )
+            {
+                int rbrack = uname.IndexOf(']');
+                string name = rbrack >=0 ? uname.Substring(rbrack+1) : uname;
+                if ( name == fullName )
+                    return treeMap[uname] as TestSuiteTreeNode;
+            }
+
+            return null;
+        }
 
 		private void RestoreVisualState()
 		{
