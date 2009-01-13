@@ -93,6 +93,7 @@
   <target name="gen-syntax">
 
     <exec program="GenSyntax.exe"
+      managed="true"
       basedir="${project.tools.dir}/bin"
       commandline="SyntaxElements.txt"/>
 
