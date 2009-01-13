@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework
@@ -9,8 +10,37 @@ namespace NUnit.Framework
     /// result. If an assumption is not met, the test
     /// should produce an inconclusive result.
     /// </summary>
-    public class Assume : AssertBase
+    public class Assume
     {
+        #region Equals and ReferenceEquals
+
+        /// <summary>
+        /// The Equals method throws an AssertionException. This is done 
+        /// to make sure there is no mistake by calling this function.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static new bool Equals(object a, object b)
+        {
+            // TODO: This should probably be InvalidOperationException
+            throw new AssertionException("Assert.Equals should not be used for Assertions");
+        }
+
+        /// <summary>
+        /// override the default ReferenceEquals to throw an AssertionException. This 
+        /// implementation makes sure there is no mistake in calling this function 
+        /// as part of Assert. 
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        public static new void ReferenceEquals(object a, object b)
+        {
+            throw new AssertionException("Assert.ReferenceEquals should not be used for Assertions");
+        }
+
+        #endregion
+
         #region Assume.That
 
         #region Object
@@ -49,7 +79,6 @@ namespace NUnit.Framework
         {
             Constraint constraint = expression.Resolve();
 
-            Assert.IncrementAssertCount();
             if (!constraint.Matches(actual))
             {
                 MessageWriter writer = new TextMessageWriter(message, args);
@@ -95,7 +124,6 @@ namespace NUnit.Framework
         {
             Constraint constraint = expr.Resolve();
 
-            Assert.IncrementAssertCount();
             if (!constraint.Matches(del))
             {
                 MessageWriter writer = new TextMessageWriter(message, args);
@@ -142,7 +170,6 @@ namespace NUnit.Framework
         {
             Constraint constraint = expression.Resolve();
 
-            Assert.IncrementAssertCount();
             if (!constraint.Matches(ref actual))
             {
                 MessageWriter writer = new TextMessageWriter(message, args);
