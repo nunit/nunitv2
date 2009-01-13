@@ -115,7 +115,13 @@ namespace NUnit.Core.Extensibility
         public string Description
         {
             get { return (string) Properties[DESCRIPTION]; }
-            set { Properties[DESCRIPTION] = value; }
+            set 
+            {
+                if (value != null)
+                    Properties[DESCRIPTION] = value;
+                else
+                    Properties.Remove(DESCRIPTION);
+            }
         }
 
         /// <summary>
