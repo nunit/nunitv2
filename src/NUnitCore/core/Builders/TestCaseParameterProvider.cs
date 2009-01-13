@@ -43,8 +43,16 @@ namespace NUnit.Core.Builders
             foreach (Attribute attr in attrs)
             {
                 ParameterSet parms = ParameterSet.FromDataSource(attr);
-                //if (parms.TestName == null && parms.Arguments.Length > 0)
-                //    parms.TestName = method.Name + GetArgumentString(parms.Arguments);
+
+                if (argsNeeded == 1 && method.GetParameters()[0].ParameterType == typeof(object[]))
+                {
+                    if (parms.Arguments.Length > 1 ||
+                        parms.Arguments.Length == 1 && parms.Arguments[0].GetType() != typeof(object[]))
+                    {
+                        parms.Arguments = new object[] { parms.Arguments };
+                    }
+                }
+                    
 
 				if (parms.Arguments.Length == argsNeeded)
 				{
@@ -80,26 +88,5 @@ namespace NUnit.Core.Builders
                     arg = Convert.ChangeType(arg, targetType);
             }
         }
-
-    //    private static string GetArgumentString(object[] arglist)
-    //    {
-    //        StringBuilder sb = new StringBuilder("(");
-
-    //        if (arglist != null)
-    //            for (int i = 0; i < arglist.Length; i++)
-    //            {
-    //                if (i > 0) sb.Append(",");
-
-    //                object arg = arglist[i];
-    //                if (arg == null)
-    //                    sb.Append("null");
-    //                else
-    //                    sb.Append(arg.ToString());
-    //            }
-
-    //        sb.Append(")");
-
-    //        return sb.ToString();
-    //    }
     }
 }

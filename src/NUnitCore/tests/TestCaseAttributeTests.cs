@@ -86,6 +86,12 @@ namespace NUnit.Core.Tests
         {
         	Assert.IsNull(a);
         }
+
+        [TestCase(new object[] { 1, "two", 3.0 })]
+        [TestCase(new object[] { "zip" })]
+        public void CanPassObjectArrayAsFirstArgument(object[] a)
+        {
+        }
   
         [Test]
         public void CanSpecifyDescription()
