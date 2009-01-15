@@ -137,14 +137,14 @@ namespace NUnit.Framework.Tests
 		public void EqualsThrowsException()
 		{
 			object o = new object();
-			AssertBase.Equals(o, o);
+			Assert.Equals(o, o);
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void ReferenceEqualsThrowsException()
 		{
 			object o = new object();
-			AssertBase.ReferenceEquals(o, o);
+			Assert.ReferenceEquals(o, o);
 		}
 		
 		[Test]
