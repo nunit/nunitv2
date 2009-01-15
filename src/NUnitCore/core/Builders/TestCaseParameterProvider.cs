@@ -44,6 +44,9 @@ namespace NUnit.Core.Builders
             {
                 ParameterSet parms = ParameterSet.FromDataSource(attr);
 
+                //if (method.GetParameters().Length == 1 && method.GetParameters()[0].ParameterType == typeof(object[]))
+                //    parms.Arguments = new object[]{parms.Arguments};
+
                 if (argsNeeded == 1 && method.GetParameters()[0].ParameterType == typeof(object[]))
                 {
                     if (parms.Arguments.Length > 1 ||
@@ -58,8 +61,8 @@ namespace NUnit.Core.Builders
 				{
 					try
 					{
-						for (int i = 0; i < argsNeeded; i++)
-							MakeArgumentCompatible(ref parms.Arguments[i], parameters[i].ParameterType);
+                        for (int i = 0; i < argsNeeded; i++)
+                            MakeArgumentCompatible(ref parms.Arguments[i], parameters[i].ParameterType);
 					}
 					catch (Exception)
 					{
@@ -84,8 +87,8 @@ namespace NUnit.Core.Builders
             {
                 if (arg is DBNull)
                     arg = null;
-                else if (arg is IConvertible && targetType != typeof(string) )
-                    arg = Convert.ChangeType(arg, targetType);
+                else if (arg is IConvertible && targetType != typeof(string))
+                    arg = Convert.ChangeType(arg, targetType, System.Globalization.CultureInfo.InvariantCulture);
             }
         }
     }

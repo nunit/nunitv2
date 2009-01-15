@@ -370,7 +370,15 @@ namespace NUnit.Core
             public static void AreEqual(object expected, object actual)
             {
                 if (AreEqualMethod != null)
-                    AreEqualMethod.Invoke( null, new object[] { expected, actual });
+                    try
+                    {
+                        AreEqualMethod.Invoke(null, new object[] { expected, actual });
+                    }
+                    catch (TargetInvocationException e)
+                    {
+                        Exception inner = e.InnerException;
+                        throw new NUnitException("Rethrown", inner);
+                    }
             }
 
             /// <summary>

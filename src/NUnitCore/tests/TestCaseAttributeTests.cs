@@ -93,6 +93,27 @@ namespace NUnit.Core.Tests
         {
         }
   
+        [TestCase(new object[] { "a", "b" })]
+        public void CanPassArrayAsArgument(object[] array)
+        {
+            Assert.AreEqual("a", array[0]);
+            Assert.AreEqual("b", array[1]);
+        }
+
+        [TestCase("a", "b")]
+        public void ArgumentsAreCoalescedInObjectArray(object[] array)
+        {
+            Assert.AreEqual("a", array[0]);
+            Assert.AreEqual("b", array[1]);
+        }
+
+        [TestCase(1, "b")]
+        public void ArgumentsOfDifferentTypeAreCoalescedInObjectArray(object[] array)
+        {
+            Assert.AreEqual(1, array[0]);
+            Assert.AreEqual("b", array[1]);
+        }
+
         [Test]
         public void CanSpecifyDescription()
         {

@@ -48,7 +48,9 @@ namespace NUnit.Core
 
         private static string GetDisplayString(object arg)
         {
-            string display = arg == null ? "null" : arg.ToString();
+            string display = arg == null 
+                ? "null" 
+                : Convert.ToString( arg, System.Globalization.CultureInfo.InvariantCulture);
 
             if (arg is double)
             {
