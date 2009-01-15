@@ -12,7 +12,7 @@ namespace NUnit.Framework
     /// <summary>
     /// The Catch class is used to capture an exception.
     /// </summary>
-    public class Catch
+    class Catch
     {
         /// <summary>
         /// Capture any exception that is thrown by the delegate
