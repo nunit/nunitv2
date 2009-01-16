@@ -24,11 +24,47 @@
 
 <div id="content">
 
-<h3>NUnit 2.5 Beta 1 Release - Version 2.5.0.8332 - November 27, 2008</h3>
+<h3>NUnit 2.5 Beta 2 Release - Version 2.5.0.9015 - January 15, 2009</h3>
 
 <div style="max-width:660px;text-align:right">
 <a href="releaseNotes.html">View Combined 2.5 Changes</a>
 </div>
+
+<h4>Framework</h4>
+
+<ul>
+<li>NUnit now includes an implementation of <b>Theories</b>, similar to what
+    is found in JUnit. Support for Theories is provided by the
+	<b>Theory</b>, <b>Datapoint</b> and <b>Datapoints</b> attributes and by
+	the <b>Assume.That</b> method. For more information and further links, 
+	see the <a href="theory.html">TheoryAttribute</a> 
+	documentation page.
+<li>AssertionHelper has been updated so that the Expect overloads now
+    include the signatures newly introduced for Assert.That.
+<li>The code for Assert is now generated. This is in addition to the files 
+    that were generated in beta-1.
+<li><b>AfterConsraint</b> has been renamed to <b>DelayedConstraint</b>.
+</ul>
+
+<h4>Console</h4>
+
+<ul>
+<li>The console runner now supports a <b>/framework</b> option, which
+    allows running the tests under a different version of the CLR.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>The Gui is now able to display the source code for test or production
+    code from the stack trace, provided the assemblies contain source code
+    information and the source code is available. Contributed by Irénée Hottier.
+<li>Reloading the tests after changing settings in a way that modifies
+    the shape of the tree is now handled correctly.
+<li>The Settings Dialog now opens to the page that was last viewed.
+</ul>
+
+<h3>NUnit 2.5 Beta 1 Release - Version 2.5.0.8332 - November 27, 2008</h3>
 
 <h4>General</h4>
 
@@ -601,6 +637,7 @@ this release may be removed or changed in future releases.
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="pnunit.html">PNUnit</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>

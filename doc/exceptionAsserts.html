@@ -46,9 +46,6 @@
 <p>Assert.DoesNotThrow simply verifies that the delegate does not throw
    an exception.
    
-<p>If you just want to grab the exception, use Catch.Exception, which
-returns any exception thrown or null.
-
 <div class="code"><pre>
 
 Assert.Throws( Type expectedExceptionType, TestDelegate code );
@@ -72,9 +69,6 @@ Assert.DoesNotThrow( TestDelegate code );
 Assert.DoesNotThrow( TestDelegate code, string message );
 Assert.DoesNotThrow( TestDelegate code, string message, 
         params object[] parms);
-		
-Catch.Exception( TestDelegate code );
-
 </pre></div>
 
 <p>In the above code <b>TestDelegate</b> is a delegate of the form
@@ -128,16 +122,47 @@ public class UsingReturnValue
   }
 </pre></div>
 
+<p>This example does the same thing
+using the overload that includes a constraint.
+
+<div class="code"><pre>
+[TestFixture]
+public class UsingConstraint
+{
+  [Test]
+  public void TestException()
+  {
+    Assert.Throws( Is.Typeof&lt;MyException&gt;()
+                 .And.Message.EqualTo( "message" )
+                 .And.Property( "MyParam" ).EqualTo( 42 ),
+      delegate { throw new MyException( "message", 42 ) } );
+  }
+</pre></div>
+
+<p>Use the form that matches your style of coding.
+
+<h4>Exact Versus Derived Types</h4>
+
 <p>When used with a Type argument, <b>Assert.Throws</b> requires
 that exact type to be thrown. If you want to test for any
-derived Type, use a constraint. For example, the following
-Assert succeeds if an ApplicationException or any derived
-exception is thrown.
+derived Type, use a constraint. See the following code for
+examples:
 
 <div class="code">
-<pre>Assert.Throws( Is.InstanceOf&lt;ApplicationException&gt;(), code );</pre>
+<pre>
+// Require an ApplicationException - derived types fail!
+Assert.Throws( typeof(ApplicationException), code );
+Assert.Throws&lt;ApplicationException&gt;()( code );
+
+// Allow both ApplicationException and any derived type
+Assert.Throws( Is.InstanceOf( typeof(ApplicationException), code );
+Assert.Throws( Is.InstanceOf&lt;ApplicationException&gt;(), code );
+</pre>
 </div>
 
+<h4>See also...</h4>
+<ul>
+<li><a href="throwsConstraint.html">ThrowsConstraint</a></ul>
 
 </div>
 
@@ -154,7 +179,7 @@ exception is thrown.
 <li><a href="conditionAsserts.html">Condition&nbsp;Asserts</a></li>
 <li><a href="comparisonAsserts.html">Comparison&nbsp;Asserts</a></li>
 <li><a href="typeAsserts.html">Type&nbsp;Asserts</a></li>
-<li id="current"><a href="exceptionAsserts.html">Exception&nbsp;Tests</a></li>
+<li id="current"><a href="exceptionAsserts.html">Exception&nbsp;Asserts</a></li>
 <li><a href="utilityAsserts.html">Utility&nbsp;Methods</a></li>
 <li><a href="stringAssert.html">String&nbsp;Assert</a></li>
 <li><a href="collectionAssert.html">Collection&nbsp;Assert</a></li>
@@ -166,6 +191,7 @@ exception is thrown.
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="pnunit.html">PNUnit</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>

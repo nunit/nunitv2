@@ -42,28 +42,62 @@ to create an <b>EqualConstraint</b>. The same assertion could also be made in th
    Assert.That() method, which has a number of overloads...
    
 <div class="code" style="width: 36em">
-<pre>Assert.That( object actual, IConstraint constraint )
-Assert.That( object actual, IConstraint constraint, string message )
-Assert.That( object actual, IConstraint constraint, string message, 
-             object[] parms )
+<pre>
+Assert.That( object actual, IResolveConstraint constraint )
+Assert.That( object actual, IResolveConstraint constraint, 
+             string message )
+Assert.That( object actual, IResolveConstraint constraint,
+             string message, object[] parms )
+			 
+Assert.That( ActualValueDelegate del, IResolveConstraint constraint )
+Assert.That( ActualValueDelegate del, IResolveConstraint constraint, 
+             string message )
+Assert.That( ActualValueDelegate del, IResolveConstraint constraint,
+             string message, object[] parms )
+			 
+Assert.That<T>( ref T actual, IResolveConstraint constraint )
+Assert.That<T>( ref T actual, IResolveConstraint constraint, 
+             string message )
+Assert.That<T>( ref T actual, IResolveConstraint constraint,
+             string message, object[] parms )
 			 
 Assert.That( bool condition );
 Assert.That( bool condition, string message );
-Assert.That( bool condition, string message, object[] parms );</pre>
+Assert.That( bool condition, string message, object[] parms );
+
+Assert.That( TestDelegate del, IResolveConstraint constraint );
+</pre>
 </div>
 
 <p>If you derive your test fixture class from <b>AssertionHelper</b>, the
 Expect() method may be used in place of Assert.That()...
 
 <div class="code" style="width: 36em">
-<pre>Expect( object actual, IConstraint constraint )
-Expect( object actual, IConstraint constraint, string message )
-Expect( object actual, IConstraint constraint, string message, 
-             object[] parms )
+<pre>
+Expect( object actual, IResolveConstraint constraint )
+Expect( object actual, IResolveConstraint constraint, 
+             string message )
+Expect( object actual, IResolveConstraint constraint, 
+             string message, object[] parms )
+			 
+Expect( ActualValueDelegate del, IResolveConstraint constraint )
+Expect( ActualValueDelegate del, IResolveConstraint constraint, 
+             string message )
+Expect( ActualValueDelegate del, IResolveConstraint constraint,
+             string message, object[] parms )
+			 
+Expect<T>( ref T actual, IResolveConstraint constraint )
+Expect<T>( ref T actual, IResolveConstraint constraint, 
+             string message )
+Expect<T>( ref T actual, IResolveConstraint constraint,
+             string message, object[] parms )
 			 
 Expect( bool condition );
 Expect( bool condition, string message );
-Expect( bool condition, string message, object[] parms );</pre>
+Expect( bool condition, string message, object[] parms );
+
+Expect( TestDelegate del, IResolveConstraint constraint );
+</pre>
 </div>
 
 <p>The overloads that take a bool work exactly like Assert.IsTrue.
@@ -114,6 +148,7 @@ Expect( bool condition, string message, object[] parms );</pre>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="pnunit.html">PNUnit</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>

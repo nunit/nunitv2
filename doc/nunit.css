@@ -96,7 +96,7 @@ table.quote td.sig { border-left: solid black 1px; padding-left: 15px }
 	width: 14%; margin: 1em 0 0; padding: 0 5%; font-size: .8em; background-color: #fff }
 #news h4 { font: 1.2em "Times New Roman", Roman, serif; font-variant: small-caps; text-align: center; margin: 0 0 1em; }
 
-div.code { border: 1px solid #888; background-color: #ccf; width: 32em;
+div.code { border: 1px solid #888; background-color: #ccf; width: 36em;
       margin: 1.5em 0; padding: 2px 0; position: relative; }
 div.code pre { font: .8em "Courier New", Courier, monospace; margin: 0 1em .25em; }
 div.langFilter { position: absolute; top: 100px; left: 5%; }

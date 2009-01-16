@@ -32,7 +32,7 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.5 Beta 1 Release - Version 2.5.0.8332 - November 27, 2008</h3>
+<h3>NUnit 2.5 Beta 2 Release - Version 2.5.0.9015 - January 15, 2009</h3>
 
 <div style="max-width:660px;text-align:right">
 <a href="releaseDetail.html">View Changes Separately for Each 2.5 Pre-Release</a>
@@ -58,7 +58,7 @@ dt { font-weight: bold }
 	or both of them.
 <li>The Visual Studio solutions and projects are now in a directory tree that 
 	is parallel to the source tree. A VS2008 project has been added.
-<li>Most of the code for elements of the constraint
+<li>Most of the code for Assert and for elements of the constraint
     syntax is now generated. This allows us to more rapidly deploy new 
 	constraints with their corresponding syntax. The file <b>SyntaxElements.txt</b>
 	contains the specifications used in generating the code and the source of 
@@ -74,6 +74,12 @@ dt { font-weight: bold }
 <h4>Framework</h4>
 
 <ul>
+<li>NUnit now includes an implementation of <b>Theories</b>, similar to what
+    is found in JUnit. Support for Theories is provided by the
+	<b>Theory</b>, <b>Datapoint</b> and <b>Datapoints</b> attributes and by
+	the <b>Assume.That</b> method. For more information and further links, 
+	see the <a href="theory.html">TheoryAttribute</a> 
+	documentation page.
 <li>New attributes:
    <ul>
    <li><b>RequiresThreadAttribute</b> forces creation of a new thread and
@@ -170,9 +176,9 @@ dt { font-weight: bold }
 	    requiring that they exist in the file system.
 	<li><b>Is.SamePathOrUnder(string)</b> tests that one path is under another,
 	    without requiring that either path exists in the file system.
-    <li><b>AfterConstraint</b> and the <b>After</b> syntactic element allow
+    <li><b>DelayedConstraint</b> and the <b>After</b> syntactic element allow
 	    delaying the application of a constraint until a certain time has passed. 
-		See <a href="afterConstraint.html">After Constraint</a> for
+		See <a href="delayedConstraint.html">DelayedConstraint</a> for
 		features and limitations.
 	</ul>
 <li>The parsing of constraint expressions written using the fluent interface
@@ -247,7 +253,10 @@ dt { font-weight: bold }
 <li><b>Assert.That</b> has been extended to allow a delegate or a reference 
 	as the argument. By default, these are evaluated before being used by
 	the constraint supplied but some constraints may delay evaluation. The
-	new <b>AfterConstraint</b> is an example.
+	new <b>DelayedConstraint</b> is an example.
+
+<li>AssertionHelper has been updated so that the Expect overloads now
+    include the signatures newly introduced for Assert.That.
 
 <li>NUnit now includes added functionality in the .NET 2.0 build of
 	the framework. The following additional features are supported:
@@ -298,6 +307,8 @@ dt { font-weight: bold }
 <h4>Console</h4>
 
 <ul>
+<li>The console runner now supports a <b>/framework</b> option, which
+    allows running the tests under a different version of the CLR.
 <!-- Beta 1 -->
 <li>The new <b>/process:xxxxx</b> command line option is used to run
     tests in a separate process or in multiple processes per assembly.
@@ -315,6 +326,12 @@ dt { font-weight: bold }
 <h4>Gui</h4>
 
 <ul>
+<li>The Gui is now able to display the source code for test or production
+    code from the stack trace, provided the assemblies contain source code
+    information and the source code is available. Contributed by Irénée Hottier.
+<li>Reloading the tests after changing settings in a way that modifies
+    the shape of the tree is now handled correctly.
+<li>The Settings Dialog now opens to the page that was last viewed.
 <li>The default gui display now uses a single tab for all text output. For
 	users upgrading from an earlier release, the current settings are
 	honored. If you wish to change to the new default, use the Restore Defaults
@@ -435,6 +452,7 @@ dt { font-weight: bold }
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="pnunit.html">PNUnit</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>

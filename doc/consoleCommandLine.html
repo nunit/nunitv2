@@ -73,11 +73,13 @@ in most cases.
 <p>This option is provided for backward compatibility. In most cases, you will
 be better served by using the <b>/run</b> option.
 	
-<h4>Specifying the Version of the CLR</h4>
+<h4>Specifying the .NET Framework Version</h4>
 
 <p>Most applications are written to run under a specific version of the CLR.
 A few are designed to operate correctly under multiple versions. In either case,
 it is important to be able to specify the CLR version to be used for testing.</p>
+
+<p>NUnit 2.5 provides several alternative ways to do this.
 
 <p>When only one version of the CLR is used, the config files for nunit-gui and
 nunit-console may be set up to specify that version. As a more convenient
@@ -96,9 +98,8 @@ for a list of options.</p>
 <p><b>Note:</b> If you use a &lt;startup&gt; section in the config file, it takes
 precedence over this option.</p>
 
-<p><b>Note:</b> This command is specific to the Microsoft .Net 
-framework. The Mono framework provides other means to specify the version
-to be used when running a command.</p>
+<p><b>Clr.bat</b> works for Microsoft .NET versions. For running under Mono,
+you should use the Mono command, which is part of the Mono distribution.
 
 <h4>Specifying Test Categories to Include or Exclude</h4>
 <p>NUnit provides CategoryAttribute for use in marking tests as belonging to 
@@ -274,6 +275,7 @@ may run for any amount of time.
 </ul>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="pnunit.html">PNUnit</a></li>
 <li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
 <li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>
