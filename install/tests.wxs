@@ -114,6 +114,7 @@
           
       <Component Id="gui_tests_2.0" DiskId="1" Guid="C7E0B8E5-DE60-455a-B247-B204A4C28677">
 		    <File Id="nunit.uikit.tests_2.0" Name="TESTUIKI.DLL" LongName="nunit.uikit.tests.dll" />
+                    <File Id="nunit.uiexception.tests.dll" Name="UIXCPTST.DLL" LongName="nunit.uiexception.tests.dll" />
 		    <File Id="gui.tests_2.0" Name="GUITESTS.DLL" LongName="nunit-gui.tests.dll" />
       </Component>
 
