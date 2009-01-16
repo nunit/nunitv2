@@ -68,14 +68,14 @@
   <!-- Determine todays build number -->
   <property name="temp.now" value="${datetime::now()}"/>
   <property name="temp.yr" value="${datetime::get-year(temp.now)-2000}"/>
-  <property name="temp.day" value="${datetime::get-day-of-year(temp.now)}"/>
+  <property name="temp.day" value="${string::pad-left(datetime::get-day-of-year(temp.now),3,'0')}"/>
   <property name="package.build.number" value="${temp.yr}${temp.day}"/>
 
   <!-- NUnit full package version -->
   <property name="package.version" value="${base.package.version}.${package.build.number}"/>
 
   <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
-  <property name="package.configuration" value="Beta-1"/>
+  <property name="package.configuration" value="Beta-2"/>
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
