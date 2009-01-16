@@ -158,10 +158,19 @@ namespace NUnit.Util.Tests
 			}
 			while( loader.Running );
 
-		    int eventCount = 4 /* for loading */+ 2*(MockAssembly.Nodes - MockAssembly.Explicit);
-			Assert.AreEqual( eventCount, catcher.Events.Count );
-			Assert.AreEqual( TestAction.RunStarting, ((TestEventArgs)catcher.Events[4]).Action );
-			Assert.AreEqual( TestAction.RunFinished, ((TestEventArgs)catcher.Events[eventCount-1]).Action );
+            Assert.AreEqual(TestAction.ProjectLoading, ((TestEventArgs)catcher.Events[0]).Action);
+            Assert.AreEqual(TestAction.ProjectLoaded, ((TestEventArgs)catcher.Events[1]).Action);
+            Assert.AreEqual(TestAction.TestLoading, ((TestEventArgs)catcher.Events[2]).Action);
+            Assert.AreEqual(TestAction.TestLoaded, ((TestEventArgs)catcher.Events[3]).Action);
+            Assert.AreEqual(TestAction.RunStarting, ((TestEventArgs)catcher.Events[4]).Action);
+
+            int eventCount = 4 /* for loading */+ 2 * (MockAssembly.Nodes - MockAssembly.Explicit);
+            if (eventCount != catcher.Events.Count)
+                foreach (TestEventArgs e in catcher.Events)
+                    Console.WriteLine(e.Action);
+            Assert.AreEqual(eventCount, catcher.Events.Count);
+
+            Assert.AreEqual(TestAction.RunFinished, ((TestEventArgs)catcher.Events[eventCount - 1]).Action);
 
 			int nTests = 0;
 			int nRun = 0;
