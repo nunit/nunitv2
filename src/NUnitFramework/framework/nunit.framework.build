@@ -34,7 +34,6 @@
         <include name="Constraints/TypeConstraints.cs"/>
         <include name="AssemblyInfo.cs"/>
         <include name="Assert.cs"/>
-        <include name="AssertBase.cs"/>
         <include name="AssertionException.cs"/>
         <include name="AssertionHelper.cs"/>
         <include name="Assume.cs"/>

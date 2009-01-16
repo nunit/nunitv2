@@ -213,7 +213,6 @@ namespace NUnit.Framework
         {
             Constraint constraint = expression.Resolve();
 
-            Assert.IncrementAssertCount();
             if (!constraint.Matches(ref actual))
             {
                 MessageWriter writer = new TextMessageWriter(message, args);

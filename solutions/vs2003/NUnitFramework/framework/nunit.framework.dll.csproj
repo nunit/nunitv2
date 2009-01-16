@@ -96,12 +96,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "AssertBase.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\AssertBase.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "AssertionException.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\AssertionException.cs"
                     SubType = "Code"
