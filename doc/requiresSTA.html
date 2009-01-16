@@ -1,0 +1,136 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - RequiresSTA</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <a href="http://www.nunit.org">NUnit</a>
+    <a class="active" href="index.html">Documentation</a>
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h3>RequiresSTAAttribute (NUnit 2.5)</h3>
+
+<div style="text-align: center; margin: 2em 4em; padding: 4px 0; border: 1px solid black; background: #ccc; max-width: 600px">
+  <h4>Preliminary documentation, subject to change.</h4>
+</div>
+
+<p>The <b>RequiresSTAAttribute</b> is used on a test method, class or assembly
+   to specify that the tests should be run in the Single-threaded apartment.
+   It causes creation of a new thread if the parent test is not already running
+   in the STA.
+   
+<p><b>Note:</b> On test methods, you may also use the <b>STAThreadAttribute</b>.
+   Although the runtime only recognizes this attribute on the entrypoint of 
+   an executable assembly, many users have expected it to work on tests, so
+   we treat it as a synonym.
+
+<h4>Examples</h4>
+   
+<div class="code">
+
+<pre>
+
+// An STA thread will be created and used to run
+// all the tests in the assembly
+[assembly:RequiresSTA]
+
+...
+
+// TestFixture requiring a separate thread
+[TestFixture, RequiresSTA]
+public class FixtureRequiringSTA
+{
+  // An STA thread will be created and all
+  // tests in the fixture will run on it
+  // unless the containing assembly is
+  // already running on an STA Thread
+}
+
+[TestFixture]
+public class AnotherFixture
+{
+  [Test, RequiresSTA]
+  public void TestRequiringSTA()
+  {
+    // A separate thread will be created for this test
+	// unless the containing fixture is already running 
+	// in the STA.
+  }
+}
+
+</pre>
+
+</div>
+
+<h4>See also...</h4>
+<ul>
+<li><a href="requiresThread.html">RequiresThreadAttribute</a><li><a href="requiresMTA.html">RequiresMTAAttribute</a></ul>
+   
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="index.html">NUnit 2.5</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<ul>
+<li><a href="testIdentification.html">Test&nbsp;Identification</a></li>
+<li><a href="testSelection.html">Test&nbsp;Selection</a></li>
+<li><a href="testModification.html">Test&nbsp;Modification</a></li>
+<ul>
+<li><a href="exception.html">Exception</a></li>
+<li><a href="maxtime.html">Maxtime</a></li>
+<li><a href="repeat.html">Repeat</a></li>
+<li><a href="requiredAddin.html">RequiredAddin</a></li>
+<li><a href="requiresMTA.html">Requires&nbsp;MTA</a></li>
+<li id="current"><a href="requiresSTA.html">Requires&nbsp;STA</a></li>
+<li><a href="requiresThread.html">Requires&nbsp;Thread</a></li>
+<li><a href="setCulture.html">SetCulture</a></li>
+<li><a href="timeout.html">Timeout</a></li>
+</ul>
+<li><a href="setupTeardown.html">Setup&nbsp;and&nbsp;Teardown</a></li>
+<li><a href="parameterizedTests.html">Parameterized&nbsp;Tests</a></li>
+</ul>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<div id="footer">
+  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+
+</body>
+</html>

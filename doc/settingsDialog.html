@@ -1,8 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - OptionsDialog</title>
+<title>NUnit - SettingsDialog</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -24,45 +24,48 @@
 
 <div id="content">
 
-<h2>Options Dialog</h2>
+<h2>Settings Dialog</h2>
 
-<p>The Options Dialog is displayed using the Tools | Options menu item and allows the user to
-control some aspects of NUnit’s operation. With NUnit 2.4.4, a tree-based dialog
+<p>The Settings Dialog is displayed using the Tools | Settings menu item and allows the user to
+control some aspects of NUnit’s operation. Beginning with NUnit 2.4.4, a tree-based dialog
 replaced the older tabbed format.</p>
 
-<hr><h3>Gui Options - General</h3><hr>
+<hr><h3>Gui Settings - General</h3><hr>
 
 <div class="screenshot-right">
-   <img src="img/generalOptions.jpg"></div>
+   <img src="img/generalSettings.jpg"></div>
 
 <h3>Gui Display</h3>
 
 <h4>Full Gui</h4>
 <p>Displays the complete gui - as in prior versions of NUnit. This includes the
-   errors and failures and other tabs and the progress bar.</p>
+   test result tabs and the progress bar.</p>
    
 <h4>Mini Gui</h4>
 <p>Switches the display to the mini-gui, which consists of the tree display 
    only.</p>
 <h3>Recent Files</h3>
 
-<p>The text box allows the user to choose the number of entries to display in the recent files list.
-If <b>Load most recent project at startup</b> is checked, the GUI will load the last file opened unless it
-is run with a specific filename or with the <code>/noload</code> parameter.</p>
+<p>The <b>Display ... files in list</b> TextBox allows the user to choose the number 
+of entries to display in the recent files list.
 
-<hr style="clear: both"><h3>Gui Options - Tree Display</h3><hr>
+<p>If <b>Load most recent project at startup</b> is checked, the GUI will load the 
+last file opened unless it is run with a specific filename or with the 
+<code>/noload</code> parameter.</p>
+
+<hr style="clear: both"><h3>Gui Settings - Tree Display</h3><hr>
 
 <div class="screenshot-right">
-   <img src="img/treeDisplayOptions.jpg"></div>
+   <img src="img/treeDisplaySettings.jpg"></div>
 
 <h3>Tree View</h3>
 
 <p>The list box allows selecting the degree of expansion of the tree when tests are loaded:</p>
 <blockquote>
+<p><b>Auto</b> – selects a setting based on the space available for the tree display.</p>
 <p><b>Expand</b> – expands all tests</p>
 <p><b>Collapse</b> – collapses all tests</p>
 <p><b>Hide Tests</b> – expands all suites except for the fixtures themselves.</p>
-<p><b>Auto</b> – selects one of the above based on the space available for the tree display.</p>
 </blockquote>
 
 <p>If <b>Clear results when reloading</b> is checked, an automatic or manual reload will reinitialize all
@@ -75,12 +78,22 @@ branches of the tree are expanded, the selected node, any checked nodes and any
 category selection.
 
 <p>If <b>Show Checkboxes</b> is checked, the tree includes checkboxes, which may
-   be used to select multiple tests for running.</p>
+   be used to select multiple tests for running. This setting is also available
+   in the <b>View | Tree</b> menu.</p>
 
-<hr style="clear: both"><h3>Gui Options - Test Results</h3><hr>
+<h3>Test Structure</h3>
+
+<p>If <b>Automatic Namespace suites</b> is selected, tests will be
+   shown in a hierarchical listing based on namespaces. This is the
+   standard display as used in versions prior to NUnit 2.4.
+
+<p>If <b>Flat list of TestFixtures</b> is selected, tests will be
+   shown as a sequential list of fixtures.
+
+<hr style="clear: both"><h3>Gui Settings - Test Results</h3><hr>
 
 <div class="screenshot-right">
-   <img src="img/testResultOptions.jpg"></div>
+   <img src="img/testResultSettings.jpg"></div>
 
 <h3>Errors Tab</h3>
 
@@ -102,10 +115,10 @@ normally choose one or the other.</p>
 <b>Tests Not Run</b> tab, which shows information about tests that were
 skipped or ignored.
 
-<hr style="clear: both"><h3>Gui Options - Text Output</h3><hr>
+<hr style="clear: both"><h3>Gui Settings - Text Output</h3><hr>
 
 <div class="screenshot-right">
-   <img src="img/textOutputOptions.jpg"></div>
+   <img src="img/textOutputSettings.jpg"></div>
 
 <h3>Select Tab</h3>
 
@@ -114,7 +127,9 @@ settings are to be viewed or changed. It also contains entries that allow
 you to add a new tab or edit the list of tabs.
 
 <p>The <b>Restore Defaults</b> button is used to restore the default
-set of four tabs, in case you have modified the list of tabs.
+setting, which is a single tab labeled "Text Output." The default tab
+displays all types of output and includes a label for each test that 
+displays text.
 
 <p>The <b>Title</b> text box is used to modify the title displayed
 for the selected output tab.
@@ -131,7 +146,7 @@ output produced while your test is running - either by the test
 itself or by the program you are testing.
 
 <h4>Standard Output</h4>
-<p>Captures all output written to Console.Error.
+<p>Captures all output written to Console.Out.
 
 <h4>Error Output</h4>
 <p>Captures all output written to Console.Error.
@@ -154,49 +169,48 @@ with the name of the test that produced it.</p>
 of labels for tests that produce no output in the window.
 
 
-<hr style="clear: both"><h3>Test Loader Options - General</h3><hr>
+<hr style="clear: both"><h3>Test Loader Settings - Assembly Isolation</h3><hr>
 
 <div class="screenshot-right">
-   <img src="img/testLoadOptions.jpg"></div>
+   <img src="img/testLoadSettings.jpg"></div>
 
-<h3>Test Structure</h3>
+<h3>Default Process Model</h3>
 
-<p>If <b>Automatic Namespace suites</b> is selected, tests will be
-   shown in a hierarchical listing based on namespaces. This is the
-   standard display as used in versions prior to NUnit 2.4.
+<p>These settings determine NUnit's default use of operating system
+processes and may be overridden by settings in the NUnit project.
 
-<p>If <b>Flat list of TestFixtures</b> is selected, tests will be
-   shown as a sequential list of fixtures.
+<p>If <b>Run tests directly in the NUnit process</b> is selected,
+all tests are run in a test domain in the same process as NUnit.
+This is the way previous versions of NUnit ran tests and is the
+default setting.
 
-<h3>Multiple Assemblies</h3>
+<p>If <b>Run tests in a single separate process</b> is selected,
+a separate process is used for all tests.
 
-<p>If <b>Load in separate AppDomains</b> is selected, each assembly
+<p>If <b>Run tests in a separate process per Assembly </b> is selected,
+a separate process is used for each test assembly.
+
+<h3>Default Domain Usage</h3>
+
+<p>If <b>Use a separate AppDomain per Assembly</b> is selected, each assembly
    in a multiple-assembly test run will be loaded in a separate AppDomain.
+   This setting is not available when <b>Run tests in a separate process
+   per Assembly</b> is selected above.
 
-<p>If <b>Load in a single AppDomain</b> is selected, all assemblies in
-   a multiple-assembly test run will use the same AppDomain. This is
-   the standard behavior of NUnit prior to version 2.4.
+<p>If <b>Use a single AppDomain for all tests</b> is selected, all assemblies in
+   a multiple-assembly test run will use the same AppDomain. This was
+   the standard behavior of NUnit prior to version 2.4 and is the
+   default setting.
 
 <p>If <b>Merge tests across assemblies</b> is checked, the display of tests
    will not be divided across assemblies. If automatic namespace suites are
    used, they will be merged across all assemblies. This option is only
    available when tests are run in the same appdomain.
 
-<h3>Shadow Copy</h3>
-
-<p>NUnit normally uses .Net shadow-copying in order to allow you to edit
-and recompile assemblies while it is running. Uncheck this box to disable
-shadow-copy only if you have a particular problem that requires it.</p>
-
-<p><b>Note:</b> If you are tempted to disable shadow copy in order to access
-files in the same directory as your assembly, you should be aware that there
-are alternatives. Consider using the Assembly.Codebase property rather than
-Assembly.Location.
-
-<hr style="clear: both"><h3>Test Loader Options - Assembly Reload</h3><hr>
+<hr style="clear: both"><h3>Test Loader Settings - Assembly Reload</h3><hr>
 
 <div class="screenshot-right">
-   <img src="img/assemblyReloadOptions.jpg"></div>
+   <img src="img/assemblyReloadSettings.jpg"></div>
 
 <h3>Assembly Reload</h3>
 
@@ -209,10 +223,27 @@ an automatic reload is initiated. This item is disabled on Windows 98 or ME.</p>
 <p>If <b>Re-run last tests run</b> is checked, tests are re-run whenever a Reload
    takes place.</p>
    
-<hr style="clear: both"><h3>IDE Support Options - Visual Studio</h3><hr>
+<hr style="clear: both"><h3>Test Loader Settings - Advanced</h3><hr>
 
 <div class="screenshot-right">
-   <img src="img/visualStudioOptions.jpg"></div>
+   <img src="img/advancedSettings.jpg"></div>
+
+<h3>Shadow Copy</h3>
+
+<p>NUnit normally uses .Net shadow-copying in order to allow you to edit
+and recompile assemblies while it is running. Uncheck this box to disable
+shadow-copy only if you have a particular problem that requires it.</p>
+
+<p><b>Note:</b> If you are tempted to disable shadow copy in order to access
+files in the same directory as your assembly, you should be aware that there
+are alternatives. Consider using the Assembly.Codebase property rather than
+Assembly.Location.
+
+
+<hr style="clear: both"><h3>IDE Support Settings - Visual Studio</h3><hr>
+
+<div class="screenshot-right">
+   <img src="img/visualStudioSettings.jpg"></div>
 
 <h3>Visual Studio</h3>
 
@@ -229,6 +260,7 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
@@ -236,13 +268,16 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <li><a href="guiCommandLine.html">Command-Line</a></li>
 <li><a href="mainMenu.html">Main&nbsp;Menu</a></li>
 <li><a href="contextMenu.html">Context&nbsp;Menu</a></li>
-<li id="current"><a href="optionsDialog.html">Options&nbsp;Dialog</a></li>
+<li id="current"><a href="settingsDialog.html">Settings&nbsp;Dialog</a></li>
 <li><a href="addinsDialog.html">Addins&nbsp;Dialog</a></li>
 <li><a href="testProperties.html">Test&nbsp;Properties</a></li>
 <li><a href="configEditor.html">Configuration&nbsp;Editor</a></li>
 <li><a href="projectEditor.html">Project&nbsp;Editor</a></li>
 </ul>
-<li><a href="features.html">Other&nbsp;Features</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
