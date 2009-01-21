@@ -30,6 +30,8 @@ namespace NUnit.Util.Tests
 
 		private TestEventArgsCollection events;
 
+        public bool GotRunFinished = false;
+
 		public TestEventCatcher( ITestEvents source )
 		{
 			events = new TestEventArgsCollection();
@@ -71,6 +73,8 @@ namespace NUnit.Util.Tests
 		private void OnTestEvent( object sender, TestEventArgs e )
 		{
 			events.Add( e );
+            if (e.Action == TestAction.RunFinished)
+                GotRunFinished = true;
 		}
 	}
 }

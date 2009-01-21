@@ -590,7 +590,7 @@ namespace NUnit.Util
 		{
 			if ( !Running )
 			{
-                if (reloadPending || Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", true))
+                if (reloadPending || Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", false))
 					ReloadTest();
 
 				this.lastFilter = filter;

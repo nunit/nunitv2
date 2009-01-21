@@ -156,7 +156,7 @@ namespace NUnit.Util.Tests
 				// TODO: Find a more robust way of handling this
 				Thread.Sleep( 500 );
 			}
-			while( loader.Running );
+			while( !catcher.GotRunFinished );
 
             Assert.AreEqual(TestAction.ProjectLoading, ((TestEventArgs)catcher.Events[0]).Action);
             Assert.AreEqual(TestAction.ProjectLoaded, ((TestEventArgs)catcher.Events[1]).Action);

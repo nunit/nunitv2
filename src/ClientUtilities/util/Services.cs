@@ -60,13 +60,13 @@ namespace NUnit.Util
 		#endregion
 
 		#region UserSettings
-		private static SettingsService userSettings;
-		public static SettingsService UserSettings
+		private static ISettings userSettings;
+		public static ISettings UserSettings
 		{
 			get 
 			{ 
 				if ( userSettings == null )
-					userSettings = (SettingsService)ServiceManager.Services.GetService( typeof( SettingsService ) );
+					userSettings = (ISettings)ServiceManager.Services.GetService( typeof( ISettings ) );
 
 				// Temporary fix needed to run TestDomain tests in test AppDomain
 				// TODO: Figure out how to set up the test domain correctly
