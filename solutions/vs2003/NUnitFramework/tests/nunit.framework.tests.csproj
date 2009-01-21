@@ -335,6 +335,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\FloatingPointNumericsTest.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\FloatingPointNumericsTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\MsgUtilTests.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\MsgUtilTests.cs"
                     SubType = "Code"
@@ -343,6 +349,12 @@
                 <File
                     RelPath = "Constraints\NotTest.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\NotTest.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\NumericsTest.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\NumericsTest.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

@@ -146,6 +146,9 @@
       <Link>Constraints\EqualTest.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\FloatingPointNumericsTest.cs">
+      <Link>Constraints\FloatingPointNumericsTest.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\MsgUtilTests.cs">
       <Link>Constraints\MsgUtilTests.cs</Link>
       <SubType>Code</SubType>
@@ -153,6 +156,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\NotTest.cs">
       <Link>Constraints\NotTest.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\NumericsTest.cs">
+      <Link>Constraints\NumericsTest.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\OrTest.cs">
       <Link>Constraints\OrTest.cs</Link>

@@ -92,6 +92,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\DelayedConstraint.cs">
       <Link>Constraints\DelayedConstraint.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\FloatingPointNumerics.cs">
+      <Link>Constraints\FloatingPointNumerics.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\RepeatAttribute.cs">
       <Link>RepeatAttribute.cs</Link>
     </Compile>

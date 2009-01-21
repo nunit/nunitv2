@@ -54,6 +54,86 @@ namespace NUnit.Framework.Constraints.Tests
             TimeSpan tolerance = TimeSpan.FromMinutes(5.0);
             Assert.That(actual, new EqualConstraint(expected).Within(tolerance));
         }
+
+        [TestCase(20000000000000004.0)]
+        [TestCase(19999999999999996.0)]
+        [Test]
+        public void CanMatchDoublesWithUlpTolerance(object value)
+        {
+          Assert.That(value, new EqualConstraint(20000000000000000.0).Within(1).Ulps);
+        }
+
+        [TestCase(20000000000000008.0)]
+        [TestCase(19999999999999992.0)]
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void FailsOnDoublesOutsideOfUlpTolerance(object value)
+        {
+          Assert.That(value, new EqualConstraint(20000000000000000.0).Within(1).Ulps);
+        }
+
+        [TestCase(19999998.0f)]
+        [TestCase(20000002.0f)]
+        [Test]
+        public void CanMatchSinglesWithUlpTolerance(object value)
+        {
+          Assert.That(value, new EqualConstraint(20000000.0f).Within(1).Ulps);
+        }
+
+        [TestCase(19999996.0f)]
+        [TestCase(20000004.0f)]
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void FailsOnSinglesOutsideOfUlpTolerance(object value)
+        {
+          Assert.That(value, new EqualConstraint(20000000.0f).Within(1).Ulps);
+        }
+
+        [TestCase(9500.0)]
+        [TestCase(10000.0)]
+        [TestCase(10500.0)]
+        [Test]
+        public void CanMatchDoublesWithRelativeTolerance(object value)
+        {
+            Assert.That(value, new EqualConstraint(10000.0).Within(10.0).Percent);
+        }
+
+        [TestCase(8500.0)]
+        [TestCase(11500.0)]
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void FailsOnDoublesOutsideOfRelativeTolerance(object value)
+        {
+            Assert.That(value, new EqualConstraint(10000.0).Within(10.0).Percent);
+        }
+
+        [TestCase(9500.0f)]
+        [TestCase(10000.0f)]
+        [TestCase(10500.0f)]
+        [Test]
+        public void CanMatchSinglesWithRelativeTolerance(object value)
+        {
+            Assert.That(value, new EqualConstraint(10000.0f).Within(10.0f).Percent);
+        }
+
+        [TestCase(8500.0f)]
+        [TestCase(11500.0f)]
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void FailsOnSinglesOutsideOfRelativeTolerance(object value)
+        {
+            Assert.That(value, new EqualConstraint(10000.0f).Within(10.0f).Percent);
+        }
+
+        /// <summary>Applies both the Percent and Ulps modifiers to cause an exception</summary>
+        [Test, ExpectedException(typeof(ArgumentException))]
+        public void FailsWithPercentAndUlpsToleranceModes()
+        {
+            EqualConstraint shouldFail = new EqualConstraint(100.0f).Within(10.0f).Percent.Ulps;
+        }
+
+        /// <summary>Applies both the Ulps and Percent modifiers to cause an exception</summary>
+        [Test, ExpectedException(typeof(ArgumentException))]
+        public void FailsWithUlpsAndPercentToleranceModes() {
+          EqualConstraint shouldFail = new EqualConstraint(100.0f).Within(10.0f).Ulps.Percent;
+        }
+
     }
 
     [TestFixture]

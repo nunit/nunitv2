@@ -9,6 +9,29 @@ using System;
 namespace NUnit.Framework.Constraints
 {
 	/// <summary>
+    /// Modes in which the tolerance value for a comparison can
+    /// be interpreted.
+    /// </summary>
+    public enum ToleranceMode
+    {
+        /// <summary>
+        /// The tolerance is used as a numeric range within which
+        /// two compared values are considered to be equal.
+        /// </summary>
+        Linear,
+        /// <summary>
+        /// Interprets the tolerance as the percentage by which
+        /// the two compared values my deviate from each other.
+        /// </summary>
+        Percent,
+        /// <summary>
+        /// Compares two values based in their distance in
+        /// representable numbers.
+        /// </summary>
+        Ulps
+    }
+
+	/// <summary>
 	/// The Numerics class contains common operations on numeric values.
 	/// </summary>
 	public class Numerics
@@ -35,9 +58,6 @@ namespace NUnit.Framework.Constraints
 		{
 			if (null != obj)
 			{
-				if (obj is double) return true;
-				if (obj is float) return true;
-
 				if (obj is System.Double) return true;
 				if (obj is System.Single) return true;
 			}
@@ -53,15 +73,6 @@ namespace NUnit.Framework.Constraints
 		{
 			if (null != obj)
 			{
-				if (obj is byte) return true;
-				if (obj is sbyte) return true;
-				if (obj is decimal) return true;
-				if (obj is int) return true;
-				if (obj is uint) return true;
-				if (obj is long) return true;
-				if (obj is short) return true;
-				if (obj is ushort) return true;
-
 				if (obj is System.Byte) return true;
 				if (obj is System.SByte) return true;
 				if (obj is System.Decimal) return true;
@@ -88,91 +99,329 @@ namespace NUnit.Framework.Constraints
         /// <returns>True if the values are equal</returns>
 		public static bool AreEqual( object expected, object actual, ref object tolerance )
 		{
-            if (IsFloatingPointNumeric(expected) || IsFloatingPointNumeric(actual))
-                return AreEqual(Convert.ToDouble(expected), Convert.ToDouble(actual), ref tolerance);
+            return AreEqual( expected, actual, ToleranceMode.Linear, ref tolerance );
+        }
+
+        /// <summary>
+        /// Test two numeric values for equality, performing the usual numeric 
+        /// conversions and using a provided or default tolerance. If the value 
+        /// referred to by tolerance is null, this method may set it to a default.
+        /// </summary>
+        /// <param name="expected">The expected value</param>
+        /// <param name="actual">The actual value</param>
+        /// <param name="mode">How to tolerance is to be interpreted</param>
+        /// <param name="tolerance">A reference to the numeric tolerance in effect</param>
+        /// <returns>True if the values are equal</returns>
+		public static bool AreEqual( object expected, object actual, ToleranceMode mode, ref object tolerance )
+		{
+            if ( expected is double || actual is double )
+                return AreEqual( Convert.ToDouble(expected), Convert.ToDouble(actual), mode, ref tolerance );
+
+            if ( expected is float || actual is float )
+                return AreEqual( Convert.ToSingle(expected), Convert.ToSingle(actual), mode, ref tolerance );
 
 			if ( expected is decimal || actual is decimal )
-				return AreEqual( Convert.ToDecimal(expected), Convert.ToDecimal(actual), Convert.ToDecimal(tolerance) );
+				return AreEqual( Convert.ToDecimal(expected), Convert.ToDecimal(actual), mode, tolerance );
 			
 			if ( expected is ulong || actual is ulong )
-				return AreEqual( Convert.ToUInt64(expected), Convert.ToUInt64(actual), Convert.ToUInt64(tolerance) );
+				return AreEqual( Convert.ToUInt64(expected), Convert.ToUInt64(actual), mode, tolerance );
 		
 			if ( expected is long || actual is long )
-				return AreEqual( Convert.ToInt64(expected), Convert.ToInt64(actual), Convert.ToInt64(tolerance) );
+				return AreEqual( Convert.ToInt64(expected), Convert.ToInt64(actual), mode, tolerance );
 			
 			if ( expected is uint || actual is uint )
-				return AreEqual( Convert.ToUInt32(expected), Convert.ToUInt32(actual), Convert.ToUInt32(tolerance) );
+				return AreEqual( Convert.ToUInt32(expected), Convert.ToUInt32(actual), mode, tolerance );
 
-			return AreEqual( Convert.ToInt32(expected), Convert.ToInt32(actual), Convert.ToInt32(tolerance) );
+			return AreEqual( Convert.ToInt32(expected), Convert.ToInt32(actual), mode, tolerance );
 		}
 
-		private static bool AreEqual( double expected, double actual, ref object tolerance )
+        private static bool AreEqual( double expected, double actual, ToleranceMode mode, ref object tolerance )
 		{
             if (double.IsNaN(expected) && double.IsNaN(actual))
                 return true;
+
             // handle infinity specially since subtracting two infinite values gives 
             // NaN and the following test fails. mono also needs NaN to be handled
             // specially although ms.net could use either method.
-            if (double.IsInfinity(expected) || double.IsNaN(expected) || double.IsNaN(actual))
-                return expected.Equals(actual);
-
-            if (tolerance != null)
-                return Math.Abs(expected - actual) <= Convert.ToDouble(tolerance);
-
-            if (GlobalSettings.DefaultFloatingPointTolerance > 0.0d
-                && !double.IsNaN(expected) && !double.IsInfinity(expected))
+            if (double.IsInfinity(expected) || double.IsNaN(expected) || double.IsNaN(actual) ||
+                tolerance == null && GlobalSettings.DefaultFloatingPointTolerance == 0.0d)
             {
-                tolerance = GlobalSettings.DefaultFloatingPointTolerance;
-                return Math.Abs(expected - actual) <= GlobalSettings.DefaultFloatingPointTolerance;
+                return expected.Equals(actual);
             }
 
+            if (tolerance == null)
+                tolerance = GlobalSettings.DefaultFloatingPointTolerance;
+
+            switch (mode)
+            {
+                case ToleranceMode.Linear:
+                {
+                    return Math.Abs(expected - actual) <= Convert.ToSingle(tolerance);
+                }
+                case ToleranceMode.Percent:
+                {
+                    if(expected == actual)
+                    {
+                        return true;
+                    }
+
+                    if (expected == 0.0)
+                    {
+                        return false;
+                    }
+                    
+                    double relativeError = Math.Abs((expected - actual) / expected);
+                    return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
+                }
+                case ToleranceMode.Ulps:
+                {
+                    return FloatingPointNumerics.AreAlmostEqualUlps(
+                        expected, actual, Convert.ToInt64(tolerance)
+                    );
+                }
+                default:
+                {
+                    throw new ArgumentException("Unknown tolerance mode specified", "mode");
+                }
+            }
+        }
+
+        private static bool AreEqual( float expected, float actual, ToleranceMode mode, ref object tolerance )
+		{
+            if ( float.IsNaN(expected) && float.IsNaN(actual) )
+                return true;
+
+            // handle infinity specially since subtracting two infinite values gives 
+            // NaN and the following test fails. mono also needs NaN to be handled
+            // specially although ms.net could use either method.
+            if ( float.IsInfinity(expected) || float.IsNaN(expected) || float.IsNaN(actual) )
 			return expected.Equals( actual );
+
+            if (tolerance == null)
+                tolerance = GlobalSettings.DefaultFloatingPointTolerance;
+
+            switch (mode)
+            {
+                case ToleranceMode.Linear:
+                {
+                    return Math.Abs(expected - actual) <= Convert.ToDouble(tolerance);
+                }
+                case ToleranceMode.Percent:
+                {
+                    if(expected == actual)
+                    {
+                        return true;
+		}
+                    if (expected == 0.0f)
+                    {
+                        return false;
+                    }
+
+                    float relativeError = Math.Abs((expected - actual) / expected);
+                    return (relativeError <= Convert.ToSingle(tolerance) / 100.0f);
+                }
+                case ToleranceMode.Ulps:
+		{
+                    return FloatingPointNumerics.AreAlmostEqualUlps(
+                        expected, actual, Convert.ToInt32(tolerance)
+                    );
+                }
+                default:
+                {
+                    throw new ArgumentException("Unknown tolerance mode specified", "mode");
+                }
+            }
 		}
 
-		private static bool AreEqual( decimal expected, decimal actual, decimal tolerance )
-		{
-			if ( tolerance > 0m )
-				return Math.Abs(expected - actual) <= tolerance;
+
+        private static bool AreEqual( decimal expected, decimal actual, ToleranceMode mode, object tolerance )
+        {
+            switch (mode)
+            {
+                case ToleranceMode.Ulps:
+                case ToleranceMode.Linear:
+                {
+                    decimal decimalTolerance = Convert.ToDecimal(tolerance);
+                    if(decimalTolerance > 0m)
+                      return Math.Abs(expected - actual) <= decimalTolerance;
 				
 			return expected.Equals( actual );
 		}
+                case ToleranceMode.Percent:
+                {
+                    if(expected == actual)
+                    {
+                        return true;
+                    }
+                    if(expected == 0m)
+                    {
+                        return false;
+                    }
 
-		private static bool AreEqual( ulong expected, ulong actual, ulong tolerance )
+                    double relativeError = Math.Abs(
+                        (double)(expected - actual) / (double)expected
+                    );
+                    return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
+                }
+                default:
 		{
-			if ( tolerance > 0ul )
+                    throw new ArgumentException("Unknown tolerance mode specified", "mode");
+                }
+            }
+        }
+
+		private static bool AreEqual( ulong expected, ulong actual, ToleranceMode mode, object tolerance )
+		{
+            switch (mode)
+            {
+                case ToleranceMode.Ulps:
+                case ToleranceMode.Linear:
+                {
+                    ulong ulongTolerance = Convert.ToUInt64(tolerance);
+                    if(ulongTolerance > 0ul)
 			{
 				ulong diff = expected >= actual ? expected - actual : actual - expected;
-				return diff <= tolerance;
+                        return diff <= ulongTolerance;
 			}
 
 			return expected.Equals( actual );
 		}
+                case ToleranceMode.Percent:
+                {
+                    if(expected == actual)
+                    {
+                        return true;
+                    }
+                    if(expected == 0ul)
+                    {
+                        return false;
+                    }
 
-		private static bool AreEqual( long expected, long actual, long tolerance )
+                    // Can't do a simple Math.Abs() here since it's unsigned
+                    ulong difference = Math.Max(expected, actual) - Math.Min(expected, actual);
+                    double relativeError = Math.Abs(
+                        (double)difference / (double)expected
+                    );
+                    return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
+                }
+                default:
 		{
-			if ( tolerance > 0L )
-				return Math.Abs(expected - actual) <= tolerance;
+                    throw new ArgumentException("Unknown tolerance mode specified", "mode");
+                }
+            }
+		}
+
+		private static bool AreEqual( long expected, long actual, ToleranceMode mode, object tolerance )
+		{
+            switch (mode)
+            {
+                case ToleranceMode.Ulps:
+                case ToleranceMode.Linear:
+                {
+                    long longTolerance = Convert.ToInt64(tolerance);
+                    if(longTolerance > 0L)
+				        return Math.Abs(expected - actual) <= longTolerance;
 
 			return expected.Equals( actual );
 		}
+                case ToleranceMode.Percent:
+                {
+                    if(expected == actual)
+                    {
+                        return true;
+                    }
+                    if(expected == 0l)
+                    {
+                        return false;
+                    }
 
-		private static bool AreEqual( uint expected, uint actual, uint tolerance )
+                    double relativeError = Math.Abs(
+                        (double)(expected - actual) / (double)expected
+                    );
+                    return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
+                }
+                default:
 		{
-			if ( tolerance > 0 )
+                    throw new ArgumentException("Unknown tolerance mode specified", "mode");
+                }
+            }
+		}
+
+		private static bool AreEqual( uint expected, uint actual, ToleranceMode mode, object tolerance )
+		{
+            switch (mode)
+            {
+                case ToleranceMode.Ulps:
+                case ToleranceMode.Linear:
 			{
+                    uint uintTolerance = Convert.ToUInt32(tolerance);
+                    if(uintTolerance > 0)
+			        {
 				uint diff = expected >= actual ? expected - actual : actual - expected;
-				return diff <= tolerance;
+                        return diff <= uintTolerance;
 			}
 				
 			return expected.Equals( actual );
 		}
+                case ToleranceMode.Percent:
+                {
+                    if(expected == actual)
+                    {
+                        return true;
+                    }
+                    if(expected == 0u)
+                    {
+                        return false;
+                    }
 
-		private static bool AreEqual( int expected, int actual, int tolerance )
+                    // Can't do a simple Math.Abs() here since it's unsigned
+                    uint difference = Math.Max(expected, actual) - Math.Min(expected, actual);
+                    double relativeError = Math.Abs(
+                        (double)difference / (double)expected
+                    );
+                    return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
+                }
+                default:
 		{
-			if ( tolerance > 0 )
-				return Math.Abs(expected - actual) <= tolerance;
+                    throw new ArgumentException("Unknown tolerance mode specified", "mode");
+                }
+            }
+		}
+
+		private static bool AreEqual( int expected, int actual, ToleranceMode mode, object tolerance )
+		{
+            switch (mode)
+            {
+                case ToleranceMode.Ulps:
+                case ToleranceMode.Linear:
+                {
+                    int intTolerance = Convert.ToInt32(tolerance);
+                    if(intTolerance > 0)
+				        return Math.Abs(expected - actual) <= intTolerance;
 				
 			return expected.Equals( actual );
+		}
+                case ToleranceMode.Percent:
+                {
+                    if(expected == actual)
+                    {
+                        return true;
+                    }
+                    if(expected == 0)
+                    {
+                        return false;
+                    }
+
+                    double relativeError = Math.Abs(
+                        (double)(expected - actual) / (double)expected
+                    );
+                    return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
+                }
+                default:
+                {
+                    throw new ArgumentException("Unknown tolerance mode specified", "mode");
+                }
+            }
 		}
 		#endregion
 
@@ -182,7 +431,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="expected">The expected value</param>
         /// <param name="actual">The actual value</param>
-        /// <returns></returns>
+        /// <returns>The relationship of the values to each other</returns>
 		public static int Compare( IComparable expected, object actual )
 		{
 			if ( expected == null )

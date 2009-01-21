@@ -48,6 +48,12 @@ namespace NUnit.Framework.Constraints
         protected object tolerance;
 
         /// <summary>
+        /// How the comparison tolerance, if specified using the .Within()
+        /// modifier, should be interpreted
+        /// </summary>
+        protected ToleranceMode toleranceMode = ToleranceMode.Linear;
+
+        /// <summary>
         /// IComparer object used in comparisons for some constraints.
         /// </summary>
         protected IComparer compareWith;
@@ -69,6 +75,8 @@ namespace NUnit.Framework.Constraints
 			"Values differ at index {0}";
 		private static readonly string ValuesDiffer_2 =
 			"Values differ at expected index {0}, actual index {1}";
+        private static readonly string MultipleToleranceModes =
+            "Tried to use multiple tolerance modes at the same time";
         #endregion
 
         private static readonly int BUFFER_SIZE = 4096;
@@ -134,6 +142,54 @@ namespace NUnit.Framework.Constraints
         {
             this.tolerance = tolerance;
             return this;
+        }
+
+        /// <summary>
+        /// Switches the .Within() modifier to interpret its tolerance as
+        /// a distance in representable values (see remarks).
+        /// </summary>
+        /// <returns>Self.</returns>
+        /// <remarks>
+        /// Ulp stands for "unit in the last place" and describes the minimum
+        /// amount a given value can change. For any integers, an ulp is 1 whole
+        /// digit. For floating point values, the accuracy of which is better
+        /// for smaller numbers and worse for larger numbers, an ulp depends
+        /// on the size of the number. Using ulps for comparison of floating
+        /// point results instead of fixed tolerances is safer because it will
+        /// automatically compensate for the added inaccuracy of larger numbers.
+        /// </remarks>
+        public EqualConstraint Ulps
+        {
+            get
+            {
+                if(this.toleranceMode != ToleranceMode.Linear)
+                {
+                    throw new ArgumentException(MultipleToleranceModes, "Ulps");
+                }
+
+                this.toleranceMode = ToleranceMode.Ulps;
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Switches the .Within() modifier to interpret its tolerance as
+        /// a percentage that the compared values are allowed to deviate from
+        /// each other.
+        /// </summary>
+        /// <returns>Self.</returns>
+        public EqualConstraint Percent
+        {
+            get
+            {
+                if(this.toleranceMode != ToleranceMode.Linear)
+                {
+                    throw new ArgumentException(MultipleToleranceModes, "Percent");
+                }
+
+                this.toleranceMode = ToleranceMode.Percent;
+                return this;
+            }
         }
 
         /// <summary>
@@ -242,7 +298,7 @@ namespace NUnit.Framework.Constraints
 
             if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
             {
-                return Numerics.AreEqual(expected, actual, ref tolerance);
+                return Numerics.AreEqual(expected, actual, toleranceMode, ref tolerance);
             }
 
 			if (expected is DateTime && actual is DateTime && tolerance is TimeSpan)
