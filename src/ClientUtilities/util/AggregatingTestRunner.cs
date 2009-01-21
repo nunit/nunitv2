@@ -263,8 +263,6 @@ namespace NUnit.Util
             Log.Info("Signalling RunStarted({0},{1})", name, count);
             this.listener.RunStarted(name, count);
 
-            Log.Info("Signalling SuiteStarted");
-            //this.listener.SuiteStarted( this.Test.TestName );
 			long startTime = DateTime.Now.Ticks;
 
 		    TestResult result = new TestResult(new TestInfo(testName, tests));
@@ -287,8 +285,6 @@ namespace NUnit.Util
 			long stopTime = DateTime.Now.Ticks;
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
 			result.Time = time;
-
-			this.listener.SuiteFinished( result );
 
 			this.listener.RunFinished( result );
 
