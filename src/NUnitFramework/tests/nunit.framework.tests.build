@@ -9,8 +9,10 @@
     <include name="Constraints/ConstraintTestBase.cs"/>
     <include name="Constraints/EmptyConstraintTest.cs"/>
     <include name="Constraints/EqualTest.cs"/>
+    <include name="Constraints/FloatingPointNumericsTest.cs"/>
     <include name="Constraints/MsgUtilTests.cs"/>
     <include name="Constraints/NotTest.cs"/>
+    <include name="Constraints/NumericsTest.cs"/>
     <include name="Constraints/OrTest.cs"/>
     <include name="Constraints/PathConstraintTests.cs"/>
     <include name="Constraints/PropertyTests.cs"/>

@@ -18,6 +18,7 @@
         <include name="Constraints/DirectoryConstraints.cs"/>
         <include name="Constraints/EmptyConstraint.cs"/>
         <include name="Constraints/EqualConstraint.cs"/>
+        <include name="Constraints/FloatingPointNumerics.cs"/>
         <include name="Constraints/IResolveConstraint.cs"/>
         <include name="Constraints/MessageWriter.cs"/>
         <include name="Constraints/MsgUtils.cs"/>
