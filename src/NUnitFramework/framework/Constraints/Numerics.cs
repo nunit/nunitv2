@@ -140,9 +140,10 @@ namespace NUnit.Framework.Constraints
             if (double.IsNaN(expected) && double.IsNaN(actual))
                 return true;
 
-            // handle infinity specially since subtracting two infinite values gives 
+            // Handle infinity specially since subtracting two infinite values gives 
             // NaN and the following test fails. mono also needs NaN to be handled
-            // specially although ms.net could use either method.
+            // specially although ms.net could use either method. Also, handle
+            // situation where no tolerance is used.
             if (double.IsInfinity(expected) || double.IsNaN(expected) || double.IsNaN(actual) ||
                 tolerance == null && GlobalSettings.DefaultFloatingPointTolerance == 0.0d)
             {
@@ -156,19 +157,12 @@ namespace NUnit.Framework.Constraints
             {
                 case ToleranceMode.Linear:
                 {
-                    return Math.Abs(expected - actual) <= Convert.ToSingle(tolerance);
+                    return Math.Abs(expected - actual) <= Convert.ToDouble(tolerance);
                 }
                 case ToleranceMode.Percent:
                 {
-                    if(expected == actual)
-                    {
-                        return true;
-                    }
-
                     if (expected == 0.0)
-                    {
-                        return false;
-                    }
+                        return expected.Equals(actual);
                     
                     double relativeError = Math.Abs((expected - actual) / expected);
                     return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
@@ -194,8 +188,11 @@ namespace NUnit.Framework.Constraints
             // handle infinity specially since subtracting two infinite values gives 
             // NaN and the following test fails. mono also needs NaN to be handled
             // specially although ms.net could use either method.
-            if ( float.IsInfinity(expected) || float.IsNaN(expected) || float.IsNaN(actual) )
-			return expected.Equals( actual );
+            if (float.IsInfinity(expected) || float.IsNaN(expected) || float.IsNaN(actual) ||
+                 tolerance == null && GlobalSettings.DefaultFloatingPointTolerance == 0.0d)
+            {
+                return expected.Equals(actual);
+            }
 
             if (tolerance == null)
                 tolerance = GlobalSettings.DefaultFloatingPointTolerance;
@@ -208,20 +205,14 @@ namespace NUnit.Framework.Constraints
                 }
                 case ToleranceMode.Percent:
                 {
-                    if(expected == actual)
-                    {
-                        return true;
-		}
                     if (expected == 0.0f)
-                    {
-                        return false;
-                    }
+                        return expected.Equals(actual);
 
                     float relativeError = Math.Abs((expected - actual) / expected);
                     return (relativeError <= Convert.ToSingle(tolerance) / 100.0f);
                 }
                 case ToleranceMode.Ulps:
-		{
+		        {
                     return FloatingPointNumerics.AreAlmostEqualUlps(
                         expected, actual, Convert.ToInt32(tolerance)
                     );
@@ -245,26 +236,19 @@ namespace NUnit.Framework.Constraints
                     if(decimalTolerance > 0m)
                       return Math.Abs(expected - actual) <= decimalTolerance;
 				
-			return expected.Equals( actual );
-		}
+			        return expected.Equals( actual );
+		        }
                 case ToleranceMode.Percent:
                 {
-                    if(expected == actual)
-                    {
-                        return true;
-                    }
                     if(expected == 0m)
-                    {
-                        return false;
-                    }
+                        return expected.Equals(actual);
 
                     double relativeError = Math.Abs(
-                        (double)(expected - actual) / (double)expected
-                    );
+                        (double)(expected - actual) / (double)expected);
                     return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
                 }
                 default:
-		{
+		        {
                     throw new ArgumentException("Unknown tolerance mode specified", "mode");
                 }
             }
@@ -279,23 +263,17 @@ namespace NUnit.Framework.Constraints
                 {
                     ulong ulongTolerance = Convert.ToUInt64(tolerance);
                     if(ulongTolerance > 0ul)
-			{
-				ulong diff = expected >= actual ? expected - actual : actual - expected;
+			        {
+				        ulong diff = expected >= actual ? expected - actual : actual - expected;
                         return diff <= ulongTolerance;
-			}
+			        }
 
-			return expected.Equals( actual );
-		}
+			        return expected.Equals( actual );
+		        }
                 case ToleranceMode.Percent:
                 {
-                    if(expected == actual)
-                    {
-                        return true;
-                    }
-                    if(expected == 0ul)
-                    {
-                        return false;
-                    }
+                    if (expected == 0ul)
+                        return expected.Equals(actual);
 
                     // Can't do a simple Math.Abs() here since it's unsigned
                     ulong difference = Math.Max(expected, actual) - Math.Min(expected, actual);
@@ -322,26 +300,19 @@ namespace NUnit.Framework.Constraints
                     if(longTolerance > 0L)
 				        return Math.Abs(expected - actual) <= longTolerance;
 
-			return expected.Equals( actual );
-		}
+			        return expected.Equals( actual );
+		        }
                 case ToleranceMode.Percent:
                 {
-                    if(expected == actual)
-                    {
-                        return true;
-                    }
-                    if(expected == 0l)
-                    {
-                        return false;
-                    }
+                    if(expected == 0L)
+                        return expected.Equals(actual);
 
                     double relativeError = Math.Abs(
-                        (double)(expected - actual) / (double)expected
-                    );
+                        (double)(expected - actual) / (double)expected);
                     return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
                 }
                 default:
-		{
+		        {
                     throw new ArgumentException("Unknown tolerance mode specified", "mode");
                 }
             }
@@ -353,36 +324,29 @@ namespace NUnit.Framework.Constraints
             {
                 case ToleranceMode.Ulps:
                 case ToleranceMode.Linear:
-			{
+			    {
                     uint uintTolerance = Convert.ToUInt32(tolerance);
                     if(uintTolerance > 0)
 			        {
-				uint diff = expected >= actual ? expected - actual : actual - expected;
+				        uint diff = expected >= actual ? expected - actual : actual - expected;
                         return diff <= uintTolerance;
-			}
+			        }
 				
-			return expected.Equals( actual );
-		}
+			        return expected.Equals( actual );
+		        }
                 case ToleranceMode.Percent:
                 {
-                    if(expected == actual)
-                    {
-                        return true;
-                    }
                     if(expected == 0u)
-                    {
-                        return false;
-                    }
+                        return expected.Equals(actual);
 
                     // Can't do a simple Math.Abs() here since it's unsigned
                     uint difference = Math.Max(expected, actual) - Math.Min(expected, actual);
                     double relativeError = Math.Abs(
-                        (double)difference / (double)expected
-                    );
+                        (double)difference / (double)expected );
                     return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
                 }
                 default:
-		{
+		        {
                     throw new ArgumentException("Unknown tolerance mode specified", "mode");
                 }
             }
@@ -399,22 +363,15 @@ namespace NUnit.Framework.Constraints
                     if(intTolerance > 0)
 				        return Math.Abs(expected - actual) <= intTolerance;
 				
-			return expected.Equals( actual );
-		}
+			        return expected.Equals( actual );
+		        }
                 case ToleranceMode.Percent:
                 {
-                    if(expected == actual)
-                    {
-                        return true;
-                    }
                     if(expected == 0)
-                    {
-                        return false;
-                    }
+                        return expected.Equals(actual);
 
                     double relativeError = Math.Abs(
-                        (double)(expected - actual) / (double)expected
-                    );
+                        (double)(expected - actual) / (double)expected);
                     return (relativeError <= Convert.ToDouble(tolerance) / 100.0);
                 }
                 default:
