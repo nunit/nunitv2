@@ -140,6 +140,9 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public EqualConstraint Within(object tolerance)
         {
+            if (this.tolerance != null)
+                throw new InvalidOperationException("Within modifier may appear only once in a constraint expression");
+
             this.tolerance = tolerance;
             return this;
         }
@@ -162,14 +165,19 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                if(this.toleranceMode != ToleranceMode.Linear)
-                {
-                    throw new ArgumentException(MultipleToleranceModes, "Ulps");
-                }
-
-                this.toleranceMode = ToleranceMode.Ulps;
+                SetToleranceMode(ToleranceMode.Ulps);
                 return this;
             }
+        }
+
+        private void SetToleranceMode(ToleranceMode mode)
+        {
+            if (this.toleranceMode != ToleranceMode.Linear)
+            {
+                throw new ArgumentException(MultipleToleranceModes, mode.ToString());
+            }
+
+            this.toleranceMode = mode;
         }
 
         /// <summary>
@@ -182,12 +190,73 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                if(this.toleranceMode != ToleranceMode.Linear)
-                {
-                    throw new ArgumentException(MultipleToleranceModes, "Percent");
-                }
+                SetToleranceMode(ToleranceMode.Percent);
+                return this;
+            }
+        }
 
-                this.toleranceMode = ToleranceMode.Percent;
+        public EqualConstraint Days
+        {
+            get
+            {
+                if (this.tolerance != null && Numerics.IsNumericType(tolerance))
+                    this.tolerance = TimeSpan.FromDays(Convert.ToDouble(tolerance));
+
+                return this;
+            }
+        }
+
+        public EqualConstraint Hours
+        {
+            get
+            {
+                if (this.tolerance != null && Numerics.IsNumericType(tolerance))
+                    this.tolerance = TimeSpan.FromHours(Convert.ToDouble(tolerance));
+
+                return this;
+            }
+        }
+
+        public EqualConstraint Minutes
+        {
+            get
+            {
+                if (this.tolerance != null && Numerics.IsNumericType(tolerance))
+                    this.tolerance = TimeSpan.FromMinutes(Convert.ToDouble(tolerance));
+
+                return this;
+            }
+        }
+
+        public EqualConstraint Seconds
+        {
+            get
+            {
+                if (this.tolerance != null && Numerics.IsNumericType(tolerance))
+                    this.tolerance = TimeSpan.FromSeconds(Convert.ToDouble(tolerance));
+
+                return this;
+            }
+        }
+
+        public EqualConstraint Milliseconds
+        {
+            get
+            {
+                if (this.tolerance != null && Numerics.IsNumericType(tolerance))
+                    this.tolerance = TimeSpan.FromMilliseconds(Convert.ToDouble(tolerance));
+
+                return this;
+            }
+        }
+
+        public EqualConstraint Ticks
+        {
+            get
+            {
+                if (this.tolerance != null && Numerics.IsNumericType(tolerance))
+                    this.tolerance = TimeSpan.FromTicks(Convert.ToInt64(tolerance));
+
                 return this;
             }
         }
@@ -297,14 +366,13 @@ namespace NUnit.Framework.Constraints
                 return DirectoriesEqual((DirectoryInfo)expected, (DirectoryInfo)actual);
 
             if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
-            {
                 return Numerics.AreEqual(expected, actual, toleranceMode, ref tolerance);
-            }
 
-			if (expected is DateTime && actual is DateTime && tolerance is TimeSpan)
-			{
-				return ((DateTime)expected - (DateTime)actual).Duration() <= (TimeSpan)tolerance;
-			}
+            if (expected is DateTime && actual is DateTime && tolerance is TimeSpan)
+                return ((DateTime)expected - (DateTime)actual).Duration() <= (TimeSpan)tolerance;
+
+            if (expected is TimeSpan && actual is TimeSpan && tolerance is TimeSpan)
+                return ((TimeSpan)expected - (TimeSpan)actual).Duration() <= (TimeSpan)tolerance;
 
             return expected.Equals(actual);
         }

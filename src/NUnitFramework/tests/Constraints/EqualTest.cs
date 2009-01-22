@@ -47,7 +47,7 @@ namespace NUnit.Framework.Constraints.Tests
         }
 
         [Test]
-        public void CanMatchDatesWithinTolerance()
+        public void CanMatchDatesWithinTimeSpan()
         {
             DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
             DateTime actual = new DateTime(2007, 4, 1, 13, 1, 0);
@@ -55,17 +55,72 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(actual, new EqualConstraint(expected).Within(tolerance));
         }
 
+        [Test]
+        public void CanMatchDatesWithinDays()
+        {
+            DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
+            DateTime actual = new DateTime(2007, 4, 4, 13, 0, 0);
+            Assert.That(actual, new EqualConstraint(expected).Within(5).Days);
+        }
+
+        [Test]
+        public void CanMatchDatesWithinHours()
+        {
+            DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
+            DateTime actual = new DateTime(2007, 4, 1, 16, 0, 0);
+            Assert.That(actual, new EqualConstraint(expected).Within(5).Hours);
+        }
+
+        [Test]
+        public void CanMatchDatesWithinMinutes()
+        {
+            DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
+            DateTime actual = new DateTime(2007, 4, 1, 13, 1, 0);
+            Assert.That(actual, new EqualConstraint(expected).Within(5).Minutes);
+        }
+
+        [Test]
+        public void CanMatchTimeSpanWithinMinutes()
+        {
+            TimeSpan expected = new TimeSpan( 10, 0, 0);
+            TimeSpan actual = new TimeSpan(10, 2, 30);
+            Assert.That(actual, new EqualConstraint(expected).Within(5).Minutes);
+        }
+
+        [Test]
+        public void CanMatchDatesWithinSeconds()
+        {
+            DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
+            DateTime actual = new DateTime(2007, 4, 1, 13, 1, 0);
+            Assert.That(actual, new EqualConstraint(expected).Within(300).Seconds);
+        }
+
+        [Test]
+        public void CanMatchDatesWithinMilliseconds()
+        {
+            DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
+            DateTime actual = new DateTime(2007, 4, 1, 13, 1, 0);
+            Assert.That(actual, new EqualConstraint(expected).Within(300000).Milliseconds);
+        }
+
+        [Test]
+        public void CanMatchDatesWithinTicks()
+        {
+            DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
+            DateTime actual = new DateTime(2007, 4, 1, 13, 1, 0);
+            Assert.That(actual, new EqualConstraint(expected).Within(TimeSpan.TicksPerMinute*5).Ticks);
+        }
+
         [TestCase(20000000000000004.0)]
         [TestCase(19999999999999996.0)]
-        [Test]
         public void CanMatchDoublesWithUlpTolerance(object value)
         {
           Assert.That(value, new EqualConstraint(20000000000000000.0).Within(1).Ulps);
         }
 
+        [ExpectedException(typeof(AssertionException))]
         [TestCase(20000000000000008.0)]
         [TestCase(19999999999999992.0)]
-        [Test, ExpectedException(typeof(AssertionException))]
         public void FailsOnDoublesOutsideOfUlpTolerance(object value)
         {
           Assert.That(value, new EqualConstraint(20000000000000000.0).Within(1).Ulps);
@@ -73,15 +128,14 @@ namespace NUnit.Framework.Constraints.Tests
 
         [TestCase(19999998.0f)]
         [TestCase(20000002.0f)]
-        [Test]
         public void CanMatchSinglesWithUlpTolerance(object value)
         {
           Assert.That(value, new EqualConstraint(20000000.0f).Within(1).Ulps);
         }
 
+        [ExpectedException(typeof(AssertionException))]
         [TestCase(19999996.0f)]
         [TestCase(20000004.0f)]
-        [Test, ExpectedException(typeof(AssertionException))]
         public void FailsOnSinglesOutsideOfUlpTolerance(object value)
         {
           Assert.That(value, new EqualConstraint(20000000.0f).Within(1).Ulps);
@@ -90,15 +144,14 @@ namespace NUnit.Framework.Constraints.Tests
         [TestCase(9500.0)]
         [TestCase(10000.0)]
         [TestCase(10500.0)]
-        [Test]
         public void CanMatchDoublesWithRelativeTolerance(object value)
         {
             Assert.That(value, new EqualConstraint(10000.0).Within(10.0).Percent);
         }
 
+        [ExpectedException(typeof(AssertionException))]
         [TestCase(8500.0)]
         [TestCase(11500.0)]
-        [Test, ExpectedException(typeof(AssertionException))]
         public void FailsOnDoublesOutsideOfRelativeTolerance(object value)
         {
             Assert.That(value, new EqualConstraint(10000.0).Within(10.0).Percent);
@@ -107,15 +160,14 @@ namespace NUnit.Framework.Constraints.Tests
         [TestCase(9500.0f)]
         [TestCase(10000.0f)]
         [TestCase(10500.0f)]
-        [Test]
         public void CanMatchSinglesWithRelativeTolerance(object value)
         {
             Assert.That(value, new EqualConstraint(10000.0f).Within(10.0f).Percent);
         }
 
+        [ExpectedException(typeof(AssertionException))]
         [TestCase(8500.0f)]
         [TestCase(11500.0f)]
-        [Test, ExpectedException(typeof(AssertionException))]
         public void FailsOnSinglesOutsideOfRelativeTolerance(object value)
         {
             Assert.That(value, new EqualConstraint(10000.0f).Within(10.0f).Percent);
