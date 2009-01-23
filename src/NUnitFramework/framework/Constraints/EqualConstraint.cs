@@ -28,35 +28,35 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// If true, all string comparisons will ignore case
         /// </summary>
-        protected bool caseInsensitive;
+        private bool caseInsensitive;
 
         /// <summary>
         /// If true, strings in error messages will be clipped
         /// </summary>
-        protected bool clipStrings = true;
+        private bool clipStrings = true;
 
         /// <summary>
         /// If true, arrays will be treated as collections, allowing
         /// those of different dimensions to be compared
         /// </summary>
-        protected bool compareAsCollection;
+        private bool compareAsCollection;
 
         /// <summary>
         /// If non-zero, equality comparisons within the specified 
         /// tolerance will succeed.
         /// </summary>
-        protected object tolerance;
+        private object tolerance;
 
         /// <summary>
         /// How the comparison tolerance, if specified using the .Within()
         /// modifier, should be interpreted
         /// </summary>
-        protected ToleranceMode toleranceMode = ToleranceMode.Linear;
+        private ToleranceMode toleranceMode = ToleranceMode.Linear;
 
         /// <summary>
         /// IComparer object used in comparisons for some constraints.
         /// </summary>
-        protected IComparer compareWith;
+        private IComparer compareWith;
 
         #region Message Strings
         private static readonly string StringsDiffer_1 =
@@ -380,7 +380,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Helper method to compare two arrays
         /// </summary>
-        protected virtual bool ArraysEqual(Array expected, Array actual)
+        private bool ArraysEqual(Array expected, Array actual)
         {
             int rank = expected.Rank;
 
