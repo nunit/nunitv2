@@ -174,18 +174,81 @@ namespace NUnit.Framework.Constraints.Tests
         }
 
         /// <summary>Applies both the Percent and Ulps modifiers to cause an exception</summary>
-        [Test, ExpectedException(typeof(ArgumentException))]
-        public void FailsWithPercentAndUlpsToleranceModes()
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorWithPercentAndUlpsToleranceModes()
         {
             EqualConstraint shouldFail = new EqualConstraint(100.0f).Within(10.0f).Percent.Ulps;
         }
 
         /// <summary>Applies both the Ulps and Percent modifiers to cause an exception</summary>
-        [Test, ExpectedException(typeof(ArgumentException))]
-        public void FailsWithUlpsAndPercentToleranceModes() {
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorWithUlpsAndPercentToleranceModes() {
           EqualConstraint shouldFail = new EqualConstraint(100.0f).Within(10.0f).Ulps.Percent;
         }
 
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfPercentPrecedesWithin()
+        {
+            Assert.That(1010, Is.EqualTo(1000).Percent.Within(5));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfUlpsPrecedesWithin()
+        {
+            Assert.That(1010.0, Is.EqualTo(1000.0).Ulps.Within(5));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfDaysPrecedesWithin()
+        {
+            Assert.That(DateTime.Now, Is.EqualTo(DateTime.Now).Days.Within(5));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfHoursPrecedesWithin()
+        {
+            Assert.That(DateTime.Now, Is.EqualTo(DateTime.Now).Hours.Within(5));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfMinutesPrecedesWithin()
+        {
+            Assert.That(DateTime.Now, Is.EqualTo(DateTime.Now).Minutes.Within(5));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfSecondsPrecedesWithin()
+        {
+            Assert.That(DateTime.Now, Is.EqualTo(DateTime.Now).Seconds.Within(5));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfMillisecondsPrecedesWithin()
+        {
+            Assert.That(DateTime.Now, Is.EqualTo(DateTime.Now).Milliseconds.Within(5));
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfTicksPrecedesWithin()
+        {
+            Assert.That(DateTime.Now, Is.EqualTo(DateTime.Now).Ticks.Within(5));
+        }
+
+        [ExpectedException(typeof(InvalidOperationException))]
+        [TestCase(1000)]
+        [TestCase(1000U)]
+        [TestCase(1000L)]
+        [TestCase(1000UL)]
+        public void ErrorIfUlpsIsUsedOnIntegralType(object x)
+        {
+            Assert.That(x, Is.EqualTo(x).Within(2).Ulps);
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void ErrorIfUlpsIsUsedOnDecimal()
+        {
+            Assert.That(100m, Is.EqualTo(100m).Within(2).Ulps);
+        }
     }
 
     [TestFixture]

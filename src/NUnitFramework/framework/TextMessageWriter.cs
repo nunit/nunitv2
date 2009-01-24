@@ -141,7 +141,7 @@ namespace NUnit.Framework
 		/// <param name="expected">The expected value</param>
 		/// <param name="actual">The actual value causing the failure</param>
 		/// <param name="tolerance">The tolerance within which the test was made</param>
-		public override void DisplayDifferences(object expected, object actual, object tolerance)
+		public override void DisplayDifferences(object expected, object actual, Tolerance tolerance)
 		{
 			WriteExpectedLine(expected, tolerance);
 			WriteActualLine(actual);
@@ -426,15 +426,15 @@ namespace NUnit.Framework
 		/// </summary>
 		/// <param name="expected">The expected value</param>
 		/// <param name="tolerance">The tolerance within which the test was made</param>
-		private void WriteExpectedLine(object expected, object tolerance)
+		private void WriteExpectedLine(object expected, Tolerance tolerance)
 		{
 			Write(Pfx_Expected);
 			WriteExpectedValue(expected);
 
-            if (tolerance != null)
+            if (tolerance != null && !tolerance.IsEmpty)
             {
                 WriteConnector("+/-");
-                WriteExpectedValue(tolerance);
+                WriteExpectedValue(tolerance.Value);
             }
 
 			WriteLine();

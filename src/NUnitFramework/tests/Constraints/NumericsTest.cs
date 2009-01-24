@@ -12,25 +12,13 @@ namespace NUnit.Framework.Constraints.Tests
     [TestFixture]
     public class NumericsTest
     {
-        [TestCase(123456789)]
-        [TestCase(123456789U)]
-        [TestCase(123456789L)]
-        [TestCase(123456789UL)]
-        [TestCase(1234.5678f)]
-        [TestCase(1234.5678)]
-        [Test, ExpectedException(typeof(ArgumentException))]
-        public void ErrorOnInvalidToleranceMode(object value)
-        {
-            object tolerance = 0;
-            Assert.IsTrue(Numerics.AreEqual(value, value, (ToleranceMode)(-1), ref tolerance));
-        }
+        private Tolerance tenPercent, zeroTolerance;
 
-        // Separate test case because you can't use decimal in an attribute (24.1.3)
-        [Test, ExpectedException(typeof(ArgumentException))]
-        public void ErrorOnInvalidToleranceModeForDecimal()
+        [SetUp]
+        public void SetUp()
         {
-            object tolerance = 0;
-            Assert.IsTrue(Numerics.AreEqual(123m, 123m, (ToleranceMode)(-1), ref tolerance));
+            tenPercent = new Tolerance(10.0).Percent;
+            zeroTolerance = new Tolerance(0);
         }
 
         [TestCase(123456789)]
@@ -42,16 +30,14 @@ namespace NUnit.Framework.Constraints.Tests
         [Test]
         public void CanMatchWithoutToleranceMode(object value)
         {
-            object tolerance = 0;
-            Assert.IsTrue(Numerics.AreEqual(value, value, ref tolerance));
+            Assert.IsTrue(Numerics.AreEqual(value, value, ref zeroTolerance));
         }
 
         // Separate test case because you can't use decimal in an attribute (24.1.3)
         [Test]
         public void CanMatchDecimalWithoutToleranceMode()
         {
-            object tolerance = 0;
-            Assert.IsTrue(Numerics.AreEqual(123m, 123m, ref tolerance));
+            Assert.IsTrue(Numerics.AreEqual(123m, 123m, ref zeroTolerance));
         }
 
         [TestCase((int)9500)]
@@ -69,17 +55,15 @@ namespace NUnit.Framework.Constraints.Tests
         [Test]
         public void CanMatchIntegralsWithPercentage(object value)
         {
-            object tolerance = 10.0;
-            Assert.IsTrue(Numerics.AreEqual(10000, value, ToleranceMode.Percent, ref tolerance));
+            Assert.IsTrue(Numerics.AreEqual(10000, value, ref tenPercent));
         }
 
         [Test]
         public void CanMatchDecimalWithPercentage()
         {
-            object tolerance = 10.0;
-            Assert.IsTrue(Numerics.AreEqual(10000m, 9500m, ToleranceMode.Percent, ref tolerance));
-            Assert.IsTrue(Numerics.AreEqual(10000m, 10000m, ToleranceMode.Percent, ref tolerance));
-            Assert.IsTrue(Numerics.AreEqual(10000m, 10500m, ToleranceMode.Percent, ref tolerance));
+            Assert.IsTrue(Numerics.AreEqual(10000m, 9500m, ref tenPercent));
+            Assert.IsTrue(Numerics.AreEqual(10000m, 10000m, ref tenPercent));
+            Assert.IsTrue(Numerics.AreEqual(10000m, 10500m, ref tenPercent));
         }
 
         [TestCase((int)8500)]
@@ -93,23 +77,19 @@ namespace NUnit.Framework.Constraints.Tests
         [Test, ExpectedException(typeof(AssertionException))]
         public void FailsOnIntegralsOutsideOfPercentage(object value)
         {
-            object tolerance = 10.0;
-            Assert.IsTrue(Numerics.AreEqual(10000, value, ToleranceMode.Percent, ref tolerance));
+            Assert.IsTrue(Numerics.AreEqual(10000, value, ref tenPercent));
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
         public void FailsOnDecimalBelowPercentage()
         {
-            object tolerance = 10.0;
-            Assert.IsTrue(Numerics.AreEqual(10000m, 8500m, ToleranceMode.Percent, ref tolerance));
+            Assert.IsTrue(Numerics.AreEqual(10000m, 8500m, ref tenPercent));
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
         public void FailsOnDecimalAbovePercentage()
         {
-            object tolerance = 10.0;
-            Assert.IsTrue(Numerics.AreEqual(10000m, 11500m, ToleranceMode.Percent, ref tolerance));
+            Assert.IsTrue(Numerics.AreEqual(10000m, 11500m, ref tenPercent));
         }
-
     }
 }

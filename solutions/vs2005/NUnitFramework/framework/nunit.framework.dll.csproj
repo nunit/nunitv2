@@ -208,6 +208,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ThrowsConstraint.cs">
       <Link>Constraints\ThrowsConstraint.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\Tolerance.cs">
+      <Link>Constraints\Tolerance.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\TypeConstraints.cs">
       <Link>Constraints\TypeConstraints.cs</Link>
       <SubType>Code</SubType>

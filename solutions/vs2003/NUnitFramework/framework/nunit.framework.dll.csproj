@@ -492,12 +492,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Constraints\FloatingPointNumerics.cs"
-                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\FloatingPointNumerics.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Constraints\DirectoryConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\DirectoryConstraints.cs"
                     SubType = "Code"
@@ -512,6 +506,12 @@
                 <File
                     RelPath = "Constraints\EqualConstraint.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\EqualConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\FloatingPointNumerics.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\FloatingPointNumerics.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
@@ -590,6 +590,12 @@
                 <File
                     RelPath = "Constraints\ThrowsConstraint.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ThrowsConstraint.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\Tolerance.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\Tolerance.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
