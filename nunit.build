@@ -75,7 +75,7 @@
   <property name="package.version" value="${base.package.version}.${package.build.number}"/>
 
   <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
-  <property name="package.configuration" value="Beta-2"/>
+  <property name="package.configuration" value="Beta-3"/>
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
