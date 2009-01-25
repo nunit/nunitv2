@@ -15,7 +15,6 @@ namespace GenSyntax
         private string methodName;
         private string attributes;
         private string rightPart;
-        private string body;
 
         public GenSpec(string spec) : this(spec, false) { }
 
