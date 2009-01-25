@@ -1,13 +1,6 @@
 <?xml version="1.0"?>
 <project name="GenSyntax" default="build" basedir=".">
 
-  <property name="debug" value="true"/>
-
-  <property name="build.defines" value="TRACE" unless="${debug}"/>
-  <property name="build.defines" value="TRACE;DEBUG" if="${debug}"/>
-
-  <property name="build.dir" value="../../bin"/>
-
   <property name="nant.settings.currentframework" value="net-2.0"/>
 
   <patternset id="source-files">
@@ -23,7 +16,14 @@
     <include name="Templates/*.cs"/>
   </patternset>
 
-  <target name="clean">
+  <target name="init">
+    <property name="debug" value="false"/>
+    <property name="defines" value="TRACE" unless="${debug}"/>
+    <property name="defines" value="TRACE;DEBUG" if="${debug}"/>
+    <property name="build.dir" value="../../bin"/>
+  </target>
+
+  <target name="clean" depends="init">
     <delete>
       <fileset basedir="${build.dir}">
         <include name="GenSyntax.*"/>
@@ -31,14 +31,14 @@
     </delete>
   </target>
 
-  <target name="build">
+  <target name="build" depends="init">
 
     <mkdir dir="${build.dir}"/>
 
     <csc target="exe"
         output="${build.dir}/GenSyntax.exe"
         debug="${debug}" 
-        define="${build.defines}">
+        define="${defines}">
       <sources basedir=".">
         <patternset refid="source-files"/>
       </sources>

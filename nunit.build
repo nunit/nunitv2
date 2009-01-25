@@ -197,6 +197,8 @@
   <target name="gen-syntax" 
     description="Generate code for the fluent constraint builder interface">
 
+    <nant target="build" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
+
     <nant target="gen-syntax" 
       buildfile="src/NUnitFramework/framework/nunit.framework.build"/>
 
@@ -206,7 +208,7 @@
 <!-- ***              Targets that perform builds                  *** -->
 <!-- ***************************************************************** -->
 
-  <target name="rebuild" depends="clean,build"
+  <target name="rebuild" depends="clean,clean-tools,build"
     description="Rebuild NUnit for default runtime version and config"/>
 
   <target name="build" depends="make-build-dir,gen-assembly-info"
@@ -225,6 +227,9 @@
         <include name="*.dll"/>
       </fileset>
     </copy>
+
+    <!-- Build tools that need it -->
+    <call target="build-tools"/>
 
     <!-- Build NUnit components and tests -->
     <nant target="build">
@@ -1029,9 +1034,15 @@
 <!-- ***    Targets for building custom tools used in the build    *** -->
 <!-- ***************************************************************** -->
 
+  <target name="clean-tools">
+    <nant target="clean" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
+  </target>
+
   <target name="build-tools">
     <nant target="build" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
   </target>
+
+  <target name="rebuild-tools" depends="clean-tools,build-tools"/>
 
 <!-- ***************************************************************** -->
 <!-- ****** Patternsets and Filesets Used by Various Targets  ******** -->
