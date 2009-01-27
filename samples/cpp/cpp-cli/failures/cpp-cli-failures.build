@@ -27,7 +27,7 @@
 
     <exec program="devenv.exe"
       basedir="${vs.2005.path}" workingdir="."
-      commandline="cpp-cli-failures.sln /build ${build.config} /out ${output.dll}"/>
+      commandline="cpp-cli-failures.vcproj /build ${build.config} /out ${output.dll}"/>
 
   </target>
 

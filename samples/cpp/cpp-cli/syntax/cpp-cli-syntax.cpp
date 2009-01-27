@@ -5,10 +5,10 @@
 // ****************************************************************
 
 using namespace NUnit::Framework;
-using NUnit::Framework::SyntaxHelpers::Is;
-using NUnit::Framework::SyntaxHelpers::Text;
-using NUnit::Framework::SyntaxHelpers::List;
-using NUnit::Framework::SyntaxHelpers::Has;
+using NUnit::Framework::Is;
+using NUnit::Framework::Text;
+using NUnit::Framework::List;
+using NUnit::Framework::Has;
 using System::String;
 
 namespace NUnitSamples
@@ -20,14 +20,16 @@ namespace NUnitSamples
 		[Test]
 		void IsNull()
 		{
+			Object ^nada = nullptr;
+
 			// Classic syntax
-			Assert::IsNull(nullptr);
+			Assert::IsNull(nada);
 
 			// Helper syntax
-			Assert::That(nullptr, Is::Null);
+			Assert::That(nada, Is::Null);
 
 			// Inherited syntax
-			Expect(nullptr, Null);
+			Expect(nada, Null);
 		}
 
 		[Test]
@@ -548,16 +550,16 @@ namespace NUnitSamples
 			array<String^>^ strings = { "abc", "bca", "xyz" };
 
 			// Helper syntax
-			Assert::That( "Hello", Has::Property("Length", 5) );
-			Assert::That( "Hello", Has::Length( 5 ) );
-			Assert::That( strings , Has::All->Property( "Length", 3 ) );
-			Assert::That( strings, Has::All->Length( 3 ) );
+			Assert::That( "Hello", Has::Property("Length")->EqualTo(5) );
+			Assert::That( "Hello", Has::Length->EqualTo( 5 ) );
+			Assert::That( strings , Has::All->Property( "Length")->EqualTo(3) );
+			Assert::That( strings, Has::All->Length->EqualTo( 3 ) );
 
 			// Inherited syntax
-			Expect( "Hello", Property("Length", 5) );
-			Expect( "Hello", Length( 5 ) );
-			Expect( strings, All->Property("Length", 3 ) );
-			Expect( strings, All->Length( 3 ) );
+			Expect( "Hello", Property("Length")->EqualTo(5) );
+			Expect( "Hello", Length->EqualTo( 5 ) );
+			Expect( strings, All->Property("Length")->EqualTo(3) );
+			Expect( strings, All->Length->EqualTo( 3 ) );
 		}
 
 		[Test]

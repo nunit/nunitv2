@@ -26,7 +26,7 @@
       if="${file::exists('../../../../bin/nunit.framework.dll')}" />
 
     <exec program="devenv.exe" basedir="${vs.2003.path}" workingdir="."
-      commandline="cpp-managed-failures.sln /build ${build.config} /out ${output.dll}" />
+      commandline="cpp-managed-failures.vcproj /build ${build.config} /out ${output.dll}" />
 
   </target>
 

@@ -9,8 +9,7 @@ Option Explicit On
 Imports System
 Imports NUnit.Framework
 Imports NUnit.Framework.Constraints
-Imports NUnit.Framework.SyntaxHelpers
-Imports Text = NUnit.Framework.SyntaxHelpers.Text
+Imports Text = NUnit.Framework.Text
 
 Namespace NUnit.Samples
 
@@ -33,14 +32,16 @@ Namespace NUnit.Samples
 #Region "Simple Constraint Tests"
         <Test()> _
         Public Sub IsNull()
+            Dim nada = Nothing
+
             ' Classic syntax
-            Assert.IsNull(Nothing)
+            Assert.IsNull(nada)
 
             ' Helper syntax
-            Assert.That(Nothing, Iz.Null)
+            Assert.That(nada, Iz.Null)
 
             ' Inherited syntax
-            Expect(Nothing, Null)
+            Expect(nada, Null)
         End Sub
 
 
@@ -156,16 +157,16 @@ Namespace NUnit.Samples
         <Test()> _
         Public Sub InstanceOfTypeTests()
             ' Classic syntax
-            Assert.IsInstanceOfType(GetType(String), "Hello")
-            Assert.IsNotInstanceOfType(GetType(String), 5)
+            Assert.IsInstanceOf(GetType(String), "Hello")
+            Assert.IsNotInstanceOf(GetType(String), 5)
 
             ' Helper syntax
-            Assert.That("Hello", Iz.InstanceOfType(GetType(String)))
-            Assert.That(5, Iz.Not.InstanceOfType(GetType(String)))
+            Assert.That("Hello", Iz.InstanceOf(GetType(String)))
+            Assert.That(5, Iz.Not.InstanceOf(GetType(String)))
 
             ' Inherited syntax
-            Expect("Hello", InstanceOfType(GetType(String)))
-            Expect(5, Iz.Not.InstanceOfType(GetType(String)))
+            Expect("Hello", InstanceOf(GetType(String)))
+            Expect(5, Iz.Not.InstanceOf(GetType(String)))
         End Sub
 
         <Test()> _
@@ -469,7 +470,7 @@ Namespace NUnit.Samples
             Assert.That(strings, Text.All.Contains("a"))
             Assert.That(strings, Has.All.Contains("a"))
             Assert.That(strings, Has.Some.StartsWith("ba"))
-            Assert.That(strings, Has.Some.Property("Length", 3))
+            Assert.That(strings, Has.Some.Property("Length").EqualTo(3))
             Assert.That(strings, Has.Some.StartsWith("BA").IgnoreCase)
             Assert.That(doubles, Has.Some.EqualTo(1.0).Within(0.05))
 
@@ -564,7 +565,7 @@ Namespace NUnit.Samples
             Assert.That(sarray, Has.None.EqualTo("x"))
             Assert.That(iarray, Has.None.SameAs(1.0R))
             Assert.That(iarray, Has.All.LessThan(10))
-            Assert.That(sarray, Has.All.Length(1))
+            Assert.That(sarray, Has.All.Length.EqualTo(1))
             Assert.That(sarray, Has.None.Property("Length").GreaterThan(3))
 
             ' Inherited syntax
@@ -580,7 +581,7 @@ Namespace NUnit.Samples
             Expect(sarray, Some.EqualTo("b"))
             Expect(sarray, None.EqualTo("x"))
             Expect(iarray, All.LessThan(10))
-            Expect(sarray, All.Length(1))
+            Expect(sarray, All.Length.EqualTo(1))
             Expect(sarray, None.Property("Length").GreaterThan(3))
         End Sub
 
@@ -646,31 +647,30 @@ Namespace NUnit.Samples
             ' Assert.That(list, Has.Property("Count"))
             ' Assert.That(list, Has.No.Property("Length"))
 
-            Assert.That("Hello", Has.Property("Length", 5))
-            Assert.That("Hello", Has.Length(5))
+            Assert.That("Hello", Has.Length.EqualTo(5))
             Assert.That("Hello", Has.Property("Length").EqualTo(5))
             Assert.That("Hello", Has.Property("Length").GreaterThan(3))
 
-            Assert.That(array, Has.Property("Length", 4))
-            Assert.That(array, Has.Length(4))
+            Assert.That(array, Has.Property("Length").EqualTo(4))
+            Assert.That(array, Has.Length.EqualTo(4))
             Assert.That(array, Has.Property("Length").LessThan(10))
 
-            Assert.That(array, Has.All.Property("Length", 3))
-            Assert.That(array, Has.All.Length(3))
-            Assert.That(array, Iz.All.Length(3))
+            Assert.That(array, Has.All.Property("Length").EqualTo(3))
+            Assert.That(array, Has.All.Length.EqualTo(3))
+            Assert.That(array, Iz.All.Length.EqualTo(3))
             Assert.That(array, Has.All.Property("Length").EqualTo(3))
             Assert.That(array, Iz.All.Property("Length").EqualTo(3))
 
-            Assert.That(array2, Iz.Not.Property("Length", 4))
-            Assert.That(array2, Iz.Not.Length(4))
+            Assert.That(array2, Iz.Not.Property("Length").EqualTo(4))
+            Assert.That(array2, Iz.Not.Length.EqualTo(4))
             Assert.That(array2, Has.No.Property("Length").GreaterThan(3))
 
             ' Inherited syntax
             ' Expect(list, Has.Property("Count"))
             ' Expect(list, Has.No.Property("Nada"))
 
-            Expect(array, All.Property("Length", 3))
-            Expect(array, All.Length(3))
+            Expect(array, All.Property("Length").EqualTo(3))
+            Expect(array, All.Length.EqualTo(3))
         End Sub
 #End Region
 

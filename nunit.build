@@ -469,7 +469,7 @@
     <mkdir dir="${samples.bin.dir}" unless="${directory::exists(samples.bin.dir)}" />
 
     <copy todir="${samples.bin.dir}"
-      file="${path::combine(current.build.dir,'nunit.framework.dll')}" />
+      file="${path::combine(current.framework.dir,'nunit.framework.dll')}" />
     <copy todir="${samples.bin.dir}"
       file="${path::combine(current.build.dir,'nunit.core.interfaces.dll')}" />
     <copy todir="${samples.bin.dir}"
@@ -1120,7 +1120,6 @@
     <!-- CSharp Samples -->
     <include name="csharp/failures/cs-failures.build" />
     <include name="csharp/money/cs-money.build" />
-    <include name="csharp/money-port/cs-money-port.build" />
     <include name="csharp/syntax/cs-syntax.build" />
 
     <!-- JSharp Samples -->

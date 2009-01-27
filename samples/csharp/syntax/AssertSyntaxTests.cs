@@ -7,7 +7,6 @@
 using System;
 using System.Collections;
 using NUnit.Framework.Constraints;
-using NUnit.Framework.SyntaxHelpers;
 
 namespace NUnit.Framework.Tests
 {
@@ -31,14 +30,16 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void IsNull()
 		{
+			object nada = null;
+
 			// Classic syntax
-			Assert.IsNull(null);
+			Assert.IsNull(nada);
 
 			// Helper syntax
-			Assert.That(null, Is.Null);
+			Assert.That(nada, Is.Null);
 
 			// Inherited syntax
-			Expect(null, Null);
+			Expect(nada, Null);
 		}
 
 		[Test]
@@ -157,16 +158,16 @@ namespace NUnit.Framework.Tests
 		public void InstanceOfTypeTests()
 		{
 			// Classic syntax
-			Assert.IsInstanceOfType(typeof(string), "Hello");
-			Assert.IsNotInstanceOfType(typeof(string), 5);
+			Assert.IsInstanceOf(typeof(string), "Hello");
+			Assert.IsNotInstanceOf(typeof(string), 5);
 
 			// Helper syntax
-			Assert.That("Hello", Is.InstanceOfType(typeof(string)));
-			Assert.That(5, Is.Not.InstanceOfType(typeof(string)));
+			Assert.That("Hello", Is.InstanceOf(typeof(string)));
+			Assert.That(5, Is.Not.InstanceOf(typeof(string)));
 
 			// Inherited syntax
-			Expect("Hello", InstanceOfType(typeof(string)));
-			Expect(5, Not.InstanceOfType(typeof(string)));
+			Expect("Hello", InstanceOf(typeof(string)));
+			Expect(5, Not.InstanceOf(typeof(string)));
 		}
 
 		[Test]
@@ -488,7 +489,7 @@ namespace NUnit.Framework.Tests
 			Assert.That(strings, Text.All.Contains( "a" ) );
 			Assert.That(strings, Has.All.Contains( "a" ) );
 			Assert.That(strings, Has.Some.StartsWith( "ba" ) );
-			Assert.That( strings, Has.Some.Property( "Length", 3 ) );
+			Assert.That( strings, Has.Some.Property( "Length" ).EqualTo( 3 ) );
 			Assert.That( strings, Has.Some.StartsWith( "BA" ).IgnoreCase );
 			Assert.That( doubles, Has.Some.EqualTo( 1.0 ).Within( .05 ) );
 		
@@ -584,7 +585,7 @@ namespace NUnit.Framework.Tests
 			Assert.That(sarray, Has.None.EqualTo("x"));
 			Assert.That(iarray, Has.None.SameAs( 1.0d ));
 			Assert.That(iarray, Has.All.LessThan(10));
-			Assert.That(sarray, Has.All.Length(1));
+			Assert.That(sarray, Has.All.Length.EqualTo(1));
 			Assert.That(sarray, Has.None.Property("Length").GreaterThan(3));
 		
 			// Inherited syntax
@@ -600,7 +601,7 @@ namespace NUnit.Framework.Tests
 			Expect(sarray, Some.EqualTo("b"));
 			Expect(sarray, None.EqualTo("x"));
 			Expect(iarray, All.LessThan(10));
-			Expect(sarray, All.Length(1));
+			Expect(sarray, All.Length.EqualTo(1));
 			Expect(sarray, None.Property("Length").GreaterThan(3));
 		}
 
@@ -668,27 +669,27 @@ namespace NUnit.Framework.Tests
 			Assert.That( list, Has.Property( "Count" ) );
 			Assert.That( list, Has.No.Property( "Length" ) );
 
-			Assert.That( "Hello", Has.Property("Length", 5) );
-			Assert.That( "Hello", Has.Length( 5 ) );
+			Assert.That( "Hello", Has.Length.EqualTo( 5 ) );
+			Assert.That( "Hello", Has.Length.LessThan( 10 ) );
 			Assert.That( "Hello", Has.Property("Length").EqualTo(5) );
 			Assert.That( "Hello", Has.Property("Length").GreaterThan(3) );
 
-			Assert.That( array, Has.Property( "Length", 4 ) );
-			Assert.That( array, Has.Length( 4 ) );
+			Assert.That( array, Has.Property( "Length" ).EqualTo( 4 ) );
+			Assert.That( array, Has.Length.EqualTo( 4 ) );
 			Assert.That( array, Has.Property( "Length" ).LessThan( 10 ) );
 
-			Assert.That( array, Has.All.Property("Length", 3) );
-			Assert.That( array, Has.All.Length( 3 ) );
-			Assert.That( array, Is.All.Length( 3 ) );
+			Assert.That( array, Has.All.Property("Length").EqualTo(3) );
+			Assert.That( array, Has.All.Length.EqualTo( 3 ) );
+			Assert.That( array, Is.All.Length.EqualTo( 3 ) );
 			Assert.That( array, Has.All.Property("Length").EqualTo(3) );
 			Assert.That( array, Is.All.Property("Length").EqualTo(3) );
 			
-			Assert.That( array2, Has.Some.Property("Length", 2) );
-			Assert.That( array2, Has.Some.Length(2) );
+			Assert.That( array2, Has.Some.Property("Length").EqualTo(2) );
+			Assert.That( array2, Has.Some.Length.EqualTo(2) );
 			Assert.That( array2, Has.Some.Property("Length").GreaterThan(2) );
 
-			Assert.That( array2, Is.Not.Property("Length", 4) );
-			Assert.That( array2, Is.Not.Length( 4 ) );
+			Assert.That( array2, Is.Not.Property("Length").EqualTo(4) );
+			Assert.That( array2, Is.Not.Length.EqualTo( 4 ) );
 			Assert.That( array2, Has.No.Property("Length").GreaterThan(3) );
 
 			Assert.That( List.Map( array2 ).Property("Length"), Is.EqualTo( new int[] { 1, 2, 3 } ) );
@@ -696,31 +697,29 @@ namespace NUnit.Framework.Tests
 			Assert.That( List.Map( array2 ).Property("Length"), Is.SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
 			Assert.That( List.Map( array2 ).Property("Length"), Is.Unique );
 
-			Assert.That( list, Has.Count( 4 ) );
+			Assert.That( list, Has.Count.EqualTo( 4 ) );
 			
 			// Inherited syntax
 			Expect( list, Property( "Count" ) );
 			Expect( list, Not.Property( "Nada" ) );
 
-			Expect( "Hello", Property("Length", 5) );
-			Expect( "Hello", Length( 5 ) );
+			Expect( "Hello", Length.EqualTo( 5 ) );
 			Expect( "Hello", Property("Length").EqualTo(5) );
 			Expect( "Hello", Property("Length").GreaterThan(0) );
 
-			Expect( array, Property("Length", 4) );
-			Expect( array, Length(4) );
+			Expect( array, Property("Length").EqualTo(4) );
+			Expect( array, Length.EqualTo(4) );
 			Expect( array, Property("Length").LessThan(10));
 
-			Expect( array, All.Property("Length", 3 ) );
-			Expect( array, All.Length( 3 ) );
+			Expect( array, All.Length.EqualTo( 3 ) );
 			Expect( array, All.Property("Length").EqualTo(3));
 
-			Expect( array2, Some.Property("Length", 2) );
-			Expect( array2, Some.Length( 2 ) );
+			Expect( array2, Some.Property("Length").EqualTo(2) );
+			Expect( array2, Some.Length.EqualTo( 2 ) );
 			Expect( array2, Some.Property("Length").GreaterThan(2));
 
-			Expect( array2, None.Property("Length", 4) );
-			Expect( array2, None.Length( 4 ) );
+			Expect( array2, None.Property("Length").EqualTo(4) );
+			Expect( array2, None.Length.EqualTo( 4 ) );
 			Expect( array2, None.Property("Length").GreaterThan(3));
 
 			Expect( Map( array2 ).Property("Length"), EqualTo( new int[] { 1, 2, 3 } ) );
@@ -728,7 +727,7 @@ namespace NUnit.Framework.Tests
 			Expect( Map( array2 ).Property("Length"), SubsetOf( new int[] { 1, 2, 3, 4, 5 } ) );
 			Expect( Map( array2 ).Property("Length"), Unique );
 
-			Expect( list, Count( 4 ) );
+			Expect( list, Count.EqualTo( 4 ) );
 
 		}
 		#endregion
