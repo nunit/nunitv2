@@ -9,7 +9,6 @@
 		<ComponentRef Id="C__CSharp_Samples" />
 		<ComponentRef Id="C__CSharp_Failures" />
 		<ComponentRef Id="C__CSharp_Money" />
-		<ComponentRef Id="C__CSharp_Money_Port" />
 		<ComponentRef Id="C__CSharp_Syntax" />
 	
 		<!-- J# Samples -->
@@ -84,20 +83,7 @@
               <File Id="CS_IMoney.cs" Name="IMoney.cs" />
             </Component>
         </Directory>
-        
-		<Directory Id="csharp_money_port" Name="MONEY-_1" LongName="money-port">
-            <Component Id="C__CSharp_Money_Port" DiskId="1" Guid="CE86795C-1A55-4d82-BBA7-8B73668B94D1">
-              <File Id="CS_Money_Port_MoneyBag.cs" Name="MoneyBag.cs" />
-              <File Id="CS_Money_Port_Money.cs" Name="Money.cs" />
-              <File Id="CS_Money_Port_AssemblyInfo.cs" Name="ASSEMB_1.CS" LongName="AssemblyInfo.cs" />
-              <File Id="CS_Money_Port.dll.config" Name="MONEY-_1.CON" LongName="cs-money-port.dll.config" />
-              <File Id="CS_Money_Port_IMoney.cs" Name="IMoney.cs" />
-              <File Id="CS_Money_Port_MoneyTest.cs" Name="MONEYTST.CS" LongName="MoneyTest.cs" />
-              <File Id="CS_Money_Port.csproj" Name="MONYPORT.CSP" LongName="cs-money-port.csproj" />
-              <File Id="CS_Money_Port.build" Name="MONYPORT.BLD" LongName="cs-money-port.build" />
-            </Component>
-        </Directory>
-		
+        	
         <Directory Id="csharp_syntax" Name="syntax">
             <Component Id="C__CSharp_Syntax" DiskId="1" Guid="5613D9D2-7F4B-4d49-A0C3-AEF43CF08C5B">
               <File Id="CS_Syntax.csproj" Name="CS-SYNT.CSP" LongName="cs-syntax.csproj" />
