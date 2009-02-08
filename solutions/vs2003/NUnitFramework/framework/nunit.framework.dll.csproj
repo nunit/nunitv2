@@ -228,6 +228,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Iz.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Iz.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "JoinTypeAttributes.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\JoinTypeAttributes.cs"
                     SubType = "Code"
