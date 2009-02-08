@@ -430,7 +430,6 @@
     <call target="create-default-source-package"
       unless="${target::exists('create-source-package')}"/>
 
-
     <zip ziplevel="9"
         zipfile="${package.dir}/${package.name}-src.zip">
       <fileset basedir="${work.dir}">

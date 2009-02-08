@@ -40,7 +40,7 @@
 	</ComponentGroup>
 		
 	<!-- Menu Shortcuts to samples -->
-	<DirectoryRef Id="samples" FileSource="samples">
+	<DirectoryRef Id="samples" FileSource="$(var.InstallImage)\samples">
 	
         <Component Id="C__SampleShortcuts" DiskId="1" Guid="CCDAEC65-EED0-4794-89D0-363EB1AC3CC9">
           <Shortcut Id="S__csharp" Target="[csharp]" Directory="SamplesMenu" Name="SCSHARP" LongName="C#" Show="normal" />
@@ -57,7 +57,7 @@
 	</DirectoryRef>
 
     <!-- C# Samples -->	
-    <DirectoryRef Id="csharp" FileSource="samples\csharp">
+    <DirectoryRef Id="csharp" FileSource="$(var.InstallImage)\samples\csharp">
 
         <Component Id="C__CSharp_Samples" DiskId="1" Guid="16E59CB4-B8E0-46ac-9FE0-D08581D349EA">
           <File Id="CSharp.sln" Name="CSharp.sln" />
@@ -96,7 +96,7 @@
     </DirectoryRef>
 		
     <!-- J# Samples -->
-    <DirectoryRef Id="jsharp" FileSource="samples\jsharp" >
+    <DirectoryRef Id="jsharp" FileSource="$(var.InstallImage)\samples\jsharp" >
 
         <Component Id="C__JSharp_Samples" DiskId="1" Guid="14ECAA49-AFA8-4198-A093-B1A893445CF2">
             <File Id="jsharp.sln" Name="jsharp.sln" />
@@ -114,7 +114,7 @@
     </DirectoryRef>
 		
     <!-- C++ Samples -->
-    <DirectoryRef Id="cpp" FileSource="samples\cpp" >
+    <DirectoryRef Id="cpp" FileSource="$(var.InstallImage)\samples\cpp" >
 
 		<!-- Managed C++ -->
 		<Directory Id="cpp_managed" Name="managed">
@@ -166,7 +166,7 @@
     </DirectoryRef>
 		
     <!-- VB Samples -->
-    <DirectoryRef Id="vb" FileSource="samples\vb" >
+    <DirectoryRef Id="vb" FileSource="$(var.InstallImage)\samples\vb" >
 
         <Component Id="C__VB_Samples" DiskId="1" Guid="D89C7A16-556C-4ff8-8FF3-E00DB2C4A45E">
             <File Id="vb_samples.sln" Name="VB-SAMP.SLN" LongName="vb-samples.sln" />
@@ -205,7 +205,7 @@
     </DirectoryRef>
 	
     <!-- Extensibility Samples -->
-    <DirectoryRef Id="extensibility" FileSource="samples\Extensibility" >
+    <DirectoryRef Id="extensibility" FileSource="$(var.InstallImage)\samples\Extensibility" >
 
         <Directory Id="core_extensibility" Name="Core">
 

@@ -75,8 +75,8 @@
                 />
                 <Reference
                     Name = "nunit.framework"
-                    AssemblyName = "nunit.framework, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
-                    HintPath = "..\..\..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"
+                    AssemblyName = "nunit.framework"
+                    HintPath = "..\..\..\..\bin\nunit.framework.dll"
                 />
             </References>
         </Build>

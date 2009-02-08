@@ -1,8 +1,18 @@
 <?xml version="1.0"?>
 <project name="SampleFixtureExtension" default="build" basedir=".">
 
-  <include buildfile="../common.addin.build"/>
+  <include buildfile="../../../samples.common" />
 
-  <property name="addin.dll" value="SampleFixtureExtension.dll"/>
+  <patternset id="source-files">
+    <include name="AssemblyInfo.cs" />
+    <include name="SampleFixtureExtension.cs" />
+    <include name="SampleFixtureExtensionAttribute.cs" />
+    <include name="SampleFixtureExtensionBuilder.cs" />
+  </patternset>
 
+  <patternset id="test-files">
+    <include name="AssemblyInfo.cs" />
+    <include name="SampleFixtureExtensionTests.cs" />
+  </patternset>
+  
 </project>

@@ -15,7 +15,7 @@ namespace NUnit.Core.Extensions
 	/// a MockFixtureExtension.
 	/// </summary>
 	[NUnitAddin(Description="Wraps an NUnitTestFixture with an additional level of SetUp and TearDown")]
-	public class SampleFixtureExtensionBuilder : NUnitTestFixtureBuilder, IAddin
+	public class SampleFixtureExtensionBuilder : ISuiteBuilder, IAddin
 	{	
 		#region NUnitTestFixtureBuilder Overrides
 		/// <summary>
@@ -23,18 +23,23 @@ namespace NUnit.Core.Extensions
 		/// </summary>
 		/// <param name="type">The type to be used</param>
 		/// <returns>A SampleFixtureExtension as a TestSuite</returns>
-		protected override TestSuite MakeSuite(Type type)
-		{
-			return new SampleFixtureExtension( type );
-		}
+//		protected override TestSuite MakeSuite(Type type)
+//		{
+//			return new SampleFixtureExtension( type );
+//		}
 
 		// The builder recognizes the types that it can use by the presense
 		// of SampleFixtureExtensionAttribute. Note that an attribute does not
 		// have to be used. You can use any arbitrary set of rules that can be 
 		// implemented using reflection on the type.
-		public override bool CanBuildFrom(Type type)
+		public bool CanBuildFrom(Type type)
 		{
 			return Reflect.HasAttribute( type, "NUnit.Core.Extensions.SampleFixtureExtensionAttribute", false );
+		}
+
+		public Test BuildFrom(Type type)
+		{
+			return null;
 		}
 		#endregion
 

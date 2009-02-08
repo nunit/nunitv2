@@ -70,9 +70,8 @@
                 />
                 <Reference
                     Name = "nunit.core.interfaces"
-                    AssemblyName = "nunit.core.interfaces, Version=2.4.4.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77"
-                    HintPath = "..\..\..\..\src\NUnitCore\interfaces\bin\Debug\nunit.core.interfaces.dll"
-                    Private = "False"
+                    AssemblyName = "nunit.core.interfaces"
+                    HintPath = "..\..\..\..\solutions\vs2003\NUnitCore\interfaces\bin\Debug\nunit.core.interfaces.dll"
                 />
             </References>
         </Build>

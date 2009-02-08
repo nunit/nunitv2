@@ -17,7 +17,7 @@
 			ConfigurationType="2"
 			CharacterSet="2"
 			ManagedExtensions="TRUE"
-			ReferencesPath="&quot;D:\Dev\NUnit\nunit-2.4\src\NUnitFramework\framework\bin\Debug&quot;">
+			ReferencesPath="&quot;D:\Dev\NUnit\nunit-2.5\solutions\vs2005\NUnitFramework\framework\bin\Release&quot;">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -63,7 +63,8 @@
 			IntermediateDirectory="Release"
 			ConfigurationType="2"
 			CharacterSet="2"
-			ManagedExtensions="TRUE">
+			ManagedExtensions="TRUE"
+			ReferencesPath="&quot;D:\Dev\NUnit\nunit-2.5\solutions\vs2005\NUnitFramework\framework\bin\Release&quot;">
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="2"
@@ -71,7 +72,7 @@
 				AdditionalUsingDirectories="..\..\src\NUnitFramework\framework\bin\Release;..\..\src\NUnitFramework\framework\bin\Debug"
 				PreprocessorDefinitions="WIN32;NDEBUG"
 				MinimalRebuild="FALSE"
-				UsePrecompiledHeader="3"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -104,11 +105,11 @@
 	</Configurations>
 	<References>
 		<AssemblyReference
-			RelativePath="{ReferencesPath}\mscorlib.dll"/>
+			RelativePath="mscorlib.dll"/>
 		<AssemblyReference
-			RelativePath="$(SolutionDir)..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"/>
+			RelativePath="$(SolutionDir)..\..\bin\nunit.framework.dll"/>
 		<AssemblyReference
-			RelativePath="{ReferencesPath}\System.dll"/>
+			RelativePath="System.dll"/>
 	</References>
 	<Files>
 		<Filter

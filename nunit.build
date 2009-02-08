@@ -2,8 +2,7 @@
 <project name="NUnit" default="help" basedir=".">
 
 <!-- ***************************************************************** -->
-<!-- This script has been tested requires NAnt 0.86 and has been       -->
-<!-- tested with the 0.86 beta 1 release.                              -->
+<!-- This script has been tested with the NAnt 0.86 beta 1 release.    -->
 <!--                                                                   -->
 <!-- At least one of the supported runtimes and sdk must be installed. -->
 <!-- In order to build the msi, WiX 2.0 and the WiX tasks for NAnt     -->
@@ -613,6 +612,8 @@
 
     <property name="package.config" value="${standard.package.config}"
       unless="${property::exists('package.config')}" />
+    <property name="build.suffix" value=""
+      unless="${property::exists('build.suffix')}" />
     <property name="msi.file.name"
       value="${package.name}-${package.config}${build.suffix}.msi"
       unless="${package.config==standard.package.config}"/>
@@ -625,6 +626,7 @@
       <defines>
         <define name="ProductVersion" value="${package.version}" />
         <define name="NominalVersion" value="${nominal.version}" />
+        <define name="InstallImage" value="package\NUnit-${package.version}" />
       </defines>
       <sources basedir="${install.dir}">
         <include name="bin.wxs" />
@@ -900,7 +902,7 @@
 
     <!-- Copy each project's files -->
     <nant target="package">
-      <buildfiles refid="sample.buildfiles" />
+      <buildfiles refid="sample.buildfiles"  failonerror="true" />
     </nant>
 
   </target>
@@ -1115,6 +1117,9 @@
   </fileset>
 
   <!-- BuildFiles for Samples -->
+  <!-- Note: For each sample, sample.buildfile includes sample.build.
+       The distribution includes sample.build, but not sample.buildfile,
+       because the latter is used by NUnit for packaging. -->
   <fileset id="sample.buildfiles" basedir="${project.samples.dir}">
 
     <!-- CSharp Samples -->
@@ -1145,7 +1150,6 @@
     <include name="Extensibility/Core/Minimal/Minimal.build" />
     <include name="Extensibility/Core/SampleFixtureExtension/SampleFixtureExtension.build" />
     <include name="Extensibility/Core/SampleSuiteExtension/SampleSuiteExtension.build" />
-    <include name="Extensibility/Core/MaxTimeDecorator/MaxTimeDecorator.build" />
   </fileset>
 
   <!-- Files to be copied to source directories -->
