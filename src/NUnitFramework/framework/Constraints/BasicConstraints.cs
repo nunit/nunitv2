@@ -87,11 +87,19 @@ namespace NUnit.Framework.Constraints
     /// <summary>
     /// NaNConstraint tests that the actual value is a double or float NaN
     /// </summary>
-    public class NaNConstraint : BasicConstraint
+    public class NaNConstraint : Constraint
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:NaNConstraint"/> class.
-        /// </summary>
-        public NaNConstraint() : base(double.NaN, "NaN") { }
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+
+            return actual is double && double.IsNaN((double)actual)
+                || actual is float && float.IsNaN((float)actual);
+        }
+
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            writer.Write("NaN");
+        }
     }
 }
