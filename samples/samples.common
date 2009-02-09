@@ -10,13 +10,14 @@
 
   <property name="output.dir" value="${samples.base}/bin" />
 
-  <property name="nunit.bin.dir" value="${samples.base}/../bin" />
+  <property name="nunit.bin.dir"
+            value="${path::combine(path::get-directory-name(samples.base), 'bin')}" />
   <property name="nunit.framework.dll"
-            value="${path::combine(nunit.bin.dir,'nunit.framework.dll')}" />
+            value="${path::combine(nunit.bin.dir,'net-1.1/framework/nunit.framework.dll')}" />
   <property name="nunit.core.dll"
-            value="${path::combine(nunit.bin.dir,'nunit.core.dll')}" />
+            value="${path::combine(nunit.bin.dir,'net-1.1/nunit.core.dll')}" />
   <property name="nunit.core.interfaces.dll"
-            value="${path::combine(nunit.bin.dir,'nunit.core.interfaces.dll')}" />
+            value="${path::combine(nunit.bin.dir,'net-1.1/nunit.core.interfaces.dll')}" />
 
   <property name="sample" value="${project::get-name()}"
             unless="${property::exists('sample')}"/>
