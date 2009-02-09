@@ -890,6 +890,7 @@
     <copy todir="${package.samples.dir}">
       <fileset basedir="${project.samples.dir}">
         <include name="ReadMe.txt" />
+        <include name="samples.common" />
         <include name="csharp/CSharp.sln" />
         <include name="jsharp/jsharp.sln" />
         <include name="vb/vb-samples.sln" />

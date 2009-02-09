@@ -2,7 +2,7 @@
   <Fragment>
 
 	<ComponentGroup Id="SampleComponents">
-		<ComponentRef Id="C__SamplesReadme" />
+		<ComponentRef Id="C__SamplesCommon" />
 		<ComponentRef Id="C__SampleShortcuts" />
 
 		<!-- C# Samples -->
@@ -48,11 +48,12 @@
           <Shortcut Id="S__cpp" Target="[cpp]" Directory="SamplesMenu" Name="SCPP" LongName="C++" Show="normal" />
           <Shortcut Id="S__vb" Target="[vb]" Directory="SamplesMenu" Name="SVB" LongName="VB" Show="normal" />
           <Shortcut Id="S__extensibility" Target="[extensibility]" Directory="SamplesMenu" Name="SEXTENSI" LongName="Extensibility" Show="normal" />
-	    </Component>
+	</Component>
 		
-		<Component Id="C__SamplesReadme" DiskId="1" Guid="9FBE1436-920F-450b-9E7E-D85473E727B4">
-		  <File Id="ReadMe.txt" Name="ReadMe.txt" />
-		</Component>
+	<Component Id="C__SamplesCommon" DiskId="1" Guid="9FBE1436-920F-450b-9E7E-D85473E727B4">
+	  <File Id="ReadMe.txt" Name="ReadMe.txt" />
+	  <File Id="samples.common" Name="SAMPLES.CMN" LongName="samples.common" />
+	</Component>
 		
 	</DirectoryRef>
 
