@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -15,11 +14,18 @@ using System.IO;
 namespace NUnit.UiException
 {    
     /// <summary>
-    /// The representation of an exception in the current system.
-    /// ExceptionItem is the basic class that encapsulate all data needed
-    /// to report an exception to the end-user.
+    /// (Formerly named ExceptionItem)
+    /// 
+    /// This is the output analysis of one error line coming from
+    /// a stack trace that still gathers the same data but in more
+    /// convenient way to be read from.
+    ///   An ErrorItem represents one error with possible location
+    /// informations such as:
+    ///   - filename where the error has occured
+    ///   - file's line number
+    ///   - method name
     /// </summary>
-    public class ExceptionItem
+    public class ErrorItem
     {
         /// <summary>
         /// An access path to the source file referred by this item.
@@ -42,12 +48,12 @@ namespace NUnit.UiException
         private string _text;
       
         /// <summary>
-        /// Create an instance of ExceptionItem that
+        /// Create an instance of ErrorItem that
         /// has source code attachments.
         /// </summary>
-        public ExceptionItem(string path, int lineNumber)
+        public ErrorItem(string path, int lineNumber)
         {
-            TraceExceptionHelper.CheckNotNull(path, "path");
+            UiExceptionHelper.CheckNotNull(path, "path");
 
             _path = path;
             _line = lineNumber;
@@ -61,7 +67,7 @@ namespace NUnit.UiException
         /// <param name="path">An absolute path to the source code file.</param>
         /// <param name="fullMethodName">A full qualified name of a member method.</param>
         /// <param name="lineNumber">A line index where the exception occured.</param>
-        public ExceptionItem(string path, string fullMethodName, int lineNumber)
+        public ErrorItem(string path, string fullMethodName, int lineNumber)
         {
             _path = path;
             _fullyQualifiedMethodName = fullMethodName;
@@ -71,10 +77,10 @@ namespace NUnit.UiException
         }
 
         /// <summary>
-        /// Create an instance of ExceptionItem that doesn't have
+        /// Create an instance of ErrorItem that doesn't have
         /// any source code attachments.
         /// </summary>
-        public ExceptionItem()
+        public ErrorItem()
         {
             // nothing to do
         }
@@ -94,6 +100,27 @@ namespace NUnit.UiException
         public string Path 
         {
             get { return (_path); }
+        }
+
+        /// <summary>
+        /// Returns the file language - e.g.: the string after
+        /// the last dot or null -
+        /// </summary>
+        public string FileExtension
+        {
+            get 
+            {
+                int dotIndex;
+
+                if (_path == null)
+                    return (null);
+
+                dotIndex = _path.LastIndexOf(".");
+                if (dotIndex > -1 && dotIndex < _path.Length - 1)
+                    return (_path.Substring(dotIndex + 1));
+
+                return (null); 
+            }
         }
 
         /// <summary>
@@ -191,13 +218,13 @@ namespace NUnit.UiException
 
         public override bool Equals(object obj)
         {
-            ExceptionItem item;
+            ErrorItem item;
 
             if (obj == null ||
-                !(obj is ExceptionItem))
+                !(obj is ErrorItem))
                 return (false);
 
-            item = obj as ExceptionItem;
+            item = obj as ErrorItem;
 
             return (_path == item._path &&
                     _fullyQualifiedMethodName == item._fullyQualifiedMethodName &&

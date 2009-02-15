@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -54,9 +53,9 @@ namespace NUnit.UiException.Controls
         /// <param name="x">X value of the left upper corner where to put the window.</param>
         /// <param name="y">Y value of the left upper corner where to put the window.</param>
         /// <param name="item">Data to fill the content of the window with.</param>
-        public void Show(int x, int y, ExceptionItem item)
+        public void Show(int x, int y, ErrorItem item)
         {           
-            _codeBoxComposite.ExceptionSource = item;
+            _codeBoxComposite.ErrorSource = item;
 
             Width = _codeBoxComposite.Width;
             Height = _codeBoxComposite.Height;

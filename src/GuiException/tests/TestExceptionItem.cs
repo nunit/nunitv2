@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -17,7 +16,7 @@ using NUnit.UiException.Tests.data;
 namespace NUnit.UiException.Tests
 {
     [TestFixture]
-    public class TestExceptionItem
+    public class TestErrorItem
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException),
@@ -25,29 +24,31 @@ namespace NUnit.UiException.Tests
             MatchType = MessageMatch.Contains)]
         public void Ctor_Throws_NullPathException()
         {
-           new ExceptionItem(null, 1); // throws exception
+           new ErrorItem(null, 1); // throws exception
         }
 
         [Test]        
         public void Ctor_With_Line_0()
         {
-            new ExceptionItem("file.txt", 0);
+            new ErrorItem("file.txt", 0);
         }
 
         [Test]
         public void Ctor_2()
         {
-            ExceptionItem item;
+            ErrorItem item;
             
-            item = new ExceptionItem("Test.cs", "myFunction()", 1);
+            item = new ErrorItem("Test.cs", "myFunction()", 1);
 
             Assert.That(item.Path, Is.EqualTo("Test.cs"));
             Assert.That(item.FullyQualifiedMethodName, Is.EqualTo("myFunction()"));            
             Assert.That(item.LineNumber, Is.EqualTo(1));
             Assert.That(item.HasSourceAttachment, Is.True);
+            Assert.That(item.FileExtension, Is.EqualTo("cs"));
 
-            item = new ExceptionItem(null, "myFunction()", 1);
+            item = new ErrorItem(null, "myFunction()", 1);
             Assert.That(item.Path, Is.Null);
+            Assert.That(item.FileExtension, Is.Null);
             Assert.That(item.FullyQualifiedMethodName, Is.EqualTo("myFunction()"));
             Assert.That(item.LineNumber, Is.EqualTo(1));
             Assert.That(item.HasSourceAttachment, Is.False);
@@ -58,25 +59,25 @@ namespace NUnit.UiException.Tests
         [Test]
         public void Test_MethodName()
         {
-            ExceptionItem item;
+            ErrorItem item;
 
             // test to pass
 
-            item = new ExceptionItem("path", "namespace1.class.fullMethodName()", 1);
+            item = new ErrorItem("path", "namespace1.class.fullMethodName()", 1);
             Assert.That(item.MethodName, Is.EqualTo("fullMethodName()"));
             Assert.That(item.ClassName, Is.EqualTo("class"));
 
-            item = new ExceptionItem("path", ".class.fullMethodName()", 1);
+            item = new ErrorItem("path", ".class.fullMethodName()", 1);
             Assert.That(item.MethodName, Is.EqualTo("fullMethodName()"));
             Assert.That(item.ClassName, Is.EqualTo("class"));
 
             // test to fail
 
-            item = new ExceptionItem("path", "fullMethodName()", 1);
+            item = new ErrorItem("path", "fullMethodName()", 1);
             Assert.That(item.MethodName, Is.EqualTo("fullMethodName()"));
             Assert.That(item.ClassName, Is.EqualTo(""));
 
-            item = new ExceptionItem("path", "", 1);
+            item = new ErrorItem("path", "", 1);
             Assert.That(item.MethodName, Is.EqualTo(""));
             Assert.That(item.ClassName, Is.EqualTo(""));
 
@@ -86,20 +87,45 @@ namespace NUnit.UiException.Tests
         [Test]
         public void Can_Set_Properties()
         {
-            ExceptionItem item;
+            ErrorItem item;
 
-            item = new ExceptionItem("C:\\dir\\file.txt", 13);
+            item = new ErrorItem("C:\\dir\\file.txt", 13);
 
             Assert.That(item.Filename, Is.EqualTo("file.txt"));
+            Assert.That(item.FileExtension, Is.EqualTo("txt"));
             Assert.That(item.Path, Is.EqualTo("C:\\dir\\file.txt"));
             Assert.That(item.LineNumber, Is.EqualTo(13));
             Assert.That(item.HasSourceAttachment, Is.True);
 
-            item = new ExceptionItem();
+            item = new ErrorItem();
             Assert.That(item.Filename, Is.Null);
+            Assert.That(item.FileExtension, Is.Null);
             Assert.That(item.Path, Is.Null);
             Assert.That(item.LineNumber, Is.EqualTo(0));
             Assert.That(item.HasSourceAttachment, Is.False);
+
+            return;
+        }
+
+        [Test]
+        public void Test_FileExtension()
+        {
+            ErrorItem item;
+
+            item = new ErrorItem("C:\\dir\\file.cs", 1);
+            Assert.That(item.FileExtension, Is.EqualTo("cs"));
+
+            item = new ErrorItem("C:\\dir\\file.cpp", 1);
+            Assert.That(item.FileExtension, Is.EqualTo("cpp"));
+
+            item = new ErrorItem("C:\\dir\\file.cs.cpp.plop", 1);
+            Assert.That(item.FileExtension, Is.EqualTo("plop"));
+
+            item = new ErrorItem("C:\\dir\\file.", 1);
+            Assert.That(item.FileExtension, Is.Null);
+
+            item = new ErrorItem("C:\\dir\\file", 1);
+            Assert.That(item.FileExtension, Is.Null);
 
             return;
         }
@@ -110,9 +136,9 @@ namespace NUnit.UiException.Tests
             MatchType = MessageMatch.Contains)]
         public void Text_Property_Throws_FileNotExistException()
         {
-            ExceptionItem item;
+            ErrorItem item;
 
-            item = new ExceptionItem("C:\\unknown\\unknown.txt", 1);
+            item = new ErrorItem("C:\\unknown\\unknown.txt", 1);
 
             string text = item.Text; // throws exception
         }
@@ -120,11 +146,11 @@ namespace NUnit.UiException.Tests
         [Test]
         public void Test_Text()
         {
-            ExceptionItem item;
+            ErrorItem item;
 
             using (new TestResource("HelloWorld.txt"))
             {
-                item = new ExceptionItem("HelloWorld.txt", 1);
+                item = new ErrorItem("HelloWorld.txt", 1);
 
                 Assert.That(item.Text, Is.Not.Null);
                 Assert.That(item.Text, Is.EqualTo("Hello world!"));
@@ -136,22 +162,22 @@ namespace NUnit.UiException.Tests
         [Test]
         public void Test_Equals()
         {
-            ExceptionItem itemA;
-            ExceptionItem itemB;
-            ExceptionItem itemC;
+            ErrorItem itemA;
+            ErrorItem itemB;
+            ErrorItem itemC;
 
-            itemA = new ExceptionItem("file1.txt", 43);
-            itemB = new ExceptionItem("file2.txt", 44);
-            itemC = new ExceptionItem("file1.txt", "myFunction()", 43);
+            itemA = new ErrorItem("file1.txt", 43);
+            itemB = new ErrorItem("file2.txt", 44);
+            itemC = new ErrorItem("file1.txt", "myFunction()", 43);
 
             Assert.That(itemA.Equals(null), Is.False);
             Assert.That(itemA.Equals("hello"), Is.False);
             Assert.That(itemA.Equals(itemB), Is.False);
             Assert.That(itemA.Equals(itemC), Is.False);
             Assert.That(itemA.Equals(itemA), Is.True);
-            Assert.That(itemA.Equals(new ExceptionItem("file", 43)), Is.False);
-            Assert.That(itemA.Equals(new ExceptionItem("file1.txt", 42)), Is.False);
-            Assert.That(itemA.Equals(new ExceptionItem("file1.txt", 43)), Is.True);
+            Assert.That(itemA.Equals(new ErrorItem("file", 43)), Is.False);
+            Assert.That(itemA.Equals(new ErrorItem("file1.txt", 42)), Is.False);
+            Assert.That(itemA.Equals(new ErrorItem("file1.txt", 43)), Is.True);
 
             return;
         }

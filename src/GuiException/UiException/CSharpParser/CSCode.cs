@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -11,14 +10,17 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Collections;
+using NUnit.UiException.CodeFormatters;
 
-namespace NUnit.UiException.CSharpParser
+namespace NUnit.UiException.CodeFormatters
 {
     /// <summary>
+    /// (Formerly named CSCode)
+    /// 
     /// Implements ITextManager and adds new behaviors to provide support for basic
-    /// syntax coloring of C# like text.   
+    /// syntax coloring. 
     /// </summary>
-    public class CSCode :
+    public class FormattedCode :
         ITextManager
     {
         /// <summary>
@@ -32,14 +34,52 @@ namespace NUnit.UiException.CSharpParser
         private int _maxLength;
 
         /// <summary>
-        /// Builds a new instance of CSCode.
+        /// Builds a new instance of FormattedCode.
         /// </summary>
-        public CSCode()
+        public FormattedCode()
         {
             _codeInfo = NewCodeInfo();
             _maxLength = 0;
 
             return;
+        }
+
+        public FormattedCode(string csharpText, int[] strIndexes, byte[] tagValues, int[] lineIndexes)
+        {
+            UiExceptionHelper.CheckNotNull(csharpText, "csharpText");
+            UiExceptionHelper.CheckNotNull(strIndexes, "strIndexes");
+            UiExceptionHelper.CheckNotNull(tagValues, "tagValues");
+            UiExceptionHelper.CheckNotNull(lineIndexes, "lineIndexes");
+
+            _codeInfo = new CodeInfo();
+
+            _codeInfo.Text = csharpText;
+
+            _codeInfo.IndexArray = new List<int>();
+            foreach (int index in strIndexes)
+                _codeInfo.IndexArray.Add(index);
+
+            _codeInfo.TagArray = new List<byte>();
+            foreach (byte tag in tagValues)
+                _codeInfo.TagArray.Add(tag);
+
+            _codeInfo.LineArray = new List<int>();
+            foreach (int line in lineIndexes)
+                _codeInfo.LineArray.Add(line);
+
+            return;
+        }
+
+        public CodeInfo CopyInfo()
+        {
+            FormattedCode copy;
+
+            copy = new FormattedCode(_codeInfo.Text, 
+                _codeInfo.IndexArray.ToArray(),
+                _codeInfo.TagArray.ToArray(), 
+                _codeInfo.LineArray.ToArray());
+
+            return (copy._codeInfo);
         }
 
         /// <summary>
@@ -59,22 +99,11 @@ namespace NUnit.UiException.CSharpParser
         }
 
         /// <summary>
-        /// Gets or sets the text currently managed by this object.
+        /// Gets the text currently managed by this object.
         /// </summary>
         public string Text
         {
-            get { return (_codeInfo.Text); }
-
-            set
-            {
-                CSParser parser;
-
-                parser = new CSParser();
-                parser.Parse(value);
-                _codeInfo = parser.CSCode._codeInfo;
-
-                return;
-            }
+            get { return (_codeInfo.Text); }           
         }
 
         /// <summary>
@@ -105,11 +134,11 @@ namespace NUnit.UiException.CSharpParser
         }
 
         /// <summary>
-        /// Gives access to the collection of CSToken at the specified lineIndex.
+        /// Gives access to the collection of ClassifiedToken at the specified lineIndex.
         /// </summary>
         /// <param name="lineIndex">A zero based startingPosition.</param>
-        /// <returns>The CSTokenCollection instance at this startingPosition.</returns>
-        public CSTokenCollection this[int lineIndex]
+        /// <returns>The ClassifiedTokenCollection instance at this startingPosition.</returns>
+        public ClassifiedTokenCollection this[int lineIndex]
         {
             get { return (new InternalCSTokenCollection(_codeInfo, lineIndex)); }
         }
@@ -124,16 +153,57 @@ namespace NUnit.UiException.CSharpParser
             return (this[lineIndex].Text);
         }
 
+        /// <summary>
+        /// An utility method that check data consistency. The operation
+        /// raises an exception if an error is found.
+        /// </summary>
+        public static void CheckData(FormattedCode data)
+        {
+            List<int> lines;
+            int line;
+            int bound;
+            int i;
+
+            UiExceptionHelper.CheckNotNull(data, "data");
+
+            UiExceptionHelper.CheckTrue(
+                data._codeInfo.IndexArray.Count == data._codeInfo.TagArray.Count,
+                "IndexArray.Count and TagArray.Count must match.",
+                "data");
+
+            bound = data._codeInfo.IndexArray.Count;
+            lines = data._codeInfo.LineArray;
+            for (i = 0; i < lines.Count; ++i)
+            {
+                line = lines[i];
+
+                UiExceptionHelper.CheckTrue(
+                    line >= 0 && line < bound,
+                    "Bad LineArray value at index " + i + ", value was: " + line + ", expected to be in: [0-" + bound + "[.",
+                    "data");
+
+                if (i == 0)
+                    continue;
+
+                UiExceptionHelper.CheckTrue(
+                    lines[i] > lines[i - 1],
+                    "Bad LineArray[" + i + "], value was: " + line + ", expected to be > than LineArray[" + (i - 1) + "]=" + lines[i - 1] + ".",
+                    "data");
+            }
+
+            return;
+        }
+
         public override bool Equals(object obj)
         {
-            CSCode arg;
+            FormattedCode arg;
             int i;
 
             if (obj == null ||
-                !(obj is CSCode))
+                !(obj is FormattedCode))
                 return (false);
 
-            arg = obj as CSCode;
+            arg = obj as FormattedCode;
 
             if (arg._codeInfo.Text != _codeInfo.Text ||
                 arg._codeInfo.IndexArray.Count != _codeInfo.IndexArray.Count ||
@@ -194,7 +264,7 @@ namespace NUnit.UiException.CSharpParser
             }
 
             res = String.Format(
-                "CSCode: [(text=[{0}], len={1}), (startingPosition=[{2}]), (tag=[{3}]), (line=[{4}])]",
+                "FormattedCode: [(text=[{0}], len={1}), (startingPosition=[{2}]), (tag=[{3}]), (line=[{4}])]",
                 _codeInfo.Text, _codeInfo.Text.Length,
                 index_array, tag_array, line_array);
 
@@ -214,13 +284,13 @@ namespace NUnit.UiException.CSharpParser
         ///     - a string of characters
         ///     - a value (called tag) that classifies this string from 0 to 3.
         ///       Where 0 corresponds to 'Code', 1 to 'Keyword' and so on.
-        ///  These couples are named 'CSToken'. At rendering time, the process can link each
+        ///  These couples are named 'ClassifiedToken'. At rendering time, the process can link each
         ///  of these values to a particular System.Drawing.Brush instance and display text
         ///  differently.
         ///  
         ///  However, keeping track of all these couples at any time could have a significative
         ///  impact on memory especially for big files. Therefore, instead of storing all theses couples,
-        ///  CodeInfo stores just primitive information that allow to build CSToken instances on the fly.        
+        ///  CodeInfo stores just primitive information that allow to build ClassifiedToken instances on the fly.        
         /// </summary>
         public class CodeInfo
         {
@@ -231,15 +301,15 @@ namespace NUnit.UiException.CSharpParser
 
             /// <summary>
             /// Array of character indexes that refers to
-            /// the field "Text". Each value in this index_array
-            /// must be interpreted as the starting startingPosition
-            /// of a string sequence (alias CSToken).
+            /// the field "Text". Each value in this array
+            /// must be interpreted as the starting index position
+            /// in the string into Text.
             /// </summary>
             public List<int> IndexArray;
 
             /// <summary>
             /// Array of ClassificationTag values held as a
-            /// simple byte index_array. There is a one-to-one correspondance
+            /// byte array. There is a one-to-one correspondance
             /// with 'IndexArray'. i.e.: TagArray[0] refers to the
             /// ClassificationTag value for string sequence at
             /// IndexArray[0]. TagArray[1] refers value to IndexArray[1] and
@@ -266,7 +336,7 @@ namespace NUnit.UiException.CSharpParser
         #region InternalCSTokenCollection
 
         class InternalCSTokenCollection :
-            CSTokenCollection
+            ClassifiedTokenCollection
         {
             public InternalCSTokenCollection(CodeInfo info, int lineIndex)
             {

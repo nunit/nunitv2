@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -174,7 +173,7 @@ namespace NUnit.UiException.Controls
                         return (new ButtonGraphicAttributes(5, 7, 12, 12, 18, 12, 12, 20, 18, 20));
 
                     default:
-                        TraceExceptionHelper.Fail("should not reach this code");
+                        UiExceptionHelper.Fail("should not reach this code");
                         break;
                 }
 

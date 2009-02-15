@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -40,9 +39,6 @@ namespace NUnit.UiException.Tests
             Assert.That(_browser.FormStack.Visible, Is.False);
             Assert.That(_browser.FormCode.Visible, Is.False);
 
-            Assert.That(_browser.FileExtension, Is.EqualTo(".cs"));
-            Assert.That(_browser.DirectorySeparator, Is.EqualTo('\\'));
-
             Assert.That(_browser.Items, Is.Not.Null);
             Assert.That(_browser.Items.Count, Is.EqualTo(0));
             Assert.That(_browser.Pagineer, Is.Not.Null);
@@ -52,18 +48,6 @@ namespace NUnit.UiException.Tests
             Assert.That(_browser.Caption, Is.EqualTo("Browse exception details here"));
             Assert.That(_browser.ForeColor, Is.EqualTo(Color.Blue));
             Assert.That(_browser.Font.Underline, Is.True);
-
-            return;
-        }
-
-        [Test]
-        public void Test_Set_Properties()
-        {
-            _browser.FileExtension = ".csharp";
-            _browser.DirectorySeparator = '/';
-
-            Assert.That(_browser.FileExtension, Is.EqualTo(".csharp"));
-            Assert.That(_browser.DirectorySeparator, Is.EqualTo('/'));
 
             return;
         }
@@ -79,19 +63,17 @@ namespace NUnit.UiException.Tests
             Assert.That(_browser.Items.Count, Is.EqualTo(1));
             Assert.That(_browser.Items[0],
                 Is.EqualTo(
-                new ExceptionItem("C:\\file.cs", "test()", 1)));
+                new ErrorItem("C:\\file.cs", "test()", 1)));
 
             //
             // StackTrace property automatically clears previous entries
             //
 
-            _browser.FileExtension = ".csharp";
-            _browser.DirectorySeparator = '/';
             _browser.StackTrace = "à test() /home/ihottier/file2.csharp:ligne 1";
             Assert.That(_browser.Items.Count, Is.EqualTo(1));
             Assert.That(_browser.Items[0],
                 Is.EqualTo(
-                new ExceptionItem("/home/ihottier/file2.csharp", "test()", 1)));
+                new ErrorItem("/home/ihottier/file2.csharp", "test()", 1)));
 
             return;
         }

@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -10,38 +9,73 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using NUnit.UiException.CodeFormatters;
 
-namespace NUnit.UiException.CSharpParser
+namespace NUnit.UiException.CodeFormatters
 {
     /// <summary>
-    /// Helper class to build and setup CSCode instances from formatted C# texts.
+    /// (formerly named CSParser)
+    /// 
+    /// Helper class to build and setup FormattedCode instances from formatted C# texts.
     /// </summary>
-    public class CSParser
+    public class CSharpCodeFormatter :
+        ICodeFormatter
     {
         /// <summary>
-        /// The underlying data object of a CSCode instance.
+        /// The underlying data object of a FormattedCode instance.
         /// </summary>
-        private CSCode.CodeInfo _info;
+        private FormattedCode.CodeInfo _info;
 
         /// <summary>
-        /// Builds a new instance of CSParser.
+        /// Builds a new instance of CSharpCodeFormatter.
         /// </summary>
-        public CSParser()
+        public CSharpCodeFormatter()
         {
-            _info = CSCode.NewCodeInfo();
+            _info = FormattedCode.NewCodeInfo();
 
             return;
         }
 
         /// <summary>
-        /// Gets a new instance of CSCode.
-        /// To get useful CSCode instances, caller should ensure
-        /// that Parse() was invoked first.
+        /// Gets a new instance of FormattedCode.
+        /// To get useful FormattedCode instances, caller should ensure
+        /// that TryParse() was invoked first.
         /// </summary>
-        public CSCode CSCode
+        public FormattedCode CSCode
         {
-            get { return (new ConcreteCSCode(_info)); }
+            get { return (new InternalFormattedCode(_info)); }
         }
+
+        #region ICodeFormatter Membres
+
+        /// <summary>
+        /// Returns "C#"
+        /// </summary>
+        public string Language
+        {
+            get { return ("C#"); }
+        }
+
+        /// <summary>
+        /// Interprets and highlight the given string as C# code
+        /// and return the resulting FormattedCode instance.
+        /// </summary>
+        /// <param name="csharpCode">A string read as C# code.
+        /// This parameter must not be null.</param>
+        /// <returns>A FormattedCode instance containing data
+        /// to highlight the text with basic syntax coloring.</returns>
+        public FormattedCode Format(string csharpCode)
+        {
+            UiExceptionHelper.CheckNotNull(csharpCode, "csharpCode");
+
+            _info = FormattedCode.NewCodeInfo();
+            csharpCode = PreProcess(csharpCode);
+            Parse(csharpCode);
+
+            return (CSCode);
+        }
+
+        #endregion
 
         /// <summary>
         /// Prepare input text for the parsing stage.
@@ -64,11 +98,11 @@ namespace NUnit.UiException.CSharpParser
 
         /// <summary>
         /// Analyzes the input text as C# code. This method doesn't return anything.
-        /// Callers may retrieve the result of this process by querying the CSCode property.
+        /// Callers may retrieve the result of this process by querying the FormattedCode property.
         ///   Passing null results in raising an exception.
         /// </summary>
         /// <param name="csharp">The text to be analyzed.</param>
-        public void Parse(string csharp)
+        protected void Parse(string csharp)
         {
             TokenClassifier classifier;
             ConcreteToken csToken;
@@ -77,7 +111,7 @@ namespace NUnit.UiException.CSharpParser
             StringBuilder text;
             int tokenIndex;
 
-            TraceExceptionHelper.CheckNotNull(csharp, "csharp");
+            UiExceptionHelper.CheckNotNull(csharp, "csharp");
 
             csharp = PreProcess(csharp);
 
@@ -127,7 +161,6 @@ namespace NUnit.UiException.CSharpParser
                 _info.LineArray.Count == 0)
                 _info.LineArray.Add(tokenIndex);
 
-            //_info.Text = text.ToString();
             _info.Text = csharp;
 
             return;
@@ -138,7 +171,7 @@ namespace NUnit.UiException.CSharpParser
         /// </summary>
         /// <param name="token">Token to be merged with output.</param>
         /// <param name="output">Target location.</param>
-        private void _flushToken(CSToken token, CSCode.CodeInfo output)
+        private void _flushToken(ClassifiedToken token, FormattedCode.CodeInfo output)
         {
             if (token == null)
                 return;
@@ -149,15 +182,15 @@ namespace NUnit.UiException.CSharpParser
             return;
         }
 
-        #region ConcreteCSCode
+        #region InternalFormattedCode
 
         /// <summary>
-        /// Implements CSCode.
+        /// Implements FormattedCode.
         /// </summary>
-        class ConcreteCSCode :
-            CSCode
+        class InternalFormattedCode :
+            FormattedCode
         {
-            public ConcreteCSCode(CSCode.CodeInfo info)
+            public InternalFormattedCode(FormattedCode.CodeInfo info)
             {
                 _codeInfo = info;
             }
@@ -168,15 +201,15 @@ namespace NUnit.UiException.CSharpParser
         #region ConcreteToken
 
         /// <summary>
-        /// Implements CSToken.
+        /// Implements ClassifiedToken.
         /// </summary>
         class ConcreteToken :
-            CSToken
+            ClassifiedToken
         {
             private int _lineIndex;
 
             /// <summary>
-            /// Builds and setup a new instance of CSToken.
+            /// Builds and setup a new instance of ClassifiedToken.
             /// </summary>
             /// <param name="text">The text in this token.</param>
             /// <param name="tag">The smState tag.</param>

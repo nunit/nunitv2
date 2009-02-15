@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -80,7 +79,7 @@ namespace NUnit.UiException
         /// mouse interactions must be watched.</param>
         public void Register(Control control)
         {
-            TraceExceptionHelper.CheckNotNull(control, "control");
+            UiExceptionHelper.CheckNotNull(control, "control");
             _controls.Add(control);
 
             control.MouseEnter += new EventHandler(control_MouseEnter);

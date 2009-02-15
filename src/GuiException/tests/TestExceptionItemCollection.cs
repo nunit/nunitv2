@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -17,17 +16,17 @@ using NUnit.UiException.Tests.data;
 namespace NUnit.UiException.Tests
 {
     [TestFixture]
-    public class TestExceptionItemCollection
+    public class TestErrorItemCollection
     {
         TestResource _resourceA;
         TestResource _resourceB;
 
-        private ExceptionItemCollection _items;
-        private ExceptionItem _itemA;
-        private ExceptionItem _itemB;
+        private ErrorItemCollection _items;
+        private ErrorItem _itemA;
+        private ErrorItem _itemB;
 
         private int _notificationAdded;
-        private ExceptionItem _notifiedItem;
+        private ErrorItem _notifiedItem;
 
         private int _notificationCleared;
 
@@ -39,8 +38,8 @@ namespace NUnit.UiException.Tests
             _resourceA = new TestResource("HelloWorld.txt");
             _resourceB = new TestResource("TextCode.txt");
 
-            _itemA = new ExceptionItem(_resourceA.Path, 1);
-            _itemB = new ExceptionItem(_resourceB.Path, 2);
+            _itemA = new ErrorItem(_resourceA.Path, 1);
+            _itemB = new ErrorItem(_resourceB.Path, 2);
 
             _items.ItemAdded += new ItemAddedEventHandler(_items_ItemAdded);
             _notificationAdded = 0;
@@ -73,7 +72,7 @@ namespace NUnit.UiException.Tests
             _notificationCleared++;
         }
 
-        void _items_ItemAdded(object sender, ExceptionItem item)
+        void _items_ItemAdded(object sender, ErrorItem item)
         {
             _notificationAdded++;
             _notifiedItem = item;
@@ -82,7 +81,7 @@ namespace NUnit.UiException.Tests
         [Test]
         public void Test_TraceItems()
         {
-            List<ExceptionItem> lst;
+            List<ErrorItem> lst;
 
             Assert.That(_items.Count, Is.EqualTo(0));
 
@@ -94,8 +93,8 @@ namespace NUnit.UiException.Tests
             Assert.That(_items[0], Is.EqualTo(_itemA));
             Assert.That(_items[1], Is.EqualTo(_itemB));
 
-            lst = new List<ExceptionItem>();
-            foreach (ExceptionItem item in _items)
+            lst = new List<ErrorItem>();
+            foreach (ErrorItem item in _items)
                 lst.Add(item);
             Assert.That(lst.Count, Is.EqualTo(2));
             Assert.That(lst[0], Is.EqualTo(_items[0]));
@@ -164,7 +163,7 @@ namespace NUnit.UiException.Tests
         #region InternalTraceItemCollection
 
         class InternalTraceItemCollection :
-            ExceptionItemCollection
+            ErrorItemCollection
         {
             public InternalTraceItemCollection()
             {

@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -12,22 +11,24 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 
-namespace NUnit.UiException.CSharpParser
+namespace NUnit.UiException.CodeFormatters
 {
     /// <summary>
-    /// Manages an ordered collection of CSToken present in one line of text.
+    /// (formerly named CSTokenCollection)
+    /// 
+    /// Manages an ordered collection of ClassifiedToken present in one line of text.
     /// </summary>
-    public class CSTokenCollection
+    public class ClassifiedTokenCollection
     {
         /// <summary>
-        /// Target location when building a CSToken instance on the fly.
+        /// Target location when building a ClassifiedToken instance on the fly.
         /// </summary>
-        protected CSToken _token;
+        protected ClassifiedToken _token;
 
         /// <summary>
         /// Keeps tracks of the data source.
         /// </summary>
-        protected CSCode.CodeInfo _info;
+        protected FormattedCode.CodeInfo _info;
 
         /// <summary>
         /// Store the current line startingPosition.
@@ -37,13 +38,13 @@ namespace NUnit.UiException.CSharpParser
         /// <summary>
         /// This class requires subclassing.
         /// </summary>
-        protected CSTokenCollection()
+        protected ClassifiedTokenCollection()
         {
             _token = new InternalToken();
         }
 
         /// <summary>
-        /// Gets the number of CSToken present in this line of text.
+        /// Gets the number of ClassifiedToken present in this line of text.
         /// </summary>
         public int Count
         {
@@ -67,14 +68,14 @@ namespace NUnit.UiException.CSharpParser
         }
 
         /// <summary>
-        /// Gets the CSToken instance at the specified startingPosition.
+        /// Gets the ClassifiedToken instance at the specified startingPosition.
         /// Warning: this indexer always return the same instance.
         /// To keep data safe, it is strongly recommanded to make
-        /// a deep copy of the returned CSToken.
+        /// a deep copy of the returned ClassifiedToken.
         /// </summary>
         /// <param name="startingPosition">A zero based value in the range: [0 - Count[</param>
-        /// <returns>The CSToken at this startingPosition.</returns>
-        public CSToken this[int index]
+        /// <returns>The ClassifiedToken at this startingPosition.</returns>
+        public ClassifiedToken this[int index]
         {
             get
             {
@@ -158,7 +159,7 @@ namespace NUnit.UiException.CSharpParser
                 case 2: return (ClassificationTag.Comment);
                 case 3: return (ClassificationTag.String);
                 default:
-                    TraceExceptionHelper.CheckTrue(false, "should not reach this code", "value");
+                    UiExceptionHelper.CheckTrue(false, "should not reach this code", "value");
                     break;
             }
 
@@ -189,6 +190,10 @@ namespace NUnit.UiException.CSharpParser
                     index_end = _info.IndexArray[index_end_ptr];
                 }
 
+                if (index_end - index_start < 0)
+                    throw new Exception(
+                        "ClassifiedTokenCollection: Text: error: calling substring with negative length");
+
                 text = _info.Text.Substring(index_start, index_end - index_start);
                 text = text.TrimEnd();
 
@@ -199,7 +204,7 @@ namespace NUnit.UiException.CSharpParser
         #region InternalToken
 
         class InternalToken : 
-            CSToken
+            ClassifiedToken
         {
             public InternalToken()
             {

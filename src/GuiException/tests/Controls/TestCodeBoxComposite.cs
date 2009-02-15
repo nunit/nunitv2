@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -28,8 +27,8 @@ namespace NUnit.UiException.Tests.Controls
         private TestingCodeBoxComposite _empty;
         private TestingCodeBoxComposite _filled;
 
-        private ExceptionItem _existingItem;
-        private ExceptionItem _unknownItem;
+        private ErrorItem _existingItem;
+        private ErrorItem _unknownItem;
 
         private int _leaveNotification;
 
@@ -40,10 +39,10 @@ namespace NUnit.UiException.Tests.Controls
             _filled = new TestingCodeBoxComposite();
 
             _textCodeFile = new TestResource("TextCode.txt");
-            _existingItem = new ExceptionItem(_textCodeFile.Path, 13);
-            _unknownItem = new ExceptionItem("unknown_file.txt", 1);
+            _existingItem = new ErrorItem(_textCodeFile.Path, 13);
+            _unknownItem = new ErrorItem("unknown_file.txt", 1);
 
-            _filled.ExceptionSource = _existingItem;
+            _filled.ErrorSource = _existingItem;
 
             Assert.That(_empty.CodeBox, Is.Not.Null);
             Assert.That(_empty.ScrollingDistance, Is.GreaterThan(0));
@@ -71,21 +70,21 @@ namespace NUnit.UiException.Tests.Controls
         [Test]
         public void Test_Can_Set_ItemSource()
         {
-            Assert.That(_empty.ExceptionSource, Is.Null);
+            Assert.That(_empty.ErrorSource, Is.Null);
             Assert.That(_empty.CodeBox.Text, Is.EqualTo(""));
 
-            _empty.ExceptionSource = _existingItem;
-            Assert.That(_empty.ExceptionSource, Is.EqualTo(_existingItem));
+            _empty.ErrorSource = _existingItem;
+            Assert.That(_empty.ErrorSource, Is.EqualTo(_existingItem));
             Assert.That(_empty.CodeBox.HighlightedLine, Is.EqualTo(13), "bad highlighted line");
             Assert.That(_empty.ErrorMessage, Is.Null);
 
-            _empty.ExceptionSource = _unknownItem;
-            Assert.That(_empty.ExceptionSource, Is.EqualTo(_unknownItem));
+            _empty.ErrorSource = _unknownItem;
+            Assert.That(_empty.ErrorSource, Is.EqualTo(_unknownItem));
             Assert.That(_empty.ErrorMessage, Is.Not.Null);
             Assert.That(_empty.ErrorMessage, Text.StartsWith("Fail to open file"));
             
 
-            _empty.ExceptionSource = null;
+            _empty.ErrorSource = null;
             Assert.That(_empty.CodeBox.CurrentLineNumber, Is.EqualTo(0));
 
             return;
@@ -280,7 +279,7 @@ namespace NUnit.UiException.Tests.Controls
             for (int i = 0; i < 200; ++i)
                 _filled.HandleTimerTick();
 
-            Assert.That(_filled.CodeBox.CurrentLineNumber, Is.EqualTo(42));
+            Assert.That(_filled.CodeBox.CurrentLineNumber, Is.GreaterThanOrEqualTo(42));
             Assert.That(_filled.Timer.Enabled, Is.False);           
 
             return;

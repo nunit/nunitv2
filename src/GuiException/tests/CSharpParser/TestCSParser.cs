@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -11,19 +10,19 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using NUnit.UiException.CSharpParser;
+using NUnit.UiException.CodeFormatters;
 
-namespace NUnit.UiException.Tests.CSharpParser
+namespace NUnit.UiException.Tests.CodeFormatters
 {
     [TestFixture]
-    public class TestCSParser
+    public class TestCSharpCodeFormatter
     {
-        private TestingCSParser _parser;
+        private TestingCSharpCodeFormatter _parser;
 
         [SetUp]
         public void SetUp()
         {
-            _parser = new TestingCSParser();
+            _parser = new TestingCSharpCodeFormatter();
 
             return;
         }
@@ -35,15 +34,10 @@ namespace NUnit.UiException.Tests.CSharpParser
             Assert.That(_parser.CSCode.Text, Is.EqualTo(""));
             Assert.That(_parser.CSCode.LineCount, Is.EqualTo(0));
 
-            return;
-        }
+            Assert.That(_parser.Language, Is.EqualTo("C#"));
 
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void Test_Parse_Throw_NullStringException()
-        {
-            _parser.Parse(null); // throws exception
-        }
+            return;
+        }        
 
         [Test]
         public void Test_PreProcess()
@@ -63,34 +57,43 @@ namespace NUnit.UiException.Tests.CSharpParser
         }
 
         [Test]
-        public void Test_Parse()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void Format_Can_Throw_CSharpNullException()
         {
-            CSCode exp;
+            _parser.Format(null); // throws exception
+        }
 
-            _parser.Parse("line 1\n  line 2\nline 3\n");
+        [Test]
+        public void Test_Format()
+        {
+            FormattedCode exp;
+            FormattedCode res;
 
-            exp = new TestingCSCode(
+            res = _parser.Format("line 1\n  line 2\nline 3\n");
+
+            exp = new FormattedCode(
                 "line 1\n  line 2\nline 3\n",
                 new int[] { 0, 7, 16 },
                 new byte[] { 0, 0, 0 },
                 new int[] { 0, 1, 2 }
                 );
 
-            Assert.That(_parser.CSCode, Is.EqualTo(exp));
+            Assert.That(res, Is.EqualTo(exp));
 
             return;
         }
 
         [Test]
-        public void Test_Parse_2()
+        public void Test_Format_2()
         {
-            CSCode exp;
+            FormattedCode exp;
+            FormattedCode res;
 
-            _parser.Parse(
+            res = _parser.Format(
                 "int i; //comment\n" +
                 "char c='a';\n");
 
-            exp = new TestingCSCode(
+            exp = new FormattedCode(
                 "int i; //comment\n" +
                 "char c='a';\n",
                 new int[] { 0, 3, 7, 16, 17, 21, 24, 27 },
@@ -98,83 +101,77 @@ namespace NUnit.UiException.Tests.CSharpParser
                 new int[] { 0, 4 }
             );
 
-            Assert.That(_parser.CSCode, Is.EqualTo(exp));
+            Assert.That(res, Is.EqualTo(exp));
 
             return;
         }
 
         [Test]
-        public void Test_Parse_3()
+        public void Test_Format_3()
         {
-            CSCode exp;
+            FormattedCode exp;
+            FormattedCode res;
 
             // Ensure that escaping sequences are
             // handled correctly
-            //             0  2           14   17    21        
-            _parser.Parse("s=\"<font class=\\\"cls\\\">hi, there!</font>");
+            //                    0  2           14   17    21        
+            res = _parser.Format("s=\"<font class=\\\"cls\\\">hi, there!</font>");
 
-            exp = new TestingCSCode(
+            exp = new FormattedCode(
                 "s=\"<font class=\\\"cls\\\">hi, there!</font>",
                 new int[] { 0, 2 },
                 new byte[] { 0, 3 },
                 new int[] { 0 });
 
-            Assert.That(_parser.CSCode, Is.EqualTo(exp));
+            Assert.That(res, Is.EqualTo(exp));
 
-            _parser = new TestingCSParser();
+            _parser = new TestingCSharpCodeFormatter();
 
-            //             0  2              
-            _parser.Parse("s=\"<font class=\\\\\"cls\\\">hi, there!</font>");
-            exp = new TestingCSCode(
+            //                   0  2              
+            res = _parser.Format("s=\"<font class=\\\\\"cls\\\">hi, there!</font>");
+            exp = new FormattedCode(
                 "s=\"<font class=\\\\\"cls\\\">hi, there!</font>",
                 new int[] { 0, 2, 18, 22 },
                 new byte[] { 0, 3, 0, 3 },
                 new int[] { 0 });
 
-            Assert.That(_parser.CSCode, Is.EqualTo(exp));
-
-            _parser.Parse("s=\"<font class=\\\\\\\"cls\\\">hi, there!</font>");
+            Assert.That(res, Is.EqualTo(exp));
 
             return;
         }
 
-        #region TestingCSParser
+        [Test]
+        public void Test_Conserve_Intermediary_Spaces()
+        {
+            FormattedCode res;
 
-        class TestingCSParser :
-            CSParser
+            res = _parser.Format(
+                         "{\r\n" + 
+                         "    class A { }\r\n" +
+                         "}\r\n");
+
+            Assert.That(res.LineCount, Is.EqualTo(3));
+            Assert.That(res[0].Text, Is.EqualTo("{"));
+            Assert.That(res[1].Text, Is.EqualTo("    class A { }"));
+            Assert.That(res[2].Text, Is.EqualTo("}"));
+
+            Assert.That(res[0][0].Text, Is.EqualTo("{"));
+            Assert.That(res[1][0].Text, Is.EqualTo("    "));
+            Assert.That(res[1][1].Text, Is.EqualTo("class"));
+            Assert.That(res[1][2].Text, Is.EqualTo(" A { }"));
+            Assert.That(res[2][0].Text, Is.EqualTo("}"));
+
+            return;
+        }
+
+        #region TestingCSharpCodeFormatter
+
+        class TestingCSharpCodeFormatter :
+            CSharpCodeFormatter
         {
             public new string PreProcess(string text)
             {
                 return (base.PreProcess(text));
-            }
-        }
-
-        #endregion
-
-        #region TestingCSCode
-
-        class TestingCSCode :
-            CSCode
-        {
-            public TestingCSCode(string csharpText, int[] strIndexes, byte[] tagValues, int[] lineIndexes)
-            {
-                _codeInfo = new CodeInfo();
-
-                _codeInfo.Text = csharpText;
-
-                _codeInfo.IndexArray = new List<int>();
-                foreach (int index in strIndexes)
-                    _codeInfo.IndexArray.Add(index);
-
-                _codeInfo.TagArray = new List<byte>();
-                foreach (byte tag in tagValues)
-                    _codeInfo.TagArray.Add(tag);
-
-                _codeInfo.LineArray = new List<int>();
-                foreach (int line in lineIndexes)
-                    _codeInfo.LineArray.Add(line);
-
-                return;
             }
         }
 

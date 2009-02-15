@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -139,11 +138,11 @@ namespace NUnit.UiException
         }
 
         /// <summary>
-        /// Gives access to the underlying ExceptionItemCollection.
+        /// Gives access to the underlying ErrorItemCollection.
         /// This property is automatically reset each time a new
         /// value is assigned in StackTrace property.
         /// </summary>
-        public ExceptionItemCollection Items
+        public ErrorItemCollection Items
         {
             get { return (_formStack.ExceptionList.Items); }
         }
@@ -172,28 +171,7 @@ namespace NUnit.UiException
         {
             get { return (_formCode); }
         }
-
-        /// <summary>
-        /// Gets or sets the DirectorySeparator character
-        /// for the current operating system.
-        /// </summary>
-        public char DirectorySeparator
-        {
-            get { return (_parser.DirectorySeparator); }
-            set { _parser.DirectorySeparator = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the extension for a source file.
-        /// The assigned value should be prefixed by a dot
-        /// character as in the following example: '.cs'
-        /// </summary>
-        public string FileExtension
-        {
-            get { return (_parser.FileExtension); }
-            set { _parser.FileExtension = value; }
-        }
-
+        
         /// <summary>
         /// Gets or sets the StackTrace value as supplyied by NUnit.
         /// </summary>
@@ -207,7 +185,7 @@ namespace NUnit.UiException
 
                 _parser.Parse(value);
 
-                foreach (ExceptionItem item in _parser.Items)
+                foreach (ErrorItem item in _parser.Items)
                     Items.Add(item);
 
                 if (_order == ExceptionOrder.Reverse)
@@ -250,7 +228,7 @@ namespace NUnit.UiException
         /// Invoked when user has performed a click on an expandable
         /// item in the window that list exceptions.
         /// </summary>
-        void StackControler_ItemExpanded(object sender, ExceptionItem item)
+        void StackControler_ItemExpanded(object sender, ErrorItem item)
         {
             Point ptCode;
             Point ptItem;
@@ -273,7 +251,7 @@ namespace NUnit.UiException
         /// Invoked when user has performed an action to collapse
         /// the expanded item.
         /// </summary>
-        void StackControler_ItemCollapsed(object sender, ExceptionItem item)
+        void StackControler_ItemCollapsed(object sender, ErrorItem item)
         {
             // hide source code window if visible
 

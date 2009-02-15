@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -14,10 +13,12 @@ using System.Text;
 namespace NUnit.UiException
 {
     /// <summary>
+    /// (formerly named TraceExceptionHelper)
+    /// 
     /// Exposes static methods to assert predicates and throw exceptions
     /// as needed.
     /// </summary>
-    public class TraceExceptionHelper
+    public class UiExceptionHelper
     {
         /// <summary>
         /// Asserts that reference is not null; otherwise throws an
@@ -68,6 +69,6 @@ namespace NUnit.UiException
         public static void Fail(string message)
         {
             throw new ApplicationException(message);
-        }
+        }        
     }
 }

@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -14,6 +13,7 @@ using NUnit.Framework;
 using NUnit.UiException;
 using System.Drawing;
 using NUnit.UiException.Controls;
+using NUnit.UiException.CodeFormatters;
 
 namespace NUnit.UiException.Tests.Controls
 {
@@ -99,9 +99,37 @@ namespace NUnit.UiException.Tests.Controls
         [Test]
         public void Test_Setting_Text()
         {
+            _textChangedNotification = 0;
+
             _filled.Text = "hello world";
             Assert.That(_repaintNotification, Is.EqualTo(1));
             Assert.That(_textChangedNotification, Is.EqualTo(1));
+
+            // test to fail
+            _filled.Text = null;
+            Assert.That(_filled.Text, Is.EqualTo(""));
+
+            return;
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void SetFormattedCode_Can_Throw_FormatNullException()
+        {
+            _filled.SetFormattedCode(null); // throws exception
+        }
+
+        [Test]
+        public void Test_Setting_FormattedCode()
+        {
+            CSharpCodeFormatter formatter;
+            FormattedCode format;
+
+            formatter = new CSharpCodeFormatter();
+            format = formatter.Format("namespace test { class MyClass { } }\r\n");
+
+            _filled.SetFormattedCode(format);
+            Assert.That(_filled.Text, Is.EqualTo("namespace test { class MyClass { } }\r\n"));           
 
             return;
         }

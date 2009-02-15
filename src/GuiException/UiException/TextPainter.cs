@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -33,7 +32,7 @@ namespace NUnit.UiException
 
         public TextPainter(Font font)
         {
-            TraceExceptionHelper.CheckNotNull(font, "font");
+            UiExceptionHelper.CheckNotNull(font, "font");
 
             _font = font;
 
@@ -49,7 +48,7 @@ namespace NUnit.UiException
         {
             SizeF res;
 
-            TraceExceptionHelper.CheckNotNull(g, "g");
+            UiExceptionHelper.CheckNotNull(g, "g");
 
             res = g.MeasureString(text, _font);
 
@@ -61,7 +60,7 @@ namespace NUnit.UiException
             string str;
             Size sz;
 
-            TraceExceptionHelper.CheckNotNull(g, "g");
+            UiExceptionHelper.CheckNotNull(g, "g");
 
             if (text == null)
                 text = "";
@@ -85,8 +84,8 @@ namespace NUnit.UiException
 
         public void Draw(string text, Graphics g, Brush textBrush, int left, int top, int width, int height)
         {
-            TraceExceptionHelper.CheckNotNull(g, "g");
-            TraceExceptionHelper.CheckNotNull(textBrush, "textBrush");
+            UiExceptionHelper.CheckNotNull(g, "g");
+            UiExceptionHelper.CheckNotNull(textBrush, "textBrush");
 
             if (text == null)
                 text = "";

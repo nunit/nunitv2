@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -12,7 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
 using System.Collections;
-using NUnit.UiException.CSharpParser;
+using NUnit.UiException.CodeFormatters;
 
 namespace NUnit.UiException.Controls
 {
@@ -178,7 +177,7 @@ namespace NUnit.UiException.Controls
             get { return (_lines); }
             set 
             {
-                TraceExceptionHelper.CheckNotNull(value, "value");
+                UiExceptionHelper.CheckNotNull(value, "value");
 
                 _lines = value;
 
@@ -315,8 +314,8 @@ namespace NUnit.UiException.Controls
         /// <param name="height">The new height in pixels.</param>
         public void SetViewport(int width, int height)
         {
-            TraceExceptionHelper.CheckTrue(width > 0, "width must be > 0", "width");
-            TraceExceptionHelper.CheckTrue(height > 0, "height must be > 0", "height");
+            UiExceptionHelper.CheckTrue(width > 0, "width must be > 0", "width");
+            UiExceptionHelper.CheckTrue(height > 0, "height must be > 0", "height");
 
             _size.Width = width;
             _size.Height = height;
@@ -332,8 +331,8 @@ namespace NUnit.UiException.Controls
         /// <param name="height">Height in pixels of the current font.</param>
         public void SetCharSize(float width, float height)
         {
-            TraceExceptionHelper.CheckTrue(width > 0, "width must be > 0", "width");
-            TraceExceptionHelper.CheckTrue(height > 0, "height must be > 0", "height");
+            UiExceptionHelper.CheckTrue(width > 0, "width must be > 0", "width");
+            UiExceptionHelper.CheckTrue(height > 0, "height must be > 0", "height");
 
             _policeSize.Width = width;
             _policeSize.Height = height;

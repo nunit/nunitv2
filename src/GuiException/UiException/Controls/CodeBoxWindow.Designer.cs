@@ -35,7 +35,7 @@
             // 
             this._codeBoxComposite.BackColor = System.Drawing.Color.White;
             this._codeBoxComposite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._codeBoxComposite.ExceptionSource = null;
+            this._codeBoxComposite.ErrorSource = null;
             this._codeBoxComposite.Location = new System.Drawing.Point(0, 0);
             this._codeBoxComposite.Name = "_codeBoxComposite";
             this._codeBoxComposite.ScrollingDistance = 5;

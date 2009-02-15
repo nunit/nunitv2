@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -12,7 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 
-namespace NUnit.UiException.CSharpParser
+namespace NUnit.UiException.CodeFormatters
 {
     /// <summary>
     /// TokenDictionary is responsible for defining and identifying a set of basic
@@ -81,15 +80,15 @@ namespace NUnit.UiException.CSharpParser
         {
             InternalLexToken newToken;
 
-            TraceExceptionHelper.CheckNotNull(value, "value");
-            TraceExceptionHelper.CheckFalse(value == "",
+            UiExceptionHelper.CheckNotNull(value, "value");
+            UiExceptionHelper.CheckFalse(value == "",
                 "Token value must not be empty.", "value");
-            TraceExceptionHelper.CheckFalse(
+            UiExceptionHelper.CheckFalse(
                 Contains(value),
                 String.Format("Token '{0}' is already defined.", value),
                 "value");
             if (Count > 0)
-                TraceExceptionHelper.CheckTrue(
+                UiExceptionHelper.CheckTrue(
                     _list[Count - 1].Text.Length >= value.Length,
                     "Tokens must be inserted from the longest to the shortest value.",
                     "value");
@@ -164,8 +163,8 @@ namespace NUnit.UiException.CSharpParser
         /// </see>
         public LexToken TryMatch(string text, string prediction)
         {
-            TraceExceptionHelper.CheckNotNull(text, "text");
-            TraceExceptionHelper.CheckNotNull(prediction, "prediction");
+            UiExceptionHelper.CheckNotNull(text, "text");
+            UiExceptionHelper.CheckNotNull(prediction, "prediction");
 
             foreach (InternalLexToken token in _list)
             {
@@ -231,8 +230,8 @@ namespace NUnit.UiException.CSharpParser
         {
             InternalLexToken token;
 
-            TraceExceptionHelper.CheckNotNull(starter, "starter");
-            TraceExceptionHelper.CheckNotNull(output, "output");
+            UiExceptionHelper.CheckNotNull(starter, "starter");
+            UiExceptionHelper.CheckNotNull(output, "output");
 
             output.Add(starter);
 

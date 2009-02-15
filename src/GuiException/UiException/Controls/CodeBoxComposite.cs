@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -14,6 +13,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
+using NUnit.UiException.CodeFormatters;
 
 namespace NUnit.UiException.Controls
 {
@@ -90,6 +90,8 @@ namespace NUnit.UiException.Controls
             Down
         }
 
+        private GeneralCodeFormatter _formatter;
+
         /// <summary>
         /// Tracks time ticks to provide smooth scroll animation over time.
         /// </summary>
@@ -98,7 +100,7 @@ namespace NUnit.UiException.Controls
         /// <summary>
         /// holds data to be displayed in the control.
         /// </summary>
-        private ExceptionItem _item;
+        private ErrorItem _item;
 
         /// <summary>
         /// The current translation's direction.
@@ -152,6 +154,8 @@ namespace NUnit.UiException.Controls
             _mouseWatcher.MouseLeaved += new EventHandler(_mouseWatcher_MouseLeaved);
             _mouseWatcher.MouseClicked += new EventHandler(_mouseWatcher_MouseClicked);
 
+            _formatter = new GeneralCodeFormatter();
+
             return;
         }
 
@@ -173,10 +177,10 @@ namespace NUnit.UiException.Controls
         }
 
         /// <summary>
-        /// Gets or sets the instance of ExceptionItem to display in
+        /// Gets or sets the instance of ErrorItem to display in
         /// this control.
         /// </summary>
-        public ExceptionItem ExceptionSource
+        public ErrorItem ErrorSource
         {
             get { return (_item); }
             set
@@ -189,7 +193,7 @@ namespace NUnit.UiException.Controls
 
                 try
                 {
-                    _codeBox.Text = _item.Text;
+                    _codeBox.SetFormattedCode(_formatter.FormatFromExtension(value.Text, value.FileExtension));
                     _codeBox.HighlightedLine = _item.LineNumber;
                     _codeBox.Viewport.ScrollToLine(_item.LineNumber - 1 - LINECOUNT_BEFORE_EXCEPTIONLINE);                    
                 }

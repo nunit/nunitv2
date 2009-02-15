@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -11,16 +10,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using NUnit.UiException.CSharpParser;
+using NUnit.UiException.CodeFormatters;
 using System.Collections;
 using NUnit.UiException;
 
-namespace NUnit.UiException.Tests.CSharpParser
+namespace NUnit.UiException.Tests.CodeFormatters
 {
     [TestFixture]
-    public class TestCSCode
+    public class TestFormattedCode
     {
-        private CSCode _code;       
+        private FormattedCode _code;       
 
         [Test]
         public void Test_SimpleCollection()
@@ -129,47 +128,43 @@ namespace NUnit.UiException.Tests.CSharpParser
         }
 
         [Test]
-        public void Test_Set_Text()
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void CheckData_Can_Throw_NullDataException()
         {
-            CSCode exp;
-
-            _code.Text = "int i; //comment\n" +
-                         "char c='a';\n";
-
-            exp = new TestingCSCode(
-                "int i; //comment\n" +
-                "char c='a';\n",
-                new int[] { 0, 3, 7, 16, 17, 21, 24, 27 },
-                new byte[] { 1, 0, 2, 0, 1, 0, 3, 0 },
-                new int[] { 0, 4 }
-            );
-
-            Assert.That(_code, Is.EqualTo(exp));
-
-            return;
+            FormattedCode.CheckData(null); // throws exception
         }
 
         [Test]
-        public void Test_Conserve_Intermediary_Spaces()
+        [ExpectedException(typeof(ArgumentException),
+            ExpectedMessage = "IndexArray.Count and TagArray.Count must match.",
+            MatchType = MessageMatch.Contains)]
+        public void CheckData_IndexArray_And_TagArray_Count_Must_Match()
         {
-            _code = new CSCode();
+            FormattedCode.CheckData(
+                new FormattedCode("hello", new int[] { 0 }, new byte[0], new int[] { 0 })); // throws exception
+        }
 
-            _code.Text = "{\r\n" +
-                         "    class A { }\r\n" +
-                         "}\r\n";
+        [Test]
+        [ExpectedException(typeof(ArgumentException),
+            ExpectedMessage = "Bad LineArray value at index 0, value was: 1, expected to be in: [0-1[.",
+            MatchType = MessageMatch.Contains)]
+        public void CheckData_LineArray_Values_Must_Be_In_IndexArray_Count()
+        {
+            FormattedCode.CheckData(
+                new FormattedCode("hi there!", new int[] { 0 }, new byte[] { 0 }, new int[] { 1 })); // throws exception
+        }
 
-            Assert.That(_code.LineCount, Is.EqualTo(3));
-            Assert.That(_code[0].Text, Is.EqualTo("{"));
-            Assert.That(_code[1].Text, Is.EqualTo("    class A { }"));
-            Assert.That(_code[2].Text, Is.EqualTo("}"));
-
-            Assert.That(_code[0][0].Text, Is.EqualTo("{"));
-            Assert.That(_code[1][0].Text, Is.EqualTo("    "));
-            Assert.That(_code[1][1].Text, Is.EqualTo("class"));
-            Assert.That(_code[1][2].Text, Is.EqualTo(" A { }"));
-            Assert.That(_code[2][0].Text, Is.EqualTo("}"));
-
-            return;
+        [Test]
+        [ExpectedException(typeof(ArgumentException),
+            ExpectedMessage = "Bad LineArray[1], value was: 0, expected to be > than LineArray[0]=0.",
+            MatchType = MessageMatch.Contains)]
+        public void CheckData_LineArray_Values_Must_Always_Grow_Up()
+        {
+            FormattedCode.CheckData(
+                new FormattedCode("hi\r\nthere\r\n",
+                    new int[] { 0, 3 },
+                    new byte[] { 0, 0 },
+                    new int[] { 0, 0 })); // throws exception
         }
 
         [Test]
@@ -221,7 +216,7 @@ namespace NUnit.UiException.Tests.CSharpParser
         #region TestingCSCode
 
         class TestingCSCode :
-            CSCode
+            FormattedCode
         {
             public TestingCSCode(string csharpText, int[] strIndexes, byte[] tagValues, int[] lineIndexes)
             {

@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -11,9 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using NUnit.Framework;
-using NUnit.UiException.CSharpParser;
+using NUnit.UiException.CodeFormatters;
 
-namespace NUnit.UiException.Tests.CSharpParser
+namespace NUnit.UiException.Tests.CodeFormatters
 {
     [TestFixture]
     public class TestTokenDictionary

@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -13,7 +12,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using NUnit.UiException.CSharpParser;
+using NUnit.UiException.CodeFormatters;
 
 namespace NUnit.UiException.Controls
 {
@@ -79,7 +78,7 @@ namespace NUnit.UiException.Controls
             // create the underlying view port
 
             _viewport = new CodeViewport();
-            _viewport.TextSource = new CSCode();
+            _viewport.TextSource = new FormattedCode();
             _viewport.TextChanged += new EventHandler(_viewport_Changed);
             _viewport.LocationChanged += new EventHandler(_viewport_Changed);
             _viewport.HighLightChanged += new EventHandler(_viewport_Changed);
@@ -117,7 +116,7 @@ namespace NUnit.UiException.Controls
             get { return (base.Font); }
 
             set {
-                TraceExceptionHelper.CheckNotNull(value, "value");
+                UiExceptionHelper.CheckNotNull(value, "value");
 
                 Graphics gr;
                 SizeF size;
@@ -133,27 +132,42 @@ namespace NUnit.UiException.Controls
                 return;
             }
         }
-        
+
         /// <summary>
-        /// Gets or sets the text to be displayed in the control.
-        /// This text represents typically the content of a C# file.
-        /// </summary>
+        /// Gets or sets a text to be displayed in the control without
+        /// any formatting.
+        /// </summary>        
         public override string Text
         {
             get { return (_viewport.Text); }
             set
             {
-                CSCode block;
+                PlainTextCodeFormatter textFormatter;
 
-                block = new CSCode();
-                block.Text = value;
-                _viewport.TextSource = block;
+                if (value == null)
+                    value = "";
 
-                if (TextChanged != null)
-                    TextChanged(this, new EventArgs());
+                textFormatter = new PlainTextCodeFormatter();
+                SetFormattedCode(textFormatter.Format(value));
 
                 return;
             }
+        }
+
+        /// <summary>
+        /// Set the new formatted code to be displayed in CodeBox.
+        /// </summary>
+        /// <param name="code">
+        /// Data to be displayed. This parameter cannot be null.
+        /// </param>
+        public void SetFormattedCode(FormattedCode code)
+        {
+            _viewport.TextSource = code;
+
+            if (TextChanged != null)
+                TextChanged(this, new EventArgs());
+
+            return;
         }
 
         /// <summary>
@@ -279,9 +293,9 @@ namespace NUnit.UiException.Controls
         /// </summary>
         protected override void OnPaint(PaintEventArgs e)
         {
-            CSTokenCollection line;
-            CSToken token;
-            CSCode code;
+            ClassifiedTokenCollection line;
+            ClassifiedToken token;
+            FormattedCode code;
             Brush whiteBrush;
             Brush redBrush;
             string text;
@@ -292,7 +306,7 @@ namespace NUnit.UiException.Controls
             whiteBrush = new SolidBrush(Color.White);
             redBrush = new SolidBrush(Color.Red);
 
-            code = (CSCode)_viewport.TextSource;
+            code = (FormattedCode)_viewport.TextSource;
 
             e.Graphics.FillRectangle(whiteBrush, 0, 0, Width, Height);
 

@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -44,9 +43,9 @@ namespace NUnit.UiException.Tests
 
             Assert.That(_parser.Items.Count, Is.EqualTo(1));
             Assert.That(_parser.Items[0], 
-                Is.EqualTo(new ExceptionItem("C:\\TraceItem.cs", "NUnit.UiException.TraceItem.get_Text()", 43)));
+                Is.EqualTo(new ErrorItem("C:\\TraceItem.cs", "NUnit.UiException.TraceItem.get_Text()", 43)));
 
-            // Parse should clear previous item
+            // TryParse should clear previous formatter
 
             _parser.Parse("");
             Assert.That(_parser.Items.Count, Is.EqualTo(0));
@@ -86,7 +85,7 @@ namespace NUnit.UiException.Tests
 
             Assert.That(_parser.Items.Count, Is.EqualTo(1));
             Assert.That(_parser.Items[0],
-                Is.EqualTo(new ExceptionItem(
+                Is.EqualTo(new ErrorItem(
                     "C:\\Documents and Settings\\ihottier\\Mes documents\\" +
                     "NUnit_Stacktrace\\Test\\TestTraceItem.cs",
                     "Test.TestTraceItem.Can_Set_Properties()",
@@ -105,7 +104,7 @@ namespace NUnit.UiException.Tests
 
             Assert.That(_parser.Items[0],
                 Is.EqualTo(
-                new ExceptionItem(
+                new ErrorItem(
                     "C:\\Documents and Settings\\ihottier\\Mes documents\\" +
                     "NUnit.UiException\\TraceItem.cs",
                     "NUnit.UiException.TraceItem.get_Text()",
@@ -113,35 +112,14 @@ namespace NUnit.UiException.Tests
 
             Assert.That(_parser.Items[1],
                 Is.EqualTo(
-                new ExceptionItem(
+                new ErrorItem(
                     "C:\\Documents and Settings\\" +
                     "ihottier\\Mes documents\\NUnit_Stacktrace\\Test\\TestTaggedText.cs",
                     "Test.TestTaggedText.SetUp()",
                     30)));
 
             return;
-        }
-
-        [Test]
-        public void Test_Parse_Should_Not_Be_Case_Sensitive()
-        {
-            //
-            // NUnit.UiException.Tests ability to not be case sensitive when
-            // working with csharp file extension
-            //
-
-            _parser.Parse("à test() C:\\file.CS:ligne 1");
-            Assert.That(_parser.Items.Count, Is.EqualTo(1));
-            Assert.That(_parser.Items[0], Is.EqualTo(
-                new ExceptionItem("C:\\file.CS", "test()", 1)));
-
-            _parser.Parse("à test() C:\\file.cS:ligne 1");
-            Assert.That(_parser.Items.Count, Is.EqualTo(1));
-            Assert.That(_parser.Items[0], Is.EqualTo(
-                new ExceptionItem("C:\\file.cS", "test()", 1)));
-
-            return;
-        }
+        }        
 
         [Test]
         public void Test_Trace_When_Missing_File()
@@ -161,17 +139,17 @@ namespace NUnit.UiException.Tests
 
             Assert.That(_parser.Items[0].HasSourceAttachment, Is.False);
             Assert.That(_parser.Items[0].FullyQualifiedMethodName,
-                Is.EqualTo("System.String.InternalSubStringWithChecks()"));
+                Is.EqualTo("System.String.InternalSubStringWithChecks(Int32 startIndex, Int32 length, Boolean fAlwaysCopy)"));
 
             Assert.That(_parser.Items[1], 
                 Is.EqualTo(
-                    new ExceptionItem(
-                        "C:\\StackTraceParser.cs", 
-                        "NUnit.UiException.StackTraceParser.Parse()",
+                    new ErrorItem(
+                        "C:\\StackTraceParser.cs",
+                        "NUnit.UiException.StackTraceParser.Parse(String stackTrace)",
                         55)));
             Assert.That(_parser.Items[2],
                 Is.EqualTo(
-                    new ExceptionItem(
+                    new ErrorItem(
                         "C:\\TestStackTraceParser.cs",
                         "Test.TestStackTraceParser.Test_Parse()",
                         36)));
@@ -191,7 +169,7 @@ namespace NUnit.UiException.Tests
 
             Assert.That(_parser.Items.Count, Is.EqualTo(1));
             Assert.That(_parser.Items[0], 
-                Is.EqualTo(new ExceptionItem(
+                Is.EqualTo(new ErrorItem(
                     "C:\\TestStackTraceParser.cs", 
                     "Test.TestStackTraceParser.Test_Parse()",
                     0)));
@@ -211,30 +189,50 @@ namespace NUnit.UiException.Tests
 
             Assert.That(_parser.Items.Count, Is.EqualTo(1));
             Assert.That(_parser.Items[0], Is.EqualTo(
-                new ExceptionItem("C:\\TestStackTraceParser.cs", 
+                new ErrorItem("C:\\TestStackTraceParser.cs", 
                     "Test.TestStackTraceParser.Test_Parse()", 36)));
 
             return;
         }
 
         [Test]
-        public void Test_Can_Set_DirectorySeparatorChar()
+        public void Test_Ability_To_Handle_Different_Path_System_Syntaxes()
         {
             //
             // NUnit.UiException.Tests ability to not depend of one file system
             //
 
-            _parser.DirectorySeparator = '/';
-            Assert.That(_parser.DirectorySeparator, Is.EqualTo('/'));
-
+            // here, an hypothetic stack containing UNIX and Windows like path values...
+           
             _parser.Parse(
-                "at Test.TestStackTraceParser.Test_Parse() in /home/ihottier/work/stacktrace/test/TestStackTraceParser.cs:line 36"
+                "at Test.TestStackTraceParser.Test_Parse() in /home/ihottier/work/stacktrace/test/TestStackTraceParser.cs:line 36\r\n" +
+                "at Test.TestStackTraceParser2.Text_Parse2() in C:\\folder\\file1:line 42"
                 );
+
+            Assert.That(_parser.Items.Count, Is.EqualTo(2));
+            Assert.That(_parser.Items[0], Is.EqualTo(
+                new ErrorItem(
+                    "/home/ihottier/work/stacktrace/test/TestStackTraceParser.cs",
+                    "Test.TestStackTraceParser.Test_Parse()",
+                    36)));
+            Assert.That(_parser.Items[1], Is.EqualTo(
+                new ErrorItem(
+                    "C:\\folder\\file1",
+                    "Test.TestStackTraceParser2.Text_Parse2()",
+                    42)));
+
+            return;
+        }
+
+        [Test]
+        public void Test_Ability_To_Handle_Files_With_Unknown_Extension()
+        {
+            _parser.Parse("à Test.TestStackTraceParser.Test_Parse() in C:\\TestStackTraceParser.vb:line 36");
 
             Assert.That(_parser.Items.Count, Is.EqualTo(1));
             Assert.That(_parser.Items[0], Is.EqualTo(
-                new ExceptionItem(
-                    "/home/ihottier/work/stacktrace/test/TestStackTraceParser.cs",
+                new ErrorItem(
+                    "C:\\TestStackTraceParser.vb",
                     "Test.TestStackTraceParser.Test_Parse()",
                     36)));
 
@@ -242,59 +240,25 @@ namespace NUnit.UiException.Tests
         }
 
         [Test]
-        public void Test_Unknown_Extension_Is_Ignored()
+        public void Test_Analysis_Does_Not_Depend_Upon_File_Extension()
         {
             //
-            // NUnit.UiException.Tests that a non-csharp file is ignored
+            // NUnit.UiException.Tests that Stack Analyzer should not
+            // be not aware of file language.
             //
-            // TODO: This is not the optimal behavior, we should try to
-            // display with a different textmanager or use the default
-            // with no highlighting. That will require a different way
-            // to locate the filename in a stack entry.
 
             _parser.Parse("à Test.TestStackTraceParser.Test_Parse() in C:\\TestStackTraceParser.vb:line 36");
 
             Assert.That(_parser.Items.Count, Is.EqualTo(1));
             Assert.That(_parser.Items[0], Is.EqualTo(
-                new ExceptionItem(
-                    null,
+                new ErrorItem(
+                    "C:\\TestStackTraceParser.vb",
                     "Test.TestStackTraceParser.Test_Parse()",
                     36)));
 
             return;
         }
-
-        [Test]
-        public void Test_Can_Set_CSharp_File_Extension()
-        {
-            //
-            // NUnit.UiException.Tests ability to not depend of a specific extension
-            //
-
-            _parser.FileExtension = ".csharp";
-            Assert.That(_parser.FileExtension, Is.EqualTo(".csharp"));
-
-            _parser.Parse("à Test.TestStackTraceParser.Test_Parse() in C:\\TestStackTraceParser.csharp:line 36");
-
-            Assert.That(_parser.Items.Count, Is.EqualTo(1));
-            Assert.That(_parser.Items[0], Is.EqualTo(
-                new ExceptionItem(
-                    "C:\\TestStackTraceParser.csharp",
-                    "Test.TestStackTraceParser.Test_Parse()",
-                    36)));
-
-            return;
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException),
-            ExpectedMessage = "FileExtension",
-            MatchType = MessageMatch.Contains)]
-        public void Test_FileExtension_Can_Throw_NullExtensionValue()
-        {
-            _parser.FileExtension = null; // throws exception
-        }
-
+               
         [Test]
         public void Test_Parse_Null()
         {

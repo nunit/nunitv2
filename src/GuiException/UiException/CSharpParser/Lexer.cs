@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -11,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NUnit.UiException.CSharpParser
+namespace NUnit.UiException.CodeFormatters
 {
     /// <summary>
-    /// Splits a text formated as C# code into a list of identified tokens.
+    /// Splits a text formatted as C# code into a list of identified tokens.
     /// </summary>
     public class Lexer
     {
@@ -98,7 +97,7 @@ namespace NUnit.UiException.CSharpParser
         /// </summary>
         public void Parse(string codeCSharp)
         {
-            TraceExceptionHelper.CheckNotNull(codeCSharp, "text");
+            UiExceptionHelper.CheckNotNull(codeCSharp, "text");
 
             _text = codeCSharp;
             _position = 0;

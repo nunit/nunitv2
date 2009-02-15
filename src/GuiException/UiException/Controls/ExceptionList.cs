@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -84,7 +83,7 @@ namespace NUnit.UiException.Controls
         /// <summary>
         /// The current collection of item to be shown.
         /// </summary>
-        private ExceptionItemCollection _items;
+        private ErrorItemCollection _items;
 
         /// <summary>
         /// Index of the selected item.
@@ -101,7 +100,7 @@ namespace NUnit.UiException.Controls
         /// </summary>
         public ExceptionList()
         {
-            _items = new ExceptionItemCollection();
+            _items = new ErrorItemCollection();
             _items.ItemAdded += new ItemAddedEventHandler(_items_ItemAdded);
             _items.CollectionCleared += new EventHandler(_items_CollectionCleared);
 
@@ -150,7 +149,7 @@ namespace NUnit.UiException.Controls
         /// Gives access to the underlying item collection managed
         /// by this control.
         /// </summary>
-        public ExceptionItemCollection Items
+        public ErrorItemCollection Items
         {
             get { return (_items); }
         }
@@ -159,7 +158,7 @@ namespace NUnit.UiException.Controls
         /// Gives access to the selected item. Returns null
         /// when state contains no selection.
         /// </summary>
-        public ExceptionItem SelectedItem
+        public ErrorItem SelectedItem
         {
             get
             {
@@ -410,7 +409,7 @@ namespace NUnit.UiException.Controls
         /// <summary>
         /// Handler called when an item is appended to the item collection.
         /// </summary>
-        private void _items_ItemAdded(object sender, ExceptionItem item)
+        private void _items_ItemAdded(object sender, ErrorItem item)
         {
             _pagineer.ItemCount = _items.Count;
             OnRepaint();
@@ -480,7 +479,7 @@ namespace NUnit.UiException.Controls
             /// <summary>
             /// The item to be painted.
             /// </summary>
-            public ExceptionItem Item;
+            public ErrorItem Item;
 
             /// <summary>
             /// Is true, the item is selected.

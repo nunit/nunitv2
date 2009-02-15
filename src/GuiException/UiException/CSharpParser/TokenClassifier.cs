@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -11,17 +10,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace NUnit.UiException.CSharpParser
+namespace NUnit.UiException.CodeFormatters
 {
     /// <summary>
-    /// Used at an internal stage to convert LexToken into CSToken.
+    /// Used at an internal stage to convert LexToken into ClassifiedToken. This class provides
+    /// a very basic semantic analysis to make text following in one the categories below:
+    ///     - regular code,
+    ///     - developper comments,
+    ///     - strings / character.
+    /// The output of this class is used by CSharpCodeFormatter to achieve the basic syntax coloring.
     /// </summary>
     public class TokenClassifier
     {
         #region SMSTATE code
 
         // the list below contains constant values defining states for the finite
-        // smState machine that makes all the work of converting LexToken into CSToken.
+        // smState machine that makes all the work of converting LexToken into ClassifiedToken.
         // for instance, Lexer can send inputs like:
         //
         //   [Text][Separator][CommentC_Open][Text][CommentC_Close]
@@ -138,6 +142,12 @@ namespace NUnit.UiException.CSharpParser
             return;
         }
 
+        /// <summary>
+        /// Tells whether TokenClassifier is currently in escaping mode. When true,
+        /// this flag causes TokenClassifier to override the final classification
+        /// of a basic entity (such as: ") to be treated as normal text instead of
+        /// being interpreted as a string delimiter.
+        /// </summary>
         public bool Escaping
         {
             get { return (_escaping); }
@@ -163,13 +173,16 @@ namespace NUnit.UiException.CSharpParser
         {
             int classTag;
 
-            TraceExceptionHelper.CheckNotNull(token, "token");
+            UiExceptionHelper.CheckNotNull(token, "token");
 
             classTag = AcceptLexToken(token);
 
             if (classTag == SMSTATE_CODE &&
                 _keywords.ContainsKey(token.Text))
                 return (ClassificationTag.Keyword);
+
+            // Parsing a token whoose Text value is set to '\'
+            // causes the classifier to set/reset is escaping mode.
 
             if (token.Text == "\\" &&
                 _sm_output == SMSTATE_STRING &&
@@ -273,8 +286,8 @@ namespace NUnit.UiException.CSharpParser
                 int i;
                 int j;
 
-                TraceExceptionHelper.CheckNotNull(transitions, "transitions");
-                TraceExceptionHelper.CheckTrue(
+                UiExceptionHelper.CheckNotNull(transitions, "transitions");
+                UiExceptionHelper.CheckTrue(
                     transitions.Length == 8,
                     "expecting transitions.Length to be 8",
                     "transitions");
@@ -286,7 +299,7 @@ namespace NUnit.UiException.CSharpParser
                             continue;
 
                         if (transitions[j].Transition == transitions[i].Transition)
-                            TraceExceptionHelper.CheckTrue(false,
+                            UiExceptionHelper.CheckTrue(false,
                                 String.Format("transition '{0}' already present", transitions[j].Transition),
                                 "transitions");
                     }

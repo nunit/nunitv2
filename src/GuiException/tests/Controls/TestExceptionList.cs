@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -28,12 +27,12 @@ namespace NUnit.UiException.Tests.Controls
             _emptyList = new TestingExceptionList();
 
             _filledList = new TestingExceptionList();
-            _filledList.Items.Add(new ExceptionItem("File1.cs", "function1()", 1));
-            _filledList.Items.Add(new ExceptionItem("File2.cs", "function2()", 2));
-            _filledList.Items.Add(new ExceptionItem(null, "function3()", 3));
-            _filledList.Items.Add(new ExceptionItem(null, "function4()", 4));
-            _filledList.Items.Add(new ExceptionItem(null, "function5()", 5));
-            _filledList.Items.Add(new ExceptionItem("File6.cs", "function6()", 6));
+            _filledList.Items.Add(new ErrorItem("File1.cs", "function1()", 1));
+            _filledList.Items.Add(new ErrorItem("File2.cs", "function2()", 2));
+            _filledList.Items.Add(new ErrorItem(null, "function3()", 3));
+            _filledList.Items.Add(new ErrorItem(null, "function4()", 4));
+            _filledList.Items.Add(new ErrorItem(null, "function5()", 5));
+            _filledList.Items.Add(new ErrorItem("File6.cs", "function6()", 6));
 
             _emptyList.PageSize = 4;
             _filledList.PageSize = 4;
@@ -175,13 +174,13 @@ namespace NUnit.UiException.Tests.Controls
             Assert.That(_emptyList.RepaintNotification, Is.EqualTo(1));
 
             // populate _emptyList
-            //  => control should repaint any time an item is added
+            //  => control should repaint any time an formatter is added
 
             _emptyList.RepaintNotification = 0;
-            _emptyList.Items.Add(new ExceptionItem());
+            _emptyList.Items.Add(new ErrorItem());
             Assert.That(_emptyList.Pagineer.ItemCount, Is.EqualTo(1));
             Assert.That(_emptyList.RepaintNotification, Is.EqualTo(1));
-            _emptyList.Items.Add(new ExceptionItem());
+            _emptyList.Items.Add(new ErrorItem());
             Assert.That(_emptyList.Pagineer.ItemCount, Is.EqualTo(2));
             Assert.That(_emptyList.RepaintNotification, Is.EqualTo(2));
             
@@ -238,7 +237,7 @@ namespace NUnit.UiException.Tests.Controls
             int y3;
 
             // moving mouse cursor on the control should
-            // highlight item right under the cursor
+            // highlight formatter right under the cursor
 
             y1 = ExceptionList.DEFAULT_HEADER_HEIGHT;
             y2 = y1 + ExceptionList.DEFAULT_ITEM_HEIGHT;
@@ -259,7 +258,7 @@ namespace NUnit.UiException.Tests.Controls
             Assert.That(_filledList.SelectedItem.LineNumber, Is.EqualTo(2));
             Assert.That(_filledList.RepaintNotification, Is.EqualTo(2));
 
-            // cannot select item with no source attachments
+            // cannot select formatter with no source attachments
 
             _filledList.OnMouseMove(0, y3 + 1);
             Assert.That(_filledList.SelectedItem, Is.Null);
@@ -273,7 +272,7 @@ namespace NUnit.UiException.Tests.Controls
             Assert.That(_filledList.SelectedItem, Is.Null);
 
             _filledList.OnMouseMove(0, y3 + 1);
-            Assert.That(_filledList.SelectedItem, Is.Null); // no item at this location
+            Assert.That(_filledList.SelectedItem, Is.Null); // no formatter at this location
 
             _filledList.OnMouseMove(0, y2 + 1);
             Assert.That(_filledList.SelectedItem, Is.Not.Null);

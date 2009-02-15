@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -18,7 +17,7 @@ using NUnit.UiException.Controls;
 
 namespace NUnit.UiException.Controls
 {
-    public delegate void ItemStateChangedEventHandler(object sender, ExceptionItem item);
+    public delegate void ItemStateChangedEventHandler(object sender, ErrorItem item);
 
     /// <summary>
     /// The window that displays the list of exceptions.
@@ -53,7 +52,7 @@ namespace NUnit.UiException.Controls
         /// <summary>
         /// The item that fired the event.
         /// </summary>
-        private ExceptionItem _itemEvent;
+        private ErrorItem _itemEvent;
 
         /// <summary>
         /// The watcher for this window responsible to deliver

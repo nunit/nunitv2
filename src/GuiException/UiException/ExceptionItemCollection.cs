@@ -1,7 +1,6 @@
 ﻿// ----------------------------------------------------------------
-// ExceptionBrowser
-// Version 1.0.0
-// Copyright 2008, Irénée HOTTIER,
+// ErrorBrowser
+// Copyright 2008-2009, Irénée HOTTIER,
 // 
 // This is free software licensed under the NUnit license, You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
@@ -14,12 +13,14 @@ using System.Collections;
 
 namespace NUnit.UiException
 {
-    public delegate void ItemAddedEventHandler(object sender, ExceptionItem item);
+    public delegate void ItemAddedEventHandler(object sender, ErrorItem item);
 
     /// <summary>
-    /// Manages an ordered set of ExceptionItem.
+    /// (formerly named ExceptionItemCollection)
+    /// 
+    /// Manages an ordered set of ErrorItem.
     /// </summary>
-    public class ExceptionItemCollection :
+    public class ErrorItemCollection :
         IEnumerable
     {
         /// <summary>
@@ -35,14 +36,14 @@ namespace NUnit.UiException
         /// <summary>
         /// The underlying item list.
         /// </summary>
-        protected List<ExceptionItem> _items;
+        protected List<ErrorItem> _items;
 
         /// <summary>
-        /// Build a new ExceptionItemCollection.
+        /// Build a new ErrorItemCollection.
         /// </summary>
-        public ExceptionItemCollection()
+        public ErrorItemCollection()
         {
-            _items = new List<ExceptionItem>();
+            _items = new List<ErrorItem>();
 
             return;
         }
@@ -55,21 +56,21 @@ namespace NUnit.UiException
         }
 
         /// <summary>
-        /// Gets the ExceptionItem at the specified index.
+        /// Gets the ErrorItem at the specified index.
         /// </summary>
-        /// <param name="index">The index of the wanted ExceptionItem.</param>
-        /// <returns>The ExceptionItem.</returns>
-        public ExceptionItem this[int index] {
+        /// <param name="index">The index of the wanted ErrorItem.</param>
+        /// <returns>The ErrorItem.</returns>
+        public ErrorItem this[int index] {
             get { return (_items[index]); }
         }
 
         /// <summary>
         /// Appends the given item to the end of the collection.
         /// </summary>
-        /// <param name="item">The ExceptionItem to be added to the collection.</param>
-        public void Add(ExceptionItem item)
+        /// <param name="item">The ErrorItem to be added to the collection.</param>
+        public void Add(ErrorItem item)
         {
-            TraceExceptionHelper.CheckNotNull(item, "item");
+            UiExceptionHelper.CheckNotNull(item, "item");
             _items.Add(item);
 
             if (ItemAdded != null)
@@ -99,7 +100,7 @@ namespace NUnit.UiException
         /// </summary>
         /// <param name="item">The item to be checked.</param>
         /// <returns>True if the item belongs to this collection.</returns>
-        public bool Contains(ExceptionItem item) {
+        public bool Contains(ErrorItem item) {
             return (_items.Contains(item));
         }
 
