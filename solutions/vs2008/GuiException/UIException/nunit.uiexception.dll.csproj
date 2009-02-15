@@ -127,9 +127,9 @@
     <Compile Include="..\..\..\..\src\GuiException\UiException\CSharpParser\TokenClassifier.cs">
       <Link>CSharpParser\TokenClassifier.cs</Link>
     </Compile>
-	<Compile Include="..\..\..\..\src\GuiException\UiException\CSharpParser\TokenDictionary.cs">
-	  <Link>CSharpParser\TokenDictionary.cs</Link>
-	</Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CSharpParser\TokenDictionary.cs">
+      <Link>CSharpParser\TokenDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\DefaultTextManager.cs">
       <Link>DefaultTextManager.cs</Link>
     </Compile>
@@ -167,7 +167,37 @@
     </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\TraceExceptionHelper.cs">
       <Link>TraceExceptionHelper.cs</Link>
-    </Compile>    
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\GeneralCodeFormatter.cs">
+      <Link>CodeFormatters\GeneralCodeFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\CodeFormatterCollection.cs">
+      <Link>CodeFormatters\CodeFormatterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\PlainTextCodeFormatter.cs">
+      <Link>CodeFormatters\PlainTextCodeFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\ICodeFormatter.cs">
+      <Link>CodeFormatters\ICodeFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\FunctionParser.cs">
+      <Link>StackTraceAnalysers\FunctionParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\IErrorParser.cs">
+      <Link>StackTraceAnalysers\IErrorParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\LineNumberParser.cs">
+      <Link>StackTraceAnalysers\LineNumberParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\PathCompositeParser.cs">
+      <Link>StackTraceAnalysers\PathCompositeParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\UnixPathParser.cs">
+      <Link>StackTraceAnalysers\UnixPathParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\WindowsPathParser.cs">
+      <Link>StackTraceAnalysers\WindowsPathParser.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBox.resx">
       <Link>Controls\CodeBox.resx</Link>
       <DependentUpon>CodeBox.cs</DependentUpon>

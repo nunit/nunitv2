@@ -68,8 +68,8 @@
       <Link>CSharpParser\TestTokenClassifier.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\CSharpParser\TestTokenDictionary.cs">
-	  <Link>CSharpParser\TestTokenDictionary.cs</Link>
-	</Compile>	
+      <Link>CSharpParser\TestTokenDictionary.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\data\TestResource.cs">
       <Link>data\TestResource.cs</Link>
     </Compile>
@@ -96,6 +96,34 @@
     </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\TestTextPainter.cs">
       <Link>TestTextPainter.cs</Link>
+    </Compile>
+    <EmbeddedResource Include="data\Basic.cs" />
+    <Compile Include="..\..\..\..\src\GuiException\tests\CodeFormatters\TestGeneralCodeFormatter.cs">
+      <Link>CodeFormatters\TestGeneralCodeFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CodeFormatters\TestCodeFormatterCollection.cs">
+      <Link>CodeFormatters\TestCodeFormatterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\CodeFormatters\TestPlainTextCodeFormatter.cs">
+      <Link>CodeFormatters\TestPlainTextCodeFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\StackTraceAnalysers\TestFunctionParser.cs">
+      <Link>StackTraceAnalysers\TestFunctionParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\StackTraceAnalysers\TestIErrorParser.cs">
+      <Link>StackTraceAnalysers\TestIErrorParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\StackTraceAnalysers\TestLineNumberParser.cs">
+      <Link>StackTraceAnalysers\TestLineNumberParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\StackTraceAnalysers\TestPathParser.cs">
+      <Link>StackTraceAnalysers\TestPathParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\StackTraceAnalysers\TestUnixPathParser.cs">
+      <Link>StackTraceAnalysers\TestUnixPathParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\tests\StackTraceAnalysers\TestWindowsPathParser.cs">
+      <Link>StackTraceAnalysers\TestWindowsPathParser.cs</Link>
     </Compile>
   </ItemGroup>
   <ItemGroup>
