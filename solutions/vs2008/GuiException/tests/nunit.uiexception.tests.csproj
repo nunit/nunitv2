@@ -97,7 +97,9 @@
     <Compile Include="..\..\..\..\src\GuiException\tests\TestTextPainter.cs">
       <Link>TestTextPainter.cs</Link>
     </Compile>
-    <EmbeddedResource Include="data\Basic.cs" />
+    <EmbeddedResource Include="..\..\..\..\src\GuiException\tests\data\Basic.cs">
+      <Link>data\Basic.cs</Link>
+    </EmbeddedResource>
     <Compile Include="..\..\..\..\src\GuiException\tests\CodeFormatters\TestGeneralCodeFormatter.cs">
       <Link>CodeFormatters\TestGeneralCodeFormatter.cs</Link>
     </Compile>
