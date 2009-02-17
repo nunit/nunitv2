@@ -4,6 +4,10 @@
   <patternset id="source-files">
     <include name="Properties/Resources.designer.cs"/>
     <include name="Properties/Settings.designer.cs"/>
+    <include name="CodeFormatters/GeneralCodeFormatter.cs"/>
+    <include name="CodeFormatters/CodeFormatterCollection.cs"/>
+    <include name="CodeFormatters/PlainTextCodeFormatter.cs"/>
+    <include name="CodeFormatters/ICodeFormatter.cs"/>
     <include name="Controls/CodeBox.cs"/>
     <include name="Controls/CodeBox.designer.cs"/>
     <include name="Controls/CodeBoxComposite.cs"/>
@@ -27,6 +31,12 @@
     <include name="CSharpParser/LexToken.cs"/>
     <include name="CSharpParser/TokenClassifier.cs"/>
     <include name="CSharpParser/TokenDictionary.cs"/>
+    <include name="StackTraceAnalysers/FunctionParser.cs"/>
+    <include name="StackTraceAnalysers/IErrorParser.cs"/>
+    <include name="StackTraceAnalysers/LineNumberParser.cs"/>
+    <include name="StackTraceAnalysers/PathCompositeParser.cs"/>
+    <include name="StackTraceAnalysers/UnixPathParser.cs"/>
+    <include name="StackTraceAnalysers/WindowsPathParser.cs"/>
     <include name="AssemblyInfo.cs"/>
     <include name="DefaultTextManager.cs"/>
     <include name="ExceptionBrowserLink.cs"/>

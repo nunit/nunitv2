@@ -2,6 +2,9 @@
 <project name="NUnit.UiException.Tests" default="build" basedir=".">
 
   <patternset id="source-files">
+    <include name="CodeFormatters/TestGeneralCodeFormatter.cs"/>
+    <include name="CodeFormatters/TestCodeFormatterCollection.cs"/>
+    <include name="CodeFormatters/TestPlainTextCodeFormatter.cs"/>
     <include name="Controls/TestCodeBox.cs"/>
     <include name="Controls/TestCodeBoxComposite.cs"/>
     <include name="Controls/TestCodeViewport.cs"/>
@@ -14,6 +17,12 @@
     <include name="CSharpParser/TestTokenClassifier.cs"/>
     <include name="CSharpParser/TestTokenDictionary.cs"/>
     <include name="data/TestResource.cs"/>
+    <include name="StackTraceAnalysers/TestFunctionParser.cs"/>
+    <include name="StackTraceAnalysers/TestIErrorParser.cs"/>
+    <include name="StackTraceAnalysers/TestLineNumberParser.cs"/>
+    <include name="StackTraceAnalysers/TestPathParser.cs"/>
+    <include name="StackTraceAnalysers/TestUnixPathParser.cs"/>
+    <include name="StackTraceAnalysers/TestWindowsPathParser.cs"/>
     <include name="TestDefaultTextManager.cs"/>
     <include name="TestExceptionBrowserLink.cs"/>
     <include name="TestExceptionItem.cs"/>
@@ -27,6 +36,7 @@
   <patternset id="resource-files">
     <include name="data/HelloWorld.txt"/>
     <include name="data/TextCode.txt"/>
+    <include name="data/Basic.cs"/>
   </patternset>
 
   <target name="build">

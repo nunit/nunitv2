@@ -41,6 +41,18 @@
     <Compile Include="..\..\..\..\src\GuiException\UiException\AssemblyInfo.cs">
       <Link>AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\CodeFormatterCollection.cs">
+      <Link>CodeFormatter\CodeFormatterCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\GeneralCodeFormatter.cs">
+      <Link>CodeFormatter\GeneralCodeFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\ICodeFormatter.cs">
+      <Link>CodeFormatter\ICodeFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\PlainTextCodeFormatter.cs">
+      <Link>CodeFormatter\PlainTextCodeFormatter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBox.cs">
       <Link>Controls\CodeBox.cs</Link>
       <SubType>UserControl</SubType>
@@ -163,6 +175,24 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\FunctionParser.cs">
+      <Link>StackTraceAnalysers\FunctionParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\IErrorParser.cs">
+      <Link>StackTraceAnalysers\IErrorParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\LineNumberParser.cs">
+      <Link>StackTraceAnalysers\LineNumberParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\PathCompositeParser.cs">
+      <Link>StackTraceAnalysers\PathCompositeParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\UnixPathParser.cs">
+      <Link>StackTraceAnalysers\UnixPathParser.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\WindowsPathParser.cs">
+      <Link>StackTraceAnalysers\WindowsPathParser.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceParser.cs">
       <Link>StackTraceParser.cs</Link>
