@@ -85,7 +85,7 @@
          The first .NET and Mono frameworks found are the
          respective net and mono defaults. -->
   <property name="supported.frameworks" 
-    value="net-1.1,net-2.0,net-1.0,mono-1.0,mono-2.0"/>
+    value="net-2.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
 
   <!-- Framework versions for which packages are normally created -->
   <property name="standard.packages" value="net-1.1+net-2.0" />
