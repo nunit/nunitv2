@@ -152,16 +152,6 @@
 
         </Feature>
 
-        <!-- Defined in nunit-gui.wxs -->
-        <Feature Id="Net_1.1_GuiRunner" Level="1" Title='Gui Runner' Display='expand'
-				         Description="Installs NUnit Windows GUI runner for .NET 1.1">
-
-          <ComponentGroupRef Id="Net_1.1_FrameworkGroup"/>
-          <ComponentGroupRef Id="Net_1.1_CoreGroup"/>
-          <ComponentGroupRef Id="Net_1.1_GuiRunnerGroup"/>
-
-        </Feature>
-
         <Feature Id="Net_1.1_PNUnitRunner" Level="10" Title='PNUnit Runner' Display='expand'
                  Description="Installs the PNUnit runner for parallel distributed tests">
 

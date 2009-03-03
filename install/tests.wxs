@@ -6,7 +6,6 @@
       <ComponentRef Id="NUnitTestProject_1.1" />
       <ComponentRef Id="framework_copy_for_tests_1.1" />
       <ComponentRef Id="base_tests_1.1" />
-      <ComponentRef Id="gui_tests_1.1" />
       <ComponentRef Id="fit_tests_1.1" />
       <ComponentRef Id="fit_lib_1.1" />
     </ComponentGroup>
@@ -62,11 +61,6 @@
         <File Id="nunit.fixtures.tests.dll_1.1" Name="FIXTESTS.DLL" LongName="nunit.fixtures.tests.dll" />
       </Component>
           
-      <Component Id="gui_tests_1.1" DiskId="1" Guid="C7E0B8E5-DE60-455a-B247-B204A4C28677">
-        <File Id="nunit.uikit.tests_1.1" Name="TESTUIKI.DLL" LongName="nunit.uikit.tests.dll" />
-		    <File Id="gui.tests_1.1" Name="GUITESTS.DLL" LongName="nunit-gui.tests.dll" />
-      </Component>
-
     </DirectoryRef>
 	
     <DirectoryRef Id="net_2.0" FileSource="bin\net-2.0">
