@@ -133,10 +133,11 @@
     <property name="runtime.version" value="1.0"/>
     <property name="runtime.config" value="net-1.0"/>
     <property name="runtime.defines" value="MSNET,NET_1_0"/>
-    <property name="build.v2plus" value="false"/>
+    <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="false"/>
+    <property name="build.gui" value="false"/>
     <property name="nant.settings.currentframework" 
       value="net-1.0"/>
     <property name="supported.test.platforms" 
@@ -151,10 +152,11 @@
     <property name="runtime.version" value="1.1"/>
     <property name="runtime.config" value="net-1.1"/>
     <property name="runtime.defines" value="MSNET,NET_1_1"/>
-    <property name="build.v2plus" value="false"/>
+    <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="false"/>
+    <property name="build.gui" value="false"/>
     <property name="nant.settings.currentframework" 
       value="net-1.1"/>
     <property name="supported.test.platforms"
@@ -169,10 +171,11 @@
     <property name="runtime.version" value="2.0"/>
     <property name="runtime.config" value="net-2.0"/>
     <property name="runtime.defines" value="MSNET,NET_2_0"/>
-    <property name="build.v2plus" value="true"/>
+    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="true"/>
+    <property name="build.gui" value="true"/>
     <property name="nant.settings.currentframework" 
       value="net-2.0"/>
     <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
@@ -186,10 +189,11 @@
     <property name="runtime.version" value="1.0"/>
     <property name="runtime.config" value="mono-1.0"/>
     <property name="runtime.defines" value="MONO,NET_1_1"/>
-    <property name="build.v2plus" value="false"/>
+    <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
     <property name="build.mono" value="true"/>
     <property name="build.win32" value="false"/>
     <property name="build.x86" value="false"/>
+    <property name="build.gui" value="false"/>
     <property name="nant.settings.currentframework" 
       value="mono-1.0"/>
     <property name="supported.test.platforms"
@@ -205,9 +209,10 @@
     <property name="runtime.config" value="mono-2.0"/>
     <property name="runtime.defines" value="MONO,NET_2_0"/>
     <property name="build.mono" value="true"/>
-    <property name="build.v2plus" value="true"/>
+    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
     <property name="build.win32" value="false"/>
     <property name="build.x86" value="true"/>
+    <property name="build.gui" value="true"/>
     <property name="nant.settings.currentframework" 
       value="mono-2.0"/>
     <property name="supported.test.platforms" value="mono-2.0,net-2.0"/>
@@ -227,11 +232,10 @@
       value="${path::combine(runtime.platform.dir,runtime.version)}"/>
     <property name="current.build.dir" 
       value="${path::combine(runtime.version.dir,build.config)}"/>
-
-    <property name="current.framework.dir" 
-      value="${path::combine(current.build.dir,'framework')}"/>
     <property name="current.test.dir" 
       value="${path::combine(current.build.dir,'tests')}"/>
+    <property name="current.framework.dir" 
+      value="${path::combine(current.build.dir,'framework')}"/>
 
 <!--    <property name="package.bin.dir" 
       value="${path::combine(package.working.dir,runtime.config)}"/>-->

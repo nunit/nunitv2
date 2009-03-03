@@ -235,10 +235,11 @@
       <buildfiles refid="project.buildfiles"/>
     </nant>
 
-    <!-- Copy test project, setting runtime framework -->
-    <property name="projfile" value="NUnitTests.v1.nunit" unless="${build.v2plus}"/>
-    <property name="projfile" value="NUnitTests.v2.nunit" if="${build.v2plus}"/>
-    <copy file="${project.base.dir}/${projfile}"
+    <!-- Build GUI if runtime is 2.0 or greater -->
+    <call target="build-gui" if="${build.gui}" />
+
+    <!-- Copy test project for this runtime framework -->
+    <copy file="${project.base.dir}/${runtime.testproj}"
         tofile="${current.build.dir}/NUnitTests.nunit">
       <filterchain>
         <expandproperties/>
@@ -255,6 +256,17 @@
         <include name="src/PNUnit/runpnunit.bat" />
       </fileset>
     </copy>
+
+  </target>
+
+  <target name="build-gui">
+
+    <fail unless="${build.gui}" 
+      message="Runtime 2.0 or greater is required to build the NUnit GUI" />
+
+    <nant target="build">
+      <buildfiles refid="gui.buildfiles"/>
+    </nant>
 
   </target>
 
@@ -767,44 +779,25 @@
     <property name="package.config" value="${runtime.config}"
       unless="${property::exists('package.config')}"/>
 
+    <call target="copy-top-level-files" />
+
     <foreach item="String" delim="+"
       property="runtime" in="${package.config}">
 
-      <if test="${framework::sdk-exists( runtime )}">
-        <call target="set-${runtime}-runtime-config"/>
-        <call target="copy-bins" />
+      <if test="${framework::exists( runtime )}">
+        <if test="${framework::sdk-exists( runtime )}">
+          <call target="set-${runtime}-runtime-config"/>
+          <call target="copy-bins" />
+        </if>
       </if>
     </foreach>
 
     <call target="copy-docs" />
     <call target="copy-samples" />
-
-    <copy file="license.txt" todir="${package.working.dir}" />
-    <copy file="${project.tools.dir}/fit/license.txt"
-          tofile="${package.working.dir}/fit-license.txt" />
-    <copy file="${project.src.dir}/GuiRunner/nunit-gui/Logo.ico"
-          todir="${package.working.dir}" />
-    <copy file="NUnitFitTests.html"
-          todir="${package.bin.dir}/${runtime.config}" />
 
   </target>
 
-  <target name="build-experimental-image" depends="clean-package-dir">
-
-    <property name="package.config" value="${runtime.config}"
-      unless="${property::exists('package.config')}"/>
-
-    <foreach item="String" delim="+"
-      property="runtime" in="${package.config}">
-
-      <if test="${framework::sdk-exists( runtime )}">
-        <call target="set-${runtime}-runtime-config"/>
-        <call target="copy-bins-experimental" />
-      </if>
-    </foreach>
-
-    <call target="copy-docs" />
-    <call target="copy-samples" />
+  <target name="copy-top-level-files">
 
     <copy file="license.txt" todir="${package.working.dir}" />
     <copy file="${project.tools.dir}/fit/license.txt"
@@ -812,7 +805,7 @@
     <copy file="${project.src.dir}/GuiRunner/nunit-gui/Logo.ico"
           todir="${package.working.dir}" />
     <copy file="NUnitFitTests.html"
-          todir="${package.bin.dir}" />
+          todir="${package.working.dir}" />
 
   </target>
 
@@ -830,27 +823,6 @@
         <include name="lib/*"/>
         <include name="tests/*"/>
         <include name="framework/*"/>
-        <include name="${runtime.config}/*"/>
-        <exclude name="*.wixobj"/>
-        <exclude name="nunit-server.*"/>
-        <exclude name="nunit-test-server.*"/>
-      </fileset>
-    </copy>
-
-  </target>
-  
-  <target name="copy-bins-experimental" depends="build">
-
-    <property name="package.bin.dir" value="${package.working.dir}/bin"/>
-    <mkdir dir="${package.bin.dir}"/>
-
-    <copy todir="${package.bin.dir}">
-      <fileset basedir="${current.build.dir}">
-        <include name="*"/>
-        <include name="lib/*"/>
-        <include name="tests/*"/>
-        <include name="framework/*"/>
-        <include name="${runtime.config}/*"/>
         <exclude name="*.wixobj"/>
         <exclude name="nunit-server.*"/>
         <exclude name="nunit-test-server.*"/>
@@ -1070,12 +1042,6 @@
     <include name="ConsoleRunner/nunit-console/nunit-console.build" />
     <include name="ConsoleRunner/nunit-console-exe/nunit-console.exe.build" />
 
-    <!-- Gui Runner -->
-    <include name="GuiException/UiException/nunit.uiexception.build" />
-    <include name="GuiComponents/UiKit/nunit.uikit.build" />
-    <include name="GuiRunner/nunit-gui/nunit-gui.build" />
-    <include name="GuiRunner/nunit-gui-exe/nunit-gui.exe.build" />
-
     <!-- Test Server -->
     <include name="NUnitTestServer/nunit-server-exe/nunit-server.exe.build" />
     <include name="NUnitTestServer/nunit-agent-exe/nunit-agent.exe.build" />
@@ -1106,14 +1072,24 @@
     <!-- PNUnit Tests -->
     <include name="PNUnit/tests/pnunit.tests.build"/>
 
+    <!-- FIT Tests -->
+    <include name="NUnitFixtures/fixtures/nunit.fixtures.build" />
+    <include name="NUnitFixtures/tests/nunit.fixtures.tests.build" />
+
+  </fileset>
+
+  <fileset id="gui.buildfiles" basedir="${project.src.dir}">
+
+    <!-- Gui Runner -->
+    <include name="GuiException/UiException/nunit.uiexception.build" />
+    <include name="GuiComponents/UiKit/nunit.uikit.build" />
+    <include name="GuiRunner/nunit-gui/nunit-gui.build" />
+    <include name="GuiRunner/nunit-gui-exe/nunit-gui.exe.build" />
+
     <!-- GUI Tests -->
     <include name="GuiException/tests/nunit.uiexception.tests.build" />
     <include name="GuiComponents/tests/nunit.uikit.tests.build" />
     <include name="GuiRunner/tests/nunit-gui.tests.build" />
-
-    <!-- FIT Tests -->
-    <include name="NUnitFixtures/fixtures/nunit.fixtures.build" />
-    <include name="NUnitFixtures/tests/nunit.fixtures.tests.build" />
 
   </fileset>
 
