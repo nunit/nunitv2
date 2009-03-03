@@ -9,7 +9,7 @@
 
   <target name="build">
     <csc target="library"
-        output="${current.build.dir}/pnunit.tests.dll"
+        output="${current.test.dir}/pnunit.tests.dll"
         debug="${build.debug}" 
         define="${build.defines}">
       <sources basedir=".">
