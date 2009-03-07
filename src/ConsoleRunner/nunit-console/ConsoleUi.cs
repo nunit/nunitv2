@@ -131,38 +131,45 @@ namespace NUnit.ConsoleRunner
 
 				Console.WriteLine();
 
-				string xmlOutput = CreateXmlOutput( result );
-				ResultSummarizer summary = new ResultSummarizer( result );
+                int returnCode = UNEXPECTED_ERROR;
 
-                if (options.xmlConsole)
-				{
-					Console.WriteLine(xmlOutput);
-				}
-				else
-				{
-                    WriteSummaryReport(summary);
-                    if (summary.ErrorsAndFailures > 0)
-                        WriteErrorsAndFailuresReport(result);
-                    if (summary.TestsNotRun > 0)
-                        WriteNotRunReport(result);
-				}
+                if (result != null)
+                {
+                    string xmlOutput = CreateXmlOutput(result);
+                    ResultSummarizer summary = new ResultSummarizer(result);
 
-				// Write xml output here
-				string xmlResultFile = options.xml == null || options.xml == string.Empty
-					? "TestResult.xml" : options.xml;
+                    if (options.xmlConsole)
+                    {
+                        Console.WriteLine(xmlOutput);
+                    }
+                    else
+                    {
+                        WriteSummaryReport(summary);
+                        if (summary.ErrorsAndFailures > 0)
+                            WriteErrorsAndFailuresReport(result);
+                        if (summary.TestsNotRun > 0)
+                            WriteNotRunReport(result);
+                    }
 
-				using ( StreamWriter writer = new StreamWriter( xmlResultFile ) ) 
-				{
-					writer.Write(xmlOutput);
-				}
+                    // Write xml output here
+                    string xmlResultFile = options.xml == null || options.xml == string.Empty
+                        ? "TestResult.xml" : options.xml;
+
+                    using (StreamWriter writer = new StreamWriter(xmlResultFile))
+                    {
+                        writer.Write(xmlOutput);
+                    }
+
+                    returnCode = summary.ErrorsAndFailures;
+                }
 
 				if ( collector.HasExceptions )
 				{
 					collector.WriteExceptions();
-					return UNEXPECTED_ERROR;
+					returnCode = UNEXPECTED_ERROR;
 				}
             
-				return summary.ErrorsAndFailures;
+				return returnCode;
 			}
 			finally
 			{
