@@ -15,6 +15,8 @@ namespace NUnit.Core
     /// </summary>
     public abstract class TestThread
     {
+        static Logger log = InternalTrace.GetLogger(typeof(TestThread));
+
         #region Private Fields
         /// <summary>
         /// The TestMethod or TestSuite to be run on the thread
@@ -45,10 +47,14 @@ namespace NUnit.Core
         protected TestThread(Test test)
         {
             this.test = test;
+
             this.thread = new Thread(new ThreadStart(RunTestProc));
             thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
             thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
-            this.ApartmentState = test.ApartmentState;
+
+            // Setting to Unknown causes an error under the Mono 1.0 profile
+            if ( test.ApartmentState != ApartmentState.Unknown )
+                this.ApartmentState = test.ApartmentState;
         }
         #endregion
 
@@ -83,14 +89,16 @@ namespace NUnit.Core
             this.listener = listener;
             this.filter = filter;
 
+            log.Debug("Starting TestThread");
             thread.Start();
             thread.Join(this.Timeout);
+            log.Debug("Join Complete");
 
             // Timeout?
             if (thread.IsAlive)
             {
                 thread.Abort();
-                thread.Join();
+                //thread.Join();
                 testResult.Failure(string.Format("Test exceeded Timeout value of {0}ms", Timeout), null);
             }
 
