@@ -95,27 +95,40 @@ namespace NUnit.Core
                 exception = exception.InnerException;
 
             if (IsExpectedExceptionType(exception))
-			{
-				if (IsExpectedMessageMatch(exception))
-				{
+            {
+                if (IsExpectedMessageMatch(exception))
+                {
                     if (exceptionHandler != null)
                         Reflect.InvokeMethod(exceptionHandler, testMethod.Fixture, exception);
 
-					testResult.Success();
-				}
-				else
-				{
-					testResult.Failure(WrongTextMessage(exception), GetStackTrace(exception));
-				}
-			}
-            else if ( NUnitFramework.GetResultState(exception) == ResultState.Failure )
-            {
-                testResult.Failure(exception.Message, exception.StackTrace);
+                    testResult.Success();
+                }
+                else
+                {
+                    testResult.Failure(WrongTextMessage(exception), GetStackTrace(exception));
+                }
             }
             else
             {
-			    testResult.Failure(WrongTypeMessage(exception), GetStackTrace(exception));
-			}
+                switch (NUnitFramework.GetResultState(exception))
+                {
+                    case ResultState.Failure:
+                        testResult.Failure(exception.Message, exception.StackTrace);
+                        break;
+                    case ResultState.Ignored:
+                        testResult.Ignore(exception);
+                        break;
+                    case ResultState.Inconclusive:
+                        testResult.SetResult(ResultState.Inconclusive, exception);
+                        break;
+                    case ResultState.Success:
+                        testResult.Success(exception.Message);
+                        break;
+                    default:
+                        testResult.Failure(WrongTypeMessage(exception), GetStackTrace(exception));
+                        break;
+                }
+            }
 		}
         #endregion
 

@@ -36,12 +36,22 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void IgnoreWorksForTestCase()
 		{
-			Type fixtureType = typeof(IgnoredTestCaseFixture);
-			Test test = TestBuilder.MakeTestCase( fixtureType, "CallsIgnore" );
+            Type fixtureType = typeof(IgnoredTestCaseFixture);
+            Test test = TestBuilder.MakeTestCase(fixtureType, "CallsIgnore");
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-			Assert.IsFalse( result.Executed, "Test should not run" );
-			Assert.AreEqual( "Ignore me", result.Message );
-		}
+            Assert.IsFalse(result.Executed, "Test should not run");
+            Assert.AreEqual("Ignore me", result.Message);
+        }
+
+        [Test]
+        public void IgnoreTakesPrecedenceOverExpectedException()
+        {
+            Type fixtureType = typeof(IgnoredTestCaseFixture);
+            Test test = TestBuilder.MakeTestCase(fixtureType, "CallsIgnoreWithExpectedException");
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.IsFalse(result.Executed, "Test should not run");
+            Assert.AreEqual("Ignore me", result.Message);
+        }
 
 		[Test]
 		public void IgnoreWorksForTestSuite()

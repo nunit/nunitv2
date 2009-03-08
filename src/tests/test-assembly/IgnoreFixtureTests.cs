@@ -12,12 +12,18 @@ namespace NUnit.TestData.IgnoreFixture
 	[TestFixture]
 	public class IgnoredTestCaseFixture
 	{
-		[Test]
-		public void CallsIgnore()
-		{
-			Assert.Ignore("Ignore me");
-		}
-	}
+        [Test]
+        public void CallsIgnore()
+        {
+            Assert.Ignore("Ignore me");
+        }
+
+        [Test, ExpectedException(typeof(InvalidOperationException))]
+        public void CallsIgnoreWithExpectedException()
+        {
+            Assert.Ignore("Ignore me");
+        }
+    }
 
 	[TestFixture]
 	public class IgnoredTestSuiteFixture
