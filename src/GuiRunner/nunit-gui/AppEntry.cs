@@ -69,20 +69,29 @@ namespace NUnit.Gui
                 }
             }
 
-            // Add Standard Services to ServiceManager
-            log.Info("Adding Services");
-            ServiceManager.Services.AddService(new SettingsService());
-            ServiceManager.Services.AddService(new DomainManager());
-            ServiceManager.Services.AddService(new RecentFilesService());
-            ServiceManager.Services.AddService(new ProjectService());
-            ServiceManager.Services.AddService(new TestLoader(new GuiTestEventDispatcher()));
-            ServiceManager.Services.AddService(new AddinRegistry());
-            ServiceManager.Services.AddService(new AddinManager());
-            ServiceManager.Services.AddService(new TestAgency());
+            try
+            {
+                // Add Standard Services to ServiceManager
+                log.Info("Adding Services");
+                ServiceManager.Services.AddService(new SettingsService());
+                ServiceManager.Services.AddService(new DomainManager());
+                ServiceManager.Services.AddService(new RecentFilesService());
+                ServiceManager.Services.AddService(new ProjectService());
+                ServiceManager.Services.AddService(new TestLoader(new GuiTestEventDispatcher()));
+                ServiceManager.Services.AddService(new AddinRegistry());
+                ServiceManager.Services.AddService(new AddinManager());
+                ServiceManager.Services.AddService(new TestAgency());
 
-            // Initialize Services
-            log.Info("Initializing Services");
-            ServiceManager.Services.InitializeServices();
+                // Initialize Services
+                log.Info("Initializing Services");
+                ServiceManager.Services.InitializeServices();
+            }
+            catch (Exception ex)
+            {
+                UserMessage.DisplayFatalError(ex, null, "Unable to Initialize Services");
+                log.Error("Unable to initialize services", ex);
+                return 2;
+            }
 
             // Create container in order to allow ambient properties
             // to be shared across all top-level forms.
