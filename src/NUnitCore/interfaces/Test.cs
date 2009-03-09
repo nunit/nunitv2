@@ -49,11 +49,17 @@ namespace NUnit.Core
 		#endregion
 
         #region Properties
+        /// <summary>
+        /// Return true if the test requires a thread
+        /// </summary>
         public bool RequiresThread
         {
             get { return Properties.Contains("RequiresThread") && (bool)Properties["RequiresThread"]; }
         }
 
+        /// <summary>
+        /// Get the desired apartment state for running the test
+        /// </summary>
         public ApartmentState ApartmentState
         {
             get
@@ -64,6 +70,9 @@ namespace NUnit.Core
             }
         }
 
+        /// <summary>
+        /// Get the current apartment state of the test
+        /// </summary>
         protected ApartmentState GetCurrentApartment()
         {
 #if NET_2_0

@@ -108,6 +108,10 @@ namespace NUnit.Core.Extensibility
 		#endregion
 
         #region Object Overrides
+        /// <summary>
+        /// Return true if two Addins have teh same type name
+        /// </summary>
+        /// <param name="obj">The other addin to be compared</param>
         public override bool Equals(object obj)
         {
             Addin addin = obj as Addin;
@@ -117,6 +121,9 @@ namespace NUnit.Core.Extensibility
             return this.typeName.Equals(addin.typeName);
         }
 
+        /// <summary>
+        /// Return a hash code for this addin
+        /// </summary>
         public override int GetHashCode()
         {
             return this.typeName.GetHashCode();

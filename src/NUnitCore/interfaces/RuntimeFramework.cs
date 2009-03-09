@@ -316,6 +316,10 @@ namespace NUnit.Core
                     || this.Version.Revision == other.Version.Revision );
         }
 
+        /// <summary>
+        /// If the build number of this instance is not specified, use
+        /// the standard build number for the major and minor version.
+        /// </summary>
         public void SpecifyBuild()
         {
             if (version.Build < 0)

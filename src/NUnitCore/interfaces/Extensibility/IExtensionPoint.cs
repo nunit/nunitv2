@@ -7,12 +7,12 @@ using System;
 
 namespace NUnit.Core.Extensibility
 {
-	/// <summary>
-	/// Represents a single point of extension for NUnit. Some extension
-	/// points may accept only a single extension, while others may
-	/// accept more than one at the same time.
-	/// </summary>
-	public interface IExtensionPoint
+    /// <summary>
+    /// Represents a single point of extension for NUnit. Some extension
+    /// points may accept only a single extension, while others may
+    /// accept more than one at the same time.
+    /// </summary>
+    public interface IExtensionPoint
 	{
 		/// <summary>
 		/// Get the name of this extension point
@@ -41,6 +41,13 @@ namespace NUnit.Core.Extensibility
 		void Remove( object extension );
 	}
 
+    /// <summary>
+    /// Represents a single point of extension for NUnit. Some extension
+    /// points may accept only a single extension, while others may
+    /// accept more than one at the same time. This interface enhances
+    /// IExtensionPoint by allowing specification of a priority
+    /// order for applying addins.
+    /// </summary>
     public interface IExtensionPoint2 : IExtensionPoint
     {
         /// <summary>

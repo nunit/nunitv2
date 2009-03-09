@@ -17,6 +17,9 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
     public abstract class ParameterDataAttribute : Attribute
     {
+        /// <summary>
+        /// Gets the data to be provided to the specified parameter
+        /// </summary>
         public abstract IEnumerable GetData(ParameterInfo parameter);
     }
 

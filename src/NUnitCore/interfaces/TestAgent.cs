@@ -90,6 +90,9 @@ namespace NUnit.Core
 		#endregion
 
         #region IDisposable Members
+        /// <summary>
+        /// Dispose is overridden to stop the agent
+        /// </summary>
         public void Dispose()
         {
             this.Stop();
@@ -97,6 +100,9 @@ namespace NUnit.Core
         #endregion
 
         #region InitializeLifeTimeService
+        /// <summary>
+        /// Overridden to cause object to live indefinitely
+        /// </summary>
         public override object InitializeLifetimeService()
         {
             return null;
