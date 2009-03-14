@@ -41,7 +41,7 @@ namespace NUnit.Framework
         /// <summary>
         ///  The expected exception Type
         /// </summary>
-        private Type expectedException;
+        private Type expectedExceptionType;
 
         /// <summary>
         /// The FullName of the expected exception
@@ -112,7 +112,7 @@ namespace NUnit.Framework
         /// </summary>
         public Type ExpectedException
         {
-            get { return expectedException; }
+            get { return expectedExceptionType; }
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace NUnit.Framework
         /// <returns>The modified TestCaseData instance</returns>
         public TestCaseData Throws(Type exceptionType)
         {
-            this.expectedException = exceptionType;
+            this.expectedExceptionType = exceptionType;
             this.expectedExceptionName = exceptionType.FullName;
             return this;
         }

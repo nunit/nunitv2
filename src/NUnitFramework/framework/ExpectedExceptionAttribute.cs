@@ -63,7 +63,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Gets or sets the expected exception type
 		/// </summary>
-		public Type ExceptionType 
+		public Type ExpectedException 
 		{
 			get{ return expectedException; }
 			set{ expectedException = value; }
@@ -72,7 +72,7 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Gets or sets the full Type name of the expected exception
 		/// </summary>
-		public string ExceptionName
+		public string ExpectedExceptionName
 		{
 			get{ return expectedExceptionName; }
 			set{ expectedExceptionName = value; }

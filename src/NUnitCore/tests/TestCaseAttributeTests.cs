@@ -130,5 +130,44 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("XYZ", test.TestName.Name);
             Assert.AreEqual("NUnit.TestData.TestCaseAttributeFixture.XYZ", test.TestName.FullName);
         }
+
+        [Test]
+        public void CanSpecifyExpectedException()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseAttributeFixture), "MethodThrowsExpectedException").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Success, result.ResultState);
+        }
+
+        [Test]
+        public void CanSpecifyExpectedException_WrongException()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseAttributeFixture), "MethodThrowsWrongException").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Failure, result.ResultState);
+            StringAssert.StartsWith("An unexpected exception type was thrown", result.Message);
+        }
+
+        [Test]
+        public void CanSpecifyExpectedException_NoneThrown()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseAttributeFixture), "MethodThrowsNoException").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Failure, result.ResultState);
+            Assert.AreEqual("System.ArgumentNullException was expected", result.Message);
+        }
+
+        [Test]
+        public void IgnoreTakesPrecedenceOverExpectedException()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseAttributeFixture), "MethodCallsIgnore").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Ignored, result.ResultState);
+            Assert.AreEqual("Ignore this", result.Message);
+        }
     }
 }

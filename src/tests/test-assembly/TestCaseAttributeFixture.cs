@@ -28,5 +28,28 @@ namespace NUnit.TestData
 		[TestCase("12-Octobar-1942")]
 		public void MethodHasInvalidDateFormat(DateTime dt)
 		{}
-	}
+
+        [TestCase(2, 3, 4, ExpectedException = typeof(ArgumentNullException))]
+        public void MethodThrowsExpectedException(int x, int y, int z)
+        {
+            throw new ArgumentNullException();
+        }
+
+        [TestCase(2, 3, 4, ExpectedException = typeof(ArgumentNullException))]
+        public void MethodThrowsWrongException(int x, int y, int z)
+        {
+            throw new ArgumentException();
+        }
+
+        [TestCase(2, 3, 4, ExpectedException = typeof(ArgumentNullException))]
+        public void MethodThrowsNoException(int x, int y, int z)
+        {
+        }
+
+        [TestCase(2, 3, 4, ExpectedException = typeof(ArgumentNullException))]
+        public void MethodCallsIgnore(int x, int y, int z)
+        {
+            Assert.Ignore("Ignore this");
+        }
+    }
 }
