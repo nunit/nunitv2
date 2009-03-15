@@ -120,6 +120,45 @@ namespace NUnit.Core.Tests
         {
             Assert.AreEqual(q, n / d);
         }
+
+        [Test]
+        public void CanSpecifyExpectedException()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseSourceAttributeFixture), "MethodThrowsExpectedException").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Success, result.ResultState);
+        }
+
+        [Test]
+        public void CanSpecifyExpectedException_WrongException()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseSourceAttributeFixture), "MethodThrowsWrongException").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Failure, result.ResultState);
+            StringAssert.StartsWith("An unexpected exception type was thrown", result.Message);
+        }
+
+        [Test]
+        public void CanSpecifyExpectedException_NoneThrown()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseSourceAttributeFixture), "MethodThrowsNoException").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Failure, result.ResultState);
+            Assert.AreEqual("System.ArgumentNullException was expected", result.Message);
+        }
+
+        [Test]
+        public void IgnoreTakesPrecedenceOverExpectedException()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseSourceAttributeFixture), "MethodCallsIgnore").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Ignored, result.ResultState);
+            Assert.AreEqual("Ignore this", result.Message);
+        }
        
         #region Sources used by the tests
         static object[] MyData = new object[] {
