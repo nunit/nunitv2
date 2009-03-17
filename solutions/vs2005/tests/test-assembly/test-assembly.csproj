@@ -166,6 +166,9 @@
     <Compile Include="..\..\..\..\src\tests\test-assembly\TestCaseAttributeFixture.cs">
       <Link>TestCaseAttributeFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\TestCaseSourceAttributeFixture.cs">
+      <Link>TestCaseSourceAttributeFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\TestCaseTest.cs">
       <Link>TestCaseTest.cs</Link>
       <SubType>Code</SubType>

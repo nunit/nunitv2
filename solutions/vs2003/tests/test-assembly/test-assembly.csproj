@@ -201,6 +201,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "TestCaseSourceAttributeFixture.cs"
+                    Link = "..\..\..\..\src\tests\test-assembly\TestCaseSourceAttributeFixture.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "TestCaseTest.cs"
                     Link = "..\..\..\..\src\tests\test-assembly\TestCaseTest.cs"
                     SubType = "Code"
