@@ -11,10 +11,10 @@ namespace NUnit.TestData
 	[TestFixture]
 	public class TestMethodSignatureFixture
 	{
-		public static int Tests = 18;
-		public static int Runnable = 8;
-		public static int NotRunnable = 10;
-	    public static int Errors = 0;
+		public static int Tests = 19;
+		public static int Runnable = 11;
+		public static int NotRunnable = 8;
+	    public static int Errors = 3;
 	    public static int Failures = 0;
 
 		[Test]
@@ -68,13 +68,19 @@ namespace NUnit.TestData
         {
         }
 
-        [TestCase( 3.7, 2, 5.7 )]
-        public void TestMethodWithConvertibleArguments( double x, double y, double sum)
+        [TestCase(3.7, 2, 5.7)]
+        public void TestMethodWithConvertibleArguments(double x, double y, double sum)
         {
-            Assert.AreEqual( sum, x + y, 0.0001 );
+            Assert.AreEqual(sum, x + y, 0.0001);
         }
 
-		[TestCase( 12, 3, 4 )]
+        [TestCase(3.7, 2, 5.7)]
+        public void TestMethodWithNonConvertibleArguments(int x, int y, int sum)
+        {
+            Assert.AreEqual(sum, x + y, 0.0001);
+        }
+
+        [TestCase(12, 3, 4)]
 		[TestCase( 12, 2, 6 )]
 		[TestCase( 12, 4, 3 )]
 		public void TestMethodWithMultipleTestCases( int n, int d, int q )

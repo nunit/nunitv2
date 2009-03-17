@@ -302,27 +302,6 @@ namespace NUnit.Core.Builders
             }
 #endif
 
-            for (int i = 0; i < argsProvided; i++)
-            {
-                object arg = arglist[i];
-                if (arg != null)
-                {
-                    Type targetType = parameters[i].ParameterType;
-                    Type argType = arg.GetType();
-
-                    if (!targetType.IsAssignableFrom(argType))
-                    {
-                        testMethod.RunState = RunState.NotRunnable;
-                        testMethod.IgnoreReason = string.Format(
-                            "Argument {0}: Cannot convert from {1} to {2}",
-                            i + 1,
-                            arg,
-                            targetType);
-                        return false;
-                    }
-                }
-            }
-
             return true;
         }
 

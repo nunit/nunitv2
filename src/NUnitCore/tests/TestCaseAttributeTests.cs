@@ -36,18 +36,6 @@ namespace NUnit.Core.Tests
             return x + y;
         }
 
-		[TestCase(2.0, 2.0, Result=4.0)]
-		public int CanConvertDoubleToInt(int x, int y)
-		{
-			return x + y;
-		}
-
-        [TestCase(2, 2, Result = 4)]
-        public decimal CanConvertIntToDecimal(decimal x, decimal y)
-        {
-            return x + y;
-        }
-
         [TestCase("2.2", "3.3", Result = 5.5)]
         public decimal CanConvertStringToDecimal(decimal x, decimal y)
         {
@@ -61,11 +49,13 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-		public void ConversionOverflowGivesNonRunnableTest()
+		public void ConversionOverflowGivesError()
 		{
 			Test test = (Test)TestBuilder.MakeTestCase(
 				typeof(TestCaseAttributeFixture), "MethodCausesConversionOverflow").Tests[0];
-			Assert.AreEqual(RunState.NotRunnable, test.RunState);
+			Assert.AreEqual(RunState.Runnable, test.RunState);
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Error, result.ResultState);
 		}
 
         [TestCase("12-October-1942")]

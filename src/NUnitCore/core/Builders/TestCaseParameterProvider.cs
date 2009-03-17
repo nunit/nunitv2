@@ -58,20 +58,9 @@ namespace NUnit.Core.Builders
                     
 
 				if (parms.Arguments.Length == argsNeeded)
-				{
-					try
-					{
-                        for (int i = 0; i < argsNeeded; i++)
-                            MakeArgumentCompatible(ref parms.Arguments[i], parameters[i].ParameterType);
-					}
-					catch (Exception)
-					{
-						// Do nothing - the incompatible argument will be reported
-						// by ParameterizedTestCaseBuilder
-					}
-				}
+                    PerformSpecialConversions(parms.Arguments, parameters);
 #if NET_2_0
-                    yield return parms;
+                yield return parms;
             }
 #else
 					list.Add( parms );
@@ -81,14 +70,47 @@ namespace NUnit.Core.Builders
 #endif
         }
         
-        private static void MakeArgumentCompatible(ref object arg, Type targetType)
+        /// <summary>
+        /// Performs several special conversions allowed by NUnit in order to
+        /// permit arguments with types that cannot be used in the constructor
+        /// of an Attribute such as TestCaseAttribute.
+        /// </summary>
+        /// <param name="arglist">The arguments to be converted</param>
+        /// <param name="parameters">The ParameterInfo array for the method</param>
+        private static void PerformSpecialConversions(object[] arglist, ParameterInfo[] parameters)
         {
-            if (arg != null && !targetType.IsAssignableFrom(arg.GetType()))
+            for (int i = 0; i < arglist.Length; i++)
             {
+                object arg = arglist[i];
+                Type targetType = parameters[i].ParameterType;
+
+                if (arg == null || targetType.IsAssignableFrom(arg.GetType()))
+                    continue;
+                
                 if (arg is DBNull)
-                    arg = null;
-                else if (arg is IConvertible && targetType != typeof(string))
-                    arg = Convert.ChangeType(arg, targetType, System.Globalization.CultureInfo.InvariantCulture);
+                {
+                    arglist[i] = null;
+                    continue;
+                }
+
+                bool convert = false;
+
+                if (targetType == typeof(decimal))
+                    convert = arg is double || arg is string;
+                else 
+                if (targetType == typeof(DateTime) || targetType == typeof(TimeSpan))
+                    convert = arg is string;
+
+                if (convert)
+                try
+                {
+                    arglist[i] = Convert.ChangeType(arg, targetType, System.Globalization.CultureInfo.InvariantCulture);
+                }
+                catch (Exception)
+                {
+                    // Do nothing - the incompatible argument will be reported
+                    // by ParameterizedTestCaseBuilder
+                }
             }
         }
     }

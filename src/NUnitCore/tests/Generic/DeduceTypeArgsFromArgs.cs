@@ -19,7 +19,6 @@ namespace NUnit.Core.Tests.Generic
         }
 
         [TestCase(5, 7)]
-        [TestCase(1.23, 0)]
         public void TestMyArgTypes(T1 t1, T2 t2)
         {
             Assert.That(t1, Is.TypeOf<T1>());

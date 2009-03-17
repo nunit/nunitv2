@@ -55,9 +55,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void TestMethodWithWrongArgumentTypesProvidedIsNotRunnable()
+        public void TestMethodWithWrongArgumentTypesProvidedGivesError()
         {
-            TestAssert.IsRunnable(fixtureType, "TestMethodWithWrongArgumentTypesProvided", ResultState.NotRunnable);
+            TestAssert.IsRunnable(fixtureType, "TestMethodWithWrongArgumentTypesProvided", ResultState.Error);
         }
 
         [Test]
@@ -79,9 +79,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void StaticTestMethodWithWrongArgumentTypesProvidedIsNotRunnable()
+        public void StaticTestMethodWithWrongArgumentTypesProvidedGivesError()
         {
-            TestAssert.IsRunnable(fixtureType, "StaticTestMethodWithWrongArgumentTypesProvided", ResultState.NotRunnable);
+            TestAssert.IsRunnable(fixtureType, "StaticTestMethodWithWrongArgumentTypesProvided", ResultState.Error);
         }
 
         [Test]
@@ -90,7 +90,13 @@ namespace NUnit.Core.Tests
             TestAssert.IsRunnable(fixtureType, "TestMethodWithConvertibleArguments");
         }
 
-	    [Test]
+        [Test]
+        public void TestMethodWithNonConvertibleArgumentsGivesError()
+        {
+            TestAssert.IsRunnable(fixtureType, "TestMethodWithNonConvertibleArguments", ResultState.Error);
+        }
+
+        [Test]
 		public void ProtectedTestMethodIsNotRunnable()
 		{
 			TestAssert.IsNotRunnable( fixtureType, "ProtectedTestMethod" );
