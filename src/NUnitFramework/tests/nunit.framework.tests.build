@@ -4,6 +4,7 @@
   <patternset id="source-files">
     <include name="Constraints/AfterConstraintTests.cs"/>
     <include name="Constraints/AndTest.cs"/>
+    <include name="Constraints/BasicConstraintTests.cs"/>
     <include name="Constraints/CollectionConstraintTests.cs"/>
     <include name="Constraints/ComparisonConstraintTests.cs"/>
     <include name="Constraints/ConstraintTestBase.cs"/>

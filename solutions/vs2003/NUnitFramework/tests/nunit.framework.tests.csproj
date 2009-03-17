@@ -305,6 +305,12 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "Constraints\BasicConstraintTests.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\BasicConstraintTests.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
                     RelPath = "Constraints\CollectionConstraintTests.cs"
                     Link = "..\..\..\..\src\NUnitFramework\tests\Constraints\CollectionConstraintTests.cs"
                     SubType = "Code"
