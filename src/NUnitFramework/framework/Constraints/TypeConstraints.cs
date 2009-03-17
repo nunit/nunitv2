@@ -148,7 +148,7 @@ namespace NUnit.Framework.Constraints
     }
 
     /// <summary>
-    /// AssignableFromConstraint is used to test that an object
+    /// AssignableToConstraint is used to test that an object
     /// can be assigned to a given Type.
     /// </summary>
     public class AssignableToConstraint : TypeConstraint
