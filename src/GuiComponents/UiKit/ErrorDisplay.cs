@@ -44,7 +44,9 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class ErrorDisplay : System.Windows.Forms.UserControl, TestObserver
 	{
-		private ISettings settings = null;
+        static readonly Font DefaultFixedFont = new Font("Courier New", 8.0F);
+
+        private ISettings settings = null;
 		int hoverIndex = -1;
 		private System.Windows.Forms.Timer hoverTimer;
 		TipWindow tipWindow;
@@ -117,7 +119,7 @@ namespace NUnit.UiKit
 			// 
 			this.detailList.Dock = System.Windows.Forms.DockStyle.Top;
 			this.detailList.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
-			this.detailList.Font = new System.Drawing.Font("Courier New", 8.25F);
+			this.detailList.Font = DefaultFixedFont;
 			this.detailList.HorizontalExtent = 2000;
 			this.detailList.HorizontalScrollbar = true;
 			this.detailList.ItemHeight = 16;
@@ -155,7 +157,7 @@ namespace NUnit.UiKit
 			// stackTrace
 			// 
 			this.stackTrace.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.stackTrace.Font = new System.Drawing.Font("Courier New", 9.75F);
+			this.stackTrace.Font = DefaultFixedFont;
 			this.stackTrace.Location = new System.Drawing.Point(0, 137);
 			this.stackTrace.Multiline = true;
 			this.stackTrace.Name = "stackTrace";
@@ -212,6 +214,9 @@ namespace NUnit.UiKit
 
 				stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
 				this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
+
+                this.detailList.Font = this.stackTrace.Font = 
+                    settings.GetSetting( "Gui.FixedFont", DefaultFixedFont );
 			}
 
 			base.OnLoad (e);
@@ -233,6 +238,7 @@ namespace NUnit.UiKit
 		{
 			this.stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled ", false );
 			this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
+            this.detailList.Font = this.stackTrace.Font = settings.GetSetting("Gui.FixedFont", DefaultFixedFont);
 		}
 		#endregion
 

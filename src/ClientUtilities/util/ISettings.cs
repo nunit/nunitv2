@@ -72,15 +72,23 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or the default value</returns>
 		string GetSetting( string settingName, string defaultValue );
 
-		/// <summary>
-		/// Load an enum setting from the storage or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of the setting to load</param>
-		/// <param name="defaultValue">Value to return if the setting is missing</param>
-		/// <returns>Value of the setting or the default value</returns>
-		System.Enum GetSetting( string settingName, System.Enum defaultValue );
+        /// <summary>
+        /// Load an enum setting from the storage or return a default value
+        /// </summary>
+        /// <param name="settingName">Name of the setting to load</param>
+        /// <param name="defaultValue">Value to return if the setting is missing</param>
+        /// <returns>Value of the setting or the default value</returns>
+        System.Enum GetSetting(string settingName, System.Enum defaultValue);
 
-		/// <summary>
+        /// <summary>
+        /// Load a Font setting from the storage or return a default value
+        /// </summary>
+        /// <param name="settingName">Name of the setting to load</param>
+        /// <param name="defaultFont">Value to return if the setting is missing</param>
+        /// <returns>Value of the setting or the default value</returns>
+        System.Drawing.Font GetSetting(string settingName, System.Drawing.Font defaultFont);
+
+        /// <summary>
 		/// Remove a setting from the storage
 		/// </summary>
 		/// <param name="settingName">Name of the setting to remove</param>

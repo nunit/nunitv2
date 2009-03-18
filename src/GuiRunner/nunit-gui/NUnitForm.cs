@@ -10,6 +10,7 @@ using System.Collections;
 using System.Configuration;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Globalization;
 using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
@@ -994,13 +995,8 @@ namespace NUnit.Gui
 				this.WindowState = FormWindowState.Maximized;
 
 			// Set the font to use
-			string fontDescription = userSettings.GetSetting( "Gui.MainForm.Font", "" );
-			if ( fontDescription != "" )
-			{
-				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-				applyFont( (Font)converter.ConvertFrom(fontDescription) );
-			}
-		}
+            applyFont(userSettings.GetSetting("Gui.MainForm.Font", Form.DefaultFont));
+        }
 
 		private void displayMiniGui()
 		{
@@ -1030,12 +1026,7 @@ namespace NUnit.Gui
 			this.Size = new Size( width, height );
 
 			// Set the font to use
-			string fontDescription = userSettings.GetSetting( "Gui.MiniForm.Font", "" );
-			if ( fontDescription != "" )
-			{
-				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-				applyFont( (Font)converter.ConvertFrom(fontDescription) );
-			}
+            applyFont(userSettings.GetSetting("Gui.MiniForm.Font", Form.DefaultFont));
 		}
 
 		private void increaseFontMenuItem_Click(object sender, System.EventArgs e)
@@ -1057,7 +1048,7 @@ namespace NUnit.Gui
 			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
 			userSettings.SaveSetting( 
 				displayFormat == "Mini" ? "Gui.MiniForm.Font" : "Gui.MainForm.Font", 
-				converter.ConvertToString( font ) );
+				converter.ConvertToString( null, CultureInfo.InvariantCulture, font ) );
 		}
 
 		private void increaseFixedFontMenuItem_Click(object sender, System.EventArgs e)
@@ -1079,7 +1070,7 @@ namespace NUnit.Gui
 		{
 			this.fixedFont = font;
 			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-			userSettings.SaveSetting( "Gui.FixedFont", converter.ConvertToString( font ) );
+			userSettings.SaveSetting( "Gui.FixedFont", converter.ConvertToString( null, CultureInfo.InvariantCulture, font ) );
 		}
 		#endregion
 
@@ -1417,14 +1408,7 @@ namespace NUnit.Gui
 			this.treeSplitter.SplitterMoved += new SplitterEventHandler( treeSplitter_SplitterMoved );
 
 			// Get the fixed font used by result tabs
-			string fontDescription = userSettings.GetSetting( "Gui.FixedFont", "" );
-			if ( fontDescription == "" )
-				this.fixedFont = new Font( "Courier New", 8.0f );
-			else
-			{
-				TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-				this.fixedFont = (Font)converter.ConvertFrom(fontDescription);
-			}
+            this.fixedFont = userSettings.GetSetting("Gui.FixedFont", new Font("Courier New", 8.0f));
 
 			// Handle changes in form settings
 			userSettings.Changed += new SettingsEventHandler(userSettings_Changed);

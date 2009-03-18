@@ -82,7 +82,8 @@ namespace NUnit.UiKit
 		{
 			this.Font = font;
 			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-			Services.UserSettings.SaveSetting( "Gui.FixedFont", converter.ConvertToString( font ) );
+			Services.UserSettings.SaveSetting( "Gui.FixedFont", 
+                converter.ConvertToString( null, System.Globalization.CultureInfo.InvariantCulture, font ) );
 		}
 		
 		private void ContextMenu_Popup(object sender, EventArgs e)

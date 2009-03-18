@@ -7,6 +7,9 @@
 namespace NUnit.Util
 {
 	using System;
+    using System.Drawing;
+    using System.Globalization;
+    using System.ComponentModel;
 
 	/// <summary>
 	/// SettingsGroup is the base class representing a group
@@ -165,34 +168,62 @@ namespace NUnit.Util
 				return result.ToString();
 		}
 
-		/// <summary>
-		/// Load the value of one of the group's enum settings
-		/// in a type-safe manner or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of setting to load</param>
-		/// <param name="defaultValue">Value to return if the setting is not present</param>
-		/// <returns>Value of the setting or the default</returns>
-		public System.Enum GetSetting( string settingName, System.Enum defaultValue )
-		{
-			object result = GetSetting(settingName );
+        /// <summary>
+        /// Load the value of one of the group's enum settings
+        /// in a type-safe manner or return a default value
+        /// </summary>
+        /// <param name="settingName">Name of setting to load</param>
+        /// <param name="defaultValue">Value to return if the setting is not present</param>
+        /// <returns>Value of the setting or the default</returns>
+        public System.Enum GetSetting(string settingName, System.Enum defaultValue)
+        {
+            object result = GetSetting(settingName);
 
-			if ( result == null )
-				return defaultValue;
+            if (result == null)
+                return defaultValue;
 
-			if ( result is System.Enum )
-				return (System.Enum) result;
-				
-			try
-			{
-				return (System.Enum)System.Enum.Parse( defaultValue.GetType(), result.ToString(), true );
-			}
-			catch
-			{
-				return defaultValue;
-			}
-		}
+            if (result is System.Enum)
+                return (System.Enum)result;
 
-		/// <summary>
+            try
+            {
+                return (System.Enum)System.Enum.Parse(defaultValue.GetType(), result.ToString(), true);
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
+        /// Load the value of one of the group's Font settings
+        /// in a type-safe manner or return a default value
+        /// </summary>
+        /// <param name="settingName">Name of setting to load</param>
+        /// <param name="defaultFont">Value to return if the setting is not present</param>
+        /// <returns>Value of the setting or the default</returns>
+        public Font GetSetting(string settingName, Font defaultFont)
+        {
+            object result = GetSetting(settingName);
+
+            if (result == null)
+                return defaultFont;
+
+            if (result is Font)
+                return (Font)result;
+
+            try
+            {
+                TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+                return (Font)converter.ConvertFrom(null, CultureInfo.InvariantCulture, result.ToString());
+            }
+            catch
+            {
+                return defaultFont;
+            }
+        }
+
+        /// <summary>
 		/// Remove a setting from the group
 		/// </summary>
 		/// <param name="settingName">Name of the setting to remove</param>

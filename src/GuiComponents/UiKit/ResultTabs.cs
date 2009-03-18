@@ -425,22 +425,10 @@ namespace NUnit.UiKit
 			private static Font GetFixedFont()
 			{
 				ISettings settings = Services.UserSettings;
-				Font font = null;
-				if ( settings != null )
-				{
-					string fontDescription = settings.GetSetting("Gui.FixedFont", "Courier New, 8pt");
-					try
-					{
-						TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-						font = (Font)converter.ConvertFrom(fontDescription);
-					}
-					catch
-					{
-						// Will return default
-					}
-				}
 
-				return font == null ? new Font("Courier New", 8.0f) : font;
+				return settings == null 
+                    ? new Font("Courier New", 8.0f) 
+                    : settings.GetSetting("Gui.FixedFont", new Font("Courier New", 8.0f));
 			}
 
 			#region TestObserver Members
