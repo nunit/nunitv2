@@ -28,6 +28,11 @@ namespace NUnit.Core.Builders
             this.providerName = providerName;
         }
 
+        public string Name
+        {
+            get { return this.providerName; }
+        }
+
         public IEnumerable Provider
         {
             get

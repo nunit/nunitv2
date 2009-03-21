@@ -42,16 +42,6 @@ namespace NUnit.Core.Builders
         /// <returns></returns>
         public IEnumerable GetTestCasesFor(MethodInfo method)
         {
-#if NET_2_0
-            foreach( ProviderInfo info in GetSourcesFor(method) )
-            {
-                if (info.Provider == null)
-                    yield return new ParameterSet(RunState.NotRunnable, info.Message);
-                else
-                    foreach (object o in info.Provider)
-                        yield return o;
-            }
-#else
             ArrayList parameterList = new ArrayList();
 
             foreach ( ProviderInfo info in GetSourcesFor(method) )
@@ -60,12 +50,19 @@ namespace NUnit.Core.Builders
                     parameterList.Add(
                         new ParameterSet(RunState.NotRunnable, info.Message));
                 else
-                    foreach (object o in info.Provider)
-                        parameterList.Add(o);
+                    try
+                    {
+                        foreach (object o in info.Provider)
+                            parameterList.Add(o);
+                    }
+                    catch (Exception ex)
+                    {
+                        parameterList.Add(new ParameterSet(RunState.NotRunnable,
+                            "An exception was thrown by " + info.Name));
+                    }
             }
 
             return parameterList;
-#endif
         }
         #endregion
 
