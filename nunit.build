@@ -1025,16 +1025,10 @@
 
   <fileset id="project.buildfiles" basedir="${project.src.dir}">
 
-    <!-- NUnit Framework -->
-    <include name="NUnitFramework/framework/nunit.framework.build" />
-    <include name="NUnitExtensions/framework/nunit.framework.extensions.build" />
-    <include name="NUnitMocks/mocks/nunit.mocks.build" />
-
     <!-- NUnit Base -->
     <include name="NUnitFramework/framework/nunit.framework.build" />
     <include name="NUnitCore/interfaces/nunit.core.interfaces.build" />
     <include name="NUnitCore/core/nunit.core.build" />
-    <include name="NUnitExtensions/framework/nunit.framework.extensions.build"/>
     <include name="NUnitMocks/mocks/nunit.mocks.build" />
     <include name="ClientUtilities/util/nunit.util.build" />
 
@@ -1062,7 +1056,6 @@
     <!-- NUnit Base Tests -->
     <include name="NUnitFramework/tests/nunit.framework.tests.build" />
     <include name="NUnitCore/tests/nunit.core.tests.build" />
-    <include name="NUnitExtensions/tests/nunit.extensions.tests.build" />
     <include name="NUnitMocks/tests/nunit.mocks.tests.build" />
     <include name="ClientUtilities/tests/nunit.util.tests.build" />
 

@@ -78,12 +78,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.tests", "GuiRunne
 		Release.AspNetCompiler.Debug = "False"
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.tests", "NUnitExtensions\tests\nunit.extensions.tests.csproj", "{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server.exe", "NUnitTestServer\nunit-server-exe\nunit-server.exe.csproj", "{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
@@ -103,12 +97,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.core.tests", "NUnitCo
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-assembly", "tests\test-assembly\test-assembly.csproj", "{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}"
-	ProjectSection(WebsiteProperties) = preProject
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.Debug = "False"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.extensions.dll", "NUnitExtensions\framework\nunit.framework.extensions.dll.csproj", "{486C498D-B9F8-477F-ACA7-CED9245BBFCF}"
 	ProjectSection(WebsiteProperties) = preProject
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.Debug = "False"
@@ -279,10 +267,6 @@ Global
 		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -299,10 +283,6 @@ Global
 		{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{486C498D-B9F8-477F-ACA7-CED9245BBFCF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{435428F8-5995-4CE4-8022-93D595A8CC0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{435428F8-5995-4CE4-8022-93D595A8CC0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{435428F8-5995-4CE4-8022-93D595A8CC0F}.Release|Any CPU.ActiveCfg = Release|Any CPU

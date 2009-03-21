@@ -91,11 +91,6 @@
       <Project>{435428F8-5995-4CE4-8022-93D595A8CC0F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
-    <ProjectReference Include="..\..\NUnitExtensions\framework\nunit.framework.extensions.dll.csproj">
-      <Name>nunit.framework.extensions.dll</Name>
-      <Project>{486C498D-B9F8-477F-ACA7-CED9245BBFCF}</Project>
-      <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-    </ProjectReference>
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
       <Name>nunit.framework.dll</Name>
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>

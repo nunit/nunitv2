@@ -51,10 +51,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.tests", "GuiRunne
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.extensions.tests", "NUnitExtensions\tests\nunit.extensions.tests.csproj", "{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-server.exe", "NUnitTestServer\nunit-server-exe\nunit-server.exe.csproj", "{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -185,10 +181,6 @@ Global
 		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Debug.Build.0 = Debug|.NET
 		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Release.ActiveCfg = Release|.NET
 		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Release.Build.0 = Release|.NET
-		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Debug.ActiveCfg = Debug|.NET
-		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Debug.Build.0 = Debug|.NET
-		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Release.ActiveCfg = Release|.NET
-		{92961F10-EB6D-4C91-AD4F-B4F27BA571B2}.Release.Build.0 = Release|.NET
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug.ActiveCfg = Debug|.NET
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug.Build.0 = Debug|.NET
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release.ActiveCfg = Release|.NET
