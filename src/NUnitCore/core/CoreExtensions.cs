@@ -164,12 +164,12 @@ namespace NUnit.Core
 
             // Install builtin TestCaseProviders
             testcaseProviders.Install(new TestCaseParameterProvider());
-            testcaseProviders.Install(new TestCaseFactoryProvider());
+            testcaseProviders.Install(new TestCaseSourceProvider());
             testcaseProviders.Install(new CombinatorialTestCaseProvider());
 
             // Install builtin DataPointProvider
             dataPointProviders.Install(new InlineDataPointProvider());
-            dataPointProviders.Install(new DataSourceProvider());
+            dataPointProviders.Install(new ValueSourceProvider());
             dataPointProviders.Install(new DatapointProvider());
 		}
 

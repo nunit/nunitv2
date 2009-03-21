@@ -483,12 +483,6 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Builders\DataSourceProvider.cs"
-                    Link = "..\..\..\..\src\NUnitCore\core\Builders\DataSourceProvider.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
                     RelPath = "Builders\InlineDataPointProvider.cs"
                     Link = "..\..\..\..\src\NUnitCore\core\Builders\InlineDataPointProvider.cs"
                     SubType = "Code"
@@ -549,14 +543,20 @@
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Builders\TestCaseFactoryProvider.cs"
-                    Link = "..\..\..\..\src\NUnitCore\core\Builders\TestCaseFactoryProvider.cs"
+                    RelPath = "Builders\TestCaseParameterProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\TestCaseParameterProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />
                 <File
-                    RelPath = "Builders\TestCaseParameterProvider.cs"
-                    Link = "..\..\..\..\src\NUnitCore\core\Builders\TestCaseParameterProvider.cs"
+                    RelPath = "Builders\TestCaseSourceProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\TestCaseSourceProvider.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Builders\ValueSourceProvider.cs"
+                    Link = "..\..\..\..\src\NUnitCore\core\Builders\ValueSourceProvider.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

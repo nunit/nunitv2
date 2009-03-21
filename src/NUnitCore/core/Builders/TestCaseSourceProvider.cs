@@ -12,10 +12,10 @@ using NUnit.Core.Extensibility;
 namespace NUnit.Core.Builders
 {
     /// <summary>
-    /// TestCaseFactoryProvider provides data for methods
-    /// annotated with the FactoryiesAttribute.
+    /// TestCaseSourceProvider provides data for methods
+    /// annotated with the TestCaseSourceAttribute.
     /// </summary>
-    public class TestCaseFactoryProvider : ITestCaseProvider
+    public class TestCaseSourceProvider : ITestCaseProvider
     {
         #region Constants
         public const string SourceTypeProperty = "SourceType";

@@ -94,6 +94,12 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\DatapointProvider.cs">
       <Link>Builders\DatapointProvider.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseSourceProvider.cs">
+      <Link>Builders\TestCaseSourceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\ValueSourceProvider.cs">
+      <Link>Builders\ValueSourceProvider.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\DomainAgent.cs">
       <Link>DomainAgent.cs</Link>
     </Compile>
@@ -126,9 +132,6 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\CombiningStrategy.cs">
       <Link>Builders\CombiningStrategy.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\DataSourceProvider.cs">
-      <Link>Builders\DataSourceProvider.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\LegacySuiteBuilder.cs">
       <Link>Builders\LegacySuiteBuilder.cs</Link>
       <SubType>Code</SubType>
@@ -160,9 +163,6 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestAssemblyBuilder.cs">
       <Link>Builders\TestAssemblyBuilder.cs</Link>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseFactoryProvider.cs">
-      <Link>Builders\TestCaseFactoryProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseParameterProvider.cs">
       <Link>Builders\TestCaseParameterProvider.cs</Link>

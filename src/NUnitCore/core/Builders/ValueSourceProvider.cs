@@ -12,10 +12,10 @@ using NUnit.Core.Extensibility;
 namespace NUnit.Core.Builders
 {
     /// <summary>
-    /// DataSourceProvider supplies data items for individual parameters
+    /// ValueSourceProvider supplies data items for individual parameters
     /// from named data sources in the test class or a separate class.
     /// </summary>
-    public class DataSourceProvider : IDataPointProvider
+    public class ValueSourceProvider : IDataPointProvider
     {
         #region Constants
         public const string SourcesAttribute = "NUnit.Framework.ValueSourceAttribute";

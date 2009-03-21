@@ -156,11 +156,14 @@
       <Link>Builders\TestAssemblyBuilder.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseFactoryProvider.cs">
-      <Link>Builders\TestCaseFactoryProvider.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseParameterProvider.cs">
       <Link>Builders\TestCaseParameterProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\TestCaseSourceProvider.cs">
+      <Link>Builders\TestCaseSourceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\ValueSourceProvider.cs">
+      <Link>Builders\ValueSourceProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\CoreExtensions.cs">
       <Link>CoreExtensions.cs</Link>
@@ -375,9 +378,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\AssemblyHelper.cs">
       <Link>AssemblyHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\DataSourceProvider.cs">
-      <Link>Builders\DataSourceProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\core\Builders\ProviderInfo.cs">
       <Link>Builders\ProviderInfo.cs</Link>
