@@ -199,8 +199,8 @@ namespace NUnit.Framework.Constraints
 
     #region SameTypeConstraint
     /// <summary>
-    /// SameTypeConstraint is used to test whether a collection
-    /// objects, which are all the same type.
+    /// SameTypeConstraint is used to test whether the contents
+    /// of a collection are all the same type.
     /// </summary>
     public class AllSameTypeConstraint : CollectionConstraint
     {
