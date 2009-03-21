@@ -41,12 +41,6 @@ namespace NUnit.Core.Extensibility
         /// <returns>An IEnumerable providing the required data</returns>
         public IEnumerable GetDataFor(ParameterInfo parameter)
         {
-#if NET_2_0 && !MONO
-            foreach (IDataPointProvider provider in Extensions)
-                if (provider.HasDataFor(parameter))
-                    foreach (object o in provider.GetDataFor(parameter))
-                        yield return o;
-#else
             ArrayList list = new ArrayList();
 
             foreach (IDataPointProvider provider in Extensions)
@@ -55,7 +49,6 @@ namespace NUnit.Core.Extensibility
                         list.Add(o);
 
             return list;
-#endif
         }
         #endregion
 

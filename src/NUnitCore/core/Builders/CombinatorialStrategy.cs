@@ -20,20 +20,15 @@ namespace NUnit.Core.Builders
             IEnumerator[] enumerators = new IEnumerator[Sources.Length];
             int index = -1;
 
-#if !NET_2_0
 			ArrayList testCases = new ArrayList();
-#endif
+
             for (; ; )
             {
                 while (++index < Sources.Length)
                 {
                     enumerators[index] = Sources[index].GetEnumerator();
                     if (!enumerators[index].MoveNext())
-#if NET_2_0
-                        yield break;
-#else
 						return testCases;
-#endif
                 }
 
                 object[] testdata = new object[Sources.Length];
@@ -41,11 +36,7 @@ namespace NUnit.Core.Builders
                 for (int i = 0; i < Sources.Length; i++)
                     testdata[i] = enumerators[i].Current;
 
-#if NET_2_0
-                yield return testdata;
-#else
 				testCases.Add(testdata);
-#endif
 
                 index = Sources.Length;
 
@@ -53,9 +44,8 @@ namespace NUnit.Core.Builders
 
                 if (index < 0) break;
             }
-#if !NET_2_0
+
 			return testCases;
-#endif
         }
     }
 }

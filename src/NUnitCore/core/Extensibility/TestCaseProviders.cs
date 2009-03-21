@@ -37,12 +37,6 @@ namespace NUnit.Core.Extensibility
         /// <returns></returns>
         public IEnumerable GetTestCasesFor(MethodInfo method)
         {
-#if NET_2_0
-            foreach (ITestCaseProvider provider in Extensions)
-                if (provider.HasTestCasesFor(method))
-                    foreach (object o in provider.GetTestCasesFor(method))
-                        yield return o;
-#else
             ArrayList paramList = new ArrayList();
 
             foreach (ITestCaseProvider provider in Extensions)
@@ -51,7 +45,6 @@ namespace NUnit.Core.Extensibility
                         paramList.Add(o);
 
             return paramList;
-#endif
         }
         #endregion
 

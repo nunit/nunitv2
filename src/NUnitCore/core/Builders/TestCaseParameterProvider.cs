@@ -32,9 +32,8 @@ namespace NUnit.Core.Builders
         /// <returns></returns>
         public IEnumerable GetTestCasesFor(MethodInfo method)
         {
-#if !NET_2_0
 			ArrayList list = new ArrayList();
-#endif
+
             Attribute[] attrs = Reflect.GetAttributes(method, NUnitFramework.TestCaseAttribute, false);
 
             ParameterInfo[] parameters = method.GetParameters();
@@ -59,15 +58,11 @@ namespace NUnit.Core.Builders
 
 				if (parms.Arguments.Length == argsNeeded)
                     PerformSpecialConversions(parms.Arguments, parameters);
-#if NET_2_0
-                yield return parms;
-            }
-#else
-					list.Add( parms );
+					
+                list.Add( parms );
 			}
 
 			return list;
-#endif
         }
         
         /// <summary>

@@ -17,9 +17,7 @@ namespace NUnit.Core.Builders
 
         public override IEnumerable GetTestCases()
         {
-#if !NET_2_0
 			ArrayList testCases = new ArrayList();
-#endif
 
             for (; ; )
             {
@@ -37,15 +35,11 @@ namespace NUnit.Core.Builders
 
                 if (!gotData)
                     break;
-#if NET_2_0
-                yield return testdata;
-#else
+
                 testCases.Add(testdata);
-#endif
             }
-#if !NET_2_0
-			return testCases;
-#endif
+
+            return testCases;
         }
     }
 }

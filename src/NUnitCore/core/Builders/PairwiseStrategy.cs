@@ -634,9 +634,7 @@ namespace NUnit.Core.Builders
 
 			IEnumerable pairwiseTestCases = new PairwiseTestCaseGenerator(dimensions).GetTestCases();
 
-#if !NET_2_0
 			ArrayList testCases = new ArrayList();
-#endif
 
 			foreach (TestCase pairwiseTestCase in pairwiseTestCases)
 			{
@@ -647,16 +645,10 @@ namespace NUnit.Core.Builders
 					testData[i] = valueSet[i][pairwiseTestCase.Features[i]];
 				}
 
-#if NET_2_0
-				yield return testData;
-#else
 				testCases.Add(testData);
-#endif
 			}
 
-#if !NET_2_0
 			return testCases;
-#endif
 		}
 
 		private ArrayList[] CreateValueSet()

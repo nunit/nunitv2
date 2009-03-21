@@ -43,14 +43,6 @@ namespace NUnit.Core.Builders
         /// <returns></returns>
         public IEnumerable GetDataFor(ParameterInfo parameter)
         {
-#if NET_2_0 && !MONO
-            foreach (ProviderInfo info in GetSourcesFor(parameter))
-            {
-                if (info.Provider != null)
-                    foreach (object o in info.Provider)
-                        yield return o;
-            }
-#else
             ArrayList parameterList = new ArrayList();
 
             foreach ( ProviderInfo info in GetSourcesFor(parameter) )
@@ -61,7 +53,6 @@ namespace NUnit.Core.Builders
             }
 
             return parameterList;
-#endif
         }
         #endregion
 
