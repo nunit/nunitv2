@@ -5,7 +5,6 @@
     <assembly path="NUnitCore\tests\bin\Debug\nunit.core.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Debug\nunit.util.tests.dll" />
     <assembly path="NUnitMocks\tests\bin\Debug\nunit.mocks.tests.dll" />
-    <assembly path="NUnitExtensions\tests\bin\Debug\nunit.extensions.tests.dll" />
     <assembly path="ConsoleRunner\tests\bin\Debug\nunit-console.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Debug\nunit.uikit.tests.dll" />
     <assembly path="GuiException\tests\bin\Debug\nunit.uiexception.tests.dll" />
@@ -17,7 +16,6 @@
     <assembly path="NUnitCore\tests\bin\Release\nunit.core.tests.dll" />
     <assembly path="ClientUtilities\tests\bin\Release\nunit.util.tests.dll" />
     <assembly path="NUnitMocks\tests\bin\Release\nunit.mocks.tests.dll" />
-    <assembly path="NUnitExtensions\tests\bin\Release\nunit.extensions.tests.dll" />
     <assembly path="ConsoleRunner\tests\bin\Release\nunit-console.tests.dll" />
     <assembly path="GuiComponents\tests\bin\Release\nunit.uikit.tests.dll" />
     <assembly path="GuiException\tests\bin\Release\nunit.uiexception.tests.dll" />
