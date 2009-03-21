@@ -93,8 +93,6 @@ namespace NUnit.Framework.Constraints
 		private string name;
 		private object propValue;
 
-		private bool propertyExists;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:PropertyConstraint"/> class.
         /// </summary>

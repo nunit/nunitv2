@@ -48,12 +48,6 @@ namespace NUnit.Framework.Constraints
         private Tolerance tolerance = Tolerance.Empty;
 
         /// <summary>
-        /// How the comparison tolerance, if specified using the .Within()
-        /// modifier, should be interpreted
-        /// </summary>
-        //private ToleranceMode toleranceMode = ToleranceMode.Linear;
-
-        /// <summary>
         /// IComparer object used in comparisons for some constraints.
         /// </summary>
         private IComparer compareWith;
