@@ -96,11 +96,11 @@ namespace NUnit.Tests
 			[Category("MockCategory")]
 			[Category("AnotherCategory")]
 			public void MockTest3()
-			{}
+            { Assert.Pass("Succeeded!"); }
 
-			[Test]
-			protected static void MockTest5()
-			{}
+            [Test]
+            protected static void MockTest5()
+            {}
 
             [Test]
             public void FailingTest()
