@@ -238,8 +238,13 @@ namespace NUnit.UiKit
 		{
 			this.stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled ", false );
 			this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
-            this.detailList.Font = this.stackTrace.Font = settings.GetSetting("Gui.FixedFont", DefaultFixedFont);
-		}
+            Font newFont = this.stackTrace.Font = settings.GetSetting("Gui.FixedFont", DefaultFixedFont);
+            if (newFont != this.detailList.Font)
+            {
+                this.detailList.Font = this.stackTrace.Font = newFont;
+                RefillDetailList();
+            }
+        }
 		#endregion
 
 		#region DetailList Events

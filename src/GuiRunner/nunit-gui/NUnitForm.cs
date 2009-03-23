@@ -1378,22 +1378,22 @@ namespace NUnit.Gui
 					}
 			}
 		}
-		
+
 		private void LoadFormSettings()
 		{
 			this.displayFormat = userSettings.GetSetting( "Gui.DisplayFormat", "Full" );
 
-			switch( displayFormat )
-			{
-				case "Full":				
-					displayFullGui();
-					break;
-				case "Mini":
-					displayMiniGui();
-					break;
-				default:
-					throw new ApplicationException( "Invalid Setting" );
-			}
+            switch (displayFormat)
+            {
+                case "Full":
+                    displayFullGui();
+                    break;
+                case "Mini":
+                    displayMiniGui();
+                    break;
+                default:
+                    throw new ApplicationException("Invalid Setting");
+            }
 
 			// Handle changes to form position
 			this.Move += new System.EventHandler(this.NUnitForm_Move);

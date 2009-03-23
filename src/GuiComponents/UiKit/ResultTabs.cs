@@ -170,7 +170,6 @@ namespace NUnit.UiKit
 			this.notRunTree.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.notRunTree.ImageIndex = -1;
 			this.notRunTree.Indent = 19;
-			this.notRunTree.ItemHeight = 16;
 			this.notRunTree.Location = new System.Drawing.Point(0, 0);
 			this.notRunTree.Name = "notRunTree";
 			this.notRunTree.SelectedImageIndex = -1;
@@ -335,6 +334,13 @@ namespace NUnit.UiKit
 			if ( selected )
 				font.Dispose();
 		}
+
+        protected override void OnFontChanged(EventArgs e)
+        {
+            base.OnFontChanged(e);
+
+            tabControl.ItemSize = new Size(tabControl.ItemSize.Width, this.Font.Height + 2);
+        }
 
 		private class TextDisplayController : TestObserver
 		{

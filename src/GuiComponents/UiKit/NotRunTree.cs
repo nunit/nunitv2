@@ -16,13 +16,6 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class NotRunTree : TreeView, TestObserver
 	{
-//		public void Add( TestResult result )
-//		{
-//			Invoke( new AddNodeHandler( AddNode ), new object[] { result } );
-//		}
-
-//		private delegate void AddNodeHandler( TestResult result );
-
 		#region TestObserver Members and TestEventHandlers
 
 		public void Subscribe(ITestEvents events)
