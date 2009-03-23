@@ -60,6 +60,8 @@ namespace NUnit.Core
         /// </summary>
         private object fixture;
 
+        private Exception builderException;
+
 		#endregion
 
 		#region Constructors
@@ -110,6 +112,12 @@ namespace NUnit.Core
                     : TestContext.TestCaseTimeout;
             }
         }
+
+        public Exception BuilderException
+        {
+            get { return builderException; }
+            set { builderException = value; }
+        }
         #endregion
 
 		#region Run Methods
@@ -134,7 +142,10 @@ namespace NUnit.Core
                         testResult.Skip(IgnoreReason);
                         break;
                     case RunState.NotRunnable:
-                        testResult.Invalid(IgnoreReason);
+                        if (BuilderException != null)
+                            testResult.Invalid(BuilderException);
+                        else
+                            testResult.Invalid(IgnoreReason);
                         break;
                     case RunState.Ignored:
                         testResult.Ignore(IgnoreReason);

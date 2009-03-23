@@ -41,24 +41,33 @@ namespace NUnit.Core.Builders
 
             foreach (Attribute attr in attrs)
             {
-                ParameterSet parms = ParameterSet.FromDataSource(attr);
+                ParameterSet parms;
 
-                //if (method.GetParameters().Length == 1 && method.GetParameters()[0].ParameterType == typeof(object[]))
-                //    parms.Arguments = new object[]{parms.Arguments};
-
-                if (argsNeeded == 1 && method.GetParameters()[0].ParameterType == typeof(object[]))
+                try
                 {
-                    if (parms.Arguments.Length > 1 ||
-                        parms.Arguments.Length == 1 && parms.Arguments[0].GetType() != typeof(object[]))
-                    {
-                        parms.Arguments = new object[] { parms.Arguments };
-                    }
-                }
-                    
+                    parms = ParameterSet.FromDataSource(attr);
 
-				if (parms.Arguments.Length == argsNeeded)
-                    PerformSpecialConversions(parms.Arguments, parameters);
-					
+                    //if (method.GetParameters().Length == 1 && method.GetParameters()[0].ParameterType == typeof(object[]))
+                    //    parms.Arguments = new object[]{parms.Arguments};
+
+                    if (argsNeeded == 1 && method.GetParameters()[0].ParameterType == typeof(object[]))
+                    {
+                        if (parms.Arguments.Length > 1 ||
+                            parms.Arguments.Length == 1 && parms.Arguments[0].GetType() != typeof(object[]))
+                        {
+                            parms.Arguments = new object[] { parms.Arguments };
+                        }
+                    }
+
+
+                    if (parms.Arguments.Length == argsNeeded)
+                        PerformSpecialConversions(parms.Arguments, parameters);
+                }
+                catch (Exception ex)
+                {
+                    parms = new ParameterSet( ex );
+                }
+
                 list.Add( parms );
 			}
 
@@ -103,8 +112,8 @@ namespace NUnit.Core.Builders
                 }
                 catch (Exception)
                 {
-                    // Do nothing - the incompatible argument will be reported
-                    // by ParameterizedTestCaseBuilder
+                    // Do nothing - the incompatible argument will be
+                    // reported when the method is inoked.r
                 }
             }
         }

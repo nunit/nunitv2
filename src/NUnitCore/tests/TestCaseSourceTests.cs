@@ -159,6 +159,24 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(ResultState.Ignored, result.ResultState);
             Assert.AreEqual("Ignore this", result.Message);
         }
+
+        [Test]
+        public void HandlesExceptionInTestCaseSource()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseSourceAttributeFixture), "MethodWithSourceThrowingException").Tests[0];
+            Assert.AreEqual(RunState.NotRunnable, test.RunState);
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.NotRunnable, result.ResultState);
+            Assert.AreEqual("System.Exception : my message", result.Message);
+            StringAssert.Contains("exception_source", result.StackTrace);
+        }
+
+        [TestCaseSource("exception_source"), Explicit]
+        public void HandlesExceptioninTestCaseSource_GuiDisplay(string lhs, string rhs)
+        {
+            Assert.AreEqual(lhs, rhs);
+        }
        
         #region Sources used by the tests
         static object[] MyData = new object[] {
@@ -218,6 +236,19 @@ namespace NUnit.Core.Tests
                     return list;
 #endif
                 }
+            }
+        }
+
+        private static IEnumerable exception_source
+        {
+            get
+            {
+#if NET_2_0
+                yield return new TestCaseData("a", "a");
+                yield return new TestCaseData("b", "b");
+#endif
+
+                throw new System.Exception("my message");
             }
         }
         #endregion

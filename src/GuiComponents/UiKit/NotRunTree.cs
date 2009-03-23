@@ -38,7 +38,7 @@ namespace NUnit.UiKit
 		private void OnTestFinished( object sender, TestEventArgs args )
 		{
 			TestResult result = args.Result;
-			if ( !result.Executed )
+			if ( result.ResultState == ResultState.Skipped || result.ResultState == ResultState.Ignored)
 				this.AddNode( args.Result );
 		}
 

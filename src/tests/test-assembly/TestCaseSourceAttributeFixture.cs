@@ -4,6 +4,7 @@
 // obtain a copy of the license at http://nunit.org.
 // ****************************************************************
 using System;
+using System.Collections;
 using NUnit.Framework;
 
 namespace NUnit.TestData
@@ -36,5 +37,23 @@ namespace NUnit.TestData
 
         private static object[] source = new object[] {
             new TestCaseData( 2, 3, 4 ).Throws(typeof(ArgumentNullException)) };
+
+        [TestCaseSource("exception_source")]
+        public void MethodWithSourceThrowingException(string lhs, string rhs)
+        {
+        }
+
+        private static IEnumerable exception_source
+        {
+            get
+            {
+#if NET_2_0
+                yield return new TestCaseData("a", "a");
+                yield return new TestCaseData("b", "b");
+#endif
+
+                throw new System.Exception("my message");
+            }
+        }
     }
 }

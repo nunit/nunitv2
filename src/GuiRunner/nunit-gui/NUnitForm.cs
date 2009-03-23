@@ -1758,8 +1758,8 @@ the version under which NUnit is currently running, {0}.",
 
 			ResultSummarizer summary = new ResultSummarizer( e.Result );
 			this.runCount.Text = string.Format(
-                "Passed: {0}   Failed: {1}   Errors: {2}   Inconclusive: {3}   Invalid: {3}   Ignored: {4}   Skipped: {5}   Time: {6}",
-                summary.Passed, summary.Failures, summary.Errors, summary.NotRunnable, summary.Ignored, summary.Skipped, summary.Time);
+                "Passed: {0}   Failed: {1}   Errors: {2}   Inconclusive: {3}   Invalid: {4}   Ignored: {5}   Skipped: {6}   Time: {7}",
+                summary.Passed, summary.Failures, summary.Errors, summary.Inconclusive, summary.NotRunnable, summary.Ignored, summary.Skipped, summary.Time);
 
 			EnableRunCommand( true );
 

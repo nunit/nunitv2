@@ -231,6 +231,7 @@ namespace NUnit.Core.Builders
                 testMethod.expectedResult = parms.Result;
                 testMethod.RunState = parms.RunState;
                 testMethod.IgnoreReason = parms.NotRunReason;
+                testMethod.BuilderException = parms.ProviderException;
 
                 arglist = parms.Arguments;
 

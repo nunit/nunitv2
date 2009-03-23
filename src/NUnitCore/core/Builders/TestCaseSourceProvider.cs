@@ -46,20 +46,8 @@ namespace NUnit.Core.Builders
 
             foreach ( ProviderInfo info in GetSourcesFor(method) )
             {
-                if (info.Provider == null)
-                    parameterList.Add(
-                        new ParameterSet(RunState.NotRunnable, info.Message));
-                else
-                    try
-                    {
-                        foreach (object o in info.Provider)
-                            parameterList.Add(o);
-                    }
-                    catch (Exception ex)
-                    {
-                        parameterList.Add(new ParameterSet(RunState.NotRunnable,
-                            "An exception was thrown by " + info.Name));
-                    }
+                foreach (object o in info.Provider)
+                    parameterList.Add(o);
             }
 
             return parameterList;

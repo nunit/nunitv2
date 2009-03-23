@@ -14,8 +14,6 @@ namespace NUnit.Core.Builders
     {
         private Type providerType;
         private string providerName;
-        private IEnumerable provider;
-        private string message;
 
         public ProviderInfo(Type providerType, string providerName)
         {
@@ -37,42 +35,17 @@ namespace NUnit.Core.Builders
         {
             get
             {
-                // Don't try to populate source more than once
-                if (provider == null && message == null)
-                {
-                    MemberInfo[] members = providerType.GetMember(
-                        providerName,
-                        MemberTypes.Field | MemberTypes.Method | MemberTypes.Property,
-                        BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+                MemberInfo[] members = providerType.GetMember(
+                    providerName,
+                    MemberTypes.Field | MemberTypes.Method | MemberTypes.Property,
+                    BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
-                    if (members.Length == 0)
-                        message = string.Format(
-                            "Unable to locate {0}.{1}", providerType.FullName, providerName);
-                    else if (members.Length > 1)
-                        message = string.Format(
-                            "{0}.{1} is ambiguous", providerType.FullName, providerName);
-                    else
-                    {
-                        object providerObject = GetProviderObjectFromMember(members[0]);
+                if (members.Length == 0)
+                    throw new Exception(string.Format(
+                        "Unable to locate {0}.{1}", providerType.FullName, providerName));
 
-                        if (providerObject == null)
-                            message = string.Format("Provider {0} returned null", providerName);
-                        else
-                        {
-                            provider = providerObject as IEnumerable;
-                            if (provider == null)
-                                message = string.Format("Provider {0} does not implement IEnumerable", providerName);
-                        }
-                    }
-                }
-
-                return provider;
+                return (IEnumerable)GetProviderObjectFromMember(members[0]);
             }
-        }
-
-        public string Message
-        {
-            get { return message; }
         }
 
         private object GetProviderObjectFromMember(MemberInfo member)

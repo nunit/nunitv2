@@ -287,12 +287,21 @@ namespace NUnit.Core
         }
 
         /// <summary>
-        /// Mark the test a not runnable
+        /// Mark the test a not runnable with a reason
         /// </summary>
         /// <param name="reason">The reason the test is invalid</param>
         public void Invalid( string reason )
         {
             SetResult( ResultState.NotRunnable, reason, null );
+        }
+
+        /// <summary>
+        /// Mark the test as not runnable due to a builder exception
+        /// </summary>
+        /// <param name="ex">The exception thrown by the builder or an addin</param>
+        public void Invalid(Exception ex)
+        {
+            SetResult(ResultState.NotRunnable, BuildMessage( ex ), BuildStackTrace(ex));
         }
 
 	    /// <summary>
