@@ -40,13 +40,13 @@ Namespace NUnit.Samples
             Return s.AddMoney(Me)
         End Function
 
-        Public ReadOnly Property Amount()
+        Public ReadOnly Property Amount() As Integer
             Get
                 Return fAmount
             End Get
         End Property
 
-        Public ReadOnly Property Currency()
+        Public ReadOnly Property Currency() As String
             Get
                 Return fCurrency
             End Get

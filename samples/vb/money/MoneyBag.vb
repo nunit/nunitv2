@@ -106,7 +106,7 @@ Namespace NUnit.Samples
             Return False
         End Function
 
-        Private Function FindMoney(ByVal currency As String)
+        Private Function FindMoney(ByVal currency As String) As Money
             For Each m As Money In fmonies
                 If m.Currency.Equals(currency) Then
                     Return m

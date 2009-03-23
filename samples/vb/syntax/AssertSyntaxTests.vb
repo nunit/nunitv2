@@ -32,7 +32,7 @@ Namespace NUnit.Samples
 #Region "Simple Constraint Tests"
         <Test()> _
         Public Sub IsNull()
-            Dim nada = Nothing
+            Dim nada As Object = Nothing
 
             ' Classic syntax
             Assert.IsNull(nada)
