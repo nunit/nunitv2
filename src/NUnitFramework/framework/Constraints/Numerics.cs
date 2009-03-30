@@ -334,11 +334,11 @@ namespace NUnit.Framework.Constraints
         /// <returns>The relationship of the values to each other</returns>
 		public static int Compare( IComparable expected, object actual )
 		{
-			if ( expected == null )
-				throw new ArgumentException( "Cannot compare using a null reference", "expected" );
+            //if ( expected == null )
+            //    throw new ArgumentException( "Cannot compare using a null reference", "expected" );
 
-			if ( actual == null )
-				throw new ArgumentException( "Cannot compare to null reference", "actual" );
+            //if ( actual == null )
+            //    throw new ArgumentException( "Cannot compare to null reference", "actual" );
 
 			if( IsNumericType( expected ) && IsNumericType( actual ) )
 			{

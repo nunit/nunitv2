@@ -5,6 +5,10 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Constraints
 {
@@ -37,6 +41,11 @@ namespace NUnit.Framework.Constraints
         private string predicate;
 
         /// <summary>
+        /// IComparer to be used in making the comparison
+        /// </summary>
+        private ComparisonAdapter comparer = new ComparisonAdapter();
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="T:ComparisonConstraint"/> class.
         /// </summary>
         /// <param name="value">The value against which to make a comparison.</param>
@@ -45,7 +54,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="gtOK">if set to <c>true</c> greater succeeds.</param>
         /// <param name="predicate">String used in describing the constraint.</param>
         public ComparisonConstraint(IComparable value, bool ltOK, bool eqOK, bool gtOK, string predicate)
-            : base( value )
+            : base(value)
         {
             this.expected = value;
             this.ltOK = ltOK;
@@ -63,7 +72,14 @@ namespace NUnit.Framework.Constraints
         {
             this.actual = actual;
 
-			int icomp = Numerics.Compare( expected, actual );
+            if (expected == null)
+                throw new ArgumentException("Cannot compare using a null reference", "expected");
+
+            if (actual == null)
+                throw new ArgumentException("Cannot compare to null reference", "actual");
+
+            int icomp = comparer.Compare(expected, actual);
+
             return icomp < 0 && gtOK || icomp == 0 && eqOK || icomp > 0 && ltOK;
         }
 
@@ -76,6 +92,26 @@ namespace NUnit.Framework.Constraints
             writer.WritePredicate(predicate);
             writer.WriteExpectedValue(expected);
         }
+
+        public ComparisonConstraint Using(IComparer comparer)
+        {
+            this.comparer = new ComparisonAdapter(comparer);
+            return this;
+        }
+
+#if NET_2_0
+        public ComparisonConstraint Using<T>(IComparer<T> comparer)
+        {
+            this.comparer = new ComparisonAdapter<T>(comparer);
+            return this;
+        }
+
+        public ComparisonConstraint Using<T>(Comparison<T> comparer)
+        {
+            this.comparer = new ComparisonAdapter<T>(comparer);
+            return this;
+        }
+#endif
     }
 
     /// <summary>
