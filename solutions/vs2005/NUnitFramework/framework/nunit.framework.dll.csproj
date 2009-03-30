@@ -125,6 +125,9 @@
       <Link>Constraints\CollectionConstraints.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ComparisonAdapter.cs">
+      <Link>Constraints\ComparisonAdapter.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ComparisonConstraints.cs">
       <Link>Constraints\ComparisonConstraints.cs</Link>
       <SubType>Code</SubType>

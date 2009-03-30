@@ -396,6 +396,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\DatapointAttributes.cs">
       <Link>DatapointAttributes.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ComparisonAdapter.cs">
+      <Link>Constraints\ComparisonAdapter.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">

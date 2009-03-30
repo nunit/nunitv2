@@ -330,6 +330,11 @@
                     BuildAction = "Compile"
                 />
                 <File
+                    RelPath = "SyntaxElements.txt"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt"
+                    BuildAction = "Content"
+                />
+                <File
                     RelPath = "TearDownAttribute.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\TearDownAttribute.cs"
                     SubType = "Code"
@@ -440,6 +445,12 @@
                 <File
                     RelPath = "Constraints\CollectionConstraints.cs"
                     Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\CollectionConstraints.cs"
+                    SubType = "Code"
+                    BuildAction = "Compile"
+                />
+                <File
+                    RelPath = "Constraints\ComparisonAdapter.cs"
+                    Link = "..\..\..\..\src\NUnitFramework\framework\Constraints\ComparisonAdapter.cs"
                     SubType = "Code"
                     BuildAction = "Compile"
                 />

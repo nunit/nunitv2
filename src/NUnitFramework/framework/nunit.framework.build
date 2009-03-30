@@ -6,6 +6,7 @@
         <include name="Constraints/BasicConstraints.cs"/>
         <include name="Constraints/BinaryOperations.cs"/>
         <include name="Constraints/CollectionConstraints.cs"/>
+        <include name="Constraints/ComparisonAdapter.cs"/>
         <include name="Constraints/ComparisonConstraints.cs"/>
         <include name="Constraints/Constraint.cs"/>
         <include name="Constraints/ConstraintBuilder.cs"/>
