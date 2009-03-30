@@ -42,7 +42,7 @@ namespace NUnit.Framework.Constraints
             Assert.IsFalse(theConstraint.Matches(badValue));
         }
 
-        [Test, Sequential]
+        [Test, Sequential, Platform(Exclude="Mono", Reason="Mono Bug")]
         public void ProvidesProperFailureMessage(
             [ValueSource("FailureData")] object badValue,
             [ValueSource("ActualValues")] string message)
