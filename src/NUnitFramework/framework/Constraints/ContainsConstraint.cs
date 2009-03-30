@@ -56,6 +56,9 @@ namespace NUnit.Framework.Constraints
 			this.expected = expected;
 		}
 
+        /// <summary>
+        /// Flag the constraint to ignore case and return self.
+        /// </summary>
         public ContainsConstraint IgnoreCase
         {
             get { this.ignoreCase = true; return this; }
