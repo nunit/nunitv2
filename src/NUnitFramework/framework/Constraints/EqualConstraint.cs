@@ -164,10 +164,10 @@ namespace NUnit.Framework.Constraints
 
         /// <summary>
         /// Switches the .Within() modifier to interpret its tolerance as
-        /// a percentage that the compared values are allowed to deviate from
-        /// each other.
+        /// a percentage that the actual values is allowed to deviate from
+        /// the expected value.
         /// </summary>
-        /// <returns>Self.</returns>
+        /// <returns>Self</returns>
         public EqualConstraint Percent
         {
             get
@@ -177,6 +177,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Causes the tolerance to be interpreted as a TimeSpan in days.
+        /// </summary>
+        /// <returns>Self</returns>
         public EqualConstraint Days
         {
             get
@@ -186,6 +190,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Causes the tolerance to be interpreted as a TimeSpan in hours.
+        /// </summary>
+        /// <returns>Self</returns>
         public EqualConstraint Hours
         {
             get
@@ -195,6 +203,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Causes the tolerance to be interpreted as a TimeSpan in minutes.
+        /// </summary>
+        /// <returns>Self</returns>
         public EqualConstraint Minutes
         {
             get
@@ -204,6 +216,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Causes the tolerance to be interpreted as a TimeSpan in seconds.
+        /// </summary>
+        /// <returns>Self</returns>
         public EqualConstraint Seconds
         {
             get
@@ -213,6 +229,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Causes the tolerance to be interpreted as a TimeSpan in milliseconds.
+        /// </summary>
+        /// <returns>Self</returns>
         public EqualConstraint Milliseconds
         {
             get
@@ -222,6 +242,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Causes the tolerance to be interpreted as a TimeSpan in clock ticks.
+        /// </summary>
+        /// <returns>Self</returns>
         public EqualConstraint Ticks
         {
             get
