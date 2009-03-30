@@ -142,7 +142,7 @@ namespace NUnit.UiKit
 		{
 			ResultSummarizer summarizer = new ResultSummarizer(result);
 
-            this.testCount = summarizer.ResultCount;
+            //this.testCount = summarizer.ResultCount;
             this.testsRun = summarizer.TestsRun;
 			this.errors = summarizer.Errors;
             this.failures = summarizer.Failures;
