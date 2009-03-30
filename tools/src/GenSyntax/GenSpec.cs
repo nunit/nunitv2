@@ -84,6 +84,11 @@ namespace GenSyntax
             }
         }
 
+        public bool IsProperty
+        {
+            get { return !IsGeneric && !methodName.EndsWith(")"); }
+        }
+
         public override string ToString()
         {
             return fullSpec;

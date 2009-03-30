@@ -155,11 +155,11 @@ namespace GenSyntax
                 writer.WriteLine("public {0} {1}", typeName, spec.MethodName);
             writer.WriteLine("{");
             writer.Indent++;
-            writer.WriteLine(spec.MethodName.EndsWith(")")
-                    ? typeName == "void"
+            writer.WriteLine(spec.IsProperty
+                    ? "get { return " + spec.RightPart + "; }"
+                    : typeName == "void"
                         ? spec.RightPart + ";"
-                        : "return " + spec.RightPart + ";"
-                    : "get { return " + spec.RightPart + "; }");
+                        : "return " + spec.RightPart + ";" );
             writer.Indent--;
             writer.WriteLine("}");
             writer.WriteLine();
