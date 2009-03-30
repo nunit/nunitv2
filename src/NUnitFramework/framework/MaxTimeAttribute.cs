@@ -3,7 +3,6 @@
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org/?p=license&r=2.4
 // ****************************************************************
-
 using System;
 
 namespace NUnit.Framework
@@ -14,7 +13,11 @@ namespace NUnit.Framework
 	[AttributeUsage( AttributeTargets.Method, AllowMultiple=false, Inherited=false )]
 	public sealed class MaxTimeAttribute : PropertyAttribute
 	{
-		public MaxTimeAttribute( int maxTime )
-            : base( maxTime ) { }
+        /// <summary>
+        /// Construct a MaxTimeAttribute, given a time in milliseconds.
+        /// </summary>
+        /// <param name="milliseconds">The maximum elapsed time in milliseconds</param>
+		public MaxTimeAttribute( int milliseconds )
+            : base( milliseconds ) { }
 	}
 }
