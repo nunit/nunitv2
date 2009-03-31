@@ -46,7 +46,12 @@ namespace NUnit.Framework.Constraints
             if (comparer != null)
                 return comparer.Compare(expected, actual);
 
-            return Numerics.Compare((IComparable)expected, actual);
+            if (expected is IComparable)
+                return Numerics.Compare((IComparable)expected, actual);
+            else if (actual is IComparable)
+                return -Numerics.Compare((IComparable)actual, expected);
+
+            throw new ArgumentException("At least one object must implement IComparable to compare");
         }
     }
 
