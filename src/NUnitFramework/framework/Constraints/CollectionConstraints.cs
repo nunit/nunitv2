@@ -7,6 +7,9 @@
 using System;
 using System.Collections;
 using System.Reflection;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Constraints
 {
@@ -17,8 +20,15 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class CollectionConstraint : Constraint
     {
+        /// <summary>
+        /// Construct an empty CollectionConstraint
+        /// </summary>
         public CollectionConstraint() { }
 
+        /// <summary>
+        /// Construct a CollectionConstraint
+        /// </summary>
+        /// <param name="arg"></param>
         public CollectionConstraint(object arg) : base(arg) { }
 
         /// <summary>
@@ -144,7 +154,7 @@ namespace NUnit.Framework.Constraints
 
 	#region EmptyCollectionConstraint
     /// <summary>
-    /// EmptyCollectionConstraint tests whether a colletion is empty. 
+    /// EmptyCollectionConstraint tests whether a collection is empty. 
     /// </summary>
     public class EmptyCollectionConstraint : CollectionConstraint
 	{
@@ -377,47 +387,20 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class CollectionOrderedConstraint : CollectionConstraint
     {
-        private IComparer compareWith;
-        private readonly string propertyName;
+        private IComparer comparer;
+        private string propertyName;
         private bool descending;
+#if NET_2_0
+        private object genericComparer;
+#endif
 
         /// <summary>
         /// Construct a CollectionOrderedConstraint
         /// </summary>
         public CollectionOrderedConstraint() 
-            : this(System.Collections.Comparer.Default)
         {
-        }
-
-        /// <summary>
-        /// Construct a CollectionOrderedConstraint
-        /// </summary>
-        /// <param name="comparer">A custom comparer to use to perform comparisons</param>
-        public CollectionOrderedConstraint(IComparer comparer) 
-        {
-            this.compareWith = comparer;
             this.DisplayName = "ordered";
-        }
-
-        /// <summary>
-        /// Construct a CollectionOrderedConstraint
-        /// </summary>
-        /// <param name="propertyName">Name of the property on which to perform the comparison</param>
-        public CollectionOrderedConstraint(string propertyName)
-            : this(propertyName, System.Collections.Comparer.Default)
-        {
-        }
-
-        /// <summary>
-        /// Construct a CollectionOrderedConstraint
-        /// </summary>
-        /// <param name="propertyName">Name of the property on which to perform the comparison</param>
-        /// <param name="comparer">A custom comparer to use to perform comparisons</param>
-        public CollectionOrderedConstraint(string propertyName, IComparer comparer) 
-        {
-            this.propertyName = propertyName;
-            this.compareWith = comparer;
-            this.DisplayName = "ordered";
+			this.comparer = Comparer.Default;
         }
 
         ///<summary>
@@ -431,6 +414,26 @@ namespace NUnit.Framework.Constraints
                 return this;
             }
         }
+
+        public CollectionOrderedConstraint Using(IComparer comparer)
+        {
+            this.comparer = comparer;
+            return this;
+        }
+
+#if NET_2_0
+        public CollectionOrderedConstraint Using<T>(IComparer<T> comparer)
+        {
+            this.genericComparer = comparer;
+            return this;
+        }
+#endif
+
+		public CollectionOrderedConstraint By(string propertyName)
+		{
+			this.propertyName = propertyName;
+			return this;
+		}
 
         /// <summary>
         /// Test whether the collection is ordered
@@ -457,8 +460,8 @@ namespace NUnit.Framework.Constraints
 
                 if (previous != null)
                 {
-                    //int comparisonResult = compareWith.Compare(al[i], al[i + 1]);
-                    int comparisonResult = compareWith.Compare(previous, objToCompare);
+                    //int comparisonResult = comparer.Compare(al[i], al[i + 1]);
+                    int comparisonResult = comparer.Compare(previous, objToCompare);
 
                     if (descending && comparisonResult < 0)
                         return false;
@@ -498,8 +501,8 @@ namespace NUnit.Framework.Constraints
         public override string ToString()
         {
             return propertyName == null
-                ? string.Format("<ordered {0}>", this.compareWith.GetType().FullName)
-                : string.Format("<ordered {0} {1}>", this.compareWith.GetType().FullName, propertyName);
+                ? string.Format("<ordered {0}>", this.comparer.GetType().FullName)
+                : string.Format("<ordered {0} {1}>", this.comparer.GetType().FullName, propertyName);
         }
     }
     #endregion

@@ -532,33 +532,9 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Returns a constraint that tests whether a collection is ordered
         /// </summary>
-        public CollectionOrderedConstraint Ordered()
+        public CollectionOrderedConstraint Ordered
         {
-            return (CollectionOrderedConstraint)this.Append(new CollectionOrderedConstraint());
-        }
-        
-        /// <summary>
-        /// Returns a constraint that tests whether a collection is ordered
-        /// </summary>
-        public CollectionOrderedConstraint Ordered(IComparer comparer)
-        {
-            return (CollectionOrderedConstraint)this.Append(new CollectionOrderedConstraint(comparer));
-        }
-        
-        /// <summary>
-        /// Returns a constraint that tests whether a collection is ordered
-        /// </summary>
-        public CollectionOrderedConstraint OrderedBy(string propertyName)
-        {
-            return (CollectionOrderedConstraint)this.Append(new CollectionOrderedConstraint(propertyName));
-        }
-        
-        /// <summary>
-        /// Returns a constraint that tests whether a collection is ordered
-        /// </summary>
-        public CollectionOrderedConstraint OrderedBy(string propertyName, IComparer comparer)
-        {
-            return (CollectionOrderedConstraint)this.Append(new CollectionOrderedConstraint(propertyName, comparer));
+            get { return (CollectionOrderedConstraint)this.Append(new CollectionOrderedConstraint()); }
         }
         
         #endregion

@@ -34,17 +34,40 @@ namespace NUnit.Framework.Constraints.Tests
         public void AllItemsAreInRange()
         {
             int[] c = new int[] { 12, 27, 19, 32, 45, 99, 26 };
-            Assert.That(c, new AllItemsConstraint(new GreaterThanConstraint(10) & new LessThanConstraint(100)));
+            Assert.That(c, new AllItemsConstraint(new RangeConstraint(10, 100)));
         }
 
-        [Test, ExpectedException(typeof(AssertionException))]
+        [Test]
+        public void AllItemsAreInRange_UsingIComparer()
+        {
+            int[] c = new int[] { 12, 27, 19, 32, 45, 99, 26 };
+            Assert.That(c, new AllItemsConstraint(new RangeConstraint(10, 100).Using(Comparer.Default)));
+        }
+
+#if NET_2_0
+        [Test]
+        public void AllItemsAreInRange_UsingIComparerOfT()
+        {
+            int[] c = new int[] { 12, 27, 19, 32, 45, 99, 26 };
+            Assert.That(c, new AllItemsConstraint(new RangeConstraint(10, 100).Using(Comparer.Default)));
+        }
+
+        [Test]
+        public void AllItemsAreInRange_UsingComparisonOfT()
+        {
+            int[] c = new int[] { 12, 27, 19, 32, 45, 99, 26 };
+            Assert.That(c, new AllItemsConstraint(new RangeConstraint(10, 100).Using(Comparer.Default)));
+        }
+#endif
+
+		[Test, ExpectedException(typeof(AssertionException))]
         public void AllItemsAreInRangeFailureMessage()
         {
             int[] c = new int[] { 12, 27, 19, 32, 107, 99, 26 };
             expectedMessage = 
-                TextMessageWriter.Pfx_Expected + "all items greater than 10 and less than 100" + Environment.NewLine +
+                TextMessageWriter.Pfx_Expected + "all items in range (10,100)" + Environment.NewLine +
                 TextMessageWriter.Pfx_Actual   + "< 12, 27, 19, 32, 107, 99, 26 >" + Environment.NewLine;
-            Assert.That(c, new AllItemsConstraint(new GreaterThanConstraint(10) & new LessThanConstraint(100)));
+            Assert.That(c, new AllItemsConstraint(new RangeConstraint(10, 100)));
         }
 
         [Test]
@@ -115,7 +138,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add("y");
             al.Add("z");
 
-            Assert.That(al, Is.Ordered());
+            Assert.That(al, Is.Ordered);
         }
 
         [Test]
@@ -126,7 +149,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(2);
             al.Add(3);
 
-            Assert.That(al, Is.Ordered());
+            Assert.That(al, Is.Ordered);
         }
 
         [Test]
@@ -137,7 +160,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add("y");
             al.Add("x");
 
-            Assert.That(al, Is.Ordered().Descending);
+            Assert.That(al, Is.Ordered.Descending);
         }
 
         [Test]
@@ -148,7 +171,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(2);
             al.Add(1);
 
-            Assert.That(al, Is.Ordered().Descending);
+            Assert.That(al, Is.Ordered.Descending);
         }
 
         [Test, ExpectedException(typeof(AssertionException))]
@@ -163,7 +186,7 @@ namespace NUnit.Framework.Constraints.Tests
                 "  Expected: collection ordered" + Environment.NewLine +
                 "  But was:  < \"x\", \"z\", \"y\" >" + Environment.NewLine;
 
-            Assert.That(al, Is.Ordered());
+            Assert.That(al, Is.Ordered);
         }
 
         [Test]
@@ -174,7 +197,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add("x");
             al.Add("z");
 
-            Assert.That(al, Is.Ordered());
+            Assert.That(al, Is.Ordered);
         }
 
         [Test, ExpectedException(typeof(ArgumentNullException), 
@@ -186,7 +209,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(null);
             al.Add("z");
 
-            Assert.That(al, Is.Ordered());
+            Assert.That(al, Is.Ordered);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -196,7 +219,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(1);
             al.Add("x");
 
-            Assert.That(al, Is.Ordered());
+            Assert.That(al, Is.Ordered);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -206,7 +229,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(new object());
             al.Add(new object());
 
-            Assert.That(al, Is.Ordered());
+            Assert.That(al, Is.Ordered);
         }
 
         [Test]
@@ -216,7 +239,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(new object());
             al.Add(new object());
 
-            Assert.That(al, Is.Ordered(new AlwaysEqualComparer()));
+            Assert.That(al, Is.Ordered.Using(new AlwaysEqualComparer()));
         }
 
         [Test]
@@ -226,7 +249,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(2);
             al.Add(1);
 
-            Assert.That(al, Is.Ordered(new TestComparer()));
+            Assert.That(al, Is.Ordered.Using(new TestComparer()));
         }
 
         [Test]
@@ -236,7 +259,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(new OrderedByTestClass(1));
             al.Add(new OrderedByTestClass(2));
 
-            Assert.That(al, Is.OrderedBy("Value"));
+            Assert.That(al, Is.Ordered.By("Value"));
         }
 
         [Test]
@@ -246,7 +269,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(new OrderedByTestClass(1));
             al.Add(new OrderedByTestClass(2));
 
-            Assert.That(al, Is.OrderedBy("Value", Comparer.Default));
+            Assert.That(al, Is.Ordered.By("Value").Using(Comparer.Default));
         }
 
         [Test]
@@ -256,7 +279,7 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(new OrderedByTestClass(1));
             al.Add(new OrderedByTestClass2(2));
 
-            Assert.That(al, Is.OrderedBy("Value"));
+            Assert.That(al, Is.Ordered.By("Value"));
         }
 
         class OrderedByTestClass

@@ -392,33 +392,9 @@ namespace NUnit.Framework
         /// <summary>
         /// Returns a constraint that tests whether a collection is ordered
         /// </summary>
-        public static CollectionOrderedConstraint Ordered()
+        public static CollectionOrderedConstraint Ordered
         {
-            return new CollectionOrderedConstraint();
-        }
-        
-        /// <summary>
-        /// Returns a constraint that tests whether a collection is ordered
-        /// </summary>
-        public static CollectionOrderedConstraint Ordered(IComparer comparer)
-        {
-            return new CollectionOrderedConstraint(comparer);
-        }
-        
-        /// <summary>
-        /// Returns a constraint that tests whether a collection is ordered
-        /// </summary>
-        public static CollectionOrderedConstraint OrderedBy(string propertyName)
-        {
-            return new CollectionOrderedConstraint(propertyName);
-        }
-        
-        /// <summary>
-        /// Returns a constraint that tests whether a collection is ordered
-        /// </summary>
-        public static CollectionOrderedConstraint OrderedBy(string propertyName, IComparer comparer)
-        {
-            return new CollectionOrderedConstraint(propertyName, comparer);
+            get { return new CollectionOrderedConstraint(); }
         }
         
         #endregion

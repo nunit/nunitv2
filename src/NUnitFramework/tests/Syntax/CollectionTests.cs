@@ -24,9 +24,9 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<ordered System.Collections.Comparer>";
-            staticSyntax = Is.Ordered();
-            inheritedSyntax = Helper().Ordered();
-            builderSyntax = Builder().Ordered();
+            staticSyntax = Is.Ordered;
+            inheritedSyntax = Helper().Ordered;
+            builderSyntax = Builder().Ordered;
         }
     }
 
@@ -36,9 +36,9 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<ordered System.Collections.Comparer>";
-            staticSyntax = Is.Ordered().Descending;
-            inheritedSyntax = Helper().Ordered().Descending;
-            builderSyntax = Builder().Ordered().Descending;
+            staticSyntax = Is.Ordered.Descending;
+            inheritedSyntax = Helper().Ordered.Descending;
+            builderSyntax = Builder().Ordered.Descending;
         }
     }
 
@@ -49,9 +49,9 @@ namespace NUnit.Framework.Syntax
         {
             IComparer comparer = Comparer.Default;
             parseTree = "<ordered System.Collections.Comparer>";
-            staticSyntax = Is.Ordered(comparer);
-            inheritedSyntax = Helper().Ordered(comparer);
-            builderSyntax = Builder().Ordered(comparer);
+            staticSyntax = Is.Ordered.Using(comparer);
+            inheritedSyntax = Helper().Ordered.Using(comparer);
+            builderSyntax = Builder().Ordered.Using(comparer);
         }
     }
 
@@ -62,9 +62,9 @@ namespace NUnit.Framework.Syntax
         {
             IComparer comparer = Comparer.Default;
             parseTree = "<ordered System.Collections.Comparer>";
-            staticSyntax = Is.Ordered(comparer).Descending;
-            inheritedSyntax = Helper().Ordered(comparer).Descending;
-            builderSyntax = Builder().Ordered(comparer).Descending;
+            staticSyntax = Is.Ordered.Using(comparer).Descending;
+            inheritedSyntax = Helper().Ordered.Using(comparer).Descending;
+            builderSyntax = Builder().Ordered.Using(comparer).Descending;
         }
     }
 
@@ -74,9 +74,9 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
-            staticSyntax = Is.OrderedBy("SomePropertyName");
-            inheritedSyntax = Helper().OrderedBy("SomePropertyName");
-            builderSyntax = Builder().OrderedBy("SomePropertyName");
+            staticSyntax = Is.Ordered.By("SomePropertyName");
+            inheritedSyntax = Helper().Ordered.By("SomePropertyName");
+            builderSyntax = Builder().Ordered.By("SomePropertyName");
         }
     }
 
@@ -86,9 +86,9 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
-            staticSyntax = Is.OrderedBy("SomePropertyName").Descending;
-            inheritedSyntax = Helper().OrderedBy("SomePropertyName").Descending;
-            builderSyntax = Builder().OrderedBy("SomePropertyName").Descending;
+            staticSyntax = Is.Ordered.By("SomePropertyName").Descending;
+            inheritedSyntax = Helper().Ordered.By("SomePropertyName").Descending;
+            builderSyntax = Builder().Ordered.By("SomePropertyName").Descending;
         }
     }
 
@@ -98,9 +98,9 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
-            staticSyntax = Is.OrderedBy("SomePropertyName", Comparer.Default);
-            inheritedSyntax = Helper().OrderedBy("SomePropertyName", Comparer.Default);
-            builderSyntax = Builder().OrderedBy("SomePropertyName", Comparer.Default);
+            staticSyntax = Is.Ordered.By("SomePropertyName").Using(Comparer.Default);
+            inheritedSyntax = Helper().Ordered.By("SomePropertyName").Using(Comparer.Default);
+            builderSyntax = Builder().Ordered.By("SomePropertyName").Using(Comparer.Default);
         }
     }
 
@@ -110,9 +110,9 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
-            staticSyntax = Is.OrderedBy("SomePropertyName", Comparer.Default).Descending;
-            inheritedSyntax = Helper().OrderedBy("SomePropertyName", Comparer.Default).Descending;
-            builderSyntax = Builder().OrderedBy("SomePropertyName", Comparer.Default).Descending;
+            staticSyntax = Is.Ordered.By("SomePropertyName").Using(Comparer.Default).Descending;
+            inheritedSyntax = Helper().Ordered.By("SomePropertyName").Using(Comparer.Default).Descending;
+            builderSyntax = Builder().Ordered.By("SomePropertyName").Using(Comparer.Default).Descending;
         }
     }
 

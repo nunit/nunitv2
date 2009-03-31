@@ -333,10 +333,7 @@ Gen3: Is.SubsetOf(IEnumerable expected)=>new CollectionSubsetConstraint(expected
 /// <summary>
 /// Returns a constraint that tests whether a collection is ordered
 /// </summary>
-Gen3: Is.Ordered()=>new CollectionOrderedConstraint()
-Gen3: Is.Ordered(IComparer comparer)=>new CollectionOrderedConstraint(comparer)
-Gen3: Is.OrderedBy(string propertyName)=>new CollectionOrderedConstraint(propertyName)
-Gen3: Is.OrderedBy(string propertyName, IComparer comparer)=>new CollectionOrderedConstraint(propertyName, comparer)
+Gen3: Is.Ordered=>new CollectionOrderedConstraint()
 %
 /// <summary>
 /// Returns a new CollectionContainsConstraint checking for the
@@ -437,6 +434,12 @@ Gen3: Is.SamePathOrUnder(string expected)=>new SamePathOrUnderConstraint(expecte
 /// within a specified range.
 /// </summary>
 Gen3: Is.InRange(IComparable from, IComparable to)=>new RangeConstraint(from, to)
+%
+/// <summary>
+/// Returns a constraint that tests whether the actual value falls 
+/// within a specified range.
+/// </summary>
+#Gen3: Is.InRange<T>(T from, T to) where T : IComparable=>new RangeConstraint<T>(from, to)
 %
 #
 # Asserts

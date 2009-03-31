@@ -628,7 +628,7 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         public static void IsOrdered(IEnumerable collection, IComparer comparer, string message, params object[] args)
         {
-            Assert.That(collection, new CollectionOrderedConstraint(comparer), message, args);
+            Assert.That(collection, new CollectionOrderedConstraint().Using(comparer), message, args);
         }
 
         /// <summary>
