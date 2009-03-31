@@ -5,6 +5,10 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Constraints
 {
@@ -12,6 +16,8 @@ namespace NUnit.Framework.Constraints
     {
         private IComparable from;
         private IComparable to;
+
+        private ComparisonAdapter comparer = new ComparisonAdapter();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RangeConstraint"/> class.
@@ -33,8 +39,11 @@ namespace NUnit.Framework.Constraints
         {
             this.actual = actual;
 
-            return Numerics.Compare(from, actual) <= 0 &&
-                   Numerics.Compare(to, actual) >= 0;
+            if ( from == null || to == null || actual == null)
+                throw new ArgumentException( "Cannot compare using a null reference", "expected" );
+
+            return comparer.Compare(from, actual) <= 0 &&
+                   comparer.Compare(to, actual) >= 0;
         }
 
         /// <summary>
@@ -46,5 +55,25 @@ namespace NUnit.Framework.Constraints
 
             writer.Write("in range ({0},{1})", from, to);
         }
+
+        public RangeConstraint Using(IComparer comparer)
+        {
+            this.comparer = new ComparisonAdapter(comparer);
+            return this;
+        }
+
+#if NET_2_0
+        public RangeConstraint Using<T>(IComparer<T> comparer)
+        {
+            this.comparer = new ComparisonAdapter<T>(comparer);
+            return this;
+        }
+
+        public RangeConstraint Using<T>(Comparison<T> comparer)
+        {
+            this.comparer = new ComparisonAdapter<T>(comparer);
+            return this;
+        }
+#endif
     }
 }
