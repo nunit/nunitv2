@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Reflection;
+using System.Text;
 #if NET_2_0
 using System.Collections.Generic;
 #endif
@@ -387,12 +388,10 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class CollectionOrderedConstraint : CollectionConstraint
     {
-        private IComparer comparer;
+        private ComparisonAdapter comparer = new ComparisonAdapter();
+        private string comparerName;
         private string propertyName;
         private bool descending;
-#if NET_2_0
-        private object genericComparer;
-#endif
 
         /// <summary>
         /// Construct a CollectionOrderedConstraint
@@ -400,7 +399,6 @@ namespace NUnit.Framework.Constraints
         public CollectionOrderedConstraint() 
         {
             this.DisplayName = "ordered";
-			this.comparer = Comparer.Default;
         }
 
         ///<summary>
@@ -417,14 +415,23 @@ namespace NUnit.Framework.Constraints
 
         public CollectionOrderedConstraint Using(IComparer comparer)
         {
-            this.comparer = comparer;
+            this.comparer = new ComparisonAdapter( comparer );
+            this.comparerName = comparer.GetType().FullName;
             return this;
         }
 
 #if NET_2_0
         public CollectionOrderedConstraint Using<T>(IComparer<T> comparer)
         {
-            this.genericComparer = comparer;
+            this.comparer = new ComparisonAdapter<T>(comparer);
+            this.comparerName = comparer.GetType().FullName;
+            return this;
+        }
+
+        public CollectionOrderedConstraint Using<T>(Comparison<T> comparer)
+        {
+            this.comparer = new ComparisonAdapter<T>(comparer);
+            this.comparerName = comparer.GetType().FullName;
             return this;
         }
 #endif
@@ -500,9 +507,18 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public override string ToString()
         {
-            return propertyName == null
-                ? string.Format("<ordered {0}>", this.comparer.GetType().FullName)
-                : string.Format("<ordered {0} {1}>", this.comparer.GetType().FullName, propertyName);
+            StringBuilder sb = new StringBuilder("<ordered");
+
+            if (propertyName != null)
+                sb.AppendFormat("by {0}", propertyName);
+            if (descending)
+                sb.AppendFormat(" descending");
+            if (comparerName != null)
+                sb.AppendFormat(" {0}", comparerName);
+
+            sb.Append(">");
+
+            return sb.ToString();
         }
     }
     #endregion

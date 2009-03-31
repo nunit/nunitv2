@@ -6,6 +6,9 @@
 
 using System;
 using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 using NUnit.Framework.Tests;
 
 namespace NUnit.Framework.Constraints.Tests
@@ -239,7 +242,9 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(new object());
             al.Add(new object());
 
-            Assert.That(al, Is.Ordered.Using(new AlwaysEqualComparer()));
+            AlwaysEqualComparer comparer = new AlwaysEqualComparer();
+            Assert.That(al, Is.Ordered.Using(comparer));
+            Assert.That(comparer.Called, "TestComparer was not called");
         }
 
         [Test]
@@ -249,8 +254,71 @@ namespace NUnit.Framework.Constraints.Tests
             al.Add(2);
             al.Add(1);
 
-            Assert.That(al, Is.Ordered.Using(new TestComparer()));
+            TestComparer comparer = new TestComparer();
+            Assert.That(al, Is.Ordered.Using(comparer));
+            Assert.That(comparer.Called, "TestComparer was not called");
         }
+
+#if NET_2_0
+        [Test]
+        public void UsesProvidedComparerOfT()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(1);
+            al.Add(2);
+
+            MyComparer<int> comparer = new MyComparer<int>();
+            Assert.That(al, Is.Ordered.Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyComparer<T> : IComparer<T>
+        {
+            public bool Called;
+
+            public int Compare(T x, T y)
+            {
+                Called = true;
+                return Comparer<T>.Default.Compare(x, y);
+            }
+        }
+
+        [Test]
+        public void UsesProvidedComparisonOfT()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(1);
+            al.Add(2);
+
+            MyComparison<int> comparer = new MyComparison<int>();
+            Assert.That(al, Is.Ordered.Using(new Comparison<int>(comparer.Compare)));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyComparison<T>
+        {
+            public bool Called;
+
+            public int Compare(T x, T y)
+            {
+                Called = true;
+                return Comparer<T>.Default.Compare(x, y);
+            }
+        }
+
+#if CSHARP_3_0
+        [Test]
+        public void UsesProvidedLambda()
+        {
+            ArrayList al = new ArrayList();
+            al.Add(1);
+            al.Add(2);
+
+            Comparison<int> comparer = (x, y) => x.CompareTo(y);
+            Assert.That(al, Is.Ordered.Using(comparer));
+        }
+#endif
+#endif
 
         [Test]
         public void IsOrderedBy()

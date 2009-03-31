@@ -23,7 +23,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<ordered System.Collections.Comparer>";
+            parseTree = "<ordered>";
             staticSyntax = Is.Ordered;
             inheritedSyntax = Helper().Ordered;
             builderSyntax = Builder().Ordered;
@@ -35,7 +35,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<ordered System.Collections.Comparer>";
+            parseTree = "<ordered descending>";
             staticSyntax = Is.Ordered.Descending;
             inheritedSyntax = Helper().Ordered.Descending;
             builderSyntax = Builder().Ordered.Descending;
@@ -61,7 +61,7 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             IComparer comparer = Comparer.Default;
-            parseTree = "<ordered System.Collections.Comparer>";
+            parseTree = "<ordered descending System.Collections.Comparer>";
             staticSyntax = Is.Ordered.Using(comparer).Descending;
             inheritedSyntax = Helper().Ordered.Using(comparer).Descending;
             builderSyntax = Builder().Ordered.Using(comparer).Descending;
@@ -73,7 +73,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
+            parseTree = "<orderedby SomePropertyName>";
             staticSyntax = Is.Ordered.By("SomePropertyName");
             inheritedSyntax = Helper().Ordered.By("SomePropertyName");
             builderSyntax = Builder().Ordered.By("SomePropertyName");
@@ -85,7 +85,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
+            parseTree = "<orderedby SomePropertyName descending>";
             staticSyntax = Is.Ordered.By("SomePropertyName").Descending;
             inheritedSyntax = Helper().Ordered.By("SomePropertyName").Descending;
             builderSyntax = Builder().Ordered.By("SomePropertyName").Descending;
@@ -97,7 +97,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
+            parseTree = "<orderedby SomePropertyName System.Collections.Comparer>";
             staticSyntax = Is.Ordered.By("SomePropertyName").Using(Comparer.Default);
             inheritedSyntax = Helper().Ordered.By("SomePropertyName").Using(Comparer.Default);
             builderSyntax = Builder().Ordered.By("SomePropertyName").Using(Comparer.Default);
@@ -109,7 +109,7 @@ namespace NUnit.Framework.Syntax
         [SetUp]
         public void SetUp()
         {
-            parseTree = "<ordered System.Collections.Comparer SomePropertyName>";
+            parseTree = "<orderedby SomePropertyName descending System.Collections.Comparer>";
             staticSyntax = Is.Ordered.By("SomePropertyName").Using(Comparer.Default).Descending;
             inheritedSyntax = Helper().Ordered.By("SomePropertyName").Using(Comparer.Default).Descending;
             builderSyntax = Builder().Ordered.By("SomePropertyName").Using(Comparer.Default).Descending;
