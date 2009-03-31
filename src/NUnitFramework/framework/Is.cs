@@ -399,6 +399,19 @@ namespace NUnit.Framework
         
         #endregion
         
+        #region OrderedBy
+        
+        /// <summary>
+        /// Returns a constraint that tests whether a collection is ordered
+        /// by a particular property.
+        /// </summary>
+        public static CollectionOrderedConstraint OrderedBy(string propertyName)
+        {
+            return new CollectionOrderedConstraint().By(propertyName);
+        }
+        
+        #endregion
+        
         #region SamePath
         
         /// <summary>
