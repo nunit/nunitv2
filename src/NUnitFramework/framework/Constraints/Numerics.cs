@@ -332,36 +332,28 @@ namespace NUnit.Framework.Constraints
         /// <param name="expected">The expected value</param>
         /// <param name="actual">The actual value</param>
         /// <returns>The relationship of the values to each other</returns>
-		public static int Compare( IComparable expected, object actual )
+		public static int Compare( object expected, object actual )
 		{
-            //if ( expected == null )
-            //    throw new ArgumentException( "Cannot compare using a null reference", "expected" );
+			if( !IsNumericType( expected ) || !IsNumericType( actual ) )
+				throw new ArgumentException( "Both arguments must be numeric");
 
-            //if ( actual == null )
-            //    throw new ArgumentException( "Cannot compare to null reference", "actual" );
+			if ( IsFloatingPointNumeric(expected) || IsFloatingPointNumeric(actual) )
+				return Convert.ToDouble(expected).CompareTo(Convert.ToDouble(actual));
 
-			if( IsNumericType( expected ) && IsNumericType( actual ) )
-			{
-				if ( IsFloatingPointNumeric(expected) || IsFloatingPointNumeric(actual) )
-					return Convert.ToDouble(expected).CompareTo(Convert.ToDouble(actual));
-
-				if ( expected is decimal || actual is decimal )
-					return Convert.ToDecimal(expected).CompareTo(Convert.ToDecimal(actual));
-			
-				if ( expected is ulong || actual is ulong )
-					return Convert.ToUInt64(expected).CompareTo(Convert.ToUInt64(actual));
+			if ( expected is decimal || actual is decimal )
+				return Convert.ToDecimal(expected).CompareTo(Convert.ToDecimal(actual));
 		
-				if ( expected is long || actual is long )
-					return Convert.ToInt64(expected).CompareTo(Convert.ToInt64(actual));
-			
-				if ( expected is uint || actual is uint )
-					return Convert.ToUInt32(expected).CompareTo(Convert.ToUInt32(actual));
+			if ( expected is ulong || actual is ulong )
+				return Convert.ToUInt64(expected).CompareTo(Convert.ToUInt64(actual));
+	
+			if ( expected is long || actual is long )
+				return Convert.ToInt64(expected).CompareTo(Convert.ToInt64(actual));
+		
+			if ( expected is uint || actual is uint )
+				return Convert.ToUInt32(expected).CompareTo(Convert.ToUInt32(actual));
 
-				return Convert.ToInt32(expected).CompareTo(Convert.ToInt32(actual));
-			}
-			else
-				return expected.CompareTo(actual);
-		}
+			return Convert.ToInt32(expected).CompareTo(Convert.ToInt32(actual));
+        }
 		#endregion
 
 		private Numerics()

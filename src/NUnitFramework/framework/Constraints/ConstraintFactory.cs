@@ -291,7 +291,7 @@ namespace NUnit.Framework.Constraints
         /// Returns a constraint that tests whether the
         /// actual value is greater than the suppled argument
         /// </summary>
-        public GreaterThanConstraint GreaterThan(IComparable expected)
+        public GreaterThanConstraint GreaterThan(object expected)
         {
             return new GreaterThanConstraint(expected);
         }
@@ -304,7 +304,7 @@ namespace NUnit.Framework.Constraints
         /// Returns a constraint that tests whether the
         /// actual value is greater than the suppled argument
         /// </summary>
-        public GreaterThanOrEqualConstraint GreaterThanOrEqualTo(IComparable expected)
+        public GreaterThanOrEqualConstraint GreaterThanOrEqualTo(object expected)
         {
             return new GreaterThanOrEqualConstraint(expected);
         }
@@ -313,7 +313,7 @@ namespace NUnit.Framework.Constraints
         /// Returns a constraint that tests whether the
         /// actual value is greater than the suppled argument
         /// </summary>
-        public GreaterThanOrEqualConstraint AtLeast(IComparable expected)
+        public GreaterThanOrEqualConstraint AtLeast(object expected)
         {
             return new GreaterThanOrEqualConstraint(expected);
         }
@@ -326,7 +326,7 @@ namespace NUnit.Framework.Constraints
         /// Returns a constraint that tests whether the
         /// actual value is greater than the suppled argument
         /// </summary>
-        public LessThanConstraint LessThan(IComparable expected)
+        public LessThanConstraint LessThan(object expected)
         {
             return new LessThanConstraint(expected);
         }
@@ -339,7 +339,7 @@ namespace NUnit.Framework.Constraints
         /// Returns a constraint that tests whether the
         /// actual value is greater than the suppled argument
         /// </summary>
-        public LessThanOrEqualConstraint LessThanOrEqualTo(IComparable expected)
+        public LessThanOrEqualConstraint LessThanOrEqualTo(object expected)
         {
             return new LessThanOrEqualConstraint(expected);
         }
@@ -348,7 +348,7 @@ namespace NUnit.Framework.Constraints
         /// Returns a constraint that tests whether the
         /// actual value is greater than the suppled argument
         /// </summary>
-        public LessThanOrEqualConstraint AtMost(IComparable expected)
+        public LessThanOrEqualConstraint AtMost(object expected)
         {
             return new LessThanOrEqualConstraint(expected);
         }

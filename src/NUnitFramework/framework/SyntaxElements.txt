@@ -265,27 +265,27 @@ Gen3: Is.SameAs(object expected)=>new SameAsConstraint(expected)
 /// Returns a constraint that tests whether the
 /// actual value is greater than the suppled argument
 /// </summary>
-Gen3: Is.GreaterThan(IComparable expected)=>new GreaterThanConstraint(expected)
+Gen3: Is.GreaterThan(object expected)=>new GreaterThanConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that tests whether the
 /// actual value is greater than the suppled argument
 /// </summary>
-Gen3: Is.GreaterThanOrEqualTo(IComparable expected)=>new GreaterThanOrEqualConstraint(expected)
-Gen3: Is.AtLeast(IComparable expected)=>new GreaterThanOrEqualConstraint(expected)
+Gen3: Is.GreaterThanOrEqualTo(object expected)=>new GreaterThanOrEqualConstraint(expected)
+Gen3: Is.AtLeast(object expected)=>new GreaterThanOrEqualConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that tests whether the
 /// actual value is greater than the suppled argument
 /// </summary>
-Gen3: Is.LessThan(IComparable expected)=>new LessThanConstraint(expected)
+Gen3: Is.LessThan(object expected)=>new LessThanConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that tests whether the
 /// actual value is greater than the suppled argument
 /// </summary>
-Gen3: Is.LessThanOrEqualTo(IComparable expected)=>new LessThanOrEqualConstraint(expected)
-Gen3: Is.AtMost(IComparable expected)=>new LessThanOrEqualConstraint(expected)
+Gen3: Is.LessThanOrEqualTo(object expected)=>new LessThanOrEqualConstraint(expected)
+Gen3: Is.AtMost(object expected)=>new LessThanOrEqualConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that tests whether the actual

@@ -22,7 +22,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// The value against which a comparison is to be made
         /// </summary>
-        protected IComparable expected;
+        protected object expected;
         /// <summary>
         /// If true, less than returns success
         /// </summary>
@@ -53,7 +53,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="eqOK">if set to <c>true</c> equal succeeds.</param>
         /// <param name="gtOK">if set to <c>true</c> greater succeeds.</param>
         /// <param name="predicate">String used in describing the constraint.</param>
-        public ComparisonConstraint(IComparable value, bool ltOK, bool eqOK, bool gtOK, string predicate)
+        public ComparisonConstraint(object value, bool ltOK, bool eqOK, bool gtOK, string predicate)
             : base(value)
         {
             this.expected = value;
@@ -123,7 +123,7 @@ namespace NUnit.Framework.Constraints
         /// Initializes a new instance of the <see cref="T:GreaterThanConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected value.</param>
-        public GreaterThanConstraint(IComparable expected) : base(expected, false, false, true, "greater than") { }
+        public GreaterThanConstraint(object expected) : base(expected, false, false, true, "greater than") { }
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ namespace NUnit.Framework.Constraints
         /// Initializes a new instance of the <see cref="T:GreaterThanOrEqualConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected value.</param>
-        public GreaterThanOrEqualConstraint(IComparable expected) : base(expected, false, true, true, "greater than or equal to") { }
+        public GreaterThanOrEqualConstraint(object expected) : base(expected, false, true, true, "greater than or equal to") { }
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ namespace NUnit.Framework.Constraints
         /// Initializes a new instance of the <see cref="T:LessThanConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected value.</param>
-        public LessThanConstraint(IComparable expected) : base(expected, true, false, false, "less than") { }
+        public LessThanConstraint(object expected) : base(expected, true, false, false, "less than") { }
     }
 
     /// <summary>
@@ -159,6 +159,6 @@ namespace NUnit.Framework.Constraints
         /// Initializes a new instance of the <see cref="T:LessThanOrEqualConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected value.</param>
-        public LessThanOrEqualConstraint(IComparable expected) : base(expected, true, true, false, "less than or equal to") { }
+        public LessThanOrEqualConstraint(object expected) : base(expected, true, true, false, "less than or equal to") { }
     }
 }

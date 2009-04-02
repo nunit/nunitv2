@@ -46,12 +46,20 @@ namespace NUnit.Framework.Constraints
             if (comparer != null)
                 return comparer.Compare(expected, actual);
 
-            if (expected is IComparable)
-                return Numerics.Compare((IComparable)expected, actual);
-            else if (actual is IComparable)
-                return -Numerics.Compare((IComparable)actual, expected);
+            if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
+                return Numerics.Compare(expected, actual);
 
-            throw new ArgumentException("At least one object must implement IComparable to compare");
+            if (expected is IComparable)
+                return ((IComparable)expected).CompareTo(actual);
+
+            if (actual is IComparable)
+                return -((IComparable)actual).CompareTo(expected);
+
+            MethodInfo method = expected.GetType().GetMethod("CompareTo", new Type[] { actual.GetType() });
+            if (method != null)
+                return (int)method.Invoke(expected, new object[] { actual });
+
+            throw new ArgumentException("Expected value must implement IComparable or IComparable<T>");
         }
     }
 

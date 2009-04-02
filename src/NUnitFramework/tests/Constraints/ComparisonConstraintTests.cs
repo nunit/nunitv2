@@ -106,6 +106,24 @@ namespace NUnit.Framework.Constraints.Tests
         string[] ActualValues = new string[] { "4", "5" };
 
         object[] InvalidData = new object[] { null, "xxx" };
+
+        [Test]
+        public void CanCompareIComparables()
+        {
+            ClassWithIComparable expected = new ClassWithIComparable(0);
+            ClassWithIComparable actual = new ClassWithIComparable(42);
+            Assert.That(actual, Is.GreaterThan(expected));
+        }
+
+#if NET_2_0
+        [Test]
+        public void CanCompareIComparablesOfT()
+        {
+            ClassWithIComparableOfT expected = new ClassWithIComparableOfT(0);
+            ClassWithIComparableOfT actual = new ClassWithIComparableOfT(42);
+            Assert.That(actual, Is.GreaterThan(expected));
+        }
+#endif
     }
     #endregion
 
@@ -128,6 +146,24 @@ namespace NUnit.Framework.Constraints.Tests
         string[] ActualValues = new string[] { "4" };
 
         object[] InvalidData = new object[] { null, "xxx" };
+
+        [Test]
+        public void CanCompareIComparables()
+        {
+            ClassWithIComparable expected = new ClassWithIComparable(0);
+            ClassWithIComparable actual = new ClassWithIComparable(42);
+            Assert.That(actual, Is.GreaterThanOrEqualTo(expected));
+        }
+
+#if NET_2_0
+        [Test]
+        public void CanCompareIComparablesOfT()
+        {
+            ClassWithIComparableOfT expected = new ClassWithIComparableOfT(0);
+            ClassWithIComparableOfT actual = new ClassWithIComparableOfT(42);
+            Assert.That(actual, Is.GreaterThanOrEqualTo(expected));
+        }
+#endif
     }
     #endregion
 
@@ -150,6 +186,24 @@ namespace NUnit.Framework.Constraints.Tests
         string[] ActualValues = new string[] { "6", "5" };
 
         object[] InvalidData = new object[] { null, "xxx" };
+
+        [Test]
+        public void CanCompareIComparables()
+        {
+            ClassWithIComparable expected = new ClassWithIComparable(42);
+            ClassWithIComparable actual = new ClassWithIComparable(0);
+            Assert.That(actual, Is.LessThan(expected));
+        }
+
+#if NET_2_0
+        [Test]
+        public void CanCompareIComparablesOfT()
+        {
+            ClassWithIComparableOfT expected = new ClassWithIComparableOfT(42);
+            ClassWithIComparableOfT actual = new ClassWithIComparableOfT(0);
+            Assert.That(actual, Is.LessThan(expected));
+        }
+#endif
     }
     #endregion
 
@@ -172,6 +226,24 @@ namespace NUnit.Framework.Constraints.Tests
         string[] ActualValues = new string[] { "6" };
 
         object[] InvalidData = new object[] { null, "xxx" };
+
+        [Test]
+        public void CanCompareIComparables()
+        {
+            ClassWithIComparable expected = new ClassWithIComparable(42);
+            ClassWithIComparable actual = new ClassWithIComparable(0);
+            Assert.That(actual, Is.LessThanOrEqualTo(expected));
+        }
+
+#if NET_2_0
+        [Test]
+        public void CanCompareIComparablesOfT()
+        {
+            ClassWithIComparableOfT expected = new ClassWithIComparableOfT(42);
+            ClassWithIComparableOfT actual = new ClassWithIComparableOfT(0);
+            Assert.That(actual, Is.LessThanOrEqualTo(expected));
+        }
+#endif
     }
     #endregion
 
@@ -265,5 +337,43 @@ namespace NUnit.Framework.Constraints.Tests
 #endif
 #endif
     }
+    #endregion
+
+    #region Test Classes
+    class ClassWithIComparable : IComparable
+    {
+        private int val;
+
+        public ClassWithIComparable(int val)
+        {
+            this.val = val;
+        }
+
+        public int CompareTo(object x)
+        {
+            ClassWithIComparable other = x as ClassWithIComparable;
+            if (x is ClassWithIComparable)
+                return val.CompareTo(other.val);
+
+            throw new ArgumentException();
+        }
+    }
+
+#if NET_2_0
+    class ClassWithIComparableOfT : IComparable<ClassWithIComparableOfT>
+    {
+        private int val;
+
+        public ClassWithIComparableOfT(int val)
+        {
+            this.val = val;
+        }
+
+        public int CompareTo(ClassWithIComparableOfT other)
+        {
+            return val.CompareTo(other.val);
+        }
+    }
+#endif
     #endregion
 }
