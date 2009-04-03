@@ -73,8 +73,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uiexception.dll", "Gu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uiexception.tests", "GuiException\tests\nunit.uiexception.tests.csproj", "{092486D0-6AB9-4134-932F-0FDA10704455}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uiexception.demo", "GuiException\demo\nunit.uiexception.demo.csproj", "{BEDC4A95-45C3-40D5-A61A-41BC99348129}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -213,10 +211,6 @@ Global
 		{092486D0-6AB9-4134-932F-0FDA10704455}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{092486D0-6AB9-4134-932F-0FDA10704455}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{092486D0-6AB9-4134-932F-0FDA10704455}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BEDC4A95-45C3-40D5-A61A-41BC99348129}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEDC4A95-45C3-40D5-A61A-41BC99348129}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEDC4A95-45C3-40D5-A61A-41BC99348129}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEDC4A95-45C3-40D5-A61A-41BC99348129}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
