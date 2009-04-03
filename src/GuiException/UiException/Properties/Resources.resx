@@ -119,24 +119,24 @@
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ImageCopyToClipboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\solutions\vs2008\GuiException\UIException\Resources\ImageCopyToClipboard.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\src\GuiException\UIException\Resources\ImageCopyToClipboard.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImageErrorBrowserHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\solutions\vs2008\GuiException\UIException\Resources\ImageErrorBrowserHeader.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\src\GuiException\UIException\Resources\ImageErrorBrowserHeader.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImageErrorList" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\solutions\vs2008\GuiException\UIException\Resources\ImageErrorList.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\src\GuiException\UIException\Resources\ImageErrorList.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImageReverseItemOrder" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\solutions\vs2008\GuiException\UIException\Resources\ImageReverseItemOrder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\src\GuiException\UIException\Resources\ImageReverseItemOrder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImageSourceCodeDisplay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\solutions\vs2008\GuiException\UIException\Resources\ImageSourceCodeDisplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\src\GuiException\UIException\Resources\ImageSourceCodeDisplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImageSplitterBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\solutions\vs2008\GuiException\UIException\Resources\ImageSplitterBox.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\src\GuiException\UIException\Resources\ImageSplitterBox.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ImageStackTraceDisplay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\..\..\solutions\vs2008\GuiException\UIException\Resources\ImageStackTraceDisplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\..\src\GuiException\UIException\Resources\ImageStackTraceDisplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
