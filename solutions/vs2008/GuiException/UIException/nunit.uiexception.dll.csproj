@@ -200,25 +200,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ImageCopyToClipboard.png" />
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\ImageCopyToClipboard.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ImageErrorBrowserHeader.png" />
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\ImageErrorBrowserHeader.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ImageErrorList.png" />
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\ImageErrorList.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ImageReverseItemOrder.png" />
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\ImageReverseItemOrder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ImageSourceCodeDisplay.png" />
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\ImageSourceCodeDisplay.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ImageSplitterBox.png" />
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\ImageSplitterBox.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ImageStackTraceDisplay.png" />
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\ImageStackTraceDisplay.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
