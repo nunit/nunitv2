@@ -24,7 +24,6 @@
     <ComponentGroup Id="Net_2.0_FrameworkGroup">
       <ComponentRef Id="nunit.framework_2.0"/>
       <ComponentRef Id="nunit.mocks_2.0"/>
-      <ComponentRef Id="nunit.framework.extensions_2.0"/>
       <ComponentRef Id="AssemblyReferenceFolder_2.0"/>
     </ComponentGroup>
 
@@ -166,10 +165,6 @@
 
       <Component Id="nunit.mocks_2.0" DiskId="1" Guid="890C81D4-6423-4863-9EA0-C62DB88AF5BB">
         <File Id="nunit.mocks_2.0" Name="MOCKS.DLL" LongName="nunit.mocks.dll" />
-      </Component>
-
-      <Component Id="nunit.framework.extensions_2.0" DiskId="1" Guid="423C9C8A-F5AD-457f-A32F-3D0DAF8ECEB6">
-        <File Id="nunit.framework.extensions_2.0" Name="FRAME_EX.DLL" LongName="nunit.framework.extensions.dll" />
       </Component>
 
       <Component Id="AssemblyReferenceFolder_2.0" DiskId="1" Guid="65AB502C-FC28-4c85-AF32-15384D5050FF">
