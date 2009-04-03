@@ -336,12 +336,6 @@ Gen3: Is.SubsetOf(IEnumerable expected)=>new CollectionSubsetConstraint(expected
 Gen3: Is.Ordered=>new CollectionOrderedConstraint()
 %
 /// <summary>
-/// Returns a constraint that tests whether a collection is ordered
-/// by a particular property.
-/// </summary>
-Gen3: Is.OrderedBy(string propertyName)=>new CollectionOrderedConstraint().By(propertyName)
-%
-/// <summary>
 /// Returns a new CollectionContainsConstraint checking for the
 /// presence of a particular object in the collection.
 /// </summary>
