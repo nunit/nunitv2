@@ -429,17 +429,17 @@ namespace NUnit.UiException.Controls
                 e.Graphics.DrawLine(_pen, _splitterRectangle.Right - 1, 0,
                     SplitterRectangle.Right - 1, _splitterRectangle.Height);
 
-                e.Graphics.DrawImage(Resources.DesignSplitterBox,
+                e.Graphics.DrawImage(Resources.ImageSplitterBox,
                     _collapse1Rectangle,
                     _rVerticalCollapse1,
                     GraphicsUnit.Pixel);
 
-                e.Graphics.DrawImage(Resources.DesignSplitterBox,
+                e.Graphics.DrawImage(Resources.ImageSplitterBox,
                     _directionRectangle,
                     _rVerticalDirection,
                     GraphicsUnit.Pixel);
 
-                e.Graphics.DrawImage(Resources.DesignSplitterBox,
+                e.Graphics.DrawImage(Resources.ImageSplitterBox,
                     _collapse2Rectangle,
                     _rVerticalCollapse2,
                     GraphicsUnit.Pixel);
@@ -451,17 +451,17 @@ namespace NUnit.UiException.Controls
                 e.Graphics.DrawLine(_pen, 0, _splitterRectangle.Bottom - 1,
                     Width, _splitterRectangle.Bottom - 1);
 
-                e.Graphics.DrawImage(Resources.DesignSplitterBox,
+                e.Graphics.DrawImage(Resources.ImageSplitterBox,
                     _collapse1Rectangle,
                     _rHorizontalCollapse1,
                     GraphicsUnit.Pixel);
 
-                e.Graphics.DrawImage(Resources.DesignSplitterBox,
+                e.Graphics.DrawImage(Resources.ImageSplitterBox,
                     _directionRectangle,
                     _rHorizontalDirection,
                     GraphicsUnit.Pixel);
 
-                e.Graphics.DrawImage(Resources.DesignSplitterBox,
+                e.Graphics.DrawImage(Resources.ImageSplitterBox,
                     _collapse2Rectangle,
                     _rHorizontalCollapse2,
                     GraphicsUnit.Pixel);

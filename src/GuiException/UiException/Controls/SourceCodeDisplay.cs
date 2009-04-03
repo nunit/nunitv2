@@ -51,8 +51,8 @@ namespace NUnit.UiException.Controls
             _stacktraceView.SelectedItemChanged += new EventHandler(SelectedItemChanged);
             _codeView = codeBox;
 
-            _btnPlugin = ErrorToolbar.NewStripButton(true, "Display source code context", Resources.IconSourceCodeDisplay, null);
-            _btnSwap = ErrorToolbar.NewStripButton(false, "ReverseOrder item order", Resources.IconReverseItemOrder, OnClick);
+            _btnPlugin = ErrorToolbar.NewStripButton(true, "Display source code context", Resources.ImageSourceCodeDisplay, null);
+            _btnSwap = ErrorToolbar.NewStripButton(false, "ReverseOrder item order", Resources.ImageReverseItemOrder, OnClick);
 
             SplitterBox splitter = new SplitterBox();
             _splitter = splitter;

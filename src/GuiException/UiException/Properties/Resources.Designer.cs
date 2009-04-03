@@ -60,51 +60,51 @@ namespace NUnit.UiException.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap DesignErrorBrowserHeader {
+        internal static System.Drawing.Bitmap ImageCopyToClipboard {
             get {
-                object obj = ResourceManager.GetObject("DesignErrorBrowserHeader", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageCopyToClipboard", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap DesignErrorList {
+        internal static System.Drawing.Bitmap ImageErrorBrowserHeader {
             get {
-                object obj = ResourceManager.GetObject("DesignErrorList", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageErrorBrowserHeader", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap DesignSplitterBox {
+        internal static System.Drawing.Bitmap ImageErrorList {
             get {
-                object obj = ResourceManager.GetObject("DesignSplitterBox", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageErrorList", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap IconCopyToClipboard {
+        internal static System.Drawing.Bitmap ImageReverseItemOrder {
             get {
-                object obj = ResourceManager.GetObject("IconCopyToClipboard", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageReverseItemOrder", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap IconReverseItemOrder {
+        internal static System.Drawing.Bitmap ImageSourceCodeDisplay {
             get {
-                object obj = ResourceManager.GetObject("IconReverseItemOrder", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageSourceCodeDisplay", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap IconSourceCodeDisplay {
+        internal static System.Drawing.Bitmap ImageSplitterBox {
             get {
-                object obj = ResourceManager.GetObject("IconSourceCodeDisplay", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageSplitterBox", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
         
-        internal static System.Drawing.Bitmap IconStackTraceDisplay {
+        internal static System.Drawing.Bitmap ImageStackTraceDisplay {
             get {
-                object obj = ResourceManager.GetObject("IconStackTraceDisplay", resourceCulture);
+                object obj = ResourceManager.GetObject("ImageStackTraceDisplay", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

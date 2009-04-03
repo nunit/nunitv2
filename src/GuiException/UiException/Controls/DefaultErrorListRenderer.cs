@@ -87,7 +87,7 @@ namespace NUnit.UiException.Controls
                 _paintData.Dispose();
                 _paintData = new PaintData(items, selected, viewport, g);
 
-                PaintBackground(Resources.DesignErrorList, _paintData.WorkingGraphics,
+                PaintBackground(Resources.ImageErrorList, _paintData.WorkingGraphics,
                     _rectListBackground, viewport);
 
                 sizeLineSource = g.MeasureString("Line 9999", _font);
@@ -179,22 +179,22 @@ namespace NUnit.UiException.Controls
             src = (index % 2 == 0) ? _rectItemWhite : _rectItemGray ;
             font = (hover == true) ? _fontUnderlined : _font;
 
-            g.DrawImage(Resources.DesignErrorList,
+            g.DrawImage(Resources.ImageErrorList,
                 new Rectangle(0, y, viewport.Width, ITEM_HEIGHT), src,
                 GraphicsUnit.Pixel);
 
             if (selected)
             {
-                g.DrawImage(Resources.DesignErrorList,
+                g.DrawImage(Resources.ImageErrorList,
                     new Rectangle(0, y + 1, viewport.Width, _rectSelectionMiddle.Height),
                     _rectSelectionMiddle, GraphicsUnit.Pixel);
             }
 
             if (item.HasSourceAttachment)
             {
-                g.DrawImage(Resources.DesignErrorList, new Rectangle(x + 1, y + 2 + font.Height, 14, 15),
+                g.DrawImage(Resources.ImageErrorList, new Rectangle(x + 1, y + 2 + font.Height, 14, 15),
                    _rectIconCSharp, GraphicsUnit.Pixel);
-                g.DrawImage(Resources.DesignErrorList, 
+                g.DrawImage(Resources.ImageErrorList, 
                     new Rectangle(TEXT_MARGIN_X - 3 + x, y + 5 + 2 * font.Height, 9, 5),
                     _rectIconArrow, GraphicsUnit.Pixel);
 
@@ -208,7 +208,7 @@ namespace NUnit.UiException.Controls
             }
             else
             {
-                g.DrawImage(Resources.DesignErrorList, new Rectangle(x + 1, y + 2 + font.Height, 16, 15),
+                g.DrawImage(Resources.ImageErrorList, new Rectangle(x + 1, y + 2 + font.Height, 16, 15),
                    _rectIconDll, GraphicsUnit.Pixel);
 
                 g.DrawString("N/A", font, _brushGray, _offsetLine, y + 2);
@@ -221,7 +221,7 @@ namespace NUnit.UiException.Controls
             if (!last)
                 return;
 
-            PaintTile(Resources.DesignErrorList, g, _rectListShadow,
+            PaintTile(Resources.ImageErrorList, g, _rectListShadow,
                 new Rectangle(0, y + ITEM_HEIGHT, viewport.Width, 9));
 
             return;

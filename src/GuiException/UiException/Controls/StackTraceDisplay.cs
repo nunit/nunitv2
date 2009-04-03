@@ -31,8 +31,8 @@ namespace NUnit.UiException.Controls
         /// </summary>
         public StackTraceDisplay()
         {
-            _btnPlugin = ErrorToolbar.NewStripButton(true, "Display actual stack trace", Resources.IconStackTraceDisplay, null);
-            _btnCopy = ErrorToolbar.NewStripButton(false, "Copy stack trace to clipboard", Resources.IconCopyToClipboard, OnClick);
+            _btnPlugin = ErrorToolbar.NewStripButton(true, "Display actual stack trace", Resources.ImageStackTraceDisplay, null);
+            _btnCopy = ErrorToolbar.NewStripButton(false, "Copy stack trace to clipboard", Resources.ImageCopyToClipboard, OnClick);
 
             _textContent = new TextBox();
             _textContent.ReadOnly = true;

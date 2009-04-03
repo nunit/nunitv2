@@ -40,7 +40,7 @@ namespace NUnit.UiException.Controls
 
             _selection = -1;
             
-            BackgroundImage = Resources.DesignErrorBrowserHeader;
+            BackgroundImage = Resources.ImageErrorBrowserHeader;
             BackgroundImageLayout = ImageLayout.Tile;
 
             return;
