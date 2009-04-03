@@ -52,57 +52,6 @@
       <Link>Controls\CodeBox.cs</Link>
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBox.designer.cs">
-      <Link>Controls\CodeBox.designer.cs</Link>
-      <DependentUpon>CodeBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBoxComposite.cs">
-      <Link>Controls\CodeBoxComposite.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBoxComposite.designer.cs">
-      <Link>Controls\CodeBoxComposite.designer.cs</Link>
-      <DependentUpon>CodeBoxComposite.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBoxWindow.cs">
-      <Link>Controls\CodeBoxWindow.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBoxWindow.designer.cs">
-      <Link>Controls\CodeBoxWindow.designer.cs</Link>
-      <DependentUpon>CodeBoxWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\CodeViewport.cs">
-      <Link>Controls\CodeViewport.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ExceptionList.cs">
-      <Link>Controls\ExceptionList.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ExceptionWindow.cs">
-      <Link>Controls\ExceptionWindow.cs</Link>
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ExceptionWindow.designer.cs">
-      <Link>Controls\ExceptionWindow.designer.cs</Link>
-      <DependentUpon>ExceptionWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\HoverButton.cs">
-      <Link>Controls\HoverButton.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\HoverButton.designer.cs">
-      <Link>Controls\HoverButton.designer.cs</Link>
-      <DependentUpon>HoverButton.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\PagineerControl.cs">
-      <Link>Controls\PagineerControl.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\PagineerControl.designer.cs">
-      <Link>Controls\PagineerControl.designer.cs</Link>
-      <DependentUpon>PagineerControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\PaintLineLocation.cs">
       <Link>Controls\PaintLineLocation.cs</Link>
     </Compile>
@@ -133,14 +82,6 @@
     <Compile Include="..\..\..\..\src\GuiException\UiException\DefaultTextManager.cs">
       <Link>DefaultTextManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\ExceptionBrowserLink.cs">
-      <Link>ExceptionBrowserLink.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\ExceptionBrowserLink.designer.cs">
-      <Link>ExceptionBrowserLink.designer.cs</Link>
-      <DependentUpon>ExceptionBrowserLink.cs</DependentUpon>
-    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\ExceptionItem.cs">
       <Link>ExceptionItem.cs</Link>
     </Compile>
@@ -150,9 +91,6 @@
     <Compile Include="..\..\..\..\src\GuiException\UiException\ITextManager.cs">
       <Link>ITextManager.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\MouseWatcher.cs">
-      <Link>MouseWatcher.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\Properties\Resources.Designer.cs">
       <Link>Properties\Resources.Designer.cs</Link>
       <AutoGen>True</AutoGen>
@@ -161,9 +99,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceParser.cs">
       <Link>StackTraceParser.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiException\UiException\TextPainter.cs">
-      <Link>TextPainter.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\GuiException\UiException\TraceExceptionHelper.cs">
       <Link>TraceExceptionHelper.cs</Link>
@@ -198,36 +133,60 @@
     <Compile Include="..\..\..\..\src\GuiException\UiException\StackTraceAnalysers\WindowsPathParser.cs">
       <Link>StackTraceAnalysers\WindowsPathParser.cs</Link>
     </Compile>
-    <EmbeddedResource Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBox.resx">
-      <Link>Controls\CodeBox.resx</Link>
-      <DependentUpon>CodeBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBoxComposite.resx">
-      <Link>Controls\CodeBoxComposite.resx</Link>
-      <DependentUpon>CodeBoxComposite.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\src\GuiException\UiException\Controls\CodeBoxWindow.resx">
-      <Link>Controls\CodeBoxWindow.resx</Link>
-      <DependentUpon>CodeBoxWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\src\GuiException\UiException\Controls\ExceptionWindow.resx">
-      <Link>Controls\ExceptionWindow.resx</Link>
-      <DependentUpon>ExceptionWindow.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\src\GuiException\UiException\Controls\HoverButton.resx">
-      <Link>Controls\HoverButton.resx</Link>
-      <DependentUpon>HoverButton.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\..\..\src\GuiException\UiException\ExceptionBrowserLink.resx">
-      <Link>ExceptionBrowserLink.resx</Link>
-      <DependentUpon>ExceptionBrowserLink.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\CodeFormatters\IFormatterCatalog.cs">
+      <Link>CodeFormatters\IFormatterCatalog.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\SourceCodeDisplay.cs">
+      <Link>Controls\SourceCodeDisplay.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\SplitterBox.cs">
+      <Link>Controls\SplitterBox.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\DefaultCodeRenderer.cs">
+      <Link>Controls\DefaultCodeRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\DefaultErrorListRenderer.cs">
+      <Link>Controls\DefaultErrorListRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ErrorBrowser.cs">
+      <Link>Controls\ErrorBrowser.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ErrorList.cs">
+      <Link>Controls\ErrorList.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ErrorPanelLayout.cs">
+      <Link>Controls\ErrorPanelLayout.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ErrorToolbar.cs">
+      <Link>Controls\ErrorToolbar.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\CodeRenderingContext.cs">
+      <Link>Controls\CodeRenderingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ICodeRenderer.cs">
+      <Link>Controls\ICodeRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\ICodeView.cs">
+      <Link>Controls\ICodeView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\IErrorListRenderer.cs">
+      <Link>Controls\IErrorListRenderer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\IErrorDisplay.cs">
+      <Link>Controls\IErrorDisplay.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\IStackTraceView.cs">
+      <Link>Controls\IStackTraceView.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\GuiException\UiException\Controls\StackTraceDisplay.cs">
+      <Link>Controls\StackTraceDisplay.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\GuiException\UiException\Properties\Resources.resx">
       <Link>Properties\Resources.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -239,18 +198,41 @@
     <None Include="..\..\..\..\src\GuiException\UiException\stackSgKey.snk">
       <Link>stackSgKey.snk</Link>
     </None>
-    <Content Include="..\..\..\..\src\GuiException\UiException\Resources\Arrows.png">
-      <Link>Resources\Arrows.png</Link>
-    </Content>
-    <Content Include="..\..\..\..\src\GuiException\UiException\Resources\ExceptionListLeftBackground.bmp">
-      <Link>Resources\ExceptionListLeftBackground.bmp</Link>
-    </Content>
-    <Content Include="..\..\..\..\src\GuiException\UiException\Resources\ExceptionListMarginIcon.png">
-      <Link>Resources\ExceptionListMarginIcon.png</Link>
-    </Content>
-    <Content Include="..\..\..\..\src\GuiException\UiException\Resources\ExceptionListMarginLeft.png">
-      <Link>Resources\ExceptionListMarginLeft.png</Link>
-    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\DesignSplitterBox.png">
+      <Link>Resources\DesignSplitterBox.png</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\DesignErrorBrowserHeader.png">
+      <Link>Resources\DesignErrorBrowserHeader.png</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\IconSourceCodeDisplay.png">
+      <Link>Resources\IconSourceCodeDisplay.png</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\DesignErrorList.png">
+      <Link>Resources\DesignErrorList.png</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\IconCopyToClipboard.png">
+      <Link>Resources\IconCopyToClipboard.png</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\IconStackTraceDisplay.png">
+      <Link>Resources\IconStackTraceDisplay.png</Link>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\src\GuiException\UiException\Resources\IconReverseItemOrder.png">
+      <Link>Resources\IConReverseItemOrder.png</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -61,6 +61,13 @@ namespace NUnit.UiException.Tests.CodeFormatters
         }
 
         [Test]
+        public void Empty()
+        {
+            Assert.NotNull(FormattedCode.Empty);
+            Assert.That(FormattedCode.Empty, Is.EqualTo(new FormattedCode()));
+        }
+
+        [Test]
         public void Test_ComplexCollection()
         {
             _code = new TestingCSCode(

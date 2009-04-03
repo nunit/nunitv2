@@ -200,7 +200,7 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Property determining whether tree should redraw nodes
+		/// Property determining whether tree should reDraw nodes
 		/// as tests are complete in order to show progress.
 		/// </summary>
 		[Category( "Behavior" ), DefaultValue( true )]

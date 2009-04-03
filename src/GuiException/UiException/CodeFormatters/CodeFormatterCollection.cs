@@ -89,7 +89,7 @@ namespace NUnit.UiException.CodeFormatters
         /// <summary>
         /// Tests whether the collection contains a formatter for the given language.
         /// </summary>
-        /// <param name="languageName">
+        /// <param name="language">
         /// A language name. Ex: "C#", "Java"</param>
         /// <returns>True if such formatter exists.</returns>
         public bool HasLanguage(string languageName)

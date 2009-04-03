@@ -25,11 +25,6 @@ namespace NUnit.UiException.Tests
         private ErrorItem _itemA;
         private ErrorItem _itemB;
 
-        private int _notificationAdded;
-        private ErrorItem _notifiedItem;
-
-        private int _notificationCleared;
-
         [SetUp]
         public void SetUp()
         {
@@ -40,13 +35,6 @@ namespace NUnit.UiException.Tests
 
             _itemA = new ErrorItem(_resourceA.Path, 1);
             _itemB = new ErrorItem(_resourceB.Path, 2);
-
-            _items.ItemAdded += new ItemAddedEventHandler(_items_ItemAdded);
-            _notificationAdded = 0;
-            _notifiedItem = null;
-
-            _items.CollectionCleared += new EventHandler(_items_CollectionCleared);
-            _notificationCleared = 0;
 
             return;
         }
@@ -65,17 +53,6 @@ namespace NUnit.UiException.Tests
                 _resourceB.Dispose();
                 _resourceB = null;
             }
-        }
-
-        void _items_CollectionCleared(object sender, EventArgs e)
-        {
-            _notificationCleared++;
-        }
-
-        void _items_ItemAdded(object sender, ErrorItem item)
-        {
-            _notificationAdded++;
-            _notifiedItem = item;
         }
 
         [Test]
@@ -133,29 +110,6 @@ namespace NUnit.UiException.Tests
             _items.Add(_itemA);
 
             Assert.That(_items.Contains(_itemA), Is.True);
-
-            return;
-        }
-
-        [Test]
-        public void Test_Add_Fire_ItemAddedEvent()
-        {
-            _items.Add(_itemA);
-            Assert.That(_notificationAdded, Is.EqualTo(1));
-            Assert.That(_notifiedItem, Is.EqualTo(_itemA));
-
-            return;
-        }     
-
-        [Test]
-        public void Test_Clear_Fire_CollectionClearedEvent()
-        {
-            _items.Add(_itemA);
-            _items.Clear();
-            Assert.That(_notificationCleared, Is.EqualTo(1));
-
-            _items.Clear();
-            Assert.That(_notificationCleared, Is.EqualTo(1));
 
             return;
         }

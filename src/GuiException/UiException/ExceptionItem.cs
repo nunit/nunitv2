@@ -89,7 +89,7 @@ namespace NUnit.UiException
         /// Reads and returns the part of Path that contains the filename
         /// of the source code file.
         /// </summary>
-        public string Filename 
+        public string FileName 
         {
             get { return (System.IO.Path.GetFileName(_path)); }
         }
@@ -115,7 +115,7 @@ namespace NUnit.UiException
                 if (_path == null)
                     return (null);
 
-                dotIndex = _path.LastIndexOf(".");
+                dotIndex = _path.LastIndexOf(".", StringComparison.Ordinal);
                 if (dotIndex > -1 && dotIndex < _path.Length - 1)
                     return (_path.Substring(dotIndex + 1));
 
@@ -133,6 +133,7 @@ namespace NUnit.UiException
 
         /// <summary>
         /// Reads and return the method part from the FullyQualifiedMethodName.
+        /// The value contains the signature of the method.
         /// </summary>
         public string MethodName
         {
@@ -143,10 +144,28 @@ namespace NUnit.UiException
                 if (FullyQualifiedMethodName == null)
                     return ("");
 
-                if ((index = FullyQualifiedMethodName.LastIndexOf(".")) == -1)
+                if ((index = FullyQualifiedMethodName.LastIndexOf(".", 
+                            StringComparison.Ordinal)) == -1)
                     return (FullyQualifiedMethodName);
 
                 return (FullyQualifiedMethodName.Substring(index + 1));
+            }
+        }
+
+        /// <summary>
+        /// Gets the method name without the argument list.
+        /// </summary>
+        public string BaseMethodName
+        {
+            get
+            {
+                string method = MethodName;
+                int index = method.IndexOf("(", StringComparison.Ordinal);
+
+                if (index > 0)
+                    return (method.Substring(0, index));
+
+                return (method);
             }
         }
 
@@ -163,13 +182,16 @@ namespace NUnit.UiException
                 if (FullyQualifiedMethodName == null)
                     return ("");
 
-                if ((end_index = FullyQualifiedMethodName.LastIndexOf(".")) == -1)
+                if ((end_index = FullyQualifiedMethodName.LastIndexOf(".", 
+                                StringComparison.Ordinal)) == -1)
                     return ("");
 
                 start_index = end_index - 1;
                 while (start_index > 0 && FullyQualifiedMethodName[start_index] != '.')
                     start_index--;
-                start_index++;
+
+                if (start_index >= 0 && FullyQualifiedMethodName[start_index] == '.')
+                    start_index++;
 
                 return (FullyQualifiedMethodName.Substring(start_index, end_index - start_index));
             }
@@ -184,32 +206,30 @@ namespace NUnit.UiException
         }
 
         /// <summary>
-        /// Reads and returns the content of the source code file.
-        /// </summary>
-        public string Text
-        {
-            get
-            {
-                if (!System.IO.File.Exists(_path))
-                    throw new ApplicationException("File does not exist. File: " + _path);
-
-                if (_text == null)
-                {
-                    StreamReader rder = new StreamReader(_path);
-                    _text = rder.ReadToEnd();
-                    rder.Close();
-                }
-
-                return (_text); 
-            }
-        }
-
-        /// <summary>
         /// Gets a boolean that says whether this item has source
         /// code localization attachments.
         /// </summary>
         public bool HasSourceAttachment {
             get { return (_path != null); }
+        }
+
+        /// <summary>
+        /// Read and return the content of the underlying file. If the file
+        /// cannot be found or read an exception is raised.
+        /// </summary>
+        public string ReadFile()
+        {
+            if (!System.IO.File.Exists(_path))
+                throw new FileNotFoundException("File does not exist. File: " + _path);
+
+            if (_text == null)
+            {
+                StreamReader rder = new StreamReader(_path);
+                _text = rder.ReadToEnd();
+                rder.Close();
+            }
+
+            return (_text);
         }
 
         public override string ToString() {
@@ -218,13 +238,10 @@ namespace NUnit.UiException
 
         public override bool Equals(object obj)
         {
-            ErrorItem item;
+            ErrorItem item = obj as ErrorItem;
 
-            if (obj == null ||
-                !(obj is ErrorItem))
+            if (item == null)
                 return (false);
-
-            item = obj as ErrorItem;
 
             return (_path == item._path &&
                     _fullyQualifiedMethodName == item._fullyQualifiedMethodName &&

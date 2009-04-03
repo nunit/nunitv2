@@ -13,8 +13,6 @@ using System.Collections;
 
 namespace NUnit.UiException
 {
-    public delegate void ItemAddedEventHandler(object sender, ErrorItem item);
-
     /// <summary>
     /// (formerly named ExceptionItemCollection)
     /// 
@@ -24,19 +22,9 @@ namespace NUnit.UiException
         IEnumerable
     {
         /// <summary>
-        /// Fired when an item has been added to the collection.
-        /// </summary>
-        public event ItemAddedEventHandler ItemAdded;
-
-        /// <summary>
-        /// Fired when the collection has been cleared.
-        /// </summary>
-        public event EventHandler CollectionCleared;
-
-        /// <summary>
         /// The underlying item list.
         /// </summary>
-        protected List<ErrorItem> _items;
+        List<ErrorItem> _items;
 
         /// <summary>
         /// Build a new ErrorItemCollection.
@@ -73,9 +61,6 @@ namespace NUnit.UiException
             UiExceptionHelper.CheckNotNull(item, "item");
             _items.Add(item);
 
-            if (ItemAdded != null)
-                ItemAdded(this, item);
-
             return;
         }
 
@@ -89,9 +74,6 @@ namespace NUnit.UiException
 
             _items.Clear();
 
-            if (CollectionCleared != null)
-                CollectionCleared(this, new EventArgs());
-
             return;
         }
 
@@ -102,7 +84,7 @@ namespace NUnit.UiException
         /// <returns>True if the item belongs to this collection.</returns>
         public bool Contains(ErrorItem item) {
             return (_items.Contains(item));
-        }
+        }        
 
         /// <summary>
         /// Reverses the sequence order of this collection.

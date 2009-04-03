@@ -45,7 +45,7 @@ namespace NUnit.UiException.Tests
             Assert.That(_parser.Items[0], 
                 Is.EqualTo(new ErrorItem("C:\\TraceItem.cs", "NUnit.UiException.TraceItem.get_Text()", 43)));
 
-            // TryParse should clear previous formatter
+            // TryParse should clear previous textFormatter
 
             _parser.Parse("");
             Assert.That(_parser.Items.Count, Is.EqualTo(0));

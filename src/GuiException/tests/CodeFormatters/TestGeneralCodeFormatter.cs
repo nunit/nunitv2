@@ -40,6 +40,16 @@ namespace NUnit.UiException.Tests.CodeFormatters
         }
 
         [Test]
+        public void LanguageFromExtension()
+        {
+            Assert.That(_formatter.LanguageFromExtension("cs"), Is.EqualTo("C#"));
+            Assert.That(_formatter.LanguageFromExtension(""), Is.EqualTo("Plain text"));
+            Assert.That(_formatter.LanguageFromExtension(null), Is.EqualTo("Plain text"));
+
+            return;
+        }
+
+        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void DefaultFormatter_Can_Throw_FormatterNullException()
         {
@@ -117,7 +127,7 @@ namespace NUnit.UiException.Tests.CodeFormatters
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException),
-            ExpectedMessage = "languageName",
+            ExpectedMessage = "language",
             MatchType = MessageMatch.Contains)]
         public void Format_Can_Throw_LanguageNameNullException()
         {
@@ -133,7 +143,7 @@ namespace NUnit.UiException.Tests.CodeFormatters
             foreach (ICodeFormatter item in array)
             {
                 error = new ErrorItem(res.Path, 1);
-                code = item.Format(error.Text);
+                code = item.Format(error.ReadFile());
 
                 Assert.That(code, Is.Not.Null,
                     "Formatter: " + item + " failed to format resource.");
@@ -193,7 +203,7 @@ namespace NUnit.UiException.Tests.CodeFormatters
             FormattedCode res;
 
             // We don't have reliable way to measure '\t' at drawing time,
-            // hence, each formatter should replace '\t' by one or more white spaces.
+            // hence, each textFormatter should replace '\t' by one or more white spaces.
 
             formatters = GetAllFormatters();
             foreach (ICodeFormatter formatter in formatters)
@@ -281,9 +291,9 @@ namespace NUnit.UiException.Tests.CodeFormatters
             {
                 itemHelloTxt = new ErrorItem("HelloWorld.txt", 1);
                 txtFormatter = new PlainTextCodeFormatter();
-                exp = txtFormatter.Format(itemHelloTxt.Text);
+                exp = txtFormatter.Format(itemHelloTxt.ReadFile());
                 Assert.That(
-                    _formatter.FormatFromExtension(itemHelloTxt.Text, itemHelloTxt.FileExtension),
+                    _formatter.FormatFromExtension(itemHelloTxt.ReadFile(), itemHelloTxt.FileExtension),
                     Is.EqualTo(exp));
                 FormattedCode.CheckData(exp);
             }
@@ -292,9 +302,9 @@ namespace NUnit.UiException.Tests.CodeFormatters
             {
                 itemBasicCs = new ErrorItem("Basic.cs", 1);
                 csFormatter = new CSharpCodeFormatter();
-                exp = csFormatter.Format(itemBasicCs.Text);
+                exp = csFormatter.Format(itemBasicCs.ReadFile());
                 Assert.That(
-                    _formatter.FormatFromExtension(itemBasicCs.Text, itemBasicCs.FileExtension),
+                    _formatter.FormatFromExtension(itemBasicCs.ReadFile(), itemBasicCs.FileExtension),
                     Is.EqualTo(exp));
                 FormattedCode.CheckData(exp);
             }

@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 namespace NUnit.UiException
 {
@@ -26,6 +27,7 @@ namespace NUnit.UiException
         /// </summary>
         /// <param name="value">The reference to be tested.</param>
         /// <param name="paramName">The name of this reference</param>
+        [DebuggerStepThrough]
         public static void CheckNotNull(object value, string paramName)
         {
             if (value == null)
@@ -40,6 +42,7 @@ namespace NUnit.UiException
         /// <param name="test">The boolean to be tested.</param>
         /// <param name="message">The error message.</param>
         /// <param name="paramName">The parameter name to be passed to ArgumentException.</param>
+        [DebuggerStepThrough]
         public static void CheckTrue(bool test, string message, string paramName)
         {
             if (!test)
@@ -54,6 +57,7 @@ namespace NUnit.UiException
         /// <param name="test">The boolean to be tested.</param>
         /// <param name="message">The error message.</param>
         /// <param name="paramName">The parameter name to be passed to ArgumentException.</param>
+        [DebuggerStepThrough]
         public static void CheckFalse(bool test, string message, string paramName)
         {
             if (test)
@@ -66,6 +70,7 @@ namespace NUnit.UiException
         /// Throws an ApplicationException with the given message.
         /// </summary>
         /// <param name="message">The error message.</param>
+        [DebuggerStepThrough]
         public static void Fail(string message)
         {
             throw new ApplicationException(message);

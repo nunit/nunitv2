@@ -118,13 +118,25 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Arrows" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Arrows.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DesignErrorBrowserHeader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\..\src\GuiException\UIException\Resources\DesignErrorBrowserHeader.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ExceptionListMarginIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExceptionListMarginIcon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DesignErrorList" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\..\src\GuiException\UIException\Resources\DesignErrorList.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ExceptionListMarginLeft" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ExceptionListMarginLeft.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="DesignSplitterBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\..\src\GuiException\UIException\Resources\DesignSplitterBox.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconCopyToClipboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\..\src\GuiException\UIException\Resources\IconCopyToClipboard.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconReverseItemOrder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\..\src\GuiException\UIException\Resources\IconReverseItemOrder.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconSourceCodeDisplay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\..\src\GuiException\UIException\Resources\IconSourceCodeDisplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="IconStackTraceDisplay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\..\..\src\GuiException\UIException\Resources\IconStackTraceDisplay.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

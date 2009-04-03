@@ -53,8 +53,9 @@ namespace NUnit.UiKit
 		private bool wordWrap = false;
 
 		private System.Windows.Forms.ListBox detailList;
+        [Obsolete]
 		public CP.Windows.Forms.ExpandingTextBox stackTrace;
-        public NUnit.UiException.ExceptionBrowserLink exceptionBrowser;
+        public UiException.Controls.ErrorBrowser errorBrowser;
 		public System.Windows.Forms.Splitter tabSplitter;
 		private System.Windows.Forms.ContextMenu detailListContextMenu;
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
@@ -110,7 +111,7 @@ namespace NUnit.UiKit
 			this.detailList = new System.Windows.Forms.ListBox();
 			this.tabSplitter = new System.Windows.Forms.Splitter();
 			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
-            this.exceptionBrowser = new NUnit.UiException.ExceptionBrowserLink();
+            this.errorBrowser = new NUnit.UiException.Controls.ErrorBrowser();
 			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();
@@ -146,13 +147,25 @@ namespace NUnit.UiKit
 			this.tabSplitter.TabIndex = 3;
 			this.tabSplitter.TabStop = false;
 			this.tabSplitter.SplitterMoved += new System.Windows.Forms.SplitterEventHandler(this.tabSplitter_SplitterMoved);
-            //
-            // exceptionBrowser
             // 
-            this.exceptionBrowser.Dock = System.Windows.Forms.DockStyle.Top;
-            this.exceptionBrowser.Location = new System.Drawing.Point(0, 134);
-            this.exceptionBrowser.Name = "exceptionBrowser";
-            this.exceptionBrowser.Visible = false;
+            // errorBrowser
+            // 
+            this.errorBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorBrowser.Location = new System.Drawing.Point(0, 137);
+            this.errorBrowser.Name = "errorBrowser";
+            this.errorBrowser.Size = new System.Drawing.Size(496, 151);
+            this.errorBrowser.StackTraceSource = null;
+            this.errorBrowser.TabIndex = 4;
+            //
+            // configure and register SourceCodeDisplay
+            //
+            UiException.Controls.SourceCodeDisplay sourceCode = new UiException.Controls.SourceCodeDisplay();
+            sourceCode.AutoSelectFirstItem = true;
+            sourceCode.ListOrderPolicy = UiException.Controls.ErrorListOrderPolicy.ReverseOrder;
+            sourceCode.SplitOrientation = Orientation.Vertical;
+            sourceCode.SplitterDistance = 0.3f;
+            this.errorBrowser.RegisterDisplay(sourceCode);
+            this.errorBrowser.RegisterDisplay(new NUnit.UiException.Controls.StackTraceDisplay());
             // 
 			// stackTrace
 			// 
@@ -182,8 +195,7 @@ namespace NUnit.UiKit
 			// 
 			// ErrorDisplay
 			// 
-			this.Controls.Add(this.stackTrace);
-            this.Controls.Add(this.exceptionBrowser);
+            this.Controls.Add(this.errorBrowser);
 			this.Controls.Add(this.tabSplitter);
 			this.Controls.Add(this.detailList);
 			this.Name = "ErrorDisplay";
@@ -229,7 +241,7 @@ namespace NUnit.UiKit
 			detailList.Items.Clear();
 			detailList.ContextMenu = null;
 			stackTrace.Text = "";
-            exceptionBrowser.Visible = false;
+            errorBrowser.StackTraceSource = "";
 		}
 		#endregion
 
@@ -255,12 +267,7 @@ namespace NUnit.UiKit
 		private void detailList_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
 			TestResultItem resultItem = (TestResultItem)detailList.SelectedItem;
-			//string stackTrace = resultItem.StackTrace;
-            stackTrace.Text = resultItem.StackTrace == null 
-                ? "No stack trace is available" : resultItem.StackTrace;
-			exceptionBrowser.StackTrace = resultItem.StackTrace;
-
-			//			toolTip.SetToolTip(detailList,resultItem.GetToolTipMessage());
+            errorBrowser.StackTraceSource = resultItem.StackTrace;
 			detailList.ContextMenu = detailListContextMenu;
 		}
 

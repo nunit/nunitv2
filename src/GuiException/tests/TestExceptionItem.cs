@@ -12,6 +12,7 @@ using System.Text;
 using NUnit.Framework;
 using NUnit.UiException;
 using NUnit.UiException.Tests.data;
+using System.IO;
 
 namespace NUnit.UiException.Tests
 {
@@ -63,22 +64,31 @@ namespace NUnit.UiException.Tests
 
             // test to pass
 
-            item = new ErrorItem("path", "namespace1.class.fullMethodName()", 1);
-            Assert.That(item.MethodName, Is.EqualTo("fullMethodName()"));
+            item = new ErrorItem("path", "namespace1.class.fullMethodName(string arg)", 1);
+            Assert.That(item.MethodName, Is.EqualTo("fullMethodName(string arg)"));
+            Assert.That(item.BaseMethodName, Is.EqualTo("fullMethodName"));
             Assert.That(item.ClassName, Is.EqualTo("class"));
 
-            item = new ErrorItem("path", ".class.fullMethodName()", 1);
-            Assert.That(item.MethodName, Is.EqualTo("fullMethodName()"));
+            item = new ErrorItem("path", ".class.fullMethodName(string arg)", 1);
+            Assert.That(item.MethodName, Is.EqualTo("fullMethodName(string arg)"));
+            Assert.That(item.BaseMethodName, Is.EqualTo("fullMethodName"));
             Assert.That(item.ClassName, Is.EqualTo("class"));
+
+            item = new ErrorItem("path", "0123456789012.a()", 1);
+            Assert.That(item.MethodName, Is.EqualTo("a()"));
+            Assert.That(item.BaseMethodName, Is.EqualTo("a"));
+            Assert.That(item.ClassName, Is.EqualTo("0123456789012"));                
 
             // test to fail
 
-            item = new ErrorItem("path", "fullMethodName()", 1);
-            Assert.That(item.MethodName, Is.EqualTo("fullMethodName()"));
+            item = new ErrorItem("path", "fullMethodName(string arg)", 1);
+            Assert.That(item.MethodName, Is.EqualTo("fullMethodName(string arg)"));
+            Assert.That(item.BaseMethodName, Is.EqualTo("fullMethodName"));
             Assert.That(item.ClassName, Is.EqualTo(""));
 
             item = new ErrorItem("path", "", 1);
             Assert.That(item.MethodName, Is.EqualTo(""));
+            Assert.That(item.BaseMethodName, Is.EqualTo(""));
             Assert.That(item.ClassName, Is.EqualTo(""));
 
             return;
@@ -91,14 +101,14 @@ namespace NUnit.UiException.Tests
 
             item = new ErrorItem("C:\\dir\\file.txt", 13);
 
-            Assert.That(item.Filename, Is.EqualTo("file.txt"));
+            Assert.That(item.FileName, Is.EqualTo("file.txt"));
             Assert.That(item.FileExtension, Is.EqualTo("txt"));
             Assert.That(item.Path, Is.EqualTo("C:\\dir\\file.txt"));
             Assert.That(item.LineNumber, Is.EqualTo(13));
             Assert.That(item.HasSourceAttachment, Is.True);
 
             item = new ErrorItem();
-            Assert.That(item.Filename, Is.Null);
+            Assert.That(item.FileName, Is.Null);
             Assert.That(item.FileExtension, Is.Null);
             Assert.That(item.Path, Is.Null);
             Assert.That(item.LineNumber, Is.EqualTo(0));
@@ -131,20 +141,17 @@ namespace NUnit.UiException.Tests
         }
 
         [Test]
-        [ExpectedException(typeof(ApplicationException),
+        [ExpectedException(typeof(FileNotFoundException),
             ExpectedMessage = "unknown.txt",
             MatchType = MessageMatch.Contains)]
-        public void Text_Property_Throws_FileNotExistException()
+        public void ReadFile_Throws_FileNotExistException()
         {
-            ErrorItem item;
-
-            item = new ErrorItem("C:\\unknown\\unknown.txt", 1);
-
-            string text = item.Text; // throws exception
+            ErrorItem item = new ErrorItem("C:\\unknown\\unknown.txt", 1);
+            item.ReadFile(); // throws exception
         }
 
         [Test]
-        public void Test_Text()
+        public void ReadFile()
         {
             ErrorItem item;
 
@@ -152,8 +159,8 @@ namespace NUnit.UiException.Tests
             {
                 item = new ErrorItem("HelloWorld.txt", 1);
 
-                Assert.That(item.Text, Is.Not.Null);
-                Assert.That(item.Text, Is.EqualTo("Hello world!"));
+                Assert.That(item.ReadFile(), Is.Not.Null);
+                Assert.That(item.ReadFile(), Is.EqualTo("Hello world!"));
             }
 
             return;

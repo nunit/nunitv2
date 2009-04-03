@@ -31,12 +31,7 @@ namespace NUnit.UiException.Controls
         /// <summary>
         /// A client coordinate from where beginning the drawing.
         /// </summary>
-        private PointF _location;
-
-        /// <summary>
-        /// If true, the current line is selected.
-        /// </summary>
-        private bool _highlighted;
+        private PointF _location;        
 
         /// <summary>
         /// Build a new instance of this object given some data.
@@ -44,13 +39,11 @@ namespace NUnit.UiException.Controls
         /// <param name="lineIndex">Index of the current line.</param>
         /// <param name="text">String value at this line.</param>
         /// <param name="location">Client coordinate where beginning the drawing.</param>
-        /// <param name="highlighted">Whether the line is selected or not.</param>
-        public PaintLineLocation(int lineIndex, string text, PointF location, bool highlighted)
+        public PaintLineLocation(int lineIndex, string text, PointF location)
         {
             SetLine(lineIndex);
             SetText(text);
             SetLocation(location);
-            SetHighlighted(highlighted);
 
             return;
         }
@@ -78,15 +71,7 @@ namespace NUnit.UiException.Controls
         {
             get { return (_location); }
         }
-
-        /// <summary>
-        /// Indicate if the line should be drawn with higlights features.
-        /// </summary>
-        public bool IsHighlighted
-        {
-            get { return (_highlighted); }
-        }
-
+       
         public override bool Equals(object obj)
         {
             PaintLineLocation line;
@@ -99,8 +84,7 @@ namespace NUnit.UiException.Controls
 
             return (line.LineIndex == LineIndex &&
                 line.Text == Text &&
-                line.Location == Location &&
-                line.IsHighlighted == IsHighlighted);
+                line.Location == Location);
         }
 
         public override int GetHashCode() {
@@ -109,7 +93,7 @@ namespace NUnit.UiException.Controls
 
         public override string ToString() {
             return ("PaintLineLocation: {" + LineIndex + ":[" + Text + "]:(" +
-                     Location.X + ", " + Location.Y + "):" + IsHighlighted + "}");
+                     Location.X + ", " + Location.Y + ")}");
         }
 
         #region private definitions
@@ -129,10 +113,6 @@ namespace NUnit.UiException.Controls
 
         protected void SetLocation(PointF location) {
             _location = location;
-        }
-
-        protected void SetHighlighted(bool highlighed) {
-            _highlighted = highlighed;
         }
 
         #endregion

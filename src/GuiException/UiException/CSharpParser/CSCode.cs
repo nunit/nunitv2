@@ -70,6 +70,11 @@ namespace NUnit.UiException.CodeFormatters
             return;
         }
 
+        public static FormattedCode Empty
+        {
+            get { return (new FormattedCode()); }
+        }
+
         public CodeInfo CopyInfo()
         {
             FormattedCode copy;

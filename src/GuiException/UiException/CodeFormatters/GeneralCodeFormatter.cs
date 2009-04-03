@@ -26,7 +26,8 @@ namespace NUnit.UiException.CodeFormatters
     /// through the use of the formatter registered into the property
     /// DefaultFormatter.
     /// </summary>
-    public class GeneralCodeFormatter
+    public class GeneralCodeFormatter :
+        IFormatterCatalog
     {
         /// <summary>
         /// The set of formatting algorithms.
@@ -78,7 +79,7 @@ namespace NUnit.UiException.CodeFormatters
         /// Gets the best formatter that fits the given language. If there
         /// is no such formatter, a default one is returned.
         /// </summary>
-        /// <param name="languageName">
+        /// <param name="language">
         /// The language name. Ex: "C#", "Java. This parameter cannot be null.
         /// </param>
         /// <returns>
@@ -86,7 +87,7 @@ namespace NUnit.UiException.CodeFormatters
         /// </returns>
         public ICodeFormatter GetFormatterFromLanguage(string languageName)
         {
-            UiExceptionHelper.CheckNotNull(languageName, "languageName");
+            UiExceptionHelper.CheckNotNull(languageName, "language");
 
             if (_formatters.HasLanguage(languageName))
                 return (_formatters[languageName]);
@@ -113,29 +114,6 @@ namespace NUnit.UiException.CodeFormatters
         }
 
         /// <summary>
-        /// Pick the best available formatter to format the given piece of code.
-        /// </summary>
-        /// <param name="code">The code to be formatted. This parameter cannot be null.</param>
-        /// <param name="languageName">
-        /// The language into which code has been written. Ex: "C#", "Java".
-        /// If no such formatter is available, a default formatting is applied.
-        /// This parameter cannot be null.
-        /// </param>
-        /// <returns>
-        /// The formatting for this piece of code.
-        /// </returns>
-        public FormattedCode Format(string code, string languageName)
-        {
-            UiExceptionHelper.CheckNotNull(code, "code");
-            UiExceptionHelper.CheckNotNull(languageName, "languageName");
-
-            if (_formatters.HasLanguage(languageName))
-                return (_formatters[languageName].Format(code));
-
-            return (DefaultFormatter.Format(code));
-        }
-
-        /// <summary>
         /// A convenient method to make the formatting of a piece of code when
         /// only the file extension is known. 
         /// </summary>
@@ -155,5 +133,39 @@ namespace NUnit.UiException.CodeFormatters
 
             return (DefaultFormatter.Format(code));
         }
+
+        #region IFormatterCatalog Membres
+
+        /// <summary>
+        /// Pick the best available formatter to format the given piece of code.
+        /// </summary>
+        /// <param name="code">The code to be formatted. This parameter cannot be null.</param>
+        /// <param name="language">
+        /// The language into which code has been written. Ex: "C#", "Java".
+        /// If no such formatter is available, a default formatting is applied.
+        /// This parameter cannot be null.
+        /// </param>
+        /// <returns>
+        /// The formatting for this piece of code.
+        /// </returns>
+        public FormattedCode Format(string code, string language)
+        {
+            UiExceptionHelper.CheckNotNull(code, "code");
+            UiExceptionHelper.CheckNotNull(language, "language");
+
+            if (_formatters.HasLanguage(language))
+                return (_formatters[language].Format(code));
+
+            return (DefaultFormatter.Format(code));
+        }
+
+        public string LanguageFromExtension(string extension)
+        {
+            if (_formatters.HasExtension(extension))
+                return (_formatters.GetFromExtension(extension).Language);
+            return (_default.Language);
+        }
+
+        #endregion
     }
 }

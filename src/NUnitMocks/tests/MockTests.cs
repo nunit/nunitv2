@@ -57,7 +57,7 @@ namespace NUnit.Mocks.Tests
 			mock.Verify();
 		}
 
-		[Test, ExpectedException( typeof(AssertionException) )]
+		[Test, ExpectedException(typeof(AssertionException))]
 		public void MethodNotCalled()
 		{
 			mock.Expect( "x" );

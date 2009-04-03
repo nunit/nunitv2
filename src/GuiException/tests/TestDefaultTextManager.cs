@@ -23,7 +23,7 @@ namespace NUnit.UiException.Tests
         public void SetUp()
         {
             _textBlocks = new DefaultTextManager();            
-        }
+        }       
 
         [Test]
         public void Test_Default()
