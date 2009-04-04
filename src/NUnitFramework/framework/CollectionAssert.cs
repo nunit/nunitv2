@@ -228,7 +228,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AreEqual (IEnumerable expected, IEnumerable actual, IComparer comparer, string message, params object[] args) 
 		{
-            Assert.That(actual, new EqualConstraint(expected).Comparer(comparer), message, args);
+            Assert.That(actual, new EqualConstraint(expected).Using(comparer), message, args);
 		}
 		#endregion
 
@@ -341,7 +341,7 @@ namespace NUnit.Framework
 		/// <param name="args">Arguments to be used in formatting the message</param>
 		public static void AreNotEqual (IEnumerable expected, IEnumerable actual, IComparer comparer, string message, params object[] args)
 		{
-			Assert.That(actual, new NotConstraint(new EqualConstraint(expected).Comparer(comparer)), message, args);
+			Assert.That(actual, new NotConstraint(new EqualConstraint(expected).Using(comparer)), message, args);
 		}
 		#endregion
 
