@@ -31,13 +31,13 @@ namespace NUnit.UiKit.Tests
 		{
 			AssertControlExists( "detailList", typeof( ListBox ) );
 			AssertControlExists( "tabSplitter", typeof( Splitter ) );
-			AssertControlExists( "stackTrace", typeof( CP.Windows.Forms.ExpandingTextBox ) );
+			AssertControlExists( "errorBrowser", typeof( NUnit.UiException.Controls.ErrorBrowser ) );
 		}
 
 		[Test]
 		public void ControlsArePositionedCorrectly()
 		{
-			AssertControlsAreStackedVertically( "detailList", "tabSplitter", "stackTrace" );
+			AssertControlsAreStackedVertically( "detailList", "tabSplitter", "errorBrowser" );
 		}
 	}
 }
