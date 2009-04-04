@@ -14,29 +14,6 @@ using NUnit.Util;
 using NUnit.Core;
 using CP.Windows.Forms;
 
-#if !NET_2_0
-namespace NUnit.UiException
-{
-	/// <summary>
-	/// Fake version of ExceptionBrowserLink, which
-	/// is only present in .NET 2.0 builds.
-	/// </summary>
-	public class ExceptionBrowserLink : Label
-	{
-		public ExceptionBrowserLink()
-		{
-			this.Visible = false;
-		}
-
-		public string StackTrace
-		{
-			get { return ""; }
-			set { }
-		}
-	}
-}
-#endif
-
 namespace NUnit.UiKit
 {
 	/// <summary>
@@ -54,7 +31,7 @@ namespace NUnit.UiKit
 
 		private System.Windows.Forms.ListBox detailList;
         [Obsolete]
-		public CP.Windows.Forms.ExpandingTextBox stackTrace;
+        public CP.Windows.Forms.ExpandingTextBox stackTrace;
         public UiException.Controls.ErrorBrowser errorBrowser;
 		public System.Windows.Forms.Splitter tabSplitter;
 		private System.Windows.Forms.ContextMenu detailListContextMenu;
@@ -110,8 +87,9 @@ namespace NUnit.UiKit
 		{
 			this.detailList = new System.Windows.Forms.ListBox();
 			this.tabSplitter = new System.Windows.Forms.Splitter();
-			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
+
             this.errorBrowser = new NUnit.UiException.Controls.ErrorBrowser();
+			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
 			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();

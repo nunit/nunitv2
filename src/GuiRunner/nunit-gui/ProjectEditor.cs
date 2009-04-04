@@ -755,7 +755,6 @@ namespace NUnit.Gui
 		#region Project Base Methods and Events
 		private void projectBaseBrowseButton_Click(object sender, System.EventArgs e)
 		{
-#if NET_2_0
             FolderBrowserDialog browser = new FolderBrowserDialog();
             browser.Description = string.Format("Select ApplicationBase for the project as a whole.");
             if (browser.ShowDialog(this) == DialogResult.OK)
@@ -764,19 +763,6 @@ namespace NUnit.Gui
                 if (projectBase != null && projectBase != project.BasePath)
                     UpdateProjectBase(projectBase);
             }
-#else
-            if (OSPlatform.CurrentPlatform.IsWindows)
-            {
-                CP.Windows.Shell.FolderBrowser browser 
-					= new CP.Windows.Shell.FolderBrowser(this);
-                browser.Caption = "Project Editor";
-                browser.Title = string.Format("Select ApplicationBase for the project as a whole.");
-                browser.InitialSelection = project.BasePath;
-                string projectBase = browser.BrowseForFolder();
-                if (projectBase != null && projectBase != project.BasePath)
-                    UpdateProjectBase(projectBase);
-            }
-#endif
         }
 
 		private void projectBaseTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -834,7 +820,6 @@ namespace NUnit.Gui
 		#region Config Base Methods and Events
 		private void configBaseBrowseButton_Click(object sender, System.EventArgs e)
 		{
-#if NET_2_0
             FolderBrowserDialog browser = new FolderBrowserDialog();
             browser.Description = string.Format(
                 "Select ApplicationBase for the {0} configuration, if different from the project as a whole.",
@@ -847,19 +832,6 @@ namespace NUnit.Gui
                 if (appbase != null && appbase != selectedConfig.BasePath)
                     UpdateApplicationBase(appbase);
             }
-#else
-            if (OSPlatform.CurrentPlatform.IsWindows)
-            {
-                CP.Windows.Shell.FolderBrowser browser 
-					= new CP.Windows.Shell.FolderBrowser(this, project.BasePath);
-                browser.Caption = "Project Editor";
-                browser.Title = string.Format("Select ApplicationBase for the {0} configuration", selectedConfig.Name);
-                browser.InitialSelection = selectedConfig.BasePath;
-                string appbase = browser.BrowseForFolder();
-                if (appbase != null && appbase != string.Empty && appbase != selectedConfig.BasePath)
-                    UpdateApplicationBase(appbase);
-            }
-#endif
 		}
 
 		private void applicationBaseTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
@@ -1107,12 +1079,6 @@ namespace NUnit.Gui
 
             this.ProcessModel = project.ProcessModel;
             this.DomainUsage = project.DomainUsage;
-
-#if !NET_2_0
-            this.projectBaseBrowseButton.Enabled
-                = this.configBaseBrowseButton.Enabled
-                = OSPlatform.CurrentPlatform.IsWindows;
-#endif
 
 			this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged);
 			this.domainUsageComboBox.SelectedIndexChanged += new System.EventHandler(this.domainUsageComboBox_SelectedIndexChanged);

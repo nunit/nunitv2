@@ -1258,11 +1258,7 @@ namespace NUnit.Gui
             else // Running from installed version, go down to install directory
                 dir = dir.Parent.Parent;
 
-#if NET_2_0
             string helpUrl = ConfigurationManager.AppSettings["helpUrl"];
-#else
-            string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
-#endif
 
 			if ( helpUrl == null )
 			{

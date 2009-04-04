@@ -35,7 +35,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -58,7 +58,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;NET_2_0</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>false</DebugSymbols>
@@ -149,10 +149,6 @@
     <Compile Include="..\..\..\..\src\GuiComponents\UiKit\ExpandingTextBox.cs">
       <Link>ExpandingTextBox.cs</Link>
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\GuiComponents\UiKit\FolderBrowser.cs">
-      <Link>FolderBrowser.cs</Link>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\GuiComponents\UiKit\GuiAttachedConsole.cs">
       <Link>GuiAttachedConsole.cs</Link>
