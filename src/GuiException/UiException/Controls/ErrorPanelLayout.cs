@@ -71,24 +71,26 @@ namespace NUnit.UiException.Controls
             //_header[PANEL_RIGHT].BackColor = Color.Violet;
             //_contentDefault.BackColor = Color.Green;
 
-            SizeChanged += 
-                (object sender, EventArgs e) => {
-                doLayout(); };
+            SizeChanged += new EventHandler(ErrorPanelLayout_SizeChanged);
 
-            _header[PANEL_RIGHT].ControlAdded += 
-                (object sender, ControlEventArgs e) => {
-                    doLayout();
-                };
+            _header[PANEL_RIGHT].ControlAdded += new ControlEventHandler(ErrorPanelLayout_ControlAddedOrRemoved);
 
-            _header[PANEL_RIGHT].ControlRemoved +=
-                (object sender, ControlEventArgs e) => {
-                    doLayout();
-                };
+            _header[PANEL_RIGHT].ControlRemoved += new ControlEventHandler(ErrorPanelLayout_ControlAddedOrRemoved);
 
             Width = 200;
             Height = 200;
 
             return;
+        }
+
+        void ErrorPanelLayout_ControlAddedOrRemoved(object sender, ControlEventArgs e)
+        {
+            doLayout();
+        }
+
+        void ErrorPanelLayout_SizeChanged(object sender, EventArgs e)
+        {
+            doLayout();
         }
 
         /// <summary>

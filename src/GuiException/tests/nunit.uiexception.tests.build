@@ -6,10 +6,16 @@
     <include name="CodeFormatters/TestCodeFormatterCollection.cs"/>
     <include name="CodeFormatters/TestPlainTextCodeFormatter.cs"/>
     <include name="Controls/TestCodeBox.cs"/>
-    <include name="Controls/TestCodeBoxComposite.cs"/>
-    <include name="Controls/TestCodeViewport.cs"/>
-    <include name="Controls/TestExceptionList.cs"/>
-    <include name="Controls/TestPagineerControl.cs"/>
+    <include name="Controls/TestCodeRenderingContext.cs"/>
+    <include name="Controls/TestDefaultCodeRenderer.cs"/>
+    <include name="Controls/TestDefaultErrorListRenderer.cs"/>
+    <include name="Controls/TestErrorBrowser.cs"/>
+    <include name="Controls/TestErrorList.cs"/>
+    <include name="Controls/TestErrorPanelLayout.cs"/>
+    <include name="Controls/TestErrorToolbar.cs"/>
+    <include name="Controls/TestSourceCodeDisplay.cs"/>
+    <include name="Controls/TestSplitterBox.cs"/>
+    <include name="Controls/TestStackTraceDisplay.cs"/>
     <include name="CSharpParser/TestCSCode.cs"/>
     <include name="CSharpParser/TestCSParser.cs"/>
     <include name="CSharpParser/TestLexer.cs"/>
@@ -23,14 +29,12 @@
     <include name="StackTraceAnalysers/TestPathParser.cs"/>
     <include name="StackTraceAnalysers/TestUnixPathParser.cs"/>
     <include name="StackTraceAnalysers/TestWindowsPathParser.cs"/>
+    <include name="MockHelper.cs"/>
     <include name="TestDefaultTextManager.cs"/>
-    <include name="TestExceptionBrowserLink.cs"/>
     <include name="TestExceptionItem.cs"/>
     <include name="TestExceptionItemCollection.cs"/>
-    <include name="TestMouseWatcher.cs"/>
     <include name="TestPaintLineLocation.cs"/>
     <include name="TestStackTraceParser.cs"/>
-    <include name="TestTextPainter.cs"/>
   </patternset>
 
   <patternset id="resource-files">
@@ -56,6 +60,7 @@
         <include name="System.Drawing.dll"/>
         <include name="System.Windows.Forms.dll"/>
         <include name="${current.framework.dir}/nunit.framework.dll"/>
+        <include name="${current.framework.dir}/nunit.mocks.dll"/>
         <include name="${current.build.dir}/nunit.uiexception.dll"/>
         <include name="${current.test.dir}/test-utilities.dll"/>
       </references>

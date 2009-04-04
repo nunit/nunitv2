@@ -35,10 +35,14 @@ namespace NUnit.UiException.Tests.Controls
 
             _stackTraceChanged = false;
 
-            _errorBrowser.StackTraceSourceChanged +=
-                (object sender, EventArgs args) => { _stackTraceChanged = true; };
+            _errorBrowser.StackTraceSourceChanged += new EventHandler(_errorBrowser_StackTraceSourceChanged);
 
             return;
+        }
+
+        void _errorBrowser_StackTraceSourceChanged(object sender, EventArgs e)
+        {
+            _stackTraceChanged = true;
         }
 
         [Test]

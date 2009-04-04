@@ -94,6 +94,10 @@
       <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
     </ProjectReference>
+    <ProjectReference Include="..\..\GuiException\UIException\nunit.uiexception.dll.csproj">
+      <Project>{1CE2DE16-D895-4598-8331-B03549BDB50F}</Project>
+      <Name>nunit.uiexception.dll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll.csproj">
       <Name>nunit.core.dll</Name>
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>

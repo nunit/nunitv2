@@ -50,10 +50,14 @@ namespace NUnit.UiException.Tests.Controls
 
             _selectionNotification = false;
 
-            _list.SelectedItemChanged += (object sender, EventArgs args)
-                => { _selectionNotification = true; };            
+            _list.SelectedItemChanged += new EventHandler(_list_SelectedItemChanged);
 
             return;
+        }
+
+        void _list_SelectedItemChanged(object sender, EventArgs e)
+        {
+            this._selectionNotification = true;
         }
 
         [Test]

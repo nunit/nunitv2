@@ -48,10 +48,14 @@ namespace NUnit.UiException.Tests.Controls
             _filledToolbar.Register(_browser);
 
             _rendererChangeNotification = false;
-            _filledToolbar.SelectedRendererChanged += 
-                (object sender, EventArgs args) => { _rendererChangeNotification = true; };
+            _filledToolbar.SelectedRendererChanged += new EventHandler(_filledToolbar_SelectedRendererChanged);
 
             return;
+        }
+
+        void _filledToolbar_SelectedRendererChanged(object sender, EventArgs e)
+        {
+            _rendererChangeNotification = true;
         }
 
         [Test]

@@ -3,26 +3,28 @@
 
   <patternset id="source-files">
     <include name="Properties/Resources.designer.cs"/>
-    <include name="Properties/Settings.designer.cs"/>
-    <include name="CodeFormatters/GeneralCodeFormatter.cs"/>
     <include name="CodeFormatters/CodeFormatterCollection.cs"/>
-    <include name="CodeFormatters/PlainTextCodeFormatter.cs"/>
+    <include name="CodeFormatters/GeneralCodeFormatter.cs"/>
     <include name="CodeFormatters/ICodeFormatter.cs"/>
+    <include name="CodeFormatters/IFormatterCatalog.cs"/>
+    <include name="CodeFormatters/PlainTextCodeFormatter.cs"/>
     <include name="Controls/CodeBox.cs"/>
-    <include name="Controls/CodeBox.designer.cs"/>
-    <include name="Controls/CodeBoxComposite.cs"/>
-    <include name="Controls/CodeBoxComposite.designer.cs"/>
-    <include name="Controls/CodeBoxWindow.cs"/>
-    <include name="Controls/CodeBoxWindow.designer.cs"/>
-    <include name="Controls/CodeViewport.cs"/>
-    <include name="Controls/ExceptionList.cs"/>
-    <include name="Controls/ExceptionWindow.cs"/>
-    <include name="Controls/ExceptionWindow.designer.cs"/>
-    <include name="Controls/HoverButton.cs"/>
-    <include name="Controls/HoverButton.designer.cs"/>
-    <include name="Controls/PagineerControl.cs"/>
-    <include name="Controls/PagineerControl.designer.cs"/>
+    <include name="Controls/CodeRenderingContext.cs"/>
+    <include name="Controls/DefaultCodeRenderer.cs"/>
+    <include name="Controls/DefaultErrorListRenderer.cs"/>
+    <include name="Controls/ErrorBrowser.cs"/>
+    <include name="Controls/ErrorList.cs"/>
+    <include name="Controls/ErrorPanelLayout.cs"/>
+    <include name="Controls/ErrorToolbar.cs"/>
+    <include name="Controls/ICodeRenderer.cs"/>
+    <include name="Controls/ICodeView.cs"/>
+    <include name="Controls/IErrorDisplay.cs"/>
+    <include name="Controls/IErrorListRenderer.cs"/>
+    <include name="Controls/IStackTraceView.cs"/>
     <include name="Controls/PaintLineLocation.cs"/>
+    <include name="Controls/SourceCodeDisplay.cs"/>
+    <include name="Controls/SplitterBox.cs"/>
+    <include name="Controls/StackTraceDisplay.cs"/>
     <include name="CSharpParser/CSCode.cs"/>
     <include name="CSharpParser/CSParser.cs"/>
     <include name="CSharpParser/CSToken.cs"/>
@@ -39,33 +41,19 @@
     <include name="StackTraceAnalysers/WindowsPathParser.cs"/>
     <include name="AssemblyInfo.cs"/>
     <include name="DefaultTextManager.cs"/>
-    <include name="ExceptionBrowserLink.cs"/>
-    <include name="ExceptionBrowserLink.designer.cs"/>
     <include name="ExceptionItem.cs"/>
     <include name="ExceptionItemCollection.cs"/>
     <include name="ITextManager.cs"/>
-    <include name="MouseWatcher.cs"/>
     <include name="StackTraceParser.cs"/>
-    <include name="TextPainter.cs"/>
     <include name="TraceExceptionHelper.cs"/>
   </patternset>
 
   <patternset id="resource-files">
     <include name="Properties/Resources.resx"/>
-    <include name="Controls/CodeBox.resx"/>
-    <include name="Controls/CodeBoxComposite.resx"/>
-    <include name="Controls/CodeBoxWindow.resx"/>
-    <include name="Controls/ExceptionWindow.resx"/>
-    <include name="Controls/HoverButton.resx"/>
-    <include name="Controls/PagineerControl.resx"/>
-    <include name="ExceptionBrowserLink.resx"/>
   </patternset>
 
   <patternset id="content-files">
-    <include name="Resources/Arrows.png"/>
-    <include name="Resources/ExceptionListLeftBackground.bmp"/>
-    <include name="Resources/ExceptionListMarginIcon.png"/>
-    <include name="Resources/ExceptionListMarginLeft.png"/>
+    <include name="Resources/*.png"/>
   </patternset>
 
   <target name="build">
