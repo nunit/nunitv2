@@ -107,38 +107,38 @@
       <Link>StackTraceAnalysers\TestWindowsPathParser.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestSourceCodeDisplay.cs">
-		<Link>Controls\TestSourceCodeDisplay.cs</Link>
-	</Compile>
+      <Link>Controls\TestSourceCodeDisplay.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestCodeRenderingContext.cs">
-		<Link>Controls\TestCodeRenderingContext.cs</Link>
-	</Compile>
+      <Link>Controls\TestCodeRenderingContext.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestDefaultCodeRenderer.cs">
-		<Link>Controls\TestDefaultCodeRenderer.cs</Link>
-	</Compile>
+      <Link>Controls\TestDefaultCodeRenderer.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestDefaultErrorListRenderer.cs">
-		<Link>Controls\TestDefaultErrorListRenderer.cs</Link>
-	</Compile>
+      <Link>Controls\TestDefaultErrorListRenderer.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestErrorBrowser.cs">
-		<Link>Controls\TestErrorBrowser.cs</Link>
-	</Compile>
+      <Link>Controls\TestErrorBrowser.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestErrorList.cs">
-		<Link>Controls\TestErrorList.cs</Link>
-	</Compile>
+      <Link>Controls\TestErrorList.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestErrorPanelLayout.cs">
-		<Link>Controls\TestErrorPanelLayout.cs</Link>
-	</Compile>
+      <Link>Controls\TestErrorPanelLayout.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestErrorToolbar.cs">
-		<Link>Controls\TestErrorToolbar.cs</Link>
-	</Compile>
+      <Link>Controls\TestErrorToolbar.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestStackTraceDisplay.cs">
-		<Link>Controls\TestStackTraceDisplay.cs</Link>
-	</Compile>
+      <Link>Controls\TestStackTraceDisplay.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\Controls\TestSplitterBox.cs">
-		<Link>Controls\TestSplitterBox.cs</Link>
-	</Compile>
+      <Link>Controls\TestSplitterBox.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\GuiException\tests\MockHelper.cs">
-		<Link>MockHelper.cs</Link>
-	</Compile>
+      <Link>MockHelper.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
@@ -153,9 +153,9 @@
       <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>
       <Name>test-utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\UiException\nunit.uiexception.dll.csproj">
+    <ProjectReference Include="..\UIException\nunit.uiexception.dll.csproj">
       <Project>{3E87A106-EB20-4147-84C8-95B0BB43A1D4}</Project>
-      <Name>NUnitStacktrace</Name>
+      <Name>nunit.uiexception.dll</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
