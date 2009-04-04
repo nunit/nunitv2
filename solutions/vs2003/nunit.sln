@@ -1,13 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui", "GuiRunner\nunit-gui\nunit-gui.csproj", "{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.mocks", "NUnitMocks\mocks\nunit.mocks.csproj", "{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uikit.dll", "GuiComponents\UiKit\nunit.uikit.dll.csproj", "{27531BBF-183D-4C3A-935B-D840B9F1A3A4}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -20,10 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.dll", "NUni
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.mocks.tests", "NUnitMocks\tests\nunit.mocks.tests.csproj", "{8667C588-1A05-4773-A9E8-272EB302B8AB}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.uikit.tests", "GuiComponents\tests\nunit.uikit.tests.csproj", "{63EC3999-FA6B-4C5B-8805-5A88AF4CBD7B}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -40,14 +28,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.util.tests", "ClientU
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit.framework.tests", "NUnitFramework\tests\nunit.framework.tests.csproj", "{8C326431-AE57-4645-ACC1-A90A0B425129}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.exe", "GuiRunner\nunit-gui-exe\nunit-gui.exe.csproj", "{AAB186A4-FA3D-404D-AD78-7EB5BB861655}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.tests", "GuiRunner\tests\nunit-gui.tests.csproj", "{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -129,18 +109,10 @@ Global
 		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug.ActiveCfg = Debug|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Debug.Build.0 = Debug|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Release.ActiveCfg = Release|.NET
-		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148}.Release.Build.0 = Release|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Debug.ActiveCfg = Debug|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Debug.Build.0 = Debug|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Release.ActiveCfg = Release|.NET
 		{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}.Release.Build.0 = Release|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug.ActiveCfg = Debug|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Debug.Build.0 = Debug|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Release.ActiveCfg = Release|.NET
-		{27531BBF-183D-4C3A-935B-D840B9F1A3A4}.Release.Build.0 = Release|.NET
 		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug.ActiveCfg = Debug|.NET
 		{61CE9CE5-943E-44D4-A381-814DC1406767}.Debug.Build.0 = Debug|.NET
 		{61CE9CE5-943E-44D4-A381-814DC1406767}.Release.ActiveCfg = Release|.NET
@@ -153,10 +125,6 @@ Global
 		{8667C588-1A05-4773-A9E8-272EB302B8AB}.Debug.Build.0 = Debug|.NET
 		{8667C588-1A05-4773-A9E8-272EB302B8AB}.Release.ActiveCfg = Release|.NET
 		{8667C588-1A05-4773-A9E8-272EB302B8AB}.Release.Build.0 = Release|.NET
-		{63EC3999-FA6B-4C5B-8805-5A88AF4CBD7B}.Debug.ActiveCfg = Debug|.NET
-		{63EC3999-FA6B-4C5B-8805-5A88AF4CBD7B}.Debug.Build.0 = Debug|.NET
-		{63EC3999-FA6B-4C5B-8805-5A88AF4CBD7B}.Release.ActiveCfg = Release|.NET
-		{63EC3999-FA6B-4C5B-8805-5A88AF4CBD7B}.Release.Build.0 = Release|.NET
 		{53BF8787-CB9C-4BB8-AFB4-605DD3A5CA0E}.Debug.ActiveCfg = Debug|.NET
 		{53BF8787-CB9C-4BB8-AFB4-605DD3A5CA0E}.Debug.Build.0 = Debug|.NET
 		{53BF8787-CB9C-4BB8-AFB4-605DD3A5CA0E}.Release.ActiveCfg = Release|.NET
@@ -173,14 +141,6 @@ Global
 		{8C326431-AE57-4645-ACC1-A90A0B425129}.Debug.Build.0 = Debug|.NET
 		{8C326431-AE57-4645-ACC1-A90A0B425129}.Release.ActiveCfg = Release|.NET
 		{8C326431-AE57-4645-ACC1-A90A0B425129}.Release.Build.0 = Release|.NET
-		{AAB186A4-FA3D-404D-AD78-7EB5BB861655}.Debug.ActiveCfg = Debug|.NET
-		{AAB186A4-FA3D-404D-AD78-7EB5BB861655}.Debug.Build.0 = Debug|.NET
-		{AAB186A4-FA3D-404D-AD78-7EB5BB861655}.Release.ActiveCfg = Release|.NET
-		{AAB186A4-FA3D-404D-AD78-7EB5BB861655}.Release.Build.0 = Release|.NET
-		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Debug.ActiveCfg = Debug|.NET
-		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Debug.Build.0 = Debug|.NET
-		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Release.ActiveCfg = Release|.NET
-		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001}.Release.Build.0 = Release|.NET
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug.ActiveCfg = Debug|.NET
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Debug.Build.0 = Debug|.NET
 		{6431BD41-67B9-4C62-8B7C-4D7527D2E8F0}.Release.ActiveCfg = Release|.NET
