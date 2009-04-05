@@ -388,7 +388,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class CollectionOrderedConstraint : CollectionConstraint
     {
-        private ComparisonAdapter comparer = new ComparisonAdapter();
+        private ComparisonAdapter comparer = ComparisonAdapter.Default;
         private string comparerName;
         private string propertyName;
         private bool descending;
@@ -415,7 +415,7 @@ namespace NUnit.Framework.Constraints
 
         public CollectionOrderedConstraint Using(IComparer comparer)
         {
-            this.comparer = new ComparisonAdapter( comparer );
+            this.comparer = ComparisonAdapter.For( comparer );
             this.comparerName = comparer.GetType().FullName;
             return this;
         }
@@ -423,14 +423,14 @@ namespace NUnit.Framework.Constraints
 #if NET_2_0
         public CollectionOrderedConstraint Using<T>(IComparer<T> comparer)
         {
-            this.comparer = new ComparisonAdapter<T>(comparer);
+            this.comparer = ComparisonAdapter.For(comparer);
             this.comparerName = comparer.GetType().FullName;
             return this;
         }
 
         public CollectionOrderedConstraint Using<T>(Comparison<T> comparer)
         {
-            this.comparer = new ComparisonAdapter<T>(comparer);
+            this.comparer = ComparisonAdapter.For(comparer);
             this.comparerName = comparer.GetType().FullName;
             return this;
         }

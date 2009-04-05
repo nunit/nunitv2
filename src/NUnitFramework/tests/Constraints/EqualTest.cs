@@ -7,6 +7,10 @@
 using System;
 using System.IO;
 using System.Drawing;
+using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Constraints.Tests
 {
@@ -249,6 +253,122 @@ namespace NUnit.Framework.Constraints.Tests
         {
             Assert.That(100m, Is.EqualTo(100m).Within(2).Ulps);
         }
+
+        [Test]
+        public void UsesProvidedIComparer()
+        {
+            MyComparer comparer = new MyComparer();
+            Assert.That(2 + 2, Is.EqualTo(4).Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyComparer : IComparer
+        {
+            public bool Called;
+
+            public int Compare(object x, object y)
+            {
+                Called = true;
+                return Comparer.Default.Compare(x, y);
+            }
+        }
+
+#if NET_2_0
+        [Test]
+        public void UsesProvidedEqualityComparer()
+        {
+            MyEqualityComparer comparer = new MyEqualityComparer();
+            Assert.That(2 + 2, Is.EqualTo(4).Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyEqualityComparer : IEqualityComparer
+        {
+            public bool Called;
+
+            bool IEqualityComparer.Equals(object x, object y)
+            {
+                Called = true;
+                return Comparer.Default.Compare(x, y) == 0;
+            }
+
+            int IEqualityComparer.GetHashCode(object x)
+            {
+                return x.GetHashCode();
+            }
+        }
+
+        [Test]
+        public void UsesProvidedEqualityComparerOfT()
+        {
+            MyEqualityComparerOfT<int> comparer = new MyEqualityComparerOfT<int>();
+            Assert.That(2 + 2, Is.EqualTo(4).Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyEqualityComparerOfT<T> : IEqualityComparer<T>
+        {
+            public bool Called;
+
+            bool IEqualityComparer<T>.Equals(T x, T y)
+            {
+                Called = true;
+                return Comparer<T>.Default.Compare(x, y) == 0;
+            }
+
+            int IEqualityComparer<T>.GetHashCode(T x)
+            {
+                return x.GetHashCode();
+            }
+        }
+
+        [Test]
+        public void UsesProvidedComparerOfT()
+        {
+            MyComparer<int> comparer = new MyComparer<int>();
+            Assert.That( 2+2, Is.EqualTo(4).Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyComparer<T> : IComparer<T>
+        {
+            public bool Called;
+
+            public int Compare(T x, T y)
+            {
+                Called = true;
+                return Comparer<T>.Default.Compare(x, y);
+            }
+        }
+
+        [Test]
+        public void UsesProvidedComparisonOfT()
+        {
+            MyComparison<int> comparer = new MyComparison<int>();
+            Assert.That(2 + 2, Is.EqualTo(4).Using(new Comparison<int>(comparer.Compare)));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyComparison<T>
+        {
+            public bool Called;
+
+            public int Compare(T x, T y)
+            {
+                Called = true;
+                return Comparer<T>.Default.Compare(x, y);
+            }
+        }
+
+#if CSHARP_3_0
+        [Test]
+        public void UsesProvidedLambda()
+        {
+            Comparison<int> comparer = (x, y) => x.CompareTo(y);
+            Assert.That(2 + 2, Is.EqualTo(4).Using(comparer));
+        }
+#endif
+#endif
     }
 
     [TestFixture]

@@ -7,6 +7,9 @@
 using System;
 using System.IO;
 using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Constraints
 {
@@ -48,9 +51,9 @@ namespace NUnit.Framework.Constraints
         private Tolerance tolerance = Tolerance.Empty;
 
         /// <summary>
-        /// IComparer object used in comparisons for some constraints.
+        /// Comparison object used in comparisons for some constraints.
         /// </summary>
-        private IComparer compareWith;
+        private EqualityAdapter comparer;
 
         #region Message Strings
         private static readonly string StringsDiffer_1 =
@@ -263,8 +266,7 @@ namespace NUnit.Framework.Constraints
         [Obsolete("Replace with 'Using'")]
         public EqualConstraint Comparer(IComparer comparer)
         {
-            this.compareWith = comparer;
-            return this;
+            return Using(comparer);
         }
 
         /// <summary>
@@ -274,9 +276,55 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public EqualConstraint Using(IComparer comparer)
         {
-            this.compareWith = comparer;
+            this.comparer = EqualityAdapter.For(comparer);
             return this;
         }
+
+#if NET_2_0
+        /// <summary>
+        /// Flag the constraint to use the supplied IComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public EqualConstraint Using<T>(IComparer<T> comparer)
+        {
+            this.comparer = EqualityAdapter.For( comparer );
+            return this;
+        }
+
+                /// <summary>
+        /// Flag the constraint to use the supplied Comparison object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public EqualConstraint Using<T>(Comparison<T> comparer)
+        {
+            this.comparer = EqualityAdapter.For( comparer );
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IEqualityComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public EqualConstraint Using(IEqualityComparer comparer)
+        {
+            this.comparer = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IEqualityComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public EqualConstraint Using<T>(IEqualityComparer<T> comparer)
+        {
+            this.comparer = EqualityAdapter.For(comparer);
+            return this;
+        }
+#endif
         #endregion
 
         #region Public Methods
@@ -365,8 +413,8 @@ namespace NUnit.Framework.Constraints
 			if (expected is Stream && actual is Stream)
 				return StreamsEqual((Stream)expected, (Stream)actual);
 
-            if (compareWith != null)
-				return compareWith.Compare( expected, actual ) == 0;
+            if (comparer != null)
+				return comparer.Equals( expected, actual );
 
             if (expected is DirectoryInfo && actual is DirectoryInfo)
                 return DirectoriesEqual((DirectoryInfo)expected, (DirectoryInfo)actual);

@@ -17,7 +17,7 @@ namespace NUnit.Framework.Constraints
         private IComparable from;
         private IComparable to;
 
-        private ComparisonAdapter comparer = new ComparisonAdapter();
+        private ComparisonAdapter comparer = ComparisonAdapter.Default;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RangeConstraint"/> class.
@@ -58,20 +58,20 @@ namespace NUnit.Framework.Constraints
 
         public RangeConstraint Using(IComparer comparer)
         {
-            this.comparer = new ComparisonAdapter(comparer);
+            this.comparer = ComparisonAdapter.For(comparer);
             return this;
         }
 
 #if NET_2_0
         public RangeConstraint Using<T>(IComparer<T> comparer)
         {
-            this.comparer = new ComparisonAdapter<T>(comparer);
+            this.comparer = ComparisonAdapter.For(comparer);
             return this;
         }
 
         public RangeConstraint Using<T>(Comparison<T> comparer)
         {
-            this.comparer = new ComparisonAdapter<T>(comparer);
+            this.comparer = ComparisonAdapter.For(comparer);
             return this;
         }
 #endif

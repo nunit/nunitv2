@@ -12,118 +12,184 @@ namespace NUnit.Framework.Constraints
     /// values in NUnit, adapting to the use of any provided
     /// IComparer, IComparer&lt;T&gt; or Comparison&lt;T&gt;
     /// </summary>
-    public class ComparisonAdapter
+    public abstract class ComparisonAdapter
     {
-        private IComparer comparer;
+        public static ComparisonAdapter Default
+        {
+            get { return new DefaultComparisonAdapter(); }
+        }
+
+        public static ComparisonAdapter For(IComparer comparer)
+        {
+            return new ComparerAdapter(comparer);
+        }
+
+#if NET_2_0
+        public static ComparisonAdapter For<T>(IComparer<T> comparer)
+        {
+            return new ComparerAdapter<T>(comparer);
+        }
+
+        public static ComparisonAdapter For<T>(Comparison<T> comparer)
+        {
+            return new ComparisonAdapterForComparison<T>(comparer);
+        }
+#endif
 
         /// <summary>
         /// Construct a default ComparisonAdapter
         /// </summary>
-        public ComparisonAdapter() { }
-
-        /// <summary>
-        /// Construct a ComparisonAdapter for an IComparer
-        /// </summary>
-        public ComparisonAdapter(IComparer comparer)
-        {
-            this.comparer = comparer;
-        }
-
         /// <summary>
         /// Compares two objects
         /// </summary>
         /// <param name="expected"></param>
         /// <param name="actual"></param>
         /// <returns></returns>
-        public virtual int Compare(object expected, object actual)
+        public abstract int Compare(object expected, object actual);
+
+        class DefaultComparisonAdapter : ComparisonAdapter
         {
-            if (expected == null)
-                throw new ArgumentException("Cannot compare using a null reference", "expected");
+            /// <summary>
+            /// Construct a default ComparisonAdapter
+            /// </summary>
+            public DefaultComparisonAdapter() { }
 
-            if (actual == null)
-                throw new ArgumentException("Cannot compare to null reference", "actual");
+            /// <summary>
+            /// Compares two objects
+            /// </summary>
+            /// <param name="expected"></param>
+            /// <param name="actual"></param>
+            /// <returns></returns>
+            public override int Compare(object expected, object actual)
+            {
+                if (expected == null)
+                    throw new ArgumentException("Cannot compare using a null reference", "expected");
 
-            if (comparer != null)
-                return comparer.Compare(expected, actual);
+                if (actual == null)
+                    throw new ArgumentException("Cannot compare to null reference", "actual");
 
-            if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
-                return Numerics.Compare(expected, actual);
+                if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
+                    return Numerics.Compare(expected, actual);
 
-            if (expected is IComparable)
-                return ((IComparable)expected).CompareTo(actual);
+                if (expected is IComparable)
+                    return ((IComparable)expected).CompareTo(actual);
 
-            if (actual is IComparable)
-                return -((IComparable)actual).CompareTo(expected);
+                if (actual is IComparable)
+                    return -((IComparable)actual).CompareTo(expected);
 
-            MethodInfo method = expected.GetType().GetMethod("CompareTo", new Type[] { actual.GetType() });
-            if (method != null)
-                return (int)method.Invoke(expected, new object[] { actual });
+                MethodInfo method = expected.GetType().GetMethod("CompareTo", new Type[] { actual.GetType() });
+                if (method != null)
+                    return (int)method.Invoke(expected, new object[] { actual });
 
-            throw new ArgumentException("Expected value must implement IComparable or IComparable<T>");
+                throw new ArgumentException("Expected value must implement IComparable or IComparable<T>");
+            }
         }
-    }
+
+        class ComparerAdapter : ComparisonAdapter
+        {
+            private IComparer comparer;
+
+            /// <summary>
+            /// Construct a ComparisonAdapter for an IComparer
+            /// </summary>
+            public ComparerAdapter(IComparer comparer)
+            {
+                this.comparer = comparer;
+            }
+
+            /// <summary>
+            /// Compares two objects
+            /// </summary>
+            /// <param name="expected"></param>
+            /// <param name="actual"></param>
+            /// <returns></returns>
+            public override int Compare(object expected, object actual)
+            {
+                if (expected == null)
+                    throw new ArgumentException("Cannot compare using a null reference", "expected");
+
+                if (actual == null)
+                    throw new ArgumentException("Cannot compare to null reference", "actual");
+
+                if (comparer != null)
+                    return comparer.Compare(expected, actual);
+
+                if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
+                    return Numerics.Compare(expected, actual);
+
+                if (expected is IComparable)
+                    return ((IComparable)expected).CompareTo(actual);
+
+                if (actual is IComparable)
+                    return -((IComparable)actual).CompareTo(expected);
+
+                MethodInfo method = expected.GetType().GetMethod("CompareTo", new Type[] { actual.GetType() });
+                if (method != null)
+                    return (int)method.Invoke(expected, new object[] { actual });
+
+                throw new ArgumentException("Expected value must implement IComparable or IComparable<T>");
+            }
+        }
 
 #if NET_2_0
-    /// <summary>
-    /// ComparisonAdapter&lt;T&gt; extends ComparisonAdapter and
-    /// allows use of an IComparer&lt;T&gt; or Comparison&lt;T&gt;
-    /// to actually perform the comparison.
-    /// </summary>
-    public class ComparisonAdapter<T> : ComparisonAdapter
-    {
-        private IComparer<T> genericComparer;
-        private Comparison<T> comparison;
-
         /// <summary>
-        /// Construct a ComparisonAdapter for an IComparer&lt;T&gt;
+        /// ComparisonAdapter&lt;T&gt; extends ComparisonAdapter and
+        /// allows use of an IComparer&lt;T&gt; or Comparison&lt;T&gt;
+        /// to actually perform the comparison.
         /// </summary>
-        public ComparisonAdapter(IComparer<T> comparer)
+        class ComparerAdapter<T> : ComparisonAdapter
         {
-            this.genericComparer = comparer;
-        }
+            private IComparer<T> comparer;
 
-        /// <summary>
-        /// Construct a ComparisonAdapter for a Comparison&lt;T&gt;
-        /// </summary>
-        public ComparisonAdapter(Comparison<T> comparer)
-        {
-            this.comparison = comparer;
-        }
-
-        /// <summary>
-        /// Compare two objects
-        /// </summary>
-        public override int Compare(object expected, object actual)
-        {
-            if ( expected is T )
-                return Compare((T)expected, actual);
-
-            return base.Compare(expected, actual);
-        }
-
-        /// <summary>
-        /// Compare a Type T to an object
-        /// </summary>
-        public int Compare(T expected, object actual)
-        {
-            if (genericComparer != null)
+            /// <summary>
+            /// Construct a ComparisonAdapter for an IComparer&lt;T&gt;
+            /// </summary>
+            public ComparerAdapter(IComparer<T> comparer)
             {
+                this.comparer = comparer;
+            }
+
+            /// <summary>
+            /// Compare a Type T to an object
+            /// </summary>
+            public override int Compare(object expected, object actual)
+            {
+                if (!typeof(T).IsAssignableFrom(expected.GetType()))
+                    throw new ArgumentException("Cannot compare " + expected.ToString());
+
                 if (!typeof(T).IsAssignableFrom(actual.GetType()))
                     throw new ArgumentException("Cannot compare to " + actual.ToString());
 
-                return genericComparer.Compare(expected, (T)actual);
+                return comparer.Compare((T)expected, (T)actual);
+            }
+        }
+
+        class ComparisonAdapterForComparison<T> : ComparisonAdapter
+        {
+            private Comparison<T> comparison;
+
+            /// <summary>
+            /// Construct a ComparisonAdapter for a Comparison&lt;T&gt;
+            /// </summary>
+            public ComparisonAdapterForComparison(Comparison<T> comparer)
+            {
+                this.comparison = comparer;
             }
 
-            if (comparison != null)
+            /// <summary>
+            /// Compare a Type T to an object
+            /// </summary>
+            public override int Compare(object expected, object actual)
             {
+                if (!typeof(T).IsAssignableFrom(expected.GetType()))
+                    throw new ArgumentException("Cannot compare " + expected.ToString());
+
                 if (!typeof(T).IsAssignableFrom(actual.GetType()))
                     throw new ArgumentException("Cannot compare to " + actual.ToString());
 
-                return comparison.Invoke(expected, (T)actual);
+                return comparison.Invoke((T)expected, (T)actual);
             }
-
-            return base.Compare(expected, actual);
         }
-    }
 #endif
+    }
 }

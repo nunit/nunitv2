@@ -399,6 +399,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ComparisonAdapter.cs">
       <Link>Constraints\ComparisonAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\EqualityAdapter.cs">
+      <Link>Constraints\EqualityAdapter.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">
