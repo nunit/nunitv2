@@ -206,7 +206,7 @@ namespace NUnit.ConsoleRunner
 			}
 			else
 			{
-				package = new TestPackage("UNNAMED", options.Parameters);
+				package = new TestPackage(null, options.Parameters);
 				domainUsage = DomainUsage.Multiple;
 			}
 
