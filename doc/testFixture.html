@@ -26,24 +26,32 @@
 
 <script language="JavaScript" src="codeFuncs.js" ></script> <!-- Do it this way for IE -->
 
-<h3>TestFixtureAttribute (NUnit 2.0)</h3>
+<h3>TestFixtureAttribute (NUnit 2.0 / 2.5)</h3>
+
 <p>This is the attribute that marks a class that contains tests and, optionally, 
-	setup or teardown methods.</p>
+	setup or teardown methods. NUnit 2.5 introduces parameterized and generic
+	test fixtures - see below.</p>
+	
 <p>There are a few restrictions on a class that is used as a test fixture.
 	<ul>
 		<li>It must be a publicly exported type.</li>
 		<li>It must have not be abstract.</li>
-		<li>It must have a default constructor</li>
-		<li>It must have no more than one of each of the following method
-		    types: SetUp, TearDown, TestFixtureSetUp and TestFixtureTearDown.</li>
+		<li>A non-parameterized fixture must have a default constructor. 
+		<li>A parameterized fixture must have a constructor that matches
+			the parameters provided.
 	</ul>
 </p>
 
-<p>If any of these restrictions are violated, the class will be shown as a
-   non-runnable test fixture, and will turn yellow in the Gui if you attempt to run it.</p>
+<p>If any of these restrictions are violated, the class is not runnable
+   as a test and will display as an error in the Gui.</p>
 
 <p>In addition, it is advisable that the constructor not have any side effects, 
    since NUnit may construct the object multiple times in the course of a session.</li>
+
+<p>Beginning with NUnit 2.5, the <b>TestFixture</b> attribute is optional
+   for non-paramterized, non-generic fixtures, so long as the class contains
+   at least one method marked with the <b>Test</b>,
+   <b>TestCase</b> or <b>TestCaseSource</b> attribute.
 
 <h4>Example:</h4>
 
@@ -118,6 +126,65 @@ public class SuccessTests
 
 </div>
 
+<h3>Parameterized Test Fixtures (NUnit 2.5)</h3>
+
+<p>Beginning with NUnit 2.5, test fixtures may take constructor arguments.
+   Argument values are specified as arguments to the <b>TestFixture</b>
+   attribute. NUnit will construct a separate instance of the fixture
+   for each set of arguments.
+   
+<h4>Example</h4>
+
+<p>The following test fixture would be instantiated by NUnit three times,
+   passing in each set of arguments to the appropriate constructor. Note
+   that there are three different constructors, matching the data types
+   provided as arguments.
+   
+<div class="code"><pre>
+[TestFixture("hello", "hello", "goodbye")]
+[TestFixture("zip", "zip")]
+[TestFixture(42, 42, 99)]
+public class ParameterizedTestFixture
+{
+    private string eq1;
+    private string eq2;
+    private string neq;
+    
+    public ParameterizedTestFixture(string eq1, string eq2, string neq)
+    {
+        this.eq1 = eq1;
+        this.eq2 = eq2;
+        this.neq = neq;
+    }
+
+    public ParameterizedTestFixture(string eq1, string eq2)
+        : this(eq1, eq2, null) { }
+
+    public ParameterizedTestFixture(int eq1, int eq2, int neq)
+    {
+        this.eq1 = eq1.ToString();
+        this.eq2 = eq2.ToString();
+        this.neq = neq.ToString();
+    }
+
+    [Test]
+    public void TestEquality()
+    {
+        Assert.AreEqual(eq1, eq2);
+        if (eq1 != null &amp;&amp; eq2 != null)
+            Assert.AreEqual(eq1.GetHashCode(), eq2.GetHashCode());
+    }
+
+    [Test]
+    public void TestInequality()
+    {
+        Assert.AreNotEqual(eq1, neq);
+        if (eq1 != null &amp;&amp; neq != null)
+            Assert.AreNotEqual(eq1.GetHashCode(), neq.GetHashCode());
+    }
+}
+</pre></div>
+
 <h3>Generic Test Fixtures (NUnit 2.5)</h3>
 
 <p>Beginning with NUnit 2.5, you may use a generic class as a test fixture.
@@ -150,6 +217,95 @@ public class IList_Tests&lt;TList&gt; where TList : IList, new()
     Assert.AreEqual(3, list.Count);
   }
 }</pre></div>
+
+<h3>Generic Test Fixtures with Parameters (NUnit 2.5)</h3>
+
+<p>If a Generic fixture, uses constructor arguments, there are three
+   approaches to telling NUnit which arguments are type parameters 
+   and which are normal constructor parameters.
+   <ol>
+   <li>Specify both sets of parameters as arguments to the <b>TestFixtureAttribute</b>.
+       Leading <b>System.Type</b> arguments are used as type parameters, while
+	   any remaining arguments are used to construct the instance. In the
+	   following example, this leads to some obvious duplication...
+
+<div class="code"><pre>
+[TestFixture(typeof(double), typeof(int), 100.0, 42)]
+[TestFixture(typeof(int) typeof(double), 42, 100.0)]
+public class SpecifyBothSetsOfArgs<T1, T2>
+{
+    T1 t1;
+    T2 t2;
+
+    public SpecifyBothSetsOfArgs(T1 t1, T2 t2)
+    {
+        this.t1 = t1;
+        this.t2 = t2;
+    }
+
+    [TestCase(5, 7)]
+    public void TestMyArgTypes(T1 t1, T2 t2)
+    {
+        Assert.That(t1, Is.TypeOf<T1>());
+        Assert.That(t2, Is.TypeOf<T2>());
+    }
+}</pre></div>
+
+   <li>Specify normal parameters as arguments to <b>TestFixtureAttribute</b>
+       and use the named parameter <b>TypeArgs=</b> to specify the type
+	   arguments. Again, for this example, the type info is duplicated, but
+	   it is at least more cleanly separated from the normal arguments...
+
+<div class="code" style="width: 40em"><pre>
+[TestFixture(100.0, 42, TypeArgs=new Type[] {typeof(double), typeof(int) } )]
+[TestFixture(42, 100.0, TypeArgs=new Type[] {typeof(int), typeof(double) } )]
+public class SpecifyTypeArgsSeparately<T1, T2>
+{
+    T1 t1;
+    T2 t2;
+
+    public SpecifyTypeArgsSeparately(T1 t1, T2 t2)
+    {
+        this.t1 = t1;
+        this.t2 = t2;
+    }
+
+    [TestCase(5, 7)]
+    public void TestMyArgTypes(T1 t1, T2 t2)
+    {
+        Assert.That(t1, Is.TypeOf<T1>());
+        Assert.That(t2, Is.TypeOf<T2>());
+    }
+}</pre></div>
+
+   <li>In some cases, when the constructor makes use of all the type parameters 
+       NUnit may simply be able to deduce them from the arguments provided. 
+	   That's the case here and the following is the preferred way to
+	   write this example...
+   
+<div class="code"><pre>
+[TestFixture(100.0, 42)]
+[TestFixture(42, 100.0)]
+public class DeduceTypeArgsFromArgs<T1, T2>
+{
+    T1 t1;
+    T2 t2;
+
+    public DeduceTypeArgsFromArgs(T1 t1, T2 t2)
+    {
+        this.t1 = t1;
+        this.t2 = t2;
+    }
+
+    [TestCase(5, 7)]
+    public void TestMyArgTypes(T1 t1, T2 t2)
+    {
+        Assert.That(t1, Is.TypeOf<T1>());
+        Assert.That(t2, Is.TypeOf<T2>());
+    }
+}</pre></div>
+   </ol> 
+
 </div>
 
 <!-- Submenu -->
@@ -216,7 +372,7 @@ public class IList_Tests&lt;TList&gt; where TList : IList, new()
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2009 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

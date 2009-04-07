@@ -24,11 +24,77 @@
 
 <div id="content">
 
-<h3>NUnit 2.5 Beta 2 Release - Version 2.5.0.9015 - January 15, 2009</h3>
+<h3>NUnit 2.5 Beta 3 Release - Version 2.5.0.9096 - April 6, 2009</h3>
 
 <div style="max-width:660px;text-align:right">
 <a href="releaseNotes.html">View Combined 2.5 Changes</a>
 </div>
+
+<h4>General</h4>
+
+<ul>
+<li>The Gui is now built against .NET 2.0 only. Tests may still
+be run under .NET 1.x by running in a separate process.
+
+<li>The Visual Studio 2003 solution has been removed. Framework
+and other components may still be built under .NET 1.x through
+the NAnt script.
+
+<li>The nunit.framework.extensions assembly has been removed
+from the build.
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li><b>EqualConstraint</b> has been enhanced with
+    several new modifiers, which may be used immediately after
+	the Within(...) modifier to indicate how a numeric tolerance value
+	should be interpreted.
+	<ul>
+	<li><b>Ulps</b> = as units in the last place (floating point only)
+	<li><b>Percent</b> = as a percentage of expected value
+	<li><b>Days</b> =  as a TimeSpan in days
+	<li><b>Hours</b> = as a TimeSpan in hours
+	<li><b>Minutes</b> = as a TimeSpan in minutes
+	<li><b>Seconds</b> = as a TimeSpan in seconds
+	<li><b>Milliseconds</b> = as a TimeSpan in milliseconds
+	<li><b>Ticks</b> = as a TimeSpan in ticks
+	</ul>
+
+<li>The comparison constraints (<b>GreaterThan</b>, <b>LessThan</b>, etc.),
+    <b>RangeConstraint</b> and <b>CollectionOrderedConstraint</b> may now be used 
+	with 	objects that implement <b>IComparable&lt;T&gt;</b>.
+    
+<li>The syntax used for specifying that a collection is ordered has changed.
+    <b>Is.Ordered</b> is now a property. The property name to use for ordering
+	is specified using <b>Is.Ordered.By(name)</b>.
+	
+<li>The following constraints now accept a <b>Using</b> modifier to indicate
+    that a user-specified comparer should be used:
+	<ul><b>
+	<li>EqualConstraint
+	<li>GreaterThanConstraint
+	<li>GreaterThanOrEqualConstraint
+	<li>LessThanConstraint
+	<li>LessThanOrEqualConstraint
+	<li>RangeConstraint
+	<li>CollectionOrderedConstraint
+	</b></ul>
+	The provided comparer may be any of the following:
+	<ul><b>
+	<li>IComparer
+	<li>IComparer&lt;T&gt;
+	<li>Comparison&lt;T&gt;
+	</b></ul>
+	In addition, <b>EqualConstraint</b> may use:
+	<ul><b>
+	<li>IEqualityComparer
+	<li>IEqualityComparer&lt;T&gt;
+	</b></ul>
+</ul>
+
+<h3>NUnit 2.5 Beta 2 Release - Version 2.5.0.9015 - January 15, 2009</h3>
 
 <h4>Framework</h4>
 
@@ -43,7 +109,7 @@
     include the signatures newly introduced for Assert.That.
 <li>The code for Assert is now generated. This is in addition to the files 
     that were generated in beta-1.
-<li><b>AfterConsraint</b> has been renamed to <b>DelayedConstraint</b>.
+<li><b>AfterConstraint</b> has been renamed to <b>DelayedConstraint</b>.
 </ul>
 
 <h4>Console</h4>
@@ -655,7 +721,7 @@ this release may be removed or changed in future releases.
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2009 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

@@ -6,7 +6,7 @@ table { font: 1em "Verdana", "Arial", "Helvetica", sans-serif; }
 h1 { font-size: 1.8em; font-weight: bold; }
 h2 { font-size: 1.5em; font-weight: bold; }
 h3 { font-size: 1.2em; font-weight: bold; }
-h4 { font-size: 1em; font-weight: bold; margin: 0; padding: 0; }
+h4 { font-size: 1em; font-weight: bold;  }
 ul.across { width: 100%; display: block; list-style: none; }
 ul.across li { float: left; display: block; width: 9em }
 

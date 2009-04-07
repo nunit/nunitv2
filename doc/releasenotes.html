@@ -32,7 +32,7 @@ dt { font-weight: bold }
 
 <h2>Release Notes</h2>
 
-<h3>NUnit 2.5 Beta 2 Release - Version 2.5.0.9015 - January 15, 2009</h3>
+<h3>NUnit 2.5 Beta 3 Release - Version 2.5.0.9096 - April 6, 2009</h3>
 
 <div style="max-width:660px;text-align:right">
 <a href="releaseDetail.html">View Changes Separately for Each 2.5 Pre-Release</a>
@@ -54,10 +54,14 @@ dt { font-weight: bold }
     To install pNUnit or the NUnit tests select Complete or Custom.
 <li>There are no longer separate distributed packages for .NET 1.1 and 2.0.
     Both the binary zip and msi packages contain subdirectories for .NET
-	1.1 and 2.0. In the case of the msi, the user may elect to install either
+	1.1 and 2.0. The Gui is now built for .NET 2.0 only. Tests may still
+    be run under .NET 1.0 o 1.1 by running in a separate process. 
+	In the case of the msi, the user may elect to install either
 	or both of them.
 <li>The Visual Studio solutions and projects are now in a directory tree that 
-	is parallel to the source tree. A VS2008 project has been added.
+	is parallel to the source tree. A VS2008 project has been added and the
+	VS2003 project was removed. Certain components are still built for .NET
+	1.0 and 1.1 through the NAnt script.
 <li>Most of the code for Assert and for elements of the constraint
     syntax is now generated. This allows us to more rapidly deploy new 
 	constraints with their corresponding syntax. The file <b>SyntaxElements.txt</b>
@@ -66,21 +70,52 @@ dt { font-weight: bold }
 	generated files continue to reside in the NUnit source at this time,
 	so that those working in other areas of the code don't have to regenerate 
 	them each time they make changes.
-<li>The nunit.core.extensions assembly has been removed from the build.
-<li>NUnit is now built using NAnt 0.86 beta 1
-<li>The windows installer is now created using WiX 2.0.5085
+<li>The nunit.framework.extensions and nunit.core.extensions assemblies have 
+    been removed from the build.
+<li>NUnit is now built using NAnt 0.86 beta 1. The windows installer is created 
+    with WiX 2.0.5085
 </ul>
 
-<h4>Framework</h4>
+<h4>Framework - Attributes</h4>
 
 <ul>
+<li>NUnit 2.5 features parameterized tests, which are defined using a number
+    of new attributes:
+	<ul>
+	<li><b>TestCaseAttribute</b> allows the programmer to
+		specify the arguments and a number of optional parameters inline.
+	<li><b>TestCaseSourceAttribute</b> identifies a property, field or method
+	    that to provide the arguments and other parameters.
+	<li><b>ValuesAttribute</b> is used on a method parameter to specify
+	    a set of values to be supplied as arguments inline. 
+	<li><b>RangeAttribute</b> works like <b>ValuesAttribute</b> but lets
+		you specify a range to be used for the arguments.
+	<li><b>RandomAttribute</b> works like <b>ValuesAttribute</b> but lets
+		you use random values for the arguments.
+	<li><b>ValueSourceAttribute</b> is placed on a method paramter to
+	    specify the property, field or method that will supply arguments.
+	<li><b>CombinatorialAttribute</b>, <b>PairwiseAttribute</b> and
+	    <b>SequentialAttribute</b> indicate how data supplied for
+		individual parameters is combined to form test cases. The default
+		is Combinatorial, which supplies all possible combinations.
+<li>The presence of either <b>TestCaseAttribute</b> or <b>TestCaseSourceAttribute</b> 
+    on a method is now sufficient to identify it as a test even if it is not
+	decorated with <b>TestAttribute</b>.
+<li>Test Cases specified using <b>TestCaseAttribute</b> or <b>TestCaseSourceAttribute</b>
+    may include a Description, ExpectedException, Categories and Properties in
+	addition to the arguments themselves.
+<li>Parameterized test methods may be generic. NUnit will deduce
+    the correct implementation to use based on the types of the
+	parameters provided. Generic test methods are supported in
+	both generic and non-generic clases.
+	</ul>
 <li>NUnit now includes an implementation of <b>Theories</b>, similar to what
     is found in JUnit. Support for Theories is provided by the
 	<b>Theory</b>, <b>Datapoint</b> and <b>Datapoints</b> attributes and by
 	the <b>Assume.That</b> method. For more information and further links, 
 	see the <a href="theory.html">TheoryAttribute</a> 
 	documentation page.
-<li>New attributes:
+<li>Other new attributes provided in NUnit 2.5 are:
    <ul>
    <li><b>RequiresThreadAttribute</b> forces creation of a new thread and
        may optionally indicate the desired ApartmentState for the thread.
@@ -102,32 +137,10 @@ dt { font-weight: bold }
 	   does not cause the test to be cancelled, but merely times it.
 	<li><b>RepeatAttribute</b> causes a test case to be executed multiple
   	   times. This attribute was previously available as an extension.
-	<li><b>TestCaseAttribute</b> allows the programmer to
-		specify the arguments and a number of optional parameters inline.
-	<li><b>TestCaseSourceAttribute</b> identifies a property, field or method
-	    that to provide the arguments and other parameters.
-	<li><b>ValuesAttribute</b> is used on a method parameter to specify
-	    a set of values to be supplied as arguments inline. 
-	<li><b>RangeAttribute</b> works like <b>ValuesAttribute</b> but lets
-		you specify a range to be used for the arguments.
-	<li><b>RandomAttribute</b> works like <b>ValuesAttribute</b> but lets
-		you use random values for the arguments.
-	<li><b>ValueSourceAttribute</b> is placed on a method paramter to
-	    specify the property, field or method that will supply arguments.
-	<li><b>CombinatorialAttribute</b>, <b>PairwiseAttribute</b> and
-	    <b>SequentialAttribute</b> indicate how data supplied for
-		individual parameters is combined to form test cases. The default
-		is Combinatorial, which supplies all possible combinations.
     <li><b>RequiredAddinAttribute</b> may be used to mark an assembly,
         indicating the name of any addin that is required to run the tests. If the 
 	    addin is not present, the test assembly is marked NotRunnable.
    </ul>
-<li>The presence of either <b>TestCaseAttribute</b> or <b>TestCaseSourceAttribute</b> 
-    on a method is now sufficient to identify it as a test even if it is not
-	decorated with <b>TestAttribute</b>.
-<li>Test Cases specified using <b>TestCaseAttribute</b> or <b>TestCaseSourceAttribute</b>
-    may include a Description, ExpectedException, Categories and Properties in
-	addition to the arguments themselves.
 <li><b>TestFixture</b> classes may now be generic. They must be marked with
     one or more instances of <b>TextFixtureAttribute</b> using the new
 	constructor that takes an array of Types. NUnit will instantiate
@@ -135,10 +148,6 @@ dt { font-weight: bold }
 <li>Use of the TestFixtureAttribute is now optional in designating
     non-generic classes that contain tests marked with either
 	<b>TestAttribute</b> or <b>TestCaseAttribute</b>.
-<li>Parameterized test methods may be generic. NUnit will deduce
-    the correct implementation to use based on the types of the
-	parameters provided. Generic test methods are supported in
-	both generic and non-generic clases.
 <li>More than one method may now be marked with the <b>SetUp</b>, <b>TearDown</b>,
 	<b>TestFixtureSetUp</b> and <b>TestFixtureTearDown</b> attributes. Setups
 	in a base class are executed before those in a derived class and teardowns
@@ -152,6 +161,11 @@ dt { font-weight: bold }
 	example of usage, see the code for <b>RequiredThreadAttribute</b>.
 <li><b>PlatformAttribute</b> has been extended to accept the new keywords
     <b>NT6</b>, <b>Vista</b> and <b>Win2008Server</b>.
+</ul>
+
+<h4>Framework - Constraints</h4>
+
+<ul>
 <li>New constraints and corresponding syntactic constructs are provided: 
 	<ul>
 	<li><b>Is.InRange</b> tests that a value lies within a specified range.
@@ -214,6 +228,56 @@ dt { font-weight: bold }
 	namespace, so that they may be used more easily.
 <li>PropertyConstraint now works with Types when testing for the
     existence of a named property.
+<li><b>EqualConstraint</b> has been enhanced with
+    several new modifiers, which may be used immediately after
+	the Within(...) modifier to indicate how a numeric tolerance value
+	should be interpreted.
+	<ul>
+	<li><b>Ulps</b> = as units in the last place (floating point only)
+	<li><b>Percent</b> = as a percentage of expected value
+	<li><b>Days</b> =  as a TimeSpan in days
+	<li><b>Hours</b> = as a TimeSpan in hours
+	<li><b>Minutes</b> = as a TimeSpan in minutes
+	<li><b>Seconds</b> = as a TimeSpan in seconds
+	<li><b>Milliseconds</b> = as a TimeSpan in milliseconds
+	<li><b>Ticks</b> = as a TimeSpan in ticks
+	</ul>
+
+<li>The comparison constraints (<b>GreaterThan</b>, <b>LessThan</b>, etc.),
+    <b>RangeConstraint</b> and <b>CollectionOrderedConstraint</b> may now be used 
+	with 	objects that implement <b>IComparable&lt;T&gt;</b>.
+    
+<li>The syntax used for specifying that a collection is ordered has changed.
+    <b>Is.Ordered</b> is now a property. The property name to use for ordering
+	is specified using <b>Is.Ordered.By(name)</b>.
+	
+<li>The following constraints now accept a <b>Using</b> modifier to indicate
+    that a user-specified comparer should be used:
+	<ul><b>
+	<li>EqualConstraint
+	<li>GreaterThanConstraint
+	<li>GreaterThanOrEqualConstraint
+	<li>LessThanConstraint
+	<li>LessThanOrEqualConstraint
+	<li>RangeConstraint
+	<li>CollectionOrderedConstraint
+	</b></ul>
+	The provided comparer may be any of the following:
+	<ul><b>
+	<li>IComparer
+	<li>IComparer&lt;T&gt;
+	<li>Comparison&lt;T&gt;
+	</b></ul>
+	In addition, <b>EqualConstraint</b> may use:
+	<ul><b>
+	<li>IEqualityComparer
+	<li>IEqualityComparer&lt;T&gt;
+	</b></ul>
+</ul>
+
+<h4>Framework - Asserts</h4>
+
+<ul>
 <li>New Assert methods:
     <ul>
 	<li><b>Assert.IsOrdered</b> allows checking that a collection is in
@@ -272,6 +336,11 @@ dt { font-weight: bold }
 		</ul>
 	</ul>
 	
+</ul>
+
+<h4>Framework - Miscellaneous</h4>
+
+<ul>
 <li>The following obsolete interfaces, classes and methods have been removed:
 <ul>
 	<li>The <b>IAsserter</b> interface
@@ -470,7 +539,7 @@ dt { font-weight: bold }
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2009 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

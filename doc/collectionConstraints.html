@@ -27,61 +27,254 @@
 <h2>Collection Constraints (NUnit 2.4 / 2.5)</h2>
 
 <p>Collection constraints perform tests that are specific to collections.
-   The following collection constraints are provided.
+   The following collection constraints are provided. Before NUnit 2.4.6,
+   these constraints only operated on true Collections. Beginning with 2.4.6,
+   they can work with any object that implements IEnumerable.
    
-<table class="constraints">
-<tr><th>Syntax Helper</th><th>Constructor</th><th>Operation</th></tr>
-<tr><td>Is.All...<br>Has.All...</td><td>AllItemsConstraint( Constraint )</td></td><td>applies a constraint to each item in a collection, succeeding only if all of them succeed</td></tr>
-<tr><td>Has.Some...</td><td>SomeItemsConstraint( Constraint )</td></td><td>applies a constraint to each item in a collection, succeeding if at least one of them succeeds</td></tr>
-<tr><td>Has.None...</td><td>NoItemConstraint( Constraint )</td></td><td>applies a constraint to each item in a collection, succeeding only if all of them fail</td></tr>
-<tr><td>Is.Unique</td><td>UniqueItemsConstraint()</td></td><td>tests that a collection contains only unique items</td></tr>
-<tr><td>Has.Member( object )</td><td>CollectionContainsConstraint( object )</td></td><td>tests that a collection contains an object</td></tr>
-<tr><td>Is.EquivalentTo( IEnumerable )</td><td>CollectionEquivalentConstraint( ICollection )</td><td>tests that two collections are equivalent</td></tr>
-<tr><td>Is.SubsetOf( IEnumerable )</td><td>CollectionSubsetConstraint( ICollection )</td><td>tests that one collection is a subset of another</td></tr>
-<tr><td>Is.Ordered()</td><td>CollectionOrderedConstraint()</td><td>tests that a collection is ordered <b>(NUnit 2.5)</b></td></tr>
-<tr><td>Is.Ordered( IComparer )</td><td>CollectionOrderedConstraint( IComparer )</td><td>tests that a collection is ordered using the specified comparer <b>(NUnit 2.5)</b></td></tr>
-</table>
+<p>Beginning with NUnit 2.4.2, use of an improper argument type caused tests
+   to fail. Later releases give an error rather than a failure, so that negated
+   constraints will not appear to succeed. 
+   
+<p>For example, both of the following statements give an error in later releases, 
+   but the second would have succeeded in earlier versions of NUnit.
+   
+<div class="code"><pre>
+int[] iarray = new int[] { 1, 2, 3 };
 
-<h4>Notes</h4>
+Assert.That( 5, Is.SubsetOf( iarray ) );  // Fails in early releases
+Assert.That( 5, Is.Not.SubsetOf( iarray ) ); /
+</pre></div>
 
-<ol>
-<li>Two collections are equivalent if they contain the same items, in any order.
-<li>To compare collections for equality, use Is.EqualTo().
-<li>Has.Member uses object equality to find an object in a collection. To check
-for an object equal to an item the collection, use Has.Some.EqualTo().
-<li>Beginning with NUnit 2.4.2, use of a collection constraint with a non-collection
-argument causes an error rather than a test failure. This avoids false positives
-when the collection constraint is negated.
-<li>Beginning with NUnit 2.4.6, you may use any object implementing IEnumerable
-in place of a collection.
-</ol>
+<h3>AllItemsConstraint</h3>
+
+<h4>Action</h4>
+<p>Applies a constraint to each item in a collection, succeeding only if all of them succeed.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+AllItemsConstraint(Constraint itemConstraint)
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.All...
+Has.All...
+</pre></div>
 
 <h4>Examples of Use</h4>
-
-<div class="code" style="width: 38em"><pre>
+<div class="code"><pre>
 int[] iarray = new int[] { 1, 2, 3 };
 string[] sarray = new string[] { "a", "b", "c" };
 
 Assert.That( iarray, Is.All.Not.Null );
-Assert.That( sarray, Is.All.InstanceOfType(typeof(string)) );
+Assert.That( sarray, Is.All.InstanceOf<string>() );
 Assert.That( iarray, Is.All.GreaterThan(0) );
-                 
-Assert.That( sarray, Is.Unique );
+Assert.That( iarray, Has.All.GreaterThan(0) );
+</pre></div>
 
-Assert.That( iarray, List.Contains(3) );
-Assert.That( sarray, List.Contains("b") );
-Assert.That( sarray, List.Not.Contains("x") );
+<h3>SomeItemsConstraint</h3>
+
+<h4>Action</h4>
+<p>Applies a constraint to each item in a collection, succeeding if at least one of them succeeds.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+SomeItemsConstraint(Constraint itemConstraint)
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Has.Some...
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
+int[] iarray = new int[] { 1, 2, 3 };
+string[] sarray = new string[] { "a", "b", "c" };
+
+Assert.That( iarray, Has.Some.GreaterThan(2) );
+Assert.That( sarray, Has.Some.Length(1) );
+</pre></div>
+
+<h3>NoItemConstraint</h3>
+
+<h4>Action</h4>
+<p>Applies a constraint to each item in a collection, succeeding only if all of them fail.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+NoItemConstraint(Constraint itemConstraint)
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Has.None...
+Has.No...
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
+int[] iarray = new int[] { 1, 2, 3 };
+string[] sarray = new string[] { "a", "b", "c" };
+
+Assert.That( iarray, Has.None.Null );
+Assert.That( iarray, Has.No.Null );
+Assert.That( sarray, Has.None.EqualTo("d") );
+Assert.That( iarray, Has.None.LessThan(0) );
+</pre></div>
+
+<h3>UniqueItemsConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests that a collection contains only unique items.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+UniqueItemsConstraint()
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.Unique
+</pre></div>
+
+<h4>Example of Use</h4>
+<div class="code"><pre>
+string[] sarray = new string[] { "a", "b", "c" };
+
+Assert.That( sarray, Is.Unique );
+</pre></div>
+
+<h4>Notes</h4>
+<ol>
+<li>??
+</ol>
+
+<h3>CollectionContainsConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests that a collection contains an object. 
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+CollectionContainsConstraint( object )
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Has.Member( object )
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
+int[] iarray = new int[] { 1, 2, 3 };
+string[] sarray = new string[] { "a", "b", "c" };
+
+Assert.That( iarray, Has.Member(3) );
+Assert.That( sarray, Has.Member("b") );
+Assert.That( sarray, Has.No.Member("x") );
+</pre></div>
+
+<h4>Notes</h4>
+<ol>
+<li>For references, <b>Has.Member</b> uses object equality to find a member in a 
+collection. To check for an object equal to an item the collection, use 
+<b>Has.Some.EqualTo(...)</b>.
+</ol>
+
+<h3>CollectionEquivalentConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests that two collections are equivalent - that they contain 
+the same items, in any order.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+CollectionEquivalentConstraint( IEnumerable other )
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.EquivalentTo( IEnumerable other )
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
+int[] iarray = new int[] { 1, 2, 3 };
+string[] sarray = new string[] { "a", "b", "c" };
 
 Assert.That( new string[] { "c", "a", "b" }, Is.EquivalentTo( sarray ) );
 Assert.That( new int[] { 1, 2, 2 }, Is.Not.EquivalentTo( iarray ) );
-Assert.That( new int[] { 1, 3 }, Is.SubsetOf( iarray ) );
-
-// Using inheritance
-Expect( iarray, All.GreaterThan( 0 ) );
-Expect( sarray, Contains("b") );
-Expect( new int[] { 1, 3 }, SubsetOf( iarray ) );
 </pre></div>
 
+<h4>Notes</h4>
+<ol>
+<li>To compare collections for equality, use Is.EqualTo().
+</ol>
+
+<h3>CollectionSubsetConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests that one collection is a subset of another.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+CollectionSubsetConstraint( ICollection )
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.SubsetOf( IEnumerable )
+</pre></div>
+
+<h4>Example of Use</h4>
+<div class="code"><pre>
+int[] iarray = new int[] { 1, 2, 3 };
+
+Assert.That( new int[] { 1, 3 }, Is.SubsetOf( iarray ) );
+</pre></div>
+
+<h3>CollectionOrderedConstraint (NUnit 2.5)</h3>
+
+<h4>Action</h4>
+<p>Tests that a collection is ordered.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+CollectionOrderedConstraint()
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.Ordered
+</pre></div>
+
+<h4>Modifiers</h4>
+<div class="code"><pre>
+...Descending
+...By(string propertyName)
+...Using(IComparer comparer)
+...Using<T>(IComparer&lt;T&gt; comparer)
+...Using<T>(Comparison&lt;T&gt; comparer)
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
+int[] iarray = new int[] { 1, 2, 3 };
+string[] sarray = new string[] { "c", "b", "a" };
+string[] sarray2 = new string[] ( "a", "aa", "aaa" );
+
+Assert.That( iarray, Is.Ordered );
+Assert.That( sarray, Is.Ordered.Descending );
+Assert.That( sarray2, Is.Ordered.By("Length");
+</pre></div>
+
+<h4>Notes</h4>
+<ol>
+<li>Modifiers may be combined and may appear in any order. If the
+same modifier is used more than once, the result is undefined.
+<li>The syntax of Is.Ordered has changed from earlier betas.
+</ol>
 
 </div>
 
@@ -127,7 +320,7 @@ Expect( new int[] { 1, 3 }, SubsetOf( iarray ) );
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2009 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

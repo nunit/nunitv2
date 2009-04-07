@@ -37,22 +37,21 @@ versions of NUnit 2.x without recompilation.</p>
 
 <h2>From NUnit 1.x</h2>
 
-<p>Upgrading requires a minimal amount of work. Since the framework still looks for 
-	test methods by name in addition to the attributes, <b>no test method will need to 
-		be modified to upgrade to the new version</b>. The only source code change 
-	required is to remove the constructor with the string parameter in the class 
-	that inherits from TestCase. The only new requirement is that you have a 
-	default constructor. If there was significant processing in the existing 
-	constructor then just move it to the default constructor. The only other change 
-	is to change the reference to nunit.framework.dll instead of the V1.x framework 
-	dll. Using the TestCase class has been marked obsolete so you will get 
-	warnings, but they can be ignored for now!&nbsp;
-</p>
+<p>NUnit 2.5 no longer supports inheriting from TestCase when defining a test.
+   If you need to run such tests, you may continue to do so using the
+   a 2.4.x or earlier version of the nunit.framework assembly. Of course, you
+   will not be able to use new features introduced in 2.5 if you follow this
+   course.
+   
+<p>For a complete conversion to 2.5, you should modify and recompile your tests
+   using the new version of NUnit.
+
 <h3>Suite property</h3>
-<p>The existing Suite property will not be found by the new program. These must be 
+<p>The NUnit 1.x Suite property will not be found by the new program. These must be 
 	changed to the &quot;Suite&quot; attribute for the test runners to find them. 
 	Another alternative is that these suites are no longer needed due to the 
 	automatic capability that is built in to the new version.</p>
+	
 <h3>AssertionFailedError</h3>
 <p>If you have written code expecting the exception AssertionFailedError, this must 
 	be changed to AssertionException.</p>
@@ -94,7 +93,7 @@ versions of NUnit 2.x without recompilation.</p>
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2009 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

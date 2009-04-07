@@ -66,7 +66,7 @@ the arguments for the method, as in this example, which returns
 arguments from a named static field.
 
 <div class="code">
-<pre>[Test, TestCases("DivideCases")]
+<pre>[Test, TestCaseSource("DivideCases")]
 public void DivideTest(int n, int d, int q)
 {
     Assert.AreEqual( q, n / d );
@@ -94,7 +94,7 @@ this example:
 <div class="code"><pre>
 static int[] EvenNumbers = new int[] { 2, 4, 6, 8 };
 
-[Test, TestCases("EvenNumbers")]
+[Test, TestCaseSource("EvenNumbers")]
 public void TestMethod(int num)
 {
     Assert.IsTrue( num % 2 == 0 );
@@ -140,7 +140,7 @@ and any public fields or properties with the following names are used:
 <pre>[TestFixture]
 public class MyTests
 {
-  [Test,Factories(typeof(MyFactoryClass),"TestCases")]
+  [Test,TestCaseSource(typeof(MyFactoryClass),"TestCases")]
   public void DivideTest(int n, int d, int q)
   {
     Assert.AreEqual( q, n / d );
@@ -151,7 +151,6 @@ public class MyTests
 
 public class MyFactoryClass
 {
-  [TestCaseFactory(typeof(int), typeof(int))]
   public static IEnumerable TestCases
   {
     get
@@ -281,7 +280,7 @@ using non-static members of the class.
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2009 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 

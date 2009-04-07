@@ -30,10 +30,17 @@
    as an actual value has the same identity as the object supplied
    in its constructor.
 
-<table class="constraints">
-<tr><th>Syntax Helper</th><th>Constructor</th><th>Operation</th></tr>
-<tr><td>Is.SameAs( object )</td><td>SameAsConstraint( null )</td></td><td>tests that two object references refer to the same object</td></tr>
-</table>
+<h4>Constructor</h4>
+
+<div class="code"><pre>
+SameAsConstraint( object expected )
+</pre></div>
+
+<h4>Syntax</h4>
+
+<div class="code"><pre>
+Is.SameAs( object expected )
+</pre></div>
 
 <h4>Examples of Use</h4>
 
@@ -44,10 +51,6 @@ Assert.That( ex2, Is.SameAs( ex1 ) );
 
 Exception ex3 = new Exception();
 Assert.That( ex3, Is.Not.SameAs( ex1 ) );
-
-// Using inheritance
-Expect( ex2, SameAs( ex1 ) );
-Expect( ex3, Not.SameAs( ex1 ) );
 </pre></div>
 </div>
 
@@ -93,7 +96,7 @@ Expect( ex3, Not.SameAs( ex1 ) );
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2008 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2009 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 
