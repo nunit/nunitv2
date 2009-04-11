@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <project name="GenSyntax" default="build" basedir=".">
 
-  <property name="nant.settings.currentframework" value="net-2.0"/>
-
   <patternset id="source-files">
     <include name="AssemblyInfo.cs"/>
     <include name="GenSpec.cs"/>

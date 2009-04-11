@@ -93,16 +93,7 @@
         <include name="ValueSourceAttribute.cs"/>
   </patternset>
 
-  <target name="gen-syntax">
-
-    <exec program="GenSyntax.exe"
-      managed="true"
-      basedir="${project.tools.dir}/bin"
-      commandline="SyntaxElements.txt"/>
-
-  </target>
-
-  <target name="build" depends="gen-syntax">
+  <target name="build">
 
     <csc target="library"
         output="${current.framework.dir}/nunit.framework.dll"

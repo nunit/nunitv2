@@ -196,10 +196,11 @@
   <target name="gen-syntax" 
     description="Generate code for the fluent constraint builder interface">
 
-    <nant target="build" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
-
-    <nant target="gen-syntax" 
-      buildfile="src/NUnitFramework/framework/nunit.framework.build"/>
+    <exec program="GenSyntax.exe"
+      managed="true"
+      basedir="${project.tools.dir}/bin"
+      workingdir="${project.src.dir}/NUnitFramework/framework"
+      commandline="SyntaxElements.txt"/>
 
   </target>
 
@@ -226,9 +227,6 @@
         <include name="*.dll"/>
       </fileset>
     </copy>
-
-    <!-- Build tools that need it -->
-    <call target="build-tools"/>
 
     <!-- Build NUnit components and tests -->
     <nant target="build">
@@ -991,6 +989,12 @@
         <include name="fit/runFile.exe.config"/>
         <include name="fit/license.txt"/>
         <include name="bin/GenSyntax.exe"/>
+        <include name="src/Gensyntax/GenSyntax.build"/>
+        <include name="src/Gensyntax/GenSyntax.csproj"/>
+        <include name="src/Gensyntax/GenSyntax.sln"/>
+        <include name="src/Gensyntax/App.ico"/>
+        <include name="src/GenSyntax/*.cs"/>
+        <include name="src/Gensyntax/Templates/*.cs"/>
       </fileset>
     </copy>
 
@@ -1007,6 +1011,10 @@
 
 <!-- ***************************************************************** -->
 <!-- ***    Targets for building custom tools used in the build    *** -->
+<!-- ***                                                           *** -->
+<!-- ***    NOTE: Tools are not built automatically. If you are    *** -->
+<!-- ***    building from source and don't have binaries for       *** -->
+<!-- ***    NUnit-specific tools, you can run this target.         *** -->
 <!-- ***************************************************************** -->
 
   <target name="clean-tools">
