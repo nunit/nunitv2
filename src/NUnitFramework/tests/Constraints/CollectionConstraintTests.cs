@@ -13,6 +13,7 @@ using NUnit.Framework.Tests;
 
 namespace NUnit.Framework.Constraints.Tests
 {
+    #region AllItems
     [TestFixture]
     public class AllItemsTests : MessageChecker
     {
@@ -90,7 +91,9 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(c, new AllItemsConstraint(new InstanceOfTypeConstraint(typeof(char))));
         }
     }
+    #endregion
 
+    #region CollectionContains
     [TestFixture]
     public class CollectionContainsTests
     {
@@ -129,7 +132,77 @@ namespace NUnit.Framework.Constraints.Tests
 			Assert.That(ints, new CollectionContainsConstraint( 9 ));
 		}
     }
+    #endregion
 
+    #region CollectionEquivalent
+    public class CollectionEquivalentTests
+    {
+        [Test]
+        public void EqualCollectionsAreEquivalent()
+        {
+            ICollection set1 = new ICollectionAdapter("x", "y", "z");
+            ICollection set2 = new ICollectionAdapter("x", "y", "z");
+
+            Assert.That(new CollectionEquivalentConstraint(set1).Matches(set2));
+        }
+
+        [Test]
+        public void WorksWithCollectionsOfArrays()
+        {
+            byte[] array1 = new byte[] { 0x20, 0x44, 0x56, 0x76, 0x1e, 0xff };
+            byte[] array2 = new byte[] { 0x42, 0x52, 0x72, 0xef };
+            byte[] array3 = new byte[] { 0x20, 0x44, 0x56, 0x76, 0x1e, 0xff };
+            byte[] array4 = new byte[] { 0x42, 0x52, 0x72, 0xef };
+
+            ICollection set1 = new ICollectionAdapter(array1, array2);
+            ICollection set2 = new ICollectionAdapter(array3, array4);
+
+            Constraint constraint = new CollectionEquivalentConstraint(set1);
+            Assert.That(constraint.Matches(set2));
+
+            set2 = new ICollectionAdapter(array4, array3);
+            Assert.That(constraint.Matches(set2));
+        }
+
+        [Test]
+        public void EquivalentIgnoresOrder()
+        {
+            ICollection set1 = new ICollectionAdapter("x", "y", "z");
+            ICollection set2 = new ICollectionAdapter("z", "y", "x");
+
+            Assert.That(new CollectionEquivalentConstraint(set1).Matches(set2));
+        }
+
+        [Test]
+        public void EquivalentFailsWithDuplicateElementInActual()
+        {
+            ICollection set1 = new ICollectionAdapter("x", "y", "z");
+            ICollection set2 = new ICollectionAdapter("x", "y", "x");
+
+            Assert.False(new CollectionEquivalentConstraint(set1).Matches(set2));
+        }
+
+        [Test]
+        public void EquivalentFailsWithDuplicateElementInExpected()
+        {
+            ICollection set1 = new ICollectionAdapter("x", "y", "x");
+            ICollection set2 = new ICollectionAdapter("x", "y", "z");
+
+            Assert.False(new CollectionEquivalentConstraint(set1).Matches(set2));
+        }
+
+        [Test]
+        public void EquivalentHandlesNull()
+        {
+            ICollection set1 = new ICollectionAdapter(null, "x", null, "z");
+            ICollection set2 = new ICollectionAdapter("z", null, "x", null);
+
+            Assert.That(new CollectionEquivalentConstraint(set1).Matches(set2));
+        }
+    }
+    #endregion
+
+    #region CollectionOrdered
     [TestFixture]
     public class CollectionOrderedTests : MessageChecker
     {
@@ -380,5 +453,6 @@ namespace NUnit.Framework.Constraints.Tests
                 Value = value;
             }
         }
-    }  
+    }
+    #endregion
 }

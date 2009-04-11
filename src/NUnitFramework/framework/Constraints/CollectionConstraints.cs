@@ -52,81 +52,140 @@ namespace NUnit.Framework.Constraints
 		/// CollectionTally counts (tallies) the number of
 		/// occurences of each object in one or more enuerations.
 		/// </summary>
-		protected internal class CollectionTally
-		{
-			// Internal hash used to count occurences
-			private Hashtable hash = new Hashtable();
+        protected internal class CollectionTally
+        {
+            // Internal list used to track occurences
+            private ArrayList list = new ArrayList();
 
-			// We use this for any null entries found, since
-			// the key to a hash may not be null.
-			static object NULL = new object();
+            /// <summary>
+            /// Construct a CollectionTally object from a collection
+            /// </summary>
+            /// <param name="c"></param>
+            public CollectionTally(IEnumerable c)
+            {
+                foreach (object o in c)
+                    list.Add(o);
+            }
 
-			private int getTally(object obj)
-			{
-				if ( obj == null ) obj = NULL;
-				object val = hash[obj];
-				return val == null ? 0 : (int)val;
-			}
+            public int Count
+            {
+                get { return list.Count; }
+            }
 
-			private void setTally(object obj, int tally)
-			{
-				if ( obj == null ) obj = NULL;
-				hash[obj] = tally;
-			}
+            //public bool Contains(object o)
+            //{
+            //    foreach (object item in list)
+            //        if (ObjectsEqual(item, o))
+            //            return true;
 
-			/// <summary>
-			/// Construct a CollectionTally object from a collection
-			/// </summary>
-			/// <param name="c"></param>
-			public CollectionTally( IEnumerable c )
-			{
-				foreach( object obj in c )
-					setTally( obj, getTally( obj ) + 1 );
-			}
+            //    return false;
+            //}
 
-			/// <summary>
-			/// Remove the counts for a collection from the tally,
-			/// so long as their are sufficient items to remove.
-			/// The tallies are not permitted to become negative.
-			/// </summary>
-			/// <param name="c">The collection to remove</param>
-			/// <returns>True if there were enough items to remove, otherwise false</returns>
-			public bool CanRemove( IEnumerable c )
-			{
-				foreach( object obj in c )
-				{
-					int tally = getTally(obj);
-					if( tally > 0 )
-						setTally(obj, tally - 1 );
-					else
-						return false;
-				}
+            private bool ObjectsEqual(object expected, object actual)
+            {
+                if (expected == null && actual == null)
+                    return true;
 
-				return true;
-			}
+                if (expected == null || actual == null)
+                    return false;
 
-			/// <summary>
-			/// Test whether all the counts are equal to a given value
-			/// </summary>
-			/// <param name="count">The value to be looked for</param>
-			/// <returns>True if all counts are equal to the value, otherwise false</returns>
-			public bool AllCountsEqualTo( int count )
-			{
-				foreach( DictionaryEntry entry in hash )
-					if ( (int)entry.Value != count )
-						return false;
+                Type expectedType = expected.GetType();
+                Type actualType = actual.GetType();
 
-				return true;
-			}
+                if (expectedType.IsArray && actualType.IsArray)
+                    return ArraysEqual((Array)expected, (Array)actual);
 
-			/// <summary>
-			/// Get the count of the number of times an object is present in the tally
-			/// </summary>
-			public int this[object obj]
-			{
-				get	{ return getTally(obj); }
-			}
-		}
+                if (expected is ICollection && actual is ICollection)
+                    return CollectionsEqual((ICollection)expected, (ICollection)actual);
+
+                // String must precede IEnumerable since it implements it
+                if (expected is string && actual is string)
+                    expected.Equals(actual);
+
+                if (expected is IEnumerable && actual is IEnumerable)
+                    return EnumerablesEqual((IEnumerable)expected, (IEnumerable)actual);
+
+                return expected.Equals(actual);
+            }
+
+            /// <summary>
+            /// Helper method to compare two arrays
+            /// </summary>
+            private bool ArraysEqual(Array expected, Array actual)
+            {
+                int rank = expected.Rank;
+
+                if (rank != actual.Rank)
+                    return false;
+
+                for (int r = 1; r < rank; r++)
+                    if (expected.GetLength(r) != actual.GetLength(r))
+                        return false;
+
+                return CollectionsEqual((ICollection)expected, (ICollection)actual);
+            }
+
+            private bool CollectionsEqual(ICollection expected, ICollection actual)
+            {
+                IEnumerator expectedEnum = expected.GetEnumerator();
+                IEnumerator actualEnum = actual.GetEnumerator();
+
+                int count;
+                for (count = 0; expectedEnum.MoveNext() && actualEnum.MoveNext(); count++)
+                {
+                    if (!ObjectsEqual(expectedEnum.Current, actualEnum.Current))
+                        break;
+                }
+
+                if (count == expected.Count && count == actual.Count)
+                    return true;
+
+                return false;
+            }
+
+            private bool EnumerablesEqual(IEnumerable expected, IEnumerable actual)
+            {
+                IEnumerator expectedEnum = expected.GetEnumerator();
+                IEnumerator actualEnum = actual.GetEnumerator();
+
+                int count = 0;
+                for (; ; )
+                {
+                    bool expectedHasData = expectedEnum.MoveNext();
+                    bool actualHasData = actualEnum.MoveNext();
+
+                    if (!expectedHasData && !actualHasData)
+                        return true;
+
+                    if (expectedHasData != actualHasData ||
+                        !ObjectsEqual(expectedEnum.Current, actualEnum.Current))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            public bool TryRemove(object o)
+            {
+                for (int index = 0; index < list.Count; index++)
+                    if (ObjectsEqual(list[index], o))
+                    {
+                        list.RemoveAt(index);
+                        return true;
+                    }
+
+                return false;
+            }
+
+            public bool TryRemove(IEnumerable c)
+            {
+                foreach (object o in c)
+                    if ( !TryRemove( o ) )
+                        return false;
+
+                return true;
+            }
+        }
 
 		/// <summary>
 		/// Test whether the constraint is satisfied by a given value
@@ -194,7 +253,16 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(IEnumerable actual)
         {
-			return new CollectionTally( actual ).AllCountsEqualTo( 1 );
+            ArrayList list = new ArrayList();
+
+            foreach (object o in actual)
+            {
+                if (list.Contains(o))
+                    return false;
+                list.Add(o);
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -323,8 +391,8 @@ namespace NUnit.Framework.Constraints
 				if( ((ICollection)actual).Count != ((ICollection)expected).Count )
 					return false;
 
-			CollectionTally tally = new CollectionTally( expected );
-			return tally.CanRemove( actual ) && tally.AllCountsEqualTo( 0 );
+            CollectionTally tally = new CollectionTally(expected);
+            return tally.TryRemove(actual) && tally.Count == 0;
         }
 
         /// <summary>
@@ -366,8 +434,8 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(IEnumerable actual)
         {
-			return new CollectionTally( expected ).CanRemove( actual );
-		}
+            return new CollectionTally(expected).TryRemove( actual );
+        }
         
         /// <summary>
         /// Write a description of this constraint to a MessageWriter
