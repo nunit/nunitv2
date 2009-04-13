@@ -47,42 +47,12 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public abstract int Compare(object expected, object actual);
 
-        class DefaultComparisonAdapter : ComparisonAdapter
+        class DefaultComparisonAdapter : ComparerAdapter
         {
             /// <summary>
             /// Construct a default ComparisonAdapter
             /// </summary>
-            public DefaultComparisonAdapter() { }
-
-            /// <summary>
-            /// Compares two objects
-            /// </summary>
-            /// <param name="expected"></param>
-            /// <param name="actual"></param>
-            /// <returns></returns>
-            public override int Compare(object expected, object actual)
-            {
-                if (expected == null)
-                    throw new ArgumentException("Cannot compare using a null reference", "expected");
-
-                if (actual == null)
-                    throw new ArgumentException("Cannot compare to null reference", "actual");
-
-                if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
-                    return Numerics.Compare(expected, actual);
-
-                if (expected is IComparable)
-                    return ((IComparable)expected).CompareTo(actual);
-
-                if (actual is IComparable)
-                    return -((IComparable)actual).CompareTo(expected);
-
-                MethodInfo method = expected.GetType().GetMethod("CompareTo", new Type[] { actual.GetType() });
-                if (method != null)
-                    return (int)method.Invoke(expected, new object[] { actual });
-
-                throw new ArgumentException("Expected value must implement IComparable or IComparable<T>");
-            }
+            public DefaultComparisonAdapter() : base( NUnitComparer.Default ) { }
         }
 
         class ComparerAdapter : ComparisonAdapter
@@ -105,29 +75,7 @@ namespace NUnit.Framework.Constraints
             /// <returns></returns>
             public override int Compare(object expected, object actual)
             {
-                if (expected == null)
-                    throw new ArgumentException("Cannot compare using a null reference", "expected");
-
-                if (actual == null)
-                    throw new ArgumentException("Cannot compare to null reference", "actual");
-
-                if (comparer != null)
-                    return comparer.Compare(expected, actual);
-
-                if (Numerics.IsNumericType(expected) && Numerics.IsNumericType(actual))
-                    return Numerics.Compare(expected, actual);
-
-                if (expected is IComparable)
-                    return ((IComparable)expected).CompareTo(actual);
-
-                if (actual is IComparable)
-                    return -((IComparable)actual).CompareTo(expected);
-
-                MethodInfo method = expected.GetType().GetMethod("CompareTo", new Type[] { actual.GetType() });
-                if (method != null)
-                    return (int)method.Invoke(expected, new object[] { actual });
-
-                throw new ArgumentException("Expected value must implement IComparable or IComparable<T>");
+                return comparer.Compare(expected, actual);
             }
         }
 

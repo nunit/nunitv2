@@ -135,6 +135,9 @@
       <Link>Constraints\CollectionConstraintTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\ComparerTests.cs">
+      <Link>Constraints\ComparerTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\ComparisonConstraintTests.cs">
       <Link>Constraints\ComparisonConstraintTests.cs</Link>
       <SubType>Code</SubType>

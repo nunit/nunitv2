@@ -72,15 +72,6 @@ namespace NUnit.Framework.Constraints
                 get { return list.Count; }
             }
 
-            //public bool Contains(object o)
-            //{
-            //    foreach (object item in list)
-            //        if (ObjectsEqual(item, o))
-            //            return true;
-
-            //    return false;
-            //}
-
             private bool ObjectsEqual(object expected, object actual)
             {
                 if (expected == null && actual == null)

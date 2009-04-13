@@ -15,6 +15,11 @@ namespace NUnit.Framework.Constraints
     {
         public abstract bool Equals(object x, object y);
 
+        public static EqualityAdapter Default
+        {
+            get { return new DefaultEqualityAdapter(); }
+        }
+
         public static EqualityAdapter For(IComparer comparer)
         {
             return new ComparisonAdapterAdapter(ComparisonAdapter.For(comparer));
@@ -77,6 +82,14 @@ namespace NUnit.Framework.Constraints
             }
         }
 #endif
+
+        class DefaultEqualityAdapter : EqualityAdapter
+        {
+            public override bool Equals(object x, object y)
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         class ComparisonAdapterAdapter : EqualityAdapter
         {

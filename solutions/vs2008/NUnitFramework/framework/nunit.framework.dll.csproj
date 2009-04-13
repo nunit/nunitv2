@@ -402,6 +402,12 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\EqualityAdapter.cs">
       <Link>Constraints\EqualityAdapter.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\NUnitComparer.cs">
+      <Link>Constraints\NUnitComparer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\NUnitEqualityComparer.cs">
+      <Link>Constraints\NUnitEqualityComparer.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">
