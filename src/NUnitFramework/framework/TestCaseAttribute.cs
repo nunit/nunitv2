@@ -27,7 +27,7 @@ namespace NUnit.Framework
         private object result;
         private Type expectedExceptionType;
         private string expectedExceptionName;
-        private string expectedExceptionMessage;
+        private string expectedMessage;
         private string description;
         private string testName;
 
@@ -130,10 +130,10 @@ namespace NUnit.Framework
          /// Gets or sets the expected message of the expected exception
          /// </summary>
          /// <value>The expected message of the exception.</value>
-         public string ExpectedExceptionMessage
+         public string ExpectedMessage
          {
-         	get { return expectedExceptionMessage; }
-         	set { expectedExceptionMessage = value; }
+         	get { return expectedMessage; }
+         	set { expectedMessage = value; }
          }
 
         /// <summary>

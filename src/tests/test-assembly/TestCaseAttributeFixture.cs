@@ -46,6 +46,13 @@ namespace NUnit.TestData
         {
         }
 
+        [TestCase(2, 3, 4, ExpectedException = typeof(ApplicationException),
+            ExpectedMessage="Test Exception")]
+        public void MethodThrowsExpectedExceptionWithWrongMessage(int x, int y, int z)
+        {
+            throw new ApplicationException("Wrong Test Exception");
+        }
+
         [TestCase(2, 3, 4, ExpectedException = typeof(ArgumentNullException))]
         public void MethodCallsIgnore(int x, int y, int z)
         {

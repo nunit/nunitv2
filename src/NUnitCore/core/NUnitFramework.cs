@@ -123,7 +123,7 @@ namespace NUnit.Core
         #region IgnoreReason
         public static string GetIgnoreReason( System.Attribute attribute )
 		{
-			return Reflect.GetPropertyValue( attribute, "Reason" ) as string;
+            return Reflect.GetPropertyValue(attribute, PropertyNames.Reason) as string;
 		}
 		#endregion
 
@@ -135,7 +135,7 @@ namespace NUnit.Core
 		/// <returns>The description, if any, or null</returns>
 		public static string GetDescription(System.Attribute attribute)
 		{
-			return Reflect.GetPropertyValue( attribute, "Description" ) as string;
+            return Reflect.GetPropertyValue(attribute, PropertyNames.Description) as string;
 		}
 		#endregion
 
@@ -223,7 +223,7 @@ namespace NUnit.Core
 						}
 						break;
                     case RequiredAddinAttribute:
-                        string required = (string)Reflect.GetPropertyValue(attribute,"RequiredAddin");
+                        string required = (string)Reflect.GetPropertyValue(attribute, PropertyNames.RequiredAddin);
                         if (!IsAddinAvailable(required))
                         {
                             test.RunState = RunState.NotRunnable;
@@ -239,11 +239,11 @@ namespace NUnit.Core
                     default:
 						if ( Reflect.InheritsFrom( attributeType, CategoryAttribute ) )
 						{	
-							test.Categories.Add( Reflect.GetPropertyValue( attribute, "Name" ) );
+							test.Categories.Add( Reflect.GetPropertyValue( attribute, PropertyNames.CategoryName ) );
 						}
 						else if ( Reflect.InheritsFrom( attributeType, PropertyAttribute ) )
 						{
-							IDictionary props = (IDictionary)Reflect.GetPropertyValue( attribute, "Properties" );
+							IDictionary props = (IDictionary)Reflect.GetPropertyValue( attribute, PropertyNames.Properties );
 							if ( props != null )
                                 foreach( DictionaryEntry entry in props )
                                     test.Properties.Add(entry.Key, entry.Value);

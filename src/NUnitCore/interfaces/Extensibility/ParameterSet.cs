@@ -31,7 +31,7 @@ namespace NUnit.Core.Extensibility
         private object[] arguments;
         private System.Type expectedExceptionType;
         private string expectedExceptionName;
-        private string expectedExceptionMessage;
+        private string expectedMessage;
         private object result;
         private string description;
         private string testName;
@@ -102,10 +102,10 @@ namespace NUnit.Core.Extensibility
         /// <summary>
         /// The Message of any exception that is expected
         /// </summary>
-        public string ExpectedExceptionMessage
+        public string ExpectedMessage
         {
-        	get { return expectedExceptionMessage; }
-        	set { expectedExceptionMessage = value; }
+        	get { return expectedMessage; }
+        	set { expectedMessage = value; }
         }
 
         /// <summary>
@@ -217,20 +217,20 @@ namespace NUnit.Core.Extensibility
         {
             ParameterSet parms = new ParameterSet();
 
-            parms.Arguments = GetParm(source, "Arguments") as object[];
-            parms.ExpectedException = GetParm(source, "ExpectedException") as Type;
+            parms.Arguments = GetParm(source, PropertyNames.Arguments) as object[];
+            parms.ExpectedException = GetParm(source, PropertyNames.ExpectedException) as Type;
             if (parms.ExpectedException != null)
                 parms.ExpectedExceptionName = parms.ExpectedException.FullName;
             else
-                parms.ExpectedExceptionName = GetParm(source, "ExpectedExceptionName") as string;
-            parms.ExpectedExceptionMessage = GetParm(source, "ExpectedExceptionMessage") as string;
-            parms.Result = GetParm(source, "Result");
-            parms.Description = GetParm(source, "Description") as string;
-            parms.TestName = GetParm(source, "TestName") as string;
+                parms.ExpectedExceptionName = GetParm(source, PropertyNames.ExpectedExceptionName) as string;
+            parms.ExpectedMessage = GetParm(source, PropertyNames.ExpectedMessage) as string;
+            parms.Result = GetParm(source, PropertyNames.Result);
+            parms.Description = GetParm(source, PropertyNames.Description) as string;
+            parms.TestName = GetParm(source, PropertyNames.TestName) as string;
 
             // Some sources may also implement Properties and/or Categories
             bool gotCategories = false;
-            IDictionary props = GetParm(source, "Properties") as IDictionary;
+            IDictionary props = GetParm(source, PropertyNames.Properties) as IDictionary;
             if ( props != null )
                 foreach (string key in props.Keys)
                 {
@@ -242,7 +242,7 @@ namespace NUnit.Core.Extensibility
             // provided as properties or they may be separate.
             if (!gotCategories)
             {
-                IList categories = GetParm(source, "Categories") as IList;
+                IList categories = GetParm(source, PropertyNames.Categories) as IList;
                 if (categories != null && props[CATEGORIES] == null)
                     foreach (string cat in categories)
                         categories.Add(cat);

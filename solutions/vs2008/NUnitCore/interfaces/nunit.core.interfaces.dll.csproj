@@ -261,6 +261,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\OSPlatform.cs">
       <Link>OSPlatform.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\PropertyNames.cs">
+      <Link>PropertyNames.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

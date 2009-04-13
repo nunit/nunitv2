@@ -65,7 +65,7 @@ namespace NUnit.Core.Tests
         }
 
         [TestCase(42, ExpectedException = typeof(System.Exception),
-                   ExpectedExceptionMessage = "Test Exception")]
+                   ExpectedMessage = "Test Exception")]
         public void CanSpecifyExceptionMessage(int a)
         {
         	throw new System.Exception("Test Exception");
@@ -138,6 +138,16 @@ namespace NUnit.Core.Tests
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
             Assert.AreEqual(ResultState.Failure, result.ResultState);
             StringAssert.StartsWith("An unexpected exception type was thrown", result.Message);
+        }
+
+        [Test]
+        public void CanSpecifyExpectedException_WrongMessage()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseAttributeFixture), "MethodThrowsExpectedExceptionWithWrongMessage").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Failure, result.ResultState);
+            StringAssert.StartsWith("The exception message text was incorrect", result.Message);
         }
 
         [Test]

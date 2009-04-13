@@ -83,6 +83,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\src\NUnitCore\interfaces\PropertyNames.cs">
+      <Link>PropertyNames.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\interfaces\TestAgent.cs">
       <Link>TestAgent.cs</Link>
     </Compile>

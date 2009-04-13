@@ -234,17 +234,17 @@ namespace NUnit.Core
 
         private static Type GetExceptionType(object source)
         {
-            return Reflect.GetPropertyValue(source, "ExpectedException") as Type;
+            return Reflect.GetPropertyValue(source, PropertyNames.ExpectedException) as Type;
         }
 
         private static string GetExceptionName(object source)
         {
-            return Reflect.GetPropertyValue(source, "ExpectedExceptionName") as string;
+            return Reflect.GetPropertyValue(source, PropertyNames.ExpectedExceptionName) as string;
         }
 
         private static string GetExpectedMessage(object source)
         {
-            return Reflect.GetPropertyValue(source, "ExpectedMessage") as string;
+            return Reflect.GetPropertyValue(source, PropertyNames.ExpectedMessage) as string;
         }
 
         private static string GetMatchType(object source)

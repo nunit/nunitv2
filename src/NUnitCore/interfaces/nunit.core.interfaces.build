@@ -9,6 +9,7 @@
         <include name="ITest.cs"/>
         <include name="ITestFilter.cs"/>
         <include name="OSPlatform.cs"/>
+        <include name="PropertyNames.cs"/>
         <include name="ResultState.cs"/>
         <include name="RunState.cs"/>
         <include name="RuntimeFramework.cs"/>
