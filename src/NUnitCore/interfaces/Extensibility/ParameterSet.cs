@@ -26,14 +26,12 @@ namespace NUnit.Core.Extensibility
 
         #region Instance Fields
         private RunState runState;
-        private string notRunReason;
         private Exception providerException;
         private object[] arguments;
         private System.Type expectedExceptionType;
         private string expectedExceptionName;
         private string expectedMessage;
         private object result;
-        private string description;
         private string testName;
 
         /// <summary>
@@ -59,8 +57,7 @@ namespace NUnit.Core.Extensibility
         /// </summary>
         public string NotRunReason
         {
-            get { return notRunReason; }
-            //set { notRunReason = value; }
+            get { return (string) Properties[IGNOREREASON]; }
         }
 
         /// <summary>
@@ -174,18 +171,6 @@ namespace NUnit.Core.Extensibility
         #endregion
 
         #region Constructors
-        /// <summary>
-        /// Construct a ParameterSet, setting it's RunState
-        /// and specifying the reason why it can't be run.
-        /// </summary>
-        /// <param name="runState"></param>
-        /// <param name="reason"></param>
-        //private ParameterSet(RunState runState, string reason)
-        //{
-        //    this.runState = runState;
-        //    this.notRunReason = reason;
-        //}
-
         /// <summary>
         /// Construct a non-runnable ParameterSet, specifying
         /// the provider excetpion that made it invalid.

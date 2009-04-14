@@ -93,6 +93,9 @@ namespace NUnit.Framework.Constraints
             writer.WriteExpectedValue(expected);
         }
 
+        /// <summary>
+        /// Modifies the constraint to use an IComparer and returns self
+        /// </summary>
         public ComparisonConstraint Using(IComparer comparer)
         {
             this.comparer = ComparisonAdapter.For(comparer);
@@ -100,12 +103,18 @@ namespace NUnit.Framework.Constraints
         }
 
 #if NET_2_0
+        /// <summary>
+        /// Modifies the constraint to use an IComparer&lt;T&gt; and returns self
+        /// </summary>
         public ComparisonConstraint Using<T>(IComparer<T> comparer)
         {
             this.comparer = ComparisonAdapter.For(comparer);
             return this;
         }
 
+        /// <summary>
+        /// Modifies the constraint to use a Comparison&lt;T&gt; and returns self
+        /// </summary>
         public ComparisonConstraint Using<T>(Comparison<T> comparer)
         {
             this.comparer = ComparisonAdapter.For(comparer);

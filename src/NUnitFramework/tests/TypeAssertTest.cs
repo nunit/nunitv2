@@ -28,43 +28,43 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
-		public void IsInstanceOfType()
+		public void IsInstanceOf()
 		{
             ApplicationException ex = new ApplicationException();
 
-			Assert.IsInstanceOfType(typeof(System.Exception), ex );
-            Expect( ex, InstanceOfType(typeof(Exception)));
+			Assert.IsInstanceOf(typeof(System.Exception), ex );
+            Expect( ex, InstanceOf(typeof(Exception)));
 #if NET_2_0
             Assert.IsInstanceOf<Exception>( ex );
 #endif
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
-		public void IsInstanceOfTypeFails()
+		public void IsInstanceOfFails()
 		{
 			expectedMessage =
 				"  Expected: instance of <System.Int32>" + System.Environment.NewLine + 
 				"  But was:  <System.String>" + System.Environment.NewLine;
-			Expect( "abc123", InstanceOfType( typeof(System.Int32) ) );
+			Expect( "abc123", InstanceOf( typeof(System.Int32) ) );
 		}
 
 		[Test]
-		public void IsNotInstanceOfType()
+		public void IsNotInstanceOf()
 		{
-			Assert.IsNotInstanceOfType(typeof(System.Int32), "abc123" );
-			Expect( "abc123", Not.InstanceOfType(typeof(System.Int32)) );
+			Assert.IsNotInstanceOf(typeof(System.Int32), "abc123" );
+			Expect( "abc123", Not.InstanceOf(typeof(System.Int32)) );
 #if NET_2_0
 			Assert.IsNotInstanceOf<System.Int32>("abc123");
 #endif
 		}
 
 		[Test,ExpectedException(typeof(AssertionException))]
-		public void IsNotInstanceOfTypeFails()
+		public void IsNotInstanceOfFails()
 		{
 			expectedMessage =
 				"  Expected: not instance of <System.Exception>" + System.Environment.NewLine + 
 				"  But was:  <System.ApplicationException>" + System.Environment.NewLine;
-			Assert.IsNotInstanceOfType( typeof(System.Exception), new ApplicationException() );
+			Assert.IsNotInstanceOf( typeof(System.Exception), new ApplicationException() );
 		}
 
         [Test()]

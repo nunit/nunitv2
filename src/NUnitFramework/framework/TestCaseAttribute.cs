@@ -17,12 +17,6 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class TestCaseAttribute : Attribute, ITestCaseData
     {
-        #region Constants
-        private static readonly string DESCRIPTION = "_DESCRIPTION";
-        private static readonly string IGNOREREASON = "_IGNOREREASON";
-        private static readonly string CATEGORIES = "_CATEGORIES";
-        #endregion
-
         private object[] arguments;
         private object result;
         private Type expectedExceptionType;
@@ -30,12 +24,6 @@ namespace NUnit.Framework
         private string expectedMessage;
         private string description;
         private string testName;
-
-        /// <summary>
-        /// A dictionary of properties, used to add information
-        /// to tests without requiring the class to change.
-        /// </summary>
-        private IDictionary properties;
 
         /// <summary>
         /// Construct a TestCaseAttribute with a list of arguments.

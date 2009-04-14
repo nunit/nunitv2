@@ -85,6 +85,9 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class NullOrEmptyStringConstraint : Constraint
     {
+        /// <summary>
+        /// Constructs a new NullOrEmptyStringConstraint
+        /// </summary>
         public NullOrEmptyStringConstraint()
         {
             this.DisplayName = "nullorempty";

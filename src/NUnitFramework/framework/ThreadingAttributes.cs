@@ -17,6 +17,10 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false)]
     public class TimeoutAttribute : PropertyAttribute
     {
+        /// <summary>
+        /// Construct a TimeoutAttribute given a time in milliseconds
+        /// </summary>
+        /// <param name="timeout"></param>
         public TimeoutAttribute(int timeout)
             : base(timeout) { }
     }
@@ -31,6 +35,9 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false)]
     public class RequiresSTAAttribute : PropertyAttribute
     {
+        /// <summary>
+        /// Construct a RequiresSTAAttribute
+        /// </summary>
         public RequiresSTAAttribute()
         {
             this.Properties.Add("APARTMENT_STATE", ApartmentState.STA);
@@ -47,6 +54,9 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false)]
     public class RequiresMTAAttribute : PropertyAttribute
     {
+        /// <summary>
+        /// Construct a RequiresMTAAttribute
+        /// </summary>
         public RequiresMTAAttribute()
         {
             this.Properties.Add("APARTMENT_STATE", ApartmentState.MTA);
@@ -59,9 +69,15 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false)]
     public class RequiresThreadAttribute : PropertyAttribute
     {
+        /// <summary>
+        /// Construct a RequiresThreadAttribute
+        /// </summary>
         public RequiresThreadAttribute()
             : base(true) { }
 
+        /// <summary>
+        /// Construct a RequiresThreadAttribute, specifying the apartment
+        /// </summary>
         public RequiresThreadAttribute(ApartmentState apartment)
             : base(true)
         {

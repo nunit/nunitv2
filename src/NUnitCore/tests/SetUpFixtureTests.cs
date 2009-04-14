@@ -63,7 +63,7 @@ namespace NUnit.Core.Tests
                 Assert.AreEqual(1, suite.Tests.Count);
             }
 
-            Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
+            Assert.IsInstanceOf(typeof(SetUpFixture), suite);
 
             suite = suite.Tests[0] as TestSuite;
             Assert.AreEqual("SomeTestFixture", suite.TestName.Name);
@@ -83,7 +83,7 @@ namespace NUnit.Core.Tests
             Test suite = builder.Build( new TestPackage( testAssembly ) );
 
             Assert.IsNotNull(suite);
-            Assert.IsInstanceOfType(typeof(SetUpFixture), suite);
+            Assert.IsInstanceOf(typeof(SetUpFixture), suite);
 
             suite = suite.Tests[1] as TestSuite;
             Assert.AreEqual("SomeTestFixture", suite.TestName.Name);

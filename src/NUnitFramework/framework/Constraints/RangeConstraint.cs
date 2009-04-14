@@ -12,6 +12,10 @@ using System.Collections.Generic;
 
 namespace NUnit.Framework.Constraints
 {
+    /// <summary>
+    /// RangeConstraint tests whethe two values are within a 
+    /// specified range.
+    /// </summary>
     public class RangeConstraint : Constraint
     {
         private IComparable from;
@@ -56,6 +60,9 @@ namespace NUnit.Framework.Constraints
             writer.Write("in range ({0},{1})", from, to);
         }
 
+        /// <summary>
+        /// Modifies the constraint to use an IComparer and returns self.
+        /// </summary>
         public RangeConstraint Using(IComparer comparer)
         {
             this.comparer = ComparisonAdapter.For(comparer);
@@ -63,12 +70,18 @@ namespace NUnit.Framework.Constraints
         }
 
 #if NET_2_0
+        /// <summary>
+        /// Modifies the constraint to use an IComparer&lt;T&gt; and returns self.
+        /// </summary>
         public RangeConstraint Using<T>(IComparer<T> comparer)
         {
             this.comparer = ComparisonAdapter.For(comparer);
             return this;
         }
 
+        /// <summary>
+        /// Modifies the constraint to use a Comparison&lt;T&gt; and returns self.
+        /// </summary>
         public RangeConstraint Using<T>(Comparison<T> comparer)
         {
             this.comparer = ComparisonAdapter.For(comparer);

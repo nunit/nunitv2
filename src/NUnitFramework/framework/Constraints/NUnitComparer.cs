@@ -8,13 +8,26 @@ using System.Collections.Generic;
 
 namespace NUnit.Framework.Constraints
 {
+    /// <summary>
+    /// NUnitComparer encapsulates NUnit's default behavior
+    /// in comparing two objects.
+    /// </summary>
     public class NUnitComparer : IComparer
     {
+        /// <summary>
+        /// Returns the default NUnitComparer.
+        /// </summary>
         public static NUnitComparer Default
         {
             get { return new NUnitComparer(); }
         }
 
+        /// <summary>
+        /// Compares two objects
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public int Compare(object x, object y)
         {
             if (x == null)

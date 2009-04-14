@@ -8,10 +8,18 @@ using System;
 
 namespace NUnit.Framework.Constraints
 {
+    /// <summary>
+    /// AttributeExistsConstraint tests for the presence of a
+    /// specified attribute on  a Type.
+    /// </summary>
     public class AttributeExistsConstraint : Constraint
     {
         private Type expectedType;
 
+        /// <summary>
+        /// Constructs an AttributeExistsConstraint for a specific attribute Type
+        /// </summary>
+        /// <param name="type"></param>
         public AttributeExistsConstraint(Type type)
             : base(type)
         {
@@ -22,6 +30,11 @@ namespace NUnit.Framework.Constraints
                     "Type {0} is not an attribute", expectedType), "type");
         }
 
+        /// <summary>
+        /// Tests whether the object provides the expected attribute.
+        /// </summary>
+        /// <param name="actual">A Type, MethodInfo, or other ICustomAttributeProvider</param>
+        /// <returns>True if the expected attribute is present, otherwise false</returns>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -34,6 +47,9 @@ namespace NUnit.Framework.Constraints
             return attrProvider.GetCustomAttributes(expectedType, true).Length > 0;
         }
 
+        /// <summary>
+        /// Writes the description of the constraint to the specified writer
+        /// </summary>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("type with attribute");
@@ -41,11 +57,22 @@ namespace NUnit.Framework.Constraints
         }
     }
 
+    /// <summary>
+    /// AttributeConstraint tests that a specified attribute is present
+    /// on a Type or other provider and that the value of the attribute
+    /// satisfies some other constraint.
+    /// </summary>
     public class AttributeConstraint : PrefixConstraint
     {
         private Type expectedType;
         private Attribute attrFound;
 
+        /// <summary>
+        /// Constructs an AttributeConstraint for a specified attriute
+        /// Type and base constraint.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="baseConstraint"></param>
         public AttributeConstraint(Type type, Constraint baseConstraint)
             : base( baseConstraint )
         {
@@ -56,6 +83,11 @@ namespace NUnit.Framework.Constraints
                     "Type {0} is not an attribute", expectedType), "type");
         }
 
+        /// <summary>
+        /// Determines whether the Type or other provider has the 
+        /// expected attribute and if its value matches the
+        /// additional constraint specified.
+        /// </summary>
         public override bool Matches(object actual)
         {
             this.actual = actual;
@@ -73,6 +105,9 @@ namespace NUnit.Framework.Constraints
             return baseConstraint.Matches(attrFound);
         }
 
+        /// <summary>
+        /// Writes a description of the attribute to the specified writer.
+        /// </summary>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
             writer.WritePredicate("attribute " + expectedType.FullName);
@@ -84,11 +119,17 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Writes the actual value supplied to the specified writer.
+        /// </summary>
         public override void WriteActualValueTo(MessageWriter writer)
         {
             writer.WriteActualValue(attrFound);
         }
 
+        /// <summary>
+        /// Returns a string representation of the constraint.
+        /// </summary>
         public override string ToString()
         {
             return string.Format("<attribute {0} {1}>", expectedType, baseConstraint); 

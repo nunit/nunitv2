@@ -60,7 +60,7 @@ namespace NUnit.Framework
             }
         }
 
-        protected static void IncrementAssertCount()
+        private static void IncrementAssertCount()
         {
             ++counter;
         }
@@ -281,7 +281,7 @@ namespace NUnit.Framework
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         static public void That(object actual, IResolveConstraint expression)
         {
@@ -292,7 +292,7 @@ namespace NUnit.Framework
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         static public void That(object actual, IResolveConstraint expression, string message)
@@ -374,30 +374,30 @@ namespace NUnit.Framework
         /// Apply a constraint to a referenced value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
-        static public void That<T>(ref T actual, IResolveConstraint constraint)
+        static public void That<T>(ref T actual, IResolveConstraint expression)
         {
-            Assert.That(ref actual, constraint.Resolve(), null, null);
+            Assert.That(ref actual, expression.Resolve(), null, null);
         }
 
         /// <summary>
         /// Apply a constraint to a referenced value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void That<T>(ref T actual, IResolveConstraint constraint, string message)
+        static public void That<T>(ref T actual, IResolveConstraint expression, string message)
         {
-            Assert.That(ref actual, constraint.Resolve(), message, null);
+            Assert.That(ref actual, expression.Resolve(), message, null);
         }
 
         /// <summary>
         /// Apply a constraint to a referenced value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
@@ -1272,11 +1272,15 @@ namespace NUnit.Framework
             Assert.That(actual, Is.AssignableFrom(expected) ,null, null);
         }
         
+        #endregion
+        
+        #region IsAssignableFrom<T>
+        
 #if NET_2_0
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
         /// </summary>
-        /// <param name="expected">The expected Type.</param>
+        /// <typeparam name="T">The expected Type.</typeparam>
         /// <param name="actual">The object under examination</param>
         /// <param name="message">The message to display in case of failure</param>
         /// <param name="args">Array of objects to be used in formatting the message</param>
@@ -1288,7 +1292,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
         /// </summary>
-        /// <param name="expected">The expected Type.</param>
+        /// <typeparam name="T">The expected Type.</typeparam>
         /// <param name="actual">The object under examination</param>
         /// <param name="message">The message to display in case of failure</param>
         public static void IsAssignableFrom<T>(object actual, string message)
@@ -1299,7 +1303,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
         /// </summary>
-        /// <param name="expected">The expected Type.</param>
+        /// <typeparam name="T">The expected Type.</typeparam>
         /// <param name="actual">The object under examination</param>
         public static void IsAssignableFrom<T>(object actual)
         {
@@ -1344,11 +1348,15 @@ namespace NUnit.Framework
             Assert.That(actual, Is.Not.AssignableFrom(expected) ,null, null);
         }
         
+        #endregion
+        
+        #region IsNotAssignableFrom<T>
+        
 #if NET_2_0
         /// <summary>
         /// Asserts that an object may not be assigned a  value of a given Type.
         /// </summary>
-        /// <param name="expected">The expected Type.</param>
+        /// <typeparam name="T">The expected Type.</typeparam>
         /// <param name="actual">The object under examination</param>
         /// <param name="message">The message to display in case of failure</param>
         /// <param name="args">Array of objects to be used in formatting the message</param>
@@ -1360,7 +1368,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Asserts that an object may not be assigned a  value of a given Type.
         /// </summary>
-        /// <param name="expected">The expected Type.</param>
+        /// <typeparam name="T">The expected Type.</typeparam>
         /// <param name="actual">The object under examination</param>
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNotAssignableFrom<T>(object actual, string message)
@@ -1371,7 +1379,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Asserts that an object may not be assigned a  value of a given Type.
         /// </summary>
-        /// <param name="expected">The expected Type.</param>
+        /// <typeparam name="T">The expected Type.</typeparam>
         /// <param name="actual">The object under examination</param>
         public static void IsNotAssignableFrom<T>(object actual)
         {
@@ -1416,41 +1424,6 @@ namespace NUnit.Framework
             Assert.That(actual, Is.InstanceOf(expected) ,null, null);
         }
         
-#if NET_2_0
-        /// <summary>
-        /// Asserts that an object is an instance of a given type.
-        /// </summary>
-        /// <param name="expected">The expected Type</param>
-        /// <param name="actual">The object being examined</param>
-        /// <param name="message">The message to display in case of failure</param>
-        /// <param name="args">Array of objects to be used in formatting the message</param>
-        public static void IsInstanceOf<T>(object actual, string message, params object[] args)
-        {
-            Assert.That(actual, Is.InstanceOf(typeof(T)) ,message, args);
-        }
-        
-        /// <summary>
-        /// Asserts that an object is an instance of a given type.
-        /// </summary>
-        /// <param name="expected">The expected Type</param>
-        /// <param name="actual">The object being examined</param>
-        /// <param name="message">The message to display in case of failure</param>
-        public static void IsInstanceOf<T>(object actual, string message)
-        {
-            Assert.That(actual, Is.InstanceOf(typeof(T)) ,message, null);
-        }
-        
-        /// <summary>
-        /// Asserts that an object is an instance of a given type.
-        /// </summary>
-        /// <param name="expected">The expected Type</param>
-        /// <param name="actual">The object being examined</param>
-        public static void IsInstanceOf<T>(object actual)
-        {
-            Assert.That(actual, Is.InstanceOf(typeof(T)) ,null, null);
-        }
-        
-#endif
         /// <summary>
         /// Asserts that an object is an instance of a given type.
         /// </summary>
@@ -1489,6 +1462,45 @@ namespace NUnit.Framework
         
         #endregion
         
+        #region IsInstanceOf<T>
+        
+#if NET_2_0
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <typeparam name="T">The expected Type</typeparam>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Array of objects to be used in formatting the message</param>
+        public static void IsInstanceOf<T>(object actual, string message, params object[] args)
+        {
+            Assert.That(actual, Is.InstanceOf(typeof(T)) ,message, args);
+        }
+        
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <typeparam name="T">The expected Type</typeparam>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        public static void IsInstanceOf<T>(object actual, string message)
+        {
+            Assert.That(actual, Is.InstanceOf(typeof(T)) ,message, null);
+        }
+        
+        /// <summary>
+        /// Asserts that an object is an instance of a given type.
+        /// </summary>
+        /// <typeparam name="T">The expected Type</typeparam>
+        /// <param name="actual">The object being examined</param>
+        public static void IsInstanceOf<T>(object actual)
+        {
+            Assert.That(actual, Is.InstanceOf(typeof(T)) ,null, null);
+        }
+        
+#endif
+        #endregion
+        
         #region IsNotInstanceOf
         
         /// <summary>
@@ -1524,41 +1536,6 @@ namespace NUnit.Framework
             Assert.That(actual, Is.Not.InstanceOf(expected) ,null, null);
         }
         
-#if NET_2_0
-        /// <summary>
-        /// Asserts that an object is not an instance of a given type.
-        /// </summary>
-        /// <param name="expected">The expected Type</param>
-        /// <param name="actual">The object being examined</param>
-        /// <param name="message">The message to display in case of failure</param>
-        /// <param name="args">Array of objects to be used in formatting the message</param>
-        public static void IsNotInstanceOf<T>(object actual, string message, params object[] args)
-        {
-            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,message, args);
-        }
-        
-        /// <summary>
-        /// Asserts that an object is not an instance of a given type.
-        /// </summary>
-        /// <param name="expected">The expected Type</param>
-        /// <param name="actual">The object being examined</param>
-        /// <param name="message">The message to display in case of failure</param>
-        public static void IsNotInstanceOf<T>(object actual, string message)
-        {
-            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,message, null);
-        }
-        
-        /// <summary>
-        /// Asserts that an object is not an instance of a given type.
-        /// </summary>
-        /// <param name="expected">The expected Type</param>
-        /// <param name="actual">The object being examined</param>
-        public static void IsNotInstanceOf<T>(object actual)
-        {
-            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,null, null);
-        }
-        
-#endif
         /// <summary>
         /// Asserts that an object is not an instance of a given type.
         /// </summary>
@@ -1595,6 +1572,45 @@ namespace NUnit.Framework
             Assert.That(actual, Is.Not.InstanceOf(expected) ,null, null);
         }
         
+        #endregion
+        
+        #region IsNotInstanceOf<T>
+        
+#if NET_2_0
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <typeparam name="T">The expected Type</typeparam>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        /// <param name="args">Array of objects to be used in formatting the message</param>
+        public static void IsNotInstanceOf<T>(object actual, string message, params object[] args)
+        {
+            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,message, args);
+        }
+        
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <typeparam name="T">The expected Type</typeparam>
+        /// <param name="actual">The object being examined</param>
+        /// <param name="message">The message to display in case of failure</param>
+        public static void IsNotInstanceOf<T>(object actual, string message)
+        {
+            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,message, null);
+        }
+        
+        /// <summary>
+        /// Asserts that an object is not an instance of a given type.
+        /// </summary>
+        /// <typeparam name="T">The expected Type</typeparam>
+        /// <param name="actual">The object being examined</param>
+        public static void IsNotInstanceOf<T>(object actual)
+        {
+            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,null, null);
+        }
+        
+#endif
         #endregion
         
         #region AreEqual

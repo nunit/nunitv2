@@ -34,7 +34,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure. Works
-        /// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint)"/>
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, IResolveConstraint)"/>
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
@@ -46,7 +46,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure. Works
-        /// identically to <see cref="NUnit.Framework.Assert.That(object, Constraint, string)"/>
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, IResolveConstraint, string)"/>
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
@@ -59,7 +59,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure. Works
-        /// identically to <see cref="NUnit.Framework.Assert.That(object, IResolvable, string, object[])"/>
+        /// identically to <see cref="NUnit.Framework.Assert.That(object, IResolveConstraint, string, object[])"/>
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
@@ -138,7 +138,7 @@ namespace NUnit.Framework
         /// Apply a constraint to a referenced value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>

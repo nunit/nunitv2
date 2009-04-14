@@ -529,6 +529,12 @@ Gen: Assert.IsNotNullOrEmpty(string aString)=>Assert.That(aString, new NotConstr
 /// <param name="expected">The expected Type.</param>
 /// <param name="actual">The object under examination</param>
 Gen: Assert.IsAssignableFrom(Type expected, object actual)=>Assert.That(actual, Is.AssignableFrom(expected))
+%
+/// <summary>
+/// Asserts that an object may be assigned a  value of a given Type.
+/// </summary>
+/// <typeparam name="T">The expected Type.</typeparam>
+/// <param name="actual">The object under examination</param>
 Gen: Assert.IsAssignableFrom<T>(object actual)=>Assert.That(actual, Is.AssignableFrom(typeof(T)))
 %
 /// <summary>
@@ -537,6 +543,12 @@ Gen: Assert.IsAssignableFrom<T>(object actual)=>Assert.That(actual, Is.Assignabl
 /// <param name="expected">The expected Type.</param>
 /// <param name="actual">The object under examination</param>
 Gen: Assert.IsNotAssignableFrom(Type expected, object actual)=>Assert.That(actual, Is.Not.AssignableFrom(expected))
+%
+/// <summary>
+/// Asserts that an object may not be assigned a  value of a given Type.
+/// </summary>
+/// <typeparam name="T">The expected Type.</typeparam>
+/// <param name="actual">The object under examination</param>
 Gen: Assert.IsNotAssignableFrom<T>(object actual)=>Assert.That(actual, Is.Not.AssignableFrom(typeof(T)))
 %
 /// <summary>
@@ -545,8 +557,14 @@ Gen: Assert.IsNotAssignableFrom<T>(object actual)=>Assert.That(actual, Is.Not.As
 /// <param name="expected">The expected Type</param>
 /// <param name="actual">The object being examined</param>
 Gen: Assert.IsInstanceOf(Type expected, object actual)=>Assert.That(actual, Is.InstanceOf(expected))
-Gen: Assert.IsInstanceOf<T>(object actual)=>Assert.That(actual, Is.InstanceOf(typeof(T)))
 Gen: [Obsolete]Assert.IsInstanceOfType(Type expected, object actual)=>Assert.That(actual, Is.InstanceOf(expected))
+%
+/// <summary>
+/// Asserts that an object is an instance of a given type.
+/// </summary>
+/// <typeparam name="T">The expected Type</typeparam>
+/// <param name="actual">The object being examined</param>
+Gen: Assert.IsInstanceOf<T>(object actual)=>Assert.That(actual, Is.InstanceOf(typeof(T)))
 %
 /// <summary>
 /// Asserts that an object is not an instance of a given type.
@@ -554,8 +572,14 @@ Gen: [Obsolete]Assert.IsInstanceOfType(Type expected, object actual)=>Assert.Tha
 /// <param name="expected">The expected Type</param>
 /// <param name="actual">The object being examined</param>
 Gen: Assert.IsNotInstanceOf(Type expected, object actual)=>Assert.That(actual, Is.Not.InstanceOf(expected))
-Gen: Assert.IsNotInstanceOf<T>(object actual)=>Assert.That(actual, Is.Not.InstanceOf(typeof(T)))
 Gen: [Obsolete]Assert.IsNotInstanceOfType(Type expected, object actual)=>Assert.That(actual, Is.Not.InstanceOf(expected))
+%
+/// <summary>
+/// Asserts that an object is not an instance of a given type.
+/// </summary>
+/// <typeparam name="T">The expected Type</typeparam>
+/// <param name="actual">The object being examined</param>
+Gen: Assert.IsNotInstanceOf<T>(object actual)=>Assert.That(actual, Is.Not.InstanceOf(typeof(T)))
 %
 /// <summary>
 /// Verifies that two values are equal. If they are not, then an 

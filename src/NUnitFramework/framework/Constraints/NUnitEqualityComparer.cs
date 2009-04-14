@@ -43,6 +43,9 @@ namespace NUnit.Framework.Constraints
 
         #region Properties
 
+        /// <summary>
+        /// Returns the default NUnitEqualityComparer
+        /// </summary>
         public static NUnitEqualityComparer Default
         {
             get { return new NUnitEqualityComparer(); }
@@ -88,6 +91,9 @@ namespace NUnit.Framework.Constraints
             set { tolerance = value; }
         }
 
+        /// <summary>
+        /// Gets the list of failure points for the last Match performed.
+        /// </summary>
         public IList FailurePoints
         {
             get { return failurePoints; }
@@ -222,8 +228,8 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Method to compare two DirectoryInfo objects
         /// </summary>
-        /// <param name="expected">first directory to compare</param>
-        /// <param name="actual">second directory to compare</param>
+        /// <param name="x">first directory to compare</param>
+        /// <param name="y">second directory to compare</param>
         /// <returns>true if equivalent, false if not</returns>
         private bool DirectoriesEqual(DirectoryInfo x, DirectoryInfo y)
         {

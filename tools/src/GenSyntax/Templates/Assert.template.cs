@@ -60,7 +60,7 @@ namespace NUnit.Framework
             }
         }
 
-        protected static void IncrementAssertCount()
+        private static void IncrementAssertCount()
         {
             ++counter;
         }
@@ -281,7 +281,7 @@ namespace NUnit.Framework
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         static public void That(object actual, IResolveConstraint expression)
         {
@@ -292,7 +292,7 @@ namespace NUnit.Framework
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         static public void That(object actual, IResolveConstraint expression, string message)
@@ -374,30 +374,30 @@ namespace NUnit.Framework
         /// Apply a constraint to a referenced value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
-        static public void That<T>(ref T actual, IResolveConstraint constraint)
+        static public void That<T>(ref T actual, IResolveConstraint expression)
         {
-            Assert.That(ref actual, constraint.Resolve(), null, null);
+            Assert.That(ref actual, expression.Resolve(), null, null);
         }
 
         /// <summary>
         /// Apply a constraint to a referenced value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        static public void That<T>(ref T actual, IResolveConstraint constraint, string message)
+        static public void That<T>(ref T actual, IResolveConstraint expression, string message)
         {
-            Assert.That(ref actual, constraint.Resolve(), message, null);
+            Assert.That(ref actual, expression.Resolve(), message, null);
         }
 
         /// <summary>
         /// Apply a constraint to a referenced value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
         /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
+        /// <param name="expression">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>

@@ -43,8 +43,6 @@ namespace NUnit.Core
 
         private bool isActive;
 
-        private AppDomain domain;
-
         /// <summary>
         /// Constructs a DomainAgent specifying the trace level.
         /// </summary>

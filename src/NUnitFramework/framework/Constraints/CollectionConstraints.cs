@@ -67,6 +67,9 @@ namespace NUnit.Framework.Constraints
                     list.Add(o);
             }
 
+            /// <summary>
+            /// The number of objects remaining in the tally
+            /// </summary>
             public int Count
             {
                 get { return list.Count; }
@@ -139,7 +142,6 @@ namespace NUnit.Framework.Constraints
                 IEnumerator expectedEnum = expected.GetEnumerator();
                 IEnumerator actualEnum = actual.GetEnumerator();
 
-                int count = 0;
                 for (; ; )
                 {
                     bool expectedHasData = expectedEnum.MoveNext();
@@ -156,6 +158,11 @@ namespace NUnit.Framework.Constraints
                 }
             }
 
+            /// <summary>
+            /// Try to remove an object from the tally
+            /// </summary>
+            /// <param name="o">The object to remove</param>
+            /// <returns>True if successful, false if the object was not found</returns>
             public bool TryRemove(object o)
             {
                 for (int index = 0; index < list.Count; index++)
@@ -168,6 +175,11 @@ namespace NUnit.Framework.Constraints
                 return false;
             }
 
+            /// <summary>
+            /// Try to remove a set of objects from the tally
+            /// </summary>
+            /// <param name="c">The objects to remove</param>
+            /// <returns>True if successful, false if any object was not found</returns>
             public bool TryRemove(IEnumerable c)
             {
                 foreach (object o in c)
@@ -472,6 +484,9 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Modifies the constraint to use an IComparer and returns self.
+        /// </summary>
         public CollectionOrderedConstraint Using(IComparer comparer)
         {
             this.comparer = ComparisonAdapter.For( comparer );
@@ -480,6 +495,9 @@ namespace NUnit.Framework.Constraints
         }
 
 #if NET_2_0
+        /// <summary>
+        /// Modifies the constraint to use an IComparer&lt;T&gt; and returns self.
+        /// </summary>
         public CollectionOrderedConstraint Using<T>(IComparer<T> comparer)
         {
             this.comparer = ComparisonAdapter.For(comparer);
@@ -487,6 +505,9 @@ namespace NUnit.Framework.Constraints
             return this;
         }
 
+        /// <summary>
+        /// Modifies the constraint to use a Comparison&lt;T&gt; and returns self.
+        /// </summary>
         public CollectionOrderedConstraint Using<T>(Comparison<T> comparer)
         {
             this.comparer = ComparisonAdapter.For(comparer);
@@ -495,7 +516,11 @@ namespace NUnit.Framework.Constraints
         }
 #endif
 
-		public CollectionOrderedConstraint By(string propertyName)
+        /// <summary>
+        /// Modifies the constraint to test ordering by the value of
+        /// a specified property and returns self.
+        /// </summary>
+        public CollectionOrderedConstraint By(string propertyName)
 		{
 			this.propertyName = propertyName;
 			return this;
