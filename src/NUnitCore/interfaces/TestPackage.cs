@@ -82,7 +82,6 @@ namespace NUnit.Core
 		private ArrayList assemblies;
 		private string testName;
 		private bool isSingleAssembly;
-		private bool bShadowCopyCache;
 
 
 		/// <summary>
@@ -102,9 +101,6 @@ namespace NUnit.Core
 				this.isSingleAssembly = true;
 				this.assemblies.Add( name );
 			}
-
-			this.bShadowCopyCache = true;
-
 		}
 
 		/// <summary>
@@ -119,8 +115,6 @@ namespace NUnit.Core
 			this.name = Path.GetFileName( name );
 			this.assemblies = new ArrayList( assemblies );
 			this.isSingleAssembly = false;
-
-			this.bShadowCopyCache = true;
 		}
 
 		/// <summary>
@@ -210,15 +204,6 @@ namespace NUnit.Core
 		public IDictionary Settings
 		{
 			get { return settings; }
-		}
-
-		/// <summary>
-		/// Indicates whether ShadowCopyCache shall be used or not 
-		/// </summary>
-		public bool ShadowCopyCache
-		{
-			get { return bShadowCopyCache; }
-			set { bShadowCopyCache = value; }
 		}
 
         /// <summary>

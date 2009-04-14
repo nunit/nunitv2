@@ -194,7 +194,7 @@ namespace PNUnit.Agent
         private bool MakeTest(TestRunner runner, string assemblyName, bool bShadowCopyCache)
         {
             TestPackage package = new TestPackage(assemblyName);
-            package.ShadowCopyCache = bShadowCopyCache;
+            package.Settings.Add( "ShadowCopyFiles", bShadowCopyCache );
             return runner.Load(package);
         }
 

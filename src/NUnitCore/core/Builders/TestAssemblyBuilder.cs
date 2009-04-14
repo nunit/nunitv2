@@ -172,7 +172,7 @@ namespace NUnit.Core.Builders
 
 		private Assembly Load(string path)
 		{
-			Assembly assembly = null;
+            Assembly assembly = null;
 
             // Throws if this isn't a managed assembly or if it was built
 			// with a later version of the same assembly. 
