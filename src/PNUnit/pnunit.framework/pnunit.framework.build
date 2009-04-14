@@ -10,7 +10,6 @@
   <target name="build">
     <csc target="library"
         output="${current.framework.dir}/pnunit.framework.dll"
-        doc="${current.framework.dir}/pnunit.framework.xml"
         debug="${build.debug}" 
         define="${build.defines}">
       <sources basedir=".">
