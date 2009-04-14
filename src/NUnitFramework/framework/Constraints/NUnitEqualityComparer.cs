@@ -104,7 +104,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Compares two objects for equality.
         /// </summary>
-        public bool Equals(object x, object y)
+        public bool ObjectsEqual(object x, object y)
         {
             this.failurePoints = new ArrayList();
 
@@ -134,7 +134,7 @@ namespace NUnit.Framework.Constraints
                 return StreamsEqual((Stream)x, (Stream)y);
 
             if (externalComparer != null)
-                return externalComparer.Equals(x, y);
+                return externalComparer.ObjectsEqual(x, y);
 
             if (x is DirectoryInfo && y is DirectoryInfo)
                 return DirectoriesEqual((DirectoryInfo)x, (DirectoryInfo)y);
@@ -183,7 +183,7 @@ namespace NUnit.Framework.Constraints
             int count;
             for (count = 0; expectedEnum.MoveNext() && actualEnum.MoveNext(); count++)
             {
-                if (!Equals(expectedEnum.Current, actualEnum.Current))
+                if (!ObjectsEqual(expectedEnum.Current, actualEnum.Current))
                     break;
             }
 
@@ -217,7 +217,7 @@ namespace NUnit.Framework.Constraints
                     return true;
 
                 if (expectedHasData != actualHasData ||
-                    !Equals(expectedEnum.Current, actualEnum.Current))
+                    !ObjectsEqual(expectedEnum.Current, actualEnum.Current))
                 {
                     failurePoints.Insert(0, count);
                     return false;

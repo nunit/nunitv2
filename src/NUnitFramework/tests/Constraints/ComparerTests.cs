@@ -18,7 +18,7 @@ namespace NUnit.Framework.Constraints.Tests
         public void EqualItems(object x, object y)
         {
             Assert.That(NUnitComparer.Default.Compare(x, y) == 0);
-            Assert.That(NUnitEqualityComparer.Default.Equals(x, y));
+            Assert.That(NUnitEqualityComparer.Default.ObjectsEqual(x, y));
         }
 
         [TestCase(4, 2)]
@@ -35,8 +35,8 @@ namespace NUnit.Framework.Constraints.Tests
         {
             Assert.That(NUnitComparer.Default.Compare(greater, lesser) > 0);
             Assert.That(NUnitComparer.Default.Compare(lesser, greater) < 0);
-            Assert.False(NUnitEqualityComparer.Default.Equals( greater, lesser ));
-            Assert.False(NUnitEqualityComparer.Default.Equals( lesser, greater ));
+            Assert.False(NUnitEqualityComparer.Default.ObjectsEqual( greater, lesser ));
+            Assert.False(NUnitEqualityComparer.Default.ObjectsEqual( lesser, greater ));
         }
 
         [TestCase(double.PositiveInfinity)]
@@ -47,7 +47,7 @@ namespace NUnit.Framework.Constraints.Tests
         [TestCase(float.NaN)]
         public void SpecialValues(object x)
         {
-            Assert.That(NUnitEqualityComparer.Default.Equals(x, x));
+            Assert.That(NUnitEqualityComparer.Default.ObjectsEqual(x, x));
         }
     }
 }

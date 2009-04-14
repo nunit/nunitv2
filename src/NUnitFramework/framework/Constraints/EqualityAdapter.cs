@@ -16,7 +16,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Compares two objects, returning true if they are equal
         /// </summary>
-        public abstract bool Equals(object x, object y);
+        public abstract bool ObjectsEqual(object x, object y);
 
         /// <summary>
         /// Returns the default EqualityAdapter, which wraps an
@@ -77,7 +77,7 @@ namespace NUnit.Framework.Constraints
                 this.comparer = comparer;
             }
 
-            public override bool Equals(object x, object y)
+            public override bool ObjectsEqual(object x, object y)
             {
                 return comparer.Equals(x, y);
             }
@@ -92,7 +92,7 @@ namespace NUnit.Framework.Constraints
                 this.comparer = comparer;
             }
 
-            public override bool Equals(object x, object y)
+            public override bool ObjectsEqual(object x, object y)
             {
                 if (!typeof(T).IsAssignableFrom(x.GetType()))
                     throw new ArgumentException("Cannot compare " + x.ToString());
@@ -107,7 +107,7 @@ namespace NUnit.Framework.Constraints
 
         class DefaultEqualityAdapter : EqualityAdapter
         {
-            public override bool Equals(object x, object y)
+            public override bool ObjectsEqual(object x, object y)
             {
                 throw new NotImplementedException();
             }
@@ -122,7 +122,7 @@ namespace NUnit.Framework.Constraints
                 this.comparer = comparer;
             }
 
-            public override bool Equals(object x, object y)
+            public override bool ObjectsEqual(object x, object y)
             {
                 return comparer.Compare(x, y) == 0;
             }

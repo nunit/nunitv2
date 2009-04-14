@@ -316,7 +316,7 @@ namespace NUnit.Framework.Constraints
         {
             this.actual = actual;
 
-            return comparer.Equals(expected, actual);
+            return comparer.ObjectsEqual(expected, actual);
         }
 
         /// <summary>
