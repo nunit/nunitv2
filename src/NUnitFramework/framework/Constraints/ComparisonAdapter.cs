@@ -14,22 +14,35 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class ComparisonAdapter
     {
+        /// <summary>
+        /// Gets the default ComparisonAdapter, which wraps an
+        /// NUnitComparer object.
+        /// </summary>
         public static ComparisonAdapter Default
         {
             get { return new DefaultComparisonAdapter(); }
         }
 
+        /// <summary>
+        /// Returns a ComparisonAdapter that wraps an IComparer
+        /// </summary>
         public static ComparisonAdapter For(IComparer comparer)
         {
             return new ComparerAdapter(comparer);
         }
 
 #if NET_2_0
+        /// <summary>
+        /// Returns a ComparisonAdapter that wraps an IComparer&lt;T&gt;
+        /// </summary>
         public static ComparisonAdapter For<T>(IComparer<T> comparer)
         {
             return new ComparerAdapter<T>(comparer);
         }
 
+        /// <summary>
+        /// Returns a ComparisonAdapter that wraps a Comparison&lt;T&gt;
+        /// </summary>
         public static ComparisonAdapter For<T>(Comparison<T> comparer)
         {
             return new ComparisonAdapterForComparison<T>(comparer);
@@ -37,14 +50,8 @@ namespace NUnit.Framework.Constraints
 #endif
 
         /// <summary>
-        /// Construct a default ComparisonAdapter
-        /// </summary>
-        /// <summary>
         /// Compares two objects
         /// </summary>
-        /// <param name="expected"></param>
-        /// <param name="actual"></param>
-        /// <returns></returns>
         public abstract int Compare(object expected, object actual);
 
         class DefaultComparisonAdapter : ComparerAdapter

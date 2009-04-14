@@ -13,34 +13,56 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class EqualityAdapter
     {
+        /// <summary>
+        /// Compares two objects, returning true if they are equal
+        /// </summary>
         public abstract bool Equals(object x, object y);
 
+        /// <summary>
+        /// Returns the default EqualityAdapter, which wraps an
+        /// instance of the standard NUnitEqualityComparer.
+        /// </summary>
         public static EqualityAdapter Default
         {
             get { return new DefaultEqualityAdapter(); }
         }
 
+        /// <summary>
+        /// Returns an EqualityAdapter that wraps an IComparer.
+        /// </summary>
         public static EqualityAdapter For(IComparer comparer)
         {
             return new ComparisonAdapterAdapter(ComparisonAdapter.For(comparer));
         }
 
 #if NET_2_0
+        /// <summary>
+        /// Returns an EqualityAdapter that wraps an IEqualityComparer.
+        /// </summary>
         public static EqualityAdapter For(IEqualityComparer comparer)
         {
             return new EqualityComparerAdapter(comparer);
         }
 
+        /// <summary>
+        /// Returns an EqualityAdapter that wraps an IEqualityComparer&lt;T&gt;.
+        /// </summary>
         public static EqualityAdapter For<T>(IEqualityComparer<T> comparer)
         {
             return new EqualityComparerAdapter<T>(comparer);
         }
 
+        /// <summary>
+        /// Returns an EqualityAdapter that wraps an IComparer&lt;T&gt;.
+        /// </summary>
         public static EqualityAdapter For<T>(IComparer<T> comparer)
         {
             return new ComparisonAdapterAdapter( ComparisonAdapter.For(comparer) );
         }
 
+        /// <summary>
+        /// Returns an EqualityAdapter that wraps a Comparison&lt;T&gt;.
+        /// </summary>
         public static EqualityAdapter For<T>(Comparison<T> comparer)
         {
             return new ComparisonAdapterAdapter( ComparisonAdapter.For(comparer) );

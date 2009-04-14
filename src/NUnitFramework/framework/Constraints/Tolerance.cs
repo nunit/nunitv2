@@ -38,6 +38,13 @@ namespace NUnit.Framework.Constraints
         Ulps
     }
 
+    /// <summary>
+    /// The Tolerance class generalizes the notion of a tolerance
+    /// within which an equality test succeeds. Normally, it is
+    /// used with numeric types, but it can be used with any
+    /// type that supports taking a difference between two 
+    /// objects and comparing that difference to a value.
+    /// </summary>
     public class Tolerance
     {
         private ToleranceMode mode;
@@ -50,24 +57,42 @@ namespace NUnit.Framework.Constraints
         private static readonly string NumericToleranceRequired =
             "A numeric tolerance is required";
 
+        /// <summary>
+        /// Returns an empty Tolerance object, equivalent to 
+        /// specifying an exact match.
+        /// </summary>
         public static Tolerance Empty
         {
             get { return new Tolerance(0, ToleranceMode.None); }
         }
 
+        /// <summary>
+        /// Constructs a linear tolerance of a specdified amount
+        /// </summary>
         public Tolerance(object amount) : this(amount, ToleranceMode.Linear) { }
 
+        /// <summary>
+        /// Constructs a tolerance given an amount and ToleranceMode
+        /// </summary>
         private Tolerance(object amount, ToleranceMode mode)
         {
             this.amount = amount;
             this.mode = mode;
         }
 
+        /// <summary>
+        /// Gets the ToleranceMode for the current Tolerance
+        /// </summary>
         public ToleranceMode Mode
         {
             get { return this.mode; }
         }
+        
 
+        /// <summary>
+        /// Tests that the current Tolerance is linear with a 
+        /// numeric value, throwing an exception if it is not.
+        /// </summary>
         private void CheckLinearAndNumeric()
         {
             if (mode != ToleranceMode.Linear)
@@ -79,11 +104,17 @@ namespace NUnit.Framework.Constraints
                 throw new InvalidOperationException(NumericToleranceRequired);
         }
 
+        /// <summary>
+        /// Gets the value of the current Tolerance instance.
+        /// </summary>
         public object Value
         {
             get { return this.amount; }
         }
 
+        /// <summary>
+        /// Returns a new tolerance, using the current amount as a percentage.
+        /// </summary>
         public Tolerance Percent
         {
             get
@@ -93,6 +124,9 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Returns a new tolerance, using the current amount in Ulps.
+        /// </summary>
         public Tolerance Ulps
         {
             get
@@ -102,6 +136,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Returns a new tolerance with a TimeSpan as the amount, using 
+        /// the current amount as a number of days.
+        /// </summary>
         public Tolerance Days
         {
             get
@@ -111,6 +149,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Returns a new tolerance with a TimeSpan as the amount, using 
+        /// the current amount as a number of hours.
+        /// </summary>
         public Tolerance Hours
         {
             get
@@ -120,6 +162,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Returns a new tolerance with a TimeSpan as the amount, using 
+        /// the current amount as a number of minutes.
+        /// </summary>
         public Tolerance Minutes
         {
             get
@@ -129,6 +175,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Returns a new tolerance with a TimeSpan as the amount, using 
+        /// the current amount as a number of seconds.
+        /// </summary>
         public Tolerance Seconds
         {
             get
@@ -138,6 +188,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Returns a new tolerance with a TimeSpan as the amount, using 
+        /// the current amount as a number of milliseconds.
+        /// </summary>
         public Tolerance Milliseconds
         {
             get
@@ -147,6 +201,10 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Returns a new tolerance with a TimeSpan as the amount, using 
+        /// the current amount as a number of clock ticks.
+        /// </summary>
         public Tolerance Ticks
         {
             get
@@ -156,6 +214,9 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        /// <summary>
+        /// Returns true if the current tolerance is empty.
+        /// </summary>
         public bool IsEmpty
         {
             get { return mode == ToleranceMode.None; }
