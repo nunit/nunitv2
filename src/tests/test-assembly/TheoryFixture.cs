@@ -13,6 +13,12 @@ namespace NUnit.TestData
         [Datapoint]
         public int i100 = 100;
 
+        private void Dummy()
+        {
+            int x = i0; // Suppress Compiler Warnings
+            int y = i1; //
+        }
+
         [Theory]
         public void TheoryWithNoArguments()
         {
