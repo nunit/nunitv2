@@ -6,22 +6,32 @@
       <ComponentRef Id="pnunit_agent_1.1"/>
       <ComponentRef Id="pnunit_launcher_1.1"/>
       <ComponentRef Id="pnunit_framework_1.1"/>
+      <ComponentRef Id="log4net_1.1"/>
     </ComponentGroup>
   
     <ComponentGroup Id="pnunit_2.0">
       <ComponentRef Id="pnunit_agent_2.0"/>
       <ComponentRef Id="pnunit_launcher_2.0"/>
       <ComponentRef Id="pnunit_framework_2.0"/>
+      <ComponentRef Id="log4net_2.0"/>
     </ComponentGroup>
   
     <DirectoryRef Id="net_1.1" FileSource="bin\net-1.1">
          
       <Component Id="pnunit_agent_1.1" DiskId="1" Guid="E2653E43-CF38-4d31-9E24-4BA27B76090D">
         <File Id="pnunit_agent_1.1" Name="PNUAGENT.EXE" LongName="pnunit-agent.exe" />
+        <File Id="pnunit_agent_config_1.1" Name= "PNUAGENT.CFG" LongName="pnunit-agent.exe.config" />
+        <File Id="agent_conf_1.1" Name="AGENT.CNF" LongName="agent.conf" />
       </Component>
 
       <Component Id="pnunit_launcher_1.1" DiskId="1" Guid="545E709A-7DBA-40b1-86FD-2FCA1C16A2F8">
         <File Id="pnunit_launcher_1.1" Name="PNULNCHR.EXE" LongName="pnunit-launcher.exe" />
+        <File Id="pnunit_launcher_config_1.1" Name= "PNULNCHR.CFG" LongName="pnunit-launcher.exe.config" />
+        <File Id="test_conf_1.1" Name="TEST.CNF" LongName="test.conf" />
+      </Component>
+
+      <Component Id="log4net_1.1" DiskId="1" Guid="0ED12C18-ED13-42b1-BEBF-4B6999949BD5">
+        <File Id="log4net_1.1" Name="log4net.dll" />
       </Component>
 
     </DirectoryRef>
@@ -38,10 +48,18 @@
          
       <Component Id="pnunit_agent_2.0" DiskId="1" Guid="CB4CF43B-1D4B-40a7-859B-8B48802B3C07">
         <File Id="pnunit_agent_2.0" Name="PNUAGENT.EXE" LongName="pnunit-agent.exe" />
+        <File Id="pnunit_agent_config_2.0" Name= "PNUAGENT.CFG" LongName="pnunit-agent.exe.config" />
+        <File Id="agent_conf_2.0" Name="AGENT.CNF" LongName="agent.conf" />
       </Component>
 
       <Component Id="pnunit_launcher_2.0" DiskId="1" Guid="CB4CF43B-1D4B-40a7-859B-8B48802B3C07">
         <File Id="pnunit_launcher_2.0" Name="PNULNCHR.EXE" LongName="pnunit-launcher.exe" />
+        <File Id="pnunit_launcher_config_2.0" Name= "PNULNCHR.CFG" LongName="pnunit-launcher.exe.config" />
+        <File Id="test_conf_2.0" Name="TEST.CNF" LongName="test.conf" />
+      </Component>
+
+      <Component Id="log4net_2.0" DiskId="1" Guid="0D92F103-97A8-4c23-871C-BD1678E454E3">
+        <File Id="log4net_2.0" Name="log4net.dll" />
       </Component>
 
     </DirectoryRef>
