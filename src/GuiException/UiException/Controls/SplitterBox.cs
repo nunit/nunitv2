@@ -87,6 +87,9 @@ namespace NUnit.UiException.Controls
         private Rectangle _rHorizontalDirection;
         private Rectangle _rHorizontalCollapse2;
 
+        public event EventHandler OrientationChanged;
+        public event EventHandler SplitterDistanceChanged;
+
         /// <summary>
         /// Creates a new SplitterBox.
         /// </summary>
@@ -389,17 +392,21 @@ namespace NUnit.UiException.Controls
             wasMovingSplitter = _movingSplitter;
             _movingSplitter = false;
 
-            if (!wasMovingSplitter)
+            if (wasMovingSplitter)
+                FireSplitterDistanceChanged();
+            else
             {
                 if (_collapse1Rectangle.Contains(e.X, e.Y))
                 {
                     CollapseControl1();
+                    FireSplitterDistanceChanged();
                     return;
                 }
 
                 if (_collapse2Rectangle.Contains(e.X, e.Y))
                 {
                     CollapseControl2();
+                    FireSplitterDistanceChanged();
                     return;
                 }
 
@@ -409,6 +416,8 @@ namespace NUnit.UiException.Controls
                             Orientation.Horizontal :
                             Orientation.Vertical;
 
+                    FireOrientationChanged();
+
                     return;
                 }
             }
@@ -416,6 +425,18 @@ namespace NUnit.UiException.Controls
             base.OnMouseUp(e);
 
             return;
+        }
+
+        private void FireOrientationChanged()
+        {
+            if (OrientationChanged != null)
+                OrientationChanged(this, EventArgs.Empty);
+        }
+
+        private void FireSplitterDistanceChanged()
+        {
+            if (SplitterDistanceChanged != null)
+                SplitterDistanceChanged(this, EventArgs.Empty);
         }
 
         protected override void OnPaint(PaintEventArgs e)

@@ -84,34 +84,61 @@ namespace NUnit.Util
 			return result;
 		}
 
-		/// <summary>
-		/// Load the value of one of the group's integer settings
-		/// in a type-safe manner or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of setting to load</param>
-		/// <param name="defaultValue">Value to return if the seeting is not present</param>
-		/// <returns>Value of the setting or the default</returns>
-		public int GetSetting( string settingName, int defaultValue )
-		{
-			object result = GetSetting(settingName );
+        /// <summary>
+        /// Load the value of one of the group's integer settings
+        /// in a type-safe manner or return a default value
+        /// </summary>
+        /// <param name="settingName">Name of setting to load</param>
+        /// <param name="defaultValue">Value to return if the seeting is not present</param>
+        /// <returns>Value of the setting or the default</returns>
+        public int GetSetting(string settingName, int defaultValue)
+        {
+            object result = GetSetting(settingName);
 
-			if ( result == null )
-				return defaultValue;
+            if (result == null)
+                return defaultValue;
 
-			if ( result is int )
-				return (int) result;
+            if (result is int)
+                return (int)result;
 
-			try
-			{
-				return Int32.Parse( result.ToString() );
-			}
-			catch
-			{
-				return defaultValue;
-			}
-		}
+            try
+            {
+                return Int32.Parse(result.ToString());
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
 
-		/// <summary>
+        /// <summary>
+        /// Load the value of one of the group's float settings
+        /// in a type-safe manner or return a default value
+        /// </summary>
+        /// <param name="settingName">Name of setting to load</param>
+        /// <param name="defaultValue">Value to return if the setting is not present</param>
+        /// <returns>Value of the setting or the default</returns>
+        public float GetSetting(string settingName, float defaultValue)
+        {
+            object result = GetSetting(settingName);
+
+            if (result == null)
+                return defaultValue;
+
+            if (result is float)
+                return (float)result;
+
+            try
+            {
+                return float.Parse(result.ToString());
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
+
+        /// <summary>
 		/// Load the value of one of the group's boolean settings
 		/// in a type-safe manner.
 		/// </summary>

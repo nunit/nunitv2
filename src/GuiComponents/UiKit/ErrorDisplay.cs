@@ -33,7 +33,8 @@ namespace NUnit.UiKit
         [Obsolete]
         public CP.Windows.Forms.ExpandingTextBox stackTrace;
         public UiException.Controls.ErrorBrowser errorBrowser;
-		public System.Windows.Forms.Splitter tabSplitter;
+        private UiException.Controls.SourceCodeDisplay sourceCode;
+        public System.Windows.Forms.Splitter tabSplitter;
 		private System.Windows.Forms.ContextMenu detailListContextMenu;
 		private System.Windows.Forms.MenuItem copyDetailMenuItem;
 		/// <summary> 
@@ -89,7 +90,8 @@ namespace NUnit.UiKit
 			this.tabSplitter = new System.Windows.Forms.Splitter();
 
             this.errorBrowser = new NUnit.UiException.Controls.ErrorBrowser();
-			this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
+            this.sourceCode = new UiException.Controls.SourceCodeDisplay();
+            this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
 			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();
@@ -137,11 +139,10 @@ namespace NUnit.UiKit
             //
             // configure and register SourceCodeDisplay
             //
-            UiException.Controls.SourceCodeDisplay sourceCode = new UiException.Controls.SourceCodeDisplay();
-            sourceCode.AutoSelectFirstItem = true;
-            sourceCode.ListOrderPolicy = UiException.Controls.ErrorListOrderPolicy.ReverseOrder;
-            sourceCode.SplitOrientation = Orientation.Vertical;
-            sourceCode.SplitterDistance = 0.3f;
+            this.sourceCode.AutoSelectFirstItem = true;
+            this.sourceCode.ListOrderPolicy = UiException.Controls.ErrorListOrderPolicy.ReverseOrder;
+            this.sourceCode.SplitOrientation = Orientation.Vertical;
+            this.sourceCode.SplitterDistance = 0.3f;
             this.errorBrowser.RegisterDisplay(sourceCode);
             this.errorBrowser.RegisterDisplay(new NUnit.UiException.Controls.StackTraceDisplay());
             // 
@@ -207,10 +208,38 @@ namespace NUnit.UiKit
 
                 this.detailList.Font = this.stackTrace.Font = 
                     settings.GetSetting( "Gui.FixedFont", DefaultFixedFont );
+
+                Orientation splitOrientation = (Orientation)settings.GetSetting(
+                    "Gui.ResultTabs.ErrorBrowser.SplitterOrientation", Orientation.Vertical);
+                float splitterDistance = splitOrientation == Orientation.Vertical
+                    ? settings.GetSetting( "Gui.ResultTabs.ErrorBrowser.VerticalPosition", 0.3f )
+                    : settings.GetSetting( "Gui.ResultTabs.ErrorBrowser.HorizontalPosition", 0.3f );
+
+                sourceCode.SplitOrientation = splitOrientation;
+                sourceCode.SplitterDistance = splitterDistance;
+
+                sourceCode.SplitOrientationChanged += new EventHandler(sourceCode_SplitOrientationChanged);
+                sourceCode.SplitterDistanceChanged += new EventHandler(sourceCode_SplitterDistanceChanged);
 			}
 
 			base.OnLoad (e);
 		}
+
+        void sourceCode_SplitterDistanceChanged(object sender, EventArgs e)
+        {
+            string distanceSetting = sourceCode.SplitOrientation == Orientation.Vertical
+                ? "Gui.ResultTabs.ErrorBrowser.VerticalPosition" : "Gui.ResultTabs.ErrorBrowser.HorizontalPosition";
+            settings.SaveSetting(distanceSetting, sourceCode.SplitterDistance);
+        }
+
+        void sourceCode_SplitOrientationChanged(object sender, EventArgs e)
+        {
+            settings.SaveSetting("Gui.ResultTabs.ErrorBrowser.SplitterOrientation", sourceCode.SplitOrientation);
+
+            string distanceSetting = sourceCode.SplitOrientation == Orientation.Vertical
+                ? "Gui.ResultTabs.ErrorBrowser.VerticalPosition" : "Gui.ResultTabs.ErrorBrowser.HorizontalPosition";
+            sourceCode.SplitterDistance = settings.GetSetting(distanceSetting, 0.3f);
+        }
 		#endregion
 
 		#region Public Methods

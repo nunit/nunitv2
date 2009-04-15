@@ -48,15 +48,23 @@ namespace NUnit.Util
 		/// <returns>Value of the setting or the default value</returns>
 		object GetSetting( string settingName, object defaultValue );
 
-		/// <summary>
-		/// Load an integer setting from the storage or return a default value
-		/// </summary>
-		/// <param name="settingName">Name of the setting to load</param>
-		/// <param name="defaultValue">Value to return if the setting is missing</param>
-		/// <returns>Value of the setting or the default value</returns>
-		int GetSetting( string settingName, int defaultValue );
+        /// <summary>
+        /// Load an integer setting from the storage or return a default value
+        /// </summary>
+        /// <param name="settingName">Name of the setting to load</param>
+        /// <param name="defaultValue">Value to return if the setting is missing</param>
+        /// <returns>Value of the setting or the default value</returns>
+        int GetSetting(string settingName, int defaultValue);
 
-		/// <summary>
+        /// <summary>
+        /// Load a float setting from the storage or return a default value
+        /// </summary>
+        /// <param name="settingName">Name of the setting to load</param>
+        /// <param name="defaultValue">Value to return if the setting is missing</param>
+        /// <returns>Value of the setting or the default value</returns>
+        float GetSetting(string settingName, float defaultValue);
+
+        /// <summary>
 		/// Load a boolean setting or return a default value
 		/// </summary>
 		/// <param name="settingName">Name of setting to load</param>

@@ -36,7 +36,10 @@ namespace NUnit.UiException.Controls
         protected SplitterBox _splitter;
 
         private ToolStripButton _btnPlugin;
-        private ToolStripButton _btnSwap;        
+        private ToolStripButton _btnSwap;
+
+        public event EventHandler SplitOrientationChanged;
+        public event EventHandler SplitterDistanceChanged;
 
         /// <summary>
         /// Builds a new instance of SourceCodeDisplay.
@@ -56,6 +59,8 @@ namespace NUnit.UiException.Controls
 
             SplitterBox splitter = new SplitterBox();
             _splitter = splitter;
+            _splitter.SplitterDistanceChanged += new EventHandler(_splitter_DistanceChanged);
+            _splitter.OrientationChanged += new EventHandler(_splitter_OrientationChanged);
 
             splitter.Control1 = errorList;
             splitter.Control2 = codeBox;
@@ -63,6 +68,18 @@ namespace NUnit.UiException.Controls
             codeBox.ShowCurrentLine = true;
 
             return;
+        }
+
+        void _splitter_DistanceChanged(object sender, EventArgs e)
+        {
+            if (SplitterDistanceChanged != null)
+                SplitterDistanceChanged(sender, e);
+        }
+
+        void _splitter_OrientationChanged(object sender, EventArgs e)
+        {
+            if (SplitOrientationChanged != null)
+                SplitOrientationChanged(sender, e);
         }
 
         /// <summary>
