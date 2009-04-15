@@ -200,7 +200,6 @@ namespace PNUnit.Agent
 
         private bool GetShadowCopyCacheConfig()
         {
-            return false;
             if (mConfig.ShadowCopyCache != null)
                 if (mConfig.ShadowCopyCache.ToLower().IndexOf("false") != -1 )
                     return false;
