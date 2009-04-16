@@ -103,7 +103,7 @@ namespace NUnit.UiException.Tests.Controls
 
             Assert.That(box.BackColor, Is.EqualTo(Color.White));
             Assert.That(box.Font.Name, Is.EqualTo("Courier New"));
-            Assert.That(box.Font.Size, Is.EqualTo(10));
+            Assert.That(box.Font.Size, Is.EqualTo(8));
 
             return;
         }

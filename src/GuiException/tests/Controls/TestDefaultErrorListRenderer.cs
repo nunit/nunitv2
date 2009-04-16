@@ -69,9 +69,10 @@ namespace NUnit.UiException.Tests.Controls
 
             exp = _gr.MeasureString("0123456789012", renderer.Font);
             actual = renderer.MeasureItem(_gr, itemClass);
+            int itemHeight = renderer.Font.Height * 4 + 6;
             
             Assert.That((int)actual.Width, Is.EqualTo((int)exp.Width + 16));
-            Assert.That((int)actual.Height, Is.EqualTo(54));
+            Assert.That((int)actual.Height, Is.EqualTo(itemHeight));
 
             // measure an item whoose width should be determined
             // by method field value
@@ -79,7 +80,7 @@ namespace NUnit.UiException.Tests.Controls
             exp = _gr.MeasureString("0123456789012()", renderer.Font);
             actual = renderer.MeasureItem(_gr, itemMethod);
             Assert.That((int)actual.Width, Is.EqualTo((int)exp.Width + 16));
-            Assert.That((int)actual.Height, Is.EqualTo(54));
+            Assert.That((int)actual.Height, Is.EqualTo(itemHeight));
 
             // measure an item whoose width should be determined
             // by filename field value
@@ -87,7 +88,7 @@ namespace NUnit.UiException.Tests.Controls
             exp = _gr.MeasureString("0123456789012.cs", renderer.Font);
             actual = renderer.MeasureItem(_gr, itemFile);
             Assert.That((int)actual.Width, Is.EqualTo((int)exp.Width + 16));
-            Assert.That((int)actual.Height, Is.EqualTo(54));
+            Assert.That((int)actual.Height, Is.EqualTo(itemHeight));
 
             return;
         }        
@@ -97,11 +98,13 @@ namespace NUnit.UiException.Tests.Controls
         {
             ErrorItem item;
 
+            int itemHeight = _renderer.Font.Height * 4 + 6;
+
             item = _renderer.ItemAt(_filled.Items, _gr, new Point(0, 0));
             Assert.NotNull(item);
             Assert.That(item, Is.EqualTo(_filled.Items[0]));
 
-            item = _renderer.ItemAt(_filled.Items, _gr, new Point(0, 55));
+            item = _renderer.ItemAt(_filled.Items, _gr, new Point(0, itemHeight + 1));
             Assert.NotNull(item);
             Assert.That(item, Is.EqualTo(_filled.Items[1]));
 
@@ -132,7 +135,8 @@ namespace NUnit.UiException.Tests.Controls
             docSize = renderer.GetDocumentSize(_filled.Items, _gr);
             Assert.NotNull(docSize);
             Assert.That(docSize.Width, Is.EqualTo((int)szItem.Width));
-            Assert.That(docSize.Height, Is.EqualTo(_filled.Items.Count * 54));
+            int itemHeight = renderer.Font.Height * 4 + 6;
+            Assert.That(docSize.Height, Is.EqualTo(_filled.Items.Count * itemHeight));
 
             return;
         }

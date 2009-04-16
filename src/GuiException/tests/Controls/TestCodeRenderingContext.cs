@@ -35,7 +35,7 @@ namespace NUnit.UiException.Tests.Controls
             Assert.NotNull(_context.Graphics);
             Assert.NotNull(_context.Font);
             Assert.That(_context.Font.Name, Is.EqualTo("Courier New"));
-            Assert.That(_context.Font.Size, Is.EqualTo(10));
+            Assert.That(_context.Font.Size, Is.EqualTo(8));
 
             Assert.That(_context.CurrentLine, Is.EqualTo(-1));
 
