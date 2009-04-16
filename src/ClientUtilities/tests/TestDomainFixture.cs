@@ -48,8 +48,8 @@ namespace NUnit.Util.Tests
 		{
 			AppDomain domain = testDomain.AppDomain;
 			AppDomainSetup setup = testDomain.AppDomain.SetupInformation;
-			
-			Assert.AreEqual( "mock-assembly.dll", setup.ApplicationName, "ApplicationName" );
+
+            Assert.That(setup.ApplicationName, Text.StartsWith("Tests_"));
 			Assert.AreEqual( Environment.CurrentDirectory, setup.ApplicationBase, "ApplicationBase" );
 			Assert.AreEqual( "mock-assembly.dll.config", Path.GetFileName( setup.ConfigurationFile ), "ConfigurationFile" );
 			Assert.AreEqual( null, setup.PrivateBinPath, "PrivateBinPath" );
