@@ -45,7 +45,8 @@ namespace NUnit.UiException.Controls
     /// </summary>
     public class ErrorBrowser : UserControl
     {
-        public event EventHandler StackTraceSourceChanged;       
+        public event EventHandler StackTraceSourceChanged;
+        public event EventHandler StackTraceDisplayChanged;
         private ErrorPanelLayout _layout;
 
         private string _stackStace;
@@ -102,6 +103,7 @@ namespace NUnit.UiException.Controls
         public IErrorDisplay SelectedDisplay
         {
             get { return (Toolbar.SelectedDisplay); }
+            set { Toolbar.SelectedDisplay = value; }
         }
 
         /// <summary>
@@ -139,6 +141,9 @@ namespace NUnit.UiException.Controls
         void Toolbar_SelectedRendererChanged(object sender, EventArgs e)
         {
             LayoutPanel.Content = Toolbar.SelectedDisplay.Content;
+
+            if (StackTraceDisplayChanged != null)
+                StackTraceDisplayChanged(this, EventArgs.Empty);
 
             return;
         }

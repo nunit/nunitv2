@@ -221,6 +221,13 @@ namespace NUnit.UiException.Controls
             return;
         }
 
+        protected override void OnFontChanged(EventArgs e)
+        {
+            this._renderer.Font = this.Font;
+
+            base.OnFontChanged(e);
+        }
+
         protected void OnClick(Point point)
         {
             SelectedItem = _renderer.ItemAt(_items, _workingGraphics, point);

@@ -21,11 +21,12 @@ namespace NUnit.UiException.Controls
     public class DefaultErrorListRenderer :
         IErrorListRenderer
     {
-        private static readonly int ITEM_HEIGHT = 54;
+        //private static readonly int ITEM_HEIGHT = 54;
         private static readonly int TEXT_MARGIN_X = 16;
 
         private Font _font;
         private Font _fontUnderlined;
+        private int _itemHeight;
         private Brush _brushBlue;
         private Brush _brushGray;
         private float _offsetLine;
@@ -44,8 +45,9 @@ namespace NUnit.UiException.Controls
 
         public DefaultErrorListRenderer()
         {
-            _font = new Font("Microsoft Sans Serif", 8.25f);
-            _fontUnderlined = new Font(_font, FontStyle.Underline);
+            this.Font = new Font("Microsoft Sans Serif", 8.25f);
+            //_fontUnderlined = new Font(_font, FontStyle.Underline);
+            //_itemHeight = _font.Height * 4 + 6;
 
             _brushBlue = new SolidBrush(Color.FromArgb(0, 43, 114));
             _brushGray = new SolidBrush(Color.FromArgb(64, 64, 64));
@@ -68,6 +70,13 @@ namespace NUnit.UiException.Controls
         public Font Font
         {
             get { return (_font); }
+            set 
+            { 
+                _fontUnderlined = _font = value;
+                if (_font.FontFamily.IsStyleAvailable(FontStyle.Underline))
+                    _fontUnderlined = new Font(_font, FontStyle.Underline);
+                _itemHeight = _font.Height * 4 + 6;
+            }
         }
 
         #region IErrorListRenderer Membres
@@ -130,12 +139,12 @@ namespace NUnit.UiException.Controls
                 w = Math.Max(w, current.Width);
             }            
 
-            return (new Size((int)w, items.Count * ITEM_HEIGHT));
+            return (new Size((int)w, items.Count * _itemHeight));
         }
 
         public ErrorItem ItemAt(ErrorItemCollection items, Graphics g, Point point)
         {
-            int idx = point.Y / ITEM_HEIGHT;
+            int idx = point.Y / _itemHeight;
 
             if (items == null || point.Y < 0 || idx >= items.Count)
                 return (null);
@@ -165,7 +174,7 @@ namespace NUnit.UiException.Controls
 
             return (new SizeF(
                 Math.Max(sizeClass.Width, Math.Max(sizeMethod.Width, sizeFile.Width)) + TEXT_MARGIN_X,
-                ITEM_HEIGHT));
+                _itemHeight));
         }
 
         private void DrawItem(ErrorItem item, int index, bool selected, bool last, bool hover, Graphics g, Rectangle viewport)
@@ -174,19 +183,19 @@ namespace NUnit.UiException.Controls
             Font font;
 
             int x = -viewport.X;
-            int y = ITEM_HEIGHT * index - viewport.Y;
+            int y = _itemHeight * index - viewport.Y;
 
             src = (index % 2 == 0) ? _rectItemWhite : _rectItemGray ;
             font = (hover == true) ? _fontUnderlined : _font;
 
             g.DrawImage(Resources.ImageErrorList,
-                new Rectangle(0, y, viewport.Width, ITEM_HEIGHT), src,
+                new Rectangle(0, y, viewport.Width, _itemHeight), src,
                 GraphicsUnit.Pixel);
 
             if (selected)
             {
                 g.DrawImage(Resources.ImageErrorList,
-                    new Rectangle(0, y + 1, viewport.Width, _rectSelectionMiddle.Height),
+                    new Rectangle(0, y + 1, viewport.Width, _itemHeight ),
                     _rectSelectionMiddle, GraphicsUnit.Pixel);
             }
 
@@ -222,7 +231,7 @@ namespace NUnit.UiException.Controls
                 return;
 
             PaintTile(Resources.ImageErrorList, g, _rectListShadow,
-                new Rectangle(0, y + ITEM_HEIGHT, viewport.Width, 9));
+                new Rectangle(0, y + _itemHeight, viewport.Width, 9));
 
             return;
         }
@@ -266,13 +275,13 @@ namespace NUnit.UiException.Controls
 
         private int FirstIndexVisible(int count, Rectangle viewport)
         {
-            return (Math.Max(0, viewport.Y / ITEM_HEIGHT));
+            return (Math.Max(0, viewport.Y / _itemHeight));
         }
 
         private int LastIndexVisible(int count, Rectangle viewport)
         {
             return (Math.Min(count - 1,
-                FirstIndexVisible(count, viewport) + 1 + viewport.Height / ITEM_HEIGHT));
+                FirstIndexVisible(count, viewport) + 1 + viewport.Height / _itemHeight));
         }
 
         class PaintData

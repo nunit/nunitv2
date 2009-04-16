@@ -32,6 +32,7 @@ namespace NUnit.UiKit
 		private System.Windows.Forms.ListBox detailList;
         [Obsolete]
         public CP.Windows.Forms.ExpandingTextBox stackTrace;
+        public UiException.Controls.StackTraceDisplay stackTraceDisplay;
         public UiException.Controls.ErrorBrowser errorBrowser;
         private UiException.Controls.SourceCodeDisplay sourceCode;
         public System.Windows.Forms.Splitter tabSplitter;
@@ -92,6 +93,7 @@ namespace NUnit.UiKit
             this.errorBrowser = new NUnit.UiException.Controls.ErrorBrowser();
             this.sourceCode = new UiException.Controls.SourceCodeDisplay();
             this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
+            this.stackTraceDisplay = new UiException.Controls.StackTraceDisplay();
 			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
 			this.SuspendLayout();
@@ -143,8 +145,9 @@ namespace NUnit.UiKit
             this.sourceCode.ListOrderPolicy = UiException.Controls.ErrorListOrderPolicy.ReverseOrder;
             this.sourceCode.SplitOrientation = Orientation.Vertical;
             this.sourceCode.SplitterDistance = 0.3f;
+            this.stackTraceDisplay.Font = DefaultFixedFont;
             this.errorBrowser.RegisterDisplay(sourceCode);
-            this.errorBrowser.RegisterDisplay(new NUnit.UiException.Controls.StackTraceDisplay());
+            this.errorBrowser.RegisterDisplay(stackTraceDisplay);
             // 
 			// stackTrace
 			// 
@@ -206,7 +209,7 @@ namespace NUnit.UiKit
 				stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
 				this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
 
-                this.detailList.Font = this.stackTrace.Font = 
+                this.detailList.Font = this.stackTrace.Font = this.stackTraceDisplay.Font =
                     settings.GetSetting( "Gui.FixedFont", DefaultFixedFont );
 
                 Orientation splitOrientation = (Orientation)settings.GetSetting(
@@ -220,10 +223,23 @@ namespace NUnit.UiKit
 
                 sourceCode.SplitOrientationChanged += new EventHandler(sourceCode_SplitOrientationChanged);
                 sourceCode.SplitterDistanceChanged += new EventHandler(sourceCode_SplitterDistanceChanged);
+
+                if ( settings.GetSetting("Gui.ResultTabs.ErrorBrowser.SourceCodeDisplay", false) )
+                    errorBrowser.SelectedDisplay = sourceCode;
+                else
+                    errorBrowser.SelectedDisplay = stackTraceDisplay;
+
+                errorBrowser.StackTraceDisplayChanged += new EventHandler(errorBrowser_StackTraceDisplayChanged);
 			}
 
 			base.OnLoad (e);
 		}
+
+        void errorBrowser_StackTraceDisplayChanged(object sender, EventArgs e)
+        {
+            settings.SaveSetting("Gui.ResultTabs.ErrorBrowser.SourceCodeDisplay",
+                errorBrowser.SelectedDisplay == sourceCode);
+        }
 
         void sourceCode_SplitterDistanceChanged(object sender, EventArgs e)
         {
@@ -257,7 +273,8 @@ namespace NUnit.UiKit
 		{
 			this.stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled ", false );
 			this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
-            Font newFont = this.stackTrace.Font = settings.GetSetting("Gui.FixedFont", DefaultFixedFont);
+            Font newFont = this.stackTrace.Font = this.stackTraceDisplay.Font = this.sourceCode.CodeDisplayFont
+                = settings.GetSetting("Gui.FixedFont", DefaultFixedFont);
             if (newFont != this.detailList.Font)
             {
                 this.detailList.Font = this.stackTrace.Font = newFont;

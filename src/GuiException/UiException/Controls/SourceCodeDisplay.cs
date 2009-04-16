@@ -34,6 +34,7 @@ namespace NUnit.UiException.Controls
         protected IStackTraceView _stacktraceView;
         protected ICodeView _codeView;
         protected SplitterBox _splitter;
+        private CodeBox _codeBox;
 
         private ToolStripButton _btnPlugin;
         private ToolStripButton _btnSwap;
@@ -47,12 +48,12 @@ namespace NUnit.UiException.Controls
         public SourceCodeDisplay()
         {
             ErrorList errorList = new ErrorList();
-            CodeBox codeBox = new CodeBox();
+            _codeBox = new CodeBox();
 
             _stacktraceView = errorList;
             _stacktraceView.AutoSelectFirstItem = true;
             _stacktraceView.SelectedItemChanged += new EventHandler(SelectedItemChanged);
-            _codeView = codeBox;
+            _codeView = _codeBox;
 
             _btnPlugin = ErrorToolbar.NewStripButton(true, "Display source code context", Resources.ImageSourceCodeDisplay, null);
             _btnSwap = ErrorToolbar.NewStripButton(false, "ReverseOrder item order", Resources.ImageReverseItemOrder, OnClick);
@@ -63,9 +64,9 @@ namespace NUnit.UiException.Controls
             _splitter.OrientationChanged += new EventHandler(_splitter_OrientationChanged);
 
             splitter.Control1 = errorList;
-            splitter.Control2 = codeBox;
+            splitter.Control2 = _codeBox;
 
-            codeBox.ShowCurrentLine = true;
+            _codeBox.ShowCurrentLine = true;
 
             return;
         }
@@ -80,6 +81,12 @@ namespace NUnit.UiException.Controls
         {
             if (SplitOrientationChanged != null)
                 SplitOrientationChanged(sender, e);
+        }
+
+        public Font CodeDisplayFont
+        {
+            get { return _codeBox.Font; }
+            set { _codeBox.Font = value; }
         }
 
         /// <summary>

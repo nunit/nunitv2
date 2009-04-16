@@ -42,6 +42,13 @@ namespace NUnit.UiException.Controls
            return;
         }
 
+        protected override void OnFontChanged(EventArgs e)
+        {
+            _textContent.Font = this.Font;
+
+            base.OnFontChanged(e);
+        }
+
         /// <summary>
         /// Copies the actual stack trace to the clipboard.
         /// </summary>

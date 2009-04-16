@@ -58,5 +58,10 @@ namespace NUnit.UiException.Controls
         /// <param name="point">Some client coordinate values</param>
         /// <returns>One item in the collection or null the location doesn't match any item</returns>
         ErrorItem ItemAt(ErrorItemCollection items, Graphics g, Point point);
+
+        /// <summary>
+        /// Gets and sets the font for this renderer
+        /// </summary>
+        Font Font { get; set; }
     }
 }
