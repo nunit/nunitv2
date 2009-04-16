@@ -88,7 +88,17 @@ namespace NUnit.Core.Builders
                 object arg = arglist[i];
                 Type targetType = parameters[i].ParameterType;
 
-                if (arg == null || targetType.IsAssignableFrom(arg.GetType()))
+                if (arg == null)
+                    continue;
+
+                if (arg.GetType().FullName == "NUnit.Framework.SpecialValue" &&
+                    arg.ToString() == "Null" )
+                {
+                    arglist[i] = null;
+                    continue;
+                }
+
+                if (targetType.IsAssignableFrom(arg.GetType()))
                     continue;
                 
                 if (arg is DBNull)

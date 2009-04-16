@@ -317,6 +317,9 @@
       <Link>SetUpFixtureAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\SpecialValue.cs">
+      <Link>SpecialValue.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\StringAssert.cs">
       <Link>StringAssert.cs</Link>
       <SubType>Code</SubType>

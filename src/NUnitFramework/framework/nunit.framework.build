@@ -75,6 +75,7 @@
         <include name="SetCultureAttribute.cs"/>
         <include name="SetUpAttribute.cs"/>
         <include name="SetUpFixtureAttribute.cs"/>
+        <include name="SpecialValue.cs"/>
         <include name="StringAssert.cs"/>
         <include name="SuccessException.cs"/>
         <include name="SuiteAttribute.cs"/>
