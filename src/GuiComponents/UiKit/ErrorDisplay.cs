@@ -30,8 +30,6 @@ namespace NUnit.UiKit
 		private bool wordWrap = false;
 
 		private System.Windows.Forms.ListBox detailList;
-        [Obsolete]
-        public CP.Windows.Forms.ExpandingTextBox stackTrace;
         public UiException.Controls.StackTraceDisplay stackTraceDisplay;
         public UiException.Controls.ErrorBrowser errorBrowser;
         private UiException.Controls.SourceCodeDisplay sourceCode;
@@ -73,7 +71,6 @@ namespace NUnit.UiKit
 				if ( value != this.wordWrap )
 				{
 					this.wordWrap = value; 
-					this.stackTrace.WordWrap = value;
 					RefillDetailList();
 				}
 			}
@@ -92,7 +89,6 @@ namespace NUnit.UiKit
 
             this.errorBrowser = new NUnit.UiException.Controls.ErrorBrowser();
             this.sourceCode = new UiException.Controls.SourceCodeDisplay();
-            this.stackTrace = new CP.Windows.Forms.ExpandingTextBox();
             this.stackTraceDisplay = new UiException.Controls.StackTraceDisplay();
 			this.detailListContextMenu = new System.Windows.Forms.ContextMenu();
 			this.copyDetailMenuItem = new System.Windows.Forms.MenuItem();
@@ -148,21 +144,6 @@ namespace NUnit.UiKit
             this.stackTraceDisplay.Font = DefaultFixedFont;
             this.errorBrowser.RegisterDisplay(sourceCode);
             this.errorBrowser.RegisterDisplay(stackTraceDisplay);
-            // 
-			// stackTrace
-			// 
-			this.stackTrace.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.stackTrace.Font = DefaultFixedFont;
-			this.stackTrace.Location = new System.Drawing.Point(0, 137);
-			this.stackTrace.Multiline = true;
-			this.stackTrace.Name = "stackTrace";
-			this.stackTrace.ReadOnly = true;
-			this.stackTrace.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.stackTrace.Size = new System.Drawing.Size(496, 151);
-			this.stackTrace.TabIndex = 2;
-			this.stackTrace.Text = "";
-			this.stackTrace.WordWrap = false;
-			this.stackTrace.KeyUp += new System.Windows.Forms.KeyEventHandler(this.stackTrace_KeyUp);
 			//
             // detailListContextMenu
 			// 
@@ -206,10 +187,9 @@ namespace NUnit.UiKit
 				if ( splitPosition >= tabSplitter.MinSize && splitPosition < this.ClientSize.Height )
 					this.tabSplitter.SplitPosition = splitPosition;
 
-				stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled", true );
 				this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
 
-                this.detailList.Font = this.stackTrace.Font = this.stackTraceDisplay.Font =
+                this.detailList.Font = this.stackTraceDisplay.Font =
                     settings.GetSetting( "Gui.FixedFont", DefaultFixedFont );
 
                 Orientation splitOrientation = (Orientation)settings.GetSetting(
@@ -263,7 +243,6 @@ namespace NUnit.UiKit
 		{
 			detailList.Items.Clear();
 			detailList.ContextMenu = null;
-			stackTrace.Text = "";
             errorBrowser.StackTraceSource = "";
 		}
 		#endregion
@@ -271,13 +250,12 @@ namespace NUnit.UiKit
 		#region UserSettings Events
 		private void UserSettings_Changed( object sender, SettingsEventArgs args )
 		{
-			this.stackTrace.AutoExpand = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.ToolTipsEnabled ", false );
 			this.WordWrap = settings.GetSetting( "Gui.ResultTabs.ErrorsTab.WordWrapEnabled", true );
-            Font newFont = this.stackTrace.Font = this.stackTraceDisplay.Font = this.sourceCode.CodeDisplayFont
+            Font newFont = this.stackTraceDisplay.Font = this.sourceCode.CodeDisplayFont
                 = settings.GetSetting("Gui.FixedFont", DefaultFixedFont);
             if (newFont != this.detailList.Font)
             {
-                this.detailList.Font = this.stackTrace.Font = newFont;
+                this.detailList.Font = newFont;
                 RefillDetailList();
             }
         }
@@ -418,14 +396,6 @@ namespace NUnit.UiKit
 			{
 				hoverTimer.Stop();
 				hoverTimer.Dispose();
-			}
-		}
-
-		private void stackTrace_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
-		{
-			if ( e.KeyCode == Keys.A && e.Modifiers == Keys.Control )
-			{
-				stackTrace.SelectAll();
 			}
 		}
 
