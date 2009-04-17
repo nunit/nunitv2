@@ -26,15 +26,25 @@ namespace NUnit.Core
 		/// </summary>
 		private ArrayList tests = new ArrayList();
 
-		/// <summary>
-		/// The fixture setup methods for this suite
-		/// </summary>
-		protected MethodInfo[] fixtureSetUpMethods;
+        /// <summary>
+        /// The fixture setup methods for this suite
+        /// </summary>
+        protected MethodInfo[] fixtureSetUpMethods;
 
-		/// <summary>
-		/// The fixture teardown methods for this suite
-		/// </summary>
-		protected MethodInfo[] fixtureTearDownMethods;
+        /// <summary>
+        /// The fixture teardown methods for this suite
+        /// </summary>
+        protected MethodInfo[] fixtureTearDownMethods;
+
+        /// <summary>
+        /// The setup methods for this suite
+        /// </summary>
+        protected MethodInfo[] setUpMethods;
+
+        /// <summary>
+        /// The teardown methods for this suite
+        /// </summary>
+        protected MethodInfo[] tearDownMethods;
 
         /// <summary>
         /// Arguments for use in creating a parameterized fixture
@@ -150,6 +160,16 @@ namespace NUnit.Core
         {
             get { return fixture; }
             set { fixture = value; }
+        }
+
+        public MethodInfo[] SetUpMethods
+        {
+            get { return setUpMethods; }
+        }
+
+        public MethodInfo[] TearDownMethods
+        {
+            get { return tearDownMethods; }
         }
         #endregion
 

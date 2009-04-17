@@ -24,6 +24,10 @@ namespace NUnit.Core
                 Reflect.GetMethodsWithAttribute(fixtureType, NUnitFramework.FixtureSetUpAttribute, true);
             this.fixtureTearDownMethods =
                 Reflect.GetMethodsWithAttribute(fixtureType, NUnitFramework.FixtureTearDownAttribute, true);
+            this.setUpMethods = 
+                Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.SetUpAttribute, true);
+            this.tearDownMethods = 
+                Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
         }
 
         protected override void DoOneTimeSetUp(TestResult suiteResult)

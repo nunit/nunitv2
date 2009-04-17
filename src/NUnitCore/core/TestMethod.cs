@@ -166,7 +166,15 @@ namespace NUnit.Core
             try
             {
                 if (this.Parent != null)
-                    Fixture = this.Parent.Fixture;
+                {
+                    this.Fixture = this.Parent.Fixture;
+                    TestSuite suite = this.Parent as TestSuite;
+                    if (suite != null)
+                    {
+                        this.setUpMethods = suite.SetUpMethods;
+                        this.tearDownMethods = suite.TearDownMethods;
+                    }
+                }
 
                 // Temporary... to allow for tests that directly execute a test case
                 if (Fixture == null && !method.IsStatic)

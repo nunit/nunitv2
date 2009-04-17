@@ -32,7 +32,15 @@ namespace NUnit.Core
         public override TestResult Run(EventListener listener, ITestFilter filter)
         {
             if (this.Parent != null)
+            {
                 this.Fixture = this.Parent.Fixture;
+                TestSuite suite = this.Parent as TestSuite;
+                if (suite != null)
+                {
+                    this.setUpMethods = suite.SetUpMethods;
+                    this.tearDownMethods = suite.TearDownMethods;
+                }
+            }
 
             // DYNAMIC: Get the parameters, and add the methods here.
             

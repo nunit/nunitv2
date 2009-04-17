@@ -193,13 +193,21 @@ namespace NUnit.Core.Builders
 		private IList GetFixtures( Assembly assembly, string ns )
 		{
 			ArrayList fixtures = new ArrayList();
+            log.Debug("Examining assembly for test fixtures");
 
 			IList testTypes = GetCandidateFixtureTypes( assembly, ns );
+
+            log.Debug("Found {0} classes to examine", testTypes.Count);
+            System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
+            timer.Start();
+
 			foreach(Type testType in testTypes)
 			{
 				if( TestFixtureBuilder.CanBuildFrom( testType ) )
 					fixtures.Add( TestFixtureBuilder.BuildFrom( testType ) );
 			}
+
+            log.Debug("Found {0} fixtures in {1} seconds", fixtures.Count, timer.Elapsed);
 
 			return fixtures;
 		}
