@@ -169,6 +169,17 @@ namespace NUnit.UiKit
 
         public void Restore(TestSuiteTreeView tree)
         {
+            System.Threading.ThreadStart proc = new System.Threading.ThreadStart(RestoreProc);
+            this.tree = tree;
+            System.Threading.Thread thread = new System.Threading.Thread(proc);
+
+            thread.Start();
+        }
+
+        private TestSuiteTreeView tree;
+
+        public void RestoreProc()
+        {
             TestSuiteTreeNode treeNode = tree[this.UniqueName];
             if (treeNode != null)
             {
