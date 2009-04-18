@@ -162,14 +162,14 @@ namespace NUnit.Core
             set { fixture = value; }
         }
 
-        public MethodInfo[] SetUpMethods
+        public MethodInfo[] GetSetUpMethods()
         {
-            get { return setUpMethods; }
+            return setUpMethods;
         }
 
-        public MethodInfo[] TearDownMethods
+        public MethodInfo[] GetTearDownMethods()
         {
-            get { return tearDownMethods; }
+            return tearDownMethods;
         }
         #endregion
 

@@ -171,8 +171,8 @@ namespace NUnit.Core
                     TestSuite suite = this.Parent as TestSuite;
                     if (suite != null)
                     {
-                        this.setUpMethods = suite.SetUpMethods;
-                        this.tearDownMethods = suite.TearDownMethods;
+                        this.setUpMethods = suite.GetSetUpMethods();
+                        this.tearDownMethods = suite.GetTearDownMethods();
                     }
                 }
 
