@@ -29,7 +29,11 @@ namespace NUnit.Core
 	{
         private static readonly BindingFlags AllMembers = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
-		#region Attributes 
+        private static Hashtable topAttributes = new Hashtable();
+        private static Hashtable allAttributes = new Hashtable();
+        private static Hashtable methodCache = new Hashtable();
+
+        #region Attributes 
 
 		/// <summary>
 		/// Check presence of attribute of a given type on a member.
@@ -40,8 +44,7 @@ namespace NUnit.Core
 		/// <returns>True if the attribute is present</returns>
 		public static bool HasAttribute( ICustomAttributeProvider member, string attrName, bool inherit )
 		{
-			object[] attributes = member.GetCustomAttributes( inherit );
-			foreach( Attribute attribute in attributes )
+			foreach( Attribute attribute in GetAttributes( member, inherit ) )
 				if ( IsInstanceOfType( attrName, attribute ) )
 					return true;
 			return false;
@@ -57,8 +60,7 @@ namespace NUnit.Core
         /// <returns>The attribute or null</returns>
         public static System.Attribute GetAttribute(ICustomAttributeProvider member, string attrName, bool inherit)
         {
-            object[] attributes = member.GetCustomAttributes(inherit);
-            foreach (Attribute attribute in attributes)
+            foreach (Attribute attribute in GetAttributes( member, inherit ) )
                 if ( IsInstanceOfType( attrName, attribute ) )
                     return attribute;
             return null;
@@ -74,9 +76,8 @@ namespace NUnit.Core
         public static System.Attribute[] GetAttributes(
             ICustomAttributeProvider member, string attrName, bool inherit)
 		{
-			object[] attributes = member.GetCustomAttributes( inherit );
 			ArrayList result = new ArrayList();
-			foreach( Attribute attribute in attributes )
+			foreach( Attribute attribute in GetAttributes( member, inherit ) )
 				if ( IsInstanceOfType( attrName, attribute ) )
 					result.Add( attribute );
 			return (System.Attribute[])result.ToArray( typeof( System.Attribute ) );
@@ -91,11 +92,19 @@ namespace NUnit.Core
         public static System.Attribute[] GetAttributes(
             ICustomAttributeProvider member, bool inherit)
         {
+            Hashtable attributeCache = inherit ? allAttributes : topAttributes;
+
+            if (attributeCache.Contains(member))
+                return attributeCache[member] as Attribute[];
+
             object[] attributes = member.GetCustomAttributes(inherit);
             System.Attribute[] result = new System.Attribute[attributes.Length];
             int n = 0;
             foreach (Attribute attribute in attributes)
                 result[n++] = attribute;
+
+            attributeCache[member] = result;
+
             return result;
         }
 
@@ -181,7 +190,7 @@ namespace NUnit.Core
         {
             ArrayList list = new ArrayList();
 
-            foreach (MethodInfo method in fixtureType.GetMethods(AllMembers))
+            foreach (MethodInfo method in GetMethods(fixtureType))
             {
                 if (HasAttribute(method, attributeName, inherit))
                     list.Add(method);
@@ -190,6 +199,17 @@ namespace NUnit.Core
             list.Sort(new BaseTypesFirstComparer());
 
             return (MethodInfo[])list.ToArray(typeof(MethodInfo));
+        }
+
+        private static MethodInfo[] GetMethods(Type fixtureType)
+        {
+            if (methodCache.Contains(fixtureType))
+                return methodCache[fixtureType] as MethodInfo[];
+
+            MethodInfo[] result = fixtureType.GetMethods(AllMembers);
+            methodCache[fixtureType] = result;
+
+            return result;
         }
 
         private class BaseTypesFirstComparer : IComparer
@@ -224,7 +244,7 @@ namespace NUnit.Core
         /// <returns>True if found, otherwise false</returns>
         public static bool HasMethodWithAttribute(Type fixtureType, string attributeName, bool inherit)
         {
-            foreach (MethodInfo method in fixtureType.GetMethods(AllMembers))
+            foreach (MethodInfo method in GetMethods( fixtureType ))
             {
                 if (HasAttribute(method, attributeName, inherit))
                     return true;
@@ -242,7 +262,7 @@ namespace NUnit.Core
         /// <returns>A MethodInfo or null</returns>
         public static MethodInfo GetNamedMethod(Type fixtureType, string methodName)
         {
-            foreach (MethodInfo method in fixtureType.GetMethods(AllMembers))
+            foreach (MethodInfo method in GetMethods( fixtureType ))
             {
                 if (method.Name == methodName)
                     return method;
@@ -262,7 +282,7 @@ namespace NUnit.Core
         public static MethodInfo GetNamedMethod(Type fixtureType, string methodName, 
             string[] argTypes)
         {
-            foreach (MethodInfo method in fixtureType.GetMethods(AllMembers))
+            foreach (MethodInfo method in GetMethods(fixtureType) )
             {
                 if (method.Name == methodName)
                 {
