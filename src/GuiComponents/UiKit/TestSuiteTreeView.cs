@@ -211,40 +211,40 @@ namespace NUnit.UiKit
 			set { displayProgress = value; }
 		}
 
-		[Category( "Appearance" ), DefaultValue( false )]
-		[Description("Indicates whether checkboxes are displayed beside test nodes")]
-		public new bool CheckBoxes
-		{
-			get { return base.CheckBoxes; }
-			set 
-			{ 
-				if ( base.CheckBoxes != value )
-				{
+        [Category( "Appearance" ), DefaultValue( false )]
+        [Description("Indicates whether checkboxes are displayed beside test nodes")]
+        public new bool CheckBoxes
+        {
+            get { return base.CheckBoxes; }
+            set 
+            { 
+                if ( base.CheckBoxes != value )
+                {
                     VisualState visualState = !value && this.TopNode != null
                         ? new VisualState(this)
                         : null;
 
-					base.CheckBoxes = value;
+                    base.CheckBoxes = value;
 
-					if ( CheckBoxesChanged != null )
-						CheckBoxesChanged(this, new EventArgs());
+                    if ( CheckBoxesChanged != null )
+                        CheckBoxesChanged(this, new EventArgs());
 
-					if ( visualState != null )
-					{
-						try
-						{
+                    if (visualState != null)
+                    {
+                        try
+                        {
                             suppressEvents = true;
                             visualState.ShowCheckBoxes = this.CheckBoxes;
-                            visualState.Restore(this);
-						}
-						finally
-						{
-							suppressEvents = false;
-						}
-					}
-				}
-			}
-		}
+                            RestoreVisualState( visualState );
+                        }
+                        finally
+                        {
+                            suppressEvents = false;
+                        }
+                    }
+                }
+            }
+        }
 
 		/// <summary>
 		/// The currently selected test.
@@ -1347,15 +1347,56 @@ namespace NUnit.UiKit
 
 		private void RestoreVisualState()
 		{
-			if ( loader != null )
-			{
-				string fileName = VisualState.GetVisualStateFileName(loader.TestFileName);
-				if ( File.Exists( fileName ) )
-				{
-					VisualState.LoadFrom(fileName).Restore(this);
-					this.Select();
-				}
-			}
+            if (loader != null)
+            {
+                string fileName = VisualState.GetVisualStateFileName(loader.TestFileName);
+                if (File.Exists(fileName))
+                {
+                    RestoreVisualState(VisualState.LoadFrom(fileName));
+                }
+            }
+        }
+
+        private void RestoreVisualState( VisualState visualState )
+        {
+            if (visualState.ShowCheckBoxes != this.CheckBoxes)
+                base.CheckBoxes = visualState.ShowCheckBoxes; // Bypass override
+
+            foreach (VisualTreeNode visualNode in visualState.Nodes)
+            {
+                TestSuiteTreeNode treeNode = this[visualNode.UniqueName];
+                if (treeNode != null)
+                {
+                    if (treeNode.IsExpanded != visualNode.Expanded)
+                        treeNode.Toggle();
+
+                    treeNode.Checked = visualNode.Checked;
+                }
+            }
+
+            if (visualState.SelectedNode != null)
+            {
+                TestSuiteTreeNode treeNode = this[visualState.SelectedNode];
+                if (treeNode != null)
+                    this.SelectedNode = treeNode;
+            }
+
+            if (visualState.TopNode != null)
+            {
+                TestSuiteTreeNode treeNode = this[visualState.TopNode];
+                if (treeNode != null)
+                    TryToSetTopNode(treeNode);
+            }
+
+            if (visualState.SelectedCategories != null)
+            {
+                TestFilter filter = new CategoryFilter(visualState.SelectedCategories.Split(new char[] { ',' }));
+                if (visualState.ExcludeCategories)
+                    filter = new NotFilter(filter);
+                this.CategoryFilter = filter;
+            }
+
+            this.Select();
 		}
 		#endregion
 
