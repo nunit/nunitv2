@@ -129,18 +129,17 @@ namespace NUnit.Framework.Constraints
             if (x is ICollection && y is ICollection)
                 return CollectionsEqual((ICollection)x, (ICollection)y);
 
-            // String must precede IEnumerable since it implements it
-            if (x is string && y is string)
-                return StringsEqual((string)x, (string)y);
-
-            if (x is IEnumerable && y is IEnumerable)
+            if (x is IEnumerable && y is IEnumerable && !(x is string && y is string))
                 return EnumerablesEqual((IEnumerable)x, (IEnumerable)y);
-
-            if (x is Stream && y is Stream)
-                return StreamsEqual((Stream)x, (Stream)y);
 
             if (externalComparer != null)
                 return externalComparer.ObjectsEqual(x, y);
+
+            if (x is string && y is string)
+                return StringsEqual((string)x, (string)y);
+
+            if (x is Stream && y is Stream)
+                return StreamsEqual((Stream)x, (Stream)y);
 
             if (x is DirectoryInfo && y is DirectoryInfo)
                 return DirectoriesEqual((DirectoryInfo)x, (DirectoryInfo)y);

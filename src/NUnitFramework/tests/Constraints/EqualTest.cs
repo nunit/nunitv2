@@ -362,10 +362,15 @@ namespace NUnit.Framework.Constraints.Tests
 
 #if CSHARP_3_0
         [Test]
-        public void UsesProvidedLambda()
+        public void UsesProvidedLambda_IntArgs()
         {
-            Comparison<int> comparer = (x, y) => x.CompareTo(y);
-            Assert.That(2 + 2, Is.EqualTo(4).Using(comparer));
+            Assert.That(2 + 2, Is.EqualTo(4).Using<int>( (x, y) => x.CompareTo(y) ) );
+        }
+
+        [Test]
+        public void UsesProvidedLambda_StringArgs()
+        {
+            Assert.That("hello", Is.EqualTo("HELLO").Using<string>((x,y) => String.Compare(x, y, true)));
         }
 #endif
 #endif
