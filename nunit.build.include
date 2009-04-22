@@ -180,7 +180,45 @@
       value="net-2.0"/>
     <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
   </target>
+   
+<!--     
+  <target name="set-net-3.0-runtime-config">
+    <fail unless="${framework::sdk-exists( 'net-3.0' )}"
+      message="The .NET 3.0 SDK is not configured or not installed"/>
+
+    <property name="runtime.platform" value="net"/>
+    <property name="runtime.version" value="3.0"/>
+    <property name="runtime.config" value="net-3.0"/>
+    <property name="runtime.defines" value="MSNET,NET_3_0"/>
+    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
+    <property name="build.mono" value="false"/>
+    <property name="build.win32" value="true"/>
+    <property name="build.x86" value="true"/>
+    <property name="build.gui" value="true"/>
+    <property name="nant.settings.currentframework" 
+      value="net-3.0"/>
+    <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
+  </target>
 	
+  <target name="set-net-3.5-runtime-config">
+    <fail unless="${framework::sdk-exists( 'net-3.5' )}"
+      message="The .NET 2.0 SDK is not configured or not installed"/>
+
+    <property name="runtime.platform" value="net"/>
+    <property name="runtime.version" value="3.5"/>
+    <property name="runtime.config" value="net-3.5"/>
+    <property name="runtime.defines" value="MSNET,NET_3_5"/>
+    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
+    <property name="build.mono" value="false"/>
+    <property name="build.win32" value="true"/>
+    <property name="build.x86" value="true"/>
+    <property name="build.gui" value="true"/>
+    <property name="nant.settings.currentframework" 
+      value="net-3.5"/>
+    <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
+  </target>
+ -->
+ 	
   <target name="set-mono-1.0-runtime-config">
     <fail unless="${framework::sdk-exists( 'mono-1.0' )}"
       message="The Mono 1.0 SDK is not configured or not installed"/>
@@ -232,6 +270,8 @@
       value="${path::combine(runtime.platform.dir,runtime.version)}"/>
     <property name="current.build.dir" 
       value="${path::combine(runtime.version.dir,build.config)}"/>
+    <property name="current.lib.dir" 
+      value="${path::combine(current.build.dir,'lib')}"/>
     <property name="current.test.dir" 
       value="${path::combine(current.build.dir,'tests')}"/>
     <property name="current.framework.dir" 
@@ -244,6 +284,8 @@
   <target name="make-build-dir" depends="set-build-dir">
     <mkdir dir="${current.build.dir}"
       unless="${directory::exists(current.build.dir)}"/>
+    <mkdir dir="${current.lib.dir}"
+      unless="${directory::exists(current.lib.dir)}"/>
     <mkdir dir="${current.framework.dir}"
       unless="${directory::exists(current.framework.dir)}"/>
     <mkdir dir="${current.test.dir}"

@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\tests\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\tests\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -144,10 +144,12 @@
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\NUnitMocks\mocks\nunit.mocks.csproj">
       <Project>{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}</Project>
       <Name>nunit.mocks</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\test-utilities\test-utilities.csproj">
       <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>

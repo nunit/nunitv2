@@ -11,7 +11,7 @@
 
   <target name="build">
     <csc target="library" 
-        output="${current.build.dir}/nunit-console-runner.dll"
+        output="${current.lib.dir}/nunit-console-runner.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
@@ -20,7 +20,7 @@
       <nowarn>
         <warning number="1699" if="${runtime.version=='2.0'}"/>
       </nowarn>
-      <references basedir="${current.build.dir}">
+      <references basedir="${current.lib.dir}">
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>

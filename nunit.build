@@ -126,7 +126,15 @@
       
   <target name="net-2.0" depends="set-net-2.0-runtime-config"
     description="Set runtime to .NET 2.0 for commands that follow"/>
+
+<!--      
+  <target name="net-3.0" depends="set-net-3.0-runtime-config"
+    description="Set runtime to .NET 3.0 for commands that follow"/>
       
+  <target name="net-3.5" depends="set-net-3.5-runtime-config"
+    description="Set runtime to .NET 3.5 for commands that follow"/>
+ -->
+   
   <target name="mono" depends="set-default-mono-runtime-config"
     description="Set runtime to Mono 1.0 for commands that follow"/>
 
@@ -221,8 +229,8 @@
     <!-- Copy key file to base directory, so second level files can access it -->
     <copy file="${project.base.dir}/nunit.snk" todir="${project.build.dir}"/>-->
 
-    <!-- Copy lib files to build dir -->
-    <copy todir="${current.build.dir}">
+    <!-- Copy lib files to current lib dir -->
+    <copy todir="${current.lib.dir}">
       <fileset basedir="${project.lib.dir}">
         <include name="*.dll"/>
       </fileset>
@@ -814,6 +822,34 @@
   <target name="copy-bins" depends="build">
 
     <mkdir dir="${package.bin.dir}"/>
+<!--
+    <copy todir="${package.bin.dir}/lib/${runtime.version}">
+      <fileset basedir="${current.build.dir}/lib">
+        <include name="*"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${package.bin.dir}/tests/${runtime.version}">
+      <fileset basedir="${current.build.dir}/tests">
+        <include name="*"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${package.bin.dir}/framework/${runtime.version}">
+      <fileset basedir="${current.build.dir}/framework">
+        <include name="*"/>
+      </fileset>
+    </copy>
+
+    <copy todir="${package.bin.dir}">
+      <fileset basedir="${current.build.dir}">
+        <include name="*"/>
+        <exclude name="*.wixobj"/>
+        <exclude name="nunit-server.*"/>
+        <exclude name="nunit-test-server.*"/>
+      </fileset>
+    </copy>
+-->
 
     <copy todir="${package.bin.dir}/${runtime.config}">
       <fileset basedir="${current.build.dir}">

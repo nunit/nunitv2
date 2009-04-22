@@ -44,7 +44,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\bin\Debug\tests\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -66,7 +66,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\bin\Release\tests\</OutputPath>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
     <BaseAddress>285212672</BaseAddress>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
@@ -78,8 +78,7 @@
     <DebugSymbols>false</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoStdLib>false</NoStdLib>
-    <NoWarn>
-    </NoWarn>
+    <NoWarn>618</NoWarn>
     <Optimize>true</Optimize>
     <RegisterForComInterop>false</RegisterForComInterop>
     <RemoveIntegerChecks>false</RemoveIntegerChecks>
@@ -102,26 +101,31 @@
       <Name>nunit.util.dll</Name>
       <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
       <Name>nunit.framework.dll</Name>
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\NUnitMocks\mocks\nunit.mocks.csproj">
       <Name>nunit.mocks</Name>
       <Project>{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly.csproj">
       <Name>mock-assembly</Name>
       <Project>{2E368281-3BA8-4050-B05E-0E0E43F8F446}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\nonamespace-assembly\nonamespace-assembly.csproj">
       <Name>nonamespace-assembly</Name>
       <Project>{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\test-assembly\test-assembly.csproj">
       <Name>test-assembly</Name>
@@ -137,11 +141,13 @@
       <Name>nunit.core.dll</Name>
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\interfaces\nunit.core.interfaces.dll.csproj">
       <Name>nunit.core.interfaces.dll</Name>
       <Project>{435428F8-5995-4CE4-8022-93D595A8CC0F}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

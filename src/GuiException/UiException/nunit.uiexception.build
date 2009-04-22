@@ -58,7 +58,7 @@
 
   <target name="build">
     <csc target="library" 
-    output="${current.build.dir}/nunit.uiexception.dll"
+    output="${current.lib.dir}/nunit.uiexception.dll"
     debug="${build.debug}" define="${build.defines}"
     if="${runtime.version >= '2.0'}">
       <sources>
@@ -71,7 +71,7 @@
       <resources prefix="NUnit.UiException" dynamicprefix="true">
         <patternset refid="resource-files"/>
       </resources>
-      <references basedir="${current.build.dir}">
+      <references basedir="${current.lib.dir}">
         <include name="System.dll"/>
         <include name="System.Windows.Forms.dll"/>
         <include name="System.Drawing.dll"/>

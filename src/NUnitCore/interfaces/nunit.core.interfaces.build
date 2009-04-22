@@ -51,7 +51,7 @@
 
   <target name="build">
     <csc target="library" 
-        output="${current.build.dir}/nunit.core.interfaces.dll"
+        output="${current.lib.dir}/nunit.core.interfaces.dll"
         debug="${build.debug}" 
         define="${build.defines}">
       <sources>

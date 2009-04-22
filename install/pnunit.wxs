@@ -30,6 +30,10 @@
         <File Id="test_conf_1.1" Name="TEST.CNF" LongName="test.conf" />
       </Component>
 
+    </DirectoryRef>
+
+    <DirectoryRef Id="lib_1.1" FileSource="bin\net-1.1\lib">
+
       <Component Id="log4net_1.1" DiskId="1" Guid="0ED12C18-ED13-42b1-BEBF-4B6999949BD5">
         <File Id="log4net_1.1" Name="log4net.dll" />
       </Component>
@@ -57,6 +61,10 @@
         <File Id="pnunit_launcher_config_2.0" Name= "PNULNCHR.CFG" LongName="pnunit-launcher.exe.config" />
         <File Id="test_conf_2.0" Name="TEST.CNF" LongName="test.conf" />
       </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="lib_2.0" FileSource="bin\net-2.0\lib">
 
       <Component Id="log4net_2.0" DiskId="1" Guid="0D92F103-97A8-4c23-871C-BD1678E454E3">
         <File Id="log4net_2.0" Name="log4net.dll" />

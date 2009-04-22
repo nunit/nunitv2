@@ -108,19 +108,35 @@ namespace NUnit.Core
         }
         #endregion
 
-        #region NUnitDirectory
-        private static string nunitDirectory;
-        public static string NUnitDirectory
+        #region NUnitLibDirectory
+        private static string nunitLibDirectory;
+        public static string NUnitLibDirectory
         {
             get
             {
-                if (nunitDirectory == null)
+                if (nunitLibDirectory == null)
                 {
-                    nunitDirectory =
+                    nunitLibDirectory =
                         AssemblyHelper.GetDirectoryName(Assembly.GetExecutingAssembly());
                 }
 
-                return nunitDirectory;
+                return nunitLibDirectory;
+            }
+        }
+        #endregion
+
+        #region NUnitBinDirectory
+        private static string nunitBinDirectory;
+        public static string NUnitBinDirectory
+        {
+            get
+            {
+                if (nunitBinDirectory == null)
+                {
+                    nunitBinDirectory = Path.GetDirectoryName(NUnitLibDirectory);
+                }
+
+                return nunitBinDirectory;
             }
         }
         #endregion
@@ -133,7 +149,7 @@ namespace NUnit.Core
             {
                 if (addinDirectory == null)
                 {
-                    addinDirectory = Path.Combine(GetGuiDirectory(), "addins");
+                    addinDirectory = Path.Combine(NUnitBinDirectory, "addins");
                 }
 
                 return addinDirectory;
@@ -148,7 +164,7 @@ namespace NUnit.Core
             get
             {
                 if (testAgentExePath == null)
-                    testAgentExePath = Path.Combine(GetAgentDirectory(), "nunit-agent.exe");
+                    testAgentExePath = Path.Combine(NUnitBinDirectory, "nunit-agent.exe");
 
                 return testAgentExePath;
             }
@@ -227,35 +243,6 @@ namespace NUnit.Core
         }
         #endregion
 
-        #endregion
-
-        #region Private Properties and Methods
-        private static bool RunningFromSourceTree
-        {
-            get { return NUnitDirectory.EndsWith( Path.Combine( "bin", BuildConfiguration ) ); }
-        }
-
-        private static string GetAgentDirectory()
-        {
-            return RunningFromSourceTree
-                ? Path.Combine(SourceTreeRoot, "NUnitTestServer/nunit-agent-exe/bin/" + BuildConfiguration)
-                : NUnitDirectory;
-        }
-
-        private static string GetGuiDirectory()
-        {
-            return RunningFromSourceTree
-                ? Path.Combine(SourceTreeRoot, "GuiRunner/nunit-gui-exe/bin/" + BuildConfiguration)
-                : NUnitDirectory;
-        }
-
-        private static string SourceTreeRoot
-        {
-            get
-            {
-                return new DirectoryInfo(NUnitDirectory).Parent.Parent.Parent.Parent.FullName;
-            }
-        }
         #endregion
     }
 }

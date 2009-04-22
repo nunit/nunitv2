@@ -11,10 +11,10 @@
   </patternset>
 
   <target name="build">
-    <copy file="${project.tools.dir}/fit/fit.dll" todir="${current.build.dir}" />
+    <copy file="${project.tools.dir}/fit/fit.dll" todir="${current.lib.dir}" />
 
     <csc target="library" 
-        output="${current.build.dir}/nunit.fixtures.dll"
+        output="${current.lib.dir}/nunit.fixtures.dll"
         debug="${build.debug}" define="${build.defines}">
       <sources >
         <patternset refid="source-files"/>
@@ -23,7 +23,7 @@
       <nowarn>
         <warning number="618" if="${runtime.version=='2.0'}"/>
       </nowarn>
-      <references basedir="${current.build.dir}">
+      <references basedir="${current.lib.dir}">
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>

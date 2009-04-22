@@ -61,7 +61,7 @@
         <include name="System.Windows.Forms.dll"/>
         <include name="${current.framework.dir}/nunit.framework.dll"/>
         <include name="${current.framework.dir}/nunit.mocks.dll"/>
-        <include name="${current.build.dir}/nunit.uiexception.dll"/>
+        <include name="${current.lib.dir}/nunit.uiexception.dll"/>
         <include name="${current.test.dir}/test-utilities.dll"/>
       </references>
     </csc>

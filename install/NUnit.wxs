@@ -74,12 +74,14 @@
           <Directory Id='bin' Name='bin'>
 
             <Directory Id='net_1.1' Name='net-1.1'>
+              <Directory Id='lib_1.1' Name='lib' />
               <Directory Id='addins_1.1' Name='addins' />
               <Directory Id='tests_1.1' Name='tests' />
               <Directory Id='framework_1.1' Name='FRAMEWK' LongName='framework' />
             </Directory>
 
             <Directory Id='net_2.0' Name='net-2.0'>
+              <Directory Id='lib_2.0' Name='lib' />
               <Directory Id='addins_2.0' Name='addins' />
               <Directory Id='tests_2.0' Name='tests' />
               <Directory Id='framework_2.0' Name='FRAMEWK' LongName='framework' />
