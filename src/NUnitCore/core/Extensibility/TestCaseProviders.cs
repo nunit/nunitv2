@@ -46,9 +46,13 @@ namespace NUnit.Core.Extensibility
                         foreach (object o in provider.GetTestCasesFor(method))
                             testcases.Add(o);
                 }
-                catch(System.Exception ex)
+                catch (System.Reflection.TargetInvocationException ex)
                 {
-                    testcases.Add( new ParameterSet( ex ) );
+                    testcases.Add(new ParameterSet(ex.InnerException));
+                }
+                catch (System.Exception ex)
+                {
+                    testcases.Add(new ParameterSet(ex));
                 }
 
             return testcases;
