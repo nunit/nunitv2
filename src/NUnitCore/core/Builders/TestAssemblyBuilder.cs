@@ -198,8 +198,10 @@ namespace NUnit.Core.Builders
 			IList testTypes = GetCandidateFixtureTypes( assembly, ns );
 
             log.Debug("Found {0} classes to examine", testTypes.Count);
+#if NET_2_0
             System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
             timer.Start();
+#endif
 
 			foreach(Type testType in testTypes)
 			{
@@ -207,7 +209,11 @@ namespace NUnit.Core.Builders
 					fixtures.Add( TestFixtureBuilder.BuildFrom( testType ) );
 			}
 
+#if NET_2_0
             log.Debug("Found {0} fixtures in {1} seconds", fixtures.Count, timer.Elapsed);
+#else
+            log.Debug("Found {0} fixtures", fixtures.Count);
+#endif
 
 			return fixtures;
 		}
