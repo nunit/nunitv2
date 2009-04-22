@@ -74,7 +74,7 @@
   <property name="package.version" value="${base.package.version}.${package.build.number}"/>
 
   <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
-  <property name="package.configuration" value="Beta-3"/>
+  <property name="package.configuration" value="RC"/>
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
@@ -126,15 +126,15 @@
       
   <target name="net-2.0" depends="set-net-2.0-runtime-config"
     description="Set runtime to .NET 2.0 for commands that follow"/>
-
-<!--      
+      
+<!--
   <target name="net-3.0" depends="set-net-3.0-runtime-config"
     description="Set runtime to .NET 3.0 for commands that follow"/>
-      
+   
   <target name="net-3.5" depends="set-net-3.5-runtime-config"
     description="Set runtime to .NET 3.5 for commands that follow"/>
  -->
-   
+      
   <target name="mono" depends="set-default-mono-runtime-config"
     description="Set runtime to Mono 1.0 for commands that follow"/>
 
@@ -229,7 +229,7 @@
     <!-- Copy key file to base directory, so second level files can access it -->
     <copy file="${project.base.dir}/nunit.snk" todir="${project.build.dir}"/>-->
 
-    <!-- Copy lib files to current lib dir -->
+    <!-- Copy lib files to current lib dir dir -->
     <copy todir="${current.lib.dir}">
       <fileset basedir="${project.lib.dir}">
         <include name="*.dll"/>
@@ -843,14 +843,32 @@
 
     <copy todir="${package.bin.dir}">
       <fileset basedir="${current.build.dir}">
-        <include name="*"/>
-        <exclude name="*.wixobj"/>
+        <include name="*.exe"/>
+        <include name="*.pdb"/>
+        <include name="*.conf"/>
+        <include name="NUnitFitTests.html"/>
         <exclude name="nunit-server.*"/>
         <exclude name="nunit-test-server.*"/>
       </fileset>
     </copy>
--->
 
+    <copy todir="${package.bin.dir}">
+      <fileset basedir="${current.build.dir}">
+        <include name="*.config"/>
+        <exclude name="nunit-server.*"/>
+        <exclude name="nunit-test-server.*"/>
+      </fileset>
+      <filterchain>
+        <replacestring from='privatePath="lib;addins"'
+                       to='privatePath="lib/2.0;addins"'/>
+        <replacestring from='privatePath="framework;lib;addins"' 
+                       to='privatePath="framework/2.0;lib/2.0;addins"'/>
+      </filterchain>
+    </copy>
+
+    <copy file="NUnitTests.Ship.nunit"
+        tofile="NUnitTests.nunit"/>
+-->
     <copy todir="${package.bin.dir}/${runtime.config}">
       <fileset basedir="${current.build.dir}">
         <include name="*"/>
@@ -926,7 +944,6 @@
     <!-- Copy project top level files -->
     <copy todir="${package.working.dir}">
       <fileset basedir="${project.base.dir}">
-        <include name="clr.bat"/>
         <include name="license.rtf"/>
         <include name="nunit.build"/>
         <include name="nunit.build.include"/>
@@ -973,18 +990,11 @@
       <buildfiles refid="project.buildfiles" />
     </nant>
 
-    <mkdir dir="${package.solutions.dir}" />
+    <nant target="package" inheritrefs="true">
+      <buildfiles refid="gui.buildfiles" />
+    </nant>
 
-    <!-- Copy VS2003 solution -->
-    <copy todir="${package.solutions.dir}/vs2003">
-      <fileset basedir="${project.solutions.dir}/vs2003">
-        <include name="nunit.sln"/>
-        <include name="NUnitTests.nunit"/>
-        <include name="NUnitTests.config"/>
-        <include name="nunit.snk"/>
-        <include name="**/*.csproj"/>
-      </fileset>
-    </copy>
+    <mkdir dir="${package.solutions.dir}" />
 
     <!-- Copy VS2005 solution -->
     <copy todir="${package.solutions.dir}/vs2005">
