@@ -69,8 +69,8 @@ namespace NUnit.Framework.Tests
 			Assert.Contains( "def", new ArrayList( testArray ) );
 		}
 
-		[Test,ExpectedException(typeof(AssertionException))]
-		public void DifferentTypesFail()
+		[Test]
+		public void DifferentTypesMayBeEqual()
 		{
 			// TODO: Better message for this case
 			expectedMessage =

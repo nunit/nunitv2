@@ -131,6 +131,21 @@ namespace NUnit.Framework.Constraints.Tests
 			ICollectionAdapter ints = new ICollectionAdapter(new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});           
 			Assert.That(ints, new CollectionContainsConstraint( 9 ));
 		}
+
+        [Test]
+        public void IgnoreCaseIsHonored()
+        {
+            Assert.That(new string[] { "Hello", "World" }, 
+                new CollectionContainsConstraint("WORLD").IgnoreCase);
+        }
+#if CSHARP_3_0
+        [Test]
+        public void UsingIsHonored()
+        {
+            Assert.That(new string[] { "Hello", "World" },
+                new CollectionContainsConstraint("WORLD").Using<string>( (x,y)=>String.Compare(x, y, true) ));
+        }
+#endif
     }
     #endregion
 
@@ -199,6 +214,28 @@ namespace NUnit.Framework.Constraints.Tests
 
             Assert.That(new CollectionEquivalentConstraint(set1).Matches(set2));
         }
+
+        [Test]
+        public void EquivalentHonorsIgnoreCase()
+        {
+            ICollection set1 = new ICollectionAdapter("x", "y", "z");
+            ICollection set2 = new ICollectionAdapter("z", "Y", "X");
+
+            Assert.That(new CollectionEquivalentConstraint(set1).IgnoreCase.Matches(set2));
+        }
+
+#if CSHARP_3_0
+        [Test]
+        public void EquivalentHonorsUsing()
+        {
+            ICollection set1 = new ICollectionAdapter("x", "y", "z");
+            ICollection set2 = new ICollectionAdapter("z", "Y", "X");
+
+            Assert.That(new CollectionEquivalentConstraint(set1)
+                .Using<string>( (x,y)=>String.Compare(x,y,true) )
+                .Matches(set2));
+        }
+#endif
     }
     #endregion
 

@@ -49,148 +49,6 @@ namespace NUnit.Framework.Constraints
 		}
 
 		/// <summary>
-		/// CollectionTally counts (tallies) the number of
-		/// occurences of each object in one or more enuerations.
-		/// </summary>
-        protected internal class CollectionTally
-        {
-            // Internal list used to track occurences
-            private ArrayList list = new ArrayList();
-
-            /// <summary>
-            /// Construct a CollectionTally object from a collection
-            /// </summary>
-            /// <param name="c"></param>
-            public CollectionTally(IEnumerable c)
-            {
-                foreach (object o in c)
-                    list.Add(o);
-            }
-
-            /// <summary>
-            /// The number of objects remaining in the tally
-            /// </summary>
-            public int Count
-            {
-                get { return list.Count; }
-            }
-
-            private bool ObjectsEqual(object expected, object actual)
-            {
-                if (expected == null && actual == null)
-                    return true;
-
-                if (expected == null || actual == null)
-                    return false;
-
-                Type expectedType = expected.GetType();
-                Type actualType = actual.GetType();
-
-                if (expectedType.IsArray && actualType.IsArray)
-                    return ArraysEqual((Array)expected, (Array)actual);
-
-                if (expected is ICollection && actual is ICollection)
-                    return CollectionsEqual((ICollection)expected, (ICollection)actual);
-
-                // String must precede IEnumerable since it implements it
-                if (expected is string && actual is string)
-                    expected.Equals(actual);
-
-                if (expected is IEnumerable && actual is IEnumerable)
-                    return EnumerablesEqual((IEnumerable)expected, (IEnumerable)actual);
-
-                return expected.Equals(actual);
-            }
-
-            /// <summary>
-            /// Helper method to compare two arrays
-            /// </summary>
-            private bool ArraysEqual(Array expected, Array actual)
-            {
-                int rank = expected.Rank;
-
-                if (rank != actual.Rank)
-                    return false;
-
-                for (int r = 1; r < rank; r++)
-                    if (expected.GetLength(r) != actual.GetLength(r))
-                        return false;
-
-                return CollectionsEqual((ICollection)expected, (ICollection)actual);
-            }
-
-            private bool CollectionsEqual(ICollection expected, ICollection actual)
-            {
-                IEnumerator expectedEnum = expected.GetEnumerator();
-                IEnumerator actualEnum = actual.GetEnumerator();
-
-                int count;
-                for (count = 0; expectedEnum.MoveNext() && actualEnum.MoveNext(); count++)
-                {
-                    if (!ObjectsEqual(expectedEnum.Current, actualEnum.Current))
-                        break;
-                }
-
-                if (count == expected.Count && count == actual.Count)
-                    return true;
-
-                return false;
-            }
-
-            private bool EnumerablesEqual(IEnumerable expected, IEnumerable actual)
-            {
-                IEnumerator expectedEnum = expected.GetEnumerator();
-                IEnumerator actualEnum = actual.GetEnumerator();
-
-                for (; ; )
-                {
-                    bool expectedHasData = expectedEnum.MoveNext();
-                    bool actualHasData = actualEnum.MoveNext();
-
-                    if (!expectedHasData && !actualHasData)
-                        return true;
-
-                    if (expectedHasData != actualHasData ||
-                        !ObjectsEqual(expectedEnum.Current, actualEnum.Current))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            /// <summary>
-            /// Try to remove an object from the tally
-            /// </summary>
-            /// <param name="o">The object to remove</param>
-            /// <returns>True if successful, false if the object was not found</returns>
-            public bool TryRemove(object o)
-            {
-                for (int index = 0; index < list.Count; index++)
-                    if (ObjectsEqual(list[index], o))
-                    {
-                        list.RemoveAt(index);
-                        return true;
-                    }
-
-                return false;
-            }
-
-            /// <summary>
-            /// Try to remove a set of objects from the tally
-            /// </summary>
-            /// <param name="c">The objects to remove</param>
-            /// <returns>True if successful, false if any object was not found</returns>
-            public bool TryRemove(IEnumerable c)
-            {
-                foreach (object o in c)
-                    if ( !TryRemove( o ) )
-                        return false;
-
-                return true;
-            }
-        }
-
-		/// <summary>
 		/// Test whether the constraint is satisfied by a given value
 		/// </summary>
 		/// <param name="actual">The value to be tested</param>
@@ -215,7 +73,181 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
-	#region EmptyCollectionConstraint
+    #region CollectionItemsEqualConstraint
+    /// <summary>
+    /// CollectionItemsEqualConstraint is the abstract base class for all
+    /// collection constraints that apply some notion of item equality
+    /// as a part of their operation.
+    /// </summary>
+    public abstract class CollectionItemsEqualConstraint : CollectionConstraint
+    {
+        private NUnitEqualityComparer comparer = NUnitEqualityComparer.Default;
+
+        /// <summary>
+        /// Construct an empty CollectionConstraint
+        /// </summary>
+        public CollectionItemsEqualConstraint() { }
+
+        /// <summary>
+        /// Construct a CollectionConstraint
+        /// </summary>
+        /// <param name="arg"></param>
+        public CollectionItemsEqualConstraint(object arg) : base(arg) { }
+
+        #region Modifiers
+        /// <summary>
+        /// Flag the constraint to ignore case and return self.
+        /// </summary>
+        public CollectionItemsEqualConstraint IgnoreCase
+        {
+            get
+            {
+                comparer.IgnoreCase = true;
+                return this;
+            }
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public CollectionItemsEqualConstraint Using(IComparer comparer)
+        {
+            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Flag the constraint to use the supplied IComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public CollectionItemsEqualConstraint Using<T>(IComparer<T> comparer)
+        {
+            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied Comparison object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public CollectionItemsEqualConstraint Using<T>(Comparison<T> comparer)
+        {
+            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IEqualityComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public CollectionItemsEqualConstraint Using(IEqualityComparer comparer)
+        {
+            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IEqualityComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public CollectionItemsEqualConstraint Using<T>(IEqualityComparer<T> comparer)
+        {
+            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            return this;
+        }
+#endif
+        #endregion
+
+        /// <summary>
+        /// Compares two collection members for equality
+        /// </summary>
+        protected bool ItemsEqual(object x, object y)
+        {
+            return comparer.ObjectsEqual(x, y);
+        }
+
+        protected CollectionTally Tally(IEnumerable c)
+        {
+            return new CollectionTally(comparer, c);
+        }
+
+        /// <summary>
+        /// CollectionTally counts (tallies) the number of
+        /// occurences of each object in one or more enumerations.
+        /// </summary>
+        protected internal class CollectionTally
+        {
+            // Internal list used to track occurences
+            private ArrayList list = new ArrayList();
+
+            private NUnitEqualityComparer comparer;
+
+            /// <summary>
+            /// Construct a CollectionTally object from a comparer and a collection
+            /// </summary>
+            public CollectionTally(NUnitEqualityComparer comparer, IEnumerable c)
+            {
+                this.comparer = comparer;
+
+                foreach (object o in c)
+                    list.Add(o);
+            }
+
+            /// <summary>
+            /// The number of objects remaining in the tally
+            /// </summary>
+            public int Count
+            {
+                get { return list.Count; }
+            }
+
+            private bool ItemsEqual(object expected, object actual)
+            {
+                return comparer.ObjectsEqual(expected, actual);
+            }
+
+            /// <summary>
+            /// Try to remove an object from the tally
+            /// </summary>
+            /// <param name="o">The object to remove</param>
+            /// <returns>True if successful, false if the object was not found</returns>
+            public bool TryRemove(object o)
+            {
+                for (int index = 0; index < list.Count; index++)
+                    if (ItemsEqual(list[index], o))
+                    {
+                        list.RemoveAt(index);
+                        return true;
+                    }
+
+                return false;
+            }
+
+            /// <summary>
+            /// Try to remove a set of objects from the tally
+            /// </summary>
+            /// <param name="c">The objects to remove</param>
+            /// <returns>True if successful, false if any object was not found</returns>
+            public bool TryRemove(IEnumerable c)
+            {
+                foreach (object o in c)
+                    if (!TryRemove(o))
+                        return false;
+
+                return true;
+            }
+        }
+    }
+    #endregion
+
+    #region EmptyCollectionConstraint
     /// <summary>
     /// EmptyCollectionConstraint tests whether a collection is empty. 
     /// </summary>
@@ -247,7 +279,7 @@ namespace NUnit.Framework.Constraints
     /// UniqueItemsConstraint tests whether all the items in a 
     /// collection are unique.
     /// </summary>
-    public class UniqueItemsConstraint : CollectionConstraint
+    public class UniqueItemsConstraint : CollectionItemsEqualConstraint
     {
         /// <summary>
         /// Check that all items are unique.
@@ -258,11 +290,12 @@ namespace NUnit.Framework.Constraints
         {
             ArrayList list = new ArrayList();
 
-            foreach (object o in actual)
+            foreach (object o1 in actual)
             {
-                if (list.Contains(o))
-                    return false;
-                list.Add(o);
+                foreach( object o2 in list )
+                    if ( ItemsEqual(o1, o2) )
+                        return false;
+                list.Add(o1);
             }
 
             return true;
@@ -279,50 +312,12 @@ namespace NUnit.Framework.Constraints
     }
     #endregion
 
-    #region SameTypeConstraint
-    /// <summary>
-    /// SameTypeConstraint is used to test whether the contents
-    /// of a collection are all the same type.
-    /// </summary>
-    public class AllSameTypeConstraint : CollectionConstraint
-    {
-        /// <summary>
-        /// Test whether the all items are the same type
-        /// </summary>
-        /// <param name="actual"></param>
-        /// <returns></returns>
-        protected override bool doMatch(IEnumerable actual)
-        {
-            Type type = null;
-            foreach (object obj in actual)
-            {
-                if (type == null)
-                    type = obj.GetType();
-                else
-                if (type != obj.GetType())
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// Write a descripton of the constraint to a MessageWriter
-        /// </summary>
-        /// <param name="writer"></param>
-        public override void WriteDescriptionTo(MessageWriter writer)
-        {
-            writer.Write("all items of same type");
-        }
-    }
-    #endregion
-    
     #region CollectionContainsConstraint
     /// <summary>
     /// CollectionContainsConstraint is used to test whether a collection
     /// contains an expected object as a member.
     /// </summary>
-    public class CollectionContainsConstraint : CollectionConstraint
+    public class CollectionContainsConstraint : CollectionItemsEqualConstraint
     {
         private object expected;
 
@@ -345,7 +340,7 @@ namespace NUnit.Framework.Constraints
         protected override bool doMatch(IEnumerable actual)
         {
             foreach (object obj in actual)
-                if (Object.Equals(obj, expected))
+                if (ItemsEqual(obj, expected))
                     return true;
 
             return false;
@@ -368,7 +363,7 @@ namespace NUnit.Framework.Constraints
     /// CollectionEquivalentCOnstraint is used to determine whether two
     /// collections are equivalent.
     /// </summary>
-    public class CollectionEquivalentConstraint : CollectionConstraint
+    public class CollectionEquivalentConstraint : CollectionItemsEqualConstraint
     {
         private IEnumerable expected;
 
@@ -394,7 +389,7 @@ namespace NUnit.Framework.Constraints
 				if( ((ICollection)actual).Count != ((ICollection)expected).Count )
 					return false;
 
-            CollectionTally tally = new CollectionTally(expected);
+            CollectionTally tally = Tally(expected);
             return tally.TryRemove(actual) && tally.Count == 0;
         }
 
@@ -415,7 +410,7 @@ namespace NUnit.Framework.Constraints
     /// CollectionSubsetConstraint is used to determine whether
     /// one collection is a subset of another
     /// </summary>
-    public class CollectionSubsetConstraint : CollectionConstraint
+    public class CollectionSubsetConstraint : CollectionItemsEqualConstraint
     {
         private IEnumerable expected;
 
@@ -437,7 +432,7 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         protected override bool doMatch(IEnumerable actual)
         {
-            return new CollectionTally(expected).TryRemove( actual );
+            return Tally(expected).TryRemove( actual );
         }
         
         /// <summary>
