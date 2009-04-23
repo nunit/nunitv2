@@ -79,6 +79,8 @@
 
   <call target="set-${default.runtime}-runtime-config" />
 
+  <call target="set-default-package-config" />
+
 <!-- ***************************************************************** -->
 <!-- ********* Targets for setting the build configuration *********** -->
 <!-- ***************************************************************** -->
@@ -254,6 +256,30 @@
     <property name="nant.settings.currentframework" 
       value="mono-2.0"/>
     <property name="supported.test.platforms" value="mono-2.0,net-2.0"/>
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***    Targets for setting the package configuration          *** -->
+<!-- ***************************************************************** -->
+
+  <target name="set-package-config">   
+    <call target="set-${package.config}-package-config"/>
+  </target>
+
+  <target name="set-default-package-config">
+    <call target="set-${default.package.config}-package-config"/>
+  </target>
+  
+  <target name="set-std-package-config">
+    <property name="package.config" value="std"/>
+    <property name="package.runtimes" value="net-1.1+net-2.0"/>
+    <property name="create.msi" value="true"/>
+  </target>
+
+  <target name="set-mono-package-config">
+    <property name="package.config" value="mono"/>
+    <property name="package.runtimes" value="mono-1.0+mono-2.0"/>
+    <property name="create.msi" value="false"/>
   </target>
 
 <!-- ***************************************************************** -->

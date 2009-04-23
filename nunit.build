@@ -87,11 +87,12 @@
   <property name="supported.frameworks" 
     value="net-2.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
 
-  <!-- Framework versions for which packages are normally created -->
-  <property name="standard.packages" value="net-1.1+net-2.0" />
+  <!-- Packages we normally create -->
+  <!--<property name="standard.packages" value="std,mono" />-->
+  <property name="standard.packages" value="std" />
 
   <!-- Our standard package for general distribution -->
-  <property name="standard.package.config" value="net-1.1+net-2.0" />
+  <property name="default.package.config" value="std" />
 
   <!-- Options for runing the NUnit tests -->
   <property name="nunit.options" value=""/>
@@ -127,14 +128,6 @@
   <target name="net-2.0" depends="set-net-2.0-runtime-config"
     description="Set runtime to .NET 2.0 for commands that follow"/>
       
-<!--
-  <target name="net-3.0" depends="set-net-3.0-runtime-config"
-    description="Set runtime to .NET 3.0 for commands that follow"/>
-   
-  <target name="net-3.5" depends="set-net-3.5-runtime-config"
-    description="Set runtime to .NET 3.5 for commands that follow"/>
- -->
-      
   <target name="mono" depends="set-default-mono-runtime-config"
     description="Set runtime to Mono 1.0 for commands that follow"/>
 
@@ -148,35 +141,41 @@
 <!-- ***             Targets that clean directories                *** -->
 <!-- ***************************************************************** -->
 
-  <target name="clean" depends="clean-build-dir,clean-generated-source"/>
+  <target name="clean" depends="set-build-dir"
+      description="Removes output created by the current build config">
 
-  <target name="clean-build-dir" depends="set-build-dir"
-      description="Removes the current build directory">
     <delete dir="${current.build.dir}" 
       if="${directory::exists( current.build.dir )}"/>
-  </target>
 
-  <target name="clean-generated-source">
     <delete file="src/GeneratedAssemblyInfo.cs"
       if="${file::exists( 'src/GeneratedAssemblyInfo.cs' )}"/>
+
   </target>
 
-
-  <target name="clean-all" description="Removes all build directories"> 
+  <target name="clean-all" 
+      description="Removes output created by all build configs">
+ 
     <delete dir="${project.build.dir}" 
       if="${directory::exists( project.build.dir )}"/>
+
+    <delete file="src/GeneratedAssemblyInfo.cs"
+      if="${file::exists( 'src/GeneratedAssemblyInfo.cs' )}"/>
+
   </target>
 
-  <target name="clean-package-dir"
-    description="Removes the current package working directory">
+  <!-- Removes the current package working directory -->
+  <target name="clean-package-dir">
+
         <delete dir="${package.working.dir}" 
             if="${directory::exists( package.working.dir )}"/>
+
   </target>
 
 <!-- ***************************************************************** -->
-<!-- ***            Target to Generate CommonAssemblyInfo          *** -->
+<!-- ***              Targets that generate code                   *** -->
 <!-- ***************************************************************** -->
 
+  <!-- Generate AssemblyInfo for this build -->
   <target name="gen-assembly-info">
 
     <asminfo output="src/GeneratedAssemblyInfo.cs" language="CSharp">
@@ -197,10 +196,7 @@
 
   </target>
 
-<!-- ***************************************************************** -->
-<!-- ***              Targets that generate code                   *** -->
-<!-- ***************************************************************** -->
-
+  <!-- Generate code for the fluent constraint builder interface -->
   <target name="gen-syntax" 
     description="Generate code for the fluent constraint builder interface">
 
@@ -216,9 +212,7 @@
 <!-- ***              Targets that perform builds                  *** -->
 <!-- ***************************************************************** -->
 
-  <target name="rebuild" depends="clean,clean-tools,build"
-    description="Rebuild NUnit for default runtime version and config"/>
-
+  <!-- Build NUnit for default runtime version and config -->
   <target name="build" depends="make-build-dir,gen-assembly-info"
     description="Build NUnit for default runtime version and config">
 
@@ -265,6 +259,7 @@
 
   </target>
 
+  <!-- Build the Gui -->
   <target name="build-gui">
 
     <fail unless="${build.gui}" 
@@ -276,11 +271,9 @@
 
   </target>
 
-  <target name="rebuild-all" depends="clean-all,build-all"
-      description="Rebuild current config for all available runtimes"/>
-
+  <!-- Build current config for all available runtimes -->
   <target name="build-all"
-      description="Build current config for all available runtime">
+      description="Build current config for all available runtimes">
 
     <foreach item="String" delim="," 
         property="framework" in="${installed.frameworks}">
@@ -498,16 +491,12 @@
 
   </target>
 
-  <target name="rebuild-samples" depends="clean-samples,build-samples" 
-      description="Rebuild the NUnit samples"/>
-
 <!-- ***************************************************************** -->
 <!-- ***         Targets for packaging the NUnit distribution      *** -->
 <!-- ***************************************************************** -->
 
-  <!-- Produce all the standard packages for a release -->
-  <target name="package-release"
-      description="Create standard packages for distribution">
+  <target name="package-all"
+      description="Create all the standard packages for distribution">
       
     <call target="package-src"/>
 
@@ -518,6 +507,7 @@
     <foreach item="String" delim="," 
         property="package.config" in="${standard.packages}">
 
+      <call target="set-package-config"/>
       <call target="package"/>
 
     </foreach>
@@ -525,53 +515,50 @@
   </target>
 
 <!-- ***************************************************************** -->
-<!-- ***                    Package binaries                       *** -->
+<!-- ***            Package Binaries From Current Build            *** -->
 <!-- ***************************************************************** -->
 
+  <target name="package-build" depends="build"
+      description="Create a zip of the current build (not a full installation)">
+
+    <property name="zip.file.name" 
+      value="${package.name}-${runtime.config}${build.suffix}"/>
+
+    <zip ziplevel="9"
+        zipfile="${project.package.dir}/${zip.file.name}.zip">
+      <fileset basedir="${current.build.dir}" prefix="${zip.file.name}">
+        <include name="**"/>
+      </fileset>
+    </zip>
+
+  </target>
+
 <!-- ***************************************************************** -->
-<!-- ***              Package as both a zip and an msi             *** -->
+<!-- ***   Package Using the Currently Selected Package Config     *** -->
+<!-- ***      or the default package if none is selected           *** -->
 <!-- ***************************************************************** -->
 
   <target name="package" depends="build-install-image"
-      description="Create both binary and msi packages for current build" >
+      description="Create a package using the current or default config">
 
-    <call target="create-zip" />
-
-    <if test="${platform::is-win32() and build.win32}" >
-      <call target="create-msi" />
-    </if>
+    <call target="create-zip"/>
+    <call target="create-msi" if="${create.msi}"/>
 
   </target>
-  
+
 <!-- ***************************************************************** -->
 <!-- ***                    Package as a zip                       *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package-zip"
-    description="Create zip binary distribution package">
-
-    <property name="package.config" value="${runtime.config}"
-      unless="${property::exists('package.config')}"/>
-
-    <call target="build-install-image"/>
-    <call target="create-zip"/>
-
-  </target>
+  <target name="package-zip" depends="build-install-image,create-zip"
+    description="Create zip binary distribution package"/>
 
 <!-- ***************************************************************** -->
 <!-- ***                   Package as an msi                       *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package-msi" 
-    description="Build standard msi file and deploy it to the package dir" >
-    
-    <property name="package.config" value="net-1.1+net-2.0"
-      unless="${property::exists('package.config')}"/>
-
-    <call target="build-install-image"/>
-    <call target="create-msi"/>
-
-  </target>
+  <target name="package-msi" depends="build-install-image,create-msi" 
+    description="Build standard msi file and deploy it to the package dir"/>
 
 <!-- ***************************************************************** -->
 <!-- ***                     Install the msi                       *** -->
@@ -595,18 +582,19 @@
 <!-- ***                    Create the zip                         *** -->
 <!-- ***************************************************************** -->
 
-  <target name="create-zip" description="Create zip from existing image">
+  <!-- Create zip from existing install image -->
+  <target name="create-zip">
     <!-- Create the zip file -->
     <property name="zip.file.name" 
-      value="${package.name}-${package.config}${build.suffix}.zip"
-      unless="${package.config==standard.package.config}"/>
+      value="${package.name}-${package.config}${build.suffix}"
+      unless="${package.config==default.package.config}"/>
     <property name="zip.file.name" 
-      value="${package.name}${build.suffix}.zip"
-      if="${package.config==standard.package.config}"/>
+      value="${package.name}${build.suffix}"
+      if="${package.config==default.package.config}"/>
 
     <zip ziplevel="9"
-        zipfile="${project.package.dir}/${zip.file.name}">
-      <fileset basedir="${package.working.dir}">
+        zipfile="${project.package.dir}/${zip.file.name}.zip">
+      <fileset basedir="${package.working.dir}" prefix="${package.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -616,7 +604,8 @@
 <!-- ***                    Create the msi                         *** -->
 <!-- ***************************************************************** -->
 
-  <target name="create-msi" description="Create msi from existing install image">
+  <!-- Create msi from existing install image -->
+  <target name="create-msi">
   
     <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
     <fail message="MSI can only be built for a Win32 runtime" unless="${build.win32}"/>
@@ -628,16 +617,14 @@
     <property name="install.dir"
       value="${project.base.dir}/install"/>
 
-    <property name="package.config" value="${standard.package.config}"
-      unless="${property::exists('package.config')}" />
     <property name="build.suffix" value=""
       unless="${property::exists('build.suffix')}" />
     <property name="msi.file.name"
       value="${package.name}-${package.config}${build.suffix}.msi"
-      unless="${package.config==standard.package.config}"/>
+      unless="${package.config==default.package.config}"/>
     <property name="msi.file.name"
       value="${package.name}${build.suffix}.msi"
-      if="${package.config==standard.package.config}"/>
+      if="${package.config==default.package.config}"/>
 
 
     <candle out="${work.dir}/" exedir="${wix.dir}">
@@ -691,7 +678,7 @@
     <!-- Create the zip file -->
     <zip  ziplevel="9"
         zipfile="${project.package.dir}/${package.name}-src.zip">
-      <fileset basedir="${package.working.dir}">
+      <fileset basedir="${package.working.dir}" prefix="${package.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -701,14 +688,15 @@
 <!-- ***                      Package docs                         *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package-docs" depends="clean-package-dir">
+  <target name="package-docs" depends="clean-package-dir"
+      description="Create a zip of the docs only">
 
     <call target="copy-docs"/>
 
     <!-- Create the zip file -->
     <zip ziplevel="9"
         zipfile="${project.package.dir}/${package.name}-docs.zip">
-      <fileset basedir="${package.working.dir}">
+      <fileset basedir="${package.working.dir}" prefix="${package.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -719,7 +707,8 @@
 <!-- ***                    Package resources                      *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package-resources" depends="clean-package-dir">
+  <target name="package-resources" depends="clean-package-dir"
+      description="Package resources for localization - currently not working">
 
     <copy todir="${package.resource.dir}/nunit-gui-runner">
       <fileset basedir="GuiRunner/nunit-gui/obj/Release">
@@ -765,7 +754,7 @@
 
     <zip  ziplevel="9"
         zipfile="${project.package.dir}/${package.name}-resources.zip">
-      <fileset basedir="${package.working.dir}">
+      <fileset basedir="${package.working.dir}" prefix="${package.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -780,15 +769,13 @@
 <!-- ***            Build install image for a package              *** -->
 <!-- ***************************************************************** -->
 
+  <!-- Create an install image for use by a package -->
   <target name="build-install-image" depends="clean-package-dir">
-
-    <property name="package.config" value="${runtime.config}"
-      unless="${property::exists('package.config')}"/>
 
     <call target="copy-top-level-files" />
 
     <foreach item="String" delim="+"
-      property="runtime" in="${package.config}">
+      property="runtime" in="${package.runtimes}">
 
       <if test="${framework::exists( runtime )}">
         <if test="${framework::sdk-exists( runtime )}">
@@ -822,53 +809,6 @@
   <target name="copy-bins" depends="build">
 
     <mkdir dir="${package.bin.dir}"/>
-<!--
-    <copy todir="${package.bin.dir}/lib/${runtime.version}">
-      <fileset basedir="${current.build.dir}/lib">
-        <include name="*"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${package.bin.dir}/tests/${runtime.version}">
-      <fileset basedir="${current.build.dir}/tests">
-        <include name="*"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${package.bin.dir}/framework/${runtime.version}">
-      <fileset basedir="${current.build.dir}/framework">
-        <include name="*"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${package.bin.dir}">
-      <fileset basedir="${current.build.dir}">
-        <include name="*.exe"/>
-        <include name="*.pdb"/>
-        <include name="*.conf"/>
-        <include name="NUnitFitTests.html"/>
-        <exclude name="nunit-server.*"/>
-        <exclude name="nunit-test-server.*"/>
-      </fileset>
-    </copy>
-
-    <copy todir="${package.bin.dir}">
-      <fileset basedir="${current.build.dir}">
-        <include name="*.config"/>
-        <exclude name="nunit-server.*"/>
-        <exclude name="nunit-test-server.*"/>
-      </fileset>
-      <filterchain>
-        <replacestring from='privatePath="lib;addins"'
-                       to='privatePath="lib/2.0;addins"'/>
-        <replacestring from='privatePath="framework;lib;addins"' 
-                       to='privatePath="framework/2.0;lib/2.0;addins"'/>
-      </filterchain>
-    </copy>
-
-    <copy file="NUnitTests.Ship.nunit"
-        tofile="NUnitTests.nunit"/>
--->
     <copy todir="${package.bin.dir}/${runtime.config}">
       <fileset basedir="${current.build.dir}">
         <include name="*"/>
@@ -1063,15 +1003,19 @@
 <!-- ***    NUnit-specific tools, you can run this target.         *** -->
 <!-- ***************************************************************** -->
 
-  <target name="clean-tools">
+  <target name="clean-tools"
+      description="Remove binaries of tools used to build NUnit (DANGEROUS!)">
+
     <nant target="clean" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
+
   </target>
 
-  <target name="build-tools">
+  <target name="build-tools"
+      description="Build tools used in building NUnit">
+
     <nant target="build" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
-  </target>
 
-  <target name="rebuild-tools" depends="clean-tools,build-tools"/>
+  </target>
 
 <!-- ***************************************************************** -->
 <!-- ****** Patternsets and Filesets Used by Various Targets  ******** -->
