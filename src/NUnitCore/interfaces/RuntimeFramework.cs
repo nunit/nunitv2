@@ -6,6 +6,7 @@
 
 using System;
 using System.Reflection;
+using System.Collections;
 using Microsoft.Win32;
 
 namespace NUnit.Core
@@ -75,6 +76,33 @@ namespace NUnit.Core
                 }
 
                 return currentFramework;
+            }
+        }
+
+        /// <summary>
+        /// Return an array of well-known framework versions
+        /// </summary>
+        public static Version[] KnownVersions
+        {
+            get { return knownVersions; }
+        }
+
+        /// <summary>
+        /// Gets an array of all available frameworks
+        /// </summary>
+        public static RuntimeFramework[] AvailableFrameworks
+        {
+            get 
+            {
+                ArrayList frameworks = new ArrayList();
+
+                foreach (RuntimeFramework framework in GetAvailableFrameworks(RuntimeType.Net))
+                    frameworks.Add(framework);
+
+                foreach (RuntimeFramework framework in GetAvailableFrameworks(RuntimeType.Mono))
+                    frameworks.Add(framework);
+
+                return (RuntimeFramework[])frameworks.ToArray(typeof(RuntimeFramework)); 
             }
         }
 
@@ -173,6 +201,60 @@ namespace NUnit.Core
             if (key == null) return false;
 
             return version.Build < 0 || key.GetValue(version.Build.ToString()) != null;
+        }
+
+        /// <summary>
+        /// Returns an array of all available frameworks of a given type,
+        /// for example, all mono or all .NET frameworks.
+        /// </summary>
+        public static RuntimeFramework[] GetAvailableFrameworks(RuntimeType rt)
+        {
+            ArrayList frameworks = new ArrayList();
+
+            if (rt == RuntimeType.Net)
+            {
+                RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\.NETFramework\policy");
+                if (key != null)
+                {
+                    foreach (string name in key.GetSubKeyNames())
+                    {
+                        if (name.StartsWith("v"))
+                        {
+                            RegistryKey key2 = key.OpenSubKey(name);
+                            foreach (string build in key2.GetValueNames())
+                                frameworks.Add( new RuntimeFramework(rt, new Version(name.Substring(1) + "." + build)));
+                        }
+                    }
+                }
+            }
+            else if (rt == RuntimeType.Mono && IsMonoInstalled())
+            {
+                RuntimeFramework framework = new RuntimeFramework(rt, new Version(1,1,4322));
+                framework.displayName = "Mono 1.0 Profile";
+                frameworks.Add( framework );
+                framework = new RuntimeFramework(rt, new Version(2, 0, 50727));
+                framework.displayName = "Mono 2.0 Profile";
+                frameworks.Add( framework );
+            }
+            // Code to list various versions of Mono - currently not used
+            //else if (rt == RuntimeType.Mono)
+            //{
+            //    RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Novell\Mono");
+            //    if (key != null)
+            //    {
+            //        foreach (string name in key.GetSubKeyNames())
+            //        {
+            //            RuntimeFramework framework = new RuntimeFramework(rt, new Version(1, 0));
+            //            framework.displayName = "Mono " + name + " - 1.0 Profile";
+            //            frameworks.Add(framework);
+            //            framework = new RuntimeFramework(rt, new Version(2, 0));
+            //            framework.displayName = "Mono " + name + " - 2.0 Profile";
+            //            frameworks.Add(framework);
+            //        }
+            //    }
+            //}
+
+            return (RuntimeFramework[])frameworks.ToArray(typeof(RuntimeFramework));
         }
         #endregion
 

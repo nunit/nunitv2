@@ -23,7 +23,7 @@ namespace NUnit.Util.Tests
         [Test]
         public void CanLocateAgentExecutable()
         {
-            string path = NUnit.Core.NUnitConfiguration.TestAgentExePath;
+            string path = NUnit.Core.NUnitConfiguration.GetTestAgentExePath(Environment.Version);
             Assert.That(System.IO.File.Exists(path), "Cannot find " + path);
         }
     }

@@ -110,6 +110,10 @@ namespace NUnit.Core
 
         #region NUnitLibDirectory
         private static string nunitLibDirectory;
+        /// <summary>
+        /// Gets the path to the lib directory for the version and build
+        /// of NUnit currently executing.
+        /// </summary>
         public static string NUnitLibDirectory
         {
             get
@@ -158,17 +162,17 @@ namespace NUnit.Core
         #endregion
 
         #region TestAgentExePath
-        private static string testAgentExePath;
-        public static string TestAgentExePath
-        {
-            get
-            {
-                if (testAgentExePath == null)
-                    testAgentExePath = Path.Combine(NUnitBinDirectory, "nunit-agent.exe");
+        //private static string testAgentExePath;
+        //private static string TestAgentExePath
+        //{
+        //    get
+        //    {
+        //        if (testAgentExePath == null)
+        //            testAgentExePath = Path.Combine(NUnitBinDirectory, "nunit-agent.exe");
 
-                return testAgentExePath;
-            }
-        }
+        //        return testAgentExePath;
+        //    }
+        //}
         #endregion
 
         #region MonoExePath
@@ -242,6 +246,45 @@ namespace NUnit.Core
             }
         }
         #endregion
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
+        /// Return the NUnit Bin Directory for a particular
+        /// runtime version, or null if it's not installed.
+        /// </summary>
+        public static string GetNUnitBinDirectory(Version v)
+        {
+            string dir = NUnitBinDirectory;
+
+            if ( Environment.Version.Major == v.Major )
+                return dir;
+
+            string current = Environment.Version.ToString(2);
+            string target = v.ToString(2);
+            if (current == "1.0") current = "1.1";
+            if (target == "1.0") target = "1.1";
+            if (target == current)
+                return dir;
+
+            if (dir.IndexOf(current) < 0)
+                return null;
+
+            dir = dir.Replace(current, target);
+
+            return Directory.Exists(dir) ? dir : null;
+        }
+
+        public static string GetTestAgentExePath(Version v)
+        {
+            string binDir = GetNUnitBinDirectory(v);
+            if ( binDir == null ) return null;
+
+            string agentExePath = Path.Combine(binDir, "nunit-agent.exe");
+            return File.Exists(agentExePath) ? agentExePath : null;
+        }
 
         #endregion
     }

@@ -156,23 +156,28 @@ namespace NUnit.Util
 		#region Helper Methods
 		private Guid LaunchAgentProcess(RuntimeFramework targetRuntime)
 		{
-            string agentExePath = NUnitConfiguration.TestAgentExePath;
+            string agentExePath = NUnitConfiguration.GetTestAgentExePath(targetRuntime.Version);
+
+            if (agentExePath == null)
+                throw new ArgumentException(
+                    string.Format("NUnit components for version {0} of the CLR are not installed",
+                    targetRuntime.Version.ToString(3)), "targetRuntime");
 
             // TODO: Replace adhoc code
-            if (targetRuntime.Version.Major == 1 && RuntimeFramework.CurrentFramework.Version.Major == 2)
-            {
-                agentExePath = agentExePath
-                    .Replace("2.0", "1.1")
-                    .Replace("vs2008", "vs2003")
-                    .Replace("vs2005", "vs2003");
-            }
-            else if (targetRuntime.Version.Major == 2 && RuntimeFramework.CurrentFramework.Version.Major == 1)
-            {
-                agentExePath = agentExePath
-                    .Replace("1.1", "2.0")
-                    .Replace("1.0", "2.0")
-                    .Replace("vs2003", "vs2008");
-            }
+            //if (targetRuntime.Version.Major == 1 && RuntimeFramework.CurrentFramework.Version.Major == 2)
+            //{
+            //    agentExePath = agentExePath
+            //        .Replace("2.0", "1.1")
+            //        .Replace("vs2008", "vs2003")
+            //        .Replace("vs2005", "vs2003");
+            //}
+            //else if (targetRuntime.Version.Major == 2 && RuntimeFramework.CurrentFramework.Version.Major == 1)
+            //{
+            //    agentExePath = agentExePath
+            //        .Replace("1.1", "2.0")
+            //        .Replace("1.0", "2.0")
+            //        .Replace("vs2003", "vs2008");
+            //}
 
             log.Debug("Using nunit-agent at " + agentExePath);
 

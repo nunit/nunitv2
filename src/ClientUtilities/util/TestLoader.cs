@@ -93,6 +93,13 @@ namespace NUnit.Util
 		/// </summary>
 		private ITestFilter lastFilter;
 
+        /// <summary>
+        /// The runtime framework being used for the currently
+        /// loaded tests, or the current framework if no tests
+        /// are loaded.
+        /// </summary>
+        private RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
+
 		#endregion
 
 		#region Constructors
@@ -158,6 +165,11 @@ namespace NUnit.Util
 		{
 			get { return loadedTest == null ? 0 : loadedTest.TestCount; }
 		}
+
+        public RuntimeFramework CurrentFramework
+        {
+            get { return currentFramework; }
+        }
 		#endregion
 
 		#region EventListener Handlers
@@ -431,7 +443,7 @@ namespace NUnit.Util
                 TestPackage package = MakeTestPackage(testName);
 				testRunner = TestRunnerFactory.MakeTestRunner(package);
 
-				bool loaded = testRunner.Load( package );
+                bool loaded = testRunner.Load(package);
 
 				loadedTest = testRunner.Test;
 				loadedTestName = testName;
@@ -443,6 +455,10 @@ namespace NUnit.Util
 
                 if (loaded)
                 {
+                    this.currentFramework = package.Settings.Contains("RuntimeFramework")
+                        ? package.Settings["RuntimeFramework"] as RuntimeFramework
+                        : RuntimeFramework.CurrentFramework;
+
                     testProject.HasChangesRequiringReload = false;
                     events.FireTestLoaded(TestFileName, loadedTest);
                 }
@@ -522,7 +538,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Reload the current test on command
 		/// </summary>
-		public void ReloadTest()
+		public void ReloadTest(RuntimeFramework framework)
 		{
             log.Info("Reloading tests for " + Path.GetFileName(TestFileName));
 			try
@@ -530,11 +546,16 @@ namespace NUnit.Util
 				events.FireTestReloading( TestFileName );
 
                 TestPackage package = MakeTestPackage(loadedTestName);
+                if (framework != null)
+                    package.Settings["RuntimeFramework"] = framework;
 
                 testRunner.Unload();
                 testRunner = TestRunnerFactory.MakeTestRunner(package);
 
-                testRunner.Load(package);
+                if (testRunner.Load(package))
+                    this.currentFramework = package.Settings.Contains("RuntimeFramework")
+                        ? package.Settings["RuntimeFramework"] as RuntimeFramework
+                        : RuntimeFramework.CurrentFramework;
 
                 loadedTest = testRunner.Test;
 				reloadPending = false;
@@ -551,6 +572,11 @@ namespace NUnit.Util
 				events.FireTestReloadFailed( TestFileName, exception );
 			}
 		}
+
+        public void ReloadTest()
+        {
+            ReloadTest(null);
+        }
 
 		/// <summary>
 		/// Handle watcher event that signals when the loaded assembly

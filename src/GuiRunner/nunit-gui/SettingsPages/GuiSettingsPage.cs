@@ -124,6 +124,8 @@ namespace NUnit.Gui.SettingsPages
 			this.recentFilesCountTextBox.Size = new System.Drawing.Size(40, 22);
 			this.recentFilesCountTextBox.TabIndex = 29;
 			this.recentFilesCountTextBox.Text = "";
+            this.recentFilesCountTextBox.Validating += new CancelEventHandler(recentFilesCountTextBox_Validating);
+            this.recentFilesCountTextBox.Validated += new EventHandler(recentFilesCountTextBox_Validated);
 			// 
 			// label4
 			// 

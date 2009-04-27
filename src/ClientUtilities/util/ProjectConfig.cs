@@ -252,7 +252,8 @@ namespace NUnit.Util
 			}
 
 			package.AutoBinPath = this.BinPathType == BinPathType.Auto;
-            package.Settings["RuntimeFramework"] = this.RuntimeFramework;
+            if (this.RuntimeFramework != null)
+                package.Settings["RuntimeFramework"] = this.RuntimeFramework;
 
             if (project.ProcessModel != ProcessModel.Default)
                 package.Settings["ProcessModel"] = project.ProcessModel;

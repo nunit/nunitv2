@@ -41,6 +41,8 @@ namespace NUnit.Util
             if ( runtimeFramework == null )
                  runtimeFramework = RuntimeFramework.CurrentFramework;
 
+            bool loaded = false;
+
 			try
 			{
 				if (this.agent == null)
@@ -54,12 +56,13 @@ namespace NUnit.Util
 				if ( this.TestRunner == null )
 					this.TestRunner = agent.CreateRunner(this.runnerID);
 
-				return base.Load (package);
+				loaded = base.Load (package);
+                return loaded;
 			}
-			catch
+			finally
 			{
-				Unload();
-				throw;
+                // Clean up if the load failed
+				if ( !loaded ) Unload();
 			}
 		}
 

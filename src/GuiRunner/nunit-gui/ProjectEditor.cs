@@ -62,7 +62,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.ComboBox processModelComboBox;
 		private System.Windows.Forms.ComboBox domainUsageComboBox;
 		private System.Windows.Forms.Label label11;
-		private System.Windows.Forms.TextBox runtimeVersionTextBox;
+		private System.Windows.Forms.ComboBox runtimeVersionComboBox;
 		private System.ComponentModel.IContainer components = null;
 
 		#endregion
@@ -117,7 +117,7 @@ namespace NUnit.Gui
             this.projectBaseTextBox = new System.Windows.Forms.TextBox();
             this.projectTabControl = new System.Windows.Forms.TabControl();
             this.generalTabPage = new System.Windows.Forms.TabPage();
-            this.runtimeVersionTextBox = new System.Windows.Forms.TextBox();
+            this.runtimeVersionComboBox = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.runtimeComboBox = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -234,7 +234,7 @@ namespace NUnit.Gui
             // 
             // generalTabPage
             // 
-            this.generalTabPage.Controls.Add(this.runtimeVersionTextBox);
+            this.generalTabPage.Controls.Add(this.runtimeVersionComboBox);
             this.generalTabPage.Controls.Add(this.label11);
             this.generalTabPage.Controls.Add(this.runtimeComboBox);
             this.generalTabPage.Controls.Add(this.label7);
@@ -255,22 +255,22 @@ namespace NUnit.Gui
             this.generalTabPage.TabIndex = 0;
             this.generalTabPage.Text = "General";
             // 
-            // runtimeVersionTextBox
+            // runtimeVersionComboBox
             // 
-            this.runtimeVersionTextBox.Location = new System.Drawing.Point(264, 16);
-            this.runtimeVersionTextBox.Name = "runtimeVersionTextBox";
-            this.runtimeVersionTextBox.Size = new System.Drawing.Size(72, 22);
-            this.runtimeVersionTextBox.TabIndex = 14;
-            this.runtimeVersionTextBox.Validated += new System.EventHandler(this.runtimeVersionTextBox_Validated);
-            this.runtimeVersionTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.runtimeVersionTextBox_Validating);
+            this.runtimeVersionComboBox.Location = new System.Drawing.Point(320, 16);
+            this.runtimeVersionComboBox.Name = "runtimeVersionComboBox";
+            this.runtimeVersionComboBox.Size = new System.Drawing.Size(101, 24);
+            this.runtimeVersionComboBox.TabIndex = 14;
+            this.runtimeVersionComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.runtimeVersionTextBox_Validating);
+            this.runtimeVersionComboBox.Validated += new System.EventHandler(this.runtimeVersionTextBox_Validated);
             // 
             // label11
             // 
             this.label11.Location = new System.Drawing.Point(192, 16);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(56, 16);
+            this.label11.Size = new System.Drawing.Size(122, 16);
             this.label11.TabIndex = 13;
-            this.label11.Text = "Version:";
+            this.label11.Text = "Runtime Version";
             // 
             // runtimeComboBox
             // 
@@ -359,7 +359,6 @@ namespace NUnit.Gui
             this.label6.Size = new System.Drawing.Size(105, 17);
             this.label6.TabIndex = 4;
             this.label6.Text = "PrivateBinPath:";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // configFileTextBox
             // 
@@ -372,7 +371,6 @@ namespace NUnit.Gui
             this.helpProvider1.SetShowHelp(this.configFileTextBox, true);
             this.configFileTextBox.Size = new System.Drawing.Size(256, 22);
             this.configFileTextBox.TabIndex = 3;
-            this.configFileTextBox.TextChanged += new System.EventHandler(this.configFileTextBox_TextChanged);
             this.configFileTextBox.Validated += new System.EventHandler(this.configFileTextBox_Validated);
             this.configFileTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.configFileTextBox_Validating);
             // 
@@ -385,7 +383,6 @@ namespace NUnit.Gui
             this.label4.Size = new System.Drawing.Size(163, 17);
             this.label4.TabIndex = 2;
             this.label4.Text = "Configuration File Name:";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // applicationBaseTextBox
             // 
@@ -398,7 +395,6 @@ namespace NUnit.Gui
             this.helpProvider1.SetShowHelp(this.applicationBaseTextBox, true);
             this.applicationBaseTextBox.Size = new System.Drawing.Size(264, 22);
             this.applicationBaseTextBox.TabIndex = 1;
-            this.applicationBaseTextBox.TextChanged += new System.EventHandler(this.applicationBaseTextBox_TextChanged);
             this.applicationBaseTextBox.Validated += new System.EventHandler(this.applicationBaseTextBox_Validated);
             this.applicationBaseTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.applicationBaseTextBox_Validating);
             // 
@@ -411,7 +407,6 @@ namespace NUnit.Gui
             this.label3.Size = new System.Drawing.Size(113, 17);
             this.label3.TabIndex = 0;
             this.label3.Text = "ApplicationBase:";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // assemblyTabPage
             // 
@@ -424,7 +419,7 @@ namespace NUnit.Gui
             this.assemblyTabPage.Location = new System.Drawing.Point(4, 22);
             this.assemblyTabPage.Name = "assemblyTabPage";
             this.helpProvider1.SetShowHelp(this.assemblyTabPage, false);
-            this.assemblyTabPage.Size = new System.Drawing.Size(438, 247);
+            this.assemblyTabPage.Size = new System.Drawing.Size(438, 252);
             this.assemblyTabPage.TabIndex = 1;
             this.assemblyTabPage.Text = "Assemblies";
             this.assemblyTabPage.Visible = false;
@@ -567,7 +562,6 @@ namespace NUnit.Gui
             this.label9.Size = new System.Drawing.Size(110, 16);
             this.label9.TabIndex = 11;
             this.label9.Text = "Process Model:";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // label10
             // 
@@ -591,7 +585,6 @@ namespace NUnit.Gui
             this.processModelComboBox.Name = "processModelComboBox";
             this.processModelComboBox.Size = new System.Drawing.Size(104, 24);
             this.processModelComboBox.TabIndex = 13;
-            this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged_1);
             // 
             // domainUsageComboBox
             // 
@@ -690,7 +683,7 @@ namespace NUnit.Gui
 			if ( index < 0 ) index = 0;
 			runtimeComboBox.SelectedIndex = index;
 			if ( framework != null )
-				runtimeVersionTextBox.Text = framework.Version.ToString();
+				runtimeVersionComboBox.Text = framework.Version.ToString();
 			
 			applicationBaseTextBox.Text = selectedConfig.RelativeBasePath;
 
@@ -734,9 +727,18 @@ namespace NUnit.Gui
 
 			if ( assemblyListBox.Items.Count > 0 && selectedIndex == -1)
 				selectedIndex = 0;
-				
-			if ( selectedIndex != -1 )
-				assemblyListBox.SelectedIndex = selectedIndex;
+
+            if (selectedIndex == -1)
+            {
+                removeAssemblyButton.Enabled = false;
+                assemblyPathBrowseButton.Enabled = false;
+            }
+            else
+            {
+                assemblyListBox.SelectedIndex = selectedIndex;
+                removeAssemblyButton.Enabled = true;
+                assemblyPathBrowseButton.Enabled = true;
+            }
 		}
 
 		private void assemblyListBox_SelectedIndexChanged(object sender, System.EventArgs e)
@@ -744,14 +746,16 @@ namespace NUnit.Gui
 			if ( assemblyListBox.SelectedIndex == -1 )
 			{
 				assemblyPathTextBox.Text = selectedAssembly = null;
-				removeAssemblyButton.Enabled = false;
-			}
+                removeAssemblyButton.Enabled = false;
+                assemblyPathBrowseButton.Enabled = false;
+            }
 			else 
 			{
 				assemblyPathTextBox.Text = selectedAssembly = //(string)assemblyListBox.SelectedItem;
 					selectedConfig.Assemblies[assemblyListBox.SelectedIndex];
 				removeAssemblyButton.Enabled = true;
-			}
+                assemblyPathBrowseButton.Enabled = true;
+            }
 		}
 
 		#endregion
@@ -954,15 +958,15 @@ namespace NUnit.Gui
 
         private void runtimeVersionTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (runtimeVersionTextBox.Text != string.Empty)
+            if (runtimeVersionComboBox.Text != string.Empty)
             {
                 try
                 {
-                    Version version = new Version(runtimeVersionTextBox.Text);
+                    Version version = new Version(runtimeVersionComboBox.Text);
                 }
                 catch (Exception ex)
                 {
-                    runtimeVersionTextBox.SelectAll();
+                    runtimeVersionComboBox.SelectAll();
                     UserMessage.DisplayFailure(ex, "Invalid Runtime Version");
                     e.Cancel = true;
                 }
@@ -977,7 +981,7 @@ namespace NUnit.Gui
         private void SetRuntimeFramework()
         {
             selectedConfig.RuntimeFramework = RuntimeFramework.Parse(
-                (string)runtimeComboBox.SelectedItem + "-" + runtimeVersionTextBox.Text);
+                (string)runtimeComboBox.SelectedItem + "-" + runtimeVersionComboBox.Text);
         }
         #endregion
 
@@ -1084,6 +1088,9 @@ namespace NUnit.Gui
             this.ProcessModel = project.ProcessModel;
             this.DomainUsage = project.DomainUsage;
 
+            foreach( Version v in RuntimeFramework.KnownVersions )
+                this.runtimeVersionComboBox.Items.Add( v.ToString(3) );
+            
 			this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged);
 			this.domainUsageComboBox.SelectedIndexChanged += new System.EventHandler(this.domainUsageComboBox_SelectedIndexChanged);
 			this.runtimeComboBox.SelectedIndexChanged += new System.EventHandler(this.runtimeComboBox_SelectedIndexChanged);
@@ -1207,40 +1214,5 @@ namespace NUnit.Gui
             project.DomainUsage = this.DomainUsage;
 		}
 		#endregion
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void applicationBaseTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void configFileTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void processModelComboBox_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
 	}
 }

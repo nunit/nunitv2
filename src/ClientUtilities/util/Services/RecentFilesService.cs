@@ -43,7 +43,14 @@ namespace NUnit.Util
 		{
 			get 
 			{ 
-				int size = settings.GetSetting( "RecentProjects.MaxFiles", DefaultSize );
+				int size = settings.GetSetting("Gui.RecentProjects.MaxFiles", -1 );
+                if (size < 0)
+                {
+                    size = settings.GetSetting("RecentProjects.MaxFiles", DefaultSize);
+                    if (size != DefaultSize)
+                        settings.SaveSetting("Gui.RecentProjects.MaxFiles", size);
+                    settings.RemoveSetting("RecentProjects.MaxFiles");
+                }
 				
 				if ( size < MinSize ) size = MinSize;
 				if ( size > MaxSize ) size = MaxSize;
@@ -58,7 +65,7 @@ namespace NUnit.Util
 				if ( newSize < MinSize ) newSize = MinSize;
 				if ( newSize > MaxSize ) newSize = MaxSize;
 
-				settings.SaveSetting( "RecentProjects.MaxFiles", newSize );
+				settings.SaveSetting( "Gui.RecentProjects.MaxFiles", newSize );
 				if ( newSize < oldSize ) SaveEntriesToSettings( this. settings );
 			}
 		}
@@ -101,37 +108,34 @@ namespace NUnit.Util
 		{
 			fileEntries.Clear();
 
-			string prefix = Environment.Version.Major >= 2
-				? "RecentProjects.V2"
-				: "RecentProjects.V1";
+            AddEntriesForPrefix("Gui.RecentProjects");
 
-			for ( int index = 1; index <= MaxFiles; index++ )
-			{
-				string fileSpec = settings.GetSetting( GetRecentFileKey( prefix, index ) ) as string;
-				if ( fileSpec != null )	fileEntries.Add( new RecentFileEntry( fileSpec ) );
-			}
+            // Try legacy entries if nothing was found
+            if (fileEntries.Count == 0)
+            {
+                AddEntriesForPrefix("RecentProjects.V2");
+                AddEntriesForPrefix("RecentProjects.V1");
+            }
 
-			// Try legacy entries if nothing was found
-			if ( fileEntries.Count == 0 )
-			{
-				for ( int index = 1; index <= MaxFiles; index++ )
-				{
-					string fileSpec = settings.GetSetting( GetRecentFileKey( "RecentProjects", index ) ) as string;
-					if ( fileSpec != null )
-					{
-						RecentFileEntry entry = RecentFileEntry.Parse( fileSpec );
-						if ( entry.CLRVersion.Major <= Environment.Version.Major )
-							fileEntries.Add( entry );
-					}
-				}
-			};
+            // Try even older legacy format
+            if (fileEntries.Count == 0)
+                AddEntriesForPrefix("RecentProjects");
 		}
+
+        private void AddEntriesForPrefix(string prefix)
+        {
+            for (int index = 1; index < MaxFiles; index++)
+            {
+                if (fileEntries.Count >= MaxFiles) break;
+
+                string fileSpec = settings.GetSetting(GetRecentFileKey(prefix, index)) as string;
+                if (fileSpec != null) fileEntries.Add(RecentFileEntry.Parse(fileSpec));
+            }
+        }
 
 		private void SaveEntriesToSettings( ISettings settings )
 		{
-			string prefix = Environment.Version.Major >= 2
-				? "RecentProjects.V2"
-				: "RecentProjects.V1";
+			string prefix = "Gui.RecentProjects";
 
 			while( fileEntries.Count > MaxFiles )
 				fileEntries.RemoveAt( fileEntries.Count - 1 );
@@ -144,6 +148,9 @@ namespace NUnit.Util
 				else
 					settings.RemoveSetting( keyName );
 			}
+
+            // Remove legacy entries here
+            settings.RemoveGroup("RecentProjects");
 		}
 
 		private string GetRecentFileKey( string prefix, int index )
