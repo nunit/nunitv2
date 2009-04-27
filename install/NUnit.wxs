@@ -134,18 +134,53 @@
       <ComponentRef Id="C__LOGO" />
       <ComponentRef Id="InstallationRegistryEntry"/>
 
-      <Feature Id="Net_1.1_BaseFeature" Level="1" Title=".NET 1.1" Display="collapse"
-			         Description="NUnit assemblies required to write and run tests under .NET 1.1.">
-        <Condition Level="1">FRAMEWORK10 = "3321-3705" OR FRAMEWORK11 = "3706-4322" OR MONODIRECTORY</Condition>
+      <Feature Id="Net_2.0_BaseFeature" Title="Base Level Support" Level="0" Display="collapse"
+			         Description="NUnit assemblies required to write and run tests under .NET 2.0.">
+        <Condition Level="1">FRAMEWORK20 = "50727-50727" OR MONODIRECTORY</Condition>
 
-        <Feature Id="Net_1.1_Framework"	Level="1" Title="Framework Assemblies" Display="expand"
+        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
+        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
+        <ComponentGroupRef Id="Net_2.0_ConsoleRunnerGroup" />
+
+      </Feature>
+
+      <Feature Id="Net_2.0_GuiRunner" Level="1" Title='Gui Runner' Display='expand'
+				         Description="Installs NUnit Windows GUI runner for .NET 2.0">
+
+        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
+        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
+        <ComponentGroupRef Id="Net_2.0_GuiRunnerGroup"/>
+
+      </Feature>
+
+      <Feature Id="Net_2.0_PNunitRunner" Level="10" Title='PNUnit Runner' Display='expand'
+               Description="Installs the PNUnit runner for parallel distributed tests">
+
+        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
+        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
+        <ComponentGroupRef Id="pnunit_2.0"/>
+
+      </Feature>
+
+      <Feature Id="Net_2.0_TestsFeature" Level="10" Title='Unit Tests' Display='expand'
+				         Description='Unit tests for NUnit under .NET 1.1'>
+
+        <ComponentGroupRef Id="Net_2.0_TestsGroup" />
+
+      </Feature>
+
+      <Feature Id="Net_1.1_BaseFeature" Level="10" Title=".NET 1.1 Support" Display="collapse"
+			         Description="NUnit assemblies required to write and run tests under .NET 1.1.">
+        <!--<Condition Level="1">FRAMEWORK10 = "3321-3705" OR FRAMEWORK11 = "3706-4322" OR MONODIRECTORY</Condition>-->
+
+        <Feature Id="Net_1.1_Framework"	Level="10" Title="Framework Assemblies" Display="expand"
 				         Description = "Assemblies referenced by user tests">
 
           <ComponentGroupRef Id="Net_1.1_FrameworkGroup" />
 
         </Feature>
 
-        <Feature Id="Net_1.1_ConsoleRunner" Level="1" Title="Console Runner" Display="expand"
+        <Feature Id="Net_1.1_ConsoleRunner" Level="10" Title="Console Runner" Display="expand"
 				         Description="Installs NUnit console runner for .NET 1.1">
 
           <ComponentGroupRef Id="Net_1.1_FrameworkGroup"/>
@@ -161,97 +196,10 @@
 
         </Feature>
 
-<!--
-        <Feature Id="Net_1.1_Extensions" Level="10" Title='Extensions' Display='collapse'
-        	 Description="Installs bundled extensions to NUnit">
-
-          <Feature Id="Net_1.1_RowTestExtension" Level="10" Title='RowTestExtension' Display='expand'
-	           Description="Installs the RowTest extension to NUnit">
-
-            <ComponentGroupRef Id="RowTestExtension_1.1"/>
-
-          </Feature>
-
-          <Feature Id="Net_1.1_CSUnitAddin" Level="10" Title='CSUnitAddin' Display='expand'
-	           Description="Installs CSUnitAddin to NUnit, allowing the running of csUnit tests">
-
-            <ComponentGroupRef Id="CSUnitAddin_1.1"/>
-
-          </Feature>
-        
-        </Feature>
--->
-
         <Feature Id="Net_1.1_TestsFeature" Level="10" Title='Unit Tests' Display='expand'
 				         Description='Unit tests for NUnit under .NET 1.1' >
 
           <ComponentGroupRef Id="Net_1.1_TestsGroup" />
-
-        </Feature>
-
-      </Feature>
-
-      <Feature Id="Net_2.0_BaseFeature" Title=".NET 2.0" Level="0" Display="collapse"
-			         Description="NUnit assemblies required to write and run tests under .NET 2.0.">
-        <Condition Level="1">FRAMEWORK20 = "50727-50727" OR MONODIRECTORY</Condition>
-
-        <Feature Id="Net_2.0_Framework" Level="1" Title="Framework Assemblies"
-                 Display="expand" Description = "Assemblies referenced by user tests">
-
-          <ComponentGroupRef Id="Net_2.0_FrameworkGroup" />
-
-        </Feature>
-
-        <Feature Id="Net_2.0_ConsoleRunner" Level="1" Title="Console Runner" Display="expand"
-                 Description="Installs NUnit console runner for .NET 2.0">
-
-          <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-          <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-          <ComponentGroupRef Id="Net_2.0_ConsoleRunnerGroup" />
-
-        </Feature>
-
-        <Feature Id="Net_2.0_GuiRunner" Level="1" Title='Gui Runner' Display='expand'
-				         Description="Installs NUnit Windows GUI runner for .NET 2.0">
-
-          <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-          <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-          <ComponentGroupRef Id="Net_2.0_GuiRunnerGroup"/>
-
-        </Feature>
-
-        <Feature Id="Net_2.0_PNunitRunner" Level="10" Title='PNUnit Runner' Display='expand'
-                 Description="Installs the PNUnit runner for parallel distributed tests">
-
-          <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-          <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-          <ComponentGroupRef Id="pnunit_2.0"/>
-
-        </Feature>
-<!--
-        <Feature Id="Net_2.0_Extensions" Level="10" Title='Extensions' Display='collapse'
-        	 Description="Installs bundled extensions to NUnit">
-
-          <Feature Id="Net_2.0_RowTestExtension" Level="10" Title='RowTestExtension' Display='expand'
-	           Description="Installs the RowTest extension to NUnit">
-
-            <ComponentGroupRef Id="RowTestExtension_2.0"/>
-
-          </Feature>
-
-          <Feature Id="Net_2.0_CSUnitAddin" Level="10" Title='CSUnitAddin' Display='expand'
-	           Description="Installs CSUnitAddin to NUnit, allowing the running of csUnit tests">
-
-            <ComponentGroupRef Id="CSUnitAddin_2.0"/>
-
-          </Feature>
-        
-        </Feature>
--->
-        <Feature Id="Net_2.0_TestsFeature" Level="10" Title='Unit Tests' Display='expand'
-				         Description='Unit tests for NUnit under .NET 1.1'>
-
-          <ComponentGroupRef Id="Net_2.0_TestsGroup" />
 
         </Feature>
 
