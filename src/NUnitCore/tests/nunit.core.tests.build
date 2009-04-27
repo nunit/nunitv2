@@ -39,7 +39,8 @@
         <include name="PropertyAttributeTests.cs"/>
         <include name="ReflectTests.cs"/>
         <include name="RemoteRunnerTests.cs"/>
-    <include name="RepeatedTestFixture.cs"/>
+        <include name="RepeatedTestFixture.cs"/>
+        <include name="RuntimeFrameworkTests.cs"/>
         <include name="SerializationBug.cs"/>
         <include name="SetUpFixtureTests.cs"/>
         <include name="SetUpTest.cs"/>

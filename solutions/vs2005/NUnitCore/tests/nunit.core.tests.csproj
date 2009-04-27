@@ -274,6 +274,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\tests\RepeatedTestFixture.cs">
       <Link>RepeatedTestFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\RuntimeFrameworkTests.cs">
+      <Link>RuntimeFrameworkTests.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\SerializationBug.cs">
       <Link>SerializationBug.cs</Link>
       <SubType>Code</SubType>
