@@ -116,6 +116,11 @@
     <!-- Needed locally by some NUnit tests -->
     <copy file="${current.framework.dir}/nunit.framework.dll"
       todir="${current.test.dir}"/>
+
+    <!-- Needed in base dir by pnunit tests -->
+    <copy file="${current.framework.dir}/nunit.framework.dll"
+      todir="${current.build.dir}"/>
+
   </target>
 
   <target name="package">

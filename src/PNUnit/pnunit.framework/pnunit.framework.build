@@ -8,6 +8,7 @@
   </patternset>
 
   <target name="build">
+
     <csc target="library"
         output="${current.framework.dir}/pnunit.framework.dll"
         debug="${build.debug}" 
@@ -20,6 +21,11 @@
         <include name="${current.lib.dir}/nunit.core.interfaces.dll"/>
       </references>
     </csc>
+
+    <!-- Needed in base dir by pnunit tests -->
+    <copy file="${current.framework.dir}/pnunit.framework.dll"
+      todir="${current.build.dir}"/>
+
   </target>
 
   <target name="package">

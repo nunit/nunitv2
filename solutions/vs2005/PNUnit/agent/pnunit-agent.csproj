@@ -77,7 +77,7 @@
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\log4net.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -141,6 +141,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\src\PNUnit\agent.conf">
+      <Link>agent.conf</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\..\..\src\PNUnit\agent.log.conf">
+      <Link>agent.log.conf</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\..\..\src\PNUnit\agent\App.config">
       <Link>App.config</Link>
     </None>
