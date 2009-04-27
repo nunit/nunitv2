@@ -173,6 +173,10 @@ namespace NUnit.Framework.Constraints
             return comparer.ObjectsEqual(x, y);
         }
 
+        /// <summary>
+        /// Return a new CollectionTally for use in making tests
+        /// </summary>
+        /// <param name="c">The collection to be included in the tally</param>
         protected CollectionTally Tally(IEnumerable c)
         {
             return new CollectionTally(comparer, c);
