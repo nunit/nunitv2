@@ -34,11 +34,10 @@
 	  package if source is needed.
 <h3>Running NUnit</h3>
 <p>The installation program places a number of shortcuts in the start menu, which 
-	run NUnit under various versions of .NET or under Mono, depending on the 
-	installation options you selected and the CLR versions available on your 
-	system at the time of installation. Each shortcut runs the appropriate build
-	of NUnt (1.1 or 2.0) for the selected CLR. The NUnit About Box shows the
-	version of the CLR currently being used.</p>
+	run NUnit under .NET or Mono, depending on what is installed on your system.
+    For NUnit 2.5, the gui only runs under version 2.0 of the CLR, although tests
+	may be executed under other versions using a separate process.
+
 <h3>Configuration</h3>
 <p>When running NUnit from the command line or through the desktop shortcut, the
 	configuration files files nunit.exe.config and nunit-console.exe.config control 
@@ -60,8 +59,7 @@
 	
 <h3>Installation Verification</h3>
 <p>Verify that the installation has worked successfully by running the NUnit gui and
-loading and running NUnitTests.nunit in either the net-1.1 or net-2.0 directory. 
-All tests should pass.
+loading and running NUnitTests.nunit. All tests should pass.
 <div class="screenshot-left">
     <img src="img/gui-verify.jpg"></div>
 <p>
@@ -80,62 +78,13 @@ All tests should pass.
 <p>Additional tests are included with the samples and in separate assemblies used 
 	as data by the verification tests themselves. Failures or not run conditions in 
 	these tests are intentional.</p>
+
 <h3>Manual Installation</h3>
-<p>If you are building NUnit from source, it is recommended that you use the
-    NAnt script for your final build, since it puts all the required files
-	into one directory, from which you can easily copy them. Perform a manual
-	installation by following these steps:</p>
-<ol>
-	<p><li>Copy the following files to the target directory:
-			<ul>
-				<li>nunit.framework.dll</li>
-				<li>nunit.framework.extensions.dll</li>
-				<li>nunit.core.dll</li>
-				<li>nunit.core.interfaces.dll</li>
-				<li>nunit.core.extensions.dll</li>
-				<li>nunit.mocks.dll</li>
-				<li>nunit.uikit.dll</li>
-				<li>nunit.util.dll</li>
-				<li>nunit-console-runner.dll</li>
-				<li>nunit-console.exe</li>
-				<li>nunit-console.exe.config</li>
-				<li>nunit-gui-runner.dll</li>
-				<li>nunit.exe</li>
-				<li>nunit.exe.config</li>
-			</ul>
-		</li>
-	<p><li>Create shortcuts as needed.</li>
-	<p><li>If you want to be able to run the nunit tests, copy the following files to the 
-			same location as the others, along with any additional config files
-			for the dlls.
-			<ul>
-				<li>mock-assembly.dll</li>
-				<li>nonamespace-assembly.dll</li>
-				<li>notestfixtures-assembly.dll</li>
-				<li>nunit.core.tests.dll</li>
-				<li>nunit.extensions.tests.dll</li>
-				<li>nunit.framework.tests.dll</li>
-				<li>nunit.mocks.tests.dll</li>
-				<li>nunit.uikit.tests.dll</li>
-				<li>nunit.util.tests.dll</li>
-				<li>nunit-console.tests.dll</li>
-				<li>nunit-gui.tests.dll</li>
-				<li>nunit.testutilities.dll</li>
-				<li>test-assembly.dll</li>
-				<li>timing-tests.dll</li>
-				<li>NunitTests.nunit</li>
-				<li>NUnitTests.config</li>
-			</ul>
-		</li>
-</ol>
 
-<h4>Installation Under Mono</h4>
-
-<p>Mono is delivered with a version of NUnit already pre-installed. The Mono 1.0 release 
-	included a beta version of NUnit 2.2. Later builds may include a more up-to-date 
-	version of NUnit. Before attempting to install NUnit under Mono, determine whether 
-	an equivalent or newer version is already installed. It may be necessary to remove 
-	the pre-installed version from the GAC in order for the new version to be recognized.</p>
+<p>You may build NUnit from source using one of the Visual Studio solutions or
+    the NAnt script. In either case, an output directory is created, which
+	contains all files needed in the proper relative location. Just copy this
+	directory to a permanent location and create shortcuts if desired.
 
 </div>
 

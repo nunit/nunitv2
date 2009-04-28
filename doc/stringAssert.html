@@ -53,10 +53,10 @@ StringAssert.AreEqualIgnoringCase( string expected, string actual,
 StringAssert.AreEqualIgnoringCase( string expected, string actual,
                 string message params object[] args );
 				
-StringAssert.IsMatch( string expected, string actual );
-StringAssert.IsMatch( string expected, string actual, 
+StringAssert.IsMatch( string regexPattern, string actual );
+StringAssert.IsMatch( string regexPattern, string actual, 
                 string message );
-StringAssert.IsMatch( string expected, string actual,
+StringAssert.IsMatch( string regexPattern, string actual,
                 string message, params object[] args );</pre>
 </div>
 

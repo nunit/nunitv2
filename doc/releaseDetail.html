@@ -24,11 +24,97 @@
 
 <div id="content">
 
-<h3>NUnit 2.5 Beta 3 Release - Version 2.5.0.9096 - April 6, 2009</h3>
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
+<h3>NUnit 2.5 Release Candidate - Version 2.5.0.9117 - April 27, 2009</h3>
 
 <div style="max-width:660px;text-align:right">
 <a href="releaseNotes.html">View Combined 2.5 Changes</a>
 </div>
+
+<h4>General</h4>
+
+<ul>
+<li>The installation now uses a 'lib' subdirectory to hold dlls.
+
+<li>The build script target names have been changed to make more sense.
+In particular, 'package' now builds the default package and
+targets not intended to be called directly are no longer listed
+as 'Main Targets' by the -projecthelp option.
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li>The following Constraints now use the NUnit definition
+of equality in comparing items, which may lead to changed behavior 
+of some tests.
+   <ul><b>
+   <li>UniqueItemsConstraint
+   <li>CollectionContainsConstraint
+   <li>CollectionEquivalentConstraint
+   <li>CollectionSubsetConstraint
+   </b></ul>
+The constraints listed now accept the <b>IgnoreCase</b> and <b>Using</b>
+modifiers, which work exactly as they do with <b>EqualConstraint</b>
+</ul>
+
+<h4>Core</h4>
+
+<ul>
+<li>Caching is now used to reduce the time required to load tests.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>A new submenu under <b>File</b> allows selecting a runtime version
+under which to reload the tests. Reloading in this way does not affect
+any runtime version setting in the project file.
+
+<li>The project editor now provides a combo box listing known versions
+of the runtime. Other versions may still be entered in the edit box.
+Cross-CLR execution (for example, running Mono from .NET) has
+been disabled in the Gui, since it isn't yet implemented.
+
+<li>The new stack trace display now follows the NUnit Font settings.
+The stack display uses the general gui font, while the source code
+display uses the fixed font.
+
+<li>The separate settings for Recent Files under .NET 1.1
+and .NET 2.0 have been combined, since the Gui now runs exclusively
+under .NET 2.0.
+
+<li>The time required to restore the visual state of the tree after
+reloading has been substantially reduced, especially for large numbers
+of tests.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>Use of a long assembly name for the ApplicationName of the AppDomain
+was causing excessively long paths in the shadow cache.
+
+<li>The <b>Using</b> modifier of <b>EqualConstraint</b> now works as
+expected for string operands.
+
+<li><b>TestCaseAttribute.ExpectedExceptionMessage</b> is no longer ignored.
+
+<li>The max number of files setting was not being saved when modified
+in the Gui Settings dialog.
+
+<li>As a temporary fix, the pnunit.tests.dll has been moved to the 
+same directory as pnunit-agent.exe and pnunit-launcher.exe, since
+pnunit tests don't allow for setting an appbase separate from the
+location of the test assembly.
+</ul>
+
+<h3>NUnit 2.5 Beta 3 Release - Version 2.5.0.9096 - April 6, 2009</h3>
 
 <h4>General</h4>
 

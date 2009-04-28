@@ -28,10 +28,6 @@
 
 <h3>TestCaseAttribute (NUnit 2.5)</h3>
 
-<div style="text-align: center; margin: 2em 4em; padding: 4px 0; border: 1px solid black; background: #ccc; max-width: 600px">
-  <h4>Preliminary documentation, subject to change.</h4>
-</div>
-
 <p><b>TestCaseAttribute</b> serves the dual purpose of marking a method with
    parameters as a test method and providing inline data to be used when
    invoking that method. Here is an example of a test being run three
@@ -85,6 +81,8 @@ named parameters, which may be used as follows:
 <dd>Specifies a the Type of an exception that should be thrown by this invocation
 <dt><b>ExpectedExceptionName</b>
 <dd>Specifies a the FullName of an exception that should be thrown by this invocation
+<dt><b>ExpectedMessage</b>
+<dd>Specifies the message text of the expected exception
 <dt><b>Result</b>
 <dd>The expected result to be returned from the method, which must have
 a compatible return type.

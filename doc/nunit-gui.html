@@ -30,7 +30,7 @@
 	failure of the tests. It allows you to selectively run single tests or suites 
 	and reloads automatically as you modify and re-compile your code. The following 
 	is a screenshot of NUnit running the same mock-assembly.dll shown in the 
-	previous example.</p>
+	nunit-console example.</p>
 
 <div class="screenshot-left">
      <img src="img/gui-screenshot.jpg"></div>
@@ -57,21 +57,32 @@ to the "worst" result obtained: red if there were any failures, yellow if
 some tests were ignored and green for success.
 
 <h4>Result Tabs</h4>
-<p>The tabs in the right-hand part of the display show the results of running
+<p>The tabs along the bottom of the display show the results of running
 a test. The <b>Errors and Failures</b> tab displays the error message
 and stack trace for both unexpected exceptions and assertion failures.
-The <b>Tests Not Run</b> tab provides a list of all tests that were
-selected for running but were not run, together with the reason. The
-<b>Console.Out</b>, <b>Console.Error</b> and <b>Trace Output</b> tabs 
-display text output from the tests.   
+Beginning with NUnit 2.5, source code for each stack location can be displayed
+in this tab - as is seen above - provided that the program was compiled with 
+debug information.
+
+<p>The <b>Tests Not Run</b> tab provides a list of all tests that were
+selected for running but were not run, together with the reason.
+
+<p>The Text Output tab displays text output from the tests, potentially
+including console output, trace output and log output. The default display
+provides a single tab, but additional tabs may be created by the user to
+hold specific kinds of output. For more information on creating new tabs, 
+see the documentation for the 
+<a href="settingsDialog.html">Settings Dialog</a>.
+   
 
 <h3>Mini-Gui</h3>
 
-<p>With the release of NUnit 2.4, an alternate "mini-gui" is also available. It 
-   may be selected from the View menu. The following screenshot shows the mini
-   gui displaying the NUnit tests.</p>
+<p>Since the release of NUnit 2.4, an alternate "mini-gui" is also available. It 
+   may be selected from the View menu. In the following screenshot, the mini
+   gui window has been positioned next to the Visual Studio IDE so
+   that both windows can be seen.</p>
    
-<div class="screenshot">
+<div class="screenshot-left">
      <img src="img/miniGui.jpg"></div>
 
 </div>
