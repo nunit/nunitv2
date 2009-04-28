@@ -338,34 +338,34 @@ namespace NUnit.Framework
         /// <summary>
         /// Asserts that a string matches an expected regular expression pattern.
         /// </summary>
-        /// <param name="expected">The expected expression</param>
+        /// <param name="pattern">The regex pattern to be matched</param>
         /// <param name="actual">The actual string</param>
         /// <param name="message">The message to display in case of failure</param>
         /// <param name="args">Arguments used in formatting the message</param>
-        static public void IsMatch(string expected, string actual, string message, params object[] args)
+        static public void IsMatch(string pattern, string actual, string message, params object[] args)
         {
-            Assert.That(actual, new RegexConstraint(expected), message, args);
+            Assert.That(actual, new RegexConstraint(pattern), message, args);
         }
 
         /// <summary>
         /// Asserts that a string matches an expected regular expression pattern.
         /// </summary>
-        /// <param name="expected">The expected expression</param>
+        /// <param name="pattern">The regex pattern to be matched</param>
         /// <param name="actual">The actual string</param>
         /// <param name="message">The message to display in case of failure</param>
-        static public void IsMatch(string expected, string actual, string message)
+        static public void IsMatch(string pattern, string actual, string message)
         {
-            IsMatch(expected, actual, message, null);
+            IsMatch(pattern, actual, message, null);
         }
 
         /// <summary>
         /// Asserts that a string matches an expected regular expression pattern.
         /// </summary>
-        /// <param name="expected">The expected expression</param>
+        /// <param name="pattern">The regex pattern to be matched</param>
         /// <param name="actual">The actual string</param>
-        static public void IsMatch(string expected, string actual)
+        static public void IsMatch(string pattern, string actual)
         {
-            IsMatch(expected, actual, string.Empty, null);
+            IsMatch(pattern, actual, string.Empty, null);
         }
         #endregion
 
@@ -373,34 +373,34 @@ namespace NUnit.Framework
         /// <summary>
         /// Asserts that a string does not match an expected regular expression pattern.
         /// </summary>
-        /// <param name="expected">The expected expression</param>
+        /// <param name="pattern">The regex pattern to be used</param>
         /// <param name="actual">The actual string</param>
         /// <param name="message">The message to display in case of failure</param>
         /// <param name="args">Arguments used in formatting the message</param>
-        static public void DoesNotMatch(string expected, string actual, string message, params object[] args)
+        static public void DoesNotMatch(string pattern, string actual, string message, params object[] args)
         {
-            Assert.That(actual, new NotConstraint( new RegexConstraint(expected) ), message, args);
+            Assert.That(actual, new NotConstraint( new RegexConstraint(pattern) ), message, args);
         }
 
         /// <summary>
         /// Asserts that a string does not match an expected regular expression pattern.
         /// </summary>
-        /// <param name="expected">The expected expression</param>
+        /// <param name="pattern">The regex pattern to be used</param>
         /// <param name="actual">The actual string</param>
         /// <param name="message">The message to display in case of failure</param>
-        static public void DoesNotMatch(string expected, string actual, string message)
+        static public void DoesNotMatch(string pattern, string actual, string message)
         {
-            DoesNotMatch(expected, actual, message, null);
+            DoesNotMatch(pattern, actual, message, null);
         }
 
         /// <summary>
         /// Asserts that a string does not match an expected regular expression pattern.
         /// </summary>
-        /// <param name="expected">The expected expression</param>
+        /// <param name="pattern">The regex pattern to be used</param>
         /// <param name="actual">The actual string</param>
-        static public void DoesNotMatch(string expected, string actual)
+        static public void DoesNotMatch(string pattern, string actual)
         {
-            DoesNotMatch(expected, actual, string.Empty, null);
+            DoesNotMatch(pattern, actual, string.Empty, null);
         }
         #endregion
     }
