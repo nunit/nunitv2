@@ -502,8 +502,6 @@
 
     <call target="package-docs"/>
 
-    <call target="set-release-build-config"/>
-
     <foreach item="String" delim="," 
         property="package.config" in="${standard.packages}">
 
