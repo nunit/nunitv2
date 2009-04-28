@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Configuration;
 using System.Collections.Specialized;
 using System.Threading;
 using Microsoft.Win32;
@@ -243,6 +244,44 @@ namespace NUnit.Core
                 }
                  
                 return installDir;
+            }
+        }
+        #endregion
+
+        #region HelpUrl
+        public static string HelpUrl
+        {
+            get
+            {
+#if NET_2_0
+                string helpUrl = ConfigurationManager.AppSettings["helpUrl"];
+#else
+                string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
+#endif
+
+                if (helpUrl == null)
+                {
+                    helpUrl = "http://nunit.org";
+                    string dir = Path.GetDirectoryName(NUnitBinDirectory);
+                    if ( dir != null )
+                    {
+                        dir = Path.GetDirectoryName(dir);
+                        if ( dir != null )
+                        {
+                            string localPath = Path.Combine(dir, @"doc/index.html");
+                            if (File.Exists(localPath))
+                            {
+                                UriBuilder uri = new UriBuilder();
+                                uri.Scheme = "file";
+                                uri.Host = "localhost";
+                                uri.Path = localPath;
+                                helpUrl = uri.ToString();
+                            }
+                        }
+                    }
+                }
+
+                return helpUrl;
             }
         }
         #endregion

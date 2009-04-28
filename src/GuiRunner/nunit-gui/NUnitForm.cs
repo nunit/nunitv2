@@ -1282,33 +1282,7 @@ namespace NUnit.Gui
 
 		private void helpMenuItem_Click(object sender, System.EventArgs e)
 		{
-			FileInfo exe = new FileInfo( Assembly.GetExecutingAssembly().Location );
-			DirectoryInfo dir = exe.Directory;
-			// If running from bin\Release or bin\Debug, go down six more
-			// to the parent of the src and doc directories
-            if (dir.Parent.Name == "bin" && dir.Name == NUnitConfiguration.BuildConfiguration)
-                dir = dir.Parent.Parent.Parent.Parent.Parent.Parent;
-            else // Running from installed version, go down to install directory
-                dir = dir.Parent.Parent;
-
-            string helpUrl = ConfigurationManager.AppSettings["helpUrl"];
-
-			if ( helpUrl == null )
-			{
-                string localPath = Path.Combine(dir.FullName, @"doc/index.html");
-                if (File.Exists(localPath))
-                {
-                    UriBuilder uri = new UriBuilder();
-                    uri.Scheme = "file";
-                    uri.Host = "localhost";
-                    uri.Path = localPath;
-                    helpUrl = uri.ToString();
-                }
-                else
-                    helpUrl = "http://nunit.org";
-			}
-
-			System.Diagnostics.Process.Start( helpUrl );
+			System.Diagnostics.Process.Start( NUnitConfiguration.HelpUrl );
 		}
 
 		/// <summary>
