@@ -69,15 +69,13 @@ namespace NUnit.Framework
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TestCaseData"/> class.
         /// </summary>
-        /// <param name="arg1">The first argument</param>
-        /// <param name="args">The remaining arguments.</param>
-        public TestCaseData(object arg1, params object[] args)
+        /// <param name="args">The arguments.</param>
+        public TestCaseData(params object[] args)
         {
-            this.arguments = new object[args.Length + 1];
-            arguments[0] = arg1;
-            int index = 1;
-            foreach (object arg in args)
-                arguments[index++] = arg;
+            if (arguments == null)
+                this.arguments = new object[] { null };
+            else
+                this.arguments = args;
         }
 
         /// <summary>
@@ -88,6 +86,27 @@ namespace NUnit.Framework
         {
             this.arguments = new object[] { arg };
         }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:TestCaseData"/> class.
+    /// </summary>
+    /// <param name="arg1">The first argument.</param>
+    /// <param name="arg2">The second argument.</param>
+    public TestCaseData(object arg1, object arg2)
+    {
+        this.arguments = new object[] { arg1, arg2 };
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="T:TestCaseData"/> class.
+    /// </summary>
+    /// <param name="arg1">The first argument.</param>
+    /// <param name="arg2">The second argument.</param>
+    /// <param name="arg3">The third argument.</param>
+    public TestCaseData(object arg1, object arg2, object arg3)
+    {
+        this.arguments = new object[] { arg1, arg2, arg3 };
+    }
         #endregion
 
         #region ITestCaseData Members

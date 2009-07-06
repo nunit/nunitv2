@@ -309,13 +309,26 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="resultState">The ResultState to use in the result</param>
 		/// <param name="reason">The reason the test was not run</param>
-		/// <param name="stackTrace">Stack trace giving the location of the command</param>
-		public void SetResult(ResultState resultState, string reason, string stackTrace)
+        /// <param name="stackTrace">Stack trace giving the location of the command</param>
+        /// <param name="failureSite">The location of the failure, if any</param>
+        public void SetResult(ResultState resultState, string reason, string stackTrace, FailureSite failureSite)
 		{
 		    this.resultState = resultState;
 			this.message = reason;
 			this.stackTrace = stackTrace;
+            this.failureSite = failureSite;
 		}
+
+        /// <summary>
+        /// Set the result of the test
+        /// </summary>
+        /// <param name="resultState">The ResultState to use in the result</param>
+        /// <param name="reason">The reason the test was not run</param>
+        /// <param name="stackTrace">Stack trace giving the location of the command</param>
+        public void SetResult(ResultState resultState, string reason, string stackTrace)
+        {
+            SetResult(resultState, reason, stackTrace, FailureSite.Test);
+        }
 
         /// <summary>
         /// Set the result of the test.
@@ -324,7 +337,9 @@ namespace NUnit.Core
         /// <param name="ex">The exception that caused this result</param>
         public void SetResult(ResultState resultState, Exception ex)
         {
-            if ( resultState == ResultState.Error )
+            if (resultState == ResultState.Cancelled)
+                SetResult(resultState, "Test cancelled by user", BuildStackTrace(ex));
+            else if ( resultState == ResultState.Error )
                 SetResult( resultState, BuildMessage(ex), BuildStackTrace(ex));
             else
                 SetResult( resultState, ex.Message, ex. StackTrace );
@@ -401,13 +416,21 @@ namespace NUnit.Core
 
 			this.results.Add(result);
 
-            if (!this.IsFailure && !this.IsError &&
-                (result.IsFailure || result.IsError))
+            switch (result.ResultState)
             {
-                this.Failure("Child test failed", null, FailureSite.Child);
+                case ResultState.Failure:
+                case ResultState.Error:
+                    if (!this.IsFailure && !this.IsError)
+                        this.Failure("Child test failed", null, FailureSite.Child);
+                    break;
+                case ResultState.Success:
+                    if (this.ResultState == ResultState.Inconclusive)
+                        this.Success();
+                    break;
+                case ResultState.Cancelled:
+                    this.SetResult(ResultState.Cancelled, result.Message, null, FailureSite.Child);
+                    break;
             }
-            else if (this.ResultState == ResultState.Inconclusive && result.ResultState == ResultState.Success)
-                this.Success();
 		}
 		#endregion
 

@@ -1,5 +1,5 @@
 ﻿// ****************************************************************
-// Copyright 2008, Charlie Poole
+// Copyright 2009, Charlie Poole
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
@@ -22,6 +22,7 @@ namespace NUnit.Framework
     /// Helper class with static methods used to supply constraints
     /// that operate on strings.
     /// </summary>
+    [Obsolete("Use Is class for string constraints")]
     public class Text
     {
         // $$GENERATE$$ $$STATIC$$

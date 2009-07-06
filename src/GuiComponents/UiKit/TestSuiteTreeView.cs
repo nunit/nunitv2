@@ -125,46 +125,64 @@ namespace NUnit.UiKit
 			this.ContextMenu.Popup += new System.EventHandler( ContextMenu_Popup );
 
 			// See if there are any overriding images in the directory;
-			string imageDir = Path.GetDirectoryName( PathUtils.GetAssemblyPath( Assembly.GetExecutingAssembly() ) );
-			
-			string successFile = Path.Combine( imageDir, "Success.jpg" );
-			if ( File.Exists( successFile ) )
-				treeImages.Images[TestSuiteTreeNode.SuccessIndex] = Image.FromFile( successFile );
-
-			string failureFile = Path.Combine( imageDir, "Failure.jpg" );
-			if ( File.Exists( failureFile ) )
-				treeImages.Images[TestSuiteTreeNode.FailureIndex] = Image.FromFile( failureFile );
-			
-			string ignoredFile = Path.Combine( imageDir, "Ignored.jpg" );
-			if ( File.Exists( ignoredFile ) )
-				treeImages.Images[TestSuiteTreeNode.IgnoredIndex] = Image.FromFile( ignoredFile );
+            LoadAlternateImages();
 
 			if ( !this.DesignMode )
 				this.clearResultsOnChange = 
 					Services.UserSettings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false );
 		}
 
+        private void LoadAlternateImages()
+        {
+            string[] imageNames = { "Skipped", "Failure", "Success", "Ignored", "Inconclusive" };
+
+            for (int index = 0; index < imageNames.Length; index++)
+                LoadAlternateImage(index, imageNames[index]);
+        }
+
+        private void LoadAlternateImage(int index, string name)
+        {
+            string imageDir = Path.GetDirectoryName(PathUtils.GetAssemblyPath(Assembly.GetExecutingAssembly()));
+
+            string[] extensions = { ".png", ".jpg" };
+
+            foreach (string ext in extensions)
+            {
+                string filePath = Path.Combine(imageDir, name + ext);
+                if (File.Exists(filePath))
+                {
+                    treeImages.Images[index] = Image.FromFile(filePath);
+                    break;
+                }
+            }
+        }
+
 		private void InitializeComponent()
 		{
-			this.components = new System.ComponentModel.Container();
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TestSuiteTreeView));
-			this.treeImages = new System.Windows.Forms.ImageList(this.components);
-			// 
-			// treeImages
-			// 
-			this.treeImages.ColorDepth = System.Windows.Forms.ColorDepth.Depth24Bit;
-			this.treeImages.ImageSize = new System.Drawing.Size(16, 16);
-			this.treeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("treeImages.ImageStream")));
-			this.treeImages.TransparentColor = System.Drawing.Color.White;
-			// 
-			// TestSuiteTreeView
-			// 
-			this.ImageIndex = 0;
-			this.ImageList = this.treeImages;
-			this.SelectedImageIndex = 0;
-			this.DoubleClick += new System.EventHandler(this.TestSuiteTreeView_DoubleClick);
-			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragEnter);
-			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragDrop);
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TestSuiteTreeView));
+            this.treeImages = new System.Windows.Forms.ImageList(this.components);
+            this.SuspendLayout();
+            // 
+            // treeImages
+            // 
+            this.treeImages.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("treeImages.ImageStream")));
+            this.treeImages.TransparentColor = System.Drawing.Color.White;
+            this.treeImages.Images.SetKeyName(0, "Skipped.png");
+            this.treeImages.Images.SetKeyName(1, "Failure.png");
+            this.treeImages.Images.SetKeyName(2, "Success.png");
+            this.treeImages.Images.SetKeyName(3, "Ignored.png");
+            this.treeImages.Images.SetKeyName(4, "Inconclusive.png");
+            // 
+            // TestSuiteTreeView
+            // 
+            this.ImageIndex = 0;
+            this.ImageList = this.treeImages;
+            this.SelectedImageIndex = 0;
+            this.DoubleClick += new System.EventHandler(this.TestSuiteTreeView_DoubleClick);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.TestSuiteTreeView_DragEnter);
+            this.ResumeLayout(false);
 
 		}
 
@@ -488,8 +506,10 @@ namespace NUnit.UiKit
 				this.ContextMenu.MenuItems.Add( runAllMenuItem );
 
 				MenuItem runFailedMenuItem = new MenuItem( "Run &Failed", new EventHandler( runFailedMenuItem_Click ) );
-			    runFailedMenuItem.Enabled = runCommandEnabled && loader.TestResult != null &&
-			                                (loader.TestResult.IsFailure || loader.TestResult.IsError);
+                TestResult result = loader.TestResult;
+			    runFailedMenuItem.Enabled = runCommandEnabled && result != null &&
+			        (result.ResultState == ResultState.Failure || 
+                     result.ResultState == ResultState.Error);
 
 				this.ContextMenu.MenuItems.Add( runFailedMenuItem );
 
@@ -1416,7 +1436,9 @@ namespace NUnit.UiKit
 	{
 		public override void Visit(TestSuiteTreeNode node)
 		{
-			if (!node.Test.IsSuite && node.Result != null && (node.Result.IsFailure || node.Result.IsError) )
+			if (!node.Test.IsSuite && node.Result != null && 
+                (node.Result.ResultState == ResultState.Failure || 
+                 node.Result.ResultState == ResultState.Error) )
 			{
 				node.Checked = true;
 				node.EnsureVisible();
@@ -1444,7 +1466,9 @@ namespace NUnit.UiKit
 
 		public override void Visit(TestSuiteTreeNode node)
 		{
-			if (!node.Test.IsSuite && node.Result != null && (node.Result.IsFailure || node.Result.IsError) )
+			if (!node.Test.IsSuite && node.Result != null && 
+                    (node.Result.ResultState == ResultState.Failure || 
+                     node.Result.ResultState == ResultState.Error) )
 			{
 				tests.Add(node.Test);
 				filter.Add(node.Test.TestName);

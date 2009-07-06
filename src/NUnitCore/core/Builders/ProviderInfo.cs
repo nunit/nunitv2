@@ -10,12 +10,13 @@ using System.Reflection;
 
 namespace NUnit.Core.Builders
 {
-    class ProviderInfo
+    class ProviderReference
     {
         private Type providerType;
         private string providerName;
+        private object[] providerArgs;
 
-        public ProviderInfo(Type providerType, string providerName)
+        public ProviderReference(Type providerType, string providerName)
         {
             if (providerType == null)
                 throw new ArgumentNullException("providerType");
@@ -26,15 +27,19 @@ namespace NUnit.Core.Builders
             this.providerName = providerName;
         }
 
+        public ProviderReference(Type providerType, object[] args, string providerName)
+            : this(providerType, providerName)
+        {
+            this.providerArgs = args;
+        }
+
         public string Name
         {
             get { return this.providerName; }
         }
 
-        public IEnumerable Provider
+        public IEnumerable GetInstance()
         {
-            get
-            {
                 MemberInfo[] members = providerType.GetMember(
                     providerName,
                     MemberTypes.Field | MemberTypes.Method | MemberTypes.Property,
@@ -45,7 +50,6 @@ namespace NUnit.Core.Builders
                         "Unable to locate {0}.{1}", providerType.FullName, providerName));
 
                 return (IEnumerable)GetProviderObjectFromMember(members[0]);
-            }
         }
 
         private object GetProviderObjectFromMember(MemberInfo member)
@@ -59,21 +63,24 @@ namespace NUnit.Core.Builders
                     PropertyInfo providerProperty = member as PropertyInfo;
                     MethodInfo getMethod = providerProperty.GetGetMethod(true);
                     if (!getMethod.IsStatic)
-                        instance = ProviderCache.GetInstanceOf(providerType);
+                        //instance = ProviderCache.GetInstanceOf(providerType);
+                        instance = Reflect.Construct(providerType, providerArgs);
                     providerObject = providerProperty.GetValue(instance, null);
                     break;
 
                 case MemberTypes.Method:
                     MethodInfo providerMethod = member as MethodInfo;
                     if (!providerMethod.IsStatic)
-                        instance = ProviderCache.GetInstanceOf(providerType);
+                        //instance = ProviderCache.GetInstanceOf(providerType);
+                        instance = Reflect.Construct(providerType, providerArgs);
                     providerObject = providerMethod.Invoke(instance, null);
                     break;
 
                 case MemberTypes.Field:
                     FieldInfo providerField = member as FieldInfo;
                     if (!providerField.IsStatic)
-                        instance = ProviderCache.GetInstanceOf(providerType);
+                        //instance = ProviderCache.GetInstanceOf(providerType);
+                        instance = Reflect.Construct(providerType, providerArgs);
                     providerObject = providerField.GetValue(instance);
                     break;
             }

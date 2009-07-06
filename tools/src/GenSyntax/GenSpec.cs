@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GenSyntax
 {
-    class GenSpec
+    public class GenSpec
     {
         private string fullSpec;
         bool isVoid;
@@ -29,19 +29,31 @@ namespace GenSyntax
                 throw new ArgumentException(string.Format("Invalid generation spec: {0}", spec), "spec");
 
             this.specType = spec.Substring(0, colon + 1);
-            this.leftPart = spec.Substring(colon+1, arrow-colon-1);
-            this.rightPart = spec.Substring(arrow + 2);
+            this.leftPart = spec.Substring(colon+1, arrow-colon-1).Trim();
+            this.rightPart = spec.Substring(arrow + 2).Trim();
 
-            int dot = leftPart.IndexOf('.');
+            int nest = 0; int attributeLength = 0;
+            foreach( char c in leftPart )
+            {
+                if ( c == '[' ) nest++;
+                if ( nest == 0 ) break;
+                attributeLength++;
+                if ( c == ']' ) nest--;
+            }
+
+            //this.attributes = leftPart.Substring(0, attributeLength);
+
+            int dot = leftPart.IndexOf('.', attributeLength);
+            if (dot <= 0)
+                throw new ArgumentException(string.Format("Invalid generation spec: {0}", spec), "spec");
 
             this.className = leftPart.Substring(0, dot).Trim();
             this.methodName = leftPart.Substring(dot + 1).Trim();
 
-            int rbrack = className.LastIndexOf("]");
-            if (rbrack > 0)
+            if (attributeLength > 0)
             {
-                this.attributes = className.Substring(0, rbrack + 1);
-                this.className = className.Substring(rbrack + 1);
+                this.attributes = className.Substring(0, attributeLength);
+                this.className = className.Substring(attributeLength);
             }
         }
 

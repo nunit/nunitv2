@@ -218,15 +218,17 @@ namespace NUnit.UiKit
 			{
 				++testsRun;
 				DisplayTestsRun();
-				if ( e.Result.IsError )
-				{
-					++errors;
-					DisplayErrors();
-				}
-				else if ( e.Result.IsFailure || e.Result.IsError ) 
-				{
-					++failures;
-					DisplayFailures();
+                switch ( e.Result.ResultState )
+                {
+                    case ResultState.Error:
+                    case ResultState.Cancelled:
+    					++errors;
+	    				DisplayErrors();
+                        break;
+                    case ResultState.Failure:
+    					++failures;
+	    				DisplayFailures();
+                        break;
 				}
 			}
 		}

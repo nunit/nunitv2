@@ -47,6 +47,11 @@ namespace NUnit.Core
         protected MethodInfo[] tearDownMethods;
 
         /// <summary>
+        /// Set to true to suppress sorting this suite's contents
+        /// </summary>
+        protected bool maintainTestOrder;
+
+        /// <summary>
         /// Arguments for use in creating a parameterized fixture
         /// </summary>
         internal object[] arguments;
@@ -76,7 +81,13 @@ namespace NUnit.Core
         public TestSuite(Type fixtureType, object[] arguments)
             : base(fixtureType.FullName)
         {
-            this.TestName.Name = TypeHelper.GetDisplayName(fixtureType, arguments);
+            string name = TypeHelper.GetDisplayName(fixtureType, arguments);
+            this.TestName.Name = name;
+            
+            this.TestName.FullName = name;
+            string nspace = fixtureType.Namespace;
+            if (nspace != null && nspace != "")
+                this.TestName.FullName = nspace + "." + name;
             this.fixtureType = fixtureType;
             this.arguments = arguments;
         }
@@ -85,14 +96,17 @@ namespace NUnit.Core
 		#region Public Methods
 		public void Sort()
 		{
-			this.tests.Sort();
+            if (!maintainTestOrder)
+            {
+                this.tests.Sort();
 
-			foreach( Test test in Tests )
-			{
-				TestSuite suite = test as TestSuite;
-				if ( suite != null )
-					suite.Sort();
-			}		
+                foreach (Test test in Tests)
+                {
+                    TestSuite suite = test as TestSuite;
+                    if (suite != null)
+                        suite.Sort();
+                }
+            }
 		}
 
 		public void Sort(IComparer comparer)
@@ -232,18 +246,23 @@ namespace NUnit.Core
         {
            // suiteResult.Success(); // Assume success
             DoOneTimeSetUp(suiteResult);
-            if (suiteResult.IsFailure || suiteResult.IsError)
-                MarkTestsFailed(Tests, suiteResult, listener, filter);
-            else
+
+            switch( suiteResult.ResultState )
             {
-                try
-                {
-                    RunAllTests(suiteResult, listener, filter);
-                }
-                finally
-                {
-                    DoOneTimeTearDown(suiteResult);
-                }
+                case ResultState.Failure:
+                case ResultState.Error:
+                    MarkTestsFailed(Tests, suiteResult, listener, filter);
+                    break;
+                default:
+                    try
+                    {
+                        RunAllTests(suiteResult, listener, filter);
+                    }
+                    finally
+                    {
+                        DoOneTimeTearDown(suiteResult);
+                    }
+                    break;
             }
         }
 		#endregion
@@ -381,6 +400,9 @@ namespace NUnit.Core
                         test.RunState = saveRunState;
                         test.IgnoreReason = null;
                     }
+
+                    if (result.ResultState == ResultState.Cancelled)
+                        break;
                 }
             }
 		}

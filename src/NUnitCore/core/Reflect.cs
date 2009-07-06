@@ -379,16 +379,19 @@ namespace NUnit.Core
             if (ctor == null)
                 throw new InvalidTestFixtureException(type.FullName + " does not have a default constructor");
 
-            return ctor.Invoke(Type.EmptyTypes);
+            return ctor.Invoke(null);
         }
 
         /// <summary>
         /// Invoke a constructor on a Type with arguments
         /// </summary>
         /// <param name="type">The Type to be constructed</param>
+        /// <param name="arguments">Arguments to the constructor</param>
         /// <returns>An instance of the Type</returns>
         public static object Construct(Type type, object[] arguments)
         {
+            if (arguments == null) return Construct(type);
+
             Type[] argTypes = Type.GetTypeArray(arguments);
             ConstructorInfo ctor = GetConstructor(type, argTypes);
             if (ctor == null)

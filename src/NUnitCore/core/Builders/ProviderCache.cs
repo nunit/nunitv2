@@ -16,9 +16,16 @@ namespace NUnit.Core.Builders
 
         public static object GetInstanceOf(Type providerType)
         {
-            object instance = instances[providerType];
+            return GetInstanceOf(providerType, null);
+        }
+
+        public static object GetInstanceOf(Type providerType, object[] providerArgs)
+        {
+            CacheEntry entry = new CacheEntry(providerType, providerArgs);
+
+            object instance = instances[entry];
             return instance == null
-                ? instances[providerType] = Reflect.Construct(providerType)
+                ? instances[entry] = Reflect.Construct(providerType, providerArgs)
                 : instance;
         }
 
@@ -29,7 +36,33 @@ namespace NUnit.Core.Builders
                 IDisposable provider = instances[key] as IDisposable;
                 if (provider != null)
                     provider.Dispose();
-                instances.Remove(key);
+            }
+
+            instances.Clear();
+        }
+
+        class CacheEntry
+        {
+            private Type providerType;
+            private object[] providerArgs;
+
+            public CacheEntry(Type providerType, object[] providerArgs)
+            {
+                this.providerType = providerType;
+                this.providerArgs = providerArgs;
+            }
+
+            public override bool Equals(object obj)
+            {
+                CacheEntry other = obj as CacheEntry;
+                if (other == null) return false;
+
+                return this.providerType == other.providerType;
+            }
+
+            public override int GetHashCode()
+            {
+                return providerType.GetHashCode();
             }
         }
     }

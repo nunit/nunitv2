@@ -15,7 +15,7 @@ namespace NUnit.Core.Builders
     /// ValueSourceProvider supplies data items for individual parameters
     /// from named data sources in the test class or a separate class.
     /// </summary>
-    public class ValueSourceProvider : IDataPointProvider
+    public class ValueSourceProvider : IDataPointProvider2
     {
         #region Constants
         public const string SourcesAttribute = "NUnit.Framework.ValueSourceAttribute";
@@ -43,12 +43,39 @@ namespace NUnit.Core.Builders
         /// <returns></returns>
         public IEnumerable GetDataFor(ParameterInfo parameter)
         {
+            return GetDataFor(parameter, null);
+        }
+        #endregion
+
+        #region IDataPointProvider2 Members
+
+        /// <summary>
+        /// Determine whether any data sources are available for a parameter.
+        /// </summary>
+        /// <param name="parameter">A ParameterInfo test parameter</param>
+        /// <param name="parentSuite">The test suite for which the test is being built</param>
+        /// <returns>True if any data is available, otherwise false.</returns>
+        public bool HasDataFor(ParameterInfo parameter, Test parentSuite)
+        {
+            return HasDataFor(parameter);
+        }
+
+        /// <summary>
+        /// Return an IEnumerable providing test data for use with
+        /// one parameter of a parameterized test.
+        /// </summary>
+        /// <param name="parameter"></param>
+        /// <param name="parentSuite">The test suite for which the test is being built</param>
+        /// <returns></returns>
+        public IEnumerable GetDataFor(ParameterInfo parameter, Test parentSuite)
+        {
             ArrayList parameterList = new ArrayList();
 
-            foreach ( ProviderInfo info in GetSourcesFor(parameter) )
+            foreach (ProviderReference providerRef in GetSourcesFor(parameter, parentSuite))
             {
-                if (info.Provider != null)
-                    foreach (object o in info.Provider)
+                IEnumerable instance = providerRef.GetInstance();
+                if (instance != null)
+                    foreach (object o in instance)
                         parameterList.Add(o);
             }
 
@@ -57,19 +84,22 @@ namespace NUnit.Core.Builders
         #endregion
 
         #region Helper Methods
-        private static IList GetSourcesFor(ParameterInfo parameter)
+        private static IList GetSourcesFor(ParameterInfo parameter, Test parent)
         {
             ArrayList sources = new ArrayList();
+            TestFixture parentSuite = parent as TestFixture;
+
             foreach (Attribute sourceAttr in Reflect.GetAttributes(parameter, SourcesAttribute, false))
             {
                 Type sourceType = Reflect.GetPropertyValue(sourceAttr, SourceTypeProperty) as Type;
-                if (sourceType == null)
-                    sourceType = parameter.Member.ReflectedType;
-
                 string sourceName = Reflect.GetPropertyValue(sourceAttr, SourceNameProperty) as string;
-                if (sourceName != null && sourceName.Length > 0)
+
+                if (sourceType == null)
                 {
-                    sources.Add(new ProviderInfo(sourceType, sourceName));
+                    if (parentSuite != null)
+                        sources.Add(new ProviderReference(parentSuite.FixtureType, parentSuite.arguments, sourceName));
+                    else
+                        sources.Add(new ProviderReference(parameter.Member.ReflectedType, sourceName));
                 }
             }
             return sources;

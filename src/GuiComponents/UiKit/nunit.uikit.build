@@ -80,10 +80,11 @@
   </patternset>
 
   <patternset id="content-files">
-    <include name="Success.jpg"/>
-    <include name="Failure.jpg"/>
-    <include name="Ignored.jpg"/>
-    <include name="Gray.jpg"/>
+    <include name="Success.png"/>
+    <include name="Failure.png"/>
+    <include name="Ignored.png"/>
+    <include name="Skipped.png"/>
+    <include name="Inconclusive.png"/>
   </patternset>
 
   <target name="build">

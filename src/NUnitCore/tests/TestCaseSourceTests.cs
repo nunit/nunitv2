@@ -182,7 +182,21 @@ namespace NUnit.Core.Tests
         {
             Assert.AreEqual(lhs, rhs);
         }
-       
+
+        object[] testCases =
+        {
+            new TestCaseData(
+                new string[] { "A" },
+                new string[] { "B" })
+        };
+
+        [Test, TestCaseSource("testCases")]
+        public void MethodTakingTwoStringArrays(string[] a, string[] b)
+        {
+            Assert.That(a, Is.TypeOf(typeof(string[])));
+            Assert.That(b, Is.TypeOf(typeof(string[])));
+        }
+
         #region Sources used by the tests
         static object[] MyData = new object[] {
             new object[] { 12, 3, 4 },

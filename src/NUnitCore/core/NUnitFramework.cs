@@ -406,6 +406,9 @@ namespace NUnit.Core
         /// <returns>A ResultState</returns>
         public static ResultState GetResultState(Exception ex)
         {
+            if (ex is System.Threading.ThreadAbortException)
+                return ResultState.Cancelled;
+
             string name = ex.GetType().FullName;
 
             if (name == NUnitFramework.AssertException)

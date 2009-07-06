@@ -1,5 +1,5 @@
 // ****************************************************************
-// Copyright 2008, Charlie Poole
+// Copyright 2009, Charlie Poole
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
@@ -302,7 +302,7 @@ namespace NUnit.Framework.Constraints
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is greater than or equal to the suppled argument
         /// </summary>
         public GreaterThanOrEqualConstraint GreaterThanOrEqualTo(object expected)
         {
@@ -311,7 +311,7 @@ namespace NUnit.Framework.Constraints
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is greater than or equal to the suppled argument
         /// </summary>
         public GreaterThanOrEqualConstraint AtLeast(object expected)
         {
@@ -324,7 +324,7 @@ namespace NUnit.Framework.Constraints
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is less than the suppled argument
         /// </summary>
         public LessThanConstraint LessThan(object expected)
         {
@@ -337,7 +337,7 @@ namespace NUnit.Framework.Constraints
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is less than or equal to the suppled argument
         /// </summary>
         public LessThanOrEqualConstraint LessThanOrEqualTo(object expected)
         {
@@ -346,7 +346,7 @@ namespace NUnit.Framework.Constraints
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is less than or equal to the suppled argument
         /// </summary>
         public LessThanOrEqualConstraint AtMost(object expected)
         {
@@ -405,6 +405,7 @@ namespace NUnit.Framework.Constraints
         /// Returns a constraint that tests whether the actual value
         /// is of the type supplied as an argument or a derived type.
         /// </summary>
+        [Obsolete("Use InstanceOf(expectedType)")]
         public InstanceOfTypeConstraint InstanceOfType(Type expectedType)
         {
             return new InstanceOfTypeConstraint(expectedType);
@@ -415,6 +416,7 @@ namespace NUnit.Framework.Constraints
         /// Returns a constraint that tests whether the actual value
         /// is of the type supplied as an argument or a derived type.
         /// </summary>
+        [Obsolete("Use InstanceOf<T>()")]
         public InstanceOfTypeConstraint InstanceOfType<T>()
         {
             return new InstanceOfTypeConstraint(typeof(T));
@@ -549,7 +551,16 @@ namespace NUnit.Framework.Constraints
         
         #endregion
         
-        #region ContainsSubstring
+        #region StringContaining
+        
+        /// <summary>
+        /// Returns a constraint that succeeds if the actual
+        /// value contains the substring supplied as an argument.
+        /// </summary>
+        public SubstringConstraint StringContaining(string expected)
+        {
+            return new SubstringConstraint(expected);
+        }
         
         /// <summary>
         /// Returns a constraint that succeeds if the actual
@@ -557,7 +568,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public SubstringConstraint ContainsSubstring(string expected)
         {
-            return Text.Contains(expected);
+            return new SubstringConstraint(expected);
         }
         
         #endregion
@@ -570,7 +581,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public SubstringConstraint DoesNotContain(string expected)
         {
-            return Text.DoesNotContain(expected);
+            return new ConstraintExpression().Not.ContainsSubstring(expected);
         }
         
         #endregion
@@ -586,6 +597,15 @@ namespace NUnit.Framework.Constraints
             return new StartsWithConstraint(expected);
         }
         
+        /// <summary>
+        /// Returns a constraint that succeeds if the actual
+        /// value starts with the substring supplied as an argument.
+        /// </summary>
+        public StartsWithConstraint StringStarting(string expected)
+        {
+            return new StartsWithConstraint(expected);
+        }
+        
         #endregion
         
         #region DoesNotStartWith
@@ -596,7 +616,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public StartsWithConstraint DoesNotStartWith(string expected)
         {
-            return Text.DoesNotStartWith(expected);
+            return new ConstraintExpression().Not.StartsWith(expected);
         }
         
         #endregion
@@ -612,6 +632,15 @@ namespace NUnit.Framework.Constraints
             return new EndsWithConstraint(expected);
         }
         
+        /// <summary>
+        /// Returns a constraint that succeeds if the actual
+        /// value ends with the substring supplied as an argument.
+        /// </summary>
+        public EndsWithConstraint StringEnding(string expected)
+        {
+            return new EndsWithConstraint(expected);
+        }
+        
         #endregion
         
         #region DoesNotEndWith
@@ -622,7 +651,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public EndsWithConstraint DoesNotEndWith(string expected)
         {
-            return Text.DoesNotEndWith(expected);
+            return new ConstraintExpression().Not.EndsWith(expected);
         }
         
         #endregion
@@ -638,6 +667,15 @@ namespace NUnit.Framework.Constraints
             return new RegexConstraint(pattern);
         }
         
+        /// <summary>
+        /// Returns a constraint that succeeds if the actual
+        /// value matches the Regex pattern supplied as an argument.
+        /// </summary>
+        public RegexConstraint StringMatching(string pattern)
+        {
+            return new RegexConstraint(pattern);
+        }
+        
         #endregion
         
         #region DoesNotMatch
@@ -648,7 +686,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public RegexConstraint DoesNotMatch(string pattern)
         {
-            return Text.DoesNotMatch(pattern);
+            return new ConstraintExpression().Not.Matches(pattern);
         }
         
         #endregion

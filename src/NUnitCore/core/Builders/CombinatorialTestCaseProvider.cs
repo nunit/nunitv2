@@ -11,11 +11,11 @@ using NUnit.Core.Extensibility;
 
 namespace NUnit.Core.Builders
 {
-    public class CombinatorialTestCaseProvider : ITestCaseProvider
+    public class CombinatorialTestCaseProvider : ITestCaseProvider2
     {
         #region Static Members
-        static IDataPointProvider dataPointProvider =
-            (IDataPointProvider)CoreExtensions.Host.GetExtensionPoint("DataPointProviders");
+        static IDataPointProvider2 dataPointProvider =
+            (IDataPointProvider2)CoreExtensions.Host.GetExtensionPoint("DataPointProviders");
 
         //static readonly string CombinatorialAttribute = "NUnit.Framework.CombinatorialAttribute";
         static readonly string PairwiseAttribute = "NUnit.Framework.PairwiseAttribute";
@@ -28,8 +28,8 @@ namespace NUnit.Core.Builders
             if (method.GetParameters().Length == 0)
                 return false;
 
-            foreach( ParameterInfo parameter in method.GetParameters() )
-                if ( ! dataPointProvider.HasDataFor( parameter ) )
+            foreach (ParameterInfo parameter in method.GetParameters())
+                if (!dataPointProvider.HasDataFor(parameter))
                     return false;
 
             return true;
@@ -37,15 +37,29 @@ namespace NUnit.Core.Builders
 
         public IEnumerable GetTestCasesFor(MethodInfo method)
         {
-            return GetStrategy(method).GetTestCases();
+            return GetStrategy(method, null).GetTestCases();
+        }
+        #endregion
+
+        #region ITestCaseProvider2 Members
+        public bool HasTestCasesFor(System.Reflection.MethodInfo method, Test suite)
+        {
+            return HasTestCasesFor(method);
         }
 
-        private CombiningStrategy GetStrategy(MethodInfo method)
+        public IEnumerable GetTestCasesFor(MethodInfo method, Test suite)
+        {
+            return GetStrategy(method, suite).GetTestCases();
+        }
+        #endregion
+
+        #region GetStrategy
+        private CombiningStrategy GetStrategy(MethodInfo method, Test suite)
         {
             ParameterInfo[] parameters = method.GetParameters();
             IEnumerable[] sources = new IEnumerable[parameters.Length];
             for (int i = 0; i < parameters.Length; i++)
-                sources[i] = dataPointProvider.GetDataFor(parameters[i]);
+                sources[i] = dataPointProvider.GetDataFor(parameters[i], suite);
 
             if (Reflect.HasAttribute(method, SequentialAttribute, false))
                 return new SequentialStrategy(sources);

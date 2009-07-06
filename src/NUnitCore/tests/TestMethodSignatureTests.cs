@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
 using NUnit.Framework;
 using NUnit.Util;
 using NUnit.TestUtilities;
@@ -138,19 +139,23 @@ namespace NUnit.Core.Tests
             string fullName = typeof (TestMethodSignatureFixture).FullName + "." + name;
             TestSuite suite = (TestSuite)TestFinder.Find(name, fixture, false);
             Assert.That(suite.TestCount, Is.EqualTo(3));
-            suite.Sort();
-            
-            Test test = (Test)suite.Tests[0];
-            Assert.That(test.TestName.Name, Is.EqualTo(name + "(12,2,6)"));
-            Assert.That(test.TestName.FullName, Is.EqualTo(fullName + "(12,2,6)"));
 
-            test = (Test)suite.Tests[1];
-            Assert.That(test.TestName.Name, Is.EqualTo(name + "(12,3,4)"));
-            Assert.That(test.TestName.FullName, Is.EqualTo(fullName + "(12,3,4)"));
+            ArrayList names = new ArrayList();
+            ArrayList fullNames = new ArrayList();
 
-            test = (Test)suite.Tests[2];
-            Assert.That(test.TestName.Name, Is.EqualTo(name + "(12,4,3)"));
-            Assert.That(test.TestName.FullName, Is.EqualTo(fullName + "(12,4,3)"));
+            foreach (Test test in suite.Tests)
+            {
+                names.Add(test.TestName.Name);
+                fullNames.Add(test.TestName.FullName);
+            }
+
+            Assert.That(names, Has.Member(name + "(12,3,4)"));
+            Assert.That(names, Has.Member(name + "(12,2,6)"));
+            Assert.That(names, Has.Member(name + "(12,4,3)"));
+
+            Assert.That(fullNames, Has.Member(fullName + "(12,3,4)"));
+            Assert.That(fullNames, Has.Member(fullName + "(12,2,6)"));
+            Assert.That(fullNames, Has.Member(fullName + "(12,4,3)"));
         }
 
         [Test]

@@ -73,8 +73,18 @@ namespace GenSyntax
         {
             int arrow = element.IndexOf("=>");
             if (arrow < 0) IssueFormatError(element);
-            string fullname = element.Substring(0, arrow);
+            string leftside = element.Substring(0, arrow);
             string rightside = element.Substring(arrow + 2);
+            
+            string fullname = leftside;
+            string attributes = "";
+            int rbrack = leftside.LastIndexOf("]");
+            if (rbrack > 0)
+            {
+                attributes = leftside.Substring(0, rbrack + 1);
+                fullname = leftside.Substring(rbrack + 1);
+            }
+
             string constraint = rightside;
             if (constraint.StartsWith("return "))
                 constraint = constraint.Substring(7);
@@ -87,11 +97,11 @@ namespace GenSyntax
 
             this.typeName = constraint.Substring(0, constraint.IndexOf("("));
             this.genSpecs.Add(new GenSpec(
-                "Gen: " + fullname + "=>" + rightside));
+                "Gen: " + leftside + "=>" + rightside));
             this.genSpecs.Add(new GenSpec(
-                "Gen: ConstraintFactory." + name + "=>" + rightside));
+                "Gen: " + attributes + "ConstraintFactory." + name + "=>" + rightside));
             this.genSpecs.Add(new GenSpec(
-                "Gen: ConstraintExpression." + name + "=>(" + typeName + ")this.Append(" + rightside + ")"));
+                "Gen: " + attributes + "ConstraintExpression." + name + "=>(" + typeName + ")this.Append(" + rightside + ")"));
         }
 
         private void IssueFormatError(string line)
@@ -107,9 +117,10 @@ namespace GenSyntax
                 {
                     if (currentRegion == null)
                     {
-                        currentRegion = spec.LeftPart;
-                        int dot = currentRegion.IndexOf('.');
-                        if (dot > 0) currentRegion = currentRegion.Substring(dot + 1);
+                        //currentRegion = spec.LeftPart;
+                        //int dot = currentRegion.IndexOf('.');
+                        //if (dot > 0) currentRegion = currentRegion.Substring(dot + 1);
+                        currentRegion = spec.MethodName;
                         int lpar = currentRegion.IndexOf('(');
                         if (lpar > 0) currentRegion = currentRegion.Substring(0, lpar);
 

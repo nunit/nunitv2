@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{27531BBF-183D-4C3A-935B-D840B9F1A3A4}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -412,17 +412,20 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Failure.jpg">
-      <Link>Failure.jpg</Link>
+    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Failure.png">
+      <Link>Failure.png</Link>
     </Content>
-    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Gray.jpg">
-      <Link>Gray.jpg</Link>
+    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Ignored.png">
+      <Link>Ignored.png</Link>
     </Content>
-    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Ignored.jpg">
-      <Link>Ignored.jpg</Link>
+    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Inconclusive.png">
+      <Link>Inconclusive.png</Link>
     </Content>
-    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Success.jpg">
-      <Link>Success.jpg</Link>
+    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Skipped.png">
+      <Link>Skipped.png</Link>
+    </Content>
+    <Content Include="..\..\..\..\src\GuiComponents\UiKit\Success.png">
+      <Link>Success.png</Link>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

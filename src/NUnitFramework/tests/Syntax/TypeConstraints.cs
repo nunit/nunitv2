@@ -28,6 +28,19 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<instanceof System.String>";
+            staticSyntax = Is.InstanceOf(typeof(string));
+            inheritedSyntax = Helper().InstanceOf(typeof(string));
+            builderSyntax = Builder().InstanceOf(typeof(string));
+        }
+    }
+
+    [TestFixture, Obsolete]
+    public class InstanceOfTypeTest : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<instanceof System.String>";
             staticSyntax = Is.InstanceOfType(typeof(string));
             inheritedSyntax = Helper().InstanceOfType(typeof(string));
             builderSyntax = Builder().InstanceOfType(typeof(string));
@@ -102,6 +115,19 @@ namespace NUnit.Framework.Syntax
 
     [TestFixture]
     public class InstanceOfTest_Generic : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<instanceof System.String>";
+            staticSyntax = Is.InstanceOf<string>();
+            inheritedSyntax = Helper().InstanceOf<string>();
+            builderSyntax = Builder().InstanceOf<string>();
+        }
+    }
+
+    [TestFixture, Obsolete]
+    public class InstanceOfTypeTest_Generic : SyntaxTest
     {
         [SetUp]
         public void SetUp()

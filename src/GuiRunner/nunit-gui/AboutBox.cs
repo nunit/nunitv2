@@ -54,10 +54,11 @@ namespace NUnit.Gui
 			if ( objectAttrs.Length > 0 )
 			{
 				string configText = ((AssemblyConfigurationAttribute)objectAttrs[0]).Configuration;
-				versionText += string.Format(" ({0})",configText);
+                if ( configText != "" )
+				    versionText += string.Format(" ({0})",configText);
 			}
 			
-			string copyrightText = "Copyright (C) 2002-2008 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved.";
+			string copyrightText = "Copyright (C) 2002-2009 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved.";
 			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 			if ( objectAttrs.Length > 0 )
 				copyrightText = ((AssemblyCopyrightAttribute)objectAttrs[0]).Copyright;

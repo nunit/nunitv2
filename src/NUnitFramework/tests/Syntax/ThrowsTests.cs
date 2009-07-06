@@ -92,5 +92,62 @@ namespace NUnit.Framework.Syntax
                 "<throws <instanceof System.ArgumentException>>",
                 expr.Resolve().ToString());
         }
+
+#if NET_2_0
+#if CSHARP_3_0
+        [Test]
+        public void DelegateThrowsException()
+        {
+            Assert.That(
+                delegate { throw new ApplicationException(); },
+                Throws.Exception);
+        }
+
+        [Test]
+        public void LambdaThrowsExcepton()
+        {
+            Assert.That(
+                () => new MyClass(null),
+                Throws.InstanceOf<ArgumentNullException>());
+        }
+
+        [Test]
+        public void LambdaThrowsExceptionWithMessage()
+        {
+            Assert.That(
+                () => new MyClass(null),
+                Throws.InstanceOf<ArgumentNullException>()
+                .And.Message.Matches("null"));
+        }
+
+        internal class MyClass
+        {
+            public MyClass(string s)
+            {
+                if (s == null)
+                {
+                    throw new ArgumentNullException();
+                }
+            }
+        }
+#else
+        [Test]
+        public void DelegateThrowsException()
+        {
+            Assert.That(
+                delegate { Throw(); return; },
+                Throws.Exception);
+        }
+
+        // Encapsulate throw to trick compiler and
+        // avoid unreachable code warning. Can't
+        // use pragma because this is also compiled
+        // under the .NET 1.0 and 1.1 compilers.
+        private void Throw()
+        {
+            throw new ApplicationException();
+        }
+#endif
+#endif
     }
 }

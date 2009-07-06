@@ -131,7 +131,8 @@ namespace NUnit.Core
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Exception in TestRunnerThread", ex);
+                if ( !(ex is ThreadAbortException) )
+                    throw new ApplicationException("Exception in TestRunnerThread", ex);
             }
 		}
 		#endregion

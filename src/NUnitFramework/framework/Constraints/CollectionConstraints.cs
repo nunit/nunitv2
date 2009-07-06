@@ -593,11 +593,11 @@ namespace NUnit.Framework.Constraints
             StringBuilder sb = new StringBuilder("<ordered");
 
             if (propertyName != null)
-                sb.AppendFormat("by {0}", propertyName);
+                sb.Append("by " + propertyName);
             if (descending)
-                sb.AppendFormat(" descending");
+                sb.Append(" descending");
             if (comparerName != null)
-                sb.AppendFormat(" {0}", comparerName);
+                sb.Append(" " + comparerName);
 
             sb.Append(">");
 

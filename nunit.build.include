@@ -128,7 +128,7 @@
   </target>
 
   <target name="set-net-1.0-runtime-config">
-    <fail unless="${framework::sdk-exists( 'net-1.0' )}"
+    <fail unless="${framework::exists('net-1.0') and framework::sdk-exists('net-1.0')}"
       message="The .NET 1.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -147,7 +147,7 @@
   </target>
 	
   <target name="set-net-1.1-runtime-config">
-    <fail unless="${framework::sdk-exists( 'net-1.1' )}"
+    <fail unless="${framework::exists('net-1.1') and framework::sdk-exists('net-1.1')}"
       message="The .NET 1.1 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -166,7 +166,7 @@
   </target>
 	
   <target name="set-net-2.0-runtime-config">
-    <fail unless="${framework::sdk-exists( 'net-2.0' )}"
+    <fail unless="${framework::exists('net-2.0') and framework::sdk-exists('net-2.0')}"
       message="The .NET 2.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -185,7 +185,7 @@
    
 <!--     
   <target name="set-net-3.0-runtime-config">
-    <fail unless="${framework::sdk-exists( 'net-3.0' )}"
+    <fail unless="${framework::exists('net-3.0') and framework::sdk-exists('net-3.0')}"
       message="The .NET 3.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -203,7 +203,7 @@
   </target>
 	
   <target name="set-net-3.5-runtime-config">
-    <fail unless="${framework::sdk-exists( 'net-3.5' )}"
+    <fail unless="${framework::exists('net-3.5') and framework::sdk-exists('net-3.5')}"
       message="The .NET 2.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -222,7 +222,7 @@
  -->
  	
   <target name="set-mono-1.0-runtime-config">
-    <fail unless="${framework::sdk-exists( 'mono-1.0' )}"
+    <fail unless="${framework::exists('mono-1.0') and framework::sdk-exists('mono-1.0')}"
       message="The Mono 1.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="mono"/>
@@ -241,7 +241,7 @@
   </target>
 
   <target name="set-mono-2.0-runtime-config">
-    <fail unless="${framework::sdk-exists( 'mono-2.0' )}"
+    <fail unless="${framework::exists('mono-2.0') and framework::sdk-exists('mono-2.0')}"
       message="The Mono 2.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="mono"/>
@@ -345,8 +345,18 @@
     <echo>  Supported: ${supported.frameworks}</echo>
     <echo>  Installed: ${installed.frameworks}</echo>
     <echo>  Default:   ${default.runtime}</echo>
+    <if test="${property::exists('default.net.runtime')}">
     <echo>    .Net:    ${default.net.runtime}</echo>
+    </if>
+    <if test="${not property::exists('default.net.runtime')}">
+    <echo>    .Net:    (none)</echo>
+    </if>
+    <if test="${property::exists('default.mono.runtime')}">
     <echo>    Mono:    ${default.mono.runtime}</echo>
+    </if>
+    <if test="${not property::exists('default.mono.runtime')}">
+    <echo>    Mono:    (none)</echo>
+    </if>
     <echo></echo>
     <echo>Current Build Settings</echo>
     <echo>  Config:    ${build.config}</echo>

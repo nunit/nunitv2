@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
 using NUnit.Framework;
 
 namespace NUnit.Core.Tests
@@ -49,6 +50,49 @@ namespace NUnit.Core.Tests
             Assert.AreNotEqual(eq1, neq);
             if (eq1 != null && neq != null)
                 Assert.AreNotEqual(eq1.GetHashCode(), neq.GetHashCode());
+        }
+    }
+
+    [TestFixture(42)]
+    public class ParameterizedTestFixtureWithDataSources
+    {
+        private int answer;
+
+        object[] myData = { new int[] { 6, 7 }, new int[] { 3, 14 } };
+
+        public ParameterizedTestFixtureWithDataSources(int val)
+        {
+            this.answer = val;
+        }
+
+        [Test, TestCaseSource("myData")]
+        public void CanAccessTestCaseSource(int x, int y)
+        {
+            Assert.That(x * y, Is.EqualTo(answer));
+        }
+
+#if NET_2_0
+        IEnumerable GenerateData()
+        {
+            for(int i = 1; i <= answer; i++)
+                if ( answer%i == 0 )
+                    yield return new int[] { i, answer/i  };
+        }
+
+        [Test, TestCaseSource("GenerateData")]
+        public void CanGenerateDataFromParameter(int x, int y)
+        {
+            Assert.That(x * y, Is.EqualTo(answer));
+        }
+#endif
+
+        int[] intvals = new int[] { 1, 2, 3 };
+
+        [Test]
+        public void CanAccessValueSource(
+            [ValueSource("intvals")] int x)
+        {
+            Assert.That(answer % x == 0);
         }
     }
 }

@@ -76,41 +76,48 @@ namespace NUnit.ConsoleRunner
 
 		public void TestFinished(TestResult testResult)
 		{
-			if(testResult.Executed)
-			{
-				testRunCount++;
+            switch( testResult.ResultState )
+            {
+                case ResultState.Error:
+                case ResultState.Failure:
+                case ResultState.Cancelled:
+                    testRunCount++;
+			        failureCount++;
+    					
+			        if ( progress )
+				        Console.Write("F");
+    					
+			        messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.TestName.FullName ) );
+			        messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
 
-				if( testResult.IsFailure || testResult.IsError )
-				{	
-					failureCount++;
-						
-					if ( progress )
-						Console.Write("F");
-						
-					messages.Add( string.Format( "{0}) {1} :", failureCount, testResult.Test.TestName.FullName ) );
-					messages.Add( testResult.Message.Trim( Environment.NewLine.ToCharArray() ) );
+			        string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
+			        if ( stackTrace != null && stackTrace != string.Empty )
+			        {
+				        string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
+				        foreach( string s in trace )
+				        {
+					        if ( s != string.Empty )
+					        {
+						        string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
+						        messages.Add( string.Format( "at\n{0}", link ) );
+					        }
+				        }
+			        }
+                    break;
 
-					string stackTrace = StackTraceFilter.Filter( testResult.StackTrace );
-					if ( stackTrace != null && stackTrace != string.Empty )
-					{
-						string[] trace = stackTrace.Split( System.Environment.NewLine.ToCharArray() );
-						foreach( string s in trace )
-						{
-							if ( s != string.Empty )
-							{
-								string link = Regex.Replace( s.Trim(), @".* in (.*):line (.*)", "$1($2)");
-								messages.Add( string.Format( "at\n{0}", link ) );
-							}
-						}
-					}
-				}
-			}
-			else
-			{
-				testIgnoreCount++;
+                case ResultState.Inconclusive:
+                case ResultState.Success:
+                    testRunCount++;
+                    break;
+
+                case ResultState.Ignored:
+                case ResultState.Skipped:
+                case ResultState.NotRunnable:
+    				testIgnoreCount++;
 					
-				if ( progress )
-					Console.Write("N");
+	    			if ( progress )
+		    			Console.Write("N");
+                    break;
 			}
 
 			currentTestName = string.Empty;

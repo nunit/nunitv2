@@ -43,6 +43,7 @@ namespace NUnit.Gui
 			{
                 case ResultState.Failure:
                 case ResultState.Error:
+                case ResultState.Cancelled:
 					TestResultItem item = new TestResultItem(result);
 					//string resultString = String.Format("{0}:{1}", result.Name, result.Message);
 					testDetails.BeginUpdate();

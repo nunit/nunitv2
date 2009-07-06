@@ -21,6 +21,7 @@ namespace NUnit.Core
         public ParameterizedMethodSuite(MethodInfo method)
             : base(method.ReflectedType.FullName, method.Name)
         {
+            this.maintainTestOrder = true;
         }
 
         /// <summary>

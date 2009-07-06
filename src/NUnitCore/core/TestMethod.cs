@@ -194,15 +194,19 @@ namespace NUnit.Core
                     else
                         doRun(testResult);
 
-                    if (testResult.IsFailure || testResult.IsError)
+                    if (testResult.ResultState == ResultState.Failure ||
+                        testResult.ResultState == ResultState.Error ||
+                        testResult.ResultState == ResultState.Cancelled)
+                    {
                         break;
+                    }
                 }
 
             }
             catch (Exception ex)
             {
-                if (ex is NUnitException)
-                    ex = ex.InnerException;
+                if (ex is ThreadAbortException)
+                    Thread.ResetAbort();
 
                 RecordException(ex, testResult);
             }
@@ -230,10 +234,10 @@ namespace NUnit.Core
 			}
 			catch(Exception ex)
 			{
-				if ( ex is NUnitException )
-					ex = ex.InnerException;
+                if (ex is ThreadAbortException)
+                    Thread.ResetAbort();
 
-				RecordException( ex, testResult );
+                RecordException(ex, testResult);
 			}
 			finally 
 			{
@@ -290,19 +294,22 @@ namespace NUnit.Core
 
 		private void doTestCase( TestResult testResult )
 		{
-			try
-			{
-				RunTestMethod(testResult);
-                if ( testResult.IsSuccess && exceptionProcessor != null)
-				    exceptionProcessor.ProcessNoException(testResult);
-			}
-			catch( Exception ex )
-			{
+            try
+            {
+                RunTestMethod(testResult);
+                if (testResult.IsSuccess && exceptionProcessor != null)
+                    exceptionProcessor.ProcessNoException(testResult);
+            }
+            catch (Exception ex)
+            {
+                if (ex is ThreadAbortException)
+                    Thread.ResetAbort();
+
                 if (exceptionProcessor == null)
                     RecordException(ex, testResult);
                 else
                     exceptionProcessor.ProcessException(ex, testResult);
-			}
+            }
 		}
 
 		public virtual void RunTestMethod(TestResult testResult)

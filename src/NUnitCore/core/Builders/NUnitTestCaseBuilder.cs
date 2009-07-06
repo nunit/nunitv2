@@ -22,7 +22,7 @@ namespace NUnit.Core.Builders
     /// takes a different branch depending on whether any parameters are
     /// provided, but all four cases are dealt with in lower-level methods
     /// </summary>
-    public class NUnitTestCaseBuilder : ITestCaseBuilder
+    public class NUnitTestCaseBuilder : ITestCaseBuilder2
 	{
         private readonly bool allowOldStyleTests = NUnitConfiguration.AllowOldStyleTests;
 
@@ -69,10 +69,24 @@ namespace NUnit.Core.Builders
         /// <returns>A Test representing one or more method invocations</returns>
         public Test BuildFrom(MethodInfo method)
 		{
+            return BuildFrom(method, null);
+        }
+
+        #region ITestCaseBuilder2 Members
+
+        public bool CanBuildFrom(MethodInfo method, Test parentSuite)
+        {
+            return CanBuildFrom(method);
+        }
+
+        public Test BuildFrom(MethodInfo method, Test parentSuite)
+        {
             return CoreExtensions.Host.TestCaseProviders.HasTestCasesFor(method)
-                ? BuildParameterizedMethodSuite(method)
+                ? BuildParameterizedMethodSuite(method, parentSuite)
                 : BuildSingleTestMethod(method, null);
         }
+
+        #endregion
 
         /// <summary>
         /// Builds a ParameterizedMetodSuite containing individual
@@ -81,12 +95,12 @@ namespace NUnit.Core.Builders
         /// </summary>
         /// <param name="method">The MethodInfo for which a test is to be built</param>
         /// <returns>A ParameterizedMethodSuite populated with test cases</returns>
-        public static Test BuildParameterizedMethodSuite(MethodInfo method)
+        public static Test BuildParameterizedMethodSuite(MethodInfo method, Test parentSuite)
         {
-            ParameterizedMethodSuite suite = new ParameterizedMethodSuite(method);
-            NUnitFramework.ApplyCommonAttributes(method, suite);
+            ParameterizedMethodSuite methodSuite = new ParameterizedMethodSuite(method);
+            NUnitFramework.ApplyCommonAttributes(method, methodSuite);
 
-            foreach (object source in CoreExtensions.Host.TestCaseProviders.GetTestCasesFor(method))
+            foreach (object source in CoreExtensions.Host.TestCaseProviders.GetTestCasesFor(method, parentSuite))
             {
                 ParameterSet parms;
 
@@ -130,10 +144,10 @@ namespace NUnit.Core.Builders
 
                 TestMethod test = BuildSingleTestMethod(method, parms);
 
-                suite.Add(test);
+                methodSuite.Add(test);
             }
 
-            return suite;
+            return methodSuite;
         }
 
         /// <summary>

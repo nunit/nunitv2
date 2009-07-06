@@ -1,5 +1,5 @@
 // ****************************************************************
-// Copyright 2008, Charlie Poole
+// Copyright 2009, Charlie Poole
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
@@ -189,7 +189,7 @@ namespace NUnit.Framework
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is greater than or equal to the suppled argument
         /// </summary>
         public static GreaterThanOrEqualConstraint GreaterThanOrEqualTo(object expected)
         {
@@ -198,7 +198,7 @@ namespace NUnit.Framework
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is greater than or equal to the suppled argument
         /// </summary>
         public static GreaterThanOrEqualConstraint AtLeast(object expected)
         {
@@ -211,7 +211,7 @@ namespace NUnit.Framework
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is less than the suppled argument
         /// </summary>
         public static LessThanConstraint LessThan(object expected)
         {
@@ -224,7 +224,7 @@ namespace NUnit.Framework
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is less than or equal to the suppled argument
         /// </summary>
         public static LessThanOrEqualConstraint LessThanOrEqualTo(object expected)
         {
@@ -233,7 +233,7 @@ namespace NUnit.Framework
         
         /// <summary>
         /// Returns a constraint that tests whether the
-        /// actual value is greater than the suppled argument
+        /// actual value is less than or equal to the suppled argument
         /// </summary>
         public static LessThanOrEqualConstraint AtMost(object expected)
         {
@@ -292,7 +292,7 @@ namespace NUnit.Framework
         /// Returns a constraint that tests whether the actual value
         /// is of the type supplied as an argument or a derived type.
         /// </summary>
-        [Obsolete("Use InstanceOf")]
+        [Obsolete("Use InstanceOf(expectedType)")]
         public static InstanceOfTypeConstraint InstanceOfType(Type expectedType)
         {
             return new InstanceOfTypeConstraint(expectedType);
@@ -303,7 +303,7 @@ namespace NUnit.Framework
         /// Returns a constraint that tests whether the actual value
         /// is of the type supplied as an argument or a derived type.
         /// </summary>
-        [Obsolete("Use InstanceOf")]
+        [Obsolete("Use InstanceOf<T>()")]
         public static InstanceOfTypeConstraint InstanceOfType<T>()
         {
             return new InstanceOfTypeConstraint(typeof(T));
@@ -395,6 +395,58 @@ namespace NUnit.Framework
         public static CollectionOrderedConstraint Ordered
         {
             get { return new CollectionOrderedConstraint(); }
+        }
+        
+        #endregion
+        
+        #region StringContaining
+        
+        /// <summary>
+        /// Returns a constraint that succeeds if the actual
+        /// value contains the substring supplied as an argument.
+        /// </summary>
+        public static SubstringConstraint StringContaining(string expected)
+        {
+            return new SubstringConstraint(expected);
+        }
+        
+        #endregion
+        
+        #region StringStarting
+        
+        /// <summary>
+        /// Returns a constraint that succeeds if the actual
+        /// value starts with the substring supplied as an argument.
+        /// </summary>
+        public static StartsWithConstraint StringStarting(string expected)
+        {
+            return new StartsWithConstraint(expected);
+        }
+        
+        #endregion
+        
+        #region StringEnding
+        
+        /// <summary>
+        /// Returns a constraint that succeeds if the actual
+        /// value ends with the substring supplied as an argument.
+        /// </summary>
+        public static EndsWithConstraint StringEnding(string expected)
+        {
+            return new EndsWithConstraint(expected);
+        }
+        
+        #endregion
+        
+        #region StringMatching
+        
+        /// <summary>
+        /// Returns a constraint that succeeds if the actual
+        /// value matches the Regex pattern supplied as an argument.
+        /// </summary>
+        public static RegexConstraint StringMatching(string pattern)
+        {
+            return new RegexConstraint(pattern);
         }
         
         #endregion

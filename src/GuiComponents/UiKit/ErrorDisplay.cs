@@ -418,20 +418,33 @@ namespace NUnit.UiKit
 		#region Test Event Handlers
 		private void OnTestFinished(object sender, TestEventArgs args)
 		{
-			TestResult result = args.Result;
-			if( (result.IsFailure || result.IsError) && result.FailureSite != FailureSite.Parent  ||
-                result.ResultState == ResultState.NotRunnable )
+            TestResult result = args.Result;
+            switch (result.ResultState)
             {
-				InsertTestResultItem( result );
+                case ResultState.Failure:
+                case ResultState.Error:
+                case ResultState.Cancelled:
+                    if (result.FailureSite != FailureSite.Parent)
+                        InsertTestResultItem(result);
+                    break;
+                case ResultState.NotRunnable:
+                    InsertTestResultItem(result);
+                    break;
             }
 		}
 		
 		private void OnSuiteFinished(object sender, TestEventArgs args)
 		{
 			TestResult result = args.Result;
-			if( (result.IsFailure || result.IsError) && 
-				result.FailureSite != FailureSite.Child )
-				InsertTestResultItem( result );
+			if(	result.FailureSite != FailureSite.Child )
+                switch (result.ResultState)
+                {
+                    case ResultState.Failure:
+                    case ResultState.Error:
+                    case ResultState.Cancelled:
+                        InsertTestResultItem(result);
+                        break;
+                }
 		}
 		
 		private void OnTestException(object sender, TestEventArgs args)

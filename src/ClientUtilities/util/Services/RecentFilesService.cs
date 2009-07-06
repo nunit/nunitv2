@@ -17,7 +17,7 @@ namespace NUnit.Util
 
 		private ISettings settings;
 
-		public static readonly int MinSize = 1;
+		public static readonly int MinSize = 0;
 
 		public static readonly int MaxSize = 24;
 

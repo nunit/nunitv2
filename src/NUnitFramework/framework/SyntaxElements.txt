@@ -99,7 +99,7 @@ Gen: ConstraintExpression.No=>this.Append(new NotOperator())
 Type: ConstraintExpression
 Gen: Is.All=>new ConstraintExpression().All
 Gen: Has.All=>new ConstraintExpression().All
-Gen: Text.All=>new ConstraintExpression().All
+Gen: [Obsolete("Use Is.All")]Text.All=>new ConstraintExpression().All
 Gen: ConstraintFactory.All=>Is.All
 Gen: ConstraintExpression.All=>this.Append(new AllOperator())
 %
@@ -277,20 +277,20 @@ Gen3: Is.GreaterThan(object expected)=>new GreaterThanConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that tests whether the
-/// actual value is greater than the suppled argument
+/// actual value is greater than or equal to the suppled argument
 /// </summary>
 Gen3: Is.GreaterThanOrEqualTo(object expected)=>new GreaterThanOrEqualConstraint(expected)
 Gen3: Is.AtLeast(object expected)=>new GreaterThanOrEqualConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that tests whether the
-/// actual value is greater than the suppled argument
+/// actual value is less than the suppled argument
 /// </summary>
 Gen3: Is.LessThan(object expected)=>new LessThanConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that tests whether the
-/// actual value is greater than the suppled argument
+/// actual value is less than or equal to the suppled argument
 /// </summary>
 Gen3: Is.LessThanOrEqualTo(object expected)=>new LessThanOrEqualConstraint(expected)
 Gen3: Is.AtMost(object expected)=>new LessThanOrEqualConstraint(expected)
@@ -308,8 +308,8 @@ Gen3: Is.TypeOf<T>()=>new ExactTypeConstraint(typeof(T))
 /// </summary>
 Gen3: Is.InstanceOf(Type expectedType)=>new InstanceOfTypeConstraint(expectedType)
 Gen3: Is.InstanceOf<T>()=>new InstanceOfTypeConstraint(typeof(T))
-Gen3: [Obsolete("Use InstanceOf")]Is.InstanceOfType(Type expectedType)=>new InstanceOfTypeConstraint(expectedType)
-Gen3: [Obsolete("Use InstanceOf")]Is.InstanceOfType<T>()=>new InstanceOfTypeConstraint(typeof(T))
+Gen3: [Obsolete("Use InstanceOf(expectedType)")]Is.InstanceOfType(Type expectedType)=>new InstanceOfTypeConstraint(expectedType)
+Gen3: [Obsolete("Use InstanceOf<T>()")]Is.InstanceOfType<T>()=>new InstanceOfTypeConstraint(typeof(T))
 %
 /// <summary>
 /// Returns a constraint that tests whether the actual value
@@ -368,23 +368,27 @@ Gen: ConstraintExpression.Contains(string expected)=>(ContainsConstraint)this.Ap
 /// value contains the substring supplied as an argument.
 /// </summary>
 Type: SubstringConstraint
-Gen: Text.Contains(string expected)=>new SubstringConstraint(expected)
-Gen: ConstraintFactory.ContainsSubstring(string expected)=>Text.Contains(expected)
-Gen: ConstraintExpression.ContainsSubstring(string expected)=>(SubstringConstraint)this.Append(Text.Contains(expected))
+Gen3: Is.StringContaining(string expected)=>new SubstringConstraint(expected)
+Gen: [Obsolete("Use Is.StringContaining")]Text.Contains(string expected)=>new SubstringConstraint(expected)
+Gen: ConstraintFactory.ContainsSubstring(string expected)=>new SubstringConstraint(expected)
+Gen: ConstraintExpression.ContainsSubstring(string expected)=>(SubstringConstraint)this.Append(new SubstringConstraint(expected))
 %
 /// <summary>
 /// Returns a constraint that fails if the actual
 /// value contains the substring supplied as an argument.
 /// </summary>
 Type: SubstringConstraint
-Gen: Text.DoesNotContain(string expected)=>new ConstraintExpression().Not.ContainsSubstring(expected)
-Gen: ConstraintFactory.DoesNotContain(string expected)=>Text.DoesNotContain(expected)
+Gen: [Obsolete("Use Is.Not.StringContaining")]Text.DoesNotContain(string expected)=>new ConstraintExpression().Not.ContainsSubstring(expected)
+Gen: ConstraintFactory.DoesNotContain(string expected)=>new ConstraintExpression().Not.ContainsSubstring(expected)
 %
 /// <summary>
 /// Returns a constraint that succeeds if the actual
 /// value starts with the substring supplied as an argument.
 /// </summary>
-Gen3: Text.StartsWith(string expected)=>new StartsWithConstraint(expected)
+Gen: [Obsolete("Use Is.StringStarting")]Text.StartsWith(string expected)=>new StartsWithConstraint(expected)
+Gen: ConstraintFactory.StartsWith(string expected)=>new StartsWithConstraint(expected)
+Gen: ConstraintExpression.StartsWith(string expected)=>(StartsWithConstraint)this.Append(new StartsWithConstraint(expected))
+Gen3: Is.StringStarting(string expected)=>new StartsWithConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that fails if the actual
@@ -392,13 +396,16 @@ Gen3: Text.StartsWith(string expected)=>new StartsWithConstraint(expected)
 /// </summary>
 Type: StartsWithConstraint
 Gen: Text.DoesNotStartWith(string expected)=>new ConstraintExpression().Not.StartsWith(expected)
-Gen: ConstraintFactory.DoesNotStartWith(string expected)=>Text.DoesNotStartWith(expected)
+Gen: ConstraintFactory.DoesNotStartWith(string expected)=>new ConstraintExpression().Not.StartsWith(expected)
 %
 /// <summary>
 /// Returns a constraint that succeeds if the actual
 /// value ends with the substring supplied as an argument.
 /// </summary>
-Gen3: Text.EndsWith(string expected)=>new EndsWithConstraint(expected)
+Gen: [Obsolete("Use Is.StringEnding")]Text.EndsWith(string expected)=>new EndsWithConstraint(expected)
+Gen: ConstraintFactory.EndsWith(string expected)=>new EndsWithConstraint(expected)
+Gen: ConstraintExpression.EndsWith(string expected)=>(EndsWithConstraint)this.Append(new EndsWithConstraint(expected))
+Gen3: Is.StringEnding(string expected)=>new EndsWithConstraint(expected)
 %
 /// <summary>
 /// Returns a constraint that fails if the actual
@@ -406,21 +413,24 @@ Gen3: Text.EndsWith(string expected)=>new EndsWithConstraint(expected)
 /// </summary>
 Type: EndsWithConstraint
 Gen: Text.DoesNotEndWith(string expected)=>new ConstraintExpression().Not.EndsWith(expected)
-Gen: ConstraintFactory.DoesNotEndWith(string expected)=>Text.DoesNotEndWith(expected)
+Gen: ConstraintFactory.DoesNotEndWith(string expected)=>new ConstraintExpression().Not.EndsWith(expected)
 %
 /// <summary>
 /// Returns a constraint that succeeds if the actual
 /// value matches the Regex pattern supplied as an argument.
 /// </summary>
-Gen3: Text.Matches(string pattern)=>new RegexConstraint(pattern)
+Gen: [Obsolete("Use Is.StringMatching")]Text.Matches(string pattern)=>new RegexConstraint(pattern)
+Gen: ConstraintFactory.Matches(string pattern)=>new RegexConstraint(pattern)
+Gen: ConstraintExpression.Matches(string pattern)=>(RegexConstraint)this.Append(new RegexConstraint(pattern))
+Gen3: Is.StringMatching(string pattern)=>new RegexConstraint(pattern)
 %
 /// <summary>
 /// Returns a constraint that fails if the actual
 /// value matches the pattern supplied as an argument.
 /// </summary>
 Type: RegexConstraint
-Gen: Text.DoesNotMatch(string pattern)=>new ConstraintExpression().Not.Matches(pattern)
-Gen: ConstraintFactory.DoesNotMatch(string pattern)=>Text.DoesNotMatch(pattern)
+Gen: [Obsolete]Text.DoesNotMatch(string pattern)=>new ConstraintExpression().Not.Matches(pattern)
+Gen: ConstraintFactory.DoesNotMatch(string pattern)=>new ConstraintExpression().Not.Matches(pattern)
 %
 /// <summary>
 /// Returns a constraint that tests whether the path provided 

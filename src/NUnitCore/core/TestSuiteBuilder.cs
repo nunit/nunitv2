@@ -105,7 +105,9 @@ namespace NUnit.Core
 				}
 			}
 
-			if ( rootSuite.Tests.Count == 0 )
+            ProviderCache.Clear();
+            
+            if (rootSuite.Tests.Count == 0)
 				return null;
 
 			return rootSuite;
@@ -117,9 +119,13 @@ namespace NUnit.Core
 			builders.Clear();
 			builders.Add( builder );
 
-			return (TestSuite)builder.Build( 
+			TestSuite suite = (TestSuite)builder.Build( 
 				package.FullName, 
 				package.TestName, package.GetSetting( "AutoNamespaceSuites", true ) );
+
+            ProviderCache.Clear();
+
+            return suite;
 		}
 		#endregion
 	}

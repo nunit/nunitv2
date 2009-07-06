@@ -25,7 +25,7 @@ namespace NUnit.UiKit.Tests
 			menu = new MenuItem();
 			files = new FakeRecentFiles();
 			handler = new RecentFileMenuHandler( menu, files );
-            handler.ShowMissingFiles = true;
+            handler.CheckFilesExist = false;
         }
 
 		[Test]

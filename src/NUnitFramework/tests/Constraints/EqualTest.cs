@@ -473,5 +473,22 @@ namespace NUnit.Framework.Constraints.Tests
             }
         }
 
+#if NET_2_0
+        [Test]
+        public void TestPropertyWithPrivateSetter()
+        {
+            SomeClass obj = new SomeClass();
+            Assert.That(obj.BrokenProp, Is.EqualTo(string.Empty));
+        }
+
+        private class SomeClass
+        {
+            public string BrokenProp
+            {
+                get { return string.Empty; }
+                private set { }
+            }
+        }
+#endif
     }
 }

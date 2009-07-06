@@ -57,12 +57,12 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit Base Package Version - First three digits -->
-  <property name="base.package.version" value="2.5.0"/>
+  <property name="base.package.version" value="2.5.1"/>
  
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
        but may differ when we are in alpha or beta. -->
-  <property name="nominal.version" value="2.5" />
+  <property name="nominal.version" value="2.5.1" />
 
   <!-- Determine todays build number -->
   <property name="temp.now" value="${datetime::now()}"/>
@@ -180,13 +180,13 @@
 
     <asminfo output="src/GeneratedAssemblyInfo.cs" language="CSharp">
       <imports>
-        <import namespace="System.Reflection"/>era
+        <import namespace="System.Reflection"/>
       </imports>
       <attributes>
         <attribute type="AssemblyCompanyAttribute" value="NUnit.org"/>
         <attribute type="AssemblyProductAttribute" value="NUnit"/>
         <attribute type="AssemblyCopyrightAttribute"
-          value="Copyright (C) 2002-2008 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved."/>
+          value="Copyright (C) 2002-2009 Charlie Poole.&#xD;&#xA;Copyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.&#xD;&#xA;Copyright (C) 2000-2002 Philip Craig.&#xD;&#xA;All Rights Reserved."/>
         <attribute type="AssemblyTrademarkAttribute" value="NUnit is a trademark of NUnit.org"/>
         <attribute type="AssemblyVersionAttribute" value="${package.version}"/>
         <attribute type="AssemblyInformationalVersionAttribute" value="${package.version}"/>

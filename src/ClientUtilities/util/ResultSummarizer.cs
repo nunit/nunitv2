@@ -63,6 +63,7 @@ namespace NUnit.Util
                         testsRun++;
                         break;
                     case ResultState.Error:
+                    case ResultState.Cancelled:
                         errorCount++;
                         testsRun++;
                         break;

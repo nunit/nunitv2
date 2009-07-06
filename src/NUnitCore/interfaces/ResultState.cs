@@ -45,7 +45,12 @@ namespace NUnit.Core
         /// <summary>
         /// The test encountered an unexpected exception
         /// </summary>
-		Error
+		Error,
+
+        /// <summary>
+        /// The test was cancelled by the user
+        /// </summary>
+        Cancelled
 	}
 
     /// <summary>

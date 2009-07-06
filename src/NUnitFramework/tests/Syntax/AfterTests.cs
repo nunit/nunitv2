@@ -126,7 +126,7 @@ namespace NUnit.Framework.Syntax
         [Test]
         public void TextTest()
         {
-            Assert.That(delegate { return greeting; }, Text.EndsWith("world").After(5000, 200));
+            Assert.That(delegate { return greeting; }, Is.StringEnding("world").After(5000, 200));
         }
     }
 
@@ -171,7 +171,7 @@ namespace NUnit.Framework.Syntax
         [Test]
         public void TextTest()
         {
-            Assert.That(ref greeting, Text.EndsWith("world").After(5000, 200));
+            Assert.That(ref greeting, Is.StringEnding("world").After(5000, 200));
         }
     }
 #endif

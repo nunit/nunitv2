@@ -852,7 +852,10 @@ namespace NUnit.Gui
 			saveAsMenuItem.Enabled = IsProjectLoaded;
 
 			reloadTestsMenuItem.Enabled = IsTestLoaded && !IsTestRunning;
-            reloadProjectMenuItem.Enabled = runtimeMenuItem.Enabled = IsProjectLoaded && !IsTestRunning;
+            reloadProjectMenuItem.Enabled = runtimeMenuItem.Enabled = 
+                IsProjectLoaded && 
+                File.Exists(TestProject.ProjectPath) &&
+                !IsTestRunning;
 
             RuntimeFramework current = TestLoader.CurrentFramework;
             RuntimeFramework[] frameworks = RuntimeFramework.AvailableFrameworks;
@@ -1002,14 +1005,15 @@ namespace NUnit.Gui
 			this.displayFormat = "Full";
 			userSettings.SaveSetting( "Gui.DisplayFormat", "Full" );
 
-			this.Controls.Clear();
-			leftPanel.Dock = DockStyle.Left;
-			this.Controls.Add( rightPanel );
-			this.Controls.Add( treeSplitter );
-			this.Controls.Add( leftPanel );
-			this.Controls.Add( statusBar );
+            this.leftPanel.Visible = true;
+            this.leftPanel.Dock = DockStyle.Left;
+            this.treeSplitter.Visible = true;
+            this.rightPanel.Visible = true;
+            this.statusBar.Visible = true;
 
-			int x = userSettings.GetSetting( "Gui.MainForm.Left", 10 );
+            resultTabs.TabsMenu.Visible = true;
+
+            int x = userSettings.GetSetting("Gui.MainForm.Left", 10);
 			int y = userSettings.GetSetting( "Gui.MainForm.Top", 10 );
 			Point location = new Point( x, y );
 
@@ -1039,12 +1043,15 @@ namespace NUnit.Gui
 			this.displayFormat = "Mini";
 			userSettings.SaveSetting( "Gui.DisplayFormat", "Mini" );
 
-			this.Controls.Remove( statusBar );
-			this.Controls.Remove( rightPanel );
-			this.Controls.Remove( treeSplitter );
-			leftPanel.Dock = DockStyle.Fill;
+            this.leftPanel.Visible = true;
+            this.leftPanel.Dock = DockStyle.Fill;
+            this.treeSplitter.Visible = false;
+            this.rightPanel.Visible = false;
+            this.statusBar.Visible = false;
 
-			int x = userSettings.GetSetting( "Gui.MiniForm.Left", 10 );
+            resultTabs.TabsMenu.Visible = false;
+
+            int x = userSettings.GetSetting("Gui.MiniForm.Left", 10);
 			int y = userSettings.GetSetting( "Gui.MiniForm.Top", 10 );
 			Point location = new Point( x, y );
 
@@ -1201,7 +1208,7 @@ namespace NUnit.Gui
             {
                 if (TestProject.IsLoadable)
                 {
-                    if (IsProjectLoaded)
+                    if (IsTestLoaded)
                         TestLoader.ReloadTest();
                     else
                         TestLoader.LoadTest();
@@ -1241,7 +1248,8 @@ namespace NUnit.Gui
 		#region Tools Menu
 
 		private void toolsMenu_Popup(object sender, System.EventArgs e)
-		{		
+		{
+            assemblyDetailsMenuItem.Enabled = IsTestLoaded;
 			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.TestResult != null;
 			exceptionDetailsMenuItem.Enabled = TestLoader.LastException != null;
 		}
@@ -1317,6 +1325,7 @@ namespace NUnit.Gui
 				EnableStopCommand( false );
 
 				recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, recentFilesService );
+                recentProjectsMenuHandler.CheckFilesExist = userSettings.GetSetting("Gui.RecentProjects.CheckFilesExist", true);
 
 				LoadFormSettings();
 				SubscribeToTestEvents();
@@ -1766,8 +1775,12 @@ the version under which NUnit is currently running, {0}.",
 
 			EnableRunCommand( true );
 
-			if ( e.Result.IsFailure || e.Result.IsError )
-				this.Activate();
+            if (e.Result.ResultState == ResultState.Failure ||
+                e.Result.ResultState == ResultState.Error ||
+                e.Result.ResultState == ResultState.Cancelled)
+            {
+                this.Activate();
+            }
 		}
 
 		#endregion
@@ -1790,10 +1803,9 @@ the version under which NUnit is currently running, {0}.",
 			runButton.Enabled = enable;
 			runAllMenuItem.Enabled = enable;
 			runSelectedMenuItem.Enabled = enable;
-		    runFailedMenuItem.Enabled = enable &&
-		                                this.TestLoader.TestResult != null &&
-		                                (this.TestLoader.TestResult.IsFailure ||
-		                                 this.TestLoader.TestResult.IsError);
+		    runFailedMenuItem.Enabled = enable && this.TestLoader.TestResult != null &&
+		        (this.TestLoader.TestResult.ResultState == ResultState.Failure ||
+		         this.TestLoader.TestResult.ResultState == ResultState.Error);
 		}
 
 		private void EnableStopCommand( bool enable )

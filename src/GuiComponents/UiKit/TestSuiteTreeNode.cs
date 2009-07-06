@@ -161,6 +161,7 @@ namespace NUnit.UiKit
                 case ResultState.NotRunnable:
                 case ResultState.Failure:
                 case ResultState.Error:
+                case ResultState.Cancelled:
 			        return FailureIndex;
 				case ResultState.Ignored:
 					return IgnoredIndex;

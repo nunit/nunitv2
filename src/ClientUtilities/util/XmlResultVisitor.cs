@@ -52,6 +52,7 @@ namespace NUnit.Util
             xmlWriter.WriteAttributeString("errors", summaryResults.Errors.ToString());
             xmlWriter.WriteAttributeString("failures", summaryResults.Failures.ToString());
             xmlWriter.WriteAttributeString("not-run", summaryResults.TestsNotRun.ToString());
+            xmlWriter.WriteAttributeString("inconclusive", summaryResults.Inconclusive.ToString());
             xmlWriter.WriteAttributeString("ignored", summaryResults.Ignored.ToString());
             xmlWriter.WriteAttributeString("skipped", summaryResults.Skipped.ToString());
             xmlWriter.WriteAttributeString("invalid", summaryResults.NotRunnable.ToString());
@@ -108,11 +109,21 @@ namespace NUnit.Util
 			WriteCategoriesElement(result);
 			WritePropertiesElement(result);
 
-			if ( !result.Executed )
-				WriteReasonElement( result );
-			else if ( result.IsFailure || result.IsError )
-				if ( !result.Test.IsSuite || result.FailureSite == FailureSite.SetUp ) 
-					WriteFailureElement( result );
+            switch (result.ResultState)
+            {
+                case ResultState.Ignored:
+                case ResultState.NotRunnable:
+                case ResultState.Skipped:
+                    WriteReasonElement(result);
+                    break;
+
+                case ResultState.Failure:
+                case ResultState.Error:
+                case ResultState.Cancelled:
+                    if (!result.Test.IsSuite || result.FailureSite == FailureSite.SetUp)
+                        WriteFailureElement(result);
+                    break;
+            }
 
 			if ( result.HasResults )
 				WriteChildResults( result );

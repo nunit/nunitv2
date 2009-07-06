@@ -138,7 +138,9 @@ namespace NUnit.Core
             {
                 if (nunitBinDirectory == null)
                 {
-                    nunitBinDirectory = Path.GetDirectoryName(NUnitLibDirectory);
+                    nunitBinDirectory = NUnitLibDirectory;
+                    if (Path.GetFileName(nunitBinDirectory).ToLower() == "lib")
+                        nunitBinDirectory = Path.GetDirectoryName(nunitBinDirectory);
                 }
 
                 return nunitBinDirectory;
