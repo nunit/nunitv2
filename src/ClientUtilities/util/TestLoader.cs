@@ -14,7 +14,6 @@ namespace NUnit.Util
 	using NUnit.Core;
 	using NUnit.Core.Filters;
 
-
 	/// <summary>
 	/// TestLoader handles interactions between a test runner and a 
 	/// client program - typically the user interface - for the 
@@ -174,13 +173,13 @@ namespace NUnit.Util
 
 		#region EventListener Handlers
 
-		void EventListener.RunStarted(string name, int testCount)
+		public void RunStarted(string name, int testCount)
 		{
             log.Debug("Got RunStarted Event");
 			events.FireRunStarting( name, testCount );
 		}
 
-		void EventListener.RunFinished(NUnit.Core.TestResult testResult)
+		public void RunFinished(NUnit.Core.TestResult testResult)
 		{
 			this.testResult = testResult;
 
@@ -197,7 +196,7 @@ namespace NUnit.Util
 			}
 		}
 
-		void EventListener.RunFinished(Exception exception)
+		public void RunFinished(Exception exception)
 		{
 			this.lastException = exception;
 			events.FireRunFinished( exception );
@@ -207,7 +206,7 @@ namespace NUnit.Util
 		/// Trigger event when each test starts
 		/// </summary>
 		/// <param name="testName">TestName of the Test that is starting</param>
-		void EventListener.TestStarted(TestName testName)
+		public void TestStarted(TestName testName)
 		{
 			this.currentTestName = testName.FullName;
 			events.FireTestStarting( testName );
@@ -217,7 +216,7 @@ namespace NUnit.Util
 		/// Trigger event when each test finishes
 		/// </summary>
 		/// <param name="result">Result of the case that finished</param>
-		void EventListener.TestFinished(TestResult result)
+		public void TestFinished(TestResult result)
 		{
 			events.FireTestFinished( result );
 		}
@@ -226,7 +225,7 @@ namespace NUnit.Util
 		/// Trigger event when each suite starts
 		/// </summary>
 		/// <param name="suite">Suite that is starting</param>
-		void EventListener.SuiteStarted(TestName suiteName)
+		public void SuiteStarted(TestName suiteName)
 		{
 			events.FireSuiteStarting( suiteName );
 		}
@@ -235,7 +234,7 @@ namespace NUnit.Util
 		/// Trigger event when each suite finishes
 		/// </summary>
 		/// <param name="result">Result of the suite that finished</param>
-		void EventListener.SuiteFinished(TestResult result)
+		public void SuiteFinished(TestResult result)
 		{
 			events.FireSuiteFinished( result );
 		}
@@ -244,7 +243,7 @@ namespace NUnit.Util
 		/// Trigger event when an unhandled exception (other than ThreadAbordException) occurs during a test
 		/// </summary>
 		/// <param name="exception">The unhandled exception</param>
-		void EventListener.UnhandledException(Exception exception)
+		public void UnhandledException(Exception exception)
 		{
 			events.FireTestException( this.currentTestName, exception );
 		}
@@ -267,7 +266,7 @@ namespace NUnit.Util
 		/// Trigger event when output occurs during a test
 		/// </summary>
 		/// <param name="testOutput">The test output</param>
-		void EventListener.TestOutput(TestOutput testOutput)
+		public void TestOutput(TestOutput testOutput)
 		{
 			events.FireTestOutput( testOutput );
 		}

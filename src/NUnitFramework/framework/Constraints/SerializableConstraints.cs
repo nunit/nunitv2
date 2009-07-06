@@ -6,12 +6,15 @@
 
 using System;
 using System.IO;
+#if !NETCF
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+#endif
 using System.Xml.Serialization;
 
 namespace NUnit.Framework.Constraints
 {
+#if !NETCF
     #region BinarySerializableConstraint
 
     /// <summary>
@@ -83,7 +86,9 @@ namespace NUnit.Framework.Constraints
     }
 
     #endregion
-    
+#endif
+
+#if !NETCF_1_0
     #region XmlSerializableConstraint
 
     /// <summary>
@@ -161,5 +166,5 @@ namespace NUnit.Framework.Constraints
     }
 
     #endregion
-
+#endif
 }

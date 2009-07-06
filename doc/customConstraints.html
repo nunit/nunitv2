@@ -24,19 +24,21 @@
 
 <div id="content">
 
-<h2>Custom Constraints (NUnit 2.4)</h2>
+<h2>Custom Constraints (NUnit 2.4 / 2.5)</h2>
 
 <p>You can implement your own custom constraints by creating a class that 
 inherits from the <b>Constraint</b> abstract class, which supports performing a 
 test on an actual value and generating appropriate messages. The class includes
-two abstract methods, which you must override and two virtual methods which
-may be overridden as needed:
+two abstract methods, which you must override and four virtual methods with
+default implementation that may be overridden as needed:
    
 <div class="code" style="width: 36em">
 <pre>public abstract class Constraint
 {
  	...
     public abstract bool Matches( object actual );
+    public virtual bool Matches( ActualValueDelegate del );
+    public virtual bool Matches&lt;T&gt;( ref T actual );
     public abstract void WriteDescriptionTo( MessageWriter writer );
     public virtual void WriteMessageTo( MessageWriter writer );
     public virtual void WriteActualValueTo( MessageWriter writer );
@@ -49,7 +51,28 @@ field actual for later use.
 
 <p>The MessageWriter abstract class is implemented in the framework by
 TextMessageWriter. Examining the source for some of the builtin constraints
-should give you a good idea of how to use it.
+should give you a good idea of how to use it if you have special formatting
+requirements for error messages.
+
+<h3>Custom Constraint Syntax</h3>
+
+<p>NUnit includes classes that implement a special constraint syntax,
+allowing you to write things like...
+
+<div class="code">
+<pre>Assert.That( myArray, Is.All.InRange(1,100) );</pre>
+</div>
+
+<p>Of course, the NUnit constraint syntax will not be aware of your
+custom constraint unless you modify NUnit itself. As an alternative,
+you may use the <b>Matches(Constraint)</b> syntactic element in order
+to write code like...
+
+<div class="code">
+<pre>MyConstraint myConstraint = new MyConstraint();
+Assert.That( myArray, Has.Some.Matches(myConstraint) );</pre>
+</div>
+
 
 
 </div>

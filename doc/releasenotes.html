@@ -161,6 +161,11 @@ dt { font-weight: bold }
 	example of usage, see the code for <b>RequiredThreadAttribute</b>.
 <li><b>PlatformAttribute</b> has been extended to accept the new keywords
     <b>NT6</b>, <b>Vista</b> and <b>Win2008Server</b>.
+<li>The <b>MessageMatch</b> enum used with <b>ExpectedExceptionAttribute</b>
+    has been extended with a new value <b>StartsWith</b>, indicating that the
+    exception message must start with the string provided.
+<li><b>TestCaseAttribute</b> now supports a <b>MessageMatch</b>
+property.
 </ul>
 
 <h4>Framework - Constraints</h4>
@@ -278,6 +283,8 @@ dt { font-weight: bold }
 	<li>IEqualityComparer&lt;T&gt;
 	</b></ul>
 	Using C# 3.0, <b>lambda expressions</b> are also accepted.
+<li>A new syntax element, <b>Matches(Constraint)</b>, allows use of
+    custom constraints, predicates or lambda expressions in constraint expressions.
 </ul>
 
 <h4>Framework - Asserts</h4>

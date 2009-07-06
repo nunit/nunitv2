@@ -28,6 +28,8 @@ namespace NUnit.Core
 	/// </summary>
 	public class EventPump : IDisposable
 	{
+        static Logger log = InternalTrace.GetLogger(typeof(EventPump));
+
 		#region Instance Variables
 		/// <summary>
 		/// The downstream listener to which we send events
@@ -151,7 +153,7 @@ namespace NUnit.Core
             }
             catch (Exception ex)
             {
-                throw new ApplicationException("Exception in pump thread", ex);
+                log.Error( "Exception in pump thread", ex );
             }
 			finally
 			{

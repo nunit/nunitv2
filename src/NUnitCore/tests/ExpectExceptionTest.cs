@@ -67,6 +67,13 @@ namespace NUnit.Core.Tests
 			throw new ArgumentException("argument invalid exception");
 		}
 
+        [Test]
+        [ExpectedException(typeof(ArgumentException), ExpectedMessage = "argument invalid", MatchType = MessageMatch.StartsWith)]
+        public void TestSucceedsWithSpecifiedExceptionTypeAndStartsWithMatch()
+        {
+            throw new ArgumentException("argument invalid exception");
+        }
+
 //        [Test]
 //        [ExpectedException("System.ArgumentException", "argument exception")]
 //        public void TestSucceedsWithSpecifiedExceptionNameAndMessage_OldFormat()

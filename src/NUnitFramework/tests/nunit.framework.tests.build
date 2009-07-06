@@ -24,6 +24,7 @@
     <include name="Constraints/ThrowsConstraintTests.cs"/>
     <include name="Constraints/TypeConstraintTests.cs"/>
     <include name="Syntax/AfterTests.cs"/>
+    <include name="Syntax/ArbitraryConstraintMatching.cs"/>
     <include name="Syntax/CollectionTests.cs"/>
     <include name="Syntax/ComparisonTests.cs"/>
     <include name="Syntax/EqualityTests.cs"/>

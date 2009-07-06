@@ -193,6 +193,30 @@ namespace NUnit.Framework.Constraints
         
         #endregion
         
+        #region Matches
+        
+        /// <summary>
+        /// Returns the constraint provided as an argument - used to allow custom
+        /// custom constraints to easily participate in the syntax.
+        /// </summary>
+        public Constraint Matches(Constraint constraint)
+        {
+            return this.Append(constraint);
+        }
+        
+#if NET_2_0
+        /// <summary>
+        /// Returns the constraint provided as an argument - used to allow custom
+        /// custom constraints to easily participate in the syntax.
+        /// </summary>
+        public Constraint Matches<T>(Predicate<T> predicate)
+        {
+            return this.Append(new PredicateConstraint<T>(predicate));
+        }
+        
+#endif
+        #endregion
+        
         #region Null
         
         /// <summary>
@@ -621,7 +645,7 @@ namespace NUnit.Framework.Constraints
         
         /// <summary>
         /// Returns a constraint that succeeds if the actual
-        /// value matches the pattern supplied as an argument.
+        /// value matches the Regex pattern supplied as an argument.
         /// </summary>
         public RegexConstraint Matches(string pattern)
         {

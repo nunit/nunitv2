@@ -165,7 +165,6 @@ namespace NUnit.Framework.Constraints
 
             // Case 2: Assume that the tail of each string fits on line
             int clipLength = maxDisplayLength - ELLIPSIS.Length;
-            int tailLength = clipLength - mismatch;
             int clipStart = maxStringLength - clipLength;
 
             // Case 3: If it doesn't, center the mismatch position

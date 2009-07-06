@@ -13,7 +13,7 @@ using System.Runtime.Remoting.Channels.Tcp;
 
 namespace NUnit.Util.Tests
 {
-    [TestFixture, Platform(Exclude = "Mono")]
+    [TestFixture]
     public class TestAgencyTests
     {
         private TestAgency agency;
@@ -39,7 +39,7 @@ namespace NUnit.Util.Tests
             Assert.That(obj is TestAgency);
         }
 
-        [Test]
+        [Test, Platform(Exclude="Mono")]
         public void CanLaunchAndConnectToAgent()
         {
             TestAgent agent = null;

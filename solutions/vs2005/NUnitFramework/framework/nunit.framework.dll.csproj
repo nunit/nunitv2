@@ -194,6 +194,9 @@
       <Link>Constraints\PathConstraints.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PredicateConstraint.cs">
+      <Link>Constraints\PredicateConstraint.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PrefixConstraints.cs">
       <Link>Constraints\PrefixConstraints.cs</Link>
       <SubType>Code</SubType>

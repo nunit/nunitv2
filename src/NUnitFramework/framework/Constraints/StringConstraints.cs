@@ -5,7 +5,9 @@
 // ****************************************************************
 
 using System;
+#if !NETCF
 using System.Text.RegularExpressions;
+#endif
 
 namespace NUnit.Framework.Constraints
 {
@@ -262,6 +264,7 @@ namespace NUnit.Framework.Constraints
     #endregion
 
     #region RegexConstraint
+#if !NETCF
     /// <summary>
     /// RegexConstraint can test whether a string matches
     /// the pattern provided.
@@ -302,5 +305,6 @@ namespace NUnit.Framework.Constraints
 				writer.WriteModifier( "ignoring case" );
 		}
     }
+#endif
     #endregion
 }

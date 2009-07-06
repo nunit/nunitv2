@@ -30,11 +30,57 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
-<h3>NUnit 2.5 Release Candidate - Version 2.5.0.9117 - April 27, 2009</h3>
+<h3>NUnit 2.5 Final Release - Version 2.5.0.9122 - May 2, 2009</h3>
 
 <div style="max-width:660px;text-align:right">
 <a href="releaseNotes.html">View Combined 2.5 Changes</a>
 </div>
+
+<h4>Framework</h4>
+
+<ul>
+<li>A new syntax element, <b>Matches(Constraint)</b>, allows use of
+custom constraints, predicates or lambda expressions in constraint expressions.
+
+<li>The <b>MessageMatch</b> enum used with <b>ExpectedExceptionAttribute</b>
+has been extended with a new value <b>StartsWith</b>, indicating that the
+exception message must start with the string provided.
+
+<li><b>TestCaseAttribute</b> now supports a <b>MessageMatch</b>
+property.
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>The File menu now allows selecting an alternate runtime,
+such as Mono, on a machine with multiple CLR implementations
+installed. This feature is still considered experimental and
+may change in the future.
+
+<li>The combo box in the Project Editor allowing selection of
+a particular runtime type such as Mono for loading the test
+has been re-enabled.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>Provided a workaround to a Mono 2.4 bug in handling remote 
+references to an interface, where the provider is running under
+MS .NET and the implementation is explicit.
+
+<li>Fixed a problem with the display of line numbers from a German
+language stack trace, with lines terminating in a period.
+
+<li> The Console Runner display now shows the settings for ProcessModel,
+DomainUsage and RuntimeFramework actually provided, before resolution
+of any defaults.
+
+<li> Removed references in the docs to pages that no longer exist.
+</ul>
+
+<h3>NUnit 2.5 Release Candidate - Version 2.5.0.9117 - April 27, 2009</h3>
 
 <h4>General</h4>
 

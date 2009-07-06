@@ -120,7 +120,7 @@ namespace NUnit.Framework
         
         /// <summary>
         /// Returns a constraint that succeeds if the actual
-        /// value matches the pattern supplied as an argument.
+        /// value matches the Regex pattern supplied as an argument.
         /// </summary>
         public static RegexConstraint Matches(string pattern)
         {

@@ -275,7 +275,6 @@ namespace NUnit.Gui
             // runtimeComboBox
             // 
             this.runtimeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.runtimeComboBox.Enabled = false;
             this.runtimeComboBox.Items.AddRange(new object[] {
             "Any",
             "Net",
@@ -287,7 +286,6 @@ namespace NUnit.Gui
             // 
             // label7
             // 
-            this.label7.ForeColor = System.Drawing.SystemColors.GrayText;
             this.label7.Location = new System.Drawing.Point(13, 16);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(60, 16);

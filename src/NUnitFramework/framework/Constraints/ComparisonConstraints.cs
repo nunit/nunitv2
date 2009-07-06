@@ -41,7 +41,7 @@ namespace NUnit.Framework.Constraints
         private string predicate;
 
         /// <summary>
-        /// IComparer to be used in making the comparison
+        /// ComparisonAdapter to be used in making the comparison
         /// </summary>
         private ComparisonAdapter comparer = ComparisonAdapter.Default;
 

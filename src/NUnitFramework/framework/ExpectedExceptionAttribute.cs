@@ -17,7 +17,9 @@ namespace NUnit.Framework
 		/// Expect a message containing the parameter string
 		Contains,
 		/// Match the regular expression provided as a parameter
-		Regex
+		Regex,
+        /// Expect a message that starts with the parameter string
+        StartsWith
 	}
 
 	/// <summary>

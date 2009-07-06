@@ -74,9 +74,17 @@ namespace NUnit.Core.Tests
                    ExpectedMessage = "Test Exception")]
         public void CanSpecifyExceptionMessage(int a)
         {
-        	throw new System.Exception("Test Exception");
+            throw new System.Exception("Test Exception");
         }
-         
+
+        [TestCase(42, ExpectedException = typeof(System.Exception),
+           ExpectedMessage = "Test Exception",
+           MatchType=MessageMatch.StartsWith)]
+        public void CanSpecifyExceptionMessageAndMatchType(int a)
+        {
+            throw new System.Exception("Test Exception thrown here");
+        }
+
         [TestCase(null)]
         public void CanPassNullAsFirstArgument(object a)
         {

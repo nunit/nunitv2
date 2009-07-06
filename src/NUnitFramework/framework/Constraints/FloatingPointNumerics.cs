@@ -4,6 +4,8 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
+#if !NETCF_1_0
+
 using System;
 using System.Runtime.InteropServices;
 
@@ -232,3 +234,5 @@ namespace NUnit.Framework.Constraints
 		}
     }
 }
+
+#endif

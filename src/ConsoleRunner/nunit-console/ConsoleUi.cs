@@ -52,8 +52,6 @@ namespace NUnit.ConsoleRunner
 			}
 
             TestPackage package = MakeTestPackage(options);
-            TestRunner testRunner = TestRunnerFactory.MakeTestRunner(package);
-            testRunner.Load(package);
 
             Console.WriteLine("ProcessModel: {0}    DomainUsage: {1}", 
                 package.Settings.Contains("ProcessModel")
@@ -63,9 +61,15 @@ namespace NUnit.ConsoleRunner
                     ? package.Settings["DomainUsage"]
                     : "Default");
 
-            Console.WriteLine("Execution Runtime: {0}", package.Settings["RuntimeFramework"]);
+            Console.WriteLine("Execution Runtime: {0}", 
+                package.Settings.Contains("RuntimeFramework")
+                    ? package.Settings["RuntimeFramework"]
+                    : "Default");
 
-			try
+            TestRunner testRunner = TestRunnerFactory.MakeTestRunner(package);
+            testRunner.Load(package);
+
+            try
 			{
 				if (testRunner.Test == null)
 				{
@@ -223,7 +227,8 @@ namespace NUnit.ConsoleRunner
             
             package.Settings["ProcessModel"] = processModel;
             package.Settings["DomainUsage"] = domainUsage;
-            package.Settings["RuntimeFramework"] = framework;
+            if (framework != null)
+                package.Settings["RuntimeFramework"] = framework;
 
             
 

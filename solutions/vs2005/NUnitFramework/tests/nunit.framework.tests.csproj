@@ -260,6 +260,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\AfterTests.cs">
       <Link>Syntax\AfterTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\ArbitraryConstraintMatching.cs">
+      <Link>Syntax\ArbitraryConstraintMatching.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\CollectionTests.cs">
       <Link>Syntax\CollectionTests.cs</Link>
     </Compile>

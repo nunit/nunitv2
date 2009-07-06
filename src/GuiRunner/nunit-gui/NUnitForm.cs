@@ -855,8 +855,8 @@ namespace NUnit.Gui
             reloadProjectMenuItem.Enabled = runtimeMenuItem.Enabled = IsProjectLoaded && !IsTestRunning;
 
             RuntimeFramework current = TestLoader.CurrentFramework;
-            RuntimeFramework[] frameworks =
-                RuntimeFramework.GetAvailableFrameworks(current.Runtime);
+            RuntimeFramework[] frameworks = RuntimeFramework.AvailableFrameworks;
+
             runtimeMenuItem.Visible = frameworks.Length > 1;
 
             if (runtimeMenuItem.Visible && runtimeMenuItem.Enabled)

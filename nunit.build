@@ -74,7 +74,7 @@
   <property name="package.version" value="${base.package.version}.${package.build.number}"/>
 
   <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
-  <property name="package.configuration" value="RC"/>
+  <property name="package.configuration" value=""/>
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.name" 
@@ -888,7 +888,8 @@
         <include name="nunit.snk"/>
         <include name="NUnitFitTests.html"/>
         <include name="NUnitTests.config"/>
-        <include name="NUnitTests.nunit"/>
+        <include name="NUnitTests.v1.nunit"/>
+        <include name="NUnitTests.v2.nunit"/>
       </fileset>
     </copy>
 

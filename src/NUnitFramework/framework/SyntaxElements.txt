@@ -204,6 +204,14 @@ Gen: Throws.InstanceOf<T>()=>InstanceOf(typeof(T))
 Type: ConstraintExpression
 Gen: ConstraintExpression.With=>this.Append(new WithOperator())
 %
+/// <summary>
+/// Returns the constraint provided as an argument - used to allow custom
+/// custom constraints to easily participate in the syntax.
+/// </summary>
+Type: Constraint
+Gen: ConstraintExpression.Matches(Constraint constraint)=>this.Append(constraint)
+Gen: ConstraintExpression.Matches<T>(Predicate<T> predicate)=>this.Append(new PredicateConstraint<T>(predicate))
+%
 #
 # Constraints Without Arguments
 #
@@ -402,7 +410,7 @@ Gen: ConstraintFactory.DoesNotEndWith(string expected)=>Text.DoesNotEndWith(expe
 %
 /// <summary>
 /// Returns a constraint that succeeds if the actual
-/// value matches the pattern supplied as an argument.
+/// value matches the Regex pattern supplied as an argument.
 /// </summary>
 Gen3: Text.Matches(string pattern)=>new RegexConstraint(pattern)
 %

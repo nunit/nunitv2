@@ -22,6 +22,7 @@ namespace NUnit.Framework
         private Type expectedExceptionType;
         private string expectedExceptionName;
         private string expectedMessage;
+        private MessageMatch matchType;
         private string description;
         private string testName;
 
@@ -114,15 +115,24 @@ namespace NUnit.Framework
             }
         }
 
-         /// <summary>
-         /// Gets or sets the expected message of the expected exception
-         /// </summary>
-         /// <value>The expected message of the exception.</value>
-         public string ExpectedMessage
-         {
-         	get { return expectedMessage; }
+        /// <summary>
+        /// Gets or sets the expected message of the expected exception
+        /// </summary>
+        /// <value>The expected message of the exception.</value>
+        public string ExpectedMessage
+        {
+            get { return expectedMessage; }
          	set { expectedMessage = value; }
-         }
+        }
+
+        /// <summary>
+        ///  Gets or sets the type of match to be performed on the expected message
+        /// </summary>
+        public MessageMatch MatchType
+        {
+            get { return matchType; }
+            set { matchType = value; }
+        }
 
         /// <summary>
         /// Gets or sets the description.

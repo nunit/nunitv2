@@ -93,7 +93,7 @@ namespace NUnit.UiException.StackTraceAnalysers
             if (lookForLastInteger(error, workPos) != -1)
                 return (-1);
 
-            Int32.TryParse(error.Substring(startIndex), out res);
+            Int32.TryParse(error.Substring(startIndex, workPos-startIndex), out res);
 
             return (res);
         }

@@ -153,6 +153,8 @@ namespace NUnit.Core
                     return exception.Message.IndexOf(expectedMessage) >= 0;
                 case "Regex":
                     return Regex.IsMatch(exception.Message, expectedMessage);
+                case "StartsWith":
+                    return exception.Message.StartsWith(expectedMessage);
             }
         }
 
@@ -184,6 +186,9 @@ namespace NUnit.Core
                     break;
                 case "Regex":
                     expectedText = "Expected message matching: ";
+                    break;
+                case "StartsWith":
+                    expectedText = "Expected message starting: ";
                     break;
             }
 

@@ -21,6 +21,8 @@ namespace NUnit.Core
         public static readonly string ExpectedExceptionName = "ExpectedExceptionName";
         /// <summary>ExpectedException Message</summary>
         public static readonly string ExpectedMessage = "ExpectedMessage";
+        /// <summary>ExpectedException MatchType</summary>
+        public static readonly string MatchType = "MatchType";
         /// <summary>Expected return result from test</summary>
         public static readonly string Result = "Result";
         /// <summary>Description of the test</summary>
@@ -37,6 +39,8 @@ namespace NUnit.Core
         public static readonly string CategoryName = "Name";
         /// <summary>Reason for not running a test</summary>
         public static readonly string Reason = "Reason";
+        /// <summary>Flag indicating excluded test should be marked as Ignored</summary>
+        public static readonly string IgnoreExcluded = "IgnoreExcluded";
         /// <summary>Name of an addin that must be present to run a test</summary>
         public static readonly string RequiredAddin = "RequiredAddin";
     }

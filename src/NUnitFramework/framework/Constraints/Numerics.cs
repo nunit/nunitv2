@@ -131,11 +131,11 @@ namespace NUnit.Framework.Constraints
                     
                     double relativeError = Math.Abs((expected - actual) / expected);
                     return (relativeError <= Convert.ToDouble(tolerance.Value) / 100.0);
-
+#if !NETCF_1_0
                 case ToleranceMode.Ulps:
                     return FloatingPointNumerics.AreAlmostEqualUlps(
                         expected, actual, Convert.ToInt64(tolerance.Value));
-
+#endif
                 default:
                     throw new ArgumentException("Unknown tolerance mode specified", "mode");
             }
@@ -170,11 +170,11 @@ namespace NUnit.Framework.Constraints
                         return expected.Equals(actual);
                     float relativeError = Math.Abs((expected - actual) / expected);
                     return (relativeError <= Convert.ToSingle(tolerance.Value) / 100.0f);
-
+#if !NETCF_1_0
                 case ToleranceMode.Ulps:
                     return FloatingPointNumerics.AreAlmostEqualUlps(
                         expected, actual, Convert.ToInt32(tolerance.Value));
-
+#endif
                 default:
                     throw new ArgumentException("Unknown tolerance mode specified", "mode");
             }

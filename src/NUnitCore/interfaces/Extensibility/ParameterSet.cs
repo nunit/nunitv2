@@ -31,6 +31,7 @@ namespace NUnit.Core.Extensibility
         private System.Type expectedExceptionType;
         private string expectedExceptionName;
         private string expectedMessage;
+        private string matchType;
         private object result;
         private string testName;
 
@@ -103,6 +104,15 @@ namespace NUnit.Core.Extensibility
         {
         	get { return expectedMessage; }
         	set { expectedMessage = value; }
+        }
+
+        /// <summary>
+        ///  Gets or sets the type of match to be performed on the expected message
+        /// </summary>
+        public string MatchType
+        {
+            get { return matchType; }
+            set { matchType = value; }
         }
 
         /// <summary>
@@ -209,6 +219,9 @@ namespace NUnit.Core.Extensibility
             else
                 parms.ExpectedExceptionName = GetParm(source, PropertyNames.ExpectedExceptionName) as string;
             parms.ExpectedMessage = GetParm(source, PropertyNames.ExpectedMessage) as string;
+            object matchEnum = GetParm(source, PropertyNames.MatchType);
+            if ( matchEnum != null )
+                parms.MatchType = matchEnum.ToString();
             parms.Result = GetParm(source, PropertyNames.Result);
             parms.Description = GetParm(source, PropertyNames.Description) as string;
             parms.TestName = GetParm(source, PropertyNames.TestName) as string;

@@ -45,6 +45,9 @@ namespace NUnit.UiException.Tests.StackTraceAnalyzers
             res = AcceptValue(_parser, ":43");
             Assert.That(res.Line, Is.EqualTo(43));
 
+            // Bug
+            res = AcceptValue(_parser, @"bei CT.Business.BusinessObjectXmlSerializer.Deserialize(String serializedObject) in D:\Source\CT5\BASE\CT.Business\BusinessObjectXmlSerializer.cs:Zeile 86.");
+            Assert.That(res.Line, Is.EqualTo(86));
             return;
         }
 

@@ -25,15 +25,6 @@ namespace NUnit.Framework.Constraints
         public abstract bool ObjectsEqual(object x, object y);
 
         /// <summary>
-        /// Returns the default EqualityAdapter, which wraps an
-        /// instance of the standard NUnitEqualityComparer.
-        /// </summary>
-        public static EqualityAdapter Default
-        {
-            get { return new DefaultEqualityAdapter(); }
-        }
-
-        /// <summary>
         /// Returns an EqualityAdapter that wraps an IComparer.
         /// </summary>
         public static EqualityAdapter For(IComparer comparer)
@@ -110,14 +101,6 @@ namespace NUnit.Framework.Constraints
             }
         }
 #endif
-
-        class DefaultEqualityAdapter : EqualityAdapter
-        {
-            public override bool ObjectsEqual(object x, object y)
-            {
-                throw new NotImplementedException();
-            }
-        }
 
         class ComparisonAdapterAdapter : EqualityAdapter
         {
