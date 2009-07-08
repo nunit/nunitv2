@@ -65,10 +65,14 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Gets or sets the expected exception type
 		/// </summary>
-		public Type ExpectedException 
+		public Type ExpectedException
 		{
 			get{ return expectedException; }
-			set{ expectedException = value; }
+			set
+            { 
+                expectedException = value;
+                expectedExceptionName = expectedException.FullName;
+            }
 		}
 
 		/// <summary>

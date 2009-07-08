@@ -25,21 +25,35 @@ namespace NUnit.Core.Tests
 			throw new ArgumentException();
 		}
 
-		[Test]
-		[ExpectedException(typeof(ArgumentException))]
-		public void TestSucceedsWithSpecifiedExceptionType()
-		{
-			throw new ArgumentException("argument exception");
-		}
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestSucceedsWithSpecifiedExceptionType()
+        {
+            throw new ArgumentException("argument exception");
+        }
 
-		[Test]
-		[ExpectedException("System.ArgumentException")]
-		public void TestSucceedsWithSpecifiedExceptionName()
-		{
-			throw new ArgumentException("argument exception");
-		}
+        [Test]
+        [ExpectedException(ExpectedException=typeof(ArgumentException))]
+        public void TestSucceedsWithSpecifiedExceptionTypeAsNamedParameter()
+        {
+            throw new ArgumentException("argument exception");
+        }
 
-		[Test]
+        [Test]
+        [ExpectedException("System.ArgumentException")]
+        public void TestSucceedsWithSpecifiedExceptionName()
+        {
+            throw new ArgumentException("argument exception");
+        }
+
+        [Test]
+        [ExpectedException(ExpectedExceptionName="System.ArgumentException")]
+        public void TestSucceedsWithSpecifiedExceptionNameAsNamedParameter()
+        {
+            throw new ArgumentException("argument exception");
+        }
+
+        [Test]
 		[ExpectedException(typeof(ArgumentException),ExpectedMessage="argument exception")]
 		public void TestSucceedsWithSpecifiedExceptionTypeAndMessage()
 		{
@@ -137,21 +151,35 @@ namespace NUnit.Core.Tests
 				result.Message);
 		}
 
-		[Test]
-		public void TestMismatchedExceptionType()
-		{
-			Type fixtureType = typeof(MismatchedException);
-			Test test = TestBuilder.MakeTestCase( fixtureType, "MismatchedExceptionType" );
+        [Test]
+        public void TestMismatchedExceptionType()
+        {
+            Type fixtureType = typeof(MismatchedException);
+            Test test = TestBuilder.MakeTestCase(fixtureType, "MismatchedExceptionType");
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-			Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
-			StringAssert.StartsWith(
-				"An unexpected exception type was thrown" + Environment.NewLine +
-				"Expected: System.ArgumentException" + Environment.NewLine +
-				" but was: System.ArgumentOutOfRangeException", 
-				result.Message);
-		}
+            Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
+            StringAssert.StartsWith(
+                "An unexpected exception type was thrown" + Environment.NewLine +
+                "Expected: System.ArgumentException" + Environment.NewLine +
+                " but was: System.ArgumentOutOfRangeException",
+                result.Message);
+        }
 
-		[Test]
+        [Test]
+        public void TestMismatchedExceptionTypeAsNamedParameter()
+        {
+            Type fixtureType = typeof(MismatchedException);
+            Test test = TestBuilder.MakeTestCase(fixtureType, "MismatchedExceptionTypeAsNamedParameter");
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.IsTrue(result.IsFailure, "MismatchedExceptionType should have failed");
+            StringAssert.StartsWith(
+                "An unexpected exception type was thrown" + Environment.NewLine +
+                "Expected: System.ArgumentException" + Environment.NewLine +
+                " but was: System.ArgumentOutOfRangeException",
+                result.Message);
+        }
+
+        [Test]
 		public void TestMismatchedExceptionTypeWithUserMessage()
 		{
 			Type fixtureType = typeof(MismatchedException);

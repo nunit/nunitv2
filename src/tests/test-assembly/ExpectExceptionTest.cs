@@ -34,14 +34,21 @@ namespace NUnit.TestData.ExpectExceptionTest
 	[TestFixture]
 	public class MismatchedException
 	{
-		[Test]
-		[ExpectedException(typeof(ArgumentException))]
-		public void MismatchedExceptionType()
-		{
-			throw new ArgumentOutOfRangeException();
-		}
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void MismatchedExceptionType()
+        {
+            throw new ArgumentOutOfRangeException();
+        }
 
-		[Test]
+        [Test]
+        [ExpectedException(ExpectedException=typeof(ArgumentException))]
+        public void MismatchedExceptionTypeAsNamedParameter()
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+
+        [Test]
 		[ExpectedException(typeof(ArgumentException), UserMessage="custom message")]
 		public void MismatchedExceptionTypeWithUserMessage()
 		{
