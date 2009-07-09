@@ -97,9 +97,11 @@
       		
       <Component Id="nunit.uikit_2.0" DiskId="1" Guid="5B256DDD-668C-4bdd-AC91-7EF0D961F6E6">
         <File Id="nunit.uikit_2.0" Name="UIKIT.DLL" LongName="nunit.uikit.dll" />
-        <File Id="success.jpg_2.0" Name="SUCCESS.JPG" LongName="success.jpg" />
-        <File Id="failure.jpg_2.0" Name="FAILURE.JPG" LongName="failure.jpg" />
-        <File Id="ignored.jpg_2.0" Name="IGNORED.JPG" LongName="ignored.jpg" />
+        <File Id="skipped.png_2.0" Name="SKIPPED.PNG" LongName="skipped.png" />
+        <File Id="success.png_2.0" Name="SUCCESS.PNG" LongName="success.png" />
+        <File Id="failure.png_2.0" Name="FAILURE.PNG" LongName="failure.png" />
+        <File Id="ignored.png_2.0" Name="IGNORED.PNG" LongName="ignored.png" />
+        <File Id="inconclusive.png_2.0" Name="INCNCLSV.PNG" LongName="inconclusive.png" />
         <RemoveFile Id="RemoveThumbnails_GUI_2.0" On="uninstall" Name="*" />
       </Component>
 
