@@ -42,7 +42,7 @@ namespace NUnit.Framework.Constraints
             Assert.IsFalse(theConstraint.Matches(badValue));
         }
 
-        [Test, Sequential, Platform(Exclude="Mono", Reason="Mono Bug: Returns base class for ReflectedType")]
+        [Test, Sequential]
         public void ProvidesProperFailureMessage(
             [ValueSource("FailureData")] object badValue,
             [ValueSource("ActualValues")] string message)
