@@ -126,7 +126,16 @@ namespace NUnit.Core
             }
             else if (arg is string)
             {
-                display = "\"" + display + "\"";
+                StringBuilder sb = new StringBuilder();
+                sb.Append("\"");
+                foreach (char c in (string)arg)
+                    sb.Append(EscapeControlChar(c));
+                sb.Append("\"");
+                display = sb.ToString();
+            }
+            else if (arg is char)
+            {
+                display = "\'" + EscapeControlChar((char)arg) + "\'";
             }
             else if (arg is int)
             {
@@ -138,6 +147,43 @@ namespace NUnit.Core
             }
 
             return display;
+        }
+
+        private static string EscapeControlChar(char c)
+        {
+            switch (c)
+            {
+                case '\'':
+                    return "\\\'";
+                case '\"':
+                    return "\\\"";
+                case '\\':
+                    return "\\\\";
+                case '\0':
+                    return "\\0";
+                case '\a':
+                    return "\\a";
+                case '\b':
+                    return "\\b";
+                case '\f':
+                    return "\\f";
+                case '\n':
+                    return "\\n";
+                case '\r':
+                    return "\\r";
+                case '\t':
+                    return "\\t";
+                case '\v':
+                    return "\\v";
+
+                case '\x0085':
+                case '\x2028':
+                case '\x2029':
+                    return string.Format("\\x{0:X4}", (int)c);
+
+                default:
+                    return c.ToString();
+            }
         }
     }
 }

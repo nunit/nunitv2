@@ -167,8 +167,8 @@ namespace NUnit.Framework
             if ( clipping )
                 MsgUtils.ClipExpectedAndActual(ref expected, ref actual, maxDisplayLength, mismatch);
 
-            expected = MsgUtils.ConvertWhitespace(expected);
-            actual = MsgUtils.ConvertWhitespace(actual);
+            expected = MsgUtils.EscapeControlChars(expected);
+            actual = MsgUtils.EscapeControlChars(actual);
 
             // The mismatch position may have changed due to clipping or white space conversion
             mismatch = MsgUtils.FindMismatchPosition(expected, actual, 0, ignoreCase);

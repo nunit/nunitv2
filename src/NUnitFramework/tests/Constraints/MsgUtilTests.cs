@@ -28,9 +28,18 @@ namespace NUnit.Framework.Constraints.Tests
         [TestCase("\t", "\\t")]
         [TestCase("\t\n", "\\t\\n")]
         [TestCase("\\r\\n", "\\\\r\\\\n")]
-		public void TestConvertWhitespace(string input, string expected)
+        [TestCase("\0", "\\0")]
+        [TestCase("\a", "\\a")]
+        [TestCase("\b", "\\b")]
+        [TestCase("\f", "\\f")]
+        [TestCase("\v", "\\v")]
+        // New Line
+        [TestCase("\x0085", "\\x0085", Description = "Next line character")]
+        [TestCase("\x2028", "\\x2028", Description = "Line separator character")]
+        [TestCase("\x2029", "\\x2029", Description = "Paragraph separator character")]
+        public void EscapeControlCharsTest(string input, string expected)
 		{
-            Assert.AreEqual( expected, MsgUtils.ConvertWhitespace(input) );
+            Assert.AreEqual( expected, MsgUtils.EscapeControlChars(input) );
 		}
 
         private const string s52 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -43,6 +52,12 @@ namespace NUnit.Framework.Constraints.Tests
         {
             Assert.AreEqual(result, MsgUtils.ClipString(input, max, start));
         }
+
+        //[TestCase('\0')]
+        //[TestCase('\r')]
+        //public void CharacterArgumentTest(char c)
+        //{
+        //}
 
         [Test]
         public void ClipExpectedAndActual_StringsFitInLine()

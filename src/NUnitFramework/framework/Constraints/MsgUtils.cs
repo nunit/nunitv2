@@ -61,15 +61,67 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="s">The string to be converted</param>
         /// <returns>The converted string</returns>
-        public static string ConvertWhitespace(string s)
+        public static string EscapeControlChars(string s)
         {
-			if( s != null )
-			{
-				s = s.Replace( "\\", "\\\\" );
-				s = s.Replace( "\r", "\\r" );
-				s = s.Replace( "\n", "\\n" );
-				s = s.Replace( "\t", "\\t" );
-			}
+            if (s != null)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                for (int i = 0; i < s.Length; i++)
+                {
+                    char c = s[i];
+
+                    switch (c)
+                    {
+                        //case '\'':
+                        //    sb.Append("\\\'");
+                        //    break;
+                        //case '\"':
+                        //    sb.Append("\\\"");
+                        //    break;
+                        case '\\':
+                            sb.Append("\\\\");
+                            break;
+                        case '\0':
+                            sb.Append("\\0");
+                            break;
+                        case '\a':
+                            sb.Append("\\a");
+                            break;
+                        case '\b':
+                            sb.Append("\\b");
+                            break;
+                        case '\f':
+                            sb.Append("\\f");
+                            break;
+                        case '\n':
+                            sb.Append("\\n");
+                            break;
+                        case '\r':
+                            sb.Append("\\r");
+                            break;
+                        case '\t':
+                            sb.Append("\\t");
+                            break;
+                        case '\v':
+                            sb.Append("\\v");
+                            break;
+
+                        case '\x0085':
+                        case '\x2028':
+                        case '\x2029':
+                            sb.AppendFormat("\\x{0:X4}", (int)c);
+                            break;
+
+                        default:
+                            sb.Append(c);
+                            break;
+                    }
+                }
+
+                s = sb.ToString();
+            }
+
 			return s;
         }
 
