@@ -27,47 +27,178 @@
 <h2>String Constraints (NUnit 2.4)</h2>
 
 <p>String constraints perform tests that are specific to strings.
-   The following string constraints are provided.
+   Attempting to test a non-string value with a string constraint
+   is an error and gives an exception.
    
-<table class="constraints">
-<tr><th>Syntax Helpers</th><th>Constructor</th><th>Operation</th></tr>
-<tr><td>Text.Contains( string )<br>Text.DoesNotContain( string )</td><td>SubstringConstraint( string )</td></td><td>tests for a substring</td></tr>
-<tr><td>Text.StartsWith( string )<br>Text.DoesNotStartWith( string )</td><td>StartsWithConstraint( string )</td></td><td>tests for an initial string</td></tr>
-<tr><td>Text.EndsWith( string )<br>Text.DoesNotEndWith( string )</td><td>EndsWithConstraint( string )</td></td><td>tests for an ending string</td></tr>
-<tr><td>Text.Matches( string )<br>Text.DoesNotMatch( string )</td><td>RegexConstraint( string )</td></td><td>tests that a pattern is matched</td></tr>
-</table>
+<p>The <b>Text</b> prefix is deprecated beginning with NUnit 2.5.1
+   and will be removed in NUnit 3.0.
+ 
+<h3>SubstringConstraint</h3>  
 
-<h4>Examples</h4>
+<h4>Action</h4>
+<p>Tests for a substring.
 
-<div class="code" style="width: 36em"><pre>
+<h4>Constructor</h4>
+<div class="code"><pre>
+SubstringConstraint(string expected)
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.StringContaining(string expected)
+ContainsSubstring(string expected)
+Contains(string expected)
+[Obsolete] Text.Contains(string expected)
+[Obsolete] Text.DoesNotContain(string expected)
+</pre></div>
+
+<h4>Modifiers</h4>
+<div class="code"><pre>
+...IgnoreCase
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
 string phrase = "Make your tests fail before passing!"
 
-Assert.That( phrase, Text.Contains( "tests fail" ) );
-Assert.That( phrase, Text.Contains( "make" ).IgnoreCase );
+Assert.That( phrase, Is.StringContaining( "tests fail" ) );
+Assert.That( phrase, Is.Not.StringContaining( "tests pass" ) );
+Assert.That( phrase, Is.StringContaining( "make" ).IgnoreCase );
+Expect (phrase, Contains.Substring( "make" ).IgnoreCase );
+</pre></div>
 
-Assert.That( phrase, Text.StartsWith( "Make" ) );
-Assert.That( phrase, Text.Not.StartsWith( "Break" ) );
-Assert.That( phrase, Text.DoesNotStartWith( "Break" ) );
+<h4>Notes</h4>
+<ol>
+<li><b>ContainsSubstring</b> and <b>Contains</b> may appear only in the 
+    body of a constraint expression or when the inherited syntax is used.
+<li><b>Contains</b> is not actually a string constraint but is converted
+    to one when a string is being tested.
+</ol>
 
-Assert.That( phrase, Text.EndsWith( "!" ) );
-Assert.That( phrase, Text.EndsWith( "PASSING!" ).IgnoreCase );
+<h3>StartsWithConstraint</h3>
 
-Assert.That( phrase, Text.Matches( "Make.*tests.*pass" ) );
-Assert.That( phrase, Text.Not.Matches( "your.*passing.*tests" ) );
-Assert.That( phrase, Text.DoesNotMatch( "your.*passing.*tests" ) );
+<h4>Action</h4>
+<p>Tests for an initial string.
 
-// Using Inheritance
-Expect( phrase, Contains( "make" ).IgnoreCase );
+<h4>Constructor</h4>
+<div class="code"><pre>
+StartsWithConstraint(string expected)
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.StringStarting(string expected)
+StartsWith(string expected)
+[Obsolete] Text.StartsWith(string expected)
+[Obsolete] Text.DoesNotStartWith(string expected)
+</pre></div>
+
+<h4>Modifiers</h4>
+<div class="code"><pre>
+...IgnoreCase
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
+string phrase = "Make your tests fail before passing!"
+
+Assert.That( phrase, Is.StringStarting( "Make" ) );
+Assert.That( phrase, Is.Not.StringStarting( "Break" ) );
+Assert.That( phrase, Has.Length.GreaterThan(10)
+                .And.Not.StartsWith( "Break" ) );
+Expect( phrase, StartsWith( "Make" ) );
+</pre></div>
+
+<h4>Notes</h4>
+<ol>
+<li><b>StartsWith</b> may appear only in the body of a constraint 
+    expression or when the inherited syntax is used.
+</ol>
+
+<h3>EndsWithConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests for an ending string.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+EndsWithConstraint(string expected)
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.StringEnding(string expected)
+EndsWith(string expected)
+[Obsolete] Text.EndsWith(string expected)
+[Obsolete] Text.DoesNotEndWith(string expected)
+</pre></div>
+
+<h4>Modifiers</h4>
+<div class="code"><pre>
+...IgnoreCase
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
+string phrase = "Make your tests fail before passing!"
+
+Assert.That( phrase, Is.StringEnding( "!" ) );
+Assert.That( phrase, Is.StringEnding( "PASSING!" ).IgnoreCase );
 Expect( phrase, EndsWith( "!" ) );
+</pre></div>
+
+<h4>Notes</h4>
+<ol>
+<li><b>EndsWith</b> may appear only in the body of a constraint 
+    expression or when the inherited syntax is used.
+</ol>
+
+<h3>RegexConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests that a pattern is matched.
+
+<h4>Constructor</h4>
+<div class="code"><pre>
+RegexConstraint(string pattern)
+</pre></div>
+
+<h4>Syntax</h4>
+<div class="code"><pre>
+Is.StringMatching(string pattern)
+Matches(string pattern)
+[Obsolete] Text.Matches(string pattern)
+[Obsolete] Text.DoesNotMatch(string pattern)
+</pre></div>
+
+<h4>Modifiers</h4>
+<div class="code"><pre>
+...IgnoreCase
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
+string phrase = "Make your tests fail before passing!"
+
+Assert.That( phrase, Is.StringMatching( "Make.*tests.*pass" ) );
+Assert.That( phrase, Is.Not.StringMatching( "your.*passing.*tests" ) );
+Assert.That( phrase, Has.Length.GreaterThan(10)
+                .And.Not.Matches( "your.*passing.*tests" ) );
 Expect( phrase, Matches( "Make.*pass" ) );
 </pre></div>
+
+<h4>Notes</h4>
+<ol>
+<li><b>Matches</b> may appear only in the body of a constraint 
+    expression or when the inherited syntax is used.
+</ol>
 
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

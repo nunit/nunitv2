@@ -158,15 +158,21 @@ the shell you are using.
 	<a href="category.html">Category Attribute</a> and the 
 	<a href="explicit.html">Explicit Attribute</a>.</p>
 <h4>Redirecting Output</h4>
-<p>The output that is normally shown on the console may be redirected to a file. 
-	This includes output created by the test program as well as what NUnit itself 
-	creates. The following command redirects standard output to the TestResult.txt 
-	file:
+<p>Output created by the test, which is normally shown on the console, may be 
+    redirected to a file. The following command redirects standard output to the 
+	file TestResult.txt:
 	<pre class="programtext">        nunit-console nunit.tests.dll /out:TestResult.txt</pre>
 </p>
 <p>The following command redirects standard error output to the StdErr.txt file.
 	<pre class="programtext">        nunit-console nunit.tests.dll /err:StdErr.txt</pre>
 </p>
+
+<p><b>Note:</b>This option only redirects output produced <b>by the tests</b>,
+    together with selected NUnit output that is interspersed with the test output.
+	It does not redirect <b>all</b> console output. If you want to redirect <b>all</b>
+	output to a file, you should use command line redirection as supported by the
+	shell you are using. This option exists for the purpose of separating test
+	output from other output, such as the NUnit summary report.
 
 <h4>Labeling Test Output</h4>
 <p>The output from each test normally follows right after that of the preceding 
@@ -263,7 +269,7 @@ may run for any amount of time.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

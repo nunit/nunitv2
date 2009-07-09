@@ -49,6 +49,12 @@ replaced the older tabbed format.</p>
 <p>The <b>Display ... files in list</b> TextBox allows the user to choose the number 
 of entries to display in the recent files list.
 
+<p>Normally, NUnit checks that project files still exist before
+displaying them in the recent files list. This can cause long delays if the
+file is on a network connection that is no longer available. Unchecking 
+<b>Check that files exist before listing</b> will avoid this delay, so 
+long as the missing file is not actually selected.
+
 <p>If <b>Load most recent project at startup</b> is checked, the GUI will load the 
 last file opened unless it is run with a specific filename or with the 
 <code>/noload</code> parameter.</p>
@@ -256,7 +262,7 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

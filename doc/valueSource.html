@@ -40,7 +40,12 @@ ValueSourceAttribute(string sourceName);
 </div>
 
 <p>If <b>sourceType</b> is specified, it represents the class that provides
-the data. If not, the class containing the test method is used.
+the data. It must have a default constructor.
+
+<p>If <b>sourceType</b> is not specified, the class containing the test
+method is used. NUnit will construct it using either the default constructor
+or - if arguments are provided - the appropriate constructor for those 
+arguments.
 
 <p>The <b>sourceName</b>, represents the name of the source that will 
 provide the arguments. It should have the following characteristics:
@@ -53,22 +58,26 @@ provide the arguments. It should have the following characteristics:
 <li>
 </ul>
 
-<p>NUnit locates value sources at the time the tests are loaded, creates
-instances of each class having non-static sources and builds a list of 
-tests to be executed. Each instance is only created once at this
-time and is destroyed after all tests are loaded. In the case of sources
-located within the same class as the tests, a different instance is created
-each time the test is run, so no communication is possible using non-static
-members of the class.
+<h3>Note on Object Construction</h3>
 
-   
+<p>NUnit locates the test cases at the time the tests are loaded, creates
+instances of each class with non-static sources and builds a list of 
+tests to be executed. Each source object is only created once at this
+time and is destroyed after all tests are loaded. 
+
+<p>If the data source is in the test fixture itself, the object is created
+using the appropriate constructor for the fixture parameters provided, or
+the default constructor if no parameters were specified. Since this object
+is destroyed before the tests are run, no communication is possible between
+these two phases - or between different runs - except through the parameters
+themselves.
 
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

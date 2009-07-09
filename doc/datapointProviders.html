@@ -37,7 +37,8 @@ of a parameterized test method.
 	IExtensionPoint listeners = host.GetExtensionPoint( "DataPointProviders" );</pre>
 
 <h4>Interface</h4>
-<p>The extension object passed to Install must implement the IDataPointProvider interface:
+<p>The extension object passed to Install must implement either the
+   <b>IDataPointProvider</b> or the <b>IDataPointProvider2</b> interface:
 
 <pre>
 	public interface IDataPointProvider
@@ -45,22 +46,45 @@ of a parameterized test method.
 		bool HasDataFor( ParameterInfo parameter );
 		IEnumerable GetDataFor( ParameterInfo parameter );
 	}
+	
+	public interface IDataPointProvider2 : IDatapointProvider
+	{
+		bool HasDataFor( ParameterInfo parameter, Test parentSuite );
+		IEnumerable GetDataFor( ParameterInfo parameter, Test parentSuite );
+	}
 </pre>
 
-<p>The HasDataFor method should return true if the provider is able to
+<p>NUnit will call <b>IDataPointProvider2</b> if it is available. Otherwise
+   <b>IDataPointProvider</b> will be used.
+
+<p>The <b>HasDataFor</b> method should return true if the provider is able to
    supply data for the specified parameter. If a provider only wants to be used 
    on certain types of tests, it can examine the supplied ParameterInfo and
-   its associated MethodInfo and Type.
+   its associated MethodInfo and Type and/or the parent test suite.
 
-<p>The GetDataFor method should return a list of individual values to
+<p>The <b>GetDataFor</b> method should return a list of individual values to
    use for the supplied parameter in running the test.
+   
+<h4>Notes:</h4>
+
+<ol>
+<li>Most providers will delegate one of the interface implementations
+    to the other if they implement both.
+<li>DataPointProviders that use data from the fixture class should use 
+    <b>IDataPointProvider2</b> interface so that they are able to access any 
+	arguments supplied for constructing the fixture object.
+<li>Providers that acquire data from outside the fixture will usually
+    be able to work with <b>IDataPointProvider</b> alone.
+<li>The <b>IDataPointProvider2</b> interface was added in the NUnit 2.5.1 release.
+</ol>
+   
 
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

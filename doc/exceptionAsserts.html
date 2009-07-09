@@ -88,10 +88,10 @@ public class AssertThrowsTests
       new TestDelegate(MethodThatThrows) );
 	  
     Assert.Throws( typeof(ArgumentException),
-      delegate { throw new ArgumentException() } );
+      delegate { throw new ArgumentException(); } );
 	  
     Assert.Throws&lt;ArgumentException&gt;(
-      delegate { throw new ArgumentException() } );
+      delegate { throw new ArgumentException(); } );
   }
   
   void MethodThatThrows()
@@ -112,7 +112,7 @@ public class UsingReturnValue
   public void TestException()
   {
     MyException ex = Assert.Throws&lt;MyException&gt;(
-      delegate { throw new MyException( "message", 42 ) } );
+      delegate { throw new MyException( "message", 42 ); } );
     Assert.That( ex.Message, Is.EqualTo( "message" ) );
     Assert.That( ex.MyParam, Is.EqualTo( 42 ) ); 
   }
@@ -131,7 +131,7 @@ public class UsingConstraint
     Assert.Throws( Is.Typeof&lt;MyException&gt;()
                  .And.Message.EqualTo( "message" )
                  .And.Property( "MyParam" ).EqualTo( 42 ),
-      delegate { throw new MyException( "message", 42 ) } );
+      delegate { throw new MyException( "message", 42 ); } );
   }
 </pre></div>
 
@@ -165,7 +165,7 @@ Assert.Throws( Is.InstanceOf&lt;ApplicationException&gt;(), code );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

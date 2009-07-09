@@ -26,38 +26,67 @@
 
 <h2>Throws Constraint (NUnit 2.5)</h2>
 
-<p>ThrowsConstraint is used to test that some code, represented as a delegate,
+<p><b>ThrowsConstraint</b> is used to test that some code, represented as a delegate,
 throws a particular exception. It may be used alone, to merely test the type
 of constraint, or with an additional constraint to be applied to the exception
 specified as an argument.
 
-<table class="constraints">
-<tr><th>Syntax Helper</th><th>Constructor</th><th>Operation</th></tr>
-<tr><td>Throws.Exception(Type)</td><td>ThrowsConstraint(Type)</td></td><td>tests that an exception of the specified type is thrown</td></tr>
-<tr><td>Throws.Exception(Type,Constraint)</td><td>ThrowsConstraint(Type,Constraint)</td></td><td>tests that an exception of the specified type is thrown and that it satisifies the constrant provided as the second argument</td></tr>
-<tr><td>Throws.Exception&lt;T&gt;()</td><td>ThrowsConstraint&lt;T&gt;()</td></td><td>tests that an exception of the specified type is thrown</td></tr>
-<tr><td>Throws.Exception&lt;T&gt;(Constraint)</td><td>ThrowsConstraint&lt;T&gt;(Constraint)</td></td><td>tests that an exception of the specified type is thrown and that it satisifies the constrant provided as an argument</td></tr>
-</table>
+p>The related <b>ThrowsNothingConstraint</b> simply asserts that the delegate
+does not throw an exception.
 
-<h4>Examples</h4>
-
+<h4>Constructors</h4>
 <div class="code"><pre>
+ThrowsConstraint(Type expectedType)
+ThrowsConstraint&lt;T&gt;()
+ThrowsConstraint(Type expectedType, Constraint constraint)
+ThrowsConstraint&lt;T&gt;(Constraint constraint)
+ThrowsNothingConstraint()
+</pre></div>
 
+<h4>Syntax</h4>
+<div class="code"><pre>
+Throws.Exception
+Throws.TypeOf(Type expectedType)
+Throws.TypeOf&lt;T&gt;()
+Throws.InstanceOf(Type expectedType)
+Throws.InstanceOf&lt;T&gt;()
+Throws.Nothing
+</pre></div>
+
+<h4>Examples of Use</h4>
+<div class="code"><pre>
 // .NET 1.1
 Assert.That( new TestDelegate(SomeMethod),
-  Throws.Exception(typeof(ArgumentException)));
+  Throws.TypeOf(typeof(ArgumentException)));
 Assert.That( new TestDelegate(SomeMethod),
-  Throws.Exception(typeof(ArgumentException),
-    Has.Property("Parameter", "myParam")));
+  Throws.Exception.TypeOf(typeof(ArgumentException)));
+Assert.That( new TestDelegate(SomeMethod),
+  Throws.TypeOf(typeof(ArgumentException))
+    .With.Property("Parameter").EqualTo("myParam"));
 	
 // .NET 2.0
 Assert.That( SomeMethod, 
-  Throws.Exception&lt;ArgumentException&gt;());
+  Throws.TypeOf&lt;ArgumentException&gt;());
 Assert.That( SomeMethod, 
-  Throws.Exception&lt;ArgumentException&gt;(
-    Has.Property("Parameter", "myParam")));
-
+  Throws.Exception.TypeOf&lt;ArgumentException&gt;());
+Assert.That( SomeMethod, 
+  Throws.TypeOf&lt;ArgumentException&gt;()
+    .With.Property("Parameter").EqualTo("myParam"));
 </pre></div>
+
+<h4>Notes</h4>
+<ol>
+<li><b>Throws.Exception</b> may be followed by further constraints,
+    which are applied to the exception itself as shown in the last two
+	examples above. It may also be used alone to verify that some
+	exception has been thrown, without regard to type. This is
+	not a recommended practice since you should normally know
+	what exception you are expecting.
+<li><b>Throws.TypeOf</b> and <b>Throws.InstanceOf</b> are provided
+    as a shorter syntax for this common test. They work exactly like
+	the corresponding forms following <b>Throws.Exception</b>.
+</ol>
+
 
 
 </div>
@@ -65,7 +94,7 @@ Assert.That( SomeMethod,
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

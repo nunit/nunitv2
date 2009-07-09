@@ -63,13 +63,32 @@ are provided:
 <li><a href="combinatorial.html">CombinatorialAttribute</a> (default)
 <li><a href="pairwise.html">PairwiseAttribute</a><li><a href="sequential.html">SequentialAttribute</a></ul>
 
+<h3>Order of Execution</h3>
+
+<p>In NUnit 2.5, individual test cases are sorted alphabetically and executed in
+   that order. With NUnit 2.5.1, the individual cases are not sorted, but are
+   executed in the order in which NUnit discovers them. This order does <b>not</b>
+   follow the lexical order of the attributes and will often vary between different
+   compilers or different versions of the CLR.
+   
+<p>The following specific rules for ordering apply:
+<ol>
+<li>If all arguments are specified in a <b>single TestCaseSource</b> attribute,
+    the ordering of the cases provided will be maintained.
+<li>If each parameter has a <b>single Values</b>, <b>ValueSource</b> or
+    <b>Range</b> attribute and the <b>Sequential</b> combining strategy
+	is used - or there is only one argument - the ordering will be maintained.
+<li>In all other cases, including using multiple <b>TestCase</b> attributes
+    or a combination of different types of attributes, the ordering of the
+	test cases is undefined.
+</ol>   
 
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

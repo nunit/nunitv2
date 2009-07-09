@@ -49,7 +49,7 @@
    since NUnit may construct the object multiple times in the course of a session.</li>
 
 <p>Beginning with NUnit 2.5, the <b>TestFixture</b> attribute is optional
-   for non-paramterized, non-generic fixtures, so long as the class contains
+   for non-parameterized, non-generic fixtures, so long as the class contains
    at least one method marked with the <b>Test</b>,
    <b>TestCase</b> or <b>TestCaseSource</b> attribute.
 
@@ -232,7 +232,7 @@ public class IList_Tests&lt;TList&gt; where TList : IList, new()
 <div class="code"><pre>
 [TestFixture(typeof(double), typeof(int), 100.0, 42)]
 [TestFixture(typeof(int) typeof(double), 42, 100.0)]
-public class SpecifyBothSetsOfArgs<T1, T2>
+public class SpecifyBothSetsOfArgs&lt;T1, T2&gt;
 {
     T1 t1;
     T2 t2;
@@ -246,8 +246,8 @@ public class SpecifyBothSetsOfArgs<T1, T2>
     [TestCase(5, 7)]
     public void TestMyArgTypes(T1 t1, T2 t2)
     {
-        Assert.That(t1, Is.TypeOf<T1>());
-        Assert.That(t2, Is.TypeOf<T2>());
+        Assert.That(t1, Is.TypeOf&lt;T1&gt;());
+        Assert.That(t2, Is.TypeOf&lt;T2&gt;());
     }
 }</pre></div>
 
@@ -259,7 +259,7 @@ public class SpecifyBothSetsOfArgs<T1, T2>
 <div class="code" style="width: 40em"><pre>
 [TestFixture(100.0, 42, TypeArgs=new Type[] {typeof(double), typeof(int) } )]
 [TestFixture(42, 100.0, TypeArgs=new Type[] {typeof(int), typeof(double) } )]
-public class SpecifyTypeArgsSeparately<T1, T2>
+public class SpecifyTypeArgsSeparately&lt;T1, T2&gt;
 {
     T1 t1;
     T2 t2;
@@ -273,8 +273,8 @@ public class SpecifyTypeArgsSeparately<T1, T2>
     [TestCase(5, 7)]
     public void TestMyArgTypes(T1 t1, T2 t2)
     {
-        Assert.That(t1, Is.TypeOf<T1>());
-        Assert.That(t2, Is.TypeOf<T2>());
+        Assert.That(t1, Is.TypeOf&lt;T1&gt;());
+        Assert.That(t2, Is.TypeOf&lt;T2&gt;());
     }
 }</pre></div>
 
@@ -286,7 +286,7 @@ public class SpecifyTypeArgsSeparately<T1, T2>
 <div class="code"><pre>
 [TestFixture(100.0, 42)]
 [TestFixture(42, 100.0)]
-public class DeduceTypeArgsFromArgs<T1, T2>
+public class DeduceTypeArgsFromArgs&lt;T1, T2&gt;
 {
     T1 t1;
     T2 t2;
@@ -300,8 +300,8 @@ public class DeduceTypeArgsFromArgs<T1, T2>
     [TestCase(5, 7)]
     public void TestMyArgTypes(T1 t1, T2 t2)
     {
-        Assert.That(t1, Is.TypeOf<T1>());
-        Assert.That(t2, Is.TypeOf<T2>());
+        Assert.That(t1, Is.TypeOf&lt;T1&gt;());
+        Assert.That(t2, Is.TypeOf&lt;T2&gt;());
     }
 }</pre></div>
    </ol> 
@@ -311,7 +311,7 @@ public class DeduceTypeArgsFromArgs<T1, T2>
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5</a></li>
+<li><a href="index.html">NUnit 2.5.1</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
