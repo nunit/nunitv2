@@ -13,19 +13,19 @@ namespace NUnit.ConsoleRunner
 
 	public class ConsoleOptions : CommandLineOptions
 	{
-		[Option(Short="load", Description = "Test fixture to be loaded")]
+		[Option(Short="load", Description = "Test fixture or namespace to be loaded (Deprecated)")]
 		public string fixture;
 
-		[Option(Description = "Name of the test to run")]
+		[Option(Description = "Name of the test case, fixture or namespace to run")]
 		public string run;
 
-		[Option(Description = "Project configuration to load")]
+		[Option(Description = "Project configuration (e.g.: Debug) to load")]
 		public string config;
 
-		[Option(Description = "Name of XML output file")]
+		[Option(Description = "Name of XML output file (Default: TestResult.xml)")]
 		public string xml;
 
-		[Option(Description = "Display XML to the console")]
+		[Option(Description = "Display XML to the console (Deprecated)")]
 		public bool xmlConsole;
 
 		[Option(Short="out", Description = "File to receive test output")]
