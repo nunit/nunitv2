@@ -121,10 +121,23 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(q, n / d);
         }
 
-        [Test, TestCaseSource(typeof(DivideDataProvider), "HereIsTheData" )]
+        [Test, TestCaseSource("FourArgs")]
+        public void TestWithFourArguments(int n, int d, int q, int r)
+        {
+            Assert.AreEqual(q, n / d);
+            Assert.AreEqual(r, n % d);
+        }
+
+        [Test, TestCaseSource(typeof(DivideDataProvider), "HereIsTheData")]
         public void SourceMayBeInAnotherClass(int n, int d, int q)
         {
             Assert.AreEqual(q, n / d);
+        }
+
+        [Test, TestCaseSource(typeof(DivideDataProviderWithReturnValue), "TestCases")]
+        public int SourceMayBeInAnotherClassWithReturn(int n, int d)
+        {
+            return n / d;
         }
 
         [Test]
@@ -208,6 +221,11 @@ namespace NUnit.Core.Tests
             new int[] { 12, 4, 3 },
             new int[] { 12, 6, 2 } };
 
+        static object[] FourArgs = new object[] {
+            new TestCaseData( 12, 3, 4, 0 ),
+            new TestCaseData( 12, 4, 3, 0 ),
+            new TestCaseData( 12, 5, 2, 2 ) };
+
         static int[] EvenNumbers = new int[] { 2, 4, 6, 8 };
 
         private static IEnumerable CheckCurrentDirectory
@@ -254,6 +272,19 @@ namespace NUnit.Core.Tests
                     list.Add(new object[] {100, 4, 25});
                     return list;
 #endif
+                }
+            }
+        }
+
+        public class DivideDataProviderWithReturnValue
+        {
+            public static IEnumerable TestCases
+            {
+                get
+                {
+                    yield return new TestCaseData(12, 3).Returns(5).Throws(typeof(AssertionException)).SetName("TC1");
+                    yield return new TestCaseData(12, 2).Returns(6).SetName("TC2");
+                    yield return new TestCaseData(12, 4).Returns(3).SetName("TC3");
                 }
             }
         }

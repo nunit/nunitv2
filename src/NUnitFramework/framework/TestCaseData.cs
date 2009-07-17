@@ -72,7 +72,7 @@ namespace NUnit.Framework
         /// <param name="args">The arguments.</param>
         public TestCaseData(params object[] args)
         {
-            if (arguments == null)
+            if (args == null)
                 this.arguments = new object[] { null };
             else
                 this.arguments = args;

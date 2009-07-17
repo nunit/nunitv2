@@ -96,6 +96,10 @@ namespace NUnit.Core.Builders
                     else
                         sources.Add(new ProviderReference(method.ReflectedType, sourceName));
                 }
+                else
+                {
+                    sources.Add(new ProviderReference(sourceType, sourceName));
+                }
 
             }
             return sources;
