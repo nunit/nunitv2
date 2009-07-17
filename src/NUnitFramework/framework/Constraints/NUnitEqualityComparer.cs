@@ -246,6 +246,8 @@ namespace NUnit.Framework.Constraints
 
         private bool StreamsEqual(Stream x, Stream y)
         {
+            if (x == y) return true;
+
             if (!x.CanRead)
                 throw new ArgumentException("Stream is not readable", "expected");
             if (!y.CanRead)

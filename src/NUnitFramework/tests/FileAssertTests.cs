@@ -86,9 +86,16 @@ namespace NUnit.Framework.Tests
 			FileAssert.AreEqual( expected, actual );
 		}
 
-		[Test]
-		public void AreEqualPassesWithStreams()
-		{
+        [Test]
+        public void AreEqualPassesWithSameStream()
+        {
+            Stream exampleStream = new MemoryStream(new byte[] { 1, 2, 3 });
+            Assert.That(exampleStream, Is.EqualTo(exampleStream));
+        }
+
+        [Test]
+        public void AreEqualPassesWithEqualStreams()
+        {
             using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
             using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage1.jpg"))
             {
