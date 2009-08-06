@@ -78,11 +78,12 @@ namespace NUnit.Core
 
         #region Properties
         private static Assembly frameworkAssembly;
+        private static bool frameworkAssemblyInitialized;
         private static Assembly FrameworkAssembly
         {
             get
             {
-                if (frameworkAssembly == null)
+                if (!frameworkAssemblyInitialized)
                     foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
                         if (assembly.GetName().Name == "nunit.framework" ||
                             assembly.GetName().Name == "NUnitLite")
@@ -91,13 +92,10 @@ namespace NUnit.Core
                             break;
                         }
 
+                frameworkAssemblyInitialized = true;
+
                 return frameworkAssembly;
             }
-        }
-
-        private static Version Version
-        {
-            get { return FrameworkAssembly.GetName().Version; }
         }
         #endregion
 
@@ -322,7 +320,7 @@ namespace NUnit.Core
             {
                 get
                 {
-                    if (assertType == null)
+                    if (assertType == null && FrameworkAssembly != null)
                         assertType = FrameworkAssembly.GetType(NUnitFramework.AssertType);
 
                     return assertType;
@@ -334,7 +332,7 @@ namespace NUnit.Core
             {
                 get
                 {
-                    if (areEqualMethod == null)
+                    if (areEqualMethod == null && AssertType != null)
                         areEqualMethod = AssertType.GetMethod(
                             "AreEqual", 
                             BindingFlags.Static | BindingFlags.Public, 
@@ -351,7 +349,7 @@ namespace NUnit.Core
             {
                 get
                 {
-                    if (counterProperty == null)
+                    if (counterProperty == null && AssertType != null)
                         counterProperty = Reflect.GetNamedProperty(
                             AssertType,
                             "Counter",
