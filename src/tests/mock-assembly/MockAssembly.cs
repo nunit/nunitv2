@@ -89,7 +89,8 @@ namespace NUnit.Tests
 			[Test]
 			[Category("MockCategory")]
 			[Property("Severity","Critical")]
-			public void MockTest2()
+            [Description("This is a really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really, really long description")]
+            public void MockTest2()
 			{}
 
 			[Test]
