@@ -1379,8 +1379,7 @@ namespace NUnit.UiKit
 
         private void RestoreVisualState( VisualState visualState )
         {
-            if (visualState.ShowCheckBoxes != this.CheckBoxes)
-                base.CheckBoxes = visualState.ShowCheckBoxes; // Bypass override
+            this.CheckBoxes = visualState.ShowCheckBoxes;
 
             foreach (VisualTreeNode visualNode in visualState.Nodes)
             {
