@@ -271,6 +271,10 @@
       <Link>SetCultureAttribute.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\SetUICultureAttribute.cs">
+      <Link>SetCultureAttribute.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\SetUpAttribute.cs">
       <Link>SetUpAttribute.cs</Link>
       <SubType>Code</SubType>

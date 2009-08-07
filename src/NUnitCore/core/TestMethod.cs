@@ -184,6 +184,10 @@ namespace NUnit.Core
                     TestContext.CurrentCulture =
                         new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
+                if (this.Properties["_SETUICULTURE"] != null)
+                    TestContext.CurrentUICulture =
+                        new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
+
                 int repeatCount = this.Properties.Contains("Repeat")
                     ? (int)this.Properties["Repeat"] : 1;
 

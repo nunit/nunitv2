@@ -190,6 +190,10 @@
       <Link>CultureSettingAndDetectionTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitCore\tests\SetCultureAttributeTests.cs">
+      <Link>SetCultureAttributeTests.cs</Link>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitCore\tests\DirectorySwapperTests.cs">
       <Link>DirectorySwapperTests.cs</Link>
       <SubType>Code</SubType>

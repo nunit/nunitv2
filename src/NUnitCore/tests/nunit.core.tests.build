@@ -20,6 +20,7 @@
         <include name="CombinatorialTests.cs"/>
         <include name="CoreExtensionsTests.cs"/>
         <include name="CultureSettingAndDetectionTests.cs"/>
+        <include name="SetCultureAttributeTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>
         <include name="EventQueueTests.cs"/>
         <include name="EventTestFixture.cs"/>

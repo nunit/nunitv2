@@ -19,6 +19,7 @@ namespace NUnit.Core.Tests
 	{
 		string currentDirectory;
 		CultureInfo currentCulture;
+        CultureInfo currentUICulture;
 
 		/// <summary>
 		/// Since we are testing the mechanism that saves and
@@ -29,6 +30,7 @@ namespace NUnit.Core.Tests
 		{
 			currentDirectory = Environment.CurrentDirectory;
 			currentCulture = CultureInfo.CurrentCulture;
+            currentUICulture = CultureInfo.CurrentUICulture;
 		}
 
 		[TearDown]
@@ -36,6 +38,7 @@ namespace NUnit.Core.Tests
 		{
 			Environment.CurrentDirectory = currentDirectory;
 			Thread.CurrentThread.CurrentCulture = currentCulture;
+            Thread.CurrentThread.CurrentUICulture = currentUICulture;
 		}
 
 		[Test]
@@ -74,5 +77,23 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( currentCulture, CultureInfo.CurrentCulture, "Culture was not restored" );
 			Assert.AreEqual( currentCulture, TestContext.CurrentCulture, "Culture not in final context" );
 		}
+
+        [Test]
+        public void SetAndRestoreCurrentUICulture()
+        {
+            Assert.AreEqual(currentUICulture, TestContext.CurrentUICulture, "UICulture not in initial context");
+
+            using (new TestContext())
+            {
+                CultureInfo otherCulture =
+                    new CultureInfo(currentUICulture.Name == "fr-FR" ? "en-GB" : "fr-FR");
+                TestContext.CurrentUICulture = otherCulture;
+                Assert.AreEqual(otherCulture, CultureInfo.CurrentUICulture, "UICulture was not set");
+                Assert.AreEqual(otherCulture, TestContext.CurrentUICulture, "UICulture not in new context");
+            }
+
+            Assert.AreEqual(currentUICulture, CultureInfo.CurrentUICulture, "UICulture was not restored");
+            Assert.AreEqual(currentUICulture, TestContext.CurrentUICulture, "UICulture not in final context");
+        }
 	}
 }

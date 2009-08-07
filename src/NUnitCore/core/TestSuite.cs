@@ -282,6 +282,10 @@ namespace NUnit.Core
                         TestContext.CurrentCulture =
                             new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
+                    if (this.Properties["_SETUICULTURE"] != null)
+                        TestContext.CurrentUICulture =
+                            new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
+
                     if (this.fixtureSetUpMethods != null)
                         foreach( MethodInfo fixtureSetUp in fixtureSetUpMethods )
                             Reflect.InvokeMethod(fixtureSetUp, fixtureSetUp.IsStatic ? null : Fixture);

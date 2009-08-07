@@ -99,6 +99,12 @@ namespace NUnit.Core
 			set { current.CurrentCulture = value; }
 		}
 
+        public static CultureInfo CurrentUICulture
+        {
+            get { return current.CurrentUICulture; }
+            set { current.CurrentUICulture = value; }
+        }
+
         public static int TestCaseTimeout
         {
             get { return current.TestCaseTimeout; }
@@ -188,6 +194,11 @@ namespace NUnit.Core
 			/// </summary>
 			private CultureInfo currentCulture;
 
+            /// <summary>
+            /// The current UI culture
+            /// </summary>
+            private CultureInfo currentUICulture;
+
 			/// <summary>
 			/// Link to a prior saved context
 			/// </summary>
@@ -206,6 +217,7 @@ namespace NUnit.Core
 
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
+                this.currentUICulture = CultureInfo.CurrentUICulture;
 			}
 
 			public ContextHolder( ContextHolder other )
@@ -221,6 +233,7 @@ namespace NUnit.Core
 
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
+                this.currentUICulture = CultureInfo.CurrentUICulture;
 			}
 
 			/// <summary>
@@ -237,6 +250,7 @@ namespace NUnit.Core
 				this.Error = prior.Error;
 				this.CurrentDirectory = prior.CurrentDirectory;
 				this.CurrentCulture = prior.CurrentCulture;
+                this.CurrentUICulture = prior.CurrentUICulture;
                 this.TestCaseTimeout = prior.TestCaseTimeout;
 			}
 
@@ -368,6 +382,16 @@ namespace NUnit.Core
 				{
 					currentCulture = value;
 					Thread.CurrentThread.CurrentCulture = currentCulture;
+				}
+			}
+
+            public CultureInfo CurrentUICulture
+			{
+				get { return currentUICulture; }
+				set
+				{
+					currentUICulture = value;
+					Thread.CurrentThread.CurrentUICulture = currentUICulture;
 				}
 			}
 
