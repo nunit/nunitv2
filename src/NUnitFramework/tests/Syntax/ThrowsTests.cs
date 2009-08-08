@@ -93,6 +93,63 @@ namespace NUnit.Framework.Syntax
                 expr.Resolve().ToString());
         }
 
+        [Test]
+        public void ThrowsInnerException()
+        {
+            IResolveConstraint expr = Throws.InnerException.TypeOf(typeof(ArgumentException));
+            Assert.AreEqual(
+                "<throws <property InnerException <typeof System.ArgumentException>>>",
+                expr.Resolve().ToString());
+        }
+
+        [Test]
+        public void ThrowsExceptionWithInnerException()
+        {
+            IResolveConstraint expr = Throws.Exception.With.InnerException.TypeOf(typeof(ArgumentException));
+            Assert.AreEqual(
+                "<throws <property InnerException <typeof System.ArgumentException>>>",
+                expr.Resolve().ToString());
+        }
+
+        [Test]
+        public void ThrowsTypeOfWithInnerException()
+        {
+            IResolveConstraint expr = Throws.TypeOf(typeof(System.Reflection.TargetInvocationException))
+                .With.InnerException.TypeOf(typeof(ArgumentException));
+            Assert.AreEqual(
+                "<throws <and <typeof System.Reflection.TargetInvocationException> <property InnerException <typeof System.ArgumentException>>>>",
+                expr.Resolve().ToString());
+        }
+
+        [Test]
+        public void ThrowsTargetInvocationExceptionWithInnerException()
+        {
+            IResolveConstraint expr = Throws.TargetInvocationException
+                .With.InnerException.TypeOf(typeof(ArgumentException));
+            Assert.AreEqual(
+                "<throws <and <typeof System.Reflection.TargetInvocationException> <property InnerException <typeof System.ArgumentException>>>>",
+                expr.Resolve().ToString());
+        }
+
+        [Test]
+        public void ThrowsArgumentException()
+        {
+            IResolveConstraint expr = Throws.ArgumentException;
+            Assert.AreEqual(
+                "<throws <typeof System.ArgumentException>>",
+                expr.Resolve().ToString());
+        }
+
+        [Test]
+        public void ThrowsInvalidOperationException()
+        {
+            IResolveConstraint expr = Throws.InvalidOperationException;
+            Assert.AreEqual(
+                "<throws <typeof System.InvalidOperationException>>",
+                expr.Resolve().ToString());
+        }
+
+        // TODO: Move these to AssertThat tests
 #if NET_2_0
 #if CSHARP_3_0
         [Test]
