@@ -58,5 +58,12 @@ namespace NUnit.TestData
         {
             Assert.Ignore("Ignore this");
         }
+
+        [TestCase(1)]
+        [TestCase(2, Ignore = true)]
+        [TestCase(3, IgnoreReason = "Don't Run Me!")]
+        public void MethodWithIgnoredTestCases(int num)
+        {
+        }
     }
 }

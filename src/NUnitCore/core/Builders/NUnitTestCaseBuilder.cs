@@ -185,6 +185,12 @@ namespace NUnit.Core.Builders
                     testMethod.TestName.FullName = method.ReflectedType.FullName + "." + name;
                 }
 
+                if (parms.Ignored)
+                {
+                    testMethod.RunState = RunState.Ignored;
+                    testMethod.IgnoreReason = parms.IgnoreReason;
+                }
+
                 if (parms.ExpectedExceptionName != null)
                     testMethod.exceptionProcessor = new ExpectedExceptionProcessor(testMethod, parms);
 

@@ -19,6 +19,9 @@ namespace NUnit.Framework
 		private string description;
 
         private object[] arguments;
+        private bool isIgnored;
+        private string ignoreReason;
+
 #if NET_2_0
         private Type[] typeArgs;
         private bool argsSeparated;
@@ -63,6 +66,22 @@ namespace NUnit.Framework
                     SeparateArgs();
 #endif
                 return arguments; 
+            }
+        }
+
+        public bool Ignore
+        {
+            get { return isIgnored; }
+            set { isIgnored = value; }
+        }
+
+        public string IgnoreReason
+        {
+            get { return ignoreReason; }
+            set
+            {
+                ignoreReason = value;
+                isIgnored = ignoreReason != null && ignoreReason != string.Empty;
             }
         }
 

@@ -31,6 +31,10 @@ namespace NUnit.Core
         public static readonly string TestName = "TestName";
         /// <summary>Arguments for the test</summary>
         public static readonly string Arguments = "Arguments";
+        /// <summary>Indicates test case is ignored</summary>
+        public static readonly string Ignored = "Ignored";
+        /// <summary>The reason a test case is ignored</summary>
+        public static readonly string IgnoreReason = "IgnoreReason";
         /// <summary>Properties of the test</summary>
         public static readonly string Properties = "Properties";
         /// <summary>Categories of the test</summary>

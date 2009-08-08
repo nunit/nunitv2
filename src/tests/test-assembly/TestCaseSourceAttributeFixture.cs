@@ -43,6 +43,21 @@ namespace NUnit.TestData
         {
         }
 
+        [TestCaseSource("ignored_source")]
+        public void MethodWithIgnoredTestCases(int num)
+        {
+        }
+
+        private static IEnumerable ignored_source
+        {
+            get
+            {
+                yield return new TestCaseData(1);
+                yield return new TestCaseData(2).Ignore();
+                yield return new TestCaseData(3).Ignore("Don't Run Me!");
+            }
+        }
+
         private static IEnumerable exception_source
         {
             get

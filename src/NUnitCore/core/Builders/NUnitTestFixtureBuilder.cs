@@ -110,6 +110,16 @@ namespace NUnit.Core.Builders
 
             NUnitFramework.ApplyCommonAttributes(type, fixture);
 
+            if (fixture.RunState == RunState.Runnable && attr != null)
+            {
+                object objIgnore = Reflect.GetPropertyValue(attr, "Ignore");
+                if (objIgnore != null && (bool)objIgnore == true)
+                {
+                    fixture.RunState = RunState.Ignored;
+                    fixture.IgnoreReason = (string)Reflect.GetPropertyValue(attr, "IgnoreReason");
+                }
+            }
+
             AddTestCases(type);
 
             if (this.fixture.RunState != RunState.NotRunnable && this.fixture.TestCount == 0)

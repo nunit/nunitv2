@@ -34,6 +34,8 @@ namespace NUnit.Core.Extensibility
         private string matchType;
         private object result;
         private string testName;
+        private string ignoreReason;
+        private bool isIgnored;
 
         /// <summary>
         /// A dictionary of properties, used to add information
@@ -152,6 +154,26 @@ namespace NUnit.Core.Extensibility
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ParameterSet"/> is ignored.
+        /// </summary>
+        /// <value><c>true</c> if ignored; otherwise, <c>false</c>.</value>
+        public bool Ignored
+        {
+            get { return isIgnored; }
+            set { isIgnored = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the ignore reason.
+        /// </summary>
+        /// <value>The ignore reason.</value>
+        public string IgnoreReason
+        {
+            get { return ignoreReason; }
+            set { ignoreReason = value; }
+        }
+
+        /// <summary>
         /// Gets a list of categories associated with this test.
         /// </summary>
         public IList Categories
@@ -225,6 +247,11 @@ namespace NUnit.Core.Extensibility
             parms.Result = GetParm(source, PropertyNames.Result);
             parms.Description = GetParm(source, PropertyNames.Description) as string;
             parms.TestName = GetParm(source, PropertyNames.TestName) as string;
+
+            object objIgnore = GetParm(source, PropertyNames.Ignored);
+            if ( objIgnore != null )
+                parms.Ignored = (bool)objIgnore;
+            parms.IgnoreReason = GetParm(source, PropertyNames.IgnoreReason) as string;
 
             // Some sources may also implement Properties and/or Categories
             bool gotCategories = false;

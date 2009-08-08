@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using NUnit.Framework;
+using NUnit.Util;
 using NUnit.TestData;
 using NUnit.TestUtilities;
 using System.Collections;
@@ -177,6 +178,19 @@ namespace NUnit.Core.Tests
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
             Assert.AreEqual(ResultState.Ignored, result.ResultState);
             Assert.AreEqual("Ignore this", result.Message);
+        }
+
+        [Test]
+        public void CanIgnoreIndividualTestCases()
+        {
+            Test test = TestBuilder.MakeTestCase(
+                typeof(TestCaseSourceAttributeFixture), "MethodWithIgnoredTestCases");
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+
+            ResultSummarizer summary = new ResultSummarizer(result);
+            Assert.AreEqual( 3, summary.ResultCount );
+            Assert.AreEqual( 2, summary.Ignored );
+            Assert.AreEqual( "Don't Run Me!", ((TestResult)result.Results[2]).Message );
         }
 
         [Test]
