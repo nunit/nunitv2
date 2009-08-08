@@ -175,7 +175,7 @@ namespace NUnit.Util
                 basePath = Path.GetDirectoryName(package.FullName);
 
             string configFile = package.ConfigurationFile;
-            if (configFile == null && package.Name != null)
+            if (configFile == null && package.Name != null && !package.IsSingleAssembly)
                 configFile = Path.ChangeExtension(package.Name, ".config");
 
             foreach (string assembly in package.Assemblies)
