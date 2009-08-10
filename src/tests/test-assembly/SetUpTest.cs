@@ -150,4 +150,26 @@ namespace NUnit.TestData.SetUpTest
             wasBaseTearDownCalledLast = !wasTearDownCalled;
         }
     }
+
+    [TestFixture]
+    public class SetupAndTearDownExceptionFixture
+    {
+        public Exception setupException;
+        public Exception tearDownException;
+
+        [SetUp] 
+        public void SetUp()
+        {
+            if (setupException != null) throw setupException;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (tearDownException!=null) throw tearDownException;
+        }
+
+        [Test]
+        public void TestOne() {}
+    }
 }

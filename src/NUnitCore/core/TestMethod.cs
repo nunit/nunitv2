@@ -284,7 +284,7 @@ namespace NUnit.Core
                 {
                     int index = tearDownMethods.Length;
                     while (--index >= 0)
-                        tearDownMethods[index].Invoke(tearDownMethods[index].IsStatic ? null : this.Fixture, new object[0]);
+                        Reflect.InvokeMethod(tearDownMethods[index], tearDownMethods[index].IsStatic ? null : this.Fixture);
                 }
 			}
 			catch(Exception ex)
