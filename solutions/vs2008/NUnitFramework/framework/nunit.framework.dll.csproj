@@ -350,9 +350,6 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Throws.cs">
       <Link>Throws.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Catch.cs">
-      <Link>Catch.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\RequiredAddinAttribute.cs">
       <Link>RequiredAddinAttribute.cs</Link>
     </Compile>

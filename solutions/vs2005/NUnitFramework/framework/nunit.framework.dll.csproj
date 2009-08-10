@@ -313,8 +313,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\SetUICultureAttribute.cs">
-      <Link>SetCultureAttribute.cs</Link>
-      <SubType>Code</SubType>
+      <Link>SetUICultureAttribute.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\SetUpAttribute.cs">
       <Link>SetUpAttribute.cs</Link>
@@ -379,9 +378,6 @@
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\InconclusiveException.cs">
       <Link>InconclusiveException.cs</Link>
-    </Compile>
-    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Catch.cs">
-      <Link>Catch.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\RequiredAddinAttribute.cs">
       <Link>RequiredAddinAttribute.cs</Link>
