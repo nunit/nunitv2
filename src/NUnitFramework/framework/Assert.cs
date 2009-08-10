@@ -511,6 +511,36 @@ namespace NUnit.Framework
 
         #region Throws
         /// <summary>
+        /// Verifies that a delegate throws an exception when called.
+        /// </summary>
+        /// <param name="code">A TestDelegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        /// <param name="args">Arguments to be used in formatting the message</param>
+        public static Exception Throws(TestDelegate code, string message, params object[] args)
+        {
+            return Throws(new InstanceOfTypeConstraint(typeof(Exception)), code, message, args);
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws an exception when called.
+        /// </summary>
+        /// <param name="code">A TestDelegate</param>
+        /// <param name="message">The message that will be displayed on failure</param>
+        public static Exception Throws(TestDelegate code, string message)
+        {
+            return Throws(new InstanceOfTypeConstraint(typeof(Exception)), code, message);
+        }
+
+        /// <summary>
+        /// Verifies that a delegate throws an exception when called.
+        /// </summary>
+        /// <param name="code">A TestDelegate</param>
+        public static Exception Throws(TestDelegate code)
+        {
+            return Throws(new InstanceOfTypeConstraint(typeof(Exception)), code);
+        }
+
+        /// <summary>
         /// Verifies that a delegate throws a particular exception when called.
         /// </summary>
         /// <param name="expression">A constraint to be satisfied by the exception</param>

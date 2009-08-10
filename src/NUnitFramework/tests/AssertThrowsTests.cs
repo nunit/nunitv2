@@ -11,6 +11,17 @@ namespace NUnit.Framework.Tests
 	[TestFixture]
 	public class AssertThrowsTests : MessageChecker
 	{
+        [Test]
+        public void UnspecifiedExceptionIsThrown()
+        {
+#if NET_2_0
+            Exception ex = Assert.Throws(new TestDelegate(TestDelegates.ThrowsArgumentException));
+#else
+            Exception ex = Assert.Throws(new TestDelegate(TestDelegates.ThrowsArgumentException));
+#endif
+            Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
+        }
+
 		[Test]
 		public void CorrectExceptionThrown()
 		{
