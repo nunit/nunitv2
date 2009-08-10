@@ -12,17 +12,42 @@ namespace NUnit.Framework.Tests
 	public class AssertThrowsTests : MessageChecker
 	{
         [Test]
-        public void UnspecifiedExceptionIsThrown()
+        public void CanCatchUnspecifiedException()
         {
-#if NET_2_0
-            Exception ex = Assert.Throws(new TestDelegate(TestDelegates.ThrowsArgumentException));
-#else
-            Exception ex = Assert.Throws(new TestDelegate(TestDelegates.ThrowsArgumentException));
-#endif
+            Exception ex = Assert.Catch(new TestDelegate(TestDelegates.ThrowsArgumentException));
             Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
+
+#if NET_2_0
+            ex = Assert.Catch(TestDelegates.ThrowsArgumentException);
+            Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
+#endif
         }
 
-		[Test]
+        [Test]
+        public void CanCatchExceptionOfExactType()
+        {
+            Exception ex = Assert.Catch(typeof(ArgumentException), new TestDelegate(TestDelegates.ThrowsArgumentException));
+            Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
+
+#if NET_2_0
+            ex = Assert.Catch<ArgumentException>(new TestDelegate(TestDelegates.ThrowsArgumentException));
+            Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
+#endif
+        }
+
+        [Test]
+        public void CanCatchExceptionOfDerivedType()
+        {
+            Exception ex = Assert.Catch(typeof(ApplicationException), new TestDelegate(TestDelegates.ThrowsDerivedApplicationException));
+            Assert.That(ex, Is.TypeOf(typeof(TestDelegates.DerivedApplicationException)));
+
+#if NET_2_0
+            ex = Assert.Catch<ApplicationException>(TestDelegates.ThrowsDerivedApplicationException);
+            Assert.That(ex, Is.TypeOf(typeof(TestDelegates.DerivedApplicationException)));
+#endif
+        }
+
+        [Test]
 		public void CorrectExceptionThrown()
 		{
 #if NET_2_0
