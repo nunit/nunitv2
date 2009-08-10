@@ -841,6 +841,7 @@ namespace NUnit.UiKit
             try
             {
                 string selectedName = ((TestSuiteTreeNode)SelectedNode).Test.TestName.FullName;
+
                 UpdateNode((TestSuiteTreeNode)Nodes[0], test, new ArrayList());
 
                 TreeNode selectedNode = this.FindNodeByName(selectedName);
@@ -1171,15 +1172,18 @@ namespace NUnit.UiKit
 		/// <returns>True if the parent should expand to show that something was added or deleted</returns>
 		private bool UpdateNodes( IList nodes, IList tests, IList deletedNodes )
 		{
-			// As of NUnit 2.3.6006, the newly reloaded tests 
-			// are guaranteed to be in the same order as the
-			// originally loaded tests. Hence, we can merge
-			// the two lists. However, we can only use an
-			// equality comparison, since we don't know what
-			// determines the order. Hence the two passes.
+			// For NUnit 2.4 and the original release of 2.5, the newly
+            // reloaded tests were guaranteed to be in the same order as 
+            // the originally loaded tests, so we simply merged the two
+            // lists. Beginning with NUnit 2.5.1, this is no longer 
+            // guaranteed - parameterized tests may be re-ordered within 
+            // their containing suite. Therefore, we no longer rely on 
+            // ordering of tests within a suite.
 
 			bool showChanges = false;
 
+            // We use two passes to keep the code as simple as possible
+            //
 			// Pass1: delete nodes that are not in the list of tests.
             // Some of these nodes may reappear lower in the tree,
             // if we are switching from fixture display to tree display,
@@ -1188,7 +1192,7 @@ namespace NUnit.UiKit
 			while( --nodeIndex >= 0 )
 			{
 				TestSuiteTreeNode node = (TestSuiteTreeNode)nodes[nodeIndex];
-				if ( NodeWasDeleted( node, tests ) )
+				if ( !IsTestInList( node.Test, tests ) )
 				{
 					log.Debug( "Deleting " + node.Test.TestName.Name );
                     deletedNodes.Add(node);
@@ -1266,18 +1270,18 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Helper returns true if the node test is not in
-		/// the list of tests provided.
+		/// Helper returns true if the test provided as the first argument
+        /// is found in the list of tests provided as the second argument
 		/// </summary>
-		/// <param name="node">Node to examine</param>
-		/// <param name="tests">List of tests to match with node</param>
-		private bool NodeWasDeleted( TestSuiteTreeNode node, IList tests )
+		/// <param name="node">Test to examine</param>
+		/// <param name="tests">List of tests to match against</param>
+		private bool IsTestInList( ITest test, IList tests )
 		{
-			foreach ( TestNode test in tests )
-				if( Match( node, test ) )
-					return false;
+			foreach ( ITest candidate in tests )
+				if( candidate.TestName.FullName == test.TestName.FullName )
+					return true;
 
-			return true;
+			return false;
 		}
 
 		/// <summary>
