@@ -169,11 +169,19 @@ namespace NUnit.Framework
             get { return description; }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="ITestCaseData"/> is ignored.
+        /// </summary>
+        /// <value><c>true</c> if ignored; otherwise, <c>false</c>.</value>
         public bool Ignored
         {
             get { return isIgnored; }
         }
 
+        /// <summary>
+        /// Gets the ignore reason.
+        /// </summary>
+        /// <value>The ignore reason.</value>
         public string IgnoreReason
         {
             get { return ignoreReason; }
@@ -314,12 +322,21 @@ namespace NUnit.Framework
             return this;
         }
 
+        /// <summary>
+        /// Ignores this TestCase.
+        /// </summary>
+        /// <returns></returns>
         public TestCaseData Ignore()
         {
             isIgnored = true;
             return this;
         }
 
+        /// <summary>
+        /// Ignores this TestCase, specifying the reason.
+        /// </summary>
+        /// <param name="reason">The reason.</param>
+        /// <returns></returns>
         public TestCaseData Ignore(string reason)
         {
             isIgnored = true;

@@ -69,12 +69,20 @@ namespace NUnit.Framework
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="TestFixtureAttribute"/> should be ignored.
+        /// </summary>
+        /// <value><c>true</c> if ignore; otherwise, <c>false</c>.</value>
         public bool Ignore
         {
             get { return isIgnored; }
             set { isIgnored = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the ignore reason. May set Ignored as a side effect.
+        /// </summary>
+        /// <value>The ignore reason.</value>
         public string IgnoreReason
         {
             get { return ignoreReason; }
