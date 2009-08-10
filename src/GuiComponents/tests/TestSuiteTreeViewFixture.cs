@@ -18,12 +18,11 @@ namespace NUnit.UiKit.Tests
 	/// Summary description for TestSuiteFixture.
 	/// </summary>
 	/// 
-	[TestFixture]
 	public class TestSuiteTreeViewFixture
 	{
-		private string testsDll = "mock-assembly.dll";
-		private Test suite;
-		private TestSuiteTreeView treeView;
+		protected string testsDll = "mock-assembly.dll";
+		protected Test suite;
+        protected TestSuiteTreeView treeView;
 
 		[SetUp]
 		public void SetUp() 
@@ -32,8 +31,13 @@ namespace NUnit.UiKit.Tests
 			suite = builder.Build( new TestPackage( testsDll ) );
 
 			treeView = new TestSuiteTreeView();
+            treeView.Load(new TestNode(suite));
 		}
+    }
 
+    [TestFixture]
+    public class TestSuiteTreeViewTests : TestSuiteTreeViewFixture
+    {
 		private bool AllExpanded( TreeNode node)
 		{
 			if ( node.Nodes.Count == 0 )
@@ -57,7 +61,7 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void BuildTreeView()
 		{
-			treeView.Load( new TestNode( suite ) );
+            //treeView.Load( new TestNode( suite ) );
 			Assert.IsNotNull( treeView.Nodes[0] );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
 			Assert.AreEqual( "mock-assembly.dll", treeView.Nodes[0].Text );	
@@ -135,7 +139,7 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void ClearTree()
 		{
-			treeView.Load( new TestNode( suite ) );
+            //treeView.Load( new TestNode( suite ) );
 			
 			treeView.Clear();
 			Assert.AreEqual( 0, treeView.Nodes.Count );
@@ -144,7 +148,7 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void SetTestResult()
 		{
-			treeView.Load( new TestNode( suite ) );
+            //treeView.Load( new TestNode( suite ) );
 			
 			TestSuite fixture = (TestSuite)findTest( "MockTestFixture", suite );		
 			TestResult result = new TestResult( new TestInfo( fixture ) );
@@ -174,54 +178,10 @@ namespace NUnit.UiKit.Tests
 			return result;
 		}
 
-		[Test]
-		public void ReloadTree()
-		{
-			// TODO: 
-			// This test is not a true simulation of what happens
-			// when a test is reloaded because the old nodes don't
-			// actually
-			treeView.Load( new TestNode( suite ) );
-
-			Assert.AreEqual( MockAssembly.Tests, suite.TestCount );
-			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
-			CheckTree( treeView, suite, "initially" );
-
-			TestSuite nunitNamespaceSuite = suite.Tests[0] as TestSuite;
-			TestSuite testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
-			TestSuite assembliesNamespaceSuite = testsNamespaceSuite.Tests[0] as TestSuite;
-			testsNamespaceSuite.Tests.RemoveAt( 0 );
-			ReassignTestIDs( suite );
-			
-			treeView.Reload( new TestNode( suite ) );
-			CheckTree( treeView, suite, "after remove" );
-
-			Assert.AreEqual( MockAssembly.Tests - MockTestFixture.Tests, suite.TestCount );
-			Assert.AreEqual( MockAssembly.Nodes - MockTestFixture.Nodes - 1, treeView.GetNodeCount( true ) );
-
-			testsNamespaceSuite.Tests.Insert( 0, assembliesNamespaceSuite );
-			ReassignTestIDs( suite );
-
-			treeView.Reload( new TestNode( suite ) );
-			CheckTree( treeView, suite, "after insert" );
-
-			Assert.AreEqual( MockAssembly.Tests, suite.TestCount );
-			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
-		}
-
-		[Test]
-		public void ReloadTreeWithWrongTest()
-		{
-			treeView.Load( new TestNode( suite ) );
-
-			TestSuite suite2 = new TestSuite( "WrongSuite" );
-			treeView.Reload( new TestNode( suite2 ) );
-		}
-
-		[Test]
+        [Test]
 		public void ProcessChecks()
 		{
-			treeView.Load( new TestNode( suite ) );
+            //treeView.Load( new TestNode( suite ) );
 
 			Assert.AreEqual(0, treeView.CheckedTests.Length);
 			Assert.IsFalse(Checked(treeView.Nodes));
@@ -285,52 +245,213 @@ namespace NUnit.UiKit.Tests
 
 			return result;
 		}
-
-		// Reload re-assigns the test IDs, so we do that here
-		private void ReassignTestIDs( Test test )
-		{
-			test.TestName.TestID = new TestID();
-
-			if ( test.IsSuite )
-				foreach( Test child in test.Tests )
-					ReassignTestIDs( child );
-		}
-
-		private void CheckTree( TestSuiteTreeView treeView, Test suite, string msg )
-		{
-			CheckThatTreeMatchesTests( treeView, suite, "Tree out of order " + msg );
-			CheckTreeMap( treeView, suite, "Map incorrect " + msg );
-		}
-
-		private void CheckThatTreeMatchesTests( TestSuiteTreeView treeView, Test suite, string msg )
-		{
-			CheckThatNodeMatchesTest( (TestSuiteTreeNode)treeView.Nodes[0], suite, msg );
-		}
-
-		private void CheckThatNodeMatchesTest( TestSuiteTreeNode node, Test test, string msg )
-		{
-			Assert.AreEqual( test.TestName, node.Test.TestName );
-
-			if ( test.IsSuite )
-			{
-				Assert.AreEqual( test.Tests.Count, node.Nodes.Count, "{0}: Incorrect count for {1}", msg, test.TestName.FullName );
-
-				for( int index = 0; index < test.Tests.Count; index++ )
-				{
-					CheckThatNodeMatchesTest( (TestSuiteTreeNode)node.Nodes[index], (Test)test.Tests[index], msg );
-				}
-			}
-		}
-
-		private void CheckTreeMap( TestSuiteTreeView treeView, Test test, string msg )
-		{
-			TestSuiteTreeNode node = treeView[test.TestName.UniqueName];
-			Assert.IsNotNull( node, "{0}: {1} not in map", msg, test.TestName.UniqueName );
-			Assert.AreEqual( test.TestName, treeView[test.TestName.UniqueName].Test.TestName, msg );
-
-			if ( test.IsSuite )
-				foreach( Test child in test.Tests )
-					CheckTreeMap( treeView, child, msg );
-		}
 	}
+
+    [TestFixture]
+    public class TestSuiteTreeViewReloadTests : TestSuiteTreeViewFixture
+    {
+        private TestSuite nunitNamespaceSuite;
+        private TestSuite testsNamespaceSuite;
+        private TestSuite assembliesNamespaceSuite;
+        private TestSuite mockTestFixture;
+        private int originalTestCount;
+
+        [SetUp]
+        public void Initialize()
+        {
+            nunitNamespaceSuite = suite.Tests[0] as TestSuite;
+            testsNamespaceSuite = nunitNamespaceSuite.Tests[0] as TestSuite;
+            assembliesNamespaceSuite = testsNamespaceSuite.Tests[0] as TestSuite;
+            mockTestFixture = assembliesNamespaceSuite.Tests[0] as TestSuite;
+            originalTestCount = suite.TestCount;
+        }
+
+        [Test]
+        public void VerifyCheckTreeWorks()
+        {
+            CheckTreeAgainstSuite(suite, "initially");
+        }
+
+        [Test]
+        public void CanReloadWithoutChange()
+        {
+            treeView.Reload(new TestNode(suite));
+            CheckTreeAgainstSuite(suite, "unchanged");
+        }
+
+        [Test]
+        public void CanReloadAfterDeletingOneTestCase()
+        {
+            mockTestFixture.Tests.RemoveAt(0);
+            Assert.AreEqual(originalTestCount - 1, suite.TestCount);
+
+            ReassignTestIDsAndReload(suite);
+            CheckTreeAgainstSuite(suite, "after removing test case");
+        }
+
+        [Test]
+        public void CanReloadAfterDeletingThreeTestCases()
+        {
+            mockTestFixture.Tests.RemoveAt(4);
+            mockTestFixture.Tests.RemoveAt(2);
+            mockTestFixture.Tests.RemoveAt(0);
+            Assert.AreEqual(originalTestCount - 3, suite.TestCount);
+            
+            ReassignTestIDsAndReload(suite);
+            CheckTreeAgainstSuite(suite, "after removing test case");
+        }
+
+        [Test]
+        public void CanReloadAfterDeletingBranch()
+        {
+            int removeCount = ((Test)testsNamespaceSuite.Tests[0]).TestCount;
+            testsNamespaceSuite.Tests.RemoveAt(0);
+            Assert.AreEqual(originalTestCount-removeCount, suite.TestCount);
+            
+            ReassignTestIDsAndReload(suite);
+            CheckTreeAgainstSuite(suite, "after removing branch");
+        }
+
+        [Test]
+        public void CanReloadAfterInsertingTestCase()
+        {
+            mockTestFixture.Tests.Add(new NUnitTestMethod((MethodInfo)MethodInfo.GetCurrentMethod()));
+            Assert.AreEqual(originalTestCount + 1, suite.TestCount);
+            
+            ReassignTestIDsAndReload(suite);
+            CheckTreeAgainstSuite(suite, "after inserting test case");
+        }
+
+        [Test]
+        public void CanReloadAfterInsertingTestFixture()
+        {
+            Test fixture = new TestSuite(this.GetType());
+            testsNamespaceSuite.Tests.Add(fixture);
+            Assert.AreEqual(originalTestCount + fixture.TestCount, suite.TestCount);
+
+            ReassignTestIDsAndReload(suite);
+            CheckTreeAgainstSuite(suite, "after inserting test case");
+        }
+
+        [Test]
+        public void ReloadTreeWithWrongTest()
+        {
+            TestSuite suite2 = new TestSuite("WrongSuite");
+            treeView.Reload(new TestNode(suite2));
+        }
+
+        [Test]
+        public void CanReloadAfterChangingOrder()
+        {
+            // Just swap the first and second test
+            object first = mockTestFixture.Tests[0];
+            mockTestFixture.Tests.RemoveAt(0);
+            mockTestFixture.Tests.Insert(1, first);
+            Assert.AreEqual(originalTestCount, suite.TestCount);
+
+            ReassignTestIDsAndReload(suite);
+            CheckTreeAgainstSuite(suite, "after reordering");
+        }
+
+        [Test]
+        public void CanReloadAfterMultipleChanges()
+        {
+            // Add a fixture
+            Test fixture = new TestSuite(this.GetType());
+            testsNamespaceSuite.Tests.Add(fixture);
+
+            // Remove two tests
+            mockTestFixture.Tests.RemoveAt(4);
+            mockTestFixture.Tests.RemoveAt(2);
+            
+            // Interchange two tests
+            object first = mockTestFixture.Tests[0];
+            mockTestFixture.Tests.RemoveAt(0);
+            mockTestFixture.Tests.Insert(2, first);
+
+            // Add an new test case
+            mockTestFixture.Tests.Add(new NUnitTestMethod((MethodInfo)MethodInfo.GetCurrentMethod()));
+
+            int expectedCount = fixture.TestCount - 1;
+            Assert.AreEqual(originalTestCount + expectedCount, suite.TestCount);
+
+            ReassignTestIDsAndReload(suite);
+            CheckTreeAgainstSuite(suite, "after multiple changes");
+        }
+
+        [Test]
+        public void CanReloadAfterTurningOffAutoNamespaces()
+        {
+            TestSuiteBuilder builder = new TestSuiteBuilder();
+            TestPackage package = new TestPackage(testsDll);
+            package.Settings["AutoNamespaceSuites"] = false;
+            TestSuite suite2 = builder.Build(package);
+            Assert.AreEqual(originalTestCount, suite2.TestCount);
+            Assert.AreEqual(MockAssembly.Fixtures, suite2.Tests.Count);
+
+            ReassignTestIDsAndReload(suite2);
+            CheckTreeAgainstSuite(suite2, "after turning automatic namespaces OFF");
+
+            // TODO: This currently doesn't work
+            //ReassignTestIDsAndReload(suite);
+            //CheckTreeAgainstSuite(suite, "after turning automatic namespaces ON");
+        }
+
+        private void CheckTreeAgainstSuite(Test suite, string msg)
+        {
+            CheckThatTreeMatchesTests(treeView, suite, "Tree out of order " + msg);
+            CheckTreeMap(treeView, suite, "Map incorrect " + msg);
+        }
+
+        private void CheckThatTreeMatchesTests(TestSuiteTreeView treeView, Test suite, string msg)
+        {
+            CheckThatNodeMatchesTest((TestSuiteTreeNode)treeView.Nodes[0], suite, msg);
+        }
+
+        private void CheckThatNodeMatchesTest(TestSuiteTreeNode node, Test test, string msg)
+        {
+            Assert.AreEqual(test.TestName, node.Test.TestName, "{0}: Names do not match for {1}", msg, test.TestName.FullName);
+
+            if (test.IsSuite)
+            {
+                //if ( test.TestName.FullName == "NUnit.Tests.Assemblies.MockTestFixture" )
+                //    foreach( TestSuiteTreeNode n in node.Nodes )
+                //        Console.WriteLine( n.Test.TestName );
+
+                Assert.AreEqual(test.Tests.Count, node.Nodes.Count, "{0}: Incorrect count for {1}", msg, test.TestName.FullName);
+
+                for (int index = 0; index < test.Tests.Count; index++)
+                {
+                    CheckThatNodeMatchesTest((TestSuiteTreeNode)node.Nodes[index], (Test)test.Tests[index], msg);
+                }
+            }
+        }
+
+        private void CheckTreeMap(TestSuiteTreeView treeView, Test test, string msg)
+        {
+            TestSuiteTreeNode node = treeView[test.TestName.UniqueName];
+            Assert.IsNotNull(node, "{0}: {1} not in map", msg, test.TestName.UniqueName);
+            Assert.AreEqual(test.TestName, treeView[test.TestName.UniqueName].Test.TestName, msg);
+
+            if (test.IsSuite)
+                foreach (Test child in test.Tests)
+                    CheckTreeMap(treeView, child, msg);
+        }
+
+        // Reload re-assigns the test IDs, so we simulate it
+        private void ReassignTestIDs(Test test)
+        {
+            test.TestName.TestID = new TestID();
+
+            if (test.IsSuite)
+                foreach (Test child in test.Tests)
+                    ReassignTestIDs(child);
+        }
+
+        private void ReassignTestIDsAndReload(Test test)
+        {
+            ReassignTestIDs(test);
+            treeView.Reload(new TestNode(test));
+        }
+    }
 }

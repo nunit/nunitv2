@@ -1209,35 +1209,55 @@ namespace NUnit.UiKit
 					UpdateNode( node, test, deletedNodes );
 				else
 				{
-                    // Create a new node or use a deleted node
-					TestSuiteTreeNode newNode = null;
-                    
-                    // Check previously deleted nodes
-                    foreach( TestSuiteTreeNode deletedNode in deletedNodes )
-                        if (deletedNode.Test.TestName.FullName == test.TestName.FullName)
+                    TestSuiteTreeNode newNode = null;
+                    for (int i = nodeIndex + 1; i < nodes.Count; i++)
+                    {
+                        TestSuiteTreeNode tryNode = (TestSuiteTreeNode)nodes[i];
+                        if (tryNode.Test.TestName.FullName == test.TestName.FullName)
                         {
-                            newNode = deletedNode;
-                            deletedNodes.Remove(deletedNode);
+                            // Exchange the two nodes
+                            nodes.Remove(tryNode);
+                            if (node != null) nodes.Remove(node);
+
+                            nodes.Insert(nodeIndex, tryNode);
+                            if ( node != null )nodes.Insert(i, node);
+
+                            UpdateNode(tryNode, test, deletedNodes);
+                            newNode = tryNode;
                             break;
                         }
+                    }
 
-                    // If not found, it's completely new
+                    // Create a new node or use a deleted node
                     if (newNode == null)
-                        newNode = new TestSuiteTreeNode(test);
+                    {
+                        // Check previously deleted nodes
+                        foreach (TestSuiteTreeNode deletedNode in deletedNodes)
+                            if (deletedNode.Test.TestName.FullName == test.TestName.FullName)
+                            {
+                                newNode = deletedNode;
+                                deletedNodes.Remove(deletedNode);
+                                break;
+                            }
 
-					AddToMap( newNode );
-					nodes.Insert( nodeIndex, newNode );
-			
-					if ( test.IsSuite )
-					{
-                        if ( UpdateNodes(newNode.Nodes, test.Tests, deletedNodes) )
-                            newNode.Expand();
-                        //foreach( TestNode childTest in test.Tests )
-                        //    AddTreeNodes(newNode.Nodes, childTest, false);
-					}
+                        // If not found, it's completely new
+                        if (newNode == null)
+                            newNode = new TestSuiteTreeNode(test);
 
-					showChanges = true;
-				}
+                        AddToMap(newNode);
+                        nodes.Insert(nodeIndex, newNode);
+
+                        if (test.IsSuite)
+                        {
+                            if (UpdateNodes(newNode.Nodes, test.Tests, deletedNodes))
+                                newNode.Expand();
+                            //foreach( TestNode childTest in test.Tests )
+                            //    AddTreeNodes(newNode.Nodes, childTest, false);
+                        }
+
+                        showChanges = true;
+                    }
+                }
 
 				nodeIndex++;
 			}
