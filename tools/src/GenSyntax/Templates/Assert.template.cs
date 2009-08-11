@@ -700,6 +700,7 @@ namespace NUnit.Framework
         #endregion
 
         #region Catch<T>
+#if NET_2_0
         /// <summary>
         /// Verifies that a delegate throws an exception of a certain Type
         /// or one derived from it when called and returns it.
@@ -735,6 +736,7 @@ namespace NUnit.Framework
         {
             return Throws(new InstanceOfTypeConstraint(typeof(T)), code);
         }
+#endif
         #endregion
 
         #region DoesNotThrow
