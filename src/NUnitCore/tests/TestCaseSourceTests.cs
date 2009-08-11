@@ -296,9 +296,11 @@ namespace NUnit.Core.Tests
             {
                 get
                 {
-                    yield return new TestCaseData(12, 3).Returns(5).Throws(typeof(AssertionException)).SetName("TC1");
-                    yield return new TestCaseData(12, 2).Returns(6).SetName("TC2");
-                    yield return new TestCaseData(12, 4).Returns(3).SetName("TC3");
+                    return new object[] {
+                        new TestCaseData(12, 3).Returns(5).Throws(typeof(AssertionException)).SetName("TC1"),
+                        new TestCaseData(12, 2).Returns(6).SetName("TC2"),
+                        new TestCaseData(12, 4).Returns(3).SetName("TC3")
+                    };
                 }
             }
         }

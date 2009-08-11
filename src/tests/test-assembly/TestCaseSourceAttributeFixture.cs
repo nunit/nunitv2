@@ -52,9 +52,11 @@ namespace NUnit.TestData
         {
             get
             {
-                yield return new TestCaseData(1);
-                yield return new TestCaseData(2).Ignore();
-                yield return new TestCaseData(3).Ignore("Don't Run Me!");
+                return new object[] {
+                    new TestCaseData(1),
+                    new TestCaseData(2).Ignore(),
+                    new TestCaseData(3).Ignore("Don't Run Me!")
+                };
             }
         }
 
