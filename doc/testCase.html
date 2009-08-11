@@ -91,15 +91,32 @@ named parameters, which may be used as follows:
 a compatible return type.
 <dt><b>TestName</b>
 <dd>Provides a name for the test. If not specified, a name is generated based on 
-the method name and the arguments provided
+the method name and the arguments provided.
+<dt><b>Ignore</b>
+<dd>Set to true in order to ignore the individual test case.
+<dt><b>IgnoreReason</b>
+<dd>Specifies the reason for ignoring this test case. If set to a non-empty
+    string, then Ignore is assumed to be true.
 </dl>
+
+<h3>Order of Execution</h3>
+
+<p>In NUnit 2.5, individual test cases are sorted alphabetically and executed in
+   that order. With NUnit 2.5.1, the individual cases are not sorted, but are
+   executed in the order in which NUnit discovers them. This order does <b>not</b>
+   follow the lexical order of the attributes and will often vary between different
+   compilers or different versions of the CLR.
+   
+<p>As a result, when <b>TestCaseAttribute</b> appears multiple times on a method
+   or when other data-providing attributes are used in combination with 
+   <b>TestCaseAttribute</b>, the order of the test cases is undefined.
 
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.1</a></li>
+<li><a href="index.html">NUnit 2.5.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

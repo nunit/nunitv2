@@ -133,6 +133,11 @@ public class SuccessTests
    attribute. NUnit will construct a separate instance of the fixture
    for each set of arguments.
    
+<p>Beginning with NUnit 2.5, individual fixture instances in a set
+   of parameterized fixtures may be ignored. Set the <b>Ignore</b>
+   named parameter to true or set <b>IgnoreReason</b> to a non-empty 
+   string.
+   
 <h4>Example</h4>
 
 <p>The following test fixture would be instantiated by NUnit three times,
@@ -311,7 +316,7 @@ public class DeduceTypeArgsFromArgs&lt;T1, T2&gt;
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.1</a></li>
+<li><a href="index.html">NUnit 2.5.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

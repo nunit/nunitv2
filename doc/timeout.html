@@ -27,9 +27,23 @@
 <h3>TimeoutAttribute (NUnit 2.5)</h3>
 
 <p>The <b>TimeoutAttribute</b> is used to specify a timeout value in milliseconds
-   for a test case. It may also be speciried on a fixture or assembly, in which
-   case it indicates the default timeout for any subordinate test cases.
+   for a test case. If the test case runs longer than the time specified it
+   is immediately cancelled and reported as a failure, with a message 
+   indicating that the timeout was exceeded.
    
+<p>The attribute may also be specified on a fixture or assembly, in which
+   case it indicates the default timeout for any subordinate test cases.
+
+<h4>Example</h4>
+
+<div class="code"><pre>
+[Test, Timeout(2000)]
+public void PotentiallyLongRunningTest()
+{
+    ...
+}
+</pre></div>
+
 <h4>See Also...</h4>
 <ul>
 <li><a href="maxtime.html">MaxtimeAttribute</a></ul>
@@ -40,7 +54,7 @@
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.1</a></li>
+<li><a href="index.html">NUnit 2.5.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

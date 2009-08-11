@@ -26,7 +26,7 @@
 
 <h2>Exception Asserts (NUnit 2.5)</h2>
 
-<p>The Assert.Throws method is pretty much in a class by itself. Rather than
+<p>The <b>Assert.Throws</b> method is pretty much in a class by itself. Rather than
    comparing values, it attempts to invoke a code snippet, represented as
    a delegate, in order to verify that it throws a particular exception.
    
@@ -34,16 +34,18 @@
     than void, if the Assert is successful. See the example below for
 	a few ways to use this.
    
-<p>Assert.Throws may be used with a constraint argument, which is applied
+<p><b>Assert.Throws</b> may be used with a constraint argument, which is applied
    to the actual exception thrown, or with the Type of exception expected.
    The Type format is available in both both a non-generic and (in the .NET 2.0 version)
    generic form.
    
-<p>Assert.DoesNotThrow simply verifies that the delegate does not throw
+<p><b>Assert.DoesNotThrow</b> simply verifies that the delegate does not throw
    an exception.
    
+<p><b>Assert.Catch</b> is similar to <b>Assert.Throws</b> but will pass for an exception
+   that is derived from the one specified.
+   
 <div class="code"><pre>
-
 Assert.Throws( Type expectedExceptionType, TestDelegate code );
 Assert.Throws( Type expectedExceptionType, TestDelegate code, 
 		string message );
@@ -65,13 +67,30 @@ Assert.DoesNotThrow( TestDelegate code );
 Assert.DoesNotThrow( TestDelegate code, string message );
 Assert.DoesNotThrow( TestDelegate code, string message, 
         params object[] parms);
+
+Assert.Catch( TestDelegate code );
+Assert.Catch( TestDelegate code, string message );
+Assert.Catch( TestDelegate code, string message, 
+        params object[] parms);
+
+Assert.Catch( Type expectedExceptionType, TestDelegate code );
+Assert.Catch( Type expectedExceptionType, TestDelegate code, 
+		string message );
+Assert.Catch( Type expectedExceptionType, TestDelegate code, 
+		string message, params object[] parms);
+
+Assert.Catch&lt;T&gt;( TestDelegate code );
+Assert.Catch&lt;T&gt;( TestDelegate code, string message );
+Assert.Catch&lt;T&gt;( TestDelegate code, string message, 
+		params object[] parms);
 </pre></div>
 
 <p>In the above code <b>TestDelegate</b> is a delegate of the form
 <b>void TestDelegate()</b>, which is used to execute the code
 in question. Under .NET 2.0, this may be an anonymous delegate.
+If compiling under C# 3.0, it may be a lambda expression.
 
-<p>The following example includes four equivalent ways of writing the
+<p>The following example shows different ways of writing the
 same test.
 
 <div class="code"><pre>
@@ -81,17 +100,19 @@ public class AssertThrowsTests
   [Test]
   public void Tests()
   {
+    // .NET 1.x
     Assert.Throws( typeof(ArgumentException),
       new TestDelegate(MethodThatThrows) );
 	  
+    // .NET 2.0
+    Assert.Throws&lt;ArgumentException&gt;( MethodThatThrows() );
+
     Assert.Throws&lt;ArgumentException&gt;(
-      new TestDelegate(MethodThatThrows) );
-	  
-    Assert.Throws( typeof(ArgumentException),
-      delegate { throw new ArgumentException(); } );
-	  
+	  delegate { throw new ArgumentException(); } );
+
+    // Using C# 3.0	  
     Assert.Throws&lt;ArgumentException&gt;(
-      delegate { throw new ArgumentException(); } );
+      () => throw new ArgumentException(); } );
   }
   
   void MethodThatThrows()
@@ -137,12 +158,14 @@ public class UsingConstraint
 
 <p>Use the form that matches your style of coding.
 
-<h4>Exact Versus Derived Types</h4>
+<h3>Exact Versus Derived Types</h3>
 
 <p>When used with a Type argument, <b>Assert.Throws</b> requires
 that exact type to be thrown. If you want to test for any
-derived Type, use a constraint. See the following code for
-examples:
+derived Type, use one of the forms that allows specifying
+a constraint. Alternatively, you may use <b>Assert.Catch</b>,
+which differs from <b>Assert.Throws</b> in allowing derived
+types. See the following code for examples:
 
 <div class="code">
 <pre>
@@ -153,6 +176,10 @@ Assert.Throws&lt;ApplicationException&gt;()( code );
 // Allow both ApplicationException and any derived type
 Assert.Throws( Is.InstanceOf( typeof(ApplicationException), code );
 Assert.Throws( Is.InstanceOf&lt;ApplicationException&gt;(), code );
+
+// Allow both ApplicationException and any derived type
+Assert.Catch( code );
+Assert.Catch&lt;ApplicationException&gt;( code );
 </pre>
 </div>
 
@@ -165,7 +192,7 @@ Assert.Throws( Is.InstanceOf&lt;ApplicationException&gt;(), code );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.1</a></li>
+<li><a href="index.html">NUnit 2.5.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

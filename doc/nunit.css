@@ -21,7 +21,7 @@ ul.across li { float: left; display: block; width: 9em }
 * html #nav { height: 1%; }
 /* End of IE-mac hack */
 
-#nav a{  text-decoration: none; color: #000; font: 1em "Times New Roman", Roman, serif;
+#nav a{  text-decoration: none; color: #000; font: small "Times New Roman", Roman, serif;
          text-transform: uppercase; margin: 0 5px; padding: 5px 10px; border: 1px solid black; }
 #nav a.active { background: #999; } 
 #nav a:hover { background: #CCC; }
@@ -105,6 +105,14 @@ div.dropdown { position: absolute; top: 0; left: 14px; padding: 0 10px; width: 2
     text-align: left; border: 1px solid #888; background-color: #ffd; }
 div.code div.dropdown { position: absolute; left: 14px; top: 0; padding: 0 10px; width: 20px;
 	text-align: left; border: 1px solid #888; background-color: #ffd; }
+div.notice { 
+  margin-left: 2em;
+  margin-right: 2em; 
+  text-align: center; 
+  font-style: italic; 
+  font-weight: bold; 
+}
+
 /* 
 #content.wide p { width: expression( document.documentElement.clientWidth > 700 ? "660px" : "auto" ); }
 #content.wide blockquote { width: expression( document.documentElement.clientWidth > 700 ? "580px" : "auto"  ); }

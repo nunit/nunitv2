@@ -46,11 +46,15 @@ ThrowsNothingConstraint()
 <h4>Syntax</h4>
 <div class="code"><pre>
 Throws.Exception
+Throws.TargetInvocationException
+Throws.ArgumentException
+Throws.InvalidOperationException
 Throws.TypeOf(Type expectedType)
 Throws.TypeOf&lt;T&gt;()
 Throws.InstanceOf(Type expectedType)
 Throws.InstanceOf&lt;T&gt;()
 Throws.Nothing
+Throws.InnerException
 </pre></div>
 
 <h4>Examples of Use</h4>
@@ -63,6 +67,11 @@ Assert.That( new TestDelegate(SomeMethod),
 Assert.That( new TestDelegate(SomeMethod),
   Throws.TypeOf(typeof(ArgumentException))
     .With.Property("Parameter").EqualTo("myParam"));
+Assert.That( new TestDelegate(SomeMethod),
+  Throws.ArgumentException );
+Assert.That( new TestDelegate(SomeMethod), 
+  Throws.TargetInvocationException
+    .With.InnerException.TypeOf(ArgumentException));
 	
 // .NET 2.0
 Assert.That( SomeMethod, 
@@ -72,6 +81,10 @@ Assert.That( SomeMethod,
 Assert.That( SomeMethod, 
   Throws.TypeOf&lt;ArgumentException&gt;()
     .With.Property("Parameter").EqualTo("myParam"));
+Assert.That( SomeMethod, Throws.ArgumentException );
+Assert.That( SomeMethod, 
+  Throws.TargetInvocationException
+    .With.InnerException.TypeOf&lt;ArgumentException&gt;());
 </pre></div>
 
 <h4>Notes</h4>
@@ -85,6 +98,13 @@ Assert.That( SomeMethod,
 <li><b>Throws.TypeOf</b> and <b>Throws.InstanceOf</b> are provided
     as a shorter syntax for this common test. They work exactly like
 	the corresponding forms following <b>Throws.Exception</b>.
+<li><b>Throws.TargetInvocationException/b>, <b>Throws.ArgumentException</b>
+    and <b>Throws.InvalidOperationException</b> provide a shortened form
+	for some common exceptions.
+<li>Used alone, <b>Throws.InnerException</b> simply tests the InnerException
+    value of the thrown exception. More commonly, it will be used in 
+	combination with a test for the type of the outer exception as shown
+	in the examples above.
 </ol>
 
 
@@ -94,7 +114,7 @@ Assert.That( SomeMethod,
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.1</a></li>
+<li><a href="index.html">NUnit 2.5.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

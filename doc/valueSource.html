@@ -58,6 +58,22 @@ provide the arguments. It should have the following characteristics:
 <li>
 </ul>
 
+<h3>Order of Execution</h3>
+
+<p>In NUnit 2.5, individual test cases are sorted alphabetically and executed in
+   that order. With NUnit 2.5.1, the individual cases are not sorted, but are
+   executed in the order in which NUnit discovers them. This order does <b>not</b>
+   follow the lexical order of the attributes and will often vary between different
+   compilers or different versions of the CLR.
+   
+<p>As a result, when <b>ValueSourceAttribute</b> appears multiple times on a 
+   parameter or when other data-providing attributes are used in combination with 
+   <b>ValueSourceAttribute</b>, the order of the arguments is undefined.
+
+<p>However, when a single <b>ValueSourceAttribute</b> is used by itself, 
+   the order of the arguments follows exactly the order in which the data 
+   is returned from the source.
+   
 <h3>Note on Object Construction</h3>
 
 <p>NUnit locates the test cases at the time the tests are loaded, creates
@@ -77,7 +93,7 @@ themselves.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.1</a></li>
+<li><a href="index.html">NUnit 2.5.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

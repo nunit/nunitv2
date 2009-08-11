@@ -38,6 +38,68 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.5.2 - Version 2.5.2.9222 - August 10, 2009</h3>
+
+<p><b>Note:</b> This is the last release of NUnit using source code
+   maintained on Sourceforge. The CVS repository there will be kept,
+   but no longer updated. After this release, the source is being
+   maintained on Launchpad at http://launchpad.net/nunit-2.5.
+
+<h4>Framework</h4>
+
+<ul>
+<li>The new <b>SetUICultureAttribute</b> allows setting CurrentUICulture
+    for the duration of a test method, fixture or assembly.
+<li>The <b>TestFixture</b>, <b>TestCase</b> and <b>TestCaseData</b> attributes
+    have been enhanced to allow ignoring an individual fixture instance or
+	test case. Two new named parameters are provided:
+	<ul>
+	<li><b>Ignore</b> may be set to true to ignore an item.
+	<li><b>IgnoreReason</b> may be set to specify the reason for ignoring
+	    the item. If IgnoreReason is set to a non-empty string, then setting
+		Ignore is optional.
+	</ul>
+<li><b>Assert.Catch</b> has been added with several overloads. It differs
+    from <b>Assert.Throws</b> in accepting exceptions derived from the one
+	that is specified. Like <b>Assert.Throws</b>, it returns the exception
+	thrown when it succeeds so that further tests can be made on it.
+<li>The <b>Throws</b> syntax has a number of new additions:
+    <ul>
+	<li><b>ThrowsTargetInvocationException</b>, <b>ThrowsArgumentException</b>
+	    and <b>Throws.InvalidOperationException</b> provide a shorter syntax
+		for testing for these common exception types.
+	<li><b>Throws.InnerException</b> applies any constraints to the InnerException 
+	    of the exception that was thrown rather than to the exception itself.
+	<li><b>InnerException</b> can also be used in constraint expressions - see
+	    the documentation for an example.
+	</ul>
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>Data from a TestCaseSource in a separate class from the tests
+    is now handled correctly.
+<li>Arguments specified using TestCaseData are now used correctly.
+<li>Comparing the a stream to itself no longer causes an error.
+<li>TimeoutAttribute is now permitted on an assembly as documented.
+<li>Clear All and Clear Failures buttons are now displayed correctly
+    depending on whether Checkboxes are displayed in the Gui.
+<li>The console runner option descriptions have been revised to
+    more clearly indicate what each option does.
+<li>Running special tests that do not use the nunit.framework assembly
+    no longer causes a null reference exception.
+<li>Console Runner option descriptions have been edited for accuracy.
+<li>Gui TreeView now updates correctly when the order of tests has changed.
+<li>An exception in TearDown now displays the actual exception
+    at the top of the stack rather than a TargetInvocationException.
+</ul>
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.5.1 - Version 2.5.1.9189 - July 8, 2009</h3>
 
 <h4>Framework</h4>
@@ -940,7 +1002,7 @@ this release may be removed or changed in future releases.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.1</a></li>
+<li><a href="index.html">NUnit 2.5.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
