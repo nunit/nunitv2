@@ -15,3 +15,5 @@ solutions/*/NUnitCore/tests/*
 solutions/*/NUnitFramework/tests/*
 solutions/*/NUnitFramework/framework/*
 solutions/*/tests/loadtest-assembly/*
+build
+*.db
