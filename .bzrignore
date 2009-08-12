@@ -1,0 +1,17 @@
+TestResult.xml
+*.suo
+bin
+obj
+
+solutions/*/ClientUtilities/tests/*
+solutions/*/ClientUtilities/util/*
+solutions/*/GuiException/UIException/*
+solutions/*/GuiException/tests/*
+solutions/*/GuiRunner/nunit-gui/*
+solutions/*/GuiRunner/nunit-gui-exe/*
+solutions/*/NUnitCore/core/*
+solutions/*/NUnitCore/interfaces/*
+solutions/*/NUnitCore/tests/*
+solutions/*/NUnitFramework/tests/*
+solutions/*/NUnitFramework/framework/*
+solutions/*/tests/loadtest-assembly/*
