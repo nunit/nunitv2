@@ -12,6 +12,7 @@
     <include name="FixtureSetUpTearDownTests.cs"/>
     <include name="IgnoreFixtureTests.cs"/>
     <include name="MaxTimeFixture.cs"/>
+    <include name="ParameterizedTestFixture.cs"/>
     <include name="ParameterizedTestMethodFixture.cs"/>
     <include name="PropertyAttributeTests.cs"/>
     <include name="RepeatedTestFixtureTests.cs"/>

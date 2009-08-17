@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using NUnit.Framework;
+using NUnit.TestUtilities;
 
 namespace NUnit.Core.Tests
 {
@@ -94,5 +95,71 @@ namespace NUnit.Core.Tests
         {
             Assert.That(answer % x == 0);
         }
+    }
+
+    public class ParameterizedTestFixtureNamingTests
+    {
+        Test fixture;
+        Test[] instances;
+
+        [SetUp]
+        public void MakeFixture()
+        {
+            fixture = TestBuilder.MakeFixture(typeof(NUnit.TestData.ParameterizedTestFixture));
+        }
+
+        [Test]
+        public void TopLevelSuiteIsNamedCorrectly()
+        {
+            Assert.That(fixture.TestName.Name, Is.EqualTo("ParameterizedTestFixture"));
+            Assert.That(fixture.TestName.FullName, Is.EqualTo("NUnit.TestData.ParameterizedTestFixture"));
+        }
+
+        [Test]
+        public void SuiteHasCorrectNumberOfInstances()
+        {
+            Assert.That(fixture.Tests.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void FixtureInstancesAreNamedCorrectly()
+        {
+            ArrayList names = new ArrayList();
+            ArrayList fullnames = new ArrayList();
+            foreach (Test test in fixture.Tests)
+            {
+                names.Add(test.TestName.Name);
+                fullnames.Add(test.TestName.FullName);
+            }
+
+            Assert.That(names, Is.EquivalentTo(new string[] {
+                "ParameterizedTestFixture(1)", "ParameterizedTestFixture(2)" }));
+            Assert.That(fullnames, Is.EquivalentTo(new string[] {
+                "NUnit.TestData.ParameterizedTestFixture(1)", "NUnit.TestData.ParameterizedTestFixture(2)" }));
+        }
+
+        [Test]
+        public void MethodWithoutParamsIsNamedCorrectly()
+        {
+            Test instance = (Test)fixture.Tests[0];
+            Test method = TestFinder.Find("MethodWithoutParams", instance, false);
+            Assert.That(method, Is.Not.Null );
+            Assert.That(method.TestName.FullName, Is.EqualTo(instance.TestName.FullName + ".MethodWithoutParams"));
+        }
+
+        [Test]
+        public void MethodWithParamsIsNamedCorrectly()
+        {
+            Test instance = (Test)fixture.Tests[0];
+            Test method = TestFinder.Find("MethodWithParams", instance, false);
+            Assert.That(method, Is.Not.Null);
+            
+            Test testcase = (Test)method.Tests[0];
+            Assert.That(testcase.TestName.Name, Is.EqualTo("MethodWithParams(10,20)"));
+            Assert.That(testcase.TestName.FullName, Is.EqualTo(instance.TestName.FullName + ".MethodWithParams(10,20)"));
+        }
+
+        //[Test]
+        //public void M
     }
 }

@@ -140,6 +140,9 @@
       <Link>IgnoreFixtureTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\ParameterizedTestFixture.cs">
+      <Link>ParameterizedTestFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\PropertyAttributeTests.cs">
       <Link>PropertyAttributeTests.cs</Link>
       <SubType>Code</SubType>

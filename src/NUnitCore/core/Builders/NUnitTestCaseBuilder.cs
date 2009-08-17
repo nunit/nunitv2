@@ -83,7 +83,7 @@ namespace NUnit.Core.Builders
         {
             return CoreExtensions.Host.TestCaseProviders.HasTestCasesFor(method)
                 ? BuildParameterizedMethodSuite(method, parentSuite)
-                : BuildSingleTestMethod(method, null);
+                : BuildSingleTestMethod(method, parentSuite, null);
         }
 
         #endregion
@@ -142,7 +142,7 @@ namespace NUnit.Core.Builders
                     }
                 }
 
-                TestMethod test = BuildSingleTestMethod(method, parms);
+                TestMethod test = BuildSingleTestMethod(method, parentSuite, parms);
 
                 methodSuite.Add(test);
             }
@@ -157,9 +157,17 @@ namespace NUnit.Core.Builders
         /// <param name="method">The MethodInfo from which to construct the TestMethod</param>
         /// <param name="parms">The ParameterSet to be used, or null</param>
         /// <returns></returns>
-        public static NUnitTestMethod BuildSingleTestMethod(MethodInfo method, ParameterSet parms)
+        public static NUnitTestMethod BuildSingleTestMethod(MethodInfo method, Test parentSuite, ParameterSet parms)
         {
             NUnitTestMethod testMethod = new NUnitTestMethod(method);
+
+            string prefix = method.ReflectedType.FullName;
+
+            if (parentSuite != null)
+            {
+                prefix = parentSuite.TestName.FullName;
+                testMethod.TestName.FullName = prefix + "." + testMethod.TestName.Name;
+            }
 
             if (CheckTestMethodSignature(testMethod, parms))
             {
@@ -173,16 +181,17 @@ namespace NUnit.Core.Builders
                 // property of testMethod may no longer be the same as the
                 // original MethodInfo, so we reassign it here.
                 method = testMethod.Method;
+
                 if (parms.TestName != null)
                 {
                     testMethod.TestName.Name = parms.TestName;
-                    testMethod.TestName.FullName = method.ReflectedType.FullName + "." + parms.TestName;
+                    testMethod.TestName.FullName = prefix + "." + parms.TestName;
                 }
                 else if (parms.Arguments != null)
                 {
                     string name = MethodHelper.GetDisplayName(method, parms.Arguments);
                     testMethod.TestName.Name = name;
-                    testMethod.TestName.FullName = method.ReflectedType.FullName + "." + name;
+                    testMethod.TestName.FullName = prefix + "." + name;
                 }
 
                 if (parms.Ignored)
