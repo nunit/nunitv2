@@ -17,3 +17,4 @@ solutions/*/NUnitFramework/framework/*
 solutions/*/tests/loadtest-assembly/*
 build
 *.db
+*.VisualState.xml
