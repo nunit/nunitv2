@@ -10,6 +10,8 @@ namespace NUnit.Framework.Tests
 	[TestFixture]
 	public class RangeTests
 	{
+        static readonly string NL = Environment.NewLine;
+
 		[Test]
 		public void InRangeSucceeds()
 		{
@@ -24,9 +26,9 @@ namespace NUnit.Framework.Tests
 		public void InRangeFails()
 		{
 			string expectedMessage =
-@"  Expected: in range (5,10)
-  But was:  12
-";
+                "  Expected: in range (5,10)" + NL +
+                "  But was:  12" + NL;
+
 			Assert.That(
 				new TestDelegate( FailingInRangeMethod ),
 				Throws.TypeOf(typeof(AssertionException)).With.Message.EqualTo(expectedMessage));
@@ -48,9 +50,9 @@ namespace NUnit.Framework.Tests
 		public void NotInRangeFails()
 		{
 			string expectedMessage =
-@"  Expected: not in range (5,10)
-  But was:  7
-";
+                "  Expected: not in range (5,10)" + NL +
+                "  But was:  7" + NL;
+
 			Assert.That(
 				new TestDelegate(FailingNotInRangeMethod),
 				Throws.TypeOf(typeof(AssertionException)).With.Message.EqualTo(expectedMessage));

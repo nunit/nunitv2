@@ -269,15 +269,16 @@ namespace NUnit.Framework.Tests
 			}
 		}
 
-		[Test,ExpectedException(typeof(AssertionException))]
+		[Test]
+        [ExpectedException(typeof(AssertionException), 
+            ExpectedMessage="Stream lengths are both",
+            MatchType=MessageMatch.Contains)]
 		public void AreEqualFailsWithTextFilesAfterReadingBothFiles()
 		{
 			using(TestFile tf1 = new TestFile("Test1.txt","TestText1.txt"))
 			{
 				using(TestFile tf2 = new TestFile("Test2.txt","TestText2.txt"))
 				{
-					expectedMessage =
-						"  Stream lengths are both 65600. Streams differ at offset 65597." + Environment.NewLine;
 					FileAssert.AreEqual( "Test1.txt", "Test2.txt" );
 				}
 			}
