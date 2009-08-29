@@ -76,6 +76,15 @@ namespace NUnit.Framework.Syntax
         }
 
         [Test]
+        public void ThrowsTypeofWithMessage()
+        {
+            IResolveConstraint expr = Throws.TypeOf(typeof(ArgumentException)).With.Message.EqualTo("my message");
+            Assert.AreEqual(
+                @"<throws <and <typeof System.ArgumentException> <property Message <equal ""my message"">>>>",
+                expr.Resolve().ToString());
+        }
+
+        [Test]
         public void ThrowsInstanceOf()
         {
             IResolveConstraint expr = Throws.InstanceOf(typeof(ArgumentException));
