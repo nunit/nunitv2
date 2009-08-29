@@ -157,6 +157,9 @@
       <Link>IgnoreFixtureTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\ParameterizedTestFixture.cs">
+      <Link>ParameterizedTestFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\PropertyAttributeTests.cs">
       <Link>PropertyAttributeTests.cs</Link>
       <SubType>Code</SubType>
@@ -219,7 +222,6 @@
     <Compile Include="..\..\..\..\src\tests\test-assembly\TestCaseSourceAttributeFixture.cs">
       <Link>TestCaseSourceAttributeFixture.cs</Link>
     </Compile>
-    <Compile Include="ParameterizedTestFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
