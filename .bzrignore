@@ -18,3 +18,5 @@ solutions/*/tests/loadtest-assembly/*
 build
 *.db
 *.VisualState.xml
+package
+GeneratedAssemblyInfo.cs
