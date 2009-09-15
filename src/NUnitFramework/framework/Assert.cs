@@ -705,36 +705,36 @@ namespace NUnit.Framework
         /// Verifies that a delegate throws an exception of a certain Type
         /// or one derived from it when called and returns it.
         /// </summary>
-        /// <param name="expectedExceptionType">The expected Exception Type</param>
+        /// <typeparam name="T">The expected Exception Type</typeparam>
         /// <param name="code">A TestDelegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        public static Exception Catch<T>(TestDelegate code, string message, params object[] args)
+        public static T Catch<T>(TestDelegate code, string message, params object[] args) where T : System.Exception
         {
-            return Throws(new InstanceOfTypeConstraint(typeof(T)), code, message, args);
+            return (T)Throws(new InstanceOfTypeConstraint(typeof(T)), code, message, args);
         }
 
         /// <summary>
         /// Verifies that a delegate throws an exception of a certain Type
         /// or one derived from it when called and returns it.
         /// </summary>
-        /// <param name="expectedExceptionType">The expected Exception Type</param>
+        /// <typeparam name="T">The expected Exception Type</typeparam>
         /// <param name="code">A TestDelegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        public static Exception Catch<T>(TestDelegate code, string message)
+        public static T Catch<T>(TestDelegate code, string message) where T : System.Exception
         {
-            return Throws(new InstanceOfTypeConstraint(typeof(T)), code, message);
+            return (T)Throws(new InstanceOfTypeConstraint(typeof(T)), code, message);
         }
 
         /// <summary>
         /// Verifies that a delegate throws an exception of a certain Type
         /// or one derived from it when called and returns it.
         /// </summary>
-        /// <param name="expectedExceptionType">The expected Exception Type</param>
+        /// <typeparam name="T">The expected Exception Type</typeparam>
         /// <param name="code">A TestDelegate</param>
-        public static Exception Catch<T>(TestDelegate code)
+        public static T Catch<T>(TestDelegate code) where T : System.Exception
         {
-            return Throws(new InstanceOfTypeConstraint(typeof(T)), code);
+            return (T)Throws(new InstanceOfTypeConstraint(typeof(T)), code);
         }
 #endif
         #endregion
