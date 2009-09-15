@@ -26,5 +26,27 @@ namespace NUnit.Util.Tests
             string path = NUnit.Core.NUnitConfiguration.GetTestAgentExePath(Environment.Version);
             Assert.That(System.IO.File.Exists(path), "Cannot find " + path);
         }
+
+        [Test]
+        public void CanLocateBinDirForAllKnownVersions()
+        {
+            foreach (Version version in NUnit.Core.RuntimeFramework.KnownVersions)
+            {
+                string path = NUnit.Core.NUnitConfiguration.GetNUnitBinDirectory(version);
+                Assert.That(path, Is.Not.Null, "No path found for version {0}", version);
+                Assert.That(System.IO.Directory.Exists(path), "Directory {0} does not exist", path);
+            }
+        }
+
+        [Test]
+        public void CanLocateAgentExeForAllKnownVersions()
+        {
+            foreach (Version version in NUnit.Core.RuntimeFramework.KnownVersions)
+            {
+                string path = NUnit.Core.NUnitConfiguration.GetTestAgentExePath(version);
+                Assert.That(path, Is.Not.Null, "No path found for version {0}", version);
+                Assert.That(System.IO.File.Exists(path), "File {0} does not exist", path);
+            }
+        }
     }
 }
