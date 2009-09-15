@@ -709,7 +709,7 @@ namespace NUnit.Framework
         /// <param name="code">A TestDelegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
         /// <param name="args">Arguments to be used in formatting the message</param>
-        public static Exception Catch<T>(TestDelegate code, string message, params object[] args)
+        public static T Catch<T>(TestDelegate code, string message, params object[] args)
         {
             return Throws(new InstanceOfTypeConstraint(typeof(T)), code, message, args);
         }
@@ -721,7 +721,7 @@ namespace NUnit.Framework
         /// <param name="expectedExceptionType">The expected Exception Type</param>
         /// <param name="code">A TestDelegate</param>
         /// <param name="message">The message that will be displayed on failure</param>
-        public static Exception Catch<T>(TestDelegate code, string message)
+        public static T Catch<T>(TestDelegate code, string message)
         {
             return Throws(new InstanceOfTypeConstraint(typeof(T)), code, message);
         }
@@ -732,7 +732,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="expectedExceptionType">The expected Exception Type</param>
         /// <param name="code">A TestDelegate</param>
-        public static Exception Catch<T>(TestDelegate code)
+        public static T Catch<T>(TestDelegate code)
         {
             return Throws(new InstanceOfTypeConstraint(typeof(T)), code);
         }
