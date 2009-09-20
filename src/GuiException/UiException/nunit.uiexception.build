@@ -2,7 +2,7 @@
 <project name="NUnitUiException" default="build" basedir=".">
 
   <patternset id="source-files">
-    <include name="Properties/Resources.designer.cs"/>
+    <include name="Properties/Resources.Designer.cs"/>
     <include name="CodeFormatters/CodeFormatterCollection.cs"/>
     <include name="CodeFormatters/GeneralCodeFormatter.cs"/>
     <include name="CodeFormatters/ICodeFormatter.cs"/>
