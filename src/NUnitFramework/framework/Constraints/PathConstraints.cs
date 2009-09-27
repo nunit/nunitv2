@@ -17,6 +17,8 @@ namespace NUnit.Framework.Constraints
 	/// </summary>
 	public abstract class PathConstraint : Constraint
 	{
+        private static readonly char[] DirectorySeparatorChars = new char[] { '\\', '/' };
+
 		/// <summary>
 		/// The expected path used in the constraint
 		/// </summary>
@@ -70,8 +72,7 @@ namespace NUnit.Framework.Constraints
 		/// <returns>The path in standardized form</returns>
 		protected string Canonicalize( string path )
 		{
-			ArrayList parts = new ArrayList(
-				path.Split( Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar ) );
+			ArrayList parts = new ArrayList( path.Split( DirectorySeparatorChars ) );
 
 			for( int index = 0; index < parts.Count; )
 			{
