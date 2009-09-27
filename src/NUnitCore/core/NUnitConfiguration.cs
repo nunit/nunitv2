@@ -230,26 +230,6 @@ namespace NUnit.Core
         }
         #endregion
 
-        #region InstallDirectory
-        private static string installDir;
-        public static string InstallDirectory
-        {
-            get
-            {
-                if (installDir == null)
-                {
-                    RegistryKey key = Registry.LocalMachine.OpenSubKey(
-                        @"Software\nunit.org\2.4");
-                    if (key != null)
-                        installDir = key.GetValue("InstallDir") as string;
-
-                }
-                 
-                return installDir;
-            }
-        }
-        #endregion
-
         #region HelpUrl
         public static string HelpUrl
         {
