@@ -41,7 +41,8 @@ namespace NUnit.Core
         private static Version[] knownVersions = new Version[] {
             new Version( "1.0.3705" ),
             new Version( "1.1.4322" ),
-            new Version( "2.0.50727" ) };
+            new Version( "2.0.50727" ),
+            new Version("4.0.20506") };
 
         private RuntimeType runtime;
 		private Version version;

@@ -197,6 +197,13 @@ namespace NUnit.Core.Tests
 				new RuntimeFramework( RuntimeType.Net, new Version( 2, 0, 40607, 0 ) ),
 				"Net,Net-2.0" );
 		}
+        [Test]
+        public void DetectNet40()
+        {
+            CheckRuntimePlatforms(
+                new RuntimeFramework(RuntimeType.Net, new Version(4, 0, 20506, 0)),
+                "Net,Net-4.0");
+        }
 
 		[Test]
 		public void DetectNetCF()
