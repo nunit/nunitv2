@@ -8,6 +8,9 @@ using NUnit.Framework;
 using NUnit.TestData;
 using NUnit.TestUtilities;
 using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Core.Tests
 {
@@ -130,5 +133,29 @@ namespace NUnit.Core.Tests
             static int[] Denominators = new int[] { 3, 4, 6 };
             static int[] Quotients = new int[] { 4, 3, 2 };
         }
+
+#if NET_2_0
+        [Test]
+        public void ValueSourceMayBeGeneric(
+            [ValueSourceAttribute(typeof(ValueProvider), "IntegerProvider")] int val)
+        {
+            Assert.That(2 * val, Is.EqualTo(val + val));
+        }
+
+        public class ValueProvider
+        {
+            public IEnumerable<int> IntegerProvider()
+            {
+                List<int> dataList = new List<int>();
+
+                dataList.Add(1);
+                dataList.Add(2);
+                dataList.Add(4);
+                dataList.Add(8);
+
+                return dataList;
+            }
+        }
+#endif
     }
 }
