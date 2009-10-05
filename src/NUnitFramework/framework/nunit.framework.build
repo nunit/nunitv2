@@ -46,6 +46,7 @@
         <include name="Assume.cs"/>
         <include name="CategoryAttribute.cs"/>
         <include name="CollectionAssert.cs"/>
+        <include name="Contains.cs"/>
         <include name="DatapointAttributes.cs"/>
         <include name="DescriptionAttribute.cs"/>
         <include name="DirectoryAssert.cs"/>

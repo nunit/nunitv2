@@ -96,6 +96,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\Tolerance.cs">
       <Link>Constraints\Tolerance.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Contains.cs">
+      <Link>Contains.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\RepeatAttribute.cs">
       <Link>RepeatAttribute.cs</Link>
     </Compile>

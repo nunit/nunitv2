@@ -128,6 +128,18 @@ namespace NUnit.Framework.Syntax
         public void SetUp()
         {
             parseTree = "<contains 42>";
+            staticSyntax = Contains.Item(42);
+            inheritedSyntax = Helper().Contains(42);
+            builderSyntax = Builder().Contains(42);
+        }
+    }
+
+    public class CollectionMemberTest : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<contains 42>";
             staticSyntax = Has.Member(42);
             inheritedSyntax = Helper().Contains(42);
             builderSyntax = Builder().Contains(42);

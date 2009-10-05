@@ -229,6 +229,9 @@
       <Link>Constraints\TypeConstraints.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Contains.cs">
+      <Link>Contains.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\DatapointAttributes.cs">
       <Link>DatapointAttributes.cs</Link>
     </Compile>
