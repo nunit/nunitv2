@@ -197,6 +197,9 @@ namespace NUnit.Util
                     p.StartInfo.FileName = agentExePath;
                     if ( targetRuntime.Version == new Version("1.0.3705") )
 					    p.StartInfo.EnvironmentVariables["COMPLUS_Version"]="v1.0.3705";
+                    if (targetRuntime.Version == new Version("4.0.20506"))
+                        p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.20506";
+
                     p.StartInfo.Arguments = arglist;
                     break;
                 default:

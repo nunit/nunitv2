@@ -30,9 +30,9 @@ namespace NUnit.Util.Tests
         [Test]
         public void CanLocateBinDirForAllInstalledVersions()
         {
-            foreach (Version version in NUnit.Core.RuntimeFramework.KnownVersions)
+            foreach (NUnit.Core.RuntimeFramework availableVersion in NUnit.Core.RuntimeFramework.AvailableFrameworks)
             {
-                string path = NUnit.Core.NUnitConfiguration.GetNUnitBinDirectory(version);
+                string path = NUnit.Core.NUnitConfiguration.GetNUnitBinDirectory(availableVersion.Version);
                 if (path != null) // All version may not be installed
                     Assert.That(System.IO.Directory.Exists(path), "Directory {0} does not exist", path);
             }
@@ -41,9 +41,9 @@ namespace NUnit.Util.Tests
         [Test]
         public void CanLocateAgentExeForAllInstalledVersions()
         {
-            foreach (Version version in NUnit.Core.RuntimeFramework.KnownVersions)
+            foreach (NUnit.Core.RuntimeFramework availableVersion in NUnit.Core.RuntimeFramework.AvailableFrameworks)
             {
-                string path = NUnit.Core.NUnitConfiguration.GetTestAgentExePath(version);
+                string path = NUnit.Core.NUnitConfiguration.GetTestAgentExePath(availableVersion.Version);
                 if (path != null)
                     Assert.That(System.IO.File.Exists(path), "File {0} does not exist", path);
             }

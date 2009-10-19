@@ -287,6 +287,15 @@ namespace NUnit.Core
             string target = v.ToString(2);
             if (current == "1.0") current = "1.1";
             if (target == "1.0") target = "1.1";
+            if (current == "2.0") current = "net 2.0";
+            if (target == "2.0") target = "net 2.0";
+            if (current == "3.0") current = "net 2.0";
+            if (target == "3.0") target = "net 2.0";
+            if (current == "3.5") current = "net 2.0";
+            if (target == "3.5") target = "net 2.0";
+            if (current == "4.0") current = "net 4.0";
+            if (target == "4.0") target = "net 4.0";
+
             if (target == current)
                 return dir;
 
