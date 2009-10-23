@@ -287,6 +287,8 @@ namespace NUnit.Core
             string target = v.ToString(2);
             if (current == "1.0") current = "1.1";
             if (target == "1.0") target = "1.1";
+            if (current == "4.0") current = "2.0";
+            if (target == "4.0") target = "2.0";
             if (target == current)
                 return dir;
 
