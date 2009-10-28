@@ -195,8 +195,18 @@ namespace NUnit.Util
                     break;
                 case RuntimeType.Net:
                     p.StartInfo.FileName = agentExePath;
+
+                    // Force running under .NET 1.0
                     if ( targetRuntime.Version == new Version("1.0.3705") )
 					    p.StartInfo.EnvironmentVariables["COMPLUS_Version"]="v1.0.3705";
+
+                    // Force running under .NET 4.0
+                    // Keep Beta versions here until RTM
+                    if (targetRuntime.Version == new Version("4.0.20506")) // Beta 1
+                        p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.20506";
+                    if (targetRuntime.Version == new Version("4.0.21006")) // Beta 2
+                        p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.21006";
+
                     p.StartInfo.Arguments = arglist;
                     break;
                 default:

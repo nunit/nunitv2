@@ -199,6 +199,11 @@ namespace NUnit.Core
             /// </summary>
             private CultureInfo currentUICulture;
 
+            /// <summary>
+            /// The current security Principal
+            /// </summary>
+            private System.Security.Principal.IPrincipal currentPrincipal;
+
 			/// <summary>
 			/// Link to a prior saved context
 			/// </summary>
@@ -218,6 +223,7 @@ namespace NUnit.Core
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
                 this.currentUICulture = CultureInfo.CurrentUICulture;
+                this.currentPrincipal = System.Threading.Thread.CurrentPrincipal;
 			}
 
 			public ContextHolder( ContextHolder other )
@@ -234,6 +240,7 @@ namespace NUnit.Core
 				this.currentDirectory = Environment.CurrentDirectory;
 				this.currentCulture = CultureInfo.CurrentCulture;
                 this.currentUICulture = CultureInfo.CurrentUICulture;
+                this.currentPrincipal = System.Threading.Thread.CurrentPrincipal;
 			}
 
 			/// <summary>
@@ -252,6 +259,7 @@ namespace NUnit.Core
 				this.CurrentCulture = prior.CurrentCulture;
                 this.CurrentUICulture = prior.CurrentUICulture;
                 this.TestCaseTimeout = prior.TestCaseTimeout;
+                this.CurrentPrincipal = prior.CurrentPrincipal;
 			}
 
 			/// <summary>
@@ -394,6 +402,16 @@ namespace NUnit.Core
 					Thread.CurrentThread.CurrentUICulture = currentUICulture;
 				}
 			}
+
+            public System.Security.Principal.IPrincipal CurrentPrincipal
+            {
+                get { return currentPrincipal; }
+                set
+                {
+                    currentPrincipal = value;
+                    Thread.CurrentPrincipal = currentPrincipal;
+                }
+            }
 
             public int TestCaseTimeout
             {

@@ -65,6 +65,11 @@ namespace NUnit.Util
 		/// </summary>
 		private string currentTestName;
 
+        /// <summary>
+        /// The currently set runtime framework
+        /// </summary>
+        private RuntimeFramework currentRuntime;
+
 		/// <summary>
 		/// Result of the last test run
 		/// </summary>
@@ -557,6 +562,7 @@ namespace NUnit.Util
                         : RuntimeFramework.CurrentFramework;
 
                 loadedTest = testRunner.Test;
+                currentRuntime = framework;
 				reloadPending = false;
 
                 testProject.HasChangesRequiringReload = false;
@@ -574,7 +580,7 @@ namespace NUnit.Util
 
         public void ReloadTest()
         {
-            ReloadTest(null);
+            ReloadTest(currentRuntime);
         }
 
 		/// <summary>
