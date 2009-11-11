@@ -48,12 +48,6 @@ namespace NUnit.Core
         /// Appears on a TestResult in that case or
         /// if the test is dynamically ignored.
         /// </summary>
-		Ignored,
-
-        /// <summary>
-        /// The test has been executed. May only
-        /// appear on a TestResult.
-        /// </summary>
-		Executed
+		Ignored
 	}
 }
