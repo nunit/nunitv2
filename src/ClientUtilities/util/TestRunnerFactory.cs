@@ -53,13 +53,20 @@ namespace NUnit.Util
                 default:
                     DomainUsage domainUsage = 
                         (DomainUsage)package.GetSetting("DomainUsage", DomainUsage.Default);
-                    if (domainUsage == DomainUsage.Multiple)
+                    switch (domainUsage)
                     {
-                        package.Settings.Remove("DomainUsage");
-                        return new MultipleTestDomainRunner();
+                        case DomainUsage.Multiple:
+                            package.Settings.Remove("DomainUsage");
+                            return new MultipleTestDomainRunner();
+                            break;
+                        case DomainUsage.None:
+                            return new RemoteTestRunner();
+                            break;
+                        case DomainUsage.Single:
+                        default:
+                            return new TestDomain();
+                            break;
                     }
-                    else
-                        return new TestDomain();
             }
         }
     }
