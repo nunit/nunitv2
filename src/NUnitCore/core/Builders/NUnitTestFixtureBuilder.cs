@@ -38,7 +38,6 @@ namespace NUnit.Core.Builders
 		public bool CanBuildFrom(Type type)
 		{
 			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true ) ||
-                   ( type.IsPublic || type.IsNestedPublic ) && 
                    ( !type.IsAbstract || type.IsSealed ) &&
                    ( Reflect.HasMethodWithAttribute(type, NUnitFramework.TestAttribute, true) ||
                      Reflect.HasMethodWithAttribute(type, NUnitFramework.TestCaseAttribute, true) ||
@@ -121,12 +120,6 @@ namespace NUnit.Core.Builders
             }
 
             AddTestCases(type);
-
-            //if (this.fixture.RunState != RunState.NotRunnable && this.fixture.TestCount == 0)
-            //{
-            //    this.fixture.RunState = RunState.NotRunnable;
-            //    this.fixture.IgnoreReason = fixture.TestName.Name + " does not have any tests";
-            //}
 
             return this.fixture;
         }
