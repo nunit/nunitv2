@@ -48,6 +48,9 @@
     <Compile Include="..\..\..\..\src\tests\loadtest-assembly\AAA\Class5.cs">
       <Link>AAA\Class5.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\loadtest-assembly\BaseClass.cs">
+      <Link>BaseClass.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\loadtest-assembly\BBB\Class1.cs">
       <Link>BBB\Class1.cs</Link>
     </Compile>

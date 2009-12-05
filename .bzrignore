@@ -2,9 +2,11 @@ TestResult.xml
 *.suo
 bin
 obj
-
+*.user
 solutions/*/ClientUtilities/tests/*
 solutions/*/ClientUtilities/util/*
+solutions/*/ConsoleRunner/nunit-console/*
+solutions/*/ConsoleRunner/nunit-console-exe/*
 solutions/*/GuiException/UIException/*
 solutions/*/GuiException/tests/*
 solutions/*/GuiRunner/nunit-gui/*

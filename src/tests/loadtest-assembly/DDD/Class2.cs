@@ -12,7 +12,7 @@ namespace NUnit.Tests.Assemblies.DDD
 	/// Summary description for Class1.
 	/// </summary>
 	[TestFixture]
-	public class Class2
+    public class Class2 : BaseClass
 	{
 		[Test]
 		public void Test1() { }

@@ -29,10 +29,6 @@ namespace NUnit.Core
 	{
         private static readonly BindingFlags AllMembers = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
-        private static Hashtable topAttributes = new Hashtable();
-        private static Hashtable allAttributes = new Hashtable();
-        private static Hashtable methodCache = new Hashtable();
-
         #region Attributes 
 
 		/// <summary>
@@ -92,18 +88,11 @@ namespace NUnit.Core
         public static System.Attribute[] GetAttributes(
             ICustomAttributeProvider member, bool inherit)
         {
-            Hashtable attributeCache = inherit ? allAttributes : topAttributes;
-
-            if (attributeCache.Contains(member))
-                return attributeCache[member] as Attribute[];
-
             object[] attributes = member.GetCustomAttributes(inherit);
             System.Attribute[] result = new System.Attribute[attributes.Length];
             int n = 0;
             foreach (Attribute attribute in attributes)
                 result[n++] = attribute;
-
-            attributeCache[member] = result;
 
             return result;
         }
@@ -203,11 +192,7 @@ namespace NUnit.Core
 
         private static MethodInfo[] GetMethods(Type fixtureType)
         {
-            if (methodCache.Contains(fixtureType))
-                return methodCache[fixtureType] as MethodInfo[];
-
             MethodInfo[] result = fixtureType.GetMethods(AllMembers);
-            methodCache[fixtureType] = result;
 
             return result;
         }

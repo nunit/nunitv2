@@ -12,7 +12,7 @@ namespace NUnit.Tests.Assemblies.BBB
 	/// Summary description for Class1.
 	/// </summary>
 	[TestFixture]
-	public class Class3
+    public class Class3 : BaseClass
 	{
 		[Test]
 		public void Test1() { }

@@ -12,7 +12,7 @@ namespace NUnit.Tests.Assemblies.AAA
 	/// Summary description for Class1.
 	/// </summary>
 	[TestFixture]
-	public class Class4
+    public class Class4 : BaseClass
 	{
 		[Test]
 		public void Test1() { }
