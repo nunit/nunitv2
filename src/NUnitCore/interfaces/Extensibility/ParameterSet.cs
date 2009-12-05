@@ -36,6 +36,7 @@ namespace NUnit.Core.Extensibility
         private string testName;
         private string ignoreReason;
         private bool isIgnored;
+        private bool hasExpectedResult;
 
         /// <summary>
         /// A dictionary of properties, used to add information
@@ -124,7 +125,16 @@ namespace NUnit.Core.Extensibility
         public object Result
         {
             get { return result; }
-            set { result = value; }
+            set 
+            { 
+                result = value;
+                hasExpectedResult = true;
+            }
+        }
+
+        public bool HasExpectedResult
+        {
+            get { return hasExpectedResult; }
         }
 
         /// <summary>
