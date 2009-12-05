@@ -125,8 +125,9 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(1, tests.Count);
 			TestSuite testSuite = (TestSuite)tests[0];
 
-			Assert.AreEqual( RunState.NotRunnable, testSuite.RunState );
-			Assert.AreEqual(testSuite.TestName.Name + " does not have any tests", testSuite.IgnoreReason);
+            // NOTE: Beginning with NUnit 2.5.3, a suite with no tests is now runnable
+			Assert.AreEqual( RunState.Runnable, testSuite.RunState );
+			//Assert.AreEqual(testSuite.TestName.Name + " does not have any tests", testSuite.IgnoreReason);
 		}
 
 		[Test]

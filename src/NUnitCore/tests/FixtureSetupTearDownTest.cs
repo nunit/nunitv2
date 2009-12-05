@@ -266,12 +266,15 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
-		public void FixtureWithNoTestsShouldNotCallFixtureSetUpOrTearDown()
+		public void FixtureWithNoTestsCallsFixtureSetUpAndTearDown()
 		{
+            // NOTE: Beginning with NUnit 2.5.3, FixtureSetUp and TearDown
+            // are called even if the fixture contains no tests.
+
 			FixtureWithNoTests fixture = new FixtureWithNoTests();
 			RunTestOnFixture( fixture );		
-			Assert.IsFalse( fixture.setupCalled, "TestFixtureSetUp called running fixture" );
-			Assert.IsFalse( fixture.teardownCalled, "TestFixtureTearDown called running fixture" );
+			Assert.IsTrue( fixture.setupCalled, "TestFixtureSetUp not called" );
+			Assert.IsTrue( fixture.teardownCalled, "TestFixtureTearDown not called" );
 		}
 
         [Test]
