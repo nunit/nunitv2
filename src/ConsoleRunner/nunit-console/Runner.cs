@@ -66,6 +66,15 @@ namespace NUnit.ConsoleRunner
 			// Initialize Services
 			ServiceManager.Services.InitializeServices();
 
+            foreach (string parm in options.Parameters)
+            {
+                if (!Services.ProjectService.CanLoadProject(parm) && !PathUtils.IsAssemblyFileType(parm))
+                {
+                    Console.WriteLine("File type not known: {0}", parm);
+                    return ConsoleUi.INVALID_ARG;
+                }
+            }
+
 			try
 			{
 				ConsoleUi consoleUi = new ConsoleUi();
