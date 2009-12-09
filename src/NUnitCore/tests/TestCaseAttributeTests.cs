@@ -55,11 +55,13 @@ namespace NUnit.Core.Tests
             return x + y;
         }
 
+#if NET_2_0
         [TestCase(Result = null)]
         public object ExpectedResultCanBeNull()
         {
             return null;
         }
+#endif
 
         [Test]
 		public void ConversionOverflowGivesError()

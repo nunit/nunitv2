@@ -72,6 +72,7 @@
         <include name="TheoryTests.cs"/>
         <include name="ThreadedTestRunnerTests.cs"/>
         <include name="ThreadingTests.cs"/>
+        <include name="TypeHelperTests.cs"/>
         <include name="UnhandledExceptionTests.cs"/>
         <include name="ValueSourceTests.cs"/>
         <include name="XmlTest.cs"/>

@@ -198,6 +198,9 @@
     <Compile Include="..\..\..\..\src\tests\test-assembly\ThreadingFixture.cs">
       <Link>ThreadingFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\TypeHelperFixture.cs">
+      <Link>TypeHelperFixture.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\UnhandledExceptions.cs">
       <Link>UnhandledExceptions.cs</Link>
       <SubType>Code</SubType>

@@ -7,6 +7,7 @@
 using System;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace NUnit.Core
 {
@@ -21,14 +22,29 @@ namespace NUnit.Core
             if (type.IsGenericType)
             {
                 string name = type.FullName;
-                int index = name.IndexOf('[');
-                if (index >= 0) name = name.Substring(0, index);
+
+                int index = name.IndexOf("[[");
+                if (index > 0)
+                {
+                    int index2 = name.LastIndexOf("]]");
+                    if (index2 > index)
+                        name = name.Substring(0, index) + name.Substring(index2 + 2);
+                }
 
                 index = name.LastIndexOf('.');
-                if (index >= 0) name = name.Substring(index+1);
+                if (index >= 0) name = name.Substring(index + 1);
 
                 index = name.IndexOf('`');
-                if (index >= 0) name = name.Substring(0, index);
+                while (index >= 0)
+                {
+                    int index2 = name.IndexOf('+', index);
+                    if (index2 >= 0)
+                        name = name.Substring(0, index) + name.Substring(index2);
+                    else
+                        name = name.Substring(0, index);
+
+                    index = name.IndexOf('`');
+                }
 
                 StringBuilder sb = new StringBuilder(name);
 
@@ -45,8 +61,8 @@ namespace NUnit.Core
             }
 #endif
             int lastdot = type.FullName.LastIndexOf('.');
-            return lastdot >= 0 
-                ? type.FullName.Substring(lastdot+1)
+            return lastdot >= 0
+                ? type.FullName.Substring(lastdot + 1)
                 : type.FullName;
         }
 

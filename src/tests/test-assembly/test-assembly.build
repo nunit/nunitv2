@@ -29,6 +29,7 @@
     <include name="TestMethodSignatureFixture.cs"/>
     <include name="TheoryFixture.cs"/>
     <include name="ThreadingFixture.cs"/>
+    <include name="TypeHelperFixture.cs"/>
     <include name="UnhandledExceptions.cs"/>
   </patternset>
 

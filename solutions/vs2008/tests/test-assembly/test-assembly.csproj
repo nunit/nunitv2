@@ -222,6 +222,9 @@
     <Compile Include="..\..\..\..\src\tests\test-assembly\TestCaseSourceAttributeFixture.cs">
       <Link>TestCaseSourceAttributeFixture.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\TypeHelperFixture.cs">
+      <Link>TypeHelperFixture.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
