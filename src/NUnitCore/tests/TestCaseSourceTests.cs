@@ -141,6 +141,12 @@ namespace NUnit.Core.Tests
             return n / d;
         }
 
+        [TestCaseSource("ExpectNull")]
+        public object ExpectedResultCanBeNull()
+        {
+            return null;
+        }
+
         [Test]
         public void CanSpecifyExpectedException()
         {
@@ -241,6 +247,9 @@ namespace NUnit.Core.Tests
             new TestCaseData( 12, 5, 2, 2 ) };
 
         static int[] EvenNumbers = new int[] { 2, 4, 6, 8 };
+
+        static object[] ExpectNull = new object[] {
+            new TestCaseData().Returns(null) };
 
         private static IEnumerable CheckCurrentDirectory
         {
