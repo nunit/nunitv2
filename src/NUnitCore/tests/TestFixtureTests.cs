@@ -58,16 +58,6 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("NUnit.TestData.TestFixtureTests.FixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
         }
 
-#if NET_2_0
-        [Test]
-        public void ConstructFromStaticTypeWithoutTestFixtureAttribute()
-        {
-            TestSuite fixture = TestBuilder.MakeFixture(typeof(StaticFixtureWithoutTestFixtureAttribute));
-            Assert.AreEqual("StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.Name);
-            Assert.AreEqual("NUnit.TestData.TestFixtureTests.StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
-        }
-#endif
-
         [Test]
         public void CannotRunConstructorWithArgsNotSupplied()
         {
@@ -112,14 +102,6 @@ namespace NUnit.Core.Tests
             TestAssert.IsRunnable(typeof(DerivedFromAbstractTestFixture));
         }
 
-#if NET_2_0
-        [Test]
-        public void CanRunStaticFixture()
-        {
-            TestAssert.IsRunnable(typeof(StaticFixtureWithoutTestFixtureAttribute));
-        }
-#endif
-
         [Test]
         public void CanRunFixtureDerivedFromAbstractDerivedTestFixture()
         {
@@ -138,7 +120,61 @@ namespace NUnit.Core.Tests
             TestAssert.IsRunnable(typeof(MultipleFixtureTearDownAttributes));
 		}
 
-		#region SetUp Signature
+#if NET_2_0
+        [Test]
+        public void ConstructFromStaticTypeWithoutTestFixtureAttribute()
+        {
+            TestSuite fixture = TestBuilder.MakeFixture(typeof(StaticFixtureWithoutTestFixtureAttribute));
+            Assert.AreEqual("StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.Name);
+            Assert.AreEqual("NUnit.TestData.TestFixtureTests.StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
+        }
+
+        [Test]
+        public void CanRunStaticFixture()
+        {
+            TestAssert.IsRunnable(typeof(StaticFixtureWithoutTestFixtureAttribute));
+        }
+
+        [Test]
+        public void CanRunGenericFixtureWithProperArgsProvided()
+        {
+            TestAssert.IsRunnable(
+                Type.GetType("NUnit.TestData.TestFixtureTests.GenericFixtureWithProperArgsProvided`1,test-assembly"));
+        }
+
+        [Test]
+        public void CannotRunGenericFixtureWithNoTestFixtureAttribute()
+        {
+            TestAssert.IsNotRunnable(
+                Type.GetType("NUnit.TestData.TestFixtureTests.GenericFixtureWithNoTestFixtureAttribute`1,test-assembly"));
+        }
+
+        [Test]
+        public void CannotRunGenericFixtureWithNoArgsProvided()
+        {
+            Test suite = TestBuilder.MakeFixture(
+                Type.GetType("NUnit.TestData.TestFixtureTests.GenericFixtureWithNoArgsProvided`1,test-assembly"));
+            TestAssert.IsNotRunnable((Test)suite.Tests[0]);
+        }
+
+        [Test]
+        public void CannotRunGenericFixtureDerivedFromAbstractFixtureWithNoArgsProvided()
+        {
+            Test suite = TestBuilder.MakeFixture(
+                Type.GetType("NUnit.TestData.TestFixtureTests.GenericFixtureDerivedFromAbstractFixtureWithNoArgsProvided`1,test-assembly"));
+            TestAssert.IsNotRunnable((Test)suite.Tests[0]);
+        }
+
+        [Test]
+        public void CanRunGenericFixtureDerivedFromAbstractFixtureWithArgsProvided()
+        {
+            Test suite = TestBuilder.MakeFixture(
+                Type.GetType("NUnit.TestData.TestFixtureTests.GenericFixtureDerivedFromAbstractFixtureWithArgsProvided`1,test-assembly"));
+            TestAssert.IsRunnable((Test)suite.Tests[0]);
+        }
+#endif
+
+        #region SetUp Signature
 		[Test] 
 		public void CannotRunPrivateSetUp()
 		{

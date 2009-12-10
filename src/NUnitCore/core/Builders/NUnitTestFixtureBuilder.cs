@@ -54,6 +54,8 @@ namespace NUnit.Core.Builders
 		public Test BuildFrom(Type type)
 		{
             Attribute[] attrs = Reflect.GetAttributes(type, NUnitFramework.TestFixtureAttribute, false);
+            if (attrs.Length == 0)
+                attrs = Reflect.GetAttributes(type, NUnitFramework.TestFixtureAttribute, true);
 
 #if NET_2_0
             if (type.IsGenericType)
@@ -80,8 +82,16 @@ namespace NUnit.Core.Builders
         {
             TestSuite suite = new TestSuite(type.Namespace, TypeHelper.GetDisplayName(type));
 
-            foreach (Attribute attr in attrs)
-                suite.Add(BuildSingleFixture(type, attr));
+            if (attrs.Length > 0)
+            {
+                foreach (Attribute attr in attrs)
+                    suite.Add(BuildSingleFixture(type, attr));
+            }
+            else
+            {
+                suite.RunState = RunState.NotRunnable;
+                suite.IgnoreReason = "Generic fixture has no type arguments provided";
+            }
 
             return suite;
         }
