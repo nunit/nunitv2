@@ -306,8 +306,8 @@ namespace NUnit.Core
             if ( binDir == null ) return null;
 
 #if NET_2_0
-            ProcessorArchitecture arch = System.Reflection.Assembly.GetEntryAssembly().GetName().ProcessorArchitecture;
-            string agentName = v.Major > 1 && arch == ProcessorArchitecture.X86
+            Assembly a = System.Reflection.Assembly.GetEntryAssembly();
+            string agentName = v.Major > 1 && a != null && a.GetName().ProcessorArchitecture == ProcessorArchitecture.X86
                 ? "nunit-agent-x86.exe" 
                 : "nunit-agent.exe";
 #else
