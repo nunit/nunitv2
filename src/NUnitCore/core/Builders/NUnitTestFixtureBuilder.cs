@@ -37,11 +37,13 @@ namespace NUnit.Core.Builders
 		/// <returns>True if the fixture can be built, false if not</returns>
 		public bool CanBuildFrom(Type type)
 		{
+            if (type.IsAbstract && !type.IsSealed)
+                return false;
+
 			return Reflect.HasAttribute( type, NUnitFramework.TestFixtureAttribute, true ) ||
-                   ( !type.IsAbstract || type.IsSealed ) &&
-                   ( Reflect.HasMethodWithAttribute(type, NUnitFramework.TestAttribute, true) ||
-                     Reflect.HasMethodWithAttribute(type, NUnitFramework.TestCaseAttribute, true) ||
-                     Reflect.HasMethodWithAttribute(type, NUnitFramework.TheoryAttribute, true) );
+                   Reflect.HasMethodWithAttribute(type, NUnitFramework.TestAttribute, true) ||
+                   Reflect.HasMethodWithAttribute(type, NUnitFramework.TestCaseAttribute, true) ||
+                   Reflect.HasMethodWithAttribute(type, NUnitFramework.TheoryAttribute, true);
 		}
 
 		/// <summary>
@@ -214,11 +216,11 @@ namespace NUnit.Core.Builders
         /// <returns>True if the fixture is valid, false if not</returns>
         private bool IsValidFixtureType(Type fixtureType, ref string reason)
         {
-            if (fixtureType.IsAbstract && !fixtureType.IsSealed)
-            {
-                reason = string.Format("{0} is an abstract class", fixtureType.FullName);
-                return false;
-            }
+            //if (fixtureType.IsAbstract && !fixtureType.IsSealed)
+            //{
+            //    reason = string.Format("{0} is an abstract class", fixtureType.FullName);
+            //    return false;
+            //}
 
 #if NET_2_0
             if ( fixtureType.ContainsGenericParameters )

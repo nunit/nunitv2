@@ -106,11 +106,11 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( "testing ignore a fixture", suite.IgnoreReason );
 		}
 
-		[Test]
-		public void CannotRunAbstractFixture()
-		{
-            TestAssert.IsNotRunnable(typeof(AbstractTestFixture));
-		}
+        [Test]
+        public void CanRunFixtureDerivedFromAbstractFixture()
+        {
+            TestAssert.IsRunnable(typeof(DerivedFromAbstractTestFixture));
+        }
 
 #if NET_2_0
         [Test]
@@ -120,11 +120,11 @@ namespace NUnit.Core.Tests
         }
 #endif
 
-		[Test]
-		public void CannotRunAbstractDerivedFixture()
-		{
-            TestAssert.IsNotRunnable(typeof(AbstractDerivedTestFixture));
-		}
+        [Test]
+        public void CanRunFixtureDerivedFromAbstractDerivedTestFixture()
+        {
+            TestAssert.IsRunnable(typeof(DerivedFromAbstractDerivedTestFixture));
+        }
 
 		[Test] 
 		public void CanRunMultipleTestFixtureSetUp()

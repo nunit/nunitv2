@@ -119,7 +119,15 @@ namespace NUnit.TestData.TestFixtureTests
 		[TearDown]
 		public void Destroy1()
 		{}
+
+        [Test]
+        public void SomeTest()
+        {}
 	}
+
+    public class DerivedFromAbstractTestFixture : AbstractTestFixture
+    {
+    }
 
 	[TestFixture]
 	public class BaseClassTestFixture
@@ -131,6 +139,10 @@ namespace NUnit.TestData.TestFixtureTests
 	public abstract class AbstractDerivedTestFixture : BaseClassTestFixture
 	{
 	}
+
+    public class DerivedFromAbstractDerivedTestFixture : AbstractDerivedTestFixture
+    {
+    }
 
 	[TestFixture]
 	public class MultipleFixtureSetUpAttributes
