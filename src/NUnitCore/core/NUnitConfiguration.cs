@@ -305,7 +305,16 @@ namespace NUnit.Core
             string binDir = GetNUnitBinDirectory(v);
             if ( binDir == null ) return null;
 
-            string agentExePath = Path.Combine(binDir, "nunit-agent.exe");
+#if NET_2_0
+            ProcessorArchitecture arch = System.Reflection.Assembly.GetEntryAssembly().GetName().ProcessorArchitecture;
+            string agentName = v.Major > 1 && arch == ProcessorArchitecture.X86
+                ? "nunit-agent-x86.exe" 
+                : "nunit-agent.exe";
+#else
+            string agentName = "nunit-agent.exe";
+#endif
+
+            string agentExePath = Path.Combine(binDir, agentName);
             return File.Exists(agentExePath) ? agentExePath : null;
         }
 
