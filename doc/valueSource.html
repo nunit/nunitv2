@@ -55,7 +55,6 @@ provide the arguments. It should have the following characteristics:
 <li>It must return an IEnumerable or a type that implements IEnumerable.
 <li>The individual items returned from the enumerator must be compatible
     with the type of the parameter on which the attribute appears.
-<li>
 </ul>
 
 <h3>Order of Execution</h3>
@@ -82,7 +81,8 @@ tests to be executed. Each source object is only created once at this
 time and is destroyed after all tests are loaded. 
 
 <p>If the data source is in the test fixture itself, the object is created
-using the appropriate constructor for the fixture parameters provided, or
+using the appropriate constructor for the fixture parameters provided on
+the <b>TestFixtureAttribute</b>, or
 the default constructor if no parameters were specified. Since this object
 is destroyed before the tests are run, no communication is possible between
 these two phases - or between different runs - except through the parameters
@@ -93,7 +93,7 @@ themselves.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

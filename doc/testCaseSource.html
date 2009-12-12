@@ -150,7 +150,7 @@ and any public fields or properties with the following names are used:
 public class MyTests
 {
   [Test,TestCaseSource(typeof(MyFactoryClass),"TestCases")]
-  public void DivideTest(int n, int d)
+  public int DivideTest(int n, int d)
   {
     return n/d;
   }
@@ -240,7 +240,8 @@ tests to be executed. Each source object is only created once at this
 time and is destroyed after all tests are loaded. 
 
 <p>If the data source is in the test fixture itself, the object is created
-using the appropriate constructor for the fixture parameters provided, or
+using the appropriate constructor for the fixture parameters provided on
+the <b>TestFixtureAttribute</b> or
 the default constructor if no parameters were specified. Since this object
 is destroyed before the tests are run, no communication is possible between
 these two phases - or between different runs - except through the parameters
@@ -253,7 +254,7 @@ themselves.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

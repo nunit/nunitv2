@@ -39,6 +39,7 @@
       <ComponentRef Id="consolex86.exe"/>
       <ComponentRef Id="console.dll_2.0"/>
       <ComponentRef Id="agent.exe_2.0"/>
+      <ComponentRef Id="agentx86.exe"/>
     </ComponentGroup>
 
     <DirectoryRef Id="net_1.1" FileSource="bin\net-1.1">
@@ -130,6 +131,11 @@
       <Component Id="agent.exe_2.0" DiskId="1" Guid="E0819EB1-2DCE-4648-81CB-0C101ECB0109">
         <File Id="agent.exe_2.0" Name="AGENT.EXE" LongName="nunit-agent.exe" />
         <File Id="agent.config_2.0" Name="AGENT.CFG" LongName="nunit-agent.exe.config" />
+      </Component>
+
+      <Component Id="agentx86.exe" DiskId="1" Guid="D2417C51-E283-4d75-BD4D-E47D9A7E64CD">
+        <File Id="agentx86.exe" Name="AGENTX86.EXE" LongName="nunit-agent-x86.exe" />
+        <File Id="agentx86.config" Name="AGENTX86.CFG" LongName="nunit-agent-x86.exe.config" />
       </Component>
           	  
     </DirectoryRef>

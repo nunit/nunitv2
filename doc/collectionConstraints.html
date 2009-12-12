@@ -163,6 +163,7 @@ CollectionContainsConstraint( object )
 <h4>Syntax</h4>
 <div class="code"><pre>
 Has.Member( object )
+Contains.Item( object )
 </pre></div>
 
 <h4>Examples of Use</h4>
@@ -172,6 +173,7 @@ string[] sarray = new string[] { "a", "b", "c" };
 
 Assert.That( iarray, Has.Member(3) );
 Assert.That( sarray, Has.Member("b") );
+Assert.That( sarray, Contains.Item("c") );
 Assert.That( sarray, Has.No.Member("x") );
 </pre></div>
 
@@ -281,7 +283,7 @@ same modifier is used more than once, the result is undefined.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

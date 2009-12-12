@@ -79,27 +79,24 @@ be better served by using the <b>/run</b> option.
 A few are designed to operate correctly under multiple versions. In either case,
 it is important to be able to specify the CLR version to be used for testing.</p>
 
-<p>NUnit 2.5 provides several alternative ways to do this.
+<p>Prior to version 2.5, it was necessary to run the console program itself using
+the CLR version under which you wanted to run tests. This was done either by 
+editing the nunit-console.exe.config file or by setting the COMPLUS_Version
+environment variable before running the program.
 
-<p>When only one version of the CLR is used, the config files for nunit-gui and
-nunit-console may be set up to specify that version. As a more convenient
-alternative when switching CLRs, you may use the provided <b>clr.bat</b>
-command to specify the version under which NUnit should run.</p>
+<p>Under NUnit 2.5 and later versions, you may still use either of these approaches, 
+but a simpler method is available.
 
-<p>For example, to run the tests in nunit.tests.dll under the RTM version of 
-the .Net 2.0 framework, use:</p>
-
-<pre class="programtext">       clr net-2.0 nunit-console nunit.tests.dll</pre>
-
-<p>The <b>clr.bat</b> file is located in the NUnit <b>bin</b> directory. You may
-put this on your path, or copy it to a convenient location. Enter <b>clr /?</b> 
-for a list of options.</p>
+<p>The <b>/framework</b> option allows you to specify the version of the runtime
+    to be used in executing tests. If that version specified is different from the
+    one being used by NUnit, the tests are run in a separate process. For example,
+    you may enter
+    <pre class="programtext">        nunit-console myassembly.dll /framework:net-1.1</pre>
+</p>
 	
-<p><b>Note:</b> If you use a &lt;startup&gt; section in the config file, it takes
-precedence over this option.</p>
-
-<p><b>Clr.bat</b> works for Microsoft .NET versions. For running under Mono,
-you should use the Mono command, which is part of the Mono distribution.
+<p>This command will run tests under .NET 1.1 even if you are running the .NET 2.0
+	build of the nunit-console. Beginning with version 2.5.3, all versions of .NET 
+	through 4.0 as well	as Mono profiles 1.0, 2.0 and 3.5 are supported.
 
 <h4>Specifying Test Categories to Include or Exclude</h4>
 <p>NUnit provides CategoryAttribute for use in marking tests as belonging to 
@@ -269,7 +266,7 @@ may run for any amount of time.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

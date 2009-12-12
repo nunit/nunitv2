@@ -46,6 +46,7 @@ SubstringConstraint(string expected)
 <h4>Syntax</h4>
 <div class="code"><pre>
 Is.StringContaining(string expected)
+Contains.Substring(string expected)
 ContainsSubstring(string expected)
 Contains(string expected)
 [Obsolete] Text.Contains(string expected)
@@ -62,6 +63,7 @@ Contains(string expected)
 string phrase = "Make your tests fail before passing!"
 
 Assert.That( phrase, Is.StringContaining( "tests fail" ) );
+Assert.That( phrase, Contains.Substring( "tests fail" ) );
 Assert.That( phrase, Is.Not.StringContaining( "tests pass" ) );
 Assert.That( phrase, Is.StringContaining( "make" ).IgnoreCase );
 Expect (phrase, Contains.Substring( "make" ).IgnoreCase );
@@ -198,7 +200,7 @@ Expect( phrase, Matches( "Make.*pass" ) );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

@@ -45,43 +45,43 @@
 <p><b>Assert.Catch</b> is similar to <b>Assert.Throws</b> but will pass for an exception
    that is derived from the one specified.
    
-<div class="code"><pre>
-Assert.Throws( Type expectedExceptionType, TestDelegate code );
-Assert.Throws( Type expectedExceptionType, TestDelegate code, 
+<div class="code" style="width: 40em"><pre>
+Exception Assert.Throws( Type expectedExceptionType, TestDelegate code );
+Exception Assert.Throws( Type expectedExceptionType, TestDelegate code, 
 		string message );
-Assert.Throws( Type expectedExceptionType, TestDelegate code, 
+Exception Assert.Throws( Type expectedExceptionType, TestDelegate code, 
 		string message, params object[] parms);
 
-Assert.Throws( IResolveConstraint constraint, TestDelegate code );
-Assert.Throws( IResolveConstraint constraint, TestDelegate code, 
+Exception Assert.Throws( IResolveConstraint constraint, TestDelegate code );
+Exception Assert.Throws( IResolveConstraint constraint, TestDelegate code, 
 		string message );
-Assert.Throws( IResolveConstraint constraint, TestDelegate code, 
+Exception Assert.Throws( IResolveConstraint constraint, TestDelegate code, 
 		string message, params object[] parms);
 
-Assert.Throws&lt;T&gt;( TestDelegate code );
-Assert.Throws&lt;T&gt;( TestDelegate code, string message );
-Assert.Throws&lt;T&gt;( TestDelegate code, string message, 
+T Assert.Throws&lt;T&gt;( TestDelegate code );
+T Assert.Throws&lt;T&gt;( TestDelegate code, string message );
+T Assert.Throws&lt;T&gt;( TestDelegate code, string message, 
 		params object[] parms);
 		
-Assert.DoesNotThrow( TestDelegate code );
-Assert.DoesNotThrow( TestDelegate code, string message );
-Assert.DoesNotThrow( TestDelegate code, string message, 
+void Assert.DoesNotThrow( TestDelegate code );
+void Assert.DoesNotThrow( TestDelegate code, string message );
+void Assert.DoesNotThrow( TestDelegate code, string message, 
         params object[] parms);
 
-Assert.Catch( TestDelegate code );
-Assert.Catch( TestDelegate code, string message );
-Assert.Catch( TestDelegate code, string message, 
+Exception Assert.Catch( TestDelegate code );
+Exception Assert.Catch( TestDelegate code, string message );
+Exception Assert.Catch( TestDelegate code, string message, 
         params object[] parms);
 
-Assert.Catch( Type expectedExceptionType, TestDelegate code );
-Assert.Catch( Type expectedExceptionType, TestDelegate code, 
+Exception Assert.Catch( Type expectedExceptionType, TestDelegate code );
+Exception Assert.Catch( Type expectedExceptionType, TestDelegate code, 
 		string message );
-Assert.Catch( Type expectedExceptionType, TestDelegate code, 
+Exception Assert.Catch( Type expectedExceptionType, TestDelegate code, 
 		string message, params object[] parms);
 
-Assert.Catch&lt;T&gt;( TestDelegate code );
-Assert.Catch&lt;T&gt;( TestDelegate code, string message );
-Assert.Catch&lt;T&gt;( TestDelegate code, string message, 
+T Assert.Catch&lt;T&gt;( TestDelegate code );
+T Assert.Catch&lt;T&gt;( TestDelegate code, string message );
+T Assert.Catch&lt;T&gt;( TestDelegate code, string message, 
 		params object[] parms);
 </pre></div>
 
@@ -178,8 +178,10 @@ Assert.Throws( Is.InstanceOf( typeof(ApplicationException), code );
 Assert.Throws( Is.InstanceOf&lt;ApplicationException&gt;(), code );
 
 // Allow both ApplicationException and any derived type
-Assert.Catch( code );
 Assert.Catch&lt;ApplicationException&gt;( code );
+
+// Allow any kind of exception
+Assert.Catch( code );
 </pre>
 </div>
 
@@ -192,7 +194,7 @@ Assert.Catch&lt;ApplicationException&gt;( code );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

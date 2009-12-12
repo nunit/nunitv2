@@ -53,7 +53,7 @@ for each value of x, each combined with 5 random doubles from -1.0 to +1.0.
 <div class="code"><pre>
 [Test]
 public void MyTest(
-    [Values(1,2,3) int x,
+    [Values(1,2,3)] int x,
     [Random(-1.0, 1.0, 5)] double d)
 {
     ...
@@ -69,7 +69,7 @@ public void MyTest(
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

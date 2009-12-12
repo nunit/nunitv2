@@ -32,26 +32,31 @@
 	setup or teardown methods. NUnit 2.5 introduces parameterized and generic
 	test fixtures - see below.</p>
 	
-<p>There are a few restrictions on a class that is used as a test fixture.
+<p>Most restrictions on a class that is used as a test fixture have now been
+   eliminated. As of NUnit 2.5.3, a test fixture class:
 	<ul>
-		<li>It must be a publicly exported type.</li>
-		<li>It must have not be abstract.</li>
-		<li>A non-parameterized fixture must have a default constructor. 
-		<li>A parameterized fixture must have a constructor that matches
-			the parameters provided.
+		<li>May be public, protected, private or internal.
+		<li>May be a static class in .NET 2.0 or later.
+		<li>May be generic, so long as any type parameters are provided or
+		    can be inferred from the actual arguments.
+		<li>May not be abstract - although the attribute may be applied to an
+		    abstract class intended to serve as a base class for test fixtures.
+		<li>If no arguments are provided with the TestFixtureAttribute, the class
+		     must have a default constructor. 
+		<li>If arguments are provided, they must match one of the constructors.
 	</ul>
 </p>
 
 <p>If any of these restrictions are violated, the class is not runnable
-   as a test and will display as an error in the Gui.</p>
+   as a test and will display as an error.</p>
 
-<p>In addition, it is advisable that the constructor not have any side effects, 
+<p>It is advisable that the constructor not have any side effects, 
    since NUnit may construct the object multiple times in the course of a session.</li>
 
 <p>Beginning with NUnit 2.5, the <b>TestFixture</b> attribute is optional
-   for non-parameterized, non-generic fixtures, so long as the class contains
-   at least one method marked with the <b>Test</b>,
-   <b>TestCase</b> or <b>TestCaseSource</b> attribute.
+   for non-parameterized, non-generic fixtures. So long as the class contains
+   at least one method marked with the <b>Test</b>, <b>TestCase</b> or 
+   <b>TestCaseSource</b> attribute, it will be treated as a test fixture.
 
 <h4>Example:</h4>
 
@@ -126,6 +131,33 @@ public class SuccessTests
 
 </div>
 
+<h3>Inheritance</h3>
+
+<p>The <b>TestFixtureAttribute</b> may be applied to a base class and is
+inherited by any derived classes. This includes any abstract base class,
+so the well-known Abstract Fixture pattern may be implemented if desired.
+
+<p>In order to facilitate use of generic and/or parameterized classes,
+where the derived class may require a different number of arguments (or
+type arguments) from the base class, any <b>TestFixture</b> attribute on a 
+derived class causes those on the base classes to be ignored. This allows
+use of code like the following:
+
+<div class="code">
+<pre>[TestFixture]
+public class AbstractFixtureBase
+{
+    ...
+}
+
+[TestFixture(typeof(string))]
+public class DerivedFixture&lt;T&gt; : AbstractFixtureBase
+{
+    ...
+}
+</pre>
+</div>
+
 <h3>Parameterized Test Fixtures (NUnit 2.5)</h3>
 
 <p>Beginning with NUnit 2.5, test fixtures may take constructor arguments.
@@ -133,10 +165,9 @@ public class SuccessTests
    attribute. NUnit will construct a separate instance of the fixture
    for each set of arguments.
    
-<p>Beginning with NUnit 2.5, individual fixture instances in a set
-   of parameterized fixtures may be ignored. Set the <b>Ignore</b>
-   named parameter to true or set <b>IgnoreReason</b> to a non-empty 
-   string.
+<p>Individual fixture instances in a set of parameterized fixtures may be ignored. 
+   Set the <b>Ignore</b> named parameter of the attribute to true or set 
+   <b>IgnoreReason</b> to a non-empty string.
    
 <h4>Example</h4>
 
@@ -192,15 +223,17 @@ public class ParameterizedTestFixture
 
 <h3>Generic Test Fixtures (NUnit 2.5)</h3>
 
-<p>Beginning with NUnit 2.5, you may use a generic class as a test fixture.
-   In order for NUnit to instantiate the fixture, you must specify the 
-   types to be used as arguments to <b>TestFixtureAttribute</b>, which
-   may now appear multiple times on the class.
+<p>Beginning with NUnit 2.5, you may also use a generic class as a test fixture.
+   In order for NUnit to instantiate the fixture, you must either specify the 
+   types to be used as arguments to <b>TestFixtureAttribute</b> or use the
+   named parameter <b>TypeArgs=</b> to specify them. NUnit will construct a
+   separate instance of the fixture for each <b>TestFixtureAttribute</b> 
+   you provide.
    
 <h4>Example</h4>
 
 <p>The following test fixture would be instantiated by NUnit twice,
-   once using an ArrayList and once using a List<int>.
+   once using an ArrayList and once using a List&lt;int&gt;.
    
 <div class="code"><pre>
 [TestFixture(typeof(ArrayList))]
@@ -316,7 +349,7 @@ public class DeduceTypeArgsFromArgs&lt;T1, T2&gt;
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

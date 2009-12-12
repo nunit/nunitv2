@@ -38,6 +38,78 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.5.3 - Version 2.5.3.9345 - December 11, 2009</h3>
+
+<p><b>Note:</b> This is the first release of NUnit on Launchpad.
+   
+<h4>Features</h4>
+
+<ul>
+<li>Test execution under .NET 4.0 is now supported. It may be selected
+    in the Gui runner or using the console runner /framework option.
+	NUnit test projects may specify .NET 4.0 as the required framework
+	to be used for loading the the project. PlatformAttribute allows 
+	testing for .NET 4.0.
+<li>The distribution now includes nunit-agent-x86.exe, which is used
+    for running tests in a separate process under nunit-x86.exe
+	or nunit-console-x86.exe when the target framework is .NET 2.0
+	or greater.
+<li>Static methods Contains.Substring() and Contains.Item() have been
+    added to the NUnit syntax for compatibility with NUnitLite.
+<li>Non-public test fixtures are now allowed in all cases, 
+    whether the TestFixtureAttribute is present or not.
+<li>Abstract classes may now be marked with TestFixtureAttribute
+    to indicate that derived classes are to be treated as 
+	test fixtures. The abstract class is no longer marked as invalid.
+<li>Fixtures without tests are no longer shown as non-runnable but
+    are simply executed. If the fixture setup or teardown does not cause
+	an error, they are reported as inconclusive.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>Reloading tests in the Gui no longer uses the default runtime if
+    a different runtime was previously selected.
+<li>Thread principal is now saved before each test and restored afterward
+    eliminating failures under .NET 4.0.
+<li>Assume.That() overload with a message no longer results in test failure.
+<li>An expected Result of null is now handled correctly on parameterized tests.
+<li>Duplicate caching of metadata has been eliminated, resolving a
+    load performance problem when many methods are inherited from
+	a base class.
+<li>The names of nested generic and non-generic classes are now displayed 
+    correctly.
+<li>Assert.Catch&lt;T&gt; now correctly returns exception type T rather than
+    System.Exception.
+<li>ValueSourceAttribute now works correctly when used with an external type.
+<li>The /domain=None option on nunit-console once again works correctly.
+<li>Parameterized test fixture names are now displayed with the actual
+    arguments used so that failures may be associated with the correct
+	instantiation of the fixture.
+<li>Test labels for generics are now displayed correctly by the console
+    runner and in the Gui text output tab.
+<li>Generic fixtures without type attributes provided are now shown
+    as non-runnable rather than causing a runtime error. (1)
+<li>Use of an unknown file type in the console command line no longer causes
+    an error. (2)
+<li>A number of tests that ran incorrectly under Linux have been fixed.
+<li>A number of tests failing under .NET 4.0 have been fixed.
+</ul>
+
+<h4>Notes</h4>
+
+<ol>
+<li>As a side effect of this fix, TestFixtureAttribute on a base class is
+    overridden by a TestFixtureAttribute on the derived class. 
+<li>This was originally reported as "crash when using /option in linux."
+</ol>
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.5.2 - Version 2.5.2.9222 - August 10, 2009</h3>
 
 <p><b>Note:</b> This is the last release of NUnit using source code
@@ -1002,7 +1074,7 @@ this release may be removed or changed in future releases.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.2</a></li>
+<li><a href="index.html">NUnit 2.5.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
