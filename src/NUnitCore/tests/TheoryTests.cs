@@ -28,6 +28,22 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
+        public void BooleanArgumentsAreSuppliedAutomatically()
+        {
+            Test test = TestBuilder.MakeTestCase(fixtureType, "TestWithBooleanArguments");
+            TestAssert.IsRunnable(test);
+            Assert.That(test.TestCount, Is.EqualTo(4));
+        }
+
+        [Test]
+        public void EnumArgumentsAreSuppliedAutomatically()
+        {
+            Test test = TestBuilder.MakeTestCase(fixtureType, "TestWithEnumAsArgument");
+            TestAssert.IsRunnable(test);
+            Assert.That(test.TestCount, Is.EqualTo(3));
+        }
+
+        [Test]
         public void TheoryWithDatapointsIsRunnable()
         {
             Test test = TestBuilder.MakeTestCase(fixtureType, "TheoryWithArgumentsAndDatapoints");

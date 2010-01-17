@@ -31,6 +31,9 @@ namespace NUnit.Core.Builders
             if (!Reflect.HasAttribute(method, NUnitFramework.TheoryAttribute, true))
                 return false;
 
+            if (parameterType == typeof(bool) || parameterType.IsEnum)
+                return true;
+
             foreach (FieldInfo field in fixtureType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
             {
                 if (field.FieldType == parameterType)
@@ -66,6 +69,19 @@ namespace NUnit.Core.Builders
                     Reflect.HasAttribute(field, DatapointsAttribute, true ))
                 {
                     datapoints.AddRange((ICollection)field.GetValue(ProviderCache.GetInstanceOf(fixtureType)));
+                }
+            }
+
+            if (datapoints.Count == 0)
+            {
+                if (parameterType == typeof(bool))
+                {
+                    datapoints.Add(true);
+                    datapoints.Add(false);
+                }
+                else if (parameterType.IsEnum)
+                {
+                    datapoints.AddRange(System.Enum.GetValues(parameterType));
                 }
             }
 

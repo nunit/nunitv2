@@ -45,5 +45,15 @@ namespace NUnit.TestData
         public void TestWithArguments(int x, int y)
         {
         }
+
+        [Theory]
+        public void TestWithBooleanArguments(bool a, bool b)
+        {
+        }
+
+        [Theory]
+        public void TestWithEnumAsArgument(System.Threading.ApartmentState state)
+        {
+        }
     }
 }
