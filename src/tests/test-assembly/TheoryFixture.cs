@@ -55,5 +55,13 @@ namespace NUnit.TestData
         public void TestWithEnumAsArgument(System.Threading.ApartmentState state)
         {
         }
+
+        [Theory]
+        public void TestWithAllBadValues(
+            [Values(-12.0, -4.0, -9.0)] double d)
+        {
+            Assume.That(d > 0);
+            Assert.Pass();
+        }
     }
 }

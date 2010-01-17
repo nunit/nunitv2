@@ -14,6 +14,8 @@ namespace NUnit.Core
     /// </summary>
     public class ParameterizedMethodSuite : TestSuite
     {
+        private bool isTheory;
+
         /// <summary>
         /// Construct from a MethodInfo
         /// </summary>
@@ -22,6 +24,7 @@ namespace NUnit.Core
             : base(method.ReflectedType.FullName, method.Name)
         {
             this.maintainTestOrder = true;
+            this.isTheory = Reflect.HasAttribute(method, NUnitFramework.TheoryAttribute, true);
         }
 
         /// <summary>
@@ -45,7 +48,17 @@ namespace NUnit.Core
 
             // DYNAMIC: Get the parameters, and add the methods here.
             
-            return base.Run(listener, filter);
+            TestResult result = base.Run(listener, filter);
+
+            if (this.isTheory && result.ResultState == ResultState.Inconclusive)
+                result.SetResult(
+                    ResultState.Failure,
+                    this.TestCount == 0
+                        ? "No test cases were provided"
+                        : "All test cases were inconclusive",
+                    null);
+
+            return result;
         }
 
         /// <summary>

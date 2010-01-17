@@ -6,6 +6,9 @@
 
 using System;
 using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 using System.Reflection;
 using NUnit.Core.Extensibility;
 
@@ -17,7 +20,11 @@ namespace NUnit.Core.Builders
 
         public override IEnumerable GetTestCases()
         {
-			ArrayList testCases = new ArrayList();
+#if NET_2_0
+            List<ParameterSet> testCases = new List<ParameterSet>();
+#else
+            ArrayList testCases = new ArrayList();
+#endif
 
             for (; ; )
             {
@@ -36,7 +43,10 @@ namespace NUnit.Core.Builders
                 if (!gotData)
                     break;
 
-                testCases.Add(testdata);
+                ParameterSet testcase = new ParameterSet();
+                testcase.Arguments = testdata;
+
+                testCases.Add(testcase);
             }
 
             return testCases;

@@ -6,6 +6,9 @@
 
 using System;
 using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 using System.Reflection;
 using System.Text;
 using NUnit.Core.Extensibility;
@@ -634,7 +637,11 @@ namespace NUnit.Core.Builders
 
 			IEnumerable pairwiseTestCases = new PairwiseTestCaseGenerator(dimensions).GetTestCases();
 
-			ArrayList testCases = new ArrayList();
+#if NET_2_0
+            List<ParameterSet> testCases = new List<ParameterSet>();
+#else
+            ArrayList testCases = new ArrayList();
+#endif
 
 			foreach (TestCase pairwiseTestCase in pairwiseTestCases)
 			{
@@ -645,7 +652,10 @@ namespace NUnit.Core.Builders
 					testData[i] = valueSet[i][pairwiseTestCase.Features[i]];
 				}
 
-				testCases.Add(testData);
+                ParameterSet testCase = new ParameterSet();
+                testCase.Arguments = testData;
+
+				testCases.Add(testCase);
 			}
 
 			return testCases;

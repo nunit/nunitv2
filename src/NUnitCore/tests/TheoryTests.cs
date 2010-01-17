@@ -35,6 +35,14 @@ namespace NUnit.Core.Tests
             Assert.That(test.TestCount, Is.EqualTo(4));
         }
 
+        [Theory]
+        public void NullDatapointIsOK(object o)
+        {
+        }
+
+        [Datapoint]
+        object objData = null;
+
         [Test]
         public void EnumArgumentsAreSuppliedAutomatically()
         {
@@ -65,13 +73,6 @@ namespace NUnit.Core.Tests
             SquareRootTest(d);
         }
 
-        [Theory]
-        public void SquareRootWithAllBadValues(
-            [Values(-12.0, -4.0, -9.0)] double d)
-        {
-            SquareRootTest(d);
-        }
-
         [Datapoints]
         string[] vals = new string[] { "xyz1", "xyz2", "xyz3" };
 
@@ -94,6 +95,14 @@ namespace NUnit.Core.Tests
         {
             Test test = TestBuilder.MakeTestCase(fixtureType, "TestWithArguments");
             Assert.That(test.TestCount, Is.EqualTo(2));
+        }
+
+        [Theory]
+        public void TheoryFailsIfAllTestsAreInconclusive()
+        {
+            TestResult result = TestBuilder.RunTestCase(fixtureType, "TestWithAllBadValues");
+            Assert.That(result.ResultState, Is.EqualTo(ResultState.Failure));
+            Assert.That(result.Message, Is.EqualTo("All test cases were inconclusive"));
         }
 
         public class SqrtTests

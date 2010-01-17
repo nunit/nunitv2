@@ -8,6 +8,9 @@ using System;
 using System.Collections;
 using System.Reflection;
 using NUnit.Core.Extensibility;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Core.Builders
 {
@@ -20,7 +23,11 @@ namespace NUnit.Core.Builders
             IEnumerator[] enumerators = new IEnumerator[Sources.Length];
             int index = -1;
 
+#if NET_2_0
+            List<ParameterSet> testCases = new List<ParameterSet>();
+#else
 			ArrayList testCases = new ArrayList();
+#endif
 
             for (; ; )
             {
@@ -36,7 +43,9 @@ namespace NUnit.Core.Builders
                 for (int i = 0; i < Sources.Length; i++)
                     testdata[i] = enumerators[i].Current;
 
-				testCases.Add(testdata);
+                ParameterSet testCase = new ParameterSet();
+                testCase.Arguments = testdata;
+				testCases.Add(testCase);
 
                 index = Sources.Length;
 
