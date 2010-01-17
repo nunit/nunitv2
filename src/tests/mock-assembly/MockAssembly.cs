@@ -65,7 +65,7 @@ namespace NUnit.Tests
 		[Category("FixtureCategory")]
 		public class MockTestFixture
 		{
-			public static readonly int Tests = 10;
+			public static readonly int Tests = 11;
 
 			public static readonly int Ignored = 1;
 			public static readonly int Explicit = 1;
@@ -128,6 +128,12 @@ namespace NUnit.Tests
 			public void NotRunnableTest( int a, int b)
 			{
 			}
+
+            [Test]
+            public void InconclusiveTest()
+            {
+                Assert.Inconclusive("No valid data");
+            }
 
             [Test]
             public void TestWithException()

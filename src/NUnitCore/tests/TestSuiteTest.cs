@@ -222,7 +222,9 @@ namespace NUnit.Core.Tests
 			RecordingListener listener = new RecordingListener();
 			testSuite.Run(listener, new NotFilter( filter ) );
 			CollectionAssert.AreEquivalent( 
-				new string[] { "MockTest1", "MockTest4", "MockTest5", "TestWithManyProperties", "NotRunnableTest", "FailingTest", "TestWithException" },
+				new string[] { "MockTest1", "MockTest4", "MockTest5", 
+                    "TestWithManyProperties", "NotRunnableTest", "FailingTest", 
+                    "TestWithException", "InconclusiveTest" },
 				listener.testStarted );
 		}
 

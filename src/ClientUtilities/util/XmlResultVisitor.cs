@@ -123,6 +123,10 @@ namespace NUnit.Util
                     if (!result.Test.IsSuite || result.FailureSite == FailureSite.SetUp)
                         WriteFailureElement(result);
                     break;
+                case ResultState.Success:
+                    if (result.Message != null)
+                        WriteReasonElement(result);
+                    break;
             }
 
 			if ( result.HasResults )

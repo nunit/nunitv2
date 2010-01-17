@@ -100,8 +100,8 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void TestHasEnvironmentInfo() 
 		{
-			XmlNode sysinfo = resultDoc.SelectSingleNode("//environment");
-			Assert.IsNotNull(sysinfo);
+            XmlNode sysinfo = resultDoc.SelectSingleNode("//environment");
+            Assert.IsNotNull(sysinfo);
 			// In theory, we could do some validity checking on the values
 			// of the attributes, but that seems redundant.
 			Assert.IsNotNull(sysinfo.Attributes["nunit-version"]);
@@ -133,5 +133,47 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual(currentUiCultureOnMachine, currentUiCulture,
 				"Current UI Culture node did not contain the same Culture UI name as the machine");
 		}
+
+        [Test]
+        public void FailingTestHasFailureInfo()
+        {
+            XmlNode failureNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.FailingTest\"]/failure");
+            Assert.NotNull(failureNode, "No <failure> element");
+            XmlNode msgNode = failureNode.SelectSingleNode("message");
+            Assert.NotNull(msgNode, "No <message> element");
+            Assert.AreEqual("Intentional failure", msgNode.InnerText);
+            XmlNode stackNode = failureNode.SelectSingleNode("stack-trace");
+            Assert.NotNull(stackNode, "No <stack-trace> element");
+        }
+
+        [Test]
+        public void IgnoredTestHasReason()
+        {
+            XmlNode reasonNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest4\"]/reason");
+            Assert.NotNull(reasonNode, "No <reason> element");
+            XmlNode msgNode = reasonNode.SelectSingleNode("message");
+            Assert.NotNull(msgNode, "No <message> element");
+            Assert.AreEqual("ignoring this test method for now", msgNode.InnerText);
+        }
+
+        [Test]
+        public void TestCallingAssertPassHasReason()
+        {
+            XmlNode reasonNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/reason");
+            Assert.NotNull(reasonNode, "No <reason> element");
+            XmlNode msgNode = reasonNode.SelectSingleNode("message");
+            Assert.NotNull(msgNode, "No <message> element");
+            Assert.AreEqual("Succeeded!", msgNode.InnerText);
+        }
+
+        [Test]
+        public void InconclusiveTestHasReason()
+        {
+            XmlNode reasonNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.InconclusiveTest\"]/reason");
+            Assert.NotNull(reasonNode, "No <reason> element");
+            XmlNode msgNode = reasonNode.SelectSingleNode("message");
+            Assert.NotNull(msgNode, "No <message> element");
+            Assert.AreEqual("xxx", msgNode.InnerText);
+        }
 	}
 }
