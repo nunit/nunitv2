@@ -38,7 +38,19 @@ namespace NUnit.Util.Tests
 			resultDoc.LoadXml(resultXml);
 		}
 
-		[Test]
+        [Test, Explicit]
+        public void DemonstrateIllegalSequenceInMessage()
+        {
+            Assert.Fail("Deliberate failure to illustrate ]]> in message ");
+        }
+
+        [Test, Explicit]
+        public void DemonstrateIllegalSequenceAtEndOfMessage()
+        {
+            Assert.Fail("The CDATA was: <![CDATA[ My <xml> ]]>");
+        }
+
+        [Test]
 		public void SuiteResultHasCategories()
 		{
 			XmlNodeList categories = resultDoc.SelectNodes("//test-suite[@name=\"MockTestFixture\"]/categories/category");

@@ -238,13 +238,11 @@ namespace NUnit.Util
 
 			xmlWriter.WriteStartElement("message");
             WriteCData(result.Message);
-			//xmlWriter.WriteCData(EncodeCData(result.Message));
 			xmlWriter.WriteEndElement();
 
 			xmlWriter.WriteStartElement("stack-trace");
             if (result.StackTrace != null)
                 WriteCData(StackTraceFilter.Filter(result.StackTrace));
-				//xmlWriter.WriteCData(EncodeCData(StackTraceFilter.Filter(result.StackTrace)));
 			xmlWriter.WriteEndElement();
 
 			xmlWriter.WriteEndElement();
@@ -298,28 +296,24 @@ namespace NUnit.Util
 
         private void WriteCData(string text)
         {
-            //int start = 0;
-            //while (true)
-            //{
-            //    int illegal = text.IndexOf("]]>", start);
-            //    if (illegal < 0)
-            //        break;
-            //    xmlWriter.WriteCData(text.Substring(start, illegal - start + 2));
-            //    start = illegal + 2;
-            //    if (start >= text.Length)
-            //        return;
-            //}
-            //if (start > 0)
-            //    xmlWriter.WriteCData(text.Substring(start));
-            //else
-            //    xmlWriter.WriteCData(text);
-            xmlWriter.WriteCData(CharacterSafeString(text));
+            int start = 0;
+            while (true)
+            {
+                int illegal = text.IndexOf("]]>", start);
+                if (illegal < 0)
+                    break;
+                xmlWriter.WriteCData(text.Substring(start, illegal - start + 2));
+                start = illegal + 2;
+                if (start >= text.Length)
+                    return;
+            }
+
+            if (start > 0)
+                xmlWriter.WriteCData(text.Substring(start));
+            else
+                xmlWriter.WriteCData(text);
         }
-        
-        private static string EncodeCData(string text)
-        {
-            return CharacterSafeString( text ).Replace( "]]>", "]]&gt;" );
-        }
+
 		#endregion
 	}
 }
