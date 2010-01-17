@@ -84,7 +84,8 @@
 		<xs:attribute name="time" type="xs:string" use="optional" />
 		<xs:attribute name="executed" type="xs:string" use="required" />
 		<xs:attribute name="asserts" type="xs:string" use="optional" />
-	</xs:complexType>
+    <xs:attribute name="result" type="xs:string" use="required" />
+  </xs:complexType>
 	<xs:complexType name="test-suiteType">
 		<xs:sequence>
 			<xs:element name="categories" type="categoriesType" minOccurs="0" maxOccurs="1" />
@@ -98,8 +99,9 @@
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="description" type="xs:string" use="optional" />
 		<xs:attribute name="success" type="xs:string" use="optional" />
-		<xs:attribute name="time" type="xs:string" use="optional" />
+    <xs:attribute name="time" type="xs:string" use="optional" />
 		<xs:attribute name="executed" type="xs:string" use="required" />
 		<xs:attribute name="asserts" type="xs:string" use="optional" />
-	</xs:complexType>
+    <xs:attribute name="result" type="xs:string" use="required" />
+  </xs:complexType>
 </xs:schema>

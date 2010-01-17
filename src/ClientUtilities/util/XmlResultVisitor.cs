@@ -124,6 +124,7 @@ namespace NUnit.Util
                         WriteFailureElement(result);
                     break;
                 case ResultState.Success:
+                case ResultState.Inconclusive:
                     if (result.Message != null)
                         WriteReasonElement(result);
                     break;
@@ -170,6 +171,7 @@ namespace NUnit.Util
 				xmlWriter.WriteAttributeString("description", result.Description);
 
 			xmlWriter.WriteAttributeString("executed", result.Executed.ToString());
+            xmlWriter.WriteAttributeString("result", result.ResultState.ToString());
 			
 			if ( result.Executed )
 			{

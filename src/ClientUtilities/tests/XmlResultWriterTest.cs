@@ -135,21 +135,32 @@ namespace NUnit.Util.Tests
 		}
 
         [Test]
-        public void FailingTestHasFailureInfo()
+        public void FailingTestHasCorrectInformation()
         {
-            XmlNode failureNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.FailingTest\"]/failure");
+            XmlNode testNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.FailingTest\"]");
+            Assert.AreEqual("Failure", testNode.Attributes["result"].Value);
+            Assert.AreEqual("True", testNode.Attributes["executed"].Value);
+            Assert.AreEqual("False", testNode.Attributes["success"].Value);
+
+            XmlNode failureNode = testNode.SelectSingleNode("failure");
             Assert.NotNull(failureNode, "No <failure> element");
+
             XmlNode msgNode = failureNode.SelectSingleNode("message");
             Assert.NotNull(msgNode, "No <message> element");
             Assert.AreEqual("Intentional failure", msgNode.InnerText);
+
             XmlNode stackNode = failureNode.SelectSingleNode("stack-trace");
             Assert.NotNull(stackNode, "No <stack-trace> element");
         }
 
         [Test]
-        public void IgnoredTestHasReason()
+        public void IgnoredTestHasCorrectInformation()
         {
-            XmlNode reasonNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest4\"]/reason");
+            XmlNode testNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest4\"]");
+            Assert.AreEqual("Ignored", testNode.Attributes["result"].Value);
+            Assert.AreEqual("False", testNode.Attributes["executed"].Value);
+
+            XmlNode reasonNode = testNode.SelectSingleNode("reason");
             Assert.NotNull(reasonNode, "No <reason> element");
             XmlNode msgNode = reasonNode.SelectSingleNode("message");
             Assert.NotNull(msgNode, "No <message> element");
@@ -157,9 +168,14 @@ namespace NUnit.Util.Tests
         }
 
         [Test]
-        public void TestCallingAssertPassHasReason()
+        public void PassingTestHasCorrectInformation()
         {
-            XmlNode reasonNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]/reason");
+            XmlNode testNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.MockTest3\"]");
+            Assert.AreEqual("Success", testNode.Attributes["result"].Value);
+            Assert.AreEqual("True", testNode.Attributes["executed"].Value);
+            Assert.AreEqual("True", testNode.Attributes["success"].Value);
+
+            XmlNode reasonNode = testNode.SelectSingleNode("reason");
             Assert.NotNull(reasonNode, "No <reason> element");
             XmlNode msgNode = reasonNode.SelectSingleNode("message");
             Assert.NotNull(msgNode, "No <message> element");
@@ -167,13 +183,18 @@ namespace NUnit.Util.Tests
         }
 
         [Test]
-        public void InconclusiveTestHasReason()
+        public void InconclusiveTestHasCorrectInformation()
         {
-            XmlNode reasonNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.InconclusiveTest\"]/reason");
+            XmlNode testNode = resultDoc.SelectSingleNode("//test-case[@name=\"NUnit.Tests.Assemblies.MockTestFixture.InconclusiveTest\"]");
+            Assert.AreEqual("Inconclusive", testNode.Attributes["result"].Value);
+            Assert.AreEqual("True", testNode.Attributes["executed"].Value);
+            Assert.AreEqual("False", testNode.Attributes["success"].Value);
+
+            XmlNode reasonNode = testNode.SelectSingleNode("reason");
             Assert.NotNull(reasonNode, "No <reason> element");
             XmlNode msgNode = reasonNode.SelectSingleNode("message");
             Assert.NotNull(msgNode, "No <message> element");
-            Assert.AreEqual("xxx", msgNode.InnerText);
+            Assert.AreEqual("No valid data", msgNode.InnerText);
         }
 	}
 }
