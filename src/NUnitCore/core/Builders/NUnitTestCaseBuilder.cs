@@ -171,7 +171,8 @@ namespace NUnit.Core.Builders
 
             if (CheckTestMethodSignature(testMethod, parms))
             {
-                NUnitFramework.ApplyCommonAttributes(method, testMethod);
+                if (parms == null)
+                    NUnitFramework.ApplyCommonAttributes(method, testMethod);
                 NUnitFramework.ApplyExpectedExceptionAttribute(method, testMethod);
             }
 
@@ -204,7 +205,7 @@ namespace NUnit.Core.Builders
                     testMethod.exceptionProcessor = new ExpectedExceptionProcessor(testMethod, parms);
 
                 foreach (string key in parms.Properties.Keys)
-                    testMethod.Properties.Add(key, parms.Properties[key]);
+                    testMethod.Properties[key] = parms.Properties[key];
 
                 // Description is stored in parms.Properties
                 if (parms.Description != null)
