@@ -160,7 +160,7 @@ namespace NUnit.Framework.Syntax
 
         // TODO: Move these to AssertThat tests
 #if NET_2_0
-#if CSHARP_3_0
+#if CS_3_0
         [Test]
         public void DelegateThrowsException()
         {

@@ -360,7 +360,7 @@ namespace NUnit.Framework.Constraints.Tests
             }
         }
 
-#if CSHARP_3_0
+#if CS_3_0
         [Test]
         public void UsesProvidedLambda_IntArgs()
         {

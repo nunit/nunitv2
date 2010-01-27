@@ -138,7 +138,7 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(new string[] { "Hello", "World" }, 
                 new CollectionContainsConstraint("WORLD").IgnoreCase);
         }
-#if CSHARP_3_0
+#if CS_3_0
         [Test]
         public void UsingIsHonored()
         {
@@ -224,7 +224,7 @@ namespace NUnit.Framework.Constraints.Tests
             Assert.That(new CollectionEquivalentConstraint(set1).IgnoreCase.Matches(set2));
         }
 
-#if CSHARP_3_0
+#if CS_3_0
         [Test]
         public void EquivalentHonorsUsing()
         {
@@ -416,7 +416,7 @@ namespace NUnit.Framework.Constraints.Tests
             }
         }
 
-#if CSHARP_3_0
+#if CS_3_0
         [Test]
         public void UsesProvidedLambda()
         {

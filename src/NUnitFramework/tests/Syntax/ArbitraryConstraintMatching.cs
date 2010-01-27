@@ -44,7 +44,7 @@ namespace NUnit.Framework.Syntax
             return (num & 1) == 0;
         }
 
-#if CSHARP_3_0
+#if CS_3_0
         [Test]
         public void CanMatchLambda()
         {
