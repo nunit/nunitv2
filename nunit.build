@@ -935,17 +935,6 @@
 
     <mkdir dir="${package.solutions.dir}" />
 
-    <!-- Copy VS2005 solution -->
-    <copy todir="${package.solutions.dir}/vs2005">
-      <fileset basedir="${project.solutions.dir}/vs2005">
-        <include name="nunit.sln"/>
-        <include name="NUnitTests.nunit"/>
-        <include name="NUnitTests.config"/>
-        <include name="nunit.snk"/>
-        <include name="**/*.csproj"/>
-      </fileset>
-    </copy>
-
     <!-- Copy VS2008 solution -->
     <copy todir="${package.solutions.dir}/vs2008">
       <fileset basedir="${project.solutions.dir}/vs2008">
