@@ -80,7 +80,7 @@ namespace NUnit.Core
         /// </summary>
         public Version RunnerRuntimeVersion
         {
-            get { return runnerRuntimeFramework.Version; }
+            get { return runnerRuntimeFramework.ClrVersion; }
         }
 
         /// <summary>

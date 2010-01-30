@@ -681,7 +681,7 @@ namespace NUnit.Gui
 			if ( index < 0 ) index = 0;
 			runtimeComboBox.SelectedIndex = index;
 			if ( framework != null )
-				runtimeVersionComboBox.Text = framework.Version.ToString();
+				runtimeVersionComboBox.Text = framework.ClrVersion.ToString();
 			
 			applicationBaseTextBox.Text = selectedConfig.RelativeBasePath;
 
@@ -1086,7 +1086,7 @@ namespace NUnit.Gui
             this.ProcessModel = project.ProcessModel;
             this.DomainUsage = project.DomainUsage;
 
-            foreach( Version v in RuntimeFramework.KnownVersions )
+            foreach( Version v in RuntimeFramework.KnownClrVersions )
                 this.runtimeVersionComboBox.Items.Add( v.ToString(3) );
             
 			this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged);

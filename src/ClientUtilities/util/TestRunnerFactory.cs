@@ -31,7 +31,7 @@ namespace NUnit.Util
                 targetFramework = currentFramework;
             else if (targetFramework.Runtime == RuntimeType.Any)
             {
-                targetFramework = new RuntimeFramework(currentFramework.Runtime, targetFramework.Version);
+                targetFramework = currentFramework.ReplaceRuntimeType(currentFramework.Runtime);
                 package.Settings["RuntimeFramework"] = targetFramework;
             }
 
@@ -39,7 +39,7 @@ namespace NUnit.Util
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if ( processModel == ProcessModel.Default )
-                if ( !targetFramework.Matches( currentFramework ) )
+                if ( !targetFramework.MatchesClr( currentFramework ) )
                     processModel = ProcessModel.Separate;
 
             switch (processModel)

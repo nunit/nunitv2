@@ -136,7 +136,7 @@ namespace NUnit.Core.Tests
 		{
 			TestResult result = TestBuilder.RunTestCase( typeof( InvalidCultureFixture ), "InvalidCultureSet" );
 			Assert.AreEqual( ResultState.Error, result.ResultState );
-            string expectedException = RuntimeFramework.CurrentFramework.Version.Major == 4
+            string expectedException = RuntimeFramework.CurrentFramework.ClrVersion.Major == 4
                 ? "System.Globalization.CultureNotFoundException"
                 : "System.ArgumentException";
             Assert.That(result.Message, Text.StartsWith(expectedException));

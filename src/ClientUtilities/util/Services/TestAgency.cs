@@ -120,8 +120,6 @@ namespace NUnit.Util
                     string.Format("The {0} framework is not available", framework),
                     "framework");
 
-            framework.SpecifyBuild();
-
             // TODO: Decide if we should reuse agents
             //AgentRecord r = FindAvailableRemoteAgent(type);
             //if ( r == null )
@@ -156,15 +154,15 @@ namespace NUnit.Util
 		#region Helper Methods
 		private Guid LaunchAgentProcess(RuntimeFramework targetRuntime)
 		{
-            string agentExePath = NUnitConfiguration.GetTestAgentExePath(targetRuntime.Version);
+            string agentExePath = NUnitConfiguration.GetTestAgentExePath(targetRuntime.ClrVersion);
 
             if (agentExePath == null)
                 throw new ArgumentException(
                     string.Format("NUnit components for version {0} of the CLR are not installed",
-                    targetRuntime.Version.ToString(3)), "targetRuntime");
+                    targetRuntime.ClrVersion.ToString()), "targetRuntime");
 
             // TODO: Replace adhoc code
-            //if (targetRuntime.Version.Major == 1 && RuntimeFramework.CurrentFramework.Version.Major == 2)
+            //if (targetRuntime.Version.Major == 1 && RuntimeFramework.CurrentFramework.ClrVersion.Major == 2)
             //{
             //    agentExePath = agentExePath
             //        .Replace("2.0", "1.1")
@@ -197,14 +195,14 @@ namespace NUnit.Util
                     p.StartInfo.FileName = agentExePath;
 
                     // Force running under .NET 1.0
-                    if ( targetRuntime.Version == new Version("1.0.3705") )
+                    if ( targetRuntime.ClrVersion == new Version("1.0.3705") )
 					    p.StartInfo.EnvironmentVariables["COMPLUS_Version"]="v1.0.3705";
 
                     // Force running under .NET 4.0
                     // Keep Beta versions here until RTM
-                    if (targetRuntime.Version == new Version("4.0.20506")) // Beta 1
+                    if (targetRuntime.ClrVersion == new Version("4.0.20506")) // Beta 1
                         p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.20506";
-                    if (targetRuntime.Version == new Version("4.0.21006")) // Beta 2
+                    if (targetRuntime.ClrVersion == new Version("4.0.21006")) // Beta 2
                         p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.21006";
 
                     p.StartInfo.Arguments = arglist;

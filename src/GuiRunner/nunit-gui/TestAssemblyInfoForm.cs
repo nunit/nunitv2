@@ -64,7 +64,7 @@ namespace NUnit.Gui
 
             TextBox.AppendText(string.Format(
                 "  CLR Version: {0} ( {1} )\r\n",
-                framework.Version.ToString(), 
+                framework.ClrVersion.ToString(), 
                 framework.DisplayName));
         }
 

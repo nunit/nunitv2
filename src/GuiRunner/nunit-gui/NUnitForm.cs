@@ -869,10 +869,10 @@ namespace NUnit.Gui
                 foreach (RuntimeFramework framework in frameworks)
                 {
                     MenuItem item = new MenuItem(framework.DisplayName);
-                    item.Checked = current.Matches(framework);
+                    item.Checked = current.MatchesClr(framework);
                     item.Tag = framework;
                     item.Click += new EventHandler(runtimeFrameworkMenuItem_Click);
-                    item.Enabled = NUnitConfiguration.GetNUnitBinDirectory(framework.Version) != null;
+                    item.Enabled = NUnitConfiguration.GetNUnitBinDirectory(framework.ClrVersion) != null;
                     runtimeMenuItem.MenuItems.Add(item);
                 }
             }

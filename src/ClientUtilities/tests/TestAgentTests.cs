@@ -32,7 +32,7 @@ namespace NUnit.Util.Tests
         {
             foreach (NUnit.Core.RuntimeFramework availableVersion in NUnit.Core.RuntimeFramework.AvailableFrameworks)
             {
-                string path = NUnit.Core.NUnitConfiguration.GetNUnitBinDirectory(availableVersion.Version);
+                string path = NUnit.Core.NUnitConfiguration.GetNUnitBinDirectory(availableVersion.ClrVersion);
                 if (path != null) // All version may not be installed
                     Assert.That(System.IO.Directory.Exists(path), "Directory {0} does not exist", path);
             }
@@ -43,7 +43,7 @@ namespace NUnit.Util.Tests
         {
             foreach (NUnit.Core.RuntimeFramework availableVersion in NUnit.Core.RuntimeFramework.AvailableFrameworks)
             {
-                string path = NUnit.Core.NUnitConfiguration.GetTestAgentExePath(availableVersion.Version);
+                string path = NUnit.Core.NUnitConfiguration.GetTestAgentExePath(availableVersion.ClrVersion);
                 if (path != null)
                     Assert.That(System.IO.File.Exists(path), "File {0} does not exist", path);
             }

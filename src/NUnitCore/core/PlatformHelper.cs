@@ -213,10 +213,10 @@ namespace NUnit.Core
 
 				Version version = new Version( versionSpecification );
 
-				if ( rt.Version.Major == version.Major &&
-					 rt.Version.Minor == version.Minor &&
-				   ( version.Build == -1 || rt.Version.Build == version.Build ) &&
-				   ( version.Revision == -1 || rt.Version.Revision == version.Revision ) )
+				if ( rt.ClrVersion.Major == version.Major &&
+					 rt.ClrVersion.Minor == version.Minor &&
+				   ( version.Build == -1 || rt.ClrVersion.Build == version.Build ) &&
+				   ( version.Revision == -1 || rt.ClrVersion.Revision == version.Revision ) )
 						return true;
 			}
 

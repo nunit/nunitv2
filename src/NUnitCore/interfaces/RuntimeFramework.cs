@@ -38,14 +38,15 @@ namespace NUnit.Core
     {
         #region Static and Instance Fields
         private static RuntimeFramework currentFramework;
-        private static Version[] knownVersions = new Version[] {
+        private static Version[] knownClrVersions = new Version[] {
             new Version( "1.0.3705" ),
             new Version( "1.1.4322" ),
             new Version( "2.0.50727" ),
             new Version( "4.0.21006" ) };
 
         private RuntimeType runtime;
-		private Version version;
+        private Version frameworkVersion;
+        private Version clrVersion;
 		private string displayName;
         #endregion
 
@@ -66,7 +67,9 @@ namespace NUnit.Core
 
                     if (monoRuntimeType != null)
                     {
-                        currentFramework = new RuntimeFramework(RuntimeType.Mono, Environment.Version);
+                        currentFramework =  Environment.Version.Major == 1
+                            ? new RuntimeFramework(RuntimeType.Mono, new Version(1,0))
+                            : new RuntimeFramework(RuntimeType.Mono, Environment.Version);
                         MethodInfo getDisplayNameMethod = monoRuntimeType.GetMethod(
                             "GetDisplayName", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.ExactBinding);
                         if (getDisplayNameMethod != null)
@@ -83,9 +86,9 @@ namespace NUnit.Core
         /// <summary>
         /// Return an array of well-known framework versions
         /// </summary>
-        public static Version[] KnownVersions
+        public static Version[] KnownClrVersions
         {
-            get { return knownVersions; }
+            get { return knownClrVersions; }
         }
 
         /// <summary>
@@ -125,8 +128,6 @@ namespace NUnit.Core
             {
                 runtime = (RuntimeType)System.Enum.Parse(typeof(RuntimeType), parts[0], true);
                 string vstring = parts[1];
-                if (runtime == RuntimeType.Mono && vstring == "1.0")
-                    vstring = "1.1";
                 if ( vstring != "" )
                     version = new Version(vstring);
             }
@@ -154,7 +155,7 @@ namespace NUnit.Core
                 case RuntimeType.Mono:
                     return IsMonoInstalled();
                 case RuntimeType.Net:
-                    return CurrentFramework.Matches( framework ) || IsDotNetInstalled(framework.Version);
+                    return CurrentFramework.MatchesClr( framework ) || IsDotNetInstalled(framework.ClrVersion);
                 default:
                     return false;
             }
@@ -268,7 +269,18 @@ namespace NUnit.Core
 		public RuntimeFramework( RuntimeType runtime, Version version)
 		{
 			this.runtime = runtime;
-            this.version = version;
+            this.frameworkVersion = version;
+
+            this.clrVersion = version;
+            if (frameworkVersion.Major == 3)
+                this.clrVersion = new Version(2, 0, 50727);
+            else if (runtime == RuntimeType.Mono && version.Major == 1)
+                this.clrVersion = new Version(1, 1, 4322);
+            else if (clrVersion.Build < 0)
+                foreach (Version v in knownClrVersions)
+                    if (clrVersion.Major == v.Major && clrVersion.Minor == v.Minor)
+                        clrVersion = v;
+
             this.displayName = DefaultDisplayName(runtime, version);
         }
         #endregion
@@ -285,9 +297,17 @@ namespace NUnit.Core
         /// <summary>
         /// The version of this runtime framework
         /// </summary>
-        public Version Version
+        //public Version Version
+        //{
+        //    get { return frameworkVersion; }
+        //}
+
+        /// <summary>
+        /// The CLR version for this runtime framework
+        /// </summary>
+        public Version ClrVersion
         {
-            get { return version; }
+            get { return clrVersion; }
         }
 
         /// <summary>
@@ -352,63 +372,46 @@ namespace NUnit.Core
         /// <returns></returns>
 		public override string ToString()
 		{
-            string vstring = version.ToString();
-
-            switch (runtime)
-            {
-                case RuntimeType.Any:
-                    if (vstring != "")
-                        vstring = "v" + vstring;
-                    return vstring;
-                case RuntimeType.Mono:
-                    if (vstring == "1.1")
-                        vstring = "1.0";
-                    break;
-                case RuntimeType.Net:
-                case RuntimeType.NetCF:
-                case RuntimeType.SSCLI:
-                default:
-                    break;
-            }
-
-            return runtime.ToString().ToLower() + "-" + vstring;
+            string vstring = frameworkVersion.ToString();
+            if (runtime == RuntimeType.Any)
+                return "v" + vstring;
+            else
+                return runtime.ToString().ToLower() + "-" + vstring;
 		}
 
         /// <summary>
-        /// Returns true if the current framework matches the
-        /// one supplied as an argument. Two frameworks match
-        /// if their runtime types are the same or either one
-        /// is RuntimeType.Any and all specified version components
-        /// are equal. Negative (i.e. unspecified) version
-        /// components are ignored.
+        /// Returns a new RuntimeFramework object with the same version
+        /// as this one using a different RuntimeType.
+        /// </summary>
+        /// <param name="runtime">The RuntimeType to substitute.</param>
+        /// <returns>A new RuntimeFramework.</returns>
+        public RuntimeFramework ReplaceRuntimeType(RuntimeType runtime)
+        {
+            return new RuntimeFramework(runtime, this.frameworkVersion);
+        }
+
+        /// <summary>
+        /// Returns true if this framework "matches" the one supplied
+        /// as an argument. Two frameworks match if their runtime types 
+        /// are the same or either one is RuntimeType.Any and all specified 
+        /// components of the CLR version are equal. Negative (i.e. unspecified) 
+        /// version components are ignored.
         /// </summary>
         /// <param name="other">The RuntimeFramework to be matched.</param>
         /// <returns>True on match, otherwise false</returns>
-        public bool Matches(RuntimeFramework other)
+        public bool MatchesClr(RuntimeFramework other)
         {
             return (   this.Runtime == RuntimeType.Any
                     || other.Runtime == RuntimeType.Any
                     || this.Runtime == other.Runtime )
-                && this.Version.Major == other.Version.Major
-                && this.Version.Minor == other.Version.Minor
-                && (   this.Version.Build < 0 
-                    || other.Version.Build < 0 
-                    || this.Version.Build == other.Version.Build ) 
-                && (   this.Version.Revision < 0
-                    || other.Version.Revision < 0
-                    || this.Version.Revision == other.Version.Revision );
-        }
-
-        /// <summary>
-        /// If the build number of this instance is not specified, use
-        /// the standard build number for the major and minor version.
-        /// </summary>
-        public void SpecifyBuild()
-        {
-            if (version.Build < 0)
-                foreach (Version v in knownVersions)
-                    if (version.Major == v.Major && version.Minor == v.Minor)
-                        version = v;
+                && this.ClrVersion.Major == other.ClrVersion.Major
+                && this.ClrVersion.Minor == other.ClrVersion.Minor
+                && (   this.ClrVersion.Build < 0 
+                    || other.ClrVersion.Build < 0 
+                    || this.ClrVersion.Build == other.ClrVersion.Build ) 
+                && (   this.ClrVersion.Revision < 0
+                    || other.ClrVersion.Revision < 0
+                    || this.ClrVersion.Revision == other.ClrVersion.Revision );
         }
         #endregion
     }

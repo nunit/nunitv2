@@ -275,29 +275,63 @@ namespace NUnit.Core
         /// <summary>
         /// Return the NUnit Bin Directory for a particular
         /// runtime version, or null if it's not installed.
+        /// For normal installations, there are only 1.1 and
+        /// 2.0 directories. However, this method accomodates
+        /// 3.5 and 4.0 directories for the benefit of NUnit
+        /// developers using those runtimes.
         /// </summary>
         public static string GetNUnitBinDirectory(Version v)
         {
             string dir = NUnitBinDirectory;
 
-            if ( Environment.Version.Major == v.Major )
+            if ((Environment.Version.Major >= 2) == (v.Major >= 2))
                 return dir;
 
-            string current = Environment.Version.ToString(2);
-            string target = v.ToString(2);
-            if (current == "1.0") current = "1.1";
-            if (target == "1.0") target = "1.1";
-            if (current == "4.0") current = "2.0";
-            if (target == "4.0") target = "2.0";
-            if (target == current)
-                return dir;
+            string[] v1Strings = new string[] { "1.0", "1.1" };
+            string[] v2Strings = new string[] { "2.0", "3.0", "3.5", "4.0" };
+            
+            string[] search;
+            string[] replace;
 
-            if (dir.IndexOf(current) < 0)
+            if (Environment.Version.Major == 1)
+            {
+                search = v1Strings;
+                replace = v2Strings;
+            }
+            else
+            {
+                search = v2Strings;
+                replace = v1Strings;
+            }
+
+            // Look for current value in path so it can be replaced
+            string current = null;
+            foreach (string s in search)
+                if (dir.IndexOf(s) >= 0)
+                {
+                    current = s;
+                    break;
+                }
+
+            // If nothing found, we can't do it
+            if (current == null)
                 return null;
 
-            dir = dir.Replace(current, target);
+            // First try exact replacement
+            string altDir = dir.Replace(current, v.ToString(2));
+            if (Directory.Exists(altDir))
+                return altDir;
 
-            return Directory.Exists(dir) ? dir : null;
+            // Now try all the alternatives
+            foreach (string target in replace)
+            {
+                altDir = dir.Replace(current, target);
+                if (Directory.Exists(altDir))
+                    return altDir;
+            }
+
+            // Nothing was found
+            return null;
         }
 
         public static string GetTestAgentExePath(Version v)
