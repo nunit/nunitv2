@@ -52,8 +52,8 @@ namespace NUnit.Core
 		}
 
 		/// <summary>
-		/// IsTestRunning indicates whether a test is in progress. To retrieve the
-		/// results from an asynchronous test run, wait till IsTestRunning is false.
+		/// Running indicates whether a test is in progress. To retrieve the
+		/// results from an asynchronous test run, wait till Running is false.
 		/// </summary>
 		bool Running
 		{
