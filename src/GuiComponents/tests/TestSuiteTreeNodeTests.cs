@@ -52,11 +52,11 @@ namespace NUnit.UiKit.Tests
 
 			node = new TestSuiteTreeNode( fixtureInfo );
 			Assert.AreEqual( "MockTestFixture", node.Text );
-			Assert.AreEqual( "NUnitTestFixture", node.TestType );
+			Assert.AreEqual( "TestFixture", node.TestType );
 
 			node = new TestSuiteTreeNode( testCaseInfo );
 			Assert.AreEqual( "MockTest1", node.Text );
-			Assert.AreEqual( "NUnitTestMethod", node.TestType );
+			Assert.AreEqual( "TestMethod", node.TestType );
 		}
 
         [Test]

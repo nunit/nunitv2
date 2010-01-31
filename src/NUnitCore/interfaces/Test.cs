@@ -158,9 +158,9 @@ namespace NUnit.Core
 		/// Gets a string representing the kind of test
 		/// that this object represents, for use in display.
 		/// </summary>
-        public virtual string TestType
+        public abstract string TestType
         {
-            get { return this.GetType().Name; }
+            get;
         }
 
 

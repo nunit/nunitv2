@@ -28,6 +28,20 @@ namespace NUnit.Core
         }
 
         /// <summary>
+        /// Gets a string representing the kind of test
+        /// that this object represents, for use in display.
+        /// </summary>
+        public override string TestType
+        {
+            get 
+            { 
+                return this.isTheory
+                    ? "Theory"
+                    : "ParameterizedTest"; 
+            }
+        }
+
+        /// <summary>
         /// Override Run, setting Fixture to that of the Parent.
         /// </summary>
         /// <param name="listener"></param>

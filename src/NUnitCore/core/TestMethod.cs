@@ -81,6 +81,12 @@ namespace NUnit.Core
 		#endregion
 
 		#region Properties
+
+        public override string TestType
+        {
+            get { return "TestMethod"; }
+        }
+
 		public MethodInfo Method
 		{
 			get { return method; }

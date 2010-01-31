@@ -50,7 +50,7 @@ namespace NUnit.Core.Tests
 			Test suite = builder.Build( package );
 			Assert.IsNotNull(suite, "Unable to build suite" );
 			Assert.Greater( suite.Tests.Count, 1 );
-			Assert.AreEqual( "NUnitTestFixture", ((ITest)suite.Tests[0]).TestType );
+			Assert.AreEqual( "TestFixture", ((ITest)suite.Tests[0]).TestType );
 		}
 
 		[Test]

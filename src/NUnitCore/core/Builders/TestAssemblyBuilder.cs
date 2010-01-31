@@ -127,7 +127,7 @@ namespace NUnit.Core.Builders
 
 		private TestSuite BuildTestAssembly( string assemblyName, IList fixtures, bool autoSuites )
 		{
-			TestSuite testAssembly = new TestSuite( assemblyName );
+			TestSuite testAssembly = new TestAssembly( assemblyName );
 
 			if ( autoSuites )
 			{

@@ -142,7 +142,7 @@ namespace NUnit.Core
 			//string prefix = string.Format( "[{0}]" );
 			if( index == -1 )
 			{
-				suite = new TestSuite( nameSpace );
+				suite = new NamespaceSuite( nameSpace );
 				if ( rootSuite == null )
 					rootSuite = suite;
 				else
@@ -154,7 +154,7 @@ namespace NUnit.Core
 				string parentNameSpace = nameSpace.Substring( 0,index );
 				TestSuite parent = BuildFromNameSpace( parentNameSpace );
 				string suiteName = nameSpace.Substring( index+1 );
-				suite = new TestSuite( parentNameSpace, suiteName );
+				suite = new NamespaceSuite( parentNameSpace, suiteName );
 				parent.Add( suite );
 				namespaceSuites[nameSpace] = suite;
 			}

@@ -22,6 +22,16 @@ namespace NUnit.Core
         #endregion
 
 		#region TestSuite Overrides
+
+        /// <summary>
+        /// Gets a string representing the kind of test
+        /// that this object represents, for use in display.
+        /// </summary>
+        public override string TestType
+        {
+            get { return "TestFixture"; }
+        }
+
         public override TestResult Run(EventListener listener, ITestFilter filter)
         {
             using ( new DirectorySwapper( AssemblyHelper.GetDirectoryName( FixtureType.Assembly ) ) )

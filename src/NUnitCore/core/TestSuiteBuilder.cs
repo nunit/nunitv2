@@ -71,7 +71,7 @@ namespace NUnit.Core
 				package.TestName = null;
 			}
 			
-			TestSuite rootSuite = new TestSuite( package.FullName );
+			TestSuite rootSuite = new ProjectRootSuite( package.FullName );
 			NamespaceTreeBuilder namespaceTree = 
 				new NamespaceTreeBuilder( rootSuite );
 

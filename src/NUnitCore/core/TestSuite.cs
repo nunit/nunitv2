@@ -188,6 +188,12 @@ namespace NUnit.Core
         #endregion
 
 		#region Test Overrides
+
+        public override string TestType
+        {
+            get { return "TestSuite"; }
+        }
+
 		public override int CountTestCases(ITestFilter filter)
 		{
 			int count = 0;

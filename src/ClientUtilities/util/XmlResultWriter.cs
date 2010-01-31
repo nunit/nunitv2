@@ -15,7 +15,7 @@ namespace NUnit.Util
 	using NUnit.Core;
 
 	/// <summary>
-	/// Summary description for XmlResultVisitor.
+	/// Summary description for XmlResultWriter.
 	/// </summary>
 	public class XmlResultWriter
 	{
@@ -165,8 +165,18 @@ namespace NUnit.Util
 		#region Element Creation Helpers
 		private void StartTestElement(TestResult result)
 		{
-			xmlWriter.WriteStartElement(result.Test.IsSuite ? "test-suite" : "test-case");
-			xmlWriter.WriteAttributeString("name", result.Test.IsSuite ? result.Name : result.FullName);
+            if (result.Test.IsSuite)
+            {
+                xmlWriter.WriteStartElement("test-suite");
+                xmlWriter.WriteAttributeString("type", result.Test.TestType);
+                xmlWriter.WriteAttributeString("name", result.Name);
+            }
+            else
+            {
+                xmlWriter.WriteStartElement("test-case");
+                xmlWriter.WriteAttributeString("name", result.FullName);
+            }
+
 			if (result.Description != null)
 				xmlWriter.WriteAttributeString("description", result.Description);
 

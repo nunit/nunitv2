@@ -96,6 +96,7 @@
 			</xs:choice>
 			<xs:element name="results" type="resultsType" />
 		</xs:sequence>
+    <xs:attribute name="type" type="xs:string" use="required" />
 		<xs:attribute name="name" type="xs:string" use="required" />
 		<xs:attribute name="description" type="xs:string" use="optional" />
 		<xs:attribute name="success" type="xs:string" use="optional" />

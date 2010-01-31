@@ -80,7 +80,7 @@ namespace NUnit.Core.Builders
 		#region Helper Methods
         private Test BuildMultipleFixtures(Type type, Attribute[] attrs)
         {
-            TestSuite suite = new TestSuite(type.Namespace, TypeHelper.GetDisplayName(type));
+            TestSuite suite = new ParameterizedFixtureSuite(type);
 
             if (attrs.Length > 0)
             {
