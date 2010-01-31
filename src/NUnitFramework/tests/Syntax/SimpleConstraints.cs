@@ -55,4 +55,16 @@ namespace NUnit.Framework.Syntax
             builderSyntax = Builder().NaN;
         }
     }
+
+    public class EmptyTest : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<empty>";
+            staticSyntax = Is.Empty;
+            inheritedSyntax = Helper().Empty;
+            builderSyntax = Builder().Empty;
+        }
+    }
 }

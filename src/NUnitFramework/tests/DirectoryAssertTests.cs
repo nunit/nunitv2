@@ -234,6 +234,7 @@ namespace NUnit.Framework.Tests
             using (TestDirectory td = new TestDirectory("ParentDirectory", false))
             {
                 DirectoryAssert.IsEmpty(td.directoryInformation);
+                Assert.That(td.directoryInformation, Is.Empty);
             }
         }
 
@@ -322,6 +323,7 @@ namespace NUnit.Framework.Tests
             using (TestDirectory td = new TestDirectory("ParentDirectory", true))
             {
                 DirectoryAssert.IsNotEmpty(td.directoryInformation);
+                Assert.That(td.directoryInformation, Is.Not.Empty);
             }
         }
 

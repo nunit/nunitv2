@@ -20,9 +20,11 @@ namespace NUnit.Framework.Constraints
 		{
 			get 
 			{
-				if ( actual is string )
-					return new EmptyStringConstraint();
-				else
+                if (actual is string)
+                    return new EmptyStringConstraint();
+                else if (actual is System.IO.DirectoryInfo)
+                    return new EmptyDirectoryContraint();
+                else
 					return new EmptyCollectionConstraint();
 			}
 		}
