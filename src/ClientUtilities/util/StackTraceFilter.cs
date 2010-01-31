@@ -46,7 +46,8 @@ namespace NUnit.Util
 				"NUnit.Core.TestResult",
 				"NUnit.Core.TestSuite",
 				"NUnit.Framework.Assertion", 
-				"NUnit.Framework.Assert" 
+				"NUnit.Framework.Assert",
+                "System.Reflection.MonoMethod"
 			};
 
 			for (int i = 0; i < patterns.Length; i++) 

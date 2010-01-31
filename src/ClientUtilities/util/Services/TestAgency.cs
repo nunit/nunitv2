@@ -111,8 +111,13 @@ namespace NUnit.Util
             return GetAgent(RuntimeFramework.CurrentFramework, waitTime);
         }
 
-		public TestAgent GetAgent(RuntimeFramework framework, int waitTime)
-		{
+        public TestAgent GetAgent(RuntimeFramework framework, int waitTime)
+        {
+            return GetAgent(framework, waitTime, false);
+        }
+
+        public TestAgent GetAgent(RuntimeFramework framework, int waitTime, bool enableMonoDebug)
+        {
             log.Info("Getting agent for use under {0}", framework);
  
             if (!RuntimeFramework.IsAvailable(framework))
@@ -124,7 +129,7 @@ namespace NUnit.Util
             //AgentRecord r = FindAvailableRemoteAgent(type);
             //if ( r == null )
             //    r = CreateRemoteAgent(type, framework, waitTime);
-            return CreateRemoteAgent(framework, waitTime);
+            return CreateRemoteAgent(framework, waitTime, enableMonoDebug);
 		}
 
 		public void ReleaseAgent( TestAgent agent )
@@ -152,7 +157,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region Helper Methods
-		private Guid LaunchAgentProcess(RuntimeFramework targetRuntime)
+		private Guid LaunchAgentProcess(RuntimeFramework targetRuntime, bool enableMonoDebug)
 		{
             string agentExePath = NUnitConfiguration.GetTestAgentExePath(targetRuntime.ClrVersion);
 
@@ -160,22 +165,6 @@ namespace NUnit.Util
                 throw new ArgumentException(
                     string.Format("NUnit components for version {0} of the CLR are not installed",
                     targetRuntime.ClrVersion.ToString()), "targetRuntime");
-
-            // TODO: Replace adhoc code
-            //if (targetRuntime.Version.Major == 1 && RuntimeFramework.CurrentFramework.ClrVersion.Major == 2)
-            //{
-            //    agentExePath = agentExePath
-            //        .Replace("2.0", "1.1")
-            //        .Replace("vs2008", "vs2003")
-            //        .Replace("vs2005", "vs2003");
-            //}
-            //else if (targetRuntime.Version.Major == 2 && RuntimeFramework.CurrentFramework.Version.Major == 1)
-            //{
-            //    agentExePath = agentExePath
-            //        .Replace("1.1", "2.0")
-            //        .Replace("1.0", "2.0")
-            //        .Replace("vs2003", "vs2008");
-            //}
 
             log.Debug("Using nunit-agent at " + agentExePath);
 
@@ -187,9 +176,11 @@ namespace NUnit.Util
             switch( targetRuntime.Runtime )
             {
                 case RuntimeType.Mono:
-                    // TODO: Replace hard-coded path
                     p.StartInfo.FileName = NUnitConfiguration.MonoExePath;
-				    p.StartInfo.Arguments = string.Format( "\"{0}\" {1}", agentExePath, arglist );
+                    if (enableMonoDebug)
+                        p.StartInfo.Arguments = string.Format("--debug \"{0}\" {1}", agentExePath, arglist);
+                    else
+                        p.StartInfo.Arguments = string.Format("\"{0}\" {1}", agentExePath, arglist);
                     break;
                 case RuntimeType.Net:
                     p.StartInfo.FileName = agentExePath;
@@ -242,9 +233,9 @@ namespace NUnit.Util
 			return null;
 		}
 
-		private TestAgent CreateRemoteAgent(RuntimeFramework framework, int waitTime)
+		private TestAgent CreateRemoteAgent(RuntimeFramework framework, int waitTime, bool enableMonoDebug)
 		{
-            Guid agentId = LaunchAgentProcess(framework);
+            Guid agentId = LaunchAgentProcess(framework, enableMonoDebug);
 
 			log.Debug( "Waiting for agent {0} to register", agentId.ToString("B") );
 

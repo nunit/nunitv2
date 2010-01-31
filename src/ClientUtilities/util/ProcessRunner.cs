@@ -46,9 +46,15 @@ namespace NUnit.Util
 			try
 			{
 				if (this.agent == null)
-					this.agent = Services.TestAgency.GetAgent( 
-						runtimeFramework, 
-						20000 );
+                    if (runtimeFramework.IsMono)
+                        this.agent = Services.TestAgency.GetAgent(
+                            runtimeFramework,
+                            20000,
+                            true); // TODO: Replace this with a setting
+                    else
+                        this.agent = Services.TestAgency.GetAgent(
+                            runtimeFramework,
+                            20000);
 		
 				if (this.agent == null)
 					return false;

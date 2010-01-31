@@ -41,6 +41,7 @@ namespace NUnit.UiException.StackTraceAnalysers
             int posEndingParenthesis;
             int posOpeningParenthesis;
             int posName;
+            int endName;
             string res;
             int i;
 
@@ -54,8 +55,17 @@ namespace NUnit.UiException.StackTraceAnalysers
                 posOpeningParenthesis > posEndingParenthesis)
                 return (false);
 
-            posName = -1;
+            endName = posOpeningParenthesis;
             for (i = posOpeningParenthesis - 1; i >= 0; i--)
+            {
+                if (args.Input[i] != ' ')
+                    break;
+
+                endName = i;
+            }
+
+            posName = -1;
+            for (i = endName - 1; i >= 0; i--)
             {
                 if (args.Input[i] == ' ')
                     break;
@@ -66,7 +76,7 @@ namespace NUnit.UiException.StackTraceAnalysers
             if (posName == -1)
                 return (false);
 
-            res = args.Input.Substring(posName, posEndingParenthesis - posName + 1);
+            res = args.Input.Substring(posName, endName - posName + 1);
             args.Function = res;
             
             return (true);
