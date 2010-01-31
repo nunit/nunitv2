@@ -73,10 +73,15 @@ namespace NUnit.UiException.StackTraceAnalysers
                 posName = i;
             }
 
+            // Added this test to allow for odd case where we would
+            // otherwise include the leading "at" or "à" in name.
+            if (posName == 0)
+                return false;
+
             if (posName == -1)
                 return (false);
 
-            res = args.Input.Substring(posName, endName - posName + 1);
+            res = args.Input.Substring(posName, posEndingParenthesis - posName + 1);
             args.Function = res;
             
             return (true);

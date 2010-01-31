@@ -99,7 +99,7 @@ namespace NUnit.UiException.Tests.StackTraceAnalyzers
             RawError res;
 
             res = new RawError(error);
-            Assert.That(parser.TryParse(_stack, res), Is.True);
+            Assert.That(parser.TryParse(_stack, res), Is.True, "Failed to parse \"{0}\"", error);
 
             return (res);
         }
