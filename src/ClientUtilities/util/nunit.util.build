@@ -46,7 +46,7 @@
         <include name="VSProjectConfig.cs"/>
         <include name="VSProjectConfigCollection.cs"/>
         <include name="XmlResultTransform.cs"/>
-        <include name="XmlResultVisitor.cs"/>
+        <include name="XmlResultWriter.cs"/>
         <include name="XmlSettingsStorage.cs"/>
         <include name="Extensibility/IProjectConverter.cs"/>
         <include name="Extensibility/ProjectConverterCollection.cs"/>

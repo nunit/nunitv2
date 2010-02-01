@@ -34,9 +34,12 @@ namespace NUnit.Core
         {
             get
             {
-                return type.IsGenericType
-                    ? "GenericFixture"
-                    : "ParameterizedFixture";
+#if NET_2_0
+                if (type.IsGenericType)
+                    return "GenericFixture";
+#endif
+
+                return "ParameterizedFixture";
             }
         }
 

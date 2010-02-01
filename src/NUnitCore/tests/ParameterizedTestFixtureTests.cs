@@ -54,9 +54,15 @@ namespace NUnit.Core.Tests
         }
     }
 
+#if NET_2_0
     [TestFixture("A", null)]
     [TestFixture(null, "A")]
     [TestFixture(null, null)]
+#else
+    [TestFixture("A", SpecialValue.Null)]
+    [TestFixture(SpecialValue.Null, "A")]
+    [TestFixture(SpecialValue.Null, SpecialValue.Null)]
+#endif
     public class ParameterizedTestFixtureWithNullArguments
     {
         public ParameterizedTestFixtureWithNullArguments(string a, string b)

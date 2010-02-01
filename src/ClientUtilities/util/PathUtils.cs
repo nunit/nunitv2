@@ -40,28 +40,54 @@ namespace NUnit.Util
 		/// </summary>
 		public static string RelativePath( string from, string to )
 		{
+#if NET_2_0
+            StringComparison compareMode = PathUtils.IsWindows() 
+                ? StringComparison.InvariantCultureIgnoreCase 
+                : StringComparison.InvariantCulture;
+#endif
+
 			if (from == null)
 				throw new ArgumentNullException (from);
 			if (to == null)
 				throw new ArgumentNullException (to);
-			if (!Path.IsPathRooted (to))
-				return to;
-			if (Path.GetPathRoot (from) != Path.GetPathRoot (to))
-				return null;
 
-			string[] _from = from.Split (PathUtils.DirectorySeparatorChar, 
-				PathUtils.AltDirectorySeparatorChar);
-			string[] _to   =   to.Split (PathUtils.DirectorySeparatorChar, 
-				PathUtils.AltDirectorySeparatorChar);
+            string toPathRoot = Path.GetPathRoot(to);
+            if (toPathRoot == null || toPathRoot == string.Empty)
+                return to;
+            string fromPathRoot = Path.GetPathRoot(from);
+#if NET_2_0
+            if (!toPathRoot.Equals(fromPathRoot, compareMode))
+                return null;
+#else
+            if (!toPathRoot.Equals(fromPathRoot))
+                return null;
+#endif
+
+            string fromNoRoot = from.Substring(fromPathRoot.Length);
+            string toNoRoot = to.Substring(toPathRoot.Length);
+
+            char[] separators = new char[] { PathUtils.DirectorySeparatorChar, PathUtils.AltDirectorySeparatorChar };
+#if NET_2_0
+            string[] _from = fromNoRoot.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            string[] _to = toNoRoot.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+#else
+            string[] _from = fromNoRoot.Split(separators);
+            string[] _to = toNoRoot.Split(separators);
+#endif
 
 			StringBuilder sb = new StringBuilder (Math.Max (from.Length, to.Length));
 
 			int last_common, min = Math.Min (_from.Length, _to.Length);
 			for (last_common = 0; last_common < min;  ++last_common) 
 			{
-				if (!_from [last_common].Equals (_to [last_common]))
-					break;
-			}
+#if NET_2_0
+                if (!_from[last_common].Equals(_to[last_common], compareMode))
+                    break;
+#else
+                if (!_from[last_common].Equals(_to[last_common]))
+                    break;
+#endif
+            }
 
 			if (last_common < _from.Length)
 				sb.Append ("..");

@@ -414,7 +414,9 @@
     <Compile Include="..\..\..\..\src\NUnitCore\core\ProjectRootSuite.cs">
       <Link>ProjectRootSuite.cs</Link>
     </Compile>
-    <Compile Include="NamespaceSuite.cs" />
+    <Compile Include="..\..\..\..\src\NUnitCore\core\NamespaceSuite.cs">
+      <Link>NamespaceSuite.cs</Link>
+    </Compile>
     <Content Include="..\..\..\..\src\NUnitCore\core\Results.xsd">
       <Link>Results.xsd</Link>
       <SubType>
