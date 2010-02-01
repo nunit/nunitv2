@@ -40,12 +40,6 @@ namespace NUnit.Util
 		/// </summary>
 		public static string RelativePath( string from, string to )
 		{
-#if NET_2_0
-            StringComparison compareMode = PathUtils.IsWindows() 
-                ? StringComparison.InvariantCultureIgnoreCase 
-                : StringComparison.InvariantCulture;
-#endif
-
 			if (from == null)
 				throw new ArgumentNullException (from);
 			if (to == null)
@@ -55,38 +49,23 @@ namespace NUnit.Util
             if (toPathRoot == null || toPathRoot == string.Empty)
                 return to;
             string fromPathRoot = Path.GetPathRoot(from);
-#if NET_2_0
-            if (!toPathRoot.Equals(fromPathRoot, compareMode))
+
+            if (!PathsEqual(toPathRoot, fromPathRoot))
                 return null;
-#else
-            if (!toPathRoot.Equals(fromPathRoot))
-                return null;
-#endif
 
             string fromNoRoot = from.Substring(fromPathRoot.Length);
             string toNoRoot = to.Substring(toPathRoot.Length);
 
-            char[] separators = new char[] { PathUtils.DirectorySeparatorChar, PathUtils.AltDirectorySeparatorChar };
-#if NET_2_0
-            string[] _from = fromNoRoot.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-            string[] _to = toNoRoot.Split(separators, StringSplitOptions.RemoveEmptyEntries);
-#else
-            string[] _from = fromNoRoot.Split(separators);
-            string[] _to = toNoRoot.Split(separators);
-#endif
+            string[] _from = SplitPath(fromNoRoot);
+            string[] _to = SplitPath(toNoRoot);
 
 			StringBuilder sb = new StringBuilder (Math.Max (from.Length, to.Length));
 
 			int last_common, min = Math.Min (_from.Length, _to.Length);
 			for (last_common = 0; last_common < min;  ++last_common) 
 			{
-#if NET_2_0
-                if (!_from[last_common].Equals(_to[last_common], compareMode))
+                if (!PathsEqual(_from[last_common], _to[last_common]))
                     break;
-#else
-                if (!_from[last_common].Equals(_to[last_common]))
-                    break;
-#endif
             }
 
 			if (last_common < _from.Length)
@@ -224,10 +203,54 @@ namespace NUnit.Util
 		#endregion
 
 		#region Helper Methods
+
 		private static bool IsWindows()
 		{
 			return PathUtils.DirectorySeparatorChar == '\\';
 		}
-		#endregion
+
+        private static string[] SplitPath(string path)
+        {
+            char[] separators = new char[] { PathUtils.DirectorySeparatorChar, PathUtils.AltDirectorySeparatorChar };
+
+#if NET_2_0
+            return path.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+#else
+            string[] trialSplit = path.Split(separators);
+            
+            int emptyEntries = 0;
+            foreach(string piece in trialSplit)
+                if (piece == string.Empty)
+                    emptyEntries++;
+
+            if (emptyEntries == 0)
+                return trialSplit;
+
+            string[] finalSplit = new string[trialSplit.Length - emptyEntries];
+            int index = 0;
+            foreach(string piece in trialSplit)
+                if (piece != string.Empty)
+                    finalSplit[index++] = piece;
+
+            return finalSplit;
+#endif
+        }
+
+        private static bool PathsEqual(string path1, string path2)
+        {
+#if NET_2_0
+            if (PathUtils.IsWindows())
+                return path1.Equals(path2, StringComparison.InvariantCultureIgnoreCase);
+            else
+                return path1.Equals(path2, StringComparison.InvariantCulture);
+#else
+            if (PathUtils.IsWindows())
+                return path1.ToLower().Equals(path2.ToLower());
+            else
+                return path1.Equals(path2);
+#endif
+        }
+
+        #endregion
 	}
 }
