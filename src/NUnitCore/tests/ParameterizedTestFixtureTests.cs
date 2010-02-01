@@ -54,6 +54,19 @@ namespace NUnit.Core.Tests
         }
     }
 
+    [TestFixture("A", null)]
+    [TestFixture(null, "A")]
+    [TestFixture(null, null)]
+    public class ParameterizedTestFixtureWithNullArguments
+    {
+        public ParameterizedTestFixtureWithNullArguments(string a, string b)
+        {
+        }
+
+        [Test]
+        public void TestMethod() { }
+    }
+
     [TestFixture(42)]
     public class ParameterizedTestFixtureWithDataSources
     {

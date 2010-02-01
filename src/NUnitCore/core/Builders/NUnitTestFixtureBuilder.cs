@@ -197,17 +197,14 @@ namespace NUnit.Core.Builders
             }
             else if( !IsStaticClass( fixtureType ) )
             {
-                object[] args = fixture.arguments;
-
-                ConstructorInfo ctor = args == null || args.Length == 0
-                    ? Reflect.GetConstructor(fixtureType)
-                    : Reflect.GetConstructor(fixtureType, Type.GetTypeArray(args));
-
-                if (ctor == null)
-                {
-                    fixture.RunState = RunState.NotRunnable;
-                    fixture.IgnoreReason = "No suitable constructor was found";
-                }
+                // Postpone checking for constructor with arguments till we invoke it
+                // since Type.GetConstructor doesn't handle null arguments well.
+                if ( fixture.arguments == null || fixture.arguments.Length == 0 )
+                    if (Reflect.GetConstructor(fixtureType) == null)
+                    {
+                        fixture.RunState = RunState.NotRunnable;
+                        fixture.IgnoreReason = "No suitable constructor was found";
+                    }
             }
         }
 

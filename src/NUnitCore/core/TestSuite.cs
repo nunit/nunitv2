@@ -259,6 +259,9 @@ namespace NUnit.Core
                 case ResultState.Error:
                     MarkTestsFailed(Tests, suiteResult, listener, filter);
                     break;
+                case ResultState.NotRunnable:
+                    MarkAllTestsInvalid(suiteResult, listener, filter);
+                    break;
                 default:
                     try
                     {
@@ -301,20 +304,19 @@ namespace NUnit.Core
                     if (ex is NUnitException || ex is System.Reflection.TargetInvocationException)
                         ex = ex.InnerException;
 
-                    if (IsIgnoreException(ex))
+                    if (ex is InvalidTestFixtureException)
+                        suiteResult.Invalid(ex.Message);
+                    else if (IsIgnoreException(ex))
                     {
                         this.RunState = RunState.Ignored;
                         suiteResult.Ignore(ex.Message);
                         suiteResult.StackTrace = ex.StackTrace;
                         this.IgnoreReason = ex.Message;
                     }
-                    else 
-                    {
-                        if (IsAssertException(ex))
-                            suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.SetUp);
-                        else
-                            suiteResult.Error(ex, FailureSite.SetUp);
-                    }
+                    else if (IsAssertException(ex))
+                        suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.SetUp);
+                    else
+                        suiteResult.Error(ex, FailureSite.SetUp);
                 }
             }
         }

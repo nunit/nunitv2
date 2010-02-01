@@ -158,16 +158,6 @@ namespace NUnit.Core
 			return fixtureType.GetConstructor( Type.EmptyTypes );
 		}
 
-		/// <summary>
-		/// Find the default constructor on a type
-		/// </summary>
-		/// <param name="fixtureType"></param>
-		/// <returns></returns>
-		public static ConstructorInfo GetConstructor( Type fixtureType, Type[] types )
-		{
-			return fixtureType.GetConstructor( types );
-		}
-
         /// <summary>
         /// Examine a fixture type and return an array of methods having a 
         /// particular attribute. The array is order with base methods first.
@@ -377,12 +367,28 @@ namespace NUnit.Core
         {
             if (arguments == null) return Construct(type);
 
-            Type[] argTypes = Type.GetTypeArray(arguments);
-            ConstructorInfo ctor = GetConstructor(type, argTypes);
-            if (ctor == null)
-                throw new InvalidTestFixtureException(type.FullName + " does not have a suitable constructor");
+            //Type[] argTypes = GetTypeArray(arguments);
+            //ConstructorInfo ctor = GetConstructor(type, argTypes);
+            //if (ctor == null)
+            //    throw new InvalidTestFixtureException(type.FullName + " does not have a suitable constructor");
 
-            return ctor.Invoke(arguments);
+            return type.InvokeMember(type.Name, BindingFlags.CreateInstance, null, null, arguments);
+        }
+
+        /// <summary>
+        /// Returns an array of types from an array of objects.
+        /// Used because the compact framework doesn't support
+        /// Type.GetTypeArray()
+        /// </summary>
+        /// <param name="objects">An array of objects</param>
+        /// <returns>An array of Types</returns>
+        public static Type[] GetTypeArray(object[] objects)
+        {
+            Type[] types = new Type[objects.Length];
+            int index = 0;
+            foreach (object o in objects)
+                types[index++] = o == null ? null : o.GetType();
+            return types;
         }
 
         /// <summary>
