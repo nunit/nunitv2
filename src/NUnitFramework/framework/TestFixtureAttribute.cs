@@ -43,12 +43,16 @@ namespace NUnit.Framework
             this.arguments = arguments == null
                 ? new object[0]
                 : arguments;
+
+            for (int i = 0; i < this.arguments.Length; i++)
+                if (arguments[i] is SpecialValue && (SpecialValue)arguments[i] == SpecialValue.Null)
+                    arguments[i] = null;
         }
 
-		/// <summary>
-		/// Descriptive text for this fixture
-		/// </summary>
-		public string Description
+        /// <summary>
+        /// Descriptive text for this fixture
+        /// </summary>
+        public string Description
 		{
 			get { return description; }
 			set { description = value; }

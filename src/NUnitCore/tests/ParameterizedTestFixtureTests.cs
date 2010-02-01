@@ -58,20 +58,24 @@ namespace NUnit.Core.Tests
     [TestFixture("A", null)]
     [TestFixture(null, "A")]
     [TestFixture(null, null)]
-#else
-    [TestFixture("A", SpecialValue.Null)]
-    [TestFixture(SpecialValue.Null, "A")]
-    [TestFixture(SpecialValue.Null, SpecialValue.Null)]
-#endif
     public class ParameterizedTestFixtureWithNullArguments
     {
+        string a;
+        string b;
+
         public ParameterizedTestFixtureWithNullArguments(string a, string b)
         {
+            this.a = a;
+            this.b = b;
         }
 
         [Test]
-        public void TestMethod() { }
+        public void TestMethod() 
+        {
+            Assert.That(a == null || b == null);
+        }
     }
+#endif
 
     [TestFixture(42)]
     public class ParameterizedTestFixtureWithDataSources

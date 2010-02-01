@@ -372,7 +372,14 @@ namespace NUnit.Core
             //if (ctor == null)
             //    throw new InvalidTestFixtureException(type.FullName + " does not have a suitable constructor");
 
-            return type.InvokeMember(type.Name, BindingFlags.CreateInstance, null, null, arguments);
+            try
+            {
+                return type.InvokeMember(type.Name, BindingFlags.CreateInstance, null, null, arguments);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidTestFixtureException(type.FullName + " does not have a suitable constructor", ex);
+            }
         }
 
         /// <summary>

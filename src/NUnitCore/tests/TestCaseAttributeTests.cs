@@ -94,11 +94,20 @@ namespace NUnit.Core.Tests
             throw new System.Exception("Test Exception thrown here");
         }
 
-        [TestCase(null)]
-        public void CanPassNullAsFirstArgument(object a)
+#if NET_2_0
+        [TestCase(null, null)]
+        public void CanPassNullAsArgument(object a, string b)
         {
-        	Assert.IsNull(a);
+            Assert.IsNull(a);
+            Assert.IsNull(b);
         }
+
+        [TestCase(null)]
+        public void CanPassNullAsSoleArgument(object a)
+        {
+            Assert.IsNull(a);
+        }
+#endif
 
         [TestCase(new object[] { 1, "two", 3.0 })]
         [TestCase(new object[] { "zip" })]

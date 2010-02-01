@@ -260,7 +260,7 @@ namespace NUnit.Core
                     MarkTestsFailed(Tests, suiteResult, listener, filter);
                     break;
                 case ResultState.NotRunnable:
-                    MarkAllTestsInvalid(suiteResult, listener, filter);
+                    MarkTestsNotRun(this.Tests, ResultState.NotRunnable, suiteResult.Message, suiteResult, listener, filter);
                     break;
                 default:
                     try
