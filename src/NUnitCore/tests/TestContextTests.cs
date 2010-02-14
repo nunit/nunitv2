@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Security.Principal;
 using System.Threading;
 using System.Globalization;
 using NUnit.Framework;
@@ -20,6 +21,7 @@ namespace NUnit.Core.Tests
 		string currentDirectory;
 		CultureInfo currentCulture;
         CultureInfo currentUICulture;
+        IPrincipal currentPrincipal;
 
 		/// <summary>
 		/// Since we are testing the mechanism that saves and
@@ -31,6 +33,7 @@ namespace NUnit.Core.Tests
 			currentDirectory = Environment.CurrentDirectory;
 			currentCulture = CultureInfo.CurrentCulture;
             currentUICulture = CultureInfo.CurrentUICulture;
+            currentPrincipal = Thread.CurrentPrincipal;
 		}
 
 		[TearDown]
@@ -39,6 +42,7 @@ namespace NUnit.Core.Tests
 			Environment.CurrentDirectory = currentDirectory;
 			Thread.CurrentThread.CurrentCulture = currentCulture;
             Thread.CurrentThread.CurrentUICulture = currentUICulture;
+            Thread.CurrentPrincipal = currentPrincipal;
 		}
 
 		[Test]
@@ -95,5 +99,22 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(currentUICulture, CultureInfo.CurrentUICulture, "UICulture was not restored");
             Assert.AreEqual(currentUICulture, TestContext.CurrentUICulture, "UICulture not in final context");
         }
-	}
+
+        [Test]
+        public void SetAndRestoreCurrentPrincipal()
+        {
+            Assert.AreEqual(currentPrincipal, TestContext.CurrentPrincipal, "Principal not in initial context");
+
+            using (new TestContext())
+            {
+                GenericIdentity identity = new GenericIdentity("foo");
+                TestContext.CurrentPrincipal = new GenericPrincipal(identity, new string[0]);
+                Assert.AreEqual("foo", Thread.CurrentPrincipal.Identity.Name, "Principal was not set");
+                Assert.AreEqual("foo", TestContext.CurrentPrincipal.Identity.Name, "Principal not in new context");
+            }
+
+            Assert.AreEqual(currentPrincipal, Thread.CurrentPrincipal, "Principal was not restored");
+            Assert.AreEqual(currentPrincipal, TestContext.CurrentPrincipal, "Principal not in final context");
+        }
+    }
 }

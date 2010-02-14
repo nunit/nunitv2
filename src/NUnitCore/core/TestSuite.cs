@@ -298,6 +298,8 @@ namespace NUnit.Core
                     if (this.fixtureSetUpMethods != null)
                         foreach( MethodInfo fixtureSetUp in fixtureSetUpMethods )
                             Reflect.InvokeMethod(fixtureSetUp, fixtureSetUp.IsStatic ? null : Fixture);
+
+                    TestContext.Update();
                 }
                 catch (Exception ex)
                 {

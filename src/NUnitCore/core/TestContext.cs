@@ -105,6 +105,12 @@ namespace NUnit.Core
             set { current.CurrentUICulture = value; }
         }
 
+        public static System.Security.Principal.IPrincipal CurrentPrincipal
+        {
+            get { return current.CurrentPrincipal; }
+            set { current.CurrentPrincipal = value; }
+        }
+
         public static int TestCaseTimeout
         {
             get { return current.TestCaseTimeout; }
@@ -119,6 +125,15 @@ namespace NUnit.Core
 		{
 			TestContext.current = new ContextHolder( current );
 		}
+
+        /// <summary>
+        /// Updates the current context using any values set 
+        /// by the user.
+        /// </summary>
+        public static void Update()
+        {
+            current.Update();
+        }
 
 		/// <summary>
 		/// Restores the last saved context and puts
@@ -237,11 +252,11 @@ namespace NUnit.Core
 				this.logCapture = other.logCapture;
                 this.testCaseTimeout = other.testCaseTimeout;
 
-				this.currentDirectory = Environment.CurrentDirectory;
-				this.currentCulture = CultureInfo.CurrentCulture;
+                this.currentDirectory = Environment.CurrentDirectory;
+                this.currentCulture = CultureInfo.CurrentCulture;
                 this.currentUICulture = CultureInfo.CurrentUICulture;
                 this.currentPrincipal = System.Threading.Thread.CurrentPrincipal;
-			}
+            }
 
 			/// <summary>
 			/// Used to restore settings to their prior
@@ -261,6 +276,17 @@ namespace NUnit.Core
                 this.TestCaseTimeout = prior.TestCaseTimeout;
                 this.CurrentPrincipal = prior.CurrentPrincipal;
 			}
+
+            /// <summary>
+            /// Record any changed values in the current context
+            /// </summary>
+            public void Update()
+            {
+                this.currentDirectory = Environment.CurrentDirectory;
+                this.currentCulture = CultureInfo.CurrentCulture;
+                this.currentUICulture = CultureInfo.CurrentUICulture;
+                this.currentPrincipal = System.Threading.Thread.CurrentPrincipal;
+            }
 
 			/// <summary>
 			/// Controls whether trace and debug output are written
