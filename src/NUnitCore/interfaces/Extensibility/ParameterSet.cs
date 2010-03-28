@@ -132,6 +132,10 @@ namespace NUnit.Core.Extensibility
             }
         }
 
+        /// <summary>
+        /// Returns true if an expected result has been 
+        /// specified for this parameter set.
+        /// </summary>
         public bool HasExpectedResult
         {
             get { return hasExpectedResult; }
