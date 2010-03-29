@@ -261,8 +261,8 @@ namespace NUnit.Gui
             this.runtimeVersionComboBox.Name = "runtimeVersionComboBox";
             this.runtimeVersionComboBox.Size = new System.Drawing.Size(101, 24);
             this.runtimeVersionComboBox.TabIndex = 14;
-            this.runtimeVersionComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.runtimeVersionTextBox_Validating);
-            this.runtimeVersionComboBox.Validated += new System.EventHandler(this.runtimeVersionTextBox_Validated);
+            this.runtimeVersionComboBox.Validating += new System.ComponentModel.CancelEventHandler(this.runtimeVersionComboBox_Validating);
+            this.runtimeVersionComboBox.Validated += new System.EventHandler(this.runtimeVersionComboBox_Validated);
             // 
             // label11
             // 
@@ -1010,7 +1010,7 @@ namespace NUnit.Gui
             SetRuntimeFramework();
 		}
 
-        private void runtimeVersionTextBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        private void runtimeVersionComboBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (runtimeVersionComboBox.Text != string.Empty)
             {
@@ -1027,7 +1027,7 @@ namespace NUnit.Gui
             }
         }
 
-        private void runtimeVersionTextBox_Validated(object sender, System.EventArgs e)
+        private void runtimeVersionComboBox_Validated(object sender, System.EventArgs e)
         {
             SetRuntimeFramework();
         }
@@ -1037,6 +1037,7 @@ namespace NUnit.Gui
             selectedConfig.RuntimeFramework = RuntimeFramework.Parse(
                 (string)runtimeComboBox.SelectedItem + "-" + runtimeVersionComboBox.Text);
         }
+
         #endregion
 
 		#region PrivateBinPath Methods and Events
