@@ -948,7 +948,63 @@ namespace NUnit.Gui
 		}
 		#endregion
 
-		#region Runtime Framework Methods and Events
+        #region Process Model Methods and Events
+
+        private void processModelComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            project.ProcessModel = this.ProcessModel;
+            populateDomainUsageComboBox();
+        }
+
+        private ProcessModel ProcessModel
+        {
+            get { return (ProcessModel)processModelComboBox.SelectedIndex; }
+            set { processModelComboBox.SelectedIndex = (int)value; }
+        }
+
+        #endregion
+
+        #region DomainUsage MethodsAndEvents
+
+        private void domainUsageComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            project.DomainUsage = this.DomainUsage;
+        }
+
+        private DomainUsage DomainUsage
+        {
+            get
+            {
+                int index = domainUsageComboBox.SelectedIndex;
+                if (index < 0)
+                    return DomainUsage.Default;
+
+                return (DomainUsage)Enum.Parse(
+                    typeof(DomainUsage),
+                    domainUsageComboBox.SelectedItem.ToString());
+            }
+            set
+            {
+                domainUsageComboBox.SelectedIndex =
+                    domainUsageComboBox.FindString(value.ToString());
+            }
+        }
+
+        private void populateDomainUsageComboBox()
+        {
+            domainUsageComboBox.Items.Clear();
+            domainUsageComboBox.Items.Add("Default");
+            //domainUsageComboBox.Items.Add("None");
+            domainUsageComboBox.Items.Add("Single");
+            if (project.ProcessModel != ProcessModel.Multiple)
+                domainUsageComboBox.Items.Add("Multiple");
+
+            domainUsageComboBox.SelectedIndex = 0;
+        }
+
+        #endregion
+
+        #region Runtime Framework Methods and Events
 		private void runtimeComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
 		{
             SetRuntimeFramework();
@@ -1013,7 +1069,35 @@ namespace NUnit.Gui
 			else
 				selectedConfig.PrivateBinPath = privateBinPathTextBox.Text;
 		}
-		#endregion
+
+        private void autoBinPathRadioButton_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (autoBinPathRadioButton.Checked)
+            {
+                selectedConfig.BinPathType = BinPathType.Auto;
+                privateBinPathTextBox.Enabled = false;
+            }
+        }
+
+        private void manualBinPathRadioButton_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (manualBinPathRadioButton.Checked)
+            {
+                selectedConfig.BinPathType = BinPathType.Manual;
+                privateBinPathTextBox.Enabled = true;
+            }
+        }
+
+        private void noBinPathRadioButton_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (noBinPathRadioButton.Checked)
+            {
+                selectedConfig.BinPathType = BinPathType.None;
+                privateBinPathTextBox.Enabled = false;
+            }
+        }
+        
+        #endregion
 
 		#region Assembly Path Methods and Events
 		private void assemblyPathBrowseButton_Click(object sender, System.EventArgs e)
@@ -1137,80 +1221,6 @@ namespace NUnit.Gui
 			this.Close();		
 		}
 
-		private void autoBinPathRadioButton_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if ( autoBinPathRadioButton.Checked )
-			{
-				selectedConfig.BinPathType = BinPathType.Auto;
-				privateBinPathTextBox.Enabled = false;
-			}
-		}
-
-		private void manualBinPathRadioButton_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if ( manualBinPathRadioButton.Checked )
-			{
-				selectedConfig.BinPathType = BinPathType.Manual;
-				privateBinPathTextBox.Enabled = true;
-			}
-		}
-
-		private void noBinPathRadioButton_CheckedChanged(object sender, System.EventArgs e)
-		{
-			if ( noBinPathRadioButton.Checked )
-			{
-				selectedConfig.BinPathType = BinPathType.None;
-				privateBinPathTextBox.Enabled = false;
-			}
-		}
-
-        private ProcessModel ProcessModel
-        {
-            get { return (ProcessModel)processModelComboBox.SelectedIndex; }
-            set { processModelComboBox.SelectedIndex = (int)value; }
-        }
-
-        private DomainUsage DomainUsage
-        {
-            get 
-            { 
-                int index = domainUsageComboBox.SelectedIndex;
-                if (index < 0) 
-                    return DomainUsage.Default;
-
-                return (DomainUsage)Enum.Parse( 
-                    typeof(DomainUsage), 
-                    domainUsageComboBox.SelectedItem.ToString());
-            }
-            set
-            {
-                domainUsageComboBox.SelectedIndex =
-                    domainUsageComboBox.FindString(value.ToString());
-            }
-        }
-
-        private void processModelComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-            project.ProcessModel = this.ProcessModel;
-            populateDomainUsageComboBox();
-        }
-
-        private void populateDomainUsageComboBox()
-        {
-            domainUsageComboBox.Items.Clear();
-            domainUsageComboBox.Items.Add("Default");
-            //domainUsageComboBox.Items.Add("None");
-            domainUsageComboBox.Items.Add("Single");
-            if ( project.ProcessModel != ProcessModel.Multiple )
-                domainUsageComboBox.Items.Add("Multiple");
-
-            domainUsageComboBox.SelectedIndex = 0;
-		}
-
-		private void domainUsageComboBox_SelectedIndexChanged(object sender, System.EventArgs e)
-		{
-            project.DomainUsage = this.DomainUsage;
-		}
-		#endregion
+        #endregion
 	}
 }
