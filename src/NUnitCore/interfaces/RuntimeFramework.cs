@@ -295,14 +295,6 @@ namespace NUnit.Core
         }
 
         /// <summary>
-        /// The version of this runtime framework
-        /// </summary>
-        //public Version Version
-        //{
-        //    get { return frameworkVersion; }
-        //}
-
-        /// <summary>
         /// The CLR version for this runtime framework
         /// </summary>
         public Version ClrVersion
