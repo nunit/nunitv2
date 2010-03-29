@@ -58,14 +58,11 @@ namespace NUnit.Util
                         case DomainUsage.Multiple:
                             package.Settings.Remove("DomainUsage");
                             return new MultipleTestDomainRunner();
-                            break;
                         case DomainUsage.None:
                             return new RemoteTestRunner();
-                            break;
                         case DomainUsage.Single:
                         default:
                             return new TestDomain();
-                            break;
                     }
             }
         }
