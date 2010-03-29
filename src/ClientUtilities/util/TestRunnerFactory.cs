@@ -31,7 +31,7 @@ namespace NUnit.Util
                 targetFramework = currentFramework;
             else if (targetFramework.Runtime == RuntimeType.Any)
             {
-                targetFramework = currentFramework.ReplaceRuntimeType(currentFramework.Runtime);
+                targetFramework = new RuntimeFramework(currentFramework.Runtime, targetFramework.ClrVersion);
                 package.Settings["RuntimeFramework"] = targetFramework;
             }
 

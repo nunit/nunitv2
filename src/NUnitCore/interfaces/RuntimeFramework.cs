@@ -372,17 +372,6 @@ namespace NUnit.Core
 		}
 
         /// <summary>
-        /// Returns a new RuntimeFramework object with the same version
-        /// as this one using a different RuntimeType.
-        /// </summary>
-        /// <param name="runtime">The RuntimeType to substitute.</param>
-        /// <returns>A new RuntimeFramework.</returns>
-        public RuntimeFramework ReplaceRuntimeType(RuntimeType runtime)
-        {
-            return new RuntimeFramework(runtime, this.frameworkVersion);
-        }
-
-        /// <summary>
         /// Returns true if this framework "matches" the one supplied
         /// as an argument. Two frameworks match if their runtime types 
         /// are the same or either one is RuntimeType.Any and all specified 
