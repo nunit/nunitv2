@@ -676,12 +676,24 @@ namespace NUnit.Gui
 			selectedConfig = project.Configs[(string)configComboBox.SelectedItem];
 
 			RuntimeFramework framework = selectedConfig.RuntimeFramework;
-			RuntimeType runtime = framework == null ? RuntimeType.Any : framework.Runtime;
+
+			RuntimeType runtime = RuntimeType.Any;
+            Version version = RuntimeFramework.AnyVersion;
+
+            if (framework != null)
+            {
+                runtime = framework.Runtime;
+                version = framework.ClrVersion;
+            }
+
 			int index = runtimeComboBox.FindStringExact(runtime.ToString(), 0);
 			if ( index < 0 ) index = 0;
 			runtimeComboBox.SelectedIndex = index;
-			if ( framework != null )
-				runtimeVersionComboBox.Text = framework.ClrVersion.ToString();
+
+            if (framework == null || framework.AllowAnyVersion)
+                runtimeVersionComboBox.SelectedIndex = 0;
+            else
+				runtimeVersionComboBox.Text = version.ToString();
 			
 			applicationBaseTextBox.Text = selectedConfig.RelativeBasePath;
 
@@ -1012,18 +1024,15 @@ namespace NUnit.Gui
 
         private void runtimeVersionComboBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (runtimeVersionComboBox.Text != string.Empty)
+            try
             {
-                try
-                {
-                    Version version = new Version(runtimeVersionComboBox.Text);
-                }
-                catch (Exception ex)
-                {
-                    runtimeVersionComboBox.SelectAll();
-                    UserMessage.DisplayFailure(ex, "Invalid Runtime Version");
-                    e.Cancel = true;
-                }
+                Version v = this.RuntimeVersion;
+            }
+            catch (Exception ex)
+            {
+                runtimeVersionComboBox.SelectAll();
+                UserMessage.DisplayFailure(ex, "Invalid Runtime Version");
+                e.Cancel = true;
             }
         }
 
@@ -1034,10 +1043,37 @@ namespace NUnit.Gui
 
         private void SetRuntimeFramework()
         {
-            selectedConfig.RuntimeFramework = RuntimeFramework.Parse(
-                (string)runtimeComboBox.SelectedItem + "-" + runtimeVersionComboBox.Text);
+            selectedConfig.RuntimeFramework = new RuntimeFramework(this.RuntimeType, this.RuntimeVersion);
         }
 
+        private RuntimeType RuntimeType
+        {
+            get
+            {
+                int index = runtimeComboBox.SelectedIndex;
+                if (index < 0)
+                    return RuntimeType.Any;
+
+                string s = runtimeComboBox.SelectedItem.ToString();
+                return (RuntimeType)Enum.Parse(typeof(RuntimeType), s);
+            }
+        }
+
+        private Version RuntimeVersion
+        {
+            get
+            {
+                int index = runtimeVersionComboBox.SelectedIndex;
+                if (index < 0)
+                    return RuntimeFramework.AnyVersion;
+
+                string s = runtimeVersionComboBox.SelectedItem.ToString();
+                return s == string.Empty || s == "Any"
+                    ? RuntimeFramework.AnyVersion
+                    : new Version(s);
+            }
+        }
+        
         #endregion
 
 		#region PrivateBinPath Methods and Events
@@ -1165,15 +1201,16 @@ namespace NUnit.Gui
 			projectPathLabel.Text = project.ProjectPath;
 			projectBaseTextBox.Text = project.BasePath;
 
-			configComboBox_Populate();
+            this.runtimeVersionComboBox.Items.Add("Any");
+            foreach (Version v in RuntimeFramework.KnownClrVersions)
+                this.runtimeVersionComboBox.Items.Add(v.ToString(3));
+
+            configComboBox_Populate();
 			populateDomainUsageComboBox();
 
             this.ProcessModel = project.ProcessModel;
             this.DomainUsage = project.DomainUsage;
 
-            foreach( Version v in RuntimeFramework.KnownClrVersions )
-                this.runtimeVersionComboBox.Items.Add( v.ToString(3) );
-            
 			this.processModelComboBox.SelectedIndexChanged += new System.EventHandler(this.processModelComboBox_SelectedIndexChanged);
 			this.domainUsageComboBox.SelectedIndexChanged += new System.EventHandler(this.domainUsageComboBox_SelectedIndexChanged);
 			this.runtimeComboBox.SelectedIndexChanged += new System.EventHandler(this.runtimeComboBox_SelectedIndexChanged);

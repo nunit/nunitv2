@@ -38,27 +38,28 @@ namespace NUnit.Core.Tests
             Assert.That(foundCurrent, "CurrentFramework not listed");
         }
 
-        [TestCase(RuntimeType.Net, "1.0", "1.0.3705")]
-        [TestCase(RuntimeType.Net, "1.0.3705", "1.0.3705")]
-        [TestCase(RuntimeType.Net, "1.1", "1.1.4322")]
-        [TestCase(RuntimeType.Net, "1.1.4322", "1.1.4322")]
-        [TestCase(RuntimeType.Net, "2.0", "2.0.50727")]
-        [TestCase(RuntimeType.Net, "2.0.40607", "2.0.40607")]
-        [TestCase(RuntimeType.Net, "2.0.50727", "2.0.50727")]
-        [TestCase(RuntimeType.Net, "3.0", "2.0.50727")]
-        [TestCase(RuntimeType.Net, "3.5", "2.0.50727")]
-        [TestCase(RuntimeType.Net, "4.0", "4.0.21006")]
-        [TestCase(RuntimeType.Mono, "1.0", "1.1.4322")]
-        [TestCase(RuntimeType.Mono, "2.0", "2.0.50727")]
-        [TestCase(RuntimeType.Mono, "2.0.50727", "2.0.50727")]
-        [TestCase(RuntimeType.Mono, "3.5", "2.0.50727")]
-        public void CanCreateNewRuntimeFramework(RuntimeType runtime, string v, string clr)
+        [TestCaseSource("frameworkData")]
+        public void CanCreateNewRuntimeFramework(FrameworkData data)
         {
-            Version frameworkVersion = new Version(v);
-            Version clrVersion = new Version(clr);
-            RuntimeFramework framework = new RuntimeFramework(runtime, frameworkVersion);
-            Assert.AreEqual(runtime, framework.Runtime);
-            Assert.AreEqual(clrVersion, framework.ClrVersion);
+            RuntimeFramework framework = new RuntimeFramework(data.runtime, data.frameworkVersion);
+            Assert.AreEqual(data.runtime, framework.Runtime);
+            Assert.AreEqual(data.clrVersion, framework.ClrVersion);
+        }
+
+        [TestCaseSource("frameworkData")]
+        public void CanParseRuntimeFramework(FrameworkData data)
+        {
+            RuntimeFramework framework = RuntimeFramework.Parse(data.representation);
+            Assert.AreEqual(data.runtime, framework.Runtime);
+            Assert.AreEqual(data.clrVersion, framework.ClrVersion);
+        }
+
+        [TestCaseSource("frameworkData")]
+        public void CanDisplayFrameworkAsString(FrameworkData data)
+        {
+            RuntimeFramework framework = new RuntimeFramework(data.runtime, data.frameworkVersion);
+            Assert.AreEqual(data.representation, framework.ToString());
+            Assert.AreEqual(data.displayName, framework.DisplayName);
         }
 
         [TestCaseSource("matchData")]
@@ -103,7 +104,88 @@ namespace NUnit.Core.Tests
             new TestCaseData(
                 new RuntimeFramework(RuntimeType.Mono, new Version(1,1)), // non-existent version but it works
                 new RuntimeFramework(RuntimeType.Mono, new Version(1,0))) 
+                .Returns(true),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Mono, new Version(2,0)),
+                new RuntimeFramework(RuntimeType.Any, new Version(2,0)))
+                .Returns(true),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Any, new Version(2,0)),
+                new RuntimeFramework(RuntimeType.Mono, new Version(2,0)))
+                .Returns(true),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Any, new Version(2,0)),
+                new RuntimeFramework(RuntimeType.Any, new Version(2,0)))
+                .Returns(true),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Any, new Version(2,0)),
+                new RuntimeFramework(RuntimeType.Any, new Version(4,0)))
+                .Returns(false),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Net, RuntimeFramework.AnyVersion), 
+                new RuntimeFramework(RuntimeType.Net, new Version(2,0))) 
+                .Returns(true),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Net, new Version(2,0)),
+                new RuntimeFramework(RuntimeType.Net, RuntimeFramework.AnyVersion)) 
+                .Returns(true),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Any, RuntimeFramework.AnyVersion), 
+                new RuntimeFramework(RuntimeType.Net, new Version(2,0))) 
+                .Returns(true),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Net, new Version(2,0)),
+                new RuntimeFramework(RuntimeType.Any, RuntimeFramework.AnyVersion)) 
                 .Returns(true)
             };
+
+        public struct FrameworkData
+        {
+            public RuntimeType runtime;
+            public Version frameworkVersion;
+            public Version clrVersion;
+            public string representation;
+            public string displayName;
+
+            public FrameworkData(RuntimeType runtime, Version frameworkVersion, Version clrVersion,
+                string representation, string displayName)
+            {
+                this.runtime = runtime;
+                this.frameworkVersion = frameworkVersion;
+                this.clrVersion = clrVersion;
+                this.representation = representation;
+                this.displayName = displayName;
+            }
+
+            public override string ToString()
+            {
+                return string.Format("<{0}-{1}>", this.runtime, this.frameworkVersion);
+            }
+        }
+
+        private FrameworkData[] frameworkData = new FrameworkData[] {
+            new FrameworkData(RuntimeType.Net, new Version(1,0), new Version(1,0,3705), "net-1.0", "Net 1.0"),
+            new FrameworkData(RuntimeType.Net, new Version(1,0,3705), new Version(1,0,3705), "net-1.0.3705", "Net 1.0.3705"),
+            new FrameworkData(RuntimeType.Net, new Version(1,1), new Version(1,1,4322), "net-1.1", "Net 1.1"),
+            new FrameworkData(RuntimeType.Net, new Version(1,1,4322), new Version(1,1,4322), "net-1.1.4322", "Net 1.1.4322"),
+            new FrameworkData(RuntimeType.Net, new Version(2,0), new Version(2,0,50727), "net-2.0", "Net 2.0"),
+            new FrameworkData(RuntimeType.Net, new Version(2,0,40607), new Version(2,0,40607), "net-2.0.40607", "Net 2.0.40607"),
+            new FrameworkData(RuntimeType.Net, new Version(2,0,50727), new Version(2,0,50727), "net-2.0.50727", "Net 2.0.50727"),
+            new FrameworkData(RuntimeType.Net, new Version(3,0), new Version(2,0,50727), "net-3.0", "Net 3.0"),
+            new FrameworkData(RuntimeType.Net, new Version(3,5), new Version(2,0,50727), "net-3.5", "Net 3.5"),
+            new FrameworkData(RuntimeType.Net, new Version(4,0), new Version(4,0,21006), "net-4.0", "Net 4.0"),
+            new FrameworkData(RuntimeType.Net, RuntimeFramework.AnyVersion, RuntimeFramework.AnyVersion, "net", "Net"),
+            new FrameworkData(RuntimeType.Mono, new Version(1,0), new Version(1,1,4322), "mono-1.0", "Mono 1.0"),
+            new FrameworkData(RuntimeType.Mono, new Version(2,0), new Version(2,0,50727), "mono-2.0", "Mono 2.0"),
+            new FrameworkData(RuntimeType.Mono, new Version(2,0,50727), new Version(2,0,50727), "mono-2.0.50727", "Mono 2.0.50727"),
+            new FrameworkData(RuntimeType.Mono, new Version(3,5), new Version(2,0,50727), "mono-3.5", "Mono 3.5"),
+            new FrameworkData(RuntimeType.Mono, RuntimeFramework.AnyVersion, RuntimeFramework.AnyVersion, "mono", "Mono"),
+            new FrameworkData(RuntimeType.Any, new Version(1,1), new Version(1,1,4322), "v1.1", "v1.1"),
+            new FrameworkData(RuntimeType.Any, new Version(2,0), new Version(2,0,50727), "v2.0", "v2.0"),
+            new FrameworkData(RuntimeType.Any, new Version(2,0,50727), new Version(2,0,50727), "v2.0.50727", "v2.0.50727"),
+            new FrameworkData(RuntimeType.Any, new Version(3,5), new Version(2,0,50727), "v3.5", "v3.5"),
+            new FrameworkData(RuntimeType.Any, new Version(4,0), new Version(4,0,21006), "v4.0", "v4.0"),
+            new FrameworkData(RuntimeType.Any, RuntimeFramework.AnyVersion, RuntimeFramework.AnyVersion, "any", "Any")
+        };
     }
 }

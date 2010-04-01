@@ -37,6 +37,13 @@ namespace NUnit.Core
 	public sealed class RuntimeFramework
     {
         #region Static and Instance Fields
+
+        /// <summary>
+        /// AnyVersion is an empty Version, used to indicate that
+        /// any CLR version may be used to match a framework selection.
+        /// </summary>
+        public static readonly Version AnyVersion = new Version();
+
         private static RuntimeFramework currentFramework;
         private static Version[] knownClrVersions = new Version[] {
             new Version( "1.0.3705" ),
@@ -62,21 +69,26 @@ namespace NUnit.Core
                 if (currentFramework == null)
                 {
                     Type monoRuntimeType = Type.GetType("Mono.Runtime", false);
-                    RuntimeType runtime = monoRuntimeType != null
-                        ? RuntimeType.Mono : RuntimeType.Net;
+                    bool isMono = monoRuntimeType != null;
 
-                    if (monoRuntimeType != null)
+                    RuntimeType runtime = isMono ? RuntimeType.Mono : RuntimeType.Net;
+
+                    int major = Environment.Version.Major;
+                    int minor = Environment.Version.Minor;
+
+                    if (isMono && major == 1)
+                        minor = 0;
+
+                    currentFramework = new RuntimeFramework(runtime, new Version(major, minor));
+                    currentFramework.clrVersion = Environment.Version;
+
+                    if (isMono)
                     {
-                        currentFramework =  Environment.Version.Major == 1
-                            ? new RuntimeFramework(RuntimeType.Mono, new Version(1,0))
-                            : new RuntimeFramework(RuntimeType.Mono, Environment.Version);
                         MethodInfo getDisplayNameMethod = monoRuntimeType.GetMethod(
                             "GetDisplayName", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.ExactBinding);
                         if (getDisplayNameMethod != null)
                             currentFramework.displayName = (string)getDisplayNameMethod.Invoke(null, new object[0]);
                     }
-                    else
-                        currentFramework = new RuntimeFramework(runtime, Environment.Version);
                 }
 
                 return currentFramework;
@@ -121,7 +133,7 @@ namespace NUnit.Core
         public static RuntimeFramework Parse(string s)
         {
             RuntimeType runtime = RuntimeType.Any;
-            Version version = new Version();
+            Version version = AnyVersion;
 
             string[] parts = s.Split(new char[] { '-' });
             if (parts.Length == 2)
@@ -135,12 +147,25 @@ namespace NUnit.Core
             {
                 version = new Version(s.Substring(1));
             }
-            else
+            else if (IsRuntimeTypeName(s))
             {
                 runtime = (RuntimeType)System.Enum.Parse(typeof(RuntimeType), s, true);
             }
+            else
+            {
+                version = new Version(s);
+            }
 
             return new RuntimeFramework(runtime, version);
+        }
+
+        private static bool IsRuntimeTypeName(string name)
+        {
+            foreach(string item in Enum.GetNames(typeof(RuntimeType)))
+                if (item.ToLower() == name.ToLower())
+                    return true;
+
+            return false;
         }
 
         /// <summary>
@@ -295,11 +320,28 @@ namespace NUnit.Core
         }
 
         /// <summary>
+        /// The framework version for this runtime framework
+        /// </summary>
+        public Version FrameworkVersion
+        {
+            get { return frameworkVersion; }
+        }
+
+        /// <summary>
         /// The CLR version for this runtime framework
         /// </summary>
         public Version ClrVersion
         {
             get { return clrVersion; }
+        }
+
+        /// <summary>
+        /// Return true if any CLR version may be used in
+        /// matching this RuntimeFramework object.
+        /// </summary>
+        public bool AllowAnyVersion
+        {
+            get { return this.clrVersion == AnyVersion; }
         }
 
         /// <summary>
@@ -310,18 +352,14 @@ namespace NUnit.Core
             get { return displayName; }
         }
 
-        /// <summary>
-        /// Indicates whether the current framework is available on
-        /// this machine.
-        /// </summary>
-        //public bool IsAvailable
-        //{
-        //    get { return IsAvailable(this); }
-        //}
-
         private static string DefaultDisplayName(RuntimeType runtime, Version version)
         {
-            return runtime.ToString() + " " + version.ToString();
+            if (version == AnyVersion)
+                return runtime.ToString();
+            else if (runtime == RuntimeType.Any)
+                return "v" + version.ToString();
+            else
+                return runtime.ToString() + " " + version.ToString();
         }
 
         /// <summary>
@@ -364,11 +402,18 @@ namespace NUnit.Core
         /// <returns></returns>
 		public override string ToString()
 		{
-            string vstring = frameworkVersion.ToString();
-            if (runtime == RuntimeType.Any)
-                return "v" + vstring;
+            if (this.AllowAnyVersion)
+            {
+                return runtime.ToString().ToLower();
+            }
             else
-                return runtime.ToString().ToLower() + "-" + vstring;
+            {
+                string vstring = frameworkVersion.ToString();
+                if (runtime == RuntimeType.Any)
+                    return "v" + vstring;
+                else
+                    return runtime.ToString().ToLower() + "-" + vstring;
+            }
 		}
 
         /// <summary>
@@ -382,10 +427,15 @@ namespace NUnit.Core
         /// <returns>True on match, otherwise false</returns>
         public bool MatchesClr(RuntimeFramework other)
         {
-            return (   this.Runtime == RuntimeType.Any
-                    || other.Runtime == RuntimeType.Any
-                    || this.Runtime == other.Runtime )
-                && this.ClrVersion.Major == other.ClrVersion.Major
+            if (this.Runtime != RuntimeType.Any
+                && other.Runtime != RuntimeType.Any
+                && this.Runtime != other.Runtime)
+                return false;
+
+            if (this.AllowAnyVersion || other.AllowAnyVersion)
+                return true;
+
+            return this.ClrVersion.Major == other.ClrVersion.Major
                 && this.ClrVersion.Minor == other.ClrVersion.Minor
                 && (   this.ClrVersion.Build < 0 
                     || other.ClrVersion.Build < 0 

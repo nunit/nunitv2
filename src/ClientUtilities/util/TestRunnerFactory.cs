@@ -27,15 +27,32 @@ namespace NUnit.Util
         {
             RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
             RuntimeFramework targetFramework = package.Settings["RuntimeFramework"] as RuntimeFramework;
+
+            log.Debug("Current framework is {0}", currentFramework);
+            if (targetFramework == null)
+                log.Debug("No specific framework requested");
+            else
+                log.Debug("Requested framework is {0}", targetFramework);
+
             if (targetFramework == null)
                 targetFramework = currentFramework;
             else if (targetFramework.Runtime == RuntimeType.Any)
             {
-                targetFramework = new RuntimeFramework(currentFramework.Runtime, targetFramework.ClrVersion);
+                if (targetFramework.AllowAnyVersion)
+                    targetFramework = currentFramework;
+                else
+                {
+                    targetFramework = new RuntimeFramework(currentFramework.Runtime, targetFramework.FrameworkVersion);
+                    package.Settings["RuntimeFramework"] = targetFramework;
+                }
+            }
+            else if (targetFramework.AllowAnyVersion)
+            {
+                targetFramework = new RuntimeFramework(targetFramework.Runtime, currentFramework.FrameworkVersion);
                 package.Settings["RuntimeFramework"] = targetFramework;
             }
 
-            log.Debug("Test requires {0} framework", targetFramework);
+            log.Debug("Will use {0} framework", targetFramework);
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if ( processModel == ProcessModel.Default )
