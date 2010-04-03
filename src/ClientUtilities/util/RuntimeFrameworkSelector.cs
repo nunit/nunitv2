@@ -10,7 +10,7 @@ namespace NUnit.Util
 {
     public class RuntimeFrameworkSelector : IRuntimeFrameworkSelector
     {
-        static Logger log = InternalTrace.GetLogger(typeof(TestRunnerFactory));
+        static Logger log = InternalTrace.GetLogger(typeof(RuntimeFrameworkSelector));
 
         /// <summary>
         /// Selects a target runtime framework for a TestPackage based on
@@ -47,19 +47,23 @@ namespace NUnit.Util
                 {
                     AssemblyReader reader = new AssemblyReader(assembly);
                     Version v = new Version(reader.ImageRuntimeVersion.Substring(1));
+                    log.Debug("Assembly {0} uses version {1}", assembly, v);
                     if (v > targetVersion) targetVersion = v;
                 }
-                
+
                 RuntimeFramework checkFramework = new RuntimeFramework(targetRuntime, targetVersion);
                 if (!RuntimeFramework.IsAvailable(checkFramework) || NUnitConfiguration.GetTestAgentExePath(targetVersion) == null)
+                {
+                    log.Debug("Preferred version {0} is not installed or this NUnit installation does not support it", targetVersion);
                     if (targetVersion < currentFramework.FrameworkVersion)
                         targetVersion = currentFramework.FrameworkVersion;
+                }
             }
 
             RuntimeFramework targetFramework = new RuntimeFramework(targetRuntime, targetVersion);
             package.Settings["RuntimeFramework"] = targetFramework;
 
-            log.Debug("Test requires {0} framework", targetFramework);
+            log.Debug("Test will use {0} framework", targetFramework);
 
             return targetFramework;
         }
