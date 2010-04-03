@@ -39,6 +39,11 @@ namespace NUnit.Agent
             AgentId = new Guid(args[0]);
             AgencyUrl = args[1];
 
+#if DEBUG
+            if ( args.Length > 2 && args[2] == "--pause" )
+                System.Windows.Forms.MessageBox.Show( "Attach debugger if desired, then press OK", "NUnit-Agent");
+#endif
+
             InternalTrace.Initialize("nunit-agent_%p.log");
 			log.Info("Agent process {0} starting", Process.GetCurrentProcess().Id);
             log.Info("Running under version {0}, {1}", 

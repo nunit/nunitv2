@@ -1,5 +1,5 @@
 ﻿// ****************************************************************
-// Copyright 2008, Charlie Poole
+// Copyright 2010, Charlie Poole
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
@@ -13,7 +13,7 @@ namespace NUnit.Util
     /// </summary>
     public class TestRunnerFactory
     {
-        static Logger log = InternalTrace.GetLogger(typeof(TestRunnerFactory));
+        private RuntimeFrameworkSelector selector = new RuntimeFrameworkSelector();
 
         /// <summary>
         /// Returns a test runner based on the settings in a TestPackage.
@@ -23,36 +23,10 @@ namespace NUnit.Util
         /// </summary>
         /// <param name="package">The TestPackage to be loaded and run</param>
         /// <returns>A TestRunner</returns>
-        public static TestRunner MakeTestRunner(TestPackage package)
+        public TestRunner MakeTestRunner(TestPackage package)
         {
             RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
-            RuntimeFramework targetFramework = package.Settings["RuntimeFramework"] as RuntimeFramework;
-
-            log.Debug("Current framework is {0}", currentFramework);
-            if (targetFramework == null)
-                log.Debug("No specific framework requested");
-            else
-                log.Debug("Requested framework is {0}", targetFramework);
-
-            if (targetFramework == null)
-                targetFramework = currentFramework;
-            else if (targetFramework.Runtime == RuntimeType.Any)
-            {
-                if (targetFramework.AllowAnyVersion)
-                    targetFramework = currentFramework;
-                else
-                {
-                    targetFramework = new RuntimeFramework(currentFramework.Runtime, targetFramework.FrameworkVersion);
-                    package.Settings["RuntimeFramework"] = targetFramework;
-                }
-            }
-            else if (targetFramework.AllowAnyVersion)
-            {
-                targetFramework = new RuntimeFramework(targetFramework.Runtime, currentFramework.FrameworkVersion);
-                package.Settings["RuntimeFramework"] = targetFramework;
-            }
-
-            log.Debug("Will use {0} framework", targetFramework);
+            RuntimeFramework targetFramework = selector.SelectRuntimeFramework(package);
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if ( processModel == ProcessModel.Default )
@@ -83,5 +57,6 @@ namespace NUnit.Util
                     }
             }
         }
+
     }
 }

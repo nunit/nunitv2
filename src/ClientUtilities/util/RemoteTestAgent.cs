@@ -100,7 +100,7 @@ namespace NUnit.Util
 
             public override bool Load(TestPackage package)
             {
-                this.TestRunner = TestRunnerFactory.MakeTestRunner(package);
+                this.TestRunner = new TestRunnerFactory().MakeTestRunner(package);
                 
                 return base.Load(package);
             }

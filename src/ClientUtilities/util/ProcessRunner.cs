@@ -41,20 +41,17 @@ namespace NUnit.Util
             if ( runtimeFramework == null )
                  runtimeFramework = RuntimeFramework.CurrentFramework;
 
+            bool enableDebug = package.GetSetting("EnableDebug", false);
+
             bool loaded = false;
 
 			try
 			{
 				if (this.agent == null)
-                    if (runtimeFramework.IsMono)
-                        this.agent = Services.TestAgency.GetAgent(
-                            runtimeFramework,
-                            20000,
-                            true); // TODO: Replace this with a setting
-                    else
-                        this.agent = Services.TestAgency.GetAgent(
-                            runtimeFramework,
-                            20000);
+                    this.agent = Services.TestAgency.GetAgent(
+                        runtimeFramework,
+                        20000,
+                        enableDebug);
 		
 				if (this.agent == null)
 					return false;

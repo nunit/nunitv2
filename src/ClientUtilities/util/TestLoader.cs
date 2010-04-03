@@ -445,7 +445,7 @@ namespace NUnit.Util
 				events.FireTestLoading( TestFileName );
 
                 TestPackage package = MakeTestPackage(testName);
-				testRunner = TestRunnerFactory.MakeTestRunner(package);
+				testRunner = new TestRunnerFactory().MakeTestRunner(package);
 
                 bool loaded = testRunner.Load(package);
 
@@ -554,7 +554,7 @@ namespace NUnit.Util
                     package.Settings["RuntimeFramework"] = framework;
 
                 testRunner.Unload();
-                testRunner = TestRunnerFactory.MakeTestRunner(package);
+                testRunner = new TestRunnerFactory().MakeTestRunner(package);
 
                 if (testRunner.Load(package))
                     this.currentFramework = package.Settings.Contains("RuntimeFramework")

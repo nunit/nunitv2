@@ -141,17 +141,14 @@
     <Compile Include="..\..\..\..\src\ClientUtilities\util\Extensibility\ProjectConverterCollection.cs">
       <Link>Extensibility\ProjectConverterCollection.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\util\ISettings.cs">
-      <Link>ISettings.cs</Link>
-      <SubType>Code</SubType>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\Interfaces\ISettings.cs">
+      <Link>Interfaces\ISettings.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\util\ITestEvents.cs">
-      <Link>ITestEvents.cs</Link>
-      <SubType>Code</SubType>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\Interfaces\ITestEvents.cs">
+      <Link>Interfaces\ITestEvents.cs</Link>
     </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\util\ITestLoader.cs">
-      <Link>ITestLoader.cs</Link>
-      <SubType>Code</SubType>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\Interfaces\ITestLoader.cs">
+      <Link>Interfaces\ITestLoader.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\MemorySettingsStorage.cs">
       <Link>MemorySettingsStorage.cs</Link>
@@ -328,6 +325,12 @@
     </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\TestRunnerFactory.cs">
       <Link>TestRunnerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\Interfaces\IRuntimeFrameworkSelector.cs">
+      <Link>Interfaces\IRuntimeFrameworkSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\RuntimeFrameworkSelector.cs">
+      <Link>RuntimeFrameworkSelector.cs</Link>
     </Compile>
     <EmbeddedResource Include="..\..\..\..\src\ClientUtilities\util\Transform.resx">
       <Link>Transform.resx</Link>

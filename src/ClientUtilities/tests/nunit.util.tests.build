@@ -21,6 +21,7 @@
         <include name="RecentFilesTests.cs"/>
         <include name="RegistrySettingsStorageTests.cs"/>
         <include name="RemoteTestResultTest.cs"/>
+        <include name="RuntimeFrameworkSelectorTests.cs"/>
         <include name="ServerUtilityTests.cs"/>
         <include name="ServiceManagerSetUpFixture.cs"/>
         <include name="SettingsGroupTests.cs"/>

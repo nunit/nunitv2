@@ -10,9 +10,6 @@
         <include name="CategoryManager.cs"/>
         <include name="CommandLineOptions.cs"/>
         <include name="ConsoleWriter.cs"/>
-        <include name="ISettings.cs"/>
-        <include name="ITestEvents.cs"/>
-        <include name="ITestLoader.cs"/>
         <include name="MemorySettingsStorage.cs"/>
         <include name="NUnitProject.cs"/>
         <include name="NUnitRegistry.cs"/>
@@ -27,6 +24,7 @@
         <include name="RegistrySettingsStorage.cs"/>
         <include name="RemoteTestAgent.cs"/>
         <include name="ResultSummarizer.cs"/>
+        <include name="RuntimeFrameworkSelector.cs"/>
         <include name="ServerBase.cs"/>
         <include name="ServerUtilities.cs"/>
         <include name="Services.cs"/>
@@ -50,6 +48,10 @@
         <include name="XmlSettingsStorage.cs"/>
         <include name="Extensibility/IProjectConverter.cs"/>
         <include name="Extensibility/ProjectConverterCollection.cs"/>
+        <include name="Interfaces/IRuntimeFrameworkSelector.cs"/>
+        <include name="Interfaces/ISettings.cs"/>
+        <include name="Interfaces/ITestEvents.cs"/>
+        <include name="Interfaces/ITestLoader.cs"/>
         <include name="ProjectConverters/VisualStudioConverter.cs"/>
         <include name="Services/AddinManager.cs"/>
         <include name="Services/AddinRegistry.cs"/>

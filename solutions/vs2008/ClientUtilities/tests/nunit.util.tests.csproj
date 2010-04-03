@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{74EF7165-117E-48ED-98EA-068EAE438E53}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -272,6 +272,12 @@
     <Compile Include="..\..\..\..\src\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\tests\RuntimeFrameworkSelectorTests.cs">
+      <Link>RuntimeFrameworkSelectorTests.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\tests\TestRunnerFactoryTests.cs">
+      <Link>TestRunnerFactoryTests.cs</Link>
     </Compile>
     <EmbeddedResource Include="..\..\..\..\src\ClientUtilities\tests\resources\ClassLibrary1.csproj">
       <Link>resources\ClassLibrary1.csproj</Link>
