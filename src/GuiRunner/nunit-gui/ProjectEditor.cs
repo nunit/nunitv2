@@ -678,7 +678,7 @@ namespace NUnit.Gui
 			RuntimeFramework framework = selectedConfig.RuntimeFramework;
 
 			RuntimeType runtime = RuntimeType.Any;
-            Version version = RuntimeFramework.AnyVersion;
+            Version version = RuntimeFramework.DefaultVersion;
 
             if (framework != null)
             {
@@ -1065,11 +1065,11 @@ namespace NUnit.Gui
             {
                 int index = runtimeVersionComboBox.SelectedIndex;
                 if (index < 0)
-                    return RuntimeFramework.AnyVersion;
+                    return RuntimeFramework.DefaultVersion;
 
                 string s = runtimeVersionComboBox.SelectedItem.ToString();
-                return s == string.Empty || s == "Any"
-                    ? RuntimeFramework.AnyVersion
+                return s == string.Empty || s == "Default"
+                    ? RuntimeFramework.DefaultVersion
                     : new Version(s);
             }
         }
@@ -1201,7 +1201,7 @@ namespace NUnit.Gui
 			projectPathLabel.Text = project.ProjectPath;
 			projectBaseTextBox.Text = project.BasePath;
 
-            this.runtimeVersionComboBox.Items.Add("Any");
+            this.runtimeVersionComboBox.Items.Add("Default");
             foreach (Version v in RuntimeFramework.KnownClrVersions)
                 this.runtimeVersionComboBox.Items.Add(v.ToString(3));
 

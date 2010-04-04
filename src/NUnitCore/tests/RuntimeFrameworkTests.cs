@@ -122,20 +122,20 @@ namespace NUnit.Core.Tests
                 new RuntimeFramework(RuntimeType.Any, new Version(4,0)))
                 .Returns(false),
             new TestCaseData(
-                new RuntimeFramework(RuntimeType.Net, RuntimeFramework.AnyVersion), 
+                new RuntimeFramework(RuntimeType.Net, RuntimeFramework.DefaultVersion), 
                 new RuntimeFramework(RuntimeType.Net, new Version(2,0))) 
                 .Returns(true),
             new TestCaseData(
                 new RuntimeFramework(RuntimeType.Net, new Version(2,0)),
-                new RuntimeFramework(RuntimeType.Net, RuntimeFramework.AnyVersion)) 
+                new RuntimeFramework(RuntimeType.Net, RuntimeFramework.DefaultVersion)) 
                 .Returns(true),
             new TestCaseData(
-                new RuntimeFramework(RuntimeType.Any, RuntimeFramework.AnyVersion), 
+                new RuntimeFramework(RuntimeType.Any, RuntimeFramework.DefaultVersion), 
                 new RuntimeFramework(RuntimeType.Net, new Version(2,0))) 
                 .Returns(true),
             new TestCaseData(
                 new RuntimeFramework(RuntimeType.Net, new Version(2,0)),
-                new RuntimeFramework(RuntimeType.Any, RuntimeFramework.AnyVersion)) 
+                new RuntimeFramework(RuntimeType.Any, RuntimeFramework.DefaultVersion)) 
                 .Returns(true)
             };
 
@@ -174,18 +174,18 @@ namespace NUnit.Core.Tests
             new FrameworkData(RuntimeType.Net, new Version(3,0), new Version(2,0,50727), "net-3.0", "Net 3.0"),
             new FrameworkData(RuntimeType.Net, new Version(3,5), new Version(2,0,50727), "net-3.5", "Net 3.5"),
             new FrameworkData(RuntimeType.Net, new Version(4,0), new Version(4,0,21006), "net-4.0", "Net 4.0"),
-            new FrameworkData(RuntimeType.Net, RuntimeFramework.AnyVersion, RuntimeFramework.AnyVersion, "net", "Net"),
+            new FrameworkData(RuntimeType.Net, RuntimeFramework.DefaultVersion, RuntimeFramework.DefaultVersion, "net", "Net"),
             new FrameworkData(RuntimeType.Mono, new Version(1,0), new Version(1,1,4322), "mono-1.0", "Mono 1.0"),
             new FrameworkData(RuntimeType.Mono, new Version(2,0), new Version(2,0,50727), "mono-2.0", "Mono 2.0"),
             new FrameworkData(RuntimeType.Mono, new Version(2,0,50727), new Version(2,0,50727), "mono-2.0.50727", "Mono 2.0.50727"),
             new FrameworkData(RuntimeType.Mono, new Version(3,5), new Version(2,0,50727), "mono-3.5", "Mono 3.5"),
-            new FrameworkData(RuntimeType.Mono, RuntimeFramework.AnyVersion, RuntimeFramework.AnyVersion, "mono", "Mono"),
+            new FrameworkData(RuntimeType.Mono, RuntimeFramework.DefaultVersion, RuntimeFramework.DefaultVersion, "mono", "Mono"),
             new FrameworkData(RuntimeType.Any, new Version(1,1), new Version(1,1,4322), "v1.1", "v1.1"),
             new FrameworkData(RuntimeType.Any, new Version(2,0), new Version(2,0,50727), "v2.0", "v2.0"),
             new FrameworkData(RuntimeType.Any, new Version(2,0,50727), new Version(2,0,50727), "v2.0.50727", "v2.0.50727"),
             new FrameworkData(RuntimeType.Any, new Version(3,5), new Version(2,0,50727), "v3.5", "v3.5"),
             new FrameworkData(RuntimeType.Any, new Version(4,0), new Version(4,0,21006), "v4.0", "v4.0"),
-            new FrameworkData(RuntimeType.Any, RuntimeFramework.AnyVersion, RuntimeFramework.AnyVersion, "any", "Any")
+            new FrameworkData(RuntimeType.Any, RuntimeFramework.DefaultVersion, RuntimeFramework.DefaultVersion, "any", "Any")
         };
     }
 }

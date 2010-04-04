@@ -35,13 +35,13 @@ namespace NUnit.Util
                 ? RuntimeType.Any 
                 : requestedFramework.Runtime;
             Version targetVersion = requestedFramework == null
-                ? RuntimeFramework.AnyVersion
+                ? RuntimeFramework.DefaultVersion
                 : requestedFramework.FrameworkVersion;
 
             if (targetRuntime == RuntimeType.Any)
                 targetRuntime = currentFramework.Runtime;
 
-            if (targetVersion == RuntimeFramework.AnyVersion)
+            if (targetVersion == RuntimeFramework.DefaultVersion)
             {
                 foreach (string assembly in package.Assemblies)
                 {

@@ -39,10 +39,10 @@ namespace NUnit.Core
         #region Static and Instance Fields
 
         /// <summary>
-        /// AnyVersion is an empty Version, used to indicate that
-        /// any CLR version may be used to match a framework selection.
+        /// DefaultVersion is an empty Version, used to indicate that
+        /// NUnit should select the CLR version to use for the test.
         /// </summary>
-        public static readonly Version AnyVersion = new Version();
+        public static readonly Version DefaultVersion = new Version();
 
         private static RuntimeFramework currentFramework;
         private static Version[] knownClrVersions = new Version[] {
@@ -133,7 +133,7 @@ namespace NUnit.Core
         public static RuntimeFramework Parse(string s)
         {
             RuntimeType runtime = RuntimeType.Any;
-            Version version = AnyVersion;
+            Version version = DefaultVersion;
 
             string[] parts = s.Split(new char[] { '-' });
             if (parts.Length == 2)
@@ -341,7 +341,7 @@ namespace NUnit.Core
         /// </summary>
         public bool AllowAnyVersion
         {
-            get { return this.clrVersion == AnyVersion; }
+            get { return this.clrVersion == DefaultVersion; }
         }
 
         /// <summary>
@@ -354,7 +354,7 @@ namespace NUnit.Core
 
         private static string DefaultDisplayName(RuntimeType runtime, Version version)
         {
-            if (version == AnyVersion)
+            if (version == DefaultVersion)
                 return runtime.ToString();
             else if (runtime == RuntimeType.Any)
                 return "v" + version.ToString();
