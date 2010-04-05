@@ -210,7 +210,8 @@ namespace NUnit.ConsoleRunner
 			}
 			else
 			{
-				package = new TestPackage(null, options.Parameters);
+                // TODO: Figure out a better way to handle "anonymous" packages
+				package = new TestPackage((string)options.Parameters[0], options.Parameters);
 				domainUsage = DomainUsage.Multiple;
 			}
 
