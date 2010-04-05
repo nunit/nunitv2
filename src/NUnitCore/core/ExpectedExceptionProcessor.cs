@@ -239,12 +239,24 @@ namespace NUnit.Core
 
         private static Type GetExceptionType(object source)
         {
-            return Reflect.GetPropertyValue(source, PropertyNames.ExpectedException) as Type;
+            Type type = Reflect.GetPropertyValue(source, PropertyNames.ExpectedException) as Type;
+
+            // Prior to 2.5, NUnit used an 'ExceptionType' property
+            if (type == null)
+                type = Reflect.GetPropertyValue(source, PropertyNames.LegacyExceptionType) as Type;
+
+            return type;
         }
 
         private static string GetExceptionName(object source)
         {
-            return Reflect.GetPropertyValue(source, PropertyNames.ExpectedExceptionName) as string;
+            string name = Reflect.GetPropertyValue(source, PropertyNames.ExpectedExceptionName) as string;
+
+            // Prior to 2.5, NUnit used an 'ExceptionName' property
+            if (name == null)
+                name = Reflect.GetPropertyValue(source, PropertyNames.LegacyExceptionName) as string;
+
+            return name;
         }
 
         private static string GetExpectedMessage(object source)

@@ -17,8 +17,12 @@ namespace NUnit.Core
     {
         /// <summary>Exception Type expected from a test</summary>
         public static readonly string ExpectedException = "ExpectedException";
+        /// <summary>Exception Type expected from a test (pre-2.5)</summary>
+        public static readonly string LegacyExceptionType = "ExceptionType";
         /// <summary>FullName of the Exception Type expected from a test</summary>
         public static readonly string ExpectedExceptionName = "ExpectedExceptionName";
+        /// <summary>FullName of the Exception Type expected from a test (pre-2.5)</summary>
+        public static readonly string LegacyExceptionName = "ExceptionName";
         /// <summary>ExpectedException Message</summary>
         public static readonly string ExpectedMessage = "ExpectedMessage";
         /// <summary>ExpectedException MatchType</summary>
