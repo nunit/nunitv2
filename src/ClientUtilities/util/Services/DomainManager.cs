@@ -34,13 +34,9 @@ namespace NUnit.Util
 			{
 				if ( shadowCopyPath == null )
 				{
-#if NET_2_0
-    				shadowCopyPath = ConfigurationManager.AppSettings["shadowfiles.path"];
-#else
-    				shadowCopyPath = ConfigurationSettings.AppSettings["shadowfiles.path"];
-#endif
-					if ( shadowCopyPath == "" || shadowCopyPath== null )
-						shadowCopyPath = Path.Combine( Path.GetTempPath(), @"nunit20\ShadowCopyCache" );
+                    shadowCopyPath = Services.UserSettings.GetSetting("Options.TestLoader.ShadowCopyPath", "");
+                    if (shadowCopyPath == "")
+                        shadowCopyPath = Path.Combine(Path.GetTempPath(), @"nunit20\ShadowCopyCache");
 					else
 						shadowCopyPath = Environment.ExpandEnvironmentVariables(shadowCopyPath);
 				}
