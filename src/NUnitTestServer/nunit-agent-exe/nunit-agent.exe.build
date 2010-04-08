@@ -17,6 +17,7 @@
       </sources>
       <references basedir="${current.lib.dir}">
         <include name="System.Runtime.Remoting.dll"/>
+        <include name="System.Windows.Forms.dll"/>
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>
@@ -36,6 +37,7 @@
       </sources>
       <references basedir="${current.lib.dir}">
         <include name="System.Runtime.Remoting.dll"/>
+        <include name="System.Windows.Forms.dll"/>
         <include name="nunit.core.interfaces.dll"/>
         <include name="nunit.core.dll"/>
         <include name="nunit.util.dll"/>
