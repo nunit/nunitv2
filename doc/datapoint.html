@@ -24,11 +24,11 @@
 
 <div id="content">
 
-<h3>DatapointAttribute / DatapointsAttribute (NUnit 2.5)</h3>
+<h3>DatapointAttribute / DatapointsAttribute (NUnit 2.5) (Experimental)</h3>
 
 <p>The <b>Datapoint</b> and <b>Datapoints</b> attributes are used
-   to provide data for <b>Theories</b> and are ignored for normal
-   parameterized tests.
+   to provide data for <b>Theories</b> and are ignored for ordinary
+   tests - including tests with parameters.
    
 <p>When a Theory is loaded, NUnit creates arguments for each
    of its parameters by using any fields of the same type
@@ -36,12 +36,26 @@
    In addition, elements of arrays of the required type
    annotated with the <b>DatapointsAttribute</b> are also used.
    
-<p><b>Note:</b> In the final release of NUnit 2.5, NUnit will
-   automatically supply values of <b>true</b> and <b>false</b>
-   for boolean arguments and will supply all possible values
-   of any <b>enum</b> argument. For beta-2, this is not yet
-   implemented.
+<p><b>Note:</b> In the current release, these attributes are only recognized
+   when used exactly as specified above. In particular, they may not be used
+   on methods or properties and the <b>DatapointsAttribute</b> may only be
+   placed on an array. These limitations will be removed in a later release.
    
+<h4>Automatically Supplied Datapoints</h4>
+
+<p>It is normally not necessary to specify datapoints for 
+   <b>boolean</b> or <b>enum</b> arguments. Beginning with
+   version 2.5.4, NUnit automatically supplies values of <b>true</b> 
+   and <b>false</b> for <b>boolean</b> arguments and will supply all 
+   defined values of any enumeration.
+   
+<p>If for some reason you don't wish to use all possible values, you
+   can override this behavior by supplying your own datapoints. If you
+   supply any datapoints for an argument, automatic datapoint generation 
+   is suppressed.
+   
+<h4>Example</h4>
+
 <p>For an example of use, see <a href="theory.html">TheoryAttribute</a>.
    
 <h4>See also...</h4>
@@ -55,7 +69,7 @@
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.3</a></li>
+<li><a href="index.html">NUnit 2.5.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
@@ -98,12 +112,7 @@
 <li><a href="values.html">Values</a></li>
 <li><a href="valueSource.html">ValueSource</a></li>
 </ul>
-<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
-<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
-<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
-<li><a href="pnunit.html">PNUnit</a></li>
-<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
-<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>

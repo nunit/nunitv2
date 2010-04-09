@@ -25,9 +25,16 @@
 <div id="content">
 
 <h2>DirectoryAssert (NUnit 2.5)</h2>
-<p>The DirectoryAssert class provides methods for comparing two directories,
-which may be provided as DirectoryInfos or as strings 
+<p>The DirectoryAssert class provides methods for making asserts about
+file system directories, which may be provided as DirectoryInfos or as strings 
 giving the path to each directory.</p>
+
+<p> <b>DirectoryAssert.AreEqual()</b> and <b>DirectoryAssert.AreNotEqual()</b>
+compare two directories for equality. Directories are considered equal if
+they have the same FullName, Attributes, CreationTime and LastAccessTime.
+
+<p><b>Note:</b> Two different directories containing the same files are not
+considered to be equal.
 
 <div class="code" style="width: 40em"><pre>
 
@@ -55,6 +62,13 @@ DirectoryAssert.AreNotEqual( string expected, string actual,
 DirectoryAssert.AreNotEqual( string expected, string actual,
                 string message, params object[] args );
 
+</pre></div>
+
+<p><b>DirectoryAssert.IsEmpty()</b> and <b>DirectoryAssert.IsNotEmpty()</b>
+test whether the specified directory is empty.
+
+<div class="code" style="width: 40em"><pre>
+
 DirectoryAssert.IsEmpty( DirectoryInfo directory );
 DirectoryAssert.IsEmpty( DirectoryInfo directory, string message );
 DirectoryAssert.IsEmpty( DirectoryInfo directory,
@@ -74,6 +88,14 @@ DirectoryAssert.IsNotEmpty( string directory );
 DirectoryAssert.IsNotEmpty( string directory, string message );
 DirectoryAssert.IsNotEmpty( string directory,
                 string message, params object[] args );
+
+</pre></div>
+
+<p><b>DirectoryAssert.IsWithin()</b> and <b>DirectoryAssert.IsNotWithin()</b>
+test whether the second directory is a direct or indirect subdirectory
+of the first directory.
+
+<div class="code" style="width: 40em"><pre>
 
 DirectoryAssert.IsWithin( DirectoryInfo expected, DirectoryInfo actual );
 DirectoryAssert.IsWithin( DirectoryInfo expected, DirectoryInfo actual,
@@ -106,7 +128,7 @@ DirectoryAssert.IsNotWithin( string expected, string actual,
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.3</a></li>
+<li><a href="index.html">NUnit 2.5.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
@@ -125,12 +147,7 @@ DirectoryAssert.IsNotWithin( string expected, string actual,
 </ul>
 <li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="attributes.html">Attributes</a></li>
-<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
-<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
-<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
-<li><a href="pnunit.html">PNUnit</a></li>
-<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
-<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>

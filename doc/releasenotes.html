@@ -38,6 +38,56 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.5.4 - Version 2.5.4.10098 - April 8, 2010</h3>
+
+<h4>Features</h4>
+
+<ul>
+<li>NUnit now defaults to running an assembly under the runtime version for
+which it was built. If that version is not available, a higher version may be
+used. See the <a href="runtimeSelection.html">Runtime Selection</a> 
+page for details.
+<li><b>ProjectEditor</b> now provides a 'Default' selection for the runtime
+version to be used.
+<li>The XML result file format has been enhanced to provide additional information
+needed to identify and report on theories and also includes extended result states
+such as Inconclusive, Invalid, Error and Cancelled.
+<li>The <b>EmptyConstraint</b> (Is.Empty) may now be used with a <b>DirectoryInfo</b>
+to test whether the directory is empty.
+<li>Datapoints for <b>boolean</b> and <b>enum</b> arguments are now generated 
+automatically for theories.
+<li>The cache path for shadow copying is now saved in the NUnit settings file
+rather than in the config files. The settings dialog may be used to change it
+if necessary.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>NUnit crashing when a message contains ']]>'
+<li>Replace compile-time exclusion of code from Mono with run-time test
+<li>Message associated with Assert.Inconclusive() not shown in XML
+<li>Category on test case clashes with category on the test method
+<li>Console crash when specifying /domain:Single with multiple assemblies
+<li>Incorrect relative path causing problems in saving projects
+<li>Message associated with Assert.Pass() not shown in XML
+<li>Tests with ExpectedException compiled against NUnit 2.4 always pass under 2.5
+<li>Datapoints with a null value were not being passed correctly to theories
+<li>Error in XML output with FSharp.Net
+<li>Documentation refers to files missing from Windows install
+<li>Parameterized test fixtures with null parameters not handled correctly
+<li>Theories now work as designed, failing when no data satisfies the assumptions
+<li>Target framework of net-3.5 was causing console to crash
+<li>Mono stack traces are now parsed correctly in the Gui
+<li>Test failures under .NET 1.1
+<li>Thread CurentPrincipal set in TestFixtureSetUp not maintained between tests
+</ul>
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.5.3 - Version 2.5.3.9345 - December 11, 2009</h3>
 
 <p><b>Note:</b> This is the first release of NUnit on Launchpad.
@@ -1066,7 +1116,9 @@ this release may be removed or changed in future releases.
 <h3>Earlier Releases</h3>
 
 <ul>
-<li>Release Notes for <a href="docs/2.4.8/releaseNotes.html">NUnit 2.4 through 2.4.8</a><li>Release Notes for <a href="docs/2.2.10/releaseNotes.html">NUnit 2.0 through 2.2.10</a></ul>
+<li>Release Notes for <a href="http://www.nunit.org/?p=releaseNotes&r=2.4.8">NUnit 2.4 through 2.4.8</a>
+<li>Release Notes for <a href="http://www.nunit.org/?p=releaseNotes&r=2.2.10">NUnit 2.0 through 2.2.10</a>
+</ul>
 
 
 </div>
@@ -1074,18 +1126,13 @@ this release may be removed or changed in future releases.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.3</a></li>
+<li><a href="index.html">NUnit 2.5.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
 <li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="attributes.html">Attributes</a></li>
-<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
-<li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
-<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
-<li><a href="pnunit.html">PNUnit</a></li>
-<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
-<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>
 <li id="current"><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
 <li><a href="samples.html">Samples</a></li>
