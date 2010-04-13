@@ -253,7 +253,15 @@ namespace NUnit.Core
            // suiteResult.Success(); // Assume success
             DoOneTimeSetUp(suiteResult);
 
-            switch( suiteResult.ResultState )
+            if (this.Properties["_SETCULTURE"] != null)
+                TestContext.CurrentCulture =
+                    new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
+
+            if (this.Properties["_SETUICULTURE"] != null)
+                TestContext.CurrentUICulture =
+                    new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
+
+            switch (suiteResult.ResultState)
             {
                 case ResultState.Failure:
                 case ResultState.Error:
@@ -286,14 +294,6 @@ namespace NUnit.Core
 					// In case TestFixture was created with fixture object
 					if (Fixture == null && !IsStaticClass( FixtureType ) )
 						CreateUserFixture();
-
-                    if (this.Properties["_SETCULTURE"] != null)
-                        TestContext.CurrentCulture =
-                            new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
-
-                    if (this.Properties["_SETUICULTURE"] != null)
-                        TestContext.CurrentUICulture =
-                            new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
 
                     if (this.fixtureSetUpMethods != null)
                         foreach( MethodInfo fixtureSetUp in fixtureSetUpMethods )

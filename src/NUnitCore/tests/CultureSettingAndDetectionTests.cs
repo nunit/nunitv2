@@ -152,5 +152,12 @@ namespace NUnit.Core.Tests
 				Assert.AreEqual( "en-GB", CultureInfo.CurrentCulture.Name );
 			}
 		}
+
+        [Test, SetCulture("de-DE")]
+        [TestCase(Result="01.06.2010 00:00:00")]
+        public string UseWithParameterizedTest()
+        {
+            return new DateTime(2010, 6, 1).ToString();
+        }
 	}
 }
