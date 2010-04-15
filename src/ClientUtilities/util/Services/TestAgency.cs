@@ -197,6 +197,10 @@ namespace NUnit.Util
                         p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.20506";
                     if (targetRuntime.ClrVersion == new Version("4.0.21006")) // Beta 2
                         p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.21006";
+                    if (targetRuntime.ClrVersion == new Version("4.0.30128")) // RC 1
+                        p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.30128";
+                    if (targetRuntime.ClrVersion == new Version("4.0.30319")) // Final
+                        p.StartInfo.EnvironmentVariables["COMPLUS_Version"] = "v4.0.30319";
 
                     p.StartInfo.Arguments = arglist;
                     break;
