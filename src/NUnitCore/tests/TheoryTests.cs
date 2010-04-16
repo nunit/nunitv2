@@ -105,22 +105,10 @@ namespace NUnit.Core.Tests
             Assert.That(result.Message, Is.EqualTo("All test cases were inconclusive"));
         }
 
-        public class SqrtTests
+        public class SqrtTests_DisplayResults
         {
-            [Datapoint]
-            public double zero = 0;
-
-            [Datapoint]
-            public double positive = 1;
-
-            [Datapoint]
-            public double negative = -1;
-
-            [Datapoint]
-            public double max = double.MaxValue;
-
-            [Datapoint]
-            public double infinity = double.PositiveInfinity;
+            [Datapoints]
+            public double[] values = new double[] { 0.0, 1.0, -1.0, double.MaxValue, double.PositiveInfinity };
 
             [Theory]
             public void SqrtTimesItselfGivesOriginal(double num)

@@ -34,18 +34,14 @@ namespace NUnit.Core.Builders
             if (parameterType == typeof(bool) || parameterType.IsEnum)
                 return true;
 
-            foreach (FieldInfo field in fixtureType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
+            foreach (MemberInfo member in fixtureType.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
             {
-                if (field.FieldType == parameterType)
-                {
-                    if (Reflect.HasAttribute(field, DatapointAttribute, true))
+                if (Reflect.HasAttribute(member, DatapointAttribute, true) &&
+                    GetTypeFromMemberInfo(member) == parameterType)
                         return true;
-                }
-                else if (field.FieldType.IsArray && field.FieldType.GetElementType() == parameterType)
-                {
-                    if (Reflect.HasAttribute(field, DatapointsAttribute, true))
+                else if (Reflect.HasAttribute(member, DatapointsAttribute, true) &&
+                    GetElementTypeFromMemberInfo(member) == parameterType)
                         return true;
-                }
             }
 
             return false;
@@ -56,19 +52,48 @@ namespace NUnit.Core.Builders
             ArrayList datapoints = new ArrayList();
 
             Type parameterType = parameter.ParameterType;
-            MemberInfo method = parameter.Member;
-            Type fixtureType = method.ReflectedType;
+            Type fixtureType = parameter.Member.ReflectedType;
 
-            foreach (FieldInfo field in fixtureType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
+            foreach (MemberInfo member in fixtureType.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance))
             {
-                if (field.FieldType == parameterType && Reflect.HasAttribute(field, DatapointAttribute, true))
+                if (Reflect.HasAttribute(member, DatapointAttribute, true))
                 {
-                    datapoints.Add(field.GetValue(ProviderCache.GetInstanceOf(fixtureType)));
+                    if (GetTypeFromMemberInfo(member) == parameterType &&
+                        member.MemberType == MemberTypes.Field)
+                    {
+                        FieldInfo field = member as FieldInfo;
+                        if (field.IsStatic)
+                            datapoints.Add(field.GetValue(null));
+                        else
+                            datapoints.Add(field.GetValue(ProviderCache.GetInstanceOf(fixtureType)));
+                    }
                 }
-                else if(field.FieldType.IsArray && field.FieldType.GetElementType() == parameterType &&
-                    Reflect.HasAttribute(field, DatapointsAttribute, true ))
+                else if (Reflect.HasAttribute(member, DatapointsAttribute, true))
                 {
-                    datapoints.AddRange((ICollection)field.GetValue(ProviderCache.GetInstanceOf(fixtureType)));
+                    if (GetElementTypeFromMemberInfo(member) == parameterType)
+                    {
+                        object instance;
+
+                        switch(member.MemberType)
+                        {
+                            case MemberTypes.Field:
+                                FieldInfo field = member as FieldInfo;
+                                instance = field.IsStatic ? null : ProviderCache.GetInstanceOf(fixtureType);
+                                datapoints.AddRange((ICollection)field.GetValue(instance));
+                                break;
+                            case MemberTypes.Property:
+                                PropertyInfo property = member as PropertyInfo;
+                                MethodInfo getMethod = property.GetGetMethod(true);
+                                instance = getMethod.IsStatic ? null : ProviderCache.GetInstanceOf(fixtureType);
+                                datapoints.AddRange((ICollection)property.GetValue(instance,null));
+                                break;
+                            case MemberTypes.Method:
+                                MethodInfo method = member as MethodInfo;
+                                instance = method.IsStatic ? null : ProviderCache.GetInstanceOf(fixtureType);
+                                datapoints.AddRange((ICollection)method.Invoke(instance, Type.EmptyTypes));
+                                break;
+                        }
+                    }
                 }
             }
 
@@ -86,6 +111,39 @@ namespace NUnit.Core.Builders
             }
 
             return datapoints;
+        }
+
+        private Type GetTypeFromMemberInfo(MemberInfo member)
+        {
+            switch (member.MemberType)
+            {
+                case MemberTypes.Field:
+                    return ((FieldInfo)member).FieldType;
+                case MemberTypes.Property:
+                    return ((PropertyInfo)member).PropertyType;
+                case MemberTypes.Method:
+                    return ((MethodInfo)member).ReturnType;
+                default:
+                    return null;
+            }
+        }
+
+        private Type GetElementTypeFromMemberInfo(MemberInfo member)
+        {
+            Type type = GetTypeFromMemberInfo(member);
+
+            if (type == null)
+                return null;
+
+            if (type.IsArray)
+                return type.GetElementType();
+
+#if NET_2_0
+            if (type.IsGenericType && type.Name == "IEnumerable`1")
+                return type.GetGenericArguments()[0];
+#endif
+
+            return null;
         }
 
         #endregion
