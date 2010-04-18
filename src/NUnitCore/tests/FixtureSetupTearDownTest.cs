@@ -55,6 +55,19 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(1, fixture.tearDownCount);
 		}
 
+#if NET_2_0
+        [Test]
+        public static void StaticSetUpAndTearDownAreCalled()
+        {
+            StaticSetUpAndTearDownFixture.setUpCount = 0;
+            StaticSetUpAndTearDownFixture.tearDownCount = 0;
+            TestBuilder.RunTestFixture(typeof(StaticSetUpAndTearDownFixture));
+
+            Assert.AreEqual(1, StaticSetUpAndTearDownFixture.setUpCount);
+            Assert.AreEqual(1, StaticSetUpAndTearDownFixture.tearDownCount);
+        }
+#endif
+
 		[Test]
 		public void OverriddenSetUpAndTearDownAreNotCalled()
 		{

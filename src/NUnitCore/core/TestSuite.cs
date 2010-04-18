@@ -333,7 +333,7 @@ namespace NUnit.Core
 
         protected virtual void DoOneTimeTearDown(TestResult suiteResult)
         {
-            if ( this.Fixture != null)
+            if ( this.FixtureType != null)
             {
                 try
                 {

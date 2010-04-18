@@ -124,7 +124,28 @@ namespace NUnit.TestData.FixtureSetUpTearDown
         public void YetAnotherTest() { }
     }
 
-	[TestFixture]
+#if NET_2_0
+    [TestFixture]
+    public static class StaticSetUpAndTearDownFixture
+    {
+        public static int setUpCount = 0;
+        public static int tearDownCount = 0;
+
+        [TestFixtureSetUp]
+        public static void Init()
+        {
+            setUpCount++;
+        }
+
+        [TestFixtureTearDown]
+        public static void Destroy()
+        {
+            tearDownCount++;
+        }
+    }
+#endif
+    
+    [TestFixture]
 	public class MisbehavingFixture 
 	{
 		public bool blowUpInSetUp = false;
