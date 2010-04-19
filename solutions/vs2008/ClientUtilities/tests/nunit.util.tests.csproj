@@ -279,6 +279,9 @@
     <Compile Include="..\..\..\..\src\ClientUtilities\tests\TestRunnerFactoryTests.cs">
       <Link>TestRunnerFactoryTests.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\tests\DomainManagerTests.cs">
+      <Link>DomainManagerTests.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\ClientUtilities\tests\resources\ClassLibrary1.csproj">
       <Link>resources\ClassLibrary1.csproj</Link>
     </EmbeddedResource>

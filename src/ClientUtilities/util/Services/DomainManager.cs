@@ -53,29 +53,39 @@ namespace NUnit.Util
 		/// <param name="package">The TestPackage to be run</param>
 		public AppDomain CreateDomain( TestPackage package )
 		{
-			FileInfo testFile = new FileInfo( package.FullName );
-
 			AppDomainSetup setup = new AppDomainSetup();
 			 
 			//For paralell tests, we need to use distinct application name
         	setup.ApplicationName = "Tests" + "_" + Environment.TickCount;
-            //setup.ApplicationName = package.Name;
 
-			string appBase = package.BasePath;
-			if ( appBase == null || appBase == string.Empty )
-				appBase = testFile.DirectoryName;
-			setup.ApplicationBase = appBase;
+            FileInfo testFile = package.FullName != null && package.FullName != string.Empty
+                ? new FileInfo(package.FullName)
+                : null;
 
-			string configFile = package.ConfigurationFile;
-			if ( configFile == null || configFile == string.Empty )
-				configFile = NUnitProject.IsProjectFile(testFile.Name) 
-					? Path.GetFileNameWithoutExtension( testFile.Name ) + ".config"
-					: testFile.Name + ".config";
-			// Note: Mono needs full path to config file...
-			setup.ConfigurationFile =  Path.Combine( appBase, configFile );
+            string appBase = package.BasePath;
+            string configFile = package.ConfigurationFile;
+            string binPath = package.PrivateBinPath;
 
-			string binPath = package.PrivateBinPath;
-			if ( package.AutoBinPath )
+            if (testFile != null)
+            {
+                if (appBase == null || appBase == string.Empty)
+                    appBase = testFile.DirectoryName;
+
+                if (configFile == null || configFile == string.Empty)
+                    configFile = NUnitProject.IsProjectFile(testFile.Name)
+                        ? Path.GetFileNameWithoutExtension(testFile.Name) + ".config"
+                        : testFile.Name + ".config";
+            }
+            else if (appBase == null || appBase == string.Empty)
+                appBase = GetCommonAppBase(package.Assemblies);
+
+            setup.ApplicationBase = appBase;
+            // TODO: Check whether Mono still needs full path to config file...
+            setup.ConfigurationFile = appBase != null && configFile != null
+                ? Path.Combine(appBase, configFile)
+                : configFile;
+
+            if (package.AutoBinPath)
 				binPath = GetPrivateBinPath( appBase, package.Assemblies );
 
 			setup.PrivateBinPath = binPath;
@@ -256,6 +266,22 @@ namespace NUnit.Util
 		{
 			return domain.FriendlyName.StartsWith( "test-domain-" );
 		}
+
+        public static string GetCommonAppBase(IList assemblies)
+        {
+            string commonBase = null;
+
+            foreach (string assembly in assemblies)
+            {
+                string dir = Path.GetFullPath(Path.GetDirectoryName(assembly));
+                if (commonBase == null)
+                    commonBase = dir;
+                else while (!PathUtils.SamePathOrUnder(commonBase, dir) && commonBase != null)
+                        commonBase = Path.GetDirectoryName(commonBase);
+            }
+
+            return commonBase;
+        }
 
 		public static string GetPrivateBinPath( string basePath, IList assemblies )
 		{

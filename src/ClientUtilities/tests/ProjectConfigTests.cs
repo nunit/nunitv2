@@ -361,20 +361,6 @@ namespace NUnit.Util.Tests
             Assert.IsFalse(project.HasChangesRequiringReload);
         }
 
-        // TODO: Move to DomainManagerTests
-//		[Test]
-//		public void GetPrivateBinPath()
-//		{
-//            string path1 = TestPath("/test/bin/debug/test1.dll");
-//            string path2 = TestPath("/test/bin/debug/test2.dll");
-//            string path3 = TestPath("/test/utils/test3.dll");
-//            config.Assemblies.Add( path1 );
-//            config.Assemblies.Add(path2);
-//            config.Assemblies.Add(path3);
-//
-//			Assert.AreEqual( TestPath( "bin/debug" ) + Path.PathSeparator + TestPath( "utils" ), config.PrivateBinPath ); 
-//		}
-
 		[Test]
 		public void NoPrivateBinPath()
 		{

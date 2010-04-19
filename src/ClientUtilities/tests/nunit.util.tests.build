@@ -5,6 +5,7 @@
         <include name="AssemblyListTests.cs"/>
         <include name="CategoryParseTests.cs"/>
         <include name="CategoryManagerTest.cs"/>
+        <include name="DomainManagerTests.cs"/>
         <include name="EventDispatcherTests.cs"/>
         <include name="FileWatcherTest.cs"/>
         <include name="MemorySettingsStorageTests.cs"/>

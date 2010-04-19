@@ -144,7 +144,7 @@ namespace NUnit.Util
 		}
 		#endregion
 
-		#region Load and Unload Methods       
+		#region Load and Unload Methods
         public bool Load(TestPackage package)
         {
             Log.Info("Loading " + package.Name);
@@ -170,13 +170,13 @@ namespace NUnit.Util
                 package.Settings.Remove("RunInParallel");
             }
 
-            string basePath = package.BasePath;
-            if (basePath == null)
-                basePath = Path.GetDirectoryName(package.FullName);
+            //string basePath = package.BasePath;
+            //if (basePath == null)
+            //    basePath = Path.GetDirectoryName(package.FullName);
 
-            string configFile = package.ConfigurationFile;
-            if (configFile == null && package.Name != null && !package.IsSingleAssembly)
-                configFile = Path.ChangeExtension(package.Name, ".config");
+            //string configFile = package.ConfigurationFile;
+            //if (configFile == null && package.Name != null && !package.IsSingleAssembly)
+            //    configFile = Path.ChangeExtension(package.Name, ".config");
 
             foreach (string assembly in package.Assemblies)
             {
@@ -186,8 +186,8 @@ namespace NUnit.Util
 
                     TestPackage p = new TestPackage(assembly);
                     p.AutoBinPath = package.AutoBinPath;
-                    p.ConfigurationFile = configFile;
-                    p.BasePath = basePath;
+                    p.ConfigurationFile = package.ConfigurationFile;
+                    p.BasePath = package.BasePath;
                     p.PrivateBinPath = package.PrivateBinPath;
                     p.TestName = package.TestName;
                     foreach (object key in package.Settings.Keys)
