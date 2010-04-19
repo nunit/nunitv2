@@ -37,12 +37,12 @@ namespace NUnit.Util
 		#region Instance Methods
 		public bool CanLoadProject(string path)
 		{
-			return NUnitProject.IsProjectFile(path) || CanConvertFrom(path);
+			return NUnitProject.IsNUnitProjectFile(path) || CanConvertFrom(path);
 		}
 
 		public NUnitProject LoadProject(string path)
 		{
-			if ( NUnitProject.IsProjectFile(path) )
+			if ( NUnitProject.IsNUnitProjectFile(path) )
 			{
 				NUnitProject project = new NUnitProject( path );
 				project.Load();

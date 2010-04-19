@@ -269,7 +269,7 @@ namespace NUnit.Util
 		#endregion
 
         #region Static Methods
-        public static bool IsProjectFile(string path)
+        public static bool IsNUnitProjectFile(string path)
         {
             return Path.GetExtension(path) == Extension;
         }

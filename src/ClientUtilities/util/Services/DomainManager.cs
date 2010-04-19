@@ -72,7 +72,7 @@ namespace NUnit.Util
                     appBase = testFile.DirectoryName;
 
                 if (configFile == null || configFile == string.Empty)
-                    configFile = NUnitProject.IsProjectFile(testFile.Name)
+                    configFile = Services.ProjectService.CanLoadProject(testFile.Name)
                         ? Path.GetFileNameWithoutExtension(testFile.Name) + ".config"
                         : testFile.Name + ".config";
             }

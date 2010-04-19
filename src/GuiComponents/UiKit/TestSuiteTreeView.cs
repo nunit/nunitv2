@@ -685,7 +685,7 @@ namespace NUnit.UiKit
 			if ( fileNames.Length == 1 )
 			{
 				string fileName = fileNames[0];
-				bool isProject = NUnitProject.IsProjectFile( fileName );
+				bool isProject = NUnitProject.IsNUnitProjectFile( fileName );
 				if ( Services.UserSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false ) )
 					isProject |= Services.ProjectService.CanConvertFrom( fileName );
 				

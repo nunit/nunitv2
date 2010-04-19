@@ -251,7 +251,7 @@ namespace NUnit.UiKit
 			TestLoader loader = Services.TestLoader;
 
 			if ( Path.IsPathRooted( loader.TestProject.ProjectPath ) &&
-				 NUnitProject.IsProjectFile( loader.TestProject.ProjectPath ) &&
+				 NUnitProject.IsNUnitProjectFile( loader.TestProject.ProjectPath ) &&
 				 CanWriteProjectFile( loader.TestProject.ProjectPath ) )
 				loader.TestProject.Save();
 			else
