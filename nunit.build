@@ -487,9 +487,9 @@
     <copy todir="${samples.bin.dir}"
       file="${path::combine(current.framework.dir,'nunit.framework.dll')}" />
     <copy todir="${samples.bin.dir}"
-      file="${path::combine(current.build.dir,'nunit.core.interfaces.dll')}" />
+      file="${path::combine(current.lib.dir,'nunit.core.interfaces.dll')}" />
     <copy todir="${samples.bin.dir}"
-      file="${path::combine(current.build.dir,'nunit.core.dll')}" />
+      file="${path::combine(current.lib.dir,'nunit.core.dll')}" />
 
     <nant target="build">
       <buildfiles refid="sample.buildfiles" />
