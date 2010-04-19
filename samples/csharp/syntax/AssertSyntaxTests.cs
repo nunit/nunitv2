@@ -565,15 +565,15 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.Contains(iarray, 3);
 			CollectionAssert.Contains(sarray, "b");
 			CollectionAssert.DoesNotContain(sarray, "x");
-			// Showing that Contains uses object equality
-			CollectionAssert.DoesNotContain( iarray, 1.0d );
+			// Showing that Contains uses NUnit equality
+			CollectionAssert.Contains( iarray, 1.0d );
 
 			// Helper syntax
 			Assert.That(iarray, Has.Member(3));
 			Assert.That(sarray, Has.Member("b"));
 			Assert.That(sarray, Has.No.Member("x"));
-			// Showing that Contains uses object equality
-			Assert.That(iarray, Has.No.Member( 1.0d ));
+			// Showing that Contains uses NUnit equality
+			Assert.That(iarray, Has.Member( 1.0d ));
 
 			// Only available using the new syntax
 			// Note that EqualTo and SameAs do NOT give
