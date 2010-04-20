@@ -11,8 +11,8 @@ namespace NUnit.TestData
 	[TestFixture]
 	public class TestMethodSignatureFixture
 	{
-		public static int Tests = 19;
-		public static int Runnable = 11;
+		public static int Tests = 20;
+		public static int Runnable = 12;
 		public static int NotRunnable = 8;
 	    public static int Errors = 3;
 	    public static int Failures = 0;
@@ -87,6 +87,11 @@ namespace NUnit.TestData
 		{
 			Assert.AreEqual( q, n / d );
 		}
+
+        [TestCase(new int[] {1, 2, 3})]
+        public void TestMethodWithParamsArgument(params int[] n)
+        {
+        }
 
 //		[Test]
 //		public abstract void AbstractTestMethod() { }

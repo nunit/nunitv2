@@ -73,6 +73,11 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(ResultState.Error, result.ResultState);
 		}
 
+        [TestCase("ABCD\u0019"), Explicit("For display purposes only")]
+        public void UnicodeCharInStringArgument(string arg)
+        {
+        }
+
         [TestCase("12-October-1942")]
         public void CanConvertStringToDateTime(DateTime dt)
         {

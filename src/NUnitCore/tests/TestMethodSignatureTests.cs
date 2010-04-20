@@ -159,6 +159,25 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
+        public void TestMethodWithParamsArgumentIsRunnable()
+        {
+            TestAssert.IsRunnable(fixtureType, "TestMethodWithParamsArgument");
+        }
+
+        // TODO: Make this work in a later release
+        //[Test]
+        public void TestMethodWithParamsArgumentUsesCorrectName()
+        {
+            string name = "TestMethodWithParamsArgument";
+            string fullName = typeof(TestMethodSignatureFixture).FullName + "." + name;
+            TestSuite suite = (TestSuite)TestFinder.Find(name, fixture, false);
+            Test test = suite.Tests[0] as Test;
+
+            Assert.That(test.TestName.Name, Is.EqualTo(name + "(1, 2, 3)"));
+            Assert.That(test.TestName.FullName, Is.EqualTo(fullName + "(1, 2, 3)"));
+        }
+
+        [Test]
         public void RunningTestsThroughFixtureGivesCorrectResults()
 		{
             TestResult result = fixture.Run(NullListener.NULL, TestFilter.Empty);

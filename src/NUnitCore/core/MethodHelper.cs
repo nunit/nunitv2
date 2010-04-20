@@ -182,7 +182,9 @@ namespace NUnit.Core
                     return string.Format("\\x{0:X4}", (int)c);
 
                 default:
-                    return c.ToString();
+                    return char.IsControl(c) || (int)c > 128
+                        ? string.Format("\\x{0:X4}", (int)c)
+                        : c.ToString();
             }
         }
     }
