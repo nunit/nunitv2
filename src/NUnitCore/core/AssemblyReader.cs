@@ -20,9 +20,11 @@ namespace NUnit.Core
 		private FileStream fs;
 
 		UInt16 dos_magic = 0xffff;
-		uint pe_signature = 0xffffffff;
-		UInt16 numDataSections;
+		UInt32 pe_signature = 0xffffffff;
+		UInt16 numberOfSections;
 		UInt16 optionalHeaderSize;
+        UInt16 peType;
+        UInt32 numDataDirectoryEntries;
 
 		private uint peHeader = 0;
 		private uint fileHeader = 0;
@@ -30,14 +32,14 @@ namespace NUnit.Core
 		private uint dataDirectory = 0;
 		private uint dataSections = 0;
 
-		private struct Section
+		private struct DataSection
 		{
 			public uint virtualAddress;
 			public uint virtualSize;
 			public uint fileOffset;
 		};
 
-		private Section[] sections;
+		private DataSection[] sections;
 
 		public AssemblyReader( string assemblyPath )
 		{
@@ -62,20 +64,28 @@ namespace NUnit.Core
 				peHeader = rdr.ReadUInt32();
 				fileHeader = peHeader + 4;
 				optionalHeader = fileHeader + 20;
-				dataDirectory = optionalHeader + 96;
-				// dotNetDirectoryEntry = dataDirectory + 14 * 8;
+
+                fs.Position = optionalHeader;
+                peType = rdr.ReadUInt16();
+
+                dataDirectory = peType == 0x20b
+                    ? optionalHeader + 112
+                    : optionalHeader + 96;
+
+                fs.Position = dataDirectory - 4;
+                numDataDirectoryEntries = rdr.ReadUInt32();
 
 				fs.Position = peHeader;
 				pe_signature = rdr.ReadUInt32();
 				rdr.ReadUInt16(); // machine
-				numDataSections = rdr.ReadUInt16();
+				numberOfSections = rdr.ReadUInt16();
 				fs.Position += 12;
 				optionalHeaderSize = rdr.ReadUInt16();
 				dataSections = optionalHeader + optionalHeaderSize;
 
-				sections = new Section[numDataSections];
+				sections = new DataSection[numberOfSections];
 				fs.Position = dataSections;
-				for( int i = 0; i < numDataSections; i++ )
+				for( int i = 0; i < numberOfSections; i++ )
 				{
 					fs.Position += 8;
 					sections[i].virtualSize = rdr.ReadUInt32();
@@ -98,7 +108,7 @@ namespace NUnit.Core
 
 		private uint RvaToLfa( uint rva )
 		{
-			for( int i = 0; i < numDataSections; i++ )
+			for( int i = 0; i < numberOfSections; i++ )
 				if ( rva >= sections[i].virtualAddress && rva < sections[i].virtualAddress + sections[i].virtualSize )
 					return rva - sections[i].virtualAddress + sections[i].fileOffset;
 
@@ -117,8 +127,13 @@ namespace NUnit.Core
 
 		public bool IsDotNetFile
 		{
-			get { return IsValidPeFile && DataDirectoryRva(14) != 0; }
+			get { return IsValidPeFile && numDataDirectoryEntries > 14 && DataDirectoryRva(14) != 0; }
 		}
+
+        public bool Is64BitImage
+        {
+            get { return peType == 0x20b; }
+        }
 
 		public string ImageRuntimeVersion
 		{
@@ -126,29 +141,32 @@ namespace NUnit.Core
 			{
 				string runtimeVersion = string.Empty;
 
-				uint rva = DataDirectoryRva(14);
-				if ( rva != 0 )
-				{
-					fs.Position = RvaToLfa( rva ) + 8;
-					uint metadata = rdr.ReadUInt32();
-					fs.Position = RvaToLfa( metadata );
-					if ( rdr.ReadUInt32() == 0x424a5342 )
-					{
-						// Copy string representing runtime version
-						fs.Position += 12;
-						StringBuilder sb = new StringBuilder();
-						char c;
-						while ((c = rdr.ReadChar())!= '\0')
-							sb.Append(c);
+                if (this.IsDotNetFile)
+                {
+                    uint rva = DataDirectoryRva(14);
+                    if (rva != 0)
+                    {
+                        fs.Position = RvaToLfa(rva) + 8;
+                        uint metadata = rdr.ReadUInt32();
+                        fs.Position = RvaToLfa(metadata);
+                        if (rdr.ReadUInt32() == 0x424a5342)
+                        {
+                            // Copy string representing runtime version
+                            fs.Position += 12;
+                            StringBuilder sb = new StringBuilder();
+                            char c;
+                            while ((c = rdr.ReadChar()) != '\0')
+                                sb.Append(c);
 
-						if (sb[0] == 'v') // Last sanity check
-							runtimeVersion = sb.ToString();
+                            if (sb[0] == 'v') // Last sanity check
+                                runtimeVersion = sb.ToString();
 
-						// Could do fixups here for bad values in older files
-						// like 1.x86, 1.build, etc. But we are only using
-						// the major version anyway
-					}
-				}
+                            // Could do fixups here for bad values in older files
+                            // like 1.x86, 1.build, etc. But we are only using
+                            // the major version anyway
+                        }
+                    }
+                }
 
 				return runtimeVersion; 
 			}

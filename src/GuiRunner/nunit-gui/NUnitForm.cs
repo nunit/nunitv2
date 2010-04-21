@@ -1734,7 +1734,7 @@ namespace NUnit.Gui
 			if ( e.Exception is BadImageFormatException )
 				message = string.Format(
 					@"You may be attempting to load an assembly built with a later version of the CLR than
-the version under which NUnit is currently running, {0}.",
+the version under which NUnit is currently running ({0}) or trying to load a 64-bit assembly into a 32-bit process.",
 					Environment.Version.ToString(3) );
 
 			UserMessage.DisplayFailure( e.Exception, message, "Assembly Not Loaded" );
