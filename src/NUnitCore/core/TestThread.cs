@@ -141,7 +141,7 @@ namespace NUnit.Core
         {
             get 
             { 
-                return testMethod.Timeout == 0
+                return testMethod.Timeout == 0 || System.Diagnostics.Debugger.IsAttached
                     ? System.Threading.Timeout.Infinite
                     : testMethod.Timeout;
             }
