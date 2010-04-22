@@ -8,13 +8,39 @@ namespace NUnit.Util.Tests
     public class TestRunnerFactoryTests
     {
         private RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
+        private string testDll = "test.dll";
+        private TestRunnerFactory factory;
+        private TestPackage package;
+
+        [SetUp]
+        public void Init()
+        {
+            factory = new TestRunnerFactory();
+            package = new TestPackage(testDll);
+        }
 
         [Test]
         public void SameFrameworkUsesTestDomain()
         {
-            TestPackage package = new TestPackage("nunit.util.tests.dll");
-            Assert.That( new TestRunnerFactory().MakeTestRunner(package),
-                Is.TypeOf(typeof(TestDomain)));
+            package.Settings["RuntimeFramework"] = currentFramework;
+            Assert.That( factory.MakeTestRunner(package), Is.TypeOf(typeof(TestDomain)));
+        }
+
+        [Test]
+        public void DifferentRuntimeUsesProcessRunner()
+        {
+            RuntimeType runtime = currentFramework.Runtime == RuntimeType.Net
+                ? RuntimeType.Mono : RuntimeType.Net;
+            package.Settings["RuntimeFramework"] = new RuntimeFramework(runtime, currentFramework.ClrVersion);
+            Assert.That(factory.MakeTestRunner(package), Is.TypeOf(typeof(ProcessRunner)));
+        }
+
+        [Test]
+        public void DifferentVersionUsesProcessRunner()
+        {
+            int major = currentFramework.ClrVersion.Major == 2 ? 4 : 2;
+            package.Settings["RuntimeFramework"] = new RuntimeFramework(currentFramework.Runtime, new Version(major,0));
+            Assert.That(factory.MakeTestRunner(package), Is.TypeOf(typeof(ProcessRunner)));
         }
     }
 }
