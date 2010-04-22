@@ -257,6 +257,12 @@ namespace NUnit.Gui
             // 
             // runtimeVersionComboBox
             // 
+            this.runtimeVersionComboBox.Items.AddRange(new object[] {
+            "Default",
+            "1.0",
+            "1.1",
+            "2.0",
+            "4.0"});
             this.runtimeVersionComboBox.Location = new System.Drawing.Point(320, 16);
             this.runtimeVersionComboBox.Name = "runtimeVersionComboBox";
             this.runtimeVersionComboBox.Size = new System.Drawing.Size(101, 24);
@@ -1063,11 +1069,7 @@ namespace NUnit.Gui
         {
             get
             {
-                int index = runtimeVersionComboBox.SelectedIndex;
-                if (index < 0)
-                    return RuntimeFramework.DefaultVersion;
-
-                string s = runtimeVersionComboBox.SelectedItem.ToString();
+                string s = runtimeVersionComboBox.Text;
                 return s == string.Empty || s == "Default"
                     ? RuntimeFramework.DefaultVersion
                     : new Version(s);
@@ -1200,10 +1202,6 @@ namespace NUnit.Gui
 
 			projectPathLabel.Text = project.ProjectPath;
 			projectBaseTextBox.Text = project.BasePath;
-
-            this.runtimeVersionComboBox.Items.Add("Default");
-            foreach (Version v in RuntimeFramework.KnownClrVersions)
-                this.runtimeVersionComboBox.Items.Add(v.ToString(3));
 
             configComboBox_Populate();
 			populateDomainUsageComboBox();

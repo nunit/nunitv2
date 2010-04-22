@@ -45,11 +45,6 @@ namespace NUnit.Core
         public static readonly Version DefaultVersion = new Version();
 
         private static RuntimeFramework currentFramework;
-        private static Version[] knownClrVersions = new Version[] {
-            new Version( "1.0.3705" ),
-            new Version( "1.1.4322" ),
-            new Version( "2.0.50727" ),
-            new Version( "4.0.21006" ) };
 
         private RuntimeType runtime;
         private Version frameworkVersion;
@@ -93,14 +88,6 @@ namespace NUnit.Core
 
                 return currentFramework;
             }
-        }
-
-        /// <summary>
-        /// Return an array of well-known framework versions
-        /// </summary>
-        public static Version[] KnownClrVersions
-        {
-            get { return knownClrVersions; }
         }
 
         /// <summary>
@@ -283,6 +270,20 @@ namespace NUnit.Core
 
             return (RuntimeFramework[])frameworks.ToArray(typeof(RuntimeFramework));
         }
+
+        public static RuntimeFramework GetBestAvailableFramework(RuntimeFramework target)
+        {
+            RuntimeFramework result = target;
+
+            if (target.ClrVersion.Build < 0)
+            {
+                foreach (RuntimeFramework framework in GetAvailableFrameworks(target.Runtime))
+                    if (framework.MatchesClr(target) && framework.ClrVersion.Build > result.ClrVersion.Build)
+                        result = framework;
+            }
+
+            return result;
+        }
         #endregion
 
         #region Constructor
@@ -301,10 +302,6 @@ namespace NUnit.Core
                 this.clrVersion = new Version(2, 0, 50727);
             else if (runtime == RuntimeType.Mono && version.Major == 1)
                 this.clrVersion = new Version(1, 1, 4322);
-            else if (clrVersion.Build < 0)
-                foreach (Version v in knownClrVersions)
-                    if (clrVersion.Major == v.Major && clrVersion.Minor == v.Minor)
-                        clrVersion = v;
 
             this.displayName = DefaultDisplayName(runtime, version);
         }
