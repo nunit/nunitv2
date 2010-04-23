@@ -38,6 +38,41 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.5.5 - Version 2.5.5.10112 - April 22, 2010</h3>
+
+<h4>Features</h4>
+
+<ul>
+<li>The Runtime Version dropdown on the <b>Project Editor</b> dialog
+now includes only major and minor version numbers like 2.0 or 4.0.
+When loading the tests, these versions are resolved to the highest 
+version of the particular runtime available on your system. You may
+still enter a complete version number in the text box if desired.
+<li>The <b>DatapointsAttribute</b> may now be specified on properties
+and methods as well as fields. For parameters of type T, the attribute
+now supports members of Type <b>IEnumerable&lt;T&gt;</b> in addition
+to arrays of the parameter Type.
+<li>Timeouts are now suppressed when running under a debugger.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>FileNotFoundException when test assembly is built for x64 platform.
+<li>Config files not found with /domain:Multiple.
+<li>SetCultureAttribute ignored on parameterized test methods.
+<li>NUnit not recognizing .NET 4.0 RC or Final Release.
+<li>TestFixtureTearDown in static class not executed
+<li>Failing tests in sample files AssertSyntaxTests.cs and AssertSyntaxTests.vb.
+<li>Invalid XML character in TestResult.xml when a test case string argument
+uses certain control or unicode characters.
+</ul>
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.5.4 - Version 2.5.4.10098 - April 8, 2010</h3>
 
 <h4>Features</h4>
@@ -1126,7 +1161,7 @@ this release may be removed or changed in future releases.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.4</a></li>
+<li><a href="index.html">NUnit 2.5.5</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>

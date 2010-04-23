@@ -30,16 +30,25 @@
    to provide data for <b>Theories</b> and are ignored for ordinary
    tests - including tests with parameters.
    
+<h4>DataPointAttribute</h4>
+   
 <p>When a Theory is loaded, NUnit creates arguments for each
    of its parameters by using any fields of the same type
    as the parameter annotated with the <b>DatapointAttribute</b>.
-   In addition, elements of arrays of the required type
-   annotated with the <b>DatapointsAttribute</b> are also used.
+   Fields must be members of the class containing the Theory
+   and their Type must exactly match the argument for which
+   data is being supplied.
    
-<p><b>Note:</b> In the current release, these attributes are only recognized
-   when used exactly as specified above. In particular, they may not be used
-   on methods or properties and the <b>DatapointsAttribute</b> may only be
-   placed on an array. These limitations will be removed in a later release.
+<h4>DataPointsAttribute</h4>
+   
+<p>In addition to specifying individual datapoints, collections of
+   datapoints may be provided by use of the <b>DatapointsAttribute</b>
+   - note the spelling. This attribute may be placed on methods or
+   properties in addition to fields. The returned value must be
+   either an array of the required type or (beginning with NUnit
+   2.5.5) an <b>IEnumerable&lt;T&gt;</b> returning an enumeration
+   of the required type. The data Type must exactly match the argument 
+   for which data is being supplied.
    
 <h4>Automatically Supplied Datapoints</h4>
 
@@ -69,7 +78,7 @@
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.4</a></li>
+<li><a href="index.html">NUnit 2.5.5</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
