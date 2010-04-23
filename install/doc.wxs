@@ -14,6 +14,7 @@
         <File Id="codeFuncs.js" Name="CODEFNCS.JS" LongName="codeFuncs.js" />
         <File Id="favicon.ico" Name="favicon.ico" />
         <File Id="addinsDialog.html" Name="ADDINDLG.HTM" LongName="addinsDialog.html" />
+        <File Id="assemblyIsolation.html" Name="ASMISLTN.HTM" LongName="assemblyIsolation.html" />
         <File Id="assertions.html" Name="ASSERT_1.HTM" LongName="assertions.html" />
         <File Id="attributes.html" Name="ATTRIB_1.HTM" LongName="attributes.html" />
         <File Id="category.html" Name="CATEGO_1.HTM" LongName="category.html" />
@@ -83,6 +84,8 @@
         <File Id="requiresMTA.html" Name="REQMTA.HTM" LongName="requiresMTA.html" />
         <File Id="requiresSTA.html" Name="REQSTA.HTM" LongName="requiresSTA.html" />
         <File Id="requiresThread.html" Name="REQTHRD.HTM" LongName="requiresThread.html" />
+        <File Id="runningTests.html" Name="RUNTESTS.HTM" LongName="runningTests.html" />
+        <File Id="runtimeSelection.html" Name="RUNTIME.HTM" LongName="runtimeSelection.html" />
         <File Id="sameasConstraint.html" Name="SAMEAS.HTM" LongName="sameasConstraint.html" />
         <File Id="samples.html" Name="SAMPLE_1.HTM" LongName="samples.html" />
         <File Id="sequential.html" Name="SEQUENTL.HTM" LongName="sequential.html" />
