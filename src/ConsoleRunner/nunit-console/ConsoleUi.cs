@@ -182,12 +182,13 @@ namespace NUnit.ConsoleRunner
 		}
 
 		#region Helper Methods
+        // TODO: See if this can be unified with the Gui's MakeTestPackage
         private static TestPackage MakeTestPackage( ConsoleOptions options )
         {
 			TestPackage package;
 			DomainUsage domainUsage = DomainUsage.Default;
             ProcessModel processModel = ProcessModel.Default;
-            RuntimeFramework framework = RuntimeFramework.CurrentFramework;
+            RuntimeFramework framework = null;
 
 			if (options.IsTestProject)
 			{
