@@ -22,3 +22,7 @@ build
 *.VisualState.xml
 package
 GeneratedAssemblyInfo.cs
+debug
+release
+Debug
+Release
