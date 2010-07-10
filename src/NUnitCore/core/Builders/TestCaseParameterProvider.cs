@@ -77,7 +77,7 @@ namespace NUnit.Core.Builders
         /// <summary>
         /// Performs several special conversions allowed by NUnit in order to
         /// permit arguments with types that cannot be used in the constructor
-        /// of an Attribute such as TestCaseAttribute.
+        /// of an Attribute such as TestCaseAttribute or to simplify their use.
         /// </summary>
         /// <param name="arglist">The arguments to be converted</param>
         /// <param name="parameters">The ParameterInfo array for the method</param>
@@ -100,7 +100,7 @@ namespace NUnit.Core.Builders
 
                 if (targetType.IsAssignableFrom(arg.GetType()))
                     continue;
-                
+
                 if (arg is DBNull)
                 {
                     arglist[i] = null;
@@ -109,22 +109,17 @@ namespace NUnit.Core.Builders
 
                 bool convert = false;
 
+                if (targetType == typeof(short) || targetType == typeof(byte) || targetType == typeof(sbyte))
+                    convert = arg is int;
+                else
                 if (targetType == typeof(decimal))
-                    convert = arg is double || arg is string;
+                    convert = arg is double || arg is string || arg is int;
                 else 
                 if (targetType == typeof(DateTime) || targetType == typeof(TimeSpan))
                     convert = arg is string;
 
                 if (convert)
-                try
-                {
                     arglist[i] = Convert.ChangeType(arg, targetType, System.Globalization.CultureInfo.InvariantCulture);
-                }
-                catch (Exception)
-                {
-                    // Do nothing - the incompatible argument will be
-                    // reported when the method is inoked.r
-                }
             }
         }
     }
