@@ -21,23 +21,24 @@ namespace NUnit.Core.Filters
 		/// Construct an empty SimpleNameFilter
 		/// </summary>
         public SimpleNameFilter() { }
-
+        
         /// <summary>
         /// Construct a SimpleNameFilter for a single name
         /// </summary>
-        /// <param name="name">The name the filter will recognize</param>
+        /// <param name="name">The name the filter will recognize. Separate multiple names with commas.</param>
 		public SimpleNameFilter( string name )
         {
-            this.names.Add( name );
+            Add( name );
         }
 
 		/// <summary>
 		/// Add a name to a SimpleNameFilter
 		/// </summary>
-		/// <param name="name">The name to be added</param>
+        /// <param name="name">The name to be added. Separate multiple names with commas.</param>
 		public void Add( string name )
 		{
-			names.Add( name );
+		    string[] namesToAdd = name.Split( new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
+            names.AddRange( namesToAdd );
 		}
 
 		/// <summary>

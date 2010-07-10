@@ -47,14 +47,20 @@ the tests contained in the nunit.tests.dll use the following command:</p>
 <p>To run the same tests through an NUnit test project you have defined, use:</p>
 	<pre class="programtext">        nunit-console nunit.tests.nunit</pre>
 
-<h4>Specifying an Assembly and a Test to be Run</h4>
-<p>You may specify a test to be run by proviig the full name of the test along
+<h4>Specifying an Assembly and Test(s) to be Run</h4>
+<p>You may specify a test to be run by providing the full name of the test along
 with the containing assembly. For example to run NUnit.Tests.AssertionTests
 in the nunit.tests assembly use the following command:
 <pre class="programtext">        nunit-console /run:NUnit.Tests.AssertionTests nunit.tests.dll</pre>
 
 <p>The name of the test to be run may be that of a test case, test fixture or
-a namespace. Unlike the <b>/fixture</b> option, this option affects the running
+a namespace. 
+
+<p>You can specify multiple tests by separating names with commas (without spaces). For example:
+
+<pre class="programtext">        nunit-console /run:NUnit.Tests.AssertionTests,NUnit.Tests.ConstraintTests nunit.tests.dll</pre>
+
+<p>Unlike the <b>/fixture</b> option, this option affects the running
 rather than the loading of the tests. Consequently it supports much broader use,
 including situations involving SetUpFixtures, which are not run if the class
 in question is not loaded. You should use <b>/run</b> in lieu of <b>/fixture</b>
