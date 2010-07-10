@@ -160,10 +160,16 @@ namespace NUnit.Framework.Constraints
         /// <returns>true if equivalent, false if not</returns>
         private bool DirectoriesEqual(DirectoryInfo expected, DirectoryInfo actual)
         {
-            return expected.Attributes == actual.Attributes
-                && expected.CreationTime == actual.CreationTime
-                && expected.FullName == actual.FullName
-                && expected.LastAccessTime == actual.LastAccessTime;
+            // Do quick compares first
+            if (expected.Attributes != actual.Attributes ||
+                expected.CreationTime != actual.CreationTime ||
+                expected.LastAccessTime != actual.LastAccessTime)
+            {
+                return false;
+            }
+
+            // TODO: Find a cleaner way to do this
+            return new SamePathConstraint(expected.FullName).Matches(actual.FullName);
         }
     }
 }

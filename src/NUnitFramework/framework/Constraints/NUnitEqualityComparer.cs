@@ -238,10 +238,16 @@ namespace NUnit.Framework.Constraints
         /// <returns>true if equivalent, false if not</returns>
         private bool DirectoriesEqual(DirectoryInfo x, DirectoryInfo y)
         {
-            return x.Attributes == y.Attributes
-                && x.CreationTime == y.CreationTime
-                && x.FullName == y.FullName
-                && x.LastAccessTime == y.LastAccessTime;
+            // Do quick compares first
+            if (x.Attributes != y.Attributes ||
+                x.CreationTime != y.CreationTime ||
+                x.LastAccessTime != y.LastAccessTime)
+            {
+                return false;
+            }
+
+            // TODO: Find a cleaner way to do this
+            return new SamePathConstraint(x.FullName).Matches(y.FullName);
         }
 
         private bool StreamsEqual(Stream x, Stream y)
