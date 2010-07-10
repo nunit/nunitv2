@@ -53,9 +53,7 @@ namespace NUnit.Core.Builders
 		/// <returns></returns>
 		public Test BuildFrom(Type type)
 		{
-            Attribute[] attrs = Reflect.GetAttributes(type, NUnitFramework.TestFixtureAttribute, false);
-            if (attrs.Length == 0)
-                attrs = Reflect.GetAttributes(type, NUnitFramework.TestFixtureAttribute, true);
+            Attribute[] attrs = GetTestFixtureAttributes(type);
 
 #if NET_2_0
             if (type.IsGenericType)
@@ -75,9 +73,11 @@ namespace NUnit.Core.Builders
                     return BuildMultipleFixtures(type, attrs);
             }
         }
+
 		#endregion
 
 		#region Helper Methods
+
         private Test BuildMultipleFixtures(Type type, Attribute[] attrs)
         {
             TestSuite suite = new ParameterizedFixtureSuite(type);
@@ -244,6 +244,55 @@ namespace NUnit.Core.Builders
                 && NUnitFramework.CheckSetUpTearDownMethods(fixtureType, NUnitFramework.FixtureSetUpAttribute, ref reason)
                 && NUnitFramework.CheckSetUpTearDownMethods(fixtureType, NUnitFramework.FixtureTearDownAttribute, ref reason);
         }
-		#endregion
+
+        /// <summary>
+        /// Get TestFixtureAttributes following a somewhat obscure
+        /// set of rules to eliminate spurious duplication of fixtures.
+        /// 1. If there are any attributes with args, they are the only
+        ///    ones returned and those without args are ignored.
+        /// 2. No more than one attribute without args is ever returned.
+        /// </summary>
+        private static Attribute[] GetTestFixtureAttributes(Type type)
+        {
+            Attribute[] attrs = Reflect.GetAttributes(type, NUnitFramework.TestFixtureAttribute, true);
+            
+            // Just return - no possibility of duplication
+            if (attrs.Length <= 1) 
+                return attrs;
+
+            int withArgs = 0;
+            bool[] hasArgs = new bool[attrs.Length];
+
+            // Count and record those attrs with arguments            
+            for (int i = 0; i < attrs.Length; i++)
+            {
+                object[] args = (object[])Reflect.GetPropertyValue(attrs[i], "Arguments");
+
+                if (args.Length > 0)
+                {
+                    withArgs++;
+                    hasArgs[i] = true;
+                }
+            }
+
+            // If all attributes have args, just return them
+            if (withArgs == attrs.Length)
+                return attrs;
+
+            // If all attributes are without args, just return the first found
+            if (withArgs == 0)
+                return new Attribute[] { attrs[0] };
+
+            // Some of each type, so extract those with args
+            int count = 0;
+            Attribute[] result = new Attribute[withArgs];
+            for (int i = 0; i < attrs.Length; i++)
+                if (hasArgs[i])
+                    result[count++] = attrs[i];
+
+            return result;
+        }
+        
+        #endregion
 	}
 }

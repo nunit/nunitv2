@@ -144,6 +144,22 @@ namespace NUnit.TestData.TestFixtureTests
     {
     }
 
+    [TestFixture]
+    public abstract class AbstractBaseFixtureWithAttribute
+    {
+    }
+
+    [TestFixture]
+    public abstract class AbstractDerivedFixtureWithSecondAttribute
+        : AbstractBaseFixtureWithAttribute
+    {
+    }
+
+    public class DoubleDerivedClassWithTwoInheritedAttributes
+        : AbstractDerivedFixtureWithSecondAttribute
+    {
+    }
+
 	[TestFixture]
 	public class MultipleFixtureSetUpAttributes
 	{
