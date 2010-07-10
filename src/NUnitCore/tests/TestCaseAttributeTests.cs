@@ -55,6 +55,30 @@ namespace NUnit.Core.Tests
             return x + y;
         }
 
+        [TestCase(5, 2, Result = 7)]
+        public decimal CanConvertIntToDecimal(decimal x, decimal y)
+        {
+            return x + y;
+        }
+
+        [TestCase(5, 2, Result = 7)]
+        public short CanConvertSmallIntsToShort(short x, short y)
+        {
+            return (short)(x + y);
+        }
+
+        [TestCase(5, 2, Result = 7)]
+        public byte CanConvertSmallIntsToByte(byte x, byte y)
+        {
+            return (byte)(x + y);
+        }
+
+        [TestCase(5, 2, Result = 7)]
+        public sbyte CanConvertSmallIntsToSByte(sbyte x, sbyte y)
+        {
+            return (sbyte)(x + y);
+        }
+
 #if NET_2_0
         [TestCase(Result = null)]
         public object ExpectedResultCanBeNull()
@@ -64,13 +88,11 @@ namespace NUnit.Core.Tests
 #endif
 
         [Test]
-		public void ConversionOverflowGivesError()
+		public void ConversionOverflowMakesTestNonRunnable()
 		{
 			Test test = (Test)TestBuilder.MakeTestCase(
 				typeof(TestCaseAttributeFixture), "MethodCausesConversionOverflow").Tests[0];
-			Assert.AreEqual(RunState.Runnable, test.RunState);
-            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
-            Assert.AreEqual(ResultState.Error, result.ResultState);
+			Assert.AreEqual(RunState.NotRunnable, test.RunState);
 		}
 
         [TestCase("ABCD\u0019"), Explicit("For display purposes only")]

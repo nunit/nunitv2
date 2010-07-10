@@ -212,6 +212,9 @@ namespace NUnit.Core.Builders
                     testMethod.Description = parms.Description;
             }
 
+            if (testMethod.BuilderException != null)
+                testMethod.RunState = RunState.NotRunnable;
+
             return testMethod;
         }
 		#endregion
