@@ -94,8 +94,12 @@ namespace NUnit.Framework.Constraints
 						break;
 				}
 			}
-	
-			return String.Join( Path.DirectorySeparatorChar.ToString(), 
+
+            // Trailing separator removal
+            if ((string)parts[parts.Count - 1] == "")
+                parts.RemoveAt(parts.Count - 1);
+
+            return String.Join(Path.DirectorySeparatorChar.ToString(), 
 				(string[])parts.ToArray( typeof( string ) ) );
 		}
 

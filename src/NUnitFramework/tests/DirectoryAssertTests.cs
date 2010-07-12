@@ -366,6 +366,16 @@ namespace NUnit.Framework.Tests
             }
         }
 
+        [Test]
+        public void IsWithinPassesWithTempPath()
+        {
+            // Special case because GetTempPath() returns with a trailing slash
+            string tempPath = Path.GetTempPath();
+            string tempPathParent = Path.GetDirectoryName(Path.GetDirectoryName(tempPath));
+
+            DirectoryAssert.IsWithin(tempPathParent, tempPath);
+        }
+
         [Test, ExpectedException(typeof(AssertionException))]
         public void IsWithinFailsWhenOutsidePathUsingDirectoryInfo()
         {

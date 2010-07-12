@@ -7,6 +7,7 @@
 using System;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 
 namespace NUnit.Framework.Tests
@@ -507,6 +508,34 @@ namespace NUnit.Framework.Tests
                 Assert.Fail("Should have thrown an AssertionException");
 
             Assert.That(message.IndexOf("+/-") == -1);
+        }
+
+        [Test]
+        public void DirectoryInfoEquality()
+        {
+            string path = Environment.CurrentDirectory;
+            DirectoryInfo dir1 = new DirectoryInfo(path);
+            DirectoryInfo dir2 = new DirectoryInfo(path);
+
+            Assert.AreEqual(dir1, dir2);
+        }
+
+        [Test]
+        public void DirectoryInfoEqualityIgnoresTrailingDirectorySeparator()
+        {
+            string path1 = Environment.CurrentDirectory;
+            string path2 = path1;
+            int length = path1.Length;
+
+            if (path1[length - 1] == Path.DirectorySeparatorChar)
+                path1 = path1.Substring(0, length - 1);
+            else
+                path1 += Path.DirectorySeparatorChar;
+
+            DirectoryInfo dir1 = new DirectoryInfo(path1);
+            DirectoryInfo dir2 = new DirectoryInfo(path2);
+
+            Assert.AreEqual(dir1, dir2);
         }
     }
 }

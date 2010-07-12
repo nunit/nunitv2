@@ -115,8 +115,12 @@ namespace NUnit.Util
 						break;
 				}
 			}
-	
-			return String.Join( DirectorySeparatorChar.ToString(), (string[])parts.ToArray( typeof( string ) ) );
+
+            // Trailing separator removal
+            if (parts.Count > 1 && path.Length > 1 && (string)parts[parts.Count - 1] == "")
+                parts.RemoveAt(parts.Count - 1);
+
+            return String.Join(DirectorySeparatorChar.ToString(), (string[])parts.ToArray(typeof(string)));
 		}
 
 		/// <summary>
