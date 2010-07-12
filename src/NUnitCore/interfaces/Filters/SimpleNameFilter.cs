@@ -5,7 +5,6 @@
 // ****************************************************************
 using System;
 using System.Collections;
-using System.Text;
 
 namespace NUnit.Core.Filters
 {
@@ -25,21 +24,29 @@ namespace NUnit.Core.Filters
         /// <summary>
         /// Construct a SimpleNameFilter for a single name
         /// </summary>
-        /// <param name="name">The name the filter will recognize. Separate multiple names with commas.</param>
-		public SimpleNameFilter( string name )
+        /// <param name="namesToAdd">The name the filter will recognize. Separate multiple names with commas.</param>
+		public SimpleNameFilter( string namesToAdd )
         {
-            Add( name );
+            Add(namesToAdd);
         }
 
 		/// <summary>
 		/// Add a name to a SimpleNameFilter
 		/// </summary>
-        /// <param name="name">The name to be added. Separate multiple names with commas.</param>
-		public void Add( string name )
+        /// <param name="namesToAdd">The name to be added. Separate multiple names with commas.</param>
+        public void Add(string namesToAdd)
 		{
-		    string[] namesToAdd = name.Split( new string[] {","}, StringSplitOptions.RemoveEmptyEntries);
-            names.AddRange( namesToAdd );
+            foreach (string name in namesToAdd.Split(','))
+		    {
+                if (IsNotNullOrEmptyTrimmed(name))
+                    names.Add(name.Trim());
+		    }
 		}
+
+        private bool IsNotNullOrEmptyTrimmed(string s)
+        {
+            return s != null && s.Trim() != string.Empty;
+        }
 
 		/// <summary>
 		/// Check whether the filter matches a test
