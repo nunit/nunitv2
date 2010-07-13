@@ -223,7 +223,7 @@ namespace NUnit.Core
                 if (ex is ThreadAbortException)
                     Thread.ResetAbort();
 
-                RecordException(ex, testResult);
+                RecordException(ex, testResult, FailureSite.Test);
             }
             finally
             {
@@ -249,10 +249,12 @@ namespace NUnit.Core
 			}
 			catch(Exception ex)
 			{
+                // doTestCase handles its own exceptions so
+                // if we're here it's a setup exception
                 if (ex is ThreadAbortException)
                     Thread.ResetAbort();
 
-                RecordException(ex, testResult);
+                RecordException(ex, testResult, FailureSite.SetUp);
 			}
 			finally 
 			{
@@ -321,7 +323,7 @@ namespace NUnit.Core
                     Thread.ResetAbort();
 
                 if (exceptionProcessor == null)
-                    RecordException(ex, testResult);
+                    RecordException(ex, testResult, FailureSite.Test);
                 else
                     exceptionProcessor.ProcessException(ex, testResult);
             }
@@ -342,12 +344,12 @@ namespace NUnit.Core
 		#endregion
 
 		#region Record Info About An Exception
-		protected virtual void RecordException( Exception exception, TestResult testResult )
+		protected virtual void RecordException( Exception exception, TestResult testResult, FailureSite failureSite )
 		{
             if (exception is NUnitException)
                 exception = exception.InnerException;
 
-            testResult.SetResult(NUnitFramework.GetResultState(exception), exception);
+            testResult.SetResult(NUnitFramework.GetResultState(exception), exception, failureSite);
 		}
 		#endregion
     }

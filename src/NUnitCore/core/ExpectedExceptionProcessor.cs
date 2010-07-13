@@ -119,7 +119,7 @@ namespace NUnit.Core
                         testResult.Ignore(exception);
                         break;
                     case ResultState.Inconclusive:
-                        testResult.SetResult(ResultState.Inconclusive, exception);
+                        testResult.SetResult(ResultState.Inconclusive, exception, FailureSite.Test);
                         break;
                     case ResultState.Success:
                         testResult.Success(exception.Message);

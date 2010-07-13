@@ -110,7 +110,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(0, summ.TestsNotRun);
 			
 			Assert.AreEqual(ResultState.Error, result.ResultState);
-			Assert.AreEqual("System.Exception : This was thrown from fixture setup", result.Message, "TestSuite Message");
+			Assert.AreEqual("SetUp : System.Exception : This was thrown from fixture setup", result.Message, "TestSuite Message");
 			Assert.IsNotNull(result.StackTrace, "TestSuite StackTrace should not be null");
 
 			TestResult testResult = ((TestResult)result.Results[0]);
@@ -199,7 +199,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual(0, summ.TestsNotRun);
 			
 			Assert.AreEqual(ResultState.Error, result.ResultState);
-			Assert.AreEqual("System.Exception : This was thrown in constructor", result.Message, "TestSuite Message");
+			Assert.AreEqual("SetUp : System.Exception : This was thrown in constructor", result.Message, "TestSuite Message");
 			Assert.IsNotNull(result.StackTrace, "TestSuite StackTrace should not be null");
 
 			TestResult testResult = ((TestResult)result.Results[0]);

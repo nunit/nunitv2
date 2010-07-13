@@ -311,11 +311,24 @@ namespace NUnit.Core
 		/// <param name="reason">The reason the test was not run</param>
         /// <param name="stackTrace">Stack trace giving the location of the command</param>
         /// <param name="failureSite">The location of the failure, if any</param>
-        public void SetResult(ResultState resultState, string reason, string stackTrace, FailureSite failureSite)
+        public void SetResult(ResultState resultState, string reason, string stack, FailureSite failureSite)
 		{
-		    this.resultState = resultState;
-			this.message = reason;
-			this.stackTrace = stackTrace;
+            if (failureSite == FailureSite.SetUp)
+                reason = "SetUp : " + reason;
+            else if (failureSite == FailureSite.TearDown)
+            {
+                reason = "TearDown : " + reason;
+                stack = "--TearDown" + Environment.NewLine + stack;
+
+                if (this.message != null)
+                    reason = this.message + Environment.NewLine + reason;
+                if (this.stackTrace != null)
+                    stack = this.stackTrace + Environment.NewLine + stack;
+            }
+
+            this.resultState = resultState;
+            this.message = reason;
+            this.stackTrace = stack;
             this.failureSite = failureSite;
 		}
 
@@ -335,14 +348,14 @@ namespace NUnit.Core
         /// </summary>
         /// <param name="resultState">The ResultState to use in the result</param>
         /// <param name="ex">The exception that caused this result</param>
-        public void SetResult(ResultState resultState, Exception ex)
+        public void SetResult(ResultState resultState, Exception ex, FailureSite failureSite)
         {
             if (resultState == ResultState.Cancelled)
                 SetResult(resultState, "Test cancelled by user", BuildStackTrace(ex));
-            else if ( resultState == ResultState.Error )
-                SetResult( resultState, BuildMessage(ex), BuildStackTrace(ex));
+            else if (resultState == ResultState.Error)
+                SetResult( resultState, BuildMessage(ex), BuildStackTrace(ex), failureSite);
             else
-                SetResult( resultState, ex.Message, ex. StackTrace );
+                SetResult(resultState, ex.Message, ex.StackTrace, failureSite);
         }
    
         /// <summary>
@@ -387,22 +400,23 @@ namespace NUnit.Core
 		/// <param name="failureSite">The site from which it was thrown</param>
 		public void Error( Exception exception, FailureSite failureSite )
 		{
-            string message = BuildMessage(exception);
-            string stackTrace = BuildStackTrace(exception);
+            SetResult(ResultState.Error, exception, failureSite);
+            //string message = BuildMessage(exception);
+            //string stackTrace = BuildStackTrace(exception);
 
-            if (failureSite == FailureSite.TearDown)
-            {
-                message = "TearDown : " + message;
-                stackTrace = "--TearDown" + Environment.NewLine + stackTrace;
+            //if (failureSite == FailureSite.TearDown)
+            //{
+            //    message = "TearDown : " + message;
+            //    stackTrace = "--TearDown" + Environment.NewLine + stackTrace;
 
-                if (this.message != null)
-                    message = this.message + Environment.NewLine + message;
-                if (this.stackTrace != null)
-                    stackTrace = this.stackTrace + Environment.NewLine + stackTrace;
-            }
+            //    if (this.message != null)
+            //        message = this.message + Environment.NewLine + message;
+            //    if (this.stackTrace != null)
+            //        stackTrace = this.stackTrace + Environment.NewLine + stackTrace;
+            //}
 
-            SetResult( ResultState.Error, message, stackTrace );
-            this.failureSite = failureSite;
+            //SetResult( ResultState.Error, message, stackTrace );
+            //this.failureSite = failureSite;
         }
 
 		/// <summary>

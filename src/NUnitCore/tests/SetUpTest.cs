@@ -14,7 +14,7 @@ namespace NUnit.Core.Tests
 {
 	[TestFixture]
 	public class SetUpTest
-	{	
+	{
 		[Test]
 		public void SetUpAndTearDownCounter()
 		{
@@ -97,7 +97,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(result.ResultState, ResultState.Error, "Test should be in error state");
             //TODO: below assert fails now, a bug?
             //Assert.AreEqual(result.FailureSite, FailureSite.SetUp, "Test should be failed at setup site");
-            string expected = string.Format("{0} : {1}", e.GetType().FullName, e.Message);
+            string expected = string.Format("SetUp : {0} : {1}", e.GetType().FullName, e.Message);
             Assert.AreEqual(expected, result.Message);
         }
 
