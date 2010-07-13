@@ -129,11 +129,11 @@ namespace NUnit.Core.Tests
 
             ITestDecorator decorators = (ITestDecorator)ep;
             decorators.Decorate(null, null);
-            Assert.AreEqual("mock0mock1mock3amock3bmock3cmock5amock5bmock8mock9", sb.ToString());
+            Assert.AreEqual("mock0mock1mock3cmock3bmock3amock5bmock5amock8mock9", sb.ToString());
 
             sb.Remove(0, sb.Length);
 	        decorators.Decorate(null, null);
-            Assert.AreEqual("mock0mock1mock3amock3bmock3cmock5amock5bmock8mock9", sb.ToString());
+            Assert.AreEqual("mock0mock1mock3cmock3bmock3amock5bmock5amock8mock9", sb.ToString());
         }
 
 	    [Test]

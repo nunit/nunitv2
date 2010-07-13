@@ -48,7 +48,7 @@ namespace NUnit.Core
 			if ( lists[level] == null )
 				lists[level] = new ArrayList();
 
-			lists[level].Add( extension );
+			lists[level].Insert( 0, extension );
 		}
 
 		public void Remove( object extension )
