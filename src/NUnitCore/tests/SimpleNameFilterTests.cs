@@ -10,6 +10,7 @@ using NUnit.Framework;
 using NUnit.Tests.Assemblies;
 using NUnit.Core.Builders;
 using NUnit.Core.Filters;
+using NUnit.Tests.Singletons;
 using NUnit.TestUtilities;
 
 namespace NUnit.Core.Tests
@@ -52,12 +53,45 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
+        public void MultipleNameMatchWhenPassedAsCommaSeparatedString()
+        {
+            Test mock1 = TestFinder.Find("MockTest1", testSuite, true);
+            SimpleNameFilter filter = new SimpleNameFilter("NUnit.Tests.Assemblies.MockTestFixture.MockTest3,NUnit.Tests.Assemblies.MockTestFixture.MockTest1");
+            Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
+            Assert.IsTrue(filter.Pass(mock1), "Name Filter did not pass test case");
+            Assert.IsTrue(filter.Pass((TestSuite)testSuite.Tests[0]), "Name Filter did not pass test suite");
+        }
+
+        [Test]
+        public void MultipleNameMatchWithTrailingComma()
+        {
+            Test mock1 = TestFinder.Find("MockTest1", testSuite, true);
+            SimpleNameFilter filter = new SimpleNameFilter("NUnit.Tests.Assemblies.MockTestFixture.MockTest3,NUnit.Tests.Assemblies.MockTestFixture.MockTest1,");
+            Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
+            Assert.IsTrue(filter.Pass(mock1), "Name Filter did not pass test case");
+            Assert.IsTrue(filter.Pass((TestSuite)testSuite.Tests[0]), "Name Filter did not pass test suite");
+        }
+
+        [Test]
         public void SuiteNameMatch()
         {
             NUnit.Core.TestSuite mockTest = (NUnit.Core.TestSuite)TestFinder.Find("MockTestFixture", testSuite, true);
             SimpleNameFilter filter = new SimpleNameFilter("NUnit.Tests.Assemblies.MockTestFixture");
             Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
-            Assert.IsTrue(filter.Pass(mockTest), "Suite did not pass test case");
+            Assert.IsTrue(filter.Pass(mockTest), "Fixture did not pass test case");
+            Assert.IsTrue(filter.Pass(testSuite), "Suite did not pass test case");
+        }
+
+        [Test]
+        public void MultipleSuiteNameMatch()
+        {
+            testSuite.Add(TestBuilder.MakeFixture(typeof(OneTestCase)));
+            NUnit.Core.TestSuite mockTestFixture = (NUnit.Core.TestSuite)TestFinder.Find("MockTestFixture", testSuite, true);
+            NUnit.Core.TestSuite oneTestCaseFixture = (NUnit.Core.TestSuite)TestFinder.Find("OneTestCase", testSuite, true);
+            SimpleNameFilter filter = new SimpleNameFilter("NUnit.Tests.Assemblies.MockTestFixture,NUnit.Tests.Singletons.OneTestCase");
+            Assert.IsTrue(filter.Pass(mock3), "Name Filter did not pass test case");
+            Assert.IsTrue(filter.Pass(mockTestFixture), "Fixture did not pass test case");
+            Assert.IsTrue(filter.Pass(oneTestCaseFixture), "Fixture did not pass test case");
             Assert.IsTrue(filter.Pass(testSuite), "Suite did not pass test case");
         }
 
@@ -75,7 +109,7 @@ namespace NUnit.Core.Tests
             NUnit.Core.TestSuite mockTest = (NUnit.Core.TestSuite)TestFinder.Find("MockTestFixture", testSuite, true);
             SimpleNameFilter filter = new SimpleNameFilter("NUnit.Tests.Assemblies.MockTestFixture");
             Assert.AreEqual(true, filter.Pass(mock3), "test case");
-            Assert.AreEqual(true, filter.Pass(mockTest), "middle suite");
+            Assert.AreEqual(true, filter.Pass(mockTest), "fixture");
             Assert.AreEqual(true, filter.Pass(testSuite), "test suite");
         }
 

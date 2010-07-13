@@ -16,7 +16,7 @@ namespace NUnit.ConsoleRunner
 		[Option(Short="load", Description = "Test fixture or namespace to be loaded (Deprecated)")]
 		public string fixture;
 
-		[Option(Description = "Name of the test case, fixture or namespace to run")]
+		[Option(Description = "Name of the test case(s), fixture(s) or namespace(s) to run")]
 		public string run;
 
 		[Option(Description = "Project configuration (e.g.: Debug) to load")]
