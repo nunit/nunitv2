@@ -186,29 +186,55 @@ namespace NUnit.Core
             {
                 if (monoExePath == null)
                 {
-                    if (RuntimeFramework.CurrentFramework.IsMono)
-                        return AssemblyHelper.GetAssemblyPath(Assembly.GetEntryAssembly());
+                    string[] searchNames = IsWindows()
+                        ? new string[] { "mono.bat", "mono.cmd", "mono.exe" }
+                        : new string[] { "mono", "mono.exe" };
                     
-                    // Assume it's windows for now
-                    RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Novell\Mono");
-                    if (key != null)
+                    monoExePath = FindOneOnPath(searchNames);
+
+                    if (monoExePath == null && IsWindows())
                     {
-                        string version = key.GetValue("DefaultCLR") as string;
-                        if (version != null)
+                        RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Novell\Mono");
+                        if (key != null)
                         {
-                            key = key.OpenSubKey(version);
-                            if (key != null)
+                            string version = key.GetValue("DefaultCLR") as string;
+                            if (version != null)
                             {
-                                string installDir = key.GetValue("SdkInstallRoot") as string;
-                                if (installDir != null)
-                                    monoExePath = Path.Combine(installDir, @"bin\mono.exe");
+                                key = key.OpenSubKey(version);
+                                if (key != null)
+                                {
+                                    string installDir = key.GetValue("SdkInstallRoot") as string;
+                                    if (installDir != null)
+                                        monoExePath = Path.Combine(installDir, @"bin\mono.exe");
+                                }
                             }
                         }
                     }
+
+                    if (monoExePath == null)
+                        return "mono";
                 }
 
                 return monoExePath;
             }
+        }
+
+        private static string FindOneOnPath(string[] names)
+        {
+            //foreach (string dir in Environment.GetEnvironmentVariable("path").Split(new char[] { Path.PathSeparator }))
+            //    foreach (string name in names)
+            //    {
+            //        string fullPath = Path.Combine(dir, name);
+            //        if (File.Exists(fullPath))
+            //            return name;
+            //    }
+
+            return null;
+        }
+
+        private static bool IsWindows()
+        {
+            return Environment.OSVersion.Platform == PlatformID.Win32NT;
         }
         #endregion
 
