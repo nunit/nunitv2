@@ -188,9 +188,9 @@ namespace NUnit.Core.Builders
                     testMethod.TestName.Name = parms.TestName;
                     testMethod.TestName.FullName = prefix + "." + parms.TestName;
                 }
-                else if (parms.Arguments != null)
+                else if (parms.OriginalArguments != null)
                 {
-                    string name = MethodHelper.GetDisplayName(method, parms.Arguments);
+                    string name = MethodHelper.GetDisplayName(method, parms.OriginalArguments);
                     testMethod.TestName.Name = name;
                     testMethod.TestName.FullName = prefix + "." + name;
                 }
@@ -298,7 +298,29 @@ namespace NUnit.Core.Builders
                 return false;
             }
 
-            if (argsProvided != argsNeeded)
+            //if (argsProvided > argsNeeded)
+            //{
+            //    ParameterInfo lastParameter = parameters[argsNeeded - 1];
+            //    Type lastParameterType = lastParameter.ParameterType;
+
+            //    if (lastParameterType.IsArray && lastParameter.IsDefined(typeof(ParamArrayAttribute), false))
+            //    {
+            //        object[] newArglist = new object[argsNeeded];
+            //        for (int i = 0; i < argsNeeded; i++)
+            //            newArglist[i] = arglist[i];
+
+            //        int length = argsProvided - argsNeeded + 1;
+            //        Array array = Array.CreateInstance(lastParameterType.GetElementType(), length);
+            //        for (int i = 0; i < length; i++)
+            //            array.SetValue(arglist[argsNeeded + i - 1], i);
+
+            //        newArglist[argsNeeded - 1] = array;
+            //        testMethod.arguments = arglist = newArglist;
+            //        argsProvided = argsNeeded;
+            //    }
+            //}
+
+            if (argsProvided != argsNeeded )
             {
                 testMethod.RunState = RunState.NotRunnable;
                 testMethod.IgnoreReason = "Wrong number of arguments provided";

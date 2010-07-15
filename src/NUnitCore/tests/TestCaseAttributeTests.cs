@@ -121,6 +121,7 @@ namespace NUnit.Core.Tests
             throw new System.Exception("Test Exception thrown here");
         }
 
+
 #if NET_2_0
         [TestCase(null, null)]
         public void CanPassNullAsArgument(object a, string b)
@@ -161,6 +162,22 @@ namespace NUnit.Core.Tests
         {
             Assert.AreEqual(1, array[0]);
             Assert.AreEqual("b", array[1]);
+        }
+
+        [TestCase("a", "b")]
+        public void HandlesParamsArrayAsSoleArgument(params object[] array)
+        {
+            Assert.AreEqual("a", array[0]);
+            Assert.AreEqual("b", array[1]);
+        }
+
+        [TestCase("a", "b", "c", "d")]
+        public void HandlesParamsArrayAsLastArgument(string s1, string s2, params object[] array)
+        {
+            Assert.AreEqual("a", s1);
+            Assert.AreEqual("b", s2);
+            Assert.AreEqual("c", array[0]);
+            Assert.AreEqual("d", array[1]);
         }
 
         [Test]

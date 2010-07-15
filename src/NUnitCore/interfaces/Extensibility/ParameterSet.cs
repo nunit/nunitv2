@@ -28,6 +28,7 @@ namespace NUnit.Core.Extensibility
         private RunState runState;
         private Exception providerException;
         private object[] arguments;
+        private object[] originalArguments;
         private System.Type expectedExceptionType;
         private string expectedExceptionName;
         private string expectedMessage;
@@ -79,7 +80,22 @@ namespace NUnit.Core.Extensibility
         public object[] Arguments
         {
             get { return arguments; }
-            set { arguments = value; }
+            set 
+            {
+                arguments = value;
+
+                if (originalArguments == null)
+                    originalArguments = value;
+            }
+        }
+
+        /// <summary>
+        /// The original arguments supplied by the user,
+        /// used for display purposes.
+        /// </summary>
+        public object[] OriginalArguments
+        {
+            get { return originalArguments; }
         }
 
         /// <summary>
