@@ -25,14 +25,15 @@
         <include name="Constraints/MessageWriter.cs"/>
         <include name="Constraints/MsgUtils.cs"/>
         <include name="Constraints/Numerics.cs"/>
-    <include name="Constraints/NUnitComparer.cs"/>
-    <include name="Constraints/NUnitEqualityComparer.cs"/>
+        <include name="Constraints/NUnitComparer.cs"/>
+        <include name="Constraints/NUnitEqualityComparer.cs"/>
         <include name="Constraints/PathConstraints.cs"/>
         <include name="Constraints/PredicateConstraint.cs"/>
         <include name="Constraints/PrefixConstraints.cs"/>
         <include name="Constraints/PropertyConstraint.cs"/>
         <include name="Constraints/RangeConstraint.cs"/>
         <include name="Constraints/ResolvableConstraintExpression.cs"/>
+        <include name="Constraints/ReusableConstrant.cs"/>
         <include name="Constraints/SameAsConstraint.cs"/>
         <include name="Constraints/SerializableConstraints.cs"/>
         <include name="Constraints/StringConstraints.cs"/>

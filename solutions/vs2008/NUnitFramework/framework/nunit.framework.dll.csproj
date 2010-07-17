@@ -416,6 +416,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\PredicateConstraint.cs">
       <Link>Constraints\PredicateConstraint.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ReusableConstraint.cs">
+      <Link>Constraints\ReusableConstraint.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">
