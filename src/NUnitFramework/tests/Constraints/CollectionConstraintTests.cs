@@ -11,7 +11,7 @@ using System.Collections.Generic;
 #endif
 using NUnit.Framework.Tests;
 
-namespace NUnit.Framework.Constraints.Tests
+namespace NUnit.Framework.Constraints
 {
     #region AllItems
     [TestFixture]

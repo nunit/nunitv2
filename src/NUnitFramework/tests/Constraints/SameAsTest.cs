@@ -4,7 +4,7 @@
 // obtain a copy of the license at http://nunit.org.
 // ****************************************************************
 
-namespace NUnit.Framework.Constraints.Tests
+namespace NUnit.Framework.Constraints
 {
     [TestFixture]
     public class SameAsTest : ConstraintTestBase

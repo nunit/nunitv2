@@ -7,7 +7,7 @@
 using System;
 using NUnit.Framework.Tests;
 
-namespace NUnit.Framework.Constraints.Tests
+namespace NUnit.Framework.Constraints
 {
     [TestFixture]
     public class ThrowsConstraintTest_ExactType : ConstraintTestBase

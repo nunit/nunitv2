@@ -6,7 +6,7 @@
 
 using System;
 
-namespace NUnit.Framework.Constraints.Tests
+namespace NUnit.Framework.Constraints
 {
     public class PropertyExistsTest : ConstraintTestBaseWithExceptionTests
     {

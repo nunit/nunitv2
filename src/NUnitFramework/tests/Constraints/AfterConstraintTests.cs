@@ -7,7 +7,7 @@
 using System;
 using System.Threading;
 
-namespace NUnit.Framework.Constraints.Tests
+namespace NUnit.Framework.Constraints
 {
     [TestFixture]
 	public class AfterConstraintTest : ConstraintTestBase

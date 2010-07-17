@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Drawing;
 
-namespace NUnit.Framework.Constraints.Tests
+namespace NUnit.Framework.Constraints
 {
     [TestFixture]
     public class FloatingPointNumericsTest

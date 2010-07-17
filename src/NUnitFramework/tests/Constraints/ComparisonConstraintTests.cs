@@ -10,7 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 #endif
 
-namespace NUnit.Framework.Constraints.Tests
+namespace NUnit.Framework.Constraints
 {
     #region ComparisonTest
     public abstract class ComparisonConstraintTest : ConstraintTestBaseWithArgumentException
