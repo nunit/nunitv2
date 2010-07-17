@@ -22,6 +22,7 @@
     <include name="Constraints/SerializableConstraintTest.cs"/>
     <include name="Constraints/StringConstraintTests.cs"/>
     <include name="Constraints/ThrowsConstraintTests.cs"/>
+    <include name="Constraints/ToStringTests.cs"/>
     <include name="Constraints/TypeConstraintTests.cs"/>
     <include name="Syntax/AfterTests.cs"/>
     <include name="Syntax/ArbitraryConstraintMatching.cs"/>

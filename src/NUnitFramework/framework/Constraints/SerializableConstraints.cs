@@ -79,7 +79,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Returns the string representation
         /// </summary>
-        public override string ToString()
+        protected override string GetStringRepresentation()
         {
             return "<binaryserializable>";
         }
@@ -159,7 +159,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Returns the string representation of this constraint
         /// </summary>
-        public override string ToString()
+        protected override string GetStringRepresentation()
         {
             return "<xmlserializable>";
         }

@@ -335,6 +335,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\tests\Syntax\ArbitraryConstraintMatching.cs">
       <Link>Syntax\ArbitraryConstraintMatching.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\tests\Constraints\ToStringTests.cs">
+      <Link>Constraints\ToStringTests.cs</Link>
+    </Compile>
     <EmbeddedResource Include="..\..\..\..\src\NUnitFramework\tests\TestImage1.jpg">
       <Link>TestImage1.jpg</Link>
     </EmbeddedResource>

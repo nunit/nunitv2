@@ -222,6 +222,16 @@ namespace NUnit.Framework.Constraints
         /// <returns></returns>
         public override string ToString()
         {
+            string rep = GetStringRepresentation();
+
+            return this.builder == null ? rep : string.Format("<unresolved {0}>", rep);
+        }
+
+        /// <summary>
+        /// Returns the string representation of this constraint
+        /// </summary>
+        protected virtual string GetStringRepresentation()
+        {
             switch (argcnt)
             {
                 default:
