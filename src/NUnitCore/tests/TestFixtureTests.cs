@@ -112,7 +112,7 @@ namespace NUnit.Core.Tests
         public void FixtureInheritingTwoTestFixtureAttributesIsLoadedOnlyOnce()
         {
             TestSuite suite = TestBuilder.MakeFixture(typeof(DoubleDerivedClassWithTwoInheritedAttributes));
-            Assert.That(suite, Is.TypeOf<NUnitTestFixture>());
+            Assert.That(suite, Is.TypeOf(typeof(NUnitTestFixture)));
             Assert.That(suite.Tests.Count, Is.EqualTo(0));
         }
 
