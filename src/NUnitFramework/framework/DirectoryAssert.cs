@@ -4,6 +4,7 @@
 // copyright ownership at http://nunit.org.
 // ****************************************************************
 
+using System;
 using System.Collections;
 using System.IO;
 using System.ComponentModel;
@@ -14,6 +15,7 @@ namespace NUnit.Framework
     /// <summary>
     /// Summary description for DirectoryAssert
     /// </summary>
+    [Obsolete("Use Assert with constraint-based syntax")]
     public class DirectoryAssert
     {
         #region Equals and ReferenceEquals

@@ -69,6 +69,7 @@ namespace NUnit.Framework.Constraints
     /// <summary>
     /// SubDirectoryConstraint is used to test that one directory is a subdirectory of another.
     /// </summary>
+    [Obsolete("Use SamePathOrUnderConstraint")]
     public class SubDirectoryConstraint : Constraint
     {
         private DirectoryInfo parentDir;
