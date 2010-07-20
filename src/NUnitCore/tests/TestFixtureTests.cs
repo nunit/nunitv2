@@ -329,5 +329,39 @@ namespace NUnit.Core.Tests
             TestAssert.IsNotRunnable(typeof(FixtureTearDownWithParameters));
 		}
 		#endregion
-	}
+
+        #region Nested Fixtures
+
+        [TestFixture]
+        private class PrivateTestFixture
+        {
+            [Test]
+            public void CanRunTestInPrivateTestFixture()
+            {
+                Assert.True(true);
+            }
+        }
+
+        [TestFixture]
+        protected class ProtectedTestFixture
+        {
+            [Test]
+            public void CanRunTestInProtectedTestFixture()
+            {
+                Assert.True(true);
+            }
+        }
+
+        [TestFixture]
+        internal class InternalTestFixture
+        {
+            [Test]
+            public void CanRunTestInInternalTestFixture()
+            {
+                Assert.True(true);
+            }
+        }
+
+        #endregion
+    }
 }
