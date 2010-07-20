@@ -9,32 +9,32 @@ using NUnit.Framework;
 
 namespace NUnit.TestData.FixtureSetUpTearDown
 {
-	[TestFixture]
-	public class SetUpAndTearDownFixture
-	{
-		public int setUpCount = 0;
-		public int tearDownCount = 0;
+    [TestFixture]
+    public class SetUpAndTearDownFixture
+    {
+        public int setUpCount = 0;
+        public int tearDownCount = 0;
 
-		[TestFixtureSetUp]
-		public virtual void Init()
-		{
-			setUpCount++;
-		}
+        [TestFixtureSetUp]
+        public virtual void Init()
+        {
+            setUpCount++;
+        }
 
-		[TestFixtureTearDown]
-		public virtual void Destroy()
-		{
-			tearDownCount++;
-		}
+        [TestFixtureTearDown]
+        public virtual void Destroy()
+        {
+            tearDownCount++;
+        }
 
-		[Test]
-		public void Success(){}
+        [Test]
+        public void Success() { }
 
-		[Test]
-		public void EvenMoreSuccess(){}
-	}
+        [Test]
+        public void EvenMoreSuccess() { }
+    }
 
-	[TestFixture,Explicit]
+    [TestFixture, Explicit]
 	public class ExplicitSetUpAndTearDownFixture
 	{
 		public int setUpCount = 0;
@@ -124,9 +124,53 @@ namespace NUnit.TestData.FixtureSetUpTearDown
         public void YetAnotherTest() { }
     }
 
+    [TestFixture]
+    public class StaticSetUpAndTearDownFixture
+    {
+        public static int setUpCount = 0;
+        public static int tearDownCount = 0;
+
+        [TestFixtureSetUp]
+        public static void Init()
+        {
+            setUpCount++;
+        }
+
+        [TestFixtureTearDown]
+        public static void Destroy()
+        {
+            tearDownCount++;
+        }
+    }
+
+    [TestFixture]
+    public class DerivedStaticSetUpAndTearDownFixture : StaticSetUpAndTearDownFixture
+    {
+        public static int derivedSetUpCount;
+        public static int derivedTearDownCount;
+
+        public static bool baseSetUpCalledFirst;
+        public static bool baseTearDownCalledLast;
+
+
+        [TestFixtureSetUp]
+        public static void Init2()
+        {
+            derivedSetUpCount++;
+            baseSetUpCalledFirst = setUpCount > 0;
+        }
+
+        [TestFixtureTearDown]
+        public static void Destroy2()
+        {
+            derivedTearDownCount++;
+            baseTearDownCalledLast = tearDownCount == 0;
+        }
+    }
+
 #if NET_2_0
     [TestFixture]
-    public static class StaticSetUpAndTearDownFixture
+    public static class StaticClassSetUpAndTearDownFixture
     {
         public static int setUpCount = 0;
         public static int tearDownCount = 0;
