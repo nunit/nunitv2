@@ -21,7 +21,7 @@ namespace NUnit.Util.Tests
         [SetUp]
         public void CreateAgency()
         {
-            agency = new TestAgency("TempTestAgency", 9300);
+            agency = new TestAgency("TempTestAgency", 0);
             agency.Start();
         }
 
@@ -34,7 +34,7 @@ namespace NUnit.Util.Tests
         [Test]
         public void CanConnectToAgency()
         {
-            object obj = Activator.GetObject(typeof(TestAgency), ServerUtilities.MakeUrl("TempTestAgency", 9300));
+            object obj = Activator.GetObject(typeof(TestAgency), agency.ServerUrl);
             Assert.IsNotNull(obj);
             Assert.That(obj is TestAgency);
         }

@@ -125,11 +125,5 @@ namespace NUnit.Util
 					// Channel was not registered - ignore
 				}
 		}
-
-		public static string MakeUrl( string uri, int port )
-		{
-			return string.Format( "tcp://127.0.0.1:{0}/{1}", port, uri );
-		}
-
 	}
 }

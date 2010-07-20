@@ -47,7 +47,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region Constructors
-		public TestAgency() : this( "TestAgency", 9100 ) { }
+		public TestAgency() : this( "TestAgency", 0 ) { }
 
 		public TestAgency( string uri, int port ) : base( uri, port ) { }
 		#endregion
@@ -171,7 +171,7 @@ namespace NUnit.Util
 			Process p = new Process();
 			p.StartInfo.UseShellExecute = false;
             Guid agentId = Guid.NewGuid();
-            string arglist = agentId.ToString() + " " + ServerUtilities.MakeUrl(this.uri, this.port);
+            string arglist = agentId.ToString() + " " + ServerUrl;
             if (enableDebug)
                 arglist += " --pause";
 
