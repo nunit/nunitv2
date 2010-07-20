@@ -23,8 +23,8 @@ namespace NUnit.Framework.Constraints
 
         string[] ActualValues = new string[]
             {
-                "<NUnit.Framework.Constraints.Tests.B>",
-                "<NUnit.Framework.Constraints.Tests.D2>"
+                "<NUnit.Framework.Constraints.B>",
+                "<NUnit.Framework.Constraints.D2>"
             };
     }
 
@@ -45,7 +45,7 @@ namespace NUnit.Framework.Constraints
 
         string[] ActualValues = new string[]
             {
-                "<NUnit.Framework.Constraints.Tests.B>"
+                "<NUnit.Framework.Constraints.B>"
             };
     }
 
@@ -66,7 +66,7 @@ namespace NUnit.Framework.Constraints
 
         string[] ActualValues = new string[]
             {
-                "<NUnit.Framework.Constraints.Tests.D2>"
+                "<NUnit.Framework.Constraints.D2>"
             };
     }
 
@@ -87,7 +87,7 @@ namespace NUnit.Framework.Constraints
 
         string[] ActualValues = new string[]
             {
-                "<NUnit.Framework.Constraints.Tests.B>"
+                "<NUnit.Framework.Constraints.B>"
             };
     }
 
@@ -114,7 +114,7 @@ namespace NUnit.Framework.Constraints
 
         string[] ActualValues = new string[]
             {
-                "<NUnit.Framework.Constraints.Tests.D2>"
+                "<NUnit.Framework.Constraints.D2>"
             };
 
         [Test, ExpectedException(typeof(System.ArgumentException))]
