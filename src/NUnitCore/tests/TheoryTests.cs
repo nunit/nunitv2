@@ -82,6 +82,15 @@ namespace NUnit.Core.Tests
             Assert.That(s.StartsWith("xyz"));
         }
 
+        //[Datapoint]
+        //public double[,] Array2X2 = new double[,] { { 1, 0 }, { 0, 1 } };
+
+        //[Theory]
+        //public void TestForArbitraryArray<T>(T[,] array)
+        //{
+        //}
+
+
         private void SquareRootTest(double d)
         {
             Assume.That(d > 0);
