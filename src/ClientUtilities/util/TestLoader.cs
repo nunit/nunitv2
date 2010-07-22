@@ -39,6 +39,11 @@ namespace NUnit.Util
 		/// </summary>
 		private TestEventDispatcher events;
 
+        /// <summary>
+        /// Our TestRunnerFactory
+        /// </summary>
+        private ITestRunnerFactory factory;
+
 		/// <summary>
 		/// Loads and executes tests. Non-null when
 		/// we have loaded a test.
@@ -114,6 +119,7 @@ namespace NUnit.Util
 		public TestLoader(TestEventDispatcher eventDispatcher )
 		{
 			this.events = eventDispatcher;
+            this.factory = new DefaultTestRunnerFactory();
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler( OnUnhandledException );
 		}
 
@@ -445,7 +451,7 @@ namespace NUnit.Util
 				events.FireTestLoading( TestFileName );
 
                 TestPackage package = MakeTestPackage(testName);
-				testRunner = new TestRunnerFactory().MakeTestRunner(package);
+				testRunner = factory.MakeTestRunner(package);
 
                 bool loaded = testRunner.Load(package);
 
@@ -554,7 +560,7 @@ namespace NUnit.Util
                     package.Settings["RuntimeFramework"] = framework;
 
                 testRunner.Unload();
-                testRunner = new TestRunnerFactory().MakeTestRunner(package);
+                testRunner = factory.MakeTestRunner(package);
 
                 if (testRunner.Load(package))
                     this.currentFramework = package.Settings.Contains("RuntimeFramework")

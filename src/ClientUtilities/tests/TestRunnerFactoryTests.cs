@@ -9,13 +9,13 @@ namespace NUnit.Util.Tests
     {
         private RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
         private string testDll = "test.dll";
-        private TestRunnerFactory factory;
+        private DefaultTestRunnerFactory factory;
         private TestPackage package;
 
         [SetUp]
         public void Init()
         {
-            factory = new TestRunnerFactory();
+            factory = new DefaultTestRunnerFactory();
             package = new TestPackage(testDll);
         }
 

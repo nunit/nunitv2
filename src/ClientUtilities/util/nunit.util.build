@@ -10,6 +10,8 @@
         <include name="CategoryManager.cs"/>
         <include name="CommandLineOptions.cs"/>
         <include name="ConsoleWriter.cs"/>
+        <include name="DefaultTestRunnerFactory.cs"/>
+        <include name="InProcessTestRunnerFactory.cs"/>
         <include name="MemorySettingsStorage.cs"/>
         <include name="NUnitProject.cs"/>
         <include name="NUnitRegistry.cs"/>
@@ -38,7 +40,6 @@
         <include name="TestLoader.cs"/>
         <include name="TestObserver.cs"/>
         <include name="TestResultItem.cs"/>
-        <include name="TestRunnerFactory.cs"/>
         <include name="TestServer.cs"/>
         <include name="VSProject.cs"/>
         <include name="VSProjectConfig.cs"/>
@@ -52,6 +53,7 @@
         <include name="Interfaces/ISettings.cs"/>
         <include name="Interfaces/ITestEvents.cs"/>
         <include name="Interfaces/ITestLoader.cs"/>
+        <include name="Interfaces/ITestRunnerFactory.cs"/>
         <include name="ProjectConverters/VisualStudioConverter.cs"/>
         <include name="Services/AddinManager.cs"/>
         <include name="Services/AddinRegistry.cs"/>

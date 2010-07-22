@@ -120,7 +120,7 @@ namespace NUnit.Util
         {
             log.Info("Getting agent for use under {0}", framework);
  
-            if (!RuntimeFramework.IsAvailable(framework))
+            if (!framework.IsAvailable)
                 throw new ArgumentException(
                     string.Format("The {0} framework is not available", framework),
                     "framework");

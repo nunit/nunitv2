@@ -3,18 +3,21 @@
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
+
 using System;
 using NUnit.Core;
 
 namespace NUnit.Util
 {
     /// <summary>
-    /// Handles creation of a suitable test runner for a given package
+    /// DefaultTestRunnerFactory handles creation of a suitable test 
+    /// runner for a given package to be loaded and run either in a 
+    /// separate process or within the same process. 
     /// </summary>
-    public class TestRunnerFactory
+    public class DefaultTestRunnerFactory : InProcessTestRunnerFactory, ITestRunnerFactory
     {
-        private RuntimeFrameworkSelector selector = new RuntimeFrameworkSelector();
-
+        private RuntimeFrameworkSelector selector = new RuntimeFrameworkSelector();        
+        
         /// <summary>
         /// Returns a test runner based on the settings in a TestPackage.
         /// Any setting that is "consumed" by the factory is removed, so
@@ -23,14 +26,14 @@ namespace NUnit.Util
         /// </summary>
         /// <param name="package">The TestPackage to be loaded and run</param>
         /// <returns>A TestRunner</returns>
-        public TestRunner MakeTestRunner(TestPackage package)
+        public override TestRunner MakeTestRunner(TestPackage package)
         {
             RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
             RuntimeFramework targetFramework = selector.SelectRuntimeFramework(package);
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if ( processModel == ProcessModel.Default )
-                if ( !targetFramework.MatchesClr( currentFramework ) )
+                if ( !targetFramework.Matches( currentFramework ) )
                     processModel = ProcessModel.Separate;
 
             switch (processModel)
@@ -42,21 +45,10 @@ namespace NUnit.Util
                     package.Settings.Remove("ProcessModel");
                     return new ProcessRunner();
                 default:
-                    DomainUsage domainUsage = 
-                        (DomainUsage)package.GetSetting("DomainUsage", DomainUsage.Default);
-                    switch (domainUsage)
-                    {
-                        case DomainUsage.Multiple:
-                            package.Settings.Remove("DomainUsage");
-                            return new MultipleTestDomainRunner();
-                        case DomainUsage.None:
-                            return new RemoteTestRunner();
-                        case DomainUsage.Single:
-                        default:
-                            return new TestDomain();
-                    }
+                    return base.MakeTestRunner(package);
             }
         }
-
     }
+
+
 }

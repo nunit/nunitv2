@@ -187,17 +187,17 @@ namespace NUnit.Core
                     nameOK = os.IsUnix;
 					break;
 				case "NET":
-					nameOK = rt.IsNet;
+					nameOK = rt.Runtime == RuntimeType.Net;
 					break;
 				case "NETCF":
-					nameOK = rt.IsNetCF;
+					nameOK = rt.Runtime == RuntimeType.NetCF;
 					break;
 				case "SSCLI":
 				case "ROTOR":
-					nameOK = rt.IsSSCLI;
+					nameOK = rt.Runtime == RuntimeType.SSCLI;
 					break;
 				case "MONO":
-                    nameOK = rt.IsMono;
+                    nameOK = rt.Runtime == RuntimeType.Mono;
 					// Special handling because Mono 1.0 profile has version 1.1
 					if ( versionSpecification == "1.0" )
 						versionSpecification = "1.1";

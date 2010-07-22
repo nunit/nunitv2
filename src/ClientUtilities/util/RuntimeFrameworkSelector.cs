@@ -52,7 +52,7 @@ namespace NUnit.Util
                 }
 
                 RuntimeFramework checkFramework = new RuntimeFramework(targetRuntime, targetVersion);
-                if (!RuntimeFramework.IsAvailable(checkFramework) || NUnitConfiguration.GetTestAgentExePath(targetVersion) == null)
+                if (!checkFramework.IsAvailable || NUnitConfiguration.GetTestAgentExePath(targetVersion) == null)
                 {
                     log.Debug("Preferred version {0} is not installed or this NUnit installation does not support it", targetVersion);
                     if (targetVersion < currentFramework.FrameworkVersion)

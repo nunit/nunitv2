@@ -27,7 +27,7 @@ namespace NUnit.Core.Tests
         [Test]
         public void CurrentFrameworkMustBeAvailable()
         {
-            Assert.That(RuntimeFramework.IsAvailable(RuntimeFramework.CurrentFramework));
+            Assert.That(RuntimeFramework.CurrentFramework.IsAvailable);
         }
 
         [Test]
@@ -39,7 +39,7 @@ namespace NUnit.Core.Tests
             foreach (RuntimeFramework framework in available)
             {
                 Console.WriteLine("Available: {0}", framework.DisplayName);
-                foundCurrent |= RuntimeFramework.CurrentFramework.MatchesClr(framework);
+                foundCurrent |= RuntimeFramework.CurrentFramework.Matches(framework);
             }
             Assert.That(foundCurrent, "CurrentFramework not listed");
         }
@@ -71,7 +71,7 @@ namespace NUnit.Core.Tests
         [TestCaseSource("matchData")]
         public bool CanMatchRuntimes(RuntimeFramework f1, RuntimeFramework f2)
         {
-            return f1.MatchesClr(f2);
+            return f1.Matches(f2);
         }
 
         static TestCaseData[] matchData = new TestCaseData[] {

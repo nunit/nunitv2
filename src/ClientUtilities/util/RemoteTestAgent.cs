@@ -95,12 +95,17 @@ namespace NUnit.Util
         #region Nested AgentRunner class
         class AgentRunner : ProxyTestRunner
         {
+            private ITestRunnerFactory factory;
+
             public AgentRunner(int runnerID)
-                : base(runnerID) { }
+                : base(runnerID) 
+            {
+                this.factory = new InProcessTestRunnerFactory();
+            }
 
             public override bool Load(TestPackage package)
             {
-                this.TestRunner = new TestRunnerFactory().MakeTestRunner(package);
+                this.TestRunner = factory.MakeTestRunner(package);
                 
                 return base.Load(package);
             }

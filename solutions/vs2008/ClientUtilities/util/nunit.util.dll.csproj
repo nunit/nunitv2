@@ -135,6 +135,9 @@
       <Link>ConsoleWriter.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\DefaultTestRunnerFactory.cs">
+      <Link>DefaultTestRunnerFactory.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\Extensibility\IProjectConverter.cs">
       <Link>Extensibility\IProjectConverter.cs</Link>
     </Compile>
@@ -323,14 +326,17 @@
       <Link>CommonAssemblyInfo.cs</Link>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="..\..\..\..\src\ClientUtilities\util\TestRunnerFactory.cs">
-      <Link>TestRunnerFactory.cs</Link>
-    </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\Interfaces\IRuntimeFrameworkSelector.cs">
       <Link>Interfaces\IRuntimeFrameworkSelector.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\ClientUtilities\util\RuntimeFrameworkSelector.cs">
       <Link>RuntimeFrameworkSelector.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\Interfaces\ITestRunnerFactory.cs">
+      <Link>Interfaces\ITestRunnerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\ClientUtilities\util\InProcessTestRunnerFactory.cs">
+      <Link>InProcessTestRunnerFactory.cs</Link>
     </Compile>
     <EmbeddedResource Include="..\..\..\..\src\ClientUtilities\util\Transform.resx">
       <Link>Transform.resx</Link>

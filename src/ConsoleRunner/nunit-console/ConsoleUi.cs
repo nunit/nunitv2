@@ -66,7 +66,7 @@ namespace NUnit.ConsoleRunner
                     ? package.Settings["RuntimeFramework"]
                     : "Default");
 
-            TestRunner testRunner = new TestRunnerFactory().MakeTestRunner(package);
+            TestRunner testRunner = new DefaultTestRunnerFactory().MakeTestRunner(package);
             testRunner.Load(package);
 
             try
