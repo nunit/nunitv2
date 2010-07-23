@@ -28,10 +28,8 @@ namespace NUnit.Framework.Constraints
         [TestCase("\t", "\\t")]
         [TestCase("\t\n", "\\t\\n")]
         [TestCase("\\r\\n", "\\\\r\\\\n")]
-#if !MONO
-        [TestCase("\0", "\\0")]
-#endif
         // TODO: Figure out why this fails in Mono
+        // TODO: Need Platform property on test case
         //[TestCase("\0", "\\0")]
         [TestCase("\a", "\\a")]
         [TestCase("\b", "\\b")]
