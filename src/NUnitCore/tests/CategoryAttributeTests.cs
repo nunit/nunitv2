@@ -43,5 +43,20 @@ namespace NUnit.Core.Tests
 			Test test2 = (Test)fixture.Tests[1];
 			Assert.Contains( "Critical", test2.Categories );
 		}
-	}
+
+        [Test]
+        public void CountTestsWithoutCategoryFilter()
+        {
+            Assert.That(fixture.CountTestCases(TestFilter.Empty), Is.EqualTo(2));
+        }
+
+        [TestCase("Database", Result = 0)]
+        [TestCase("Long", Result = 1)]
+        [TestCase("Critical", Result = 1)]
+        public int CountTestsUsingCategoryFilter(string name)
+        {
+            TestFilter filter = new Filters.CategoryFilter(name);
+            return fixture.CountTestCases(filter);
+        }
+    }
 }
