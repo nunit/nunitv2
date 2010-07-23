@@ -18,7 +18,7 @@
     <include name="Constraints/OrTest.cs"/>
     <include name="Constraints/PathConstraintTests.cs"/>
     <include name="Constraints/PropertyTests.cs"/>
-    <include name="Constraints/ReusableConstraintTest"/>
+    <include name="Constraints/ReusableConstraintTests.cs"/>
     <include name="Constraints/SameAsTest.cs"/>
     <include name="Constraints/SerializableConstraintTest.cs"/>
     <include name="Constraints/StringConstraintTests.cs"/>

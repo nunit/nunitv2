@@ -33,7 +33,7 @@
         <include name="Constraints/PropertyConstraint.cs"/>
         <include name="Constraints/RangeConstraint.cs"/>
         <include name="Constraints/ResolvableConstraintExpression.cs"/>
-        <include name="Constraints/ReusableConstrant.cs"/>
+        <include name="Constraints/ReusableConstraint.cs"/>
         <include name="Constraints/SameAsConstraint.cs"/>
         <include name="Constraints/SerializableConstraints.cs"/>
         <include name="Constraints/StringConstraints.cs"/>

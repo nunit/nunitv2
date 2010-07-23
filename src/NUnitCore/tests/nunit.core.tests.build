@@ -20,7 +20,7 @@
         <include name="CombinatorialTests.cs"/>
         <include name="CoreExtensionsTests.cs"/>
         <include name="CultureSettingAndDetectionTests.cs"/>
-        <include name="SetCultureAttributeTests.cs"/>
+        <include name="DatapointTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>
         <include name="EventQueueTests.cs"/>
         <include name="EventTestFixture.cs"/>
@@ -43,6 +43,7 @@
         <include name="RepeatedTestFixture.cs"/>
         <include name="RuntimeFrameworkTests.cs"/>
         <include name="SerializationBug.cs"/>
+        <include name="SetCultureAttributeTests.cs"/>
         <include name="SetUpFixtureTests.cs"/>
         <include name="SetUpTest.cs"/>
         <include name="SimpleNameFilterTests.cs"/>
