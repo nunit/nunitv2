@@ -1,0 +1,30 @@
+PNUnit-Changes - NUnit 2.5.6
+
+For NUnit 2.5.6, PNUnit has been re-ported from the latest code published on the
+Codice Software site, which uses NUnit 2.2.5. This is a minimal port, so as to 
+as close to possible to the Codice public release. 
+
+This file documents changes made in porting the code.
+
+1. The codice license file is located in the PNUnit directory.
+
+2. The four Visual Studio projects have been renamed using a pnunit- prefix.
+
+3. NUnit references have been changed to version 2.5.6
+
+4. Code changes to build and run using NUnit 2.5.6 are made using conditional
+compilation (#if NUNIT_2_5) to make it easier to locate and backport the changes 
+to the Codice version of the code. Some specific changes are listed here.
+
+  4.1 Ambiguous references (TestInfo) and missing classes (TestCase,
+      TestSuiteResult, TestCaseResult) are handled using aliases. 
+
+  4.2 PNUnitTestResult has AllTestsExecuted removed.
+
+  4.3 Agent.Main() now starts the Services required for running tests.
+
+  4.4 PNUnitTestRunner has a number of changes:
+      * Inherits directly from MarshalByRefObject and overrides InitializeLifetimeService
+      * Creates a TestPackage and uses it to set options for the run
+      * Uses a TestFilter to select the individual test to run
+      * Uses the updated EventListener interface

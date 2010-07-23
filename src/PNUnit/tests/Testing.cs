@@ -1,8 +1,3 @@
-// ****************************************************************
-// This is free software licensed under the NUnit license. You may
-// obtain a copy of the license at http://nunit.org.
-// ****************************************************************
-
 using System;
 using System.Threading;
 
@@ -12,40 +7,40 @@ using PNUnit.Framework;
 
 namespace TestLibraries
 {
-    
-    [TestFixture]
-    public class Testing
-    {
-        [Test]
-        public void EqualTo19()
-        {
-            Assert.AreEqual(19, Cmp.Add(15,4));
-        }
+	
+	[TestFixture]
+	public class Testing
+	{
+		[Test]
+		public void EqualTo19()
+		{
+			Assert.AreEqual(19, Cmp.Add(15,4));
+		}
 
 
-        [Test]
-        public void Server()
-        {
-            PNUnitServices.Get().InitBarriers();
-            PNUnitServices.Get().WriteLine("Server started");
+		[Test]
+		public void Server()
+		{
+			PNUnitServices.Get().InitBarrier("BARRIER");
+			PNUnitServices.Get().WriteLine("Server started");
 
-            Thread.Sleep(10000);
+			Thread.Sleep(10000);
 
-            PNUnitServices.Get().EnterBarrier("BARRIER");                
-            Assert.IsTrue(false, "The test failed");        
-        }
+			PNUnitServices.Get().EnterBarrier("BARRIER");                
+			Assert.IsTrue(false, "The test failed");        
+		}
 
-        [Test]
-        public void Client()
-        {   
-            PNUnitServices.Get().WriteLine("The client should wait until the server starts");
-            PNUnitServices.Get().InitBarriers();                
-            
-            PNUnitServices.Get().EnterBarrier("BARRIER");
+		[Test]
+		public void Client()
+		{   
+			PNUnitServices.Get().WriteLine("The client should wait until the server starts");
+			PNUnitServices.Get().InitBarrier("BARRIER");                
+			
+			PNUnitServices.Get().EnterBarrier("BARRIER");
 
-            Console.WriteLine("Server should be started now");
-            Assert.IsTrue(true, "The test failed");                
+			Console.WriteLine("Server should be started now");
+			Assert.IsTrue(true, "The test failed");                
 
-        }
-    }
+		}
+	}
 }
