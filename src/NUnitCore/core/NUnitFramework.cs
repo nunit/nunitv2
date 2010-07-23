@@ -240,10 +240,10 @@ namespace NUnit.Core
                             string categoryName = (string)Reflect.GetPropertyValue(attribute, PropertyNames.CategoryName);
                             test.Categories.Add(categoryName);
 
-                            if (categoryName.IndexOfAny(new char[] { '!', '+', '-' }) >= 0)
+                            if (categoryName.IndexOfAny(new char[] { ',', '!', '+', '-' }) >= 0)
                             {
                                 test.RunState = RunState.NotRunnable;
-                                test.IgnoreReason = "Category name must not contain '!', '+' or '-'";
+                                test.IgnoreReason = "Category name must not contain ',', '!', '+' or '-'";
                             }
                         }
 						else if ( Reflect.InheritsFrom( attributeType, PropertyAttribute ) )
