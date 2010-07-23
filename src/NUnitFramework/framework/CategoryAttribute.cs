@@ -25,7 +25,7 @@ namespace NUnit.Framework
 		/// <param name="name">The name of the category</param>
 		public CategoryAttribute(string name)
 		{
-			this.categoryName = name;
+			this.categoryName = name.Trim();
 		}
 
 		/// <summary>
