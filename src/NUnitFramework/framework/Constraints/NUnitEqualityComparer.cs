@@ -188,8 +188,15 @@ namespace NUnit.Framework.Constraints
             if (x.Count != y.Count)
                 return false;
 
-            CollectionTally tally = new CollectionTally(this, x);
-            return tally.TryRemove(y) && tally.Count == 0;
+            CollectionTally tally = new CollectionTally(this, x.Keys);
+            if (!tally.TryRemove(y.Keys) || tally.Count > 0)
+                return false;
+
+            foreach (object key in x.Keys)
+                if (!ObjectsEqual(x[key], y[key]))
+                    return false;
+
+            return true;
         }
 
         private bool CollectionsEqual(ICollection x, ICollection y)

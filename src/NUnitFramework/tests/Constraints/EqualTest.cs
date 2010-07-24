@@ -42,6 +42,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(value, new EqualConstraint(value));
         }
 
+        #region DateTime Tests
         [Test]
         public void CanMatchDates()
         {
@@ -115,7 +116,32 @@ namespace NUnit.Framework.Constraints
             Assert.That(actual, new EqualConstraint(expected).Within(TimeSpan.TicksPerMinute*5).Ticks);
         }
 
+        #endregion
+
+        #region Dictionary Tests
         // TODO: Move these to a separate fixture
+        [Test]
+        public void CanMatchHashtables_SameOrder()
+        {
+            Assert.AreEqual(new Hashtable { { 0, 0 }, { 1, 1 }, { 2, 2 } },
+                            new Hashtable { { 0, 0 }, { 1, 1 }, { 2, 2 } });
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void CanMatchHashtables_Failure()
+        {
+            Assert.AreEqual(new Hashtable { { 0, 0 }, { 1, 1 }, { 2, 2 } },
+                            new Hashtable { { 0, 0 }, { 1, 5 }, { 2, 2 } });
+        }
+
+        [Test]
+        public void CanMatchHashtables_DifferentOrder()
+        {
+            Assert.AreEqual(new Hashtable { { 0, 0 }, { 1, 1 }, { 2, 2 } },
+                            new Hashtable { { 0, 0 }, { 2, 2 }, { 1, 1 } });
+        }
+
+#if NET_2_0
         [Test]
         public void CanMatchDictionaries_SameOrder()
         {
@@ -136,6 +162,15 @@ namespace NUnit.Framework.Constraints
             Assert.AreEqual(new Dictionary<int, int> { { 0, 0 }, { 1, 1 }, { 2, 2 } },
                             new Dictionary<int, int> { { 0, 0 }, { 2, 2 }, { 1, 1 } });
         }
+
+        [Test]
+        public void CanMatchHashtableWithDictionary()
+        {
+            Assert.AreEqual(new Hashtable { { 0, 0 }, { 1, 1 }, { 2, 2 } },
+                            new Dictionary<int, int> { { 0, 0 }, { 2, 2 }, { 1, 1 } });
+        }
+#endif
+        #endregion
 
         [TestCase(20000000000000004.0)]
         [TestCase(19999999999999996.0)]
