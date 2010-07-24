@@ -57,12 +57,12 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit Base Package Version - First three digits -->
-  <property name="base.package.version" value="2.5.5"/>
+  <property name="base.package.version" value="2.5.6"/>
  
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
        but may differ when we are in alpha or beta. -->
-  <property name="nominal.version" value="2.5.5" />
+  <property name="nominal.version" value="2.5.6" />
 
   <!-- Determine todays build number -->
   <property name="temp.now" value="${datetime::now()}"/>
