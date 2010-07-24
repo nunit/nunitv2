@@ -115,6 +115,28 @@ namespace NUnit.Framework.Constraints
             Assert.That(actual, new EqualConstraint(expected).Within(TimeSpan.TicksPerMinute*5).Ticks);
         }
 
+        // TODO: Move these to a separate fixture
+        [Test]
+        public void CanMatchDictionaries_SameOrder()
+        {
+            Assert.AreEqual(new Dictionary<int, int> { { 0, 0 }, { 1, 1 }, { 2, 2 } },
+                            new Dictionary<int, int> { { 0, 0 }, { 1, 1 }, { 2, 2 } });
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void CanMatchDictionaries_Failure()
+        {
+            Assert.AreEqual(new Dictionary<int, int> { { 0, 0 }, { 1, 1 }, { 2, 2 } },
+                            new Dictionary<int, int> { { 0, 0 }, { 1, 5 }, { 2, 2 } });
+        }
+
+        [Test]
+        public void CanMatchDictionaries_DifferentOrder()
+        {
+            Assert.AreEqual(new Dictionary<int, int> { { 0, 0 }, { 1, 1 }, { 2, 2 } },
+                            new Dictionary<int, int> { { 0, 0 }, { 2, 2 }, { 1, 1 } });
+        }
+
         [TestCase(20000000000000004.0)]
         [TestCase(19999999999999996.0)]
         public void CanMatchDoublesWithUlpTolerance(object value)

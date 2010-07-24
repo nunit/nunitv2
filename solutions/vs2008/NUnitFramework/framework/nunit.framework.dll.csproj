@@ -419,6 +419,9 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ReusableConstraint.cs">
       <Link>Constraints\ReusableConstraint.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\CollectionTally.cs">
+      <Link>Constraints\CollectionTally.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">

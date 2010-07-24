@@ -126,6 +126,9 @@ namespace NUnit.Framework.Constraints
             if (xType.IsArray && yType.IsArray && !compareAsCollection)
                 return ArraysEqual((Array)x, (Array)y);
 
+            if (x is IDictionary && y is IDictionary)
+                return DictionariesEqual((IDictionary)x, (IDictionary)y);
+
             if (x is ICollection && y is ICollection)
                 return CollectionsEqual((ICollection)x, (ICollection)y);
 
@@ -178,6 +181,15 @@ namespace NUnit.Framework.Constraints
                     return false;
 
             return CollectionsEqual((ICollection)x, (ICollection)y);
+        }
+
+        private bool DictionariesEqual(IDictionary x, IDictionary y)
+        {
+            if (x.Count != y.Count)
+                return false;
+
+            CollectionTally tally = new CollectionTally(this, x);
+            return tally.TryRemove(y) && tally.Count == 0;
         }
 
         private bool CollectionsEqual(ICollection x, ICollection y)
