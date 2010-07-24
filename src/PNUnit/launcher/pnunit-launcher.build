@@ -13,7 +13,7 @@
     <csc target="exe"
         output="${current.build.dir}/pnunit-launcher.exe"
         debug="${build.debug}" 
-        define="${build.defines}">
+        define="${build.defines};NUNIT_2_5">
       <sources basedir=".">
         <patternset refid="source-files"/>
       </sources>
