@@ -52,5 +52,19 @@ namespace NUnit.Framework.Constraints
             new TestCaseData(42).Throws(typeof(ArgumentException)), 
             new TestCaseData(new System.Collections.ArrayList()).Throws(typeof(ArgumentException))
         };
+
+        [Test]
+        public void PropertyEqualToValueWithTolerance()
+        {
+            Constraint c = new EqualConstraint(105m).Within(0.1m);
+            TextMessageWriter w = new TextMessageWriter();
+            c.WriteDescriptionTo(w);
+            Assert.That(w.ToString(), Is.EqualTo("105m +/- 0.1m"));
+
+            c = new PropertyConstraint("D", new EqualConstraint(105m).Within(0.1m));
+            w = new TextMessageWriter();
+            c.WriteDescriptionTo(w);
+            Assert.That(w.ToString(), Is.EqualTo("property D equal to 105m +/- 0.1m"));
+        }
     }
 }

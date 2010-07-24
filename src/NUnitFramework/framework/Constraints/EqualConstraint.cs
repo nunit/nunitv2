@@ -341,7 +341,7 @@ namespace NUnit.Framework.Constraints
             if (comparer.Tolerance != null && !comparer.Tolerance.IsEmpty)
 			{
 				writer.WriteConnector("+/-");
-                writer.WriteExpectedValue(comparer.Tolerance);
+                writer.WriteExpectedValue(comparer.Tolerance.Value);
 			}
 
 			if ( comparer.IgnoreCase )
