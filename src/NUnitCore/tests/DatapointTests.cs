@@ -41,7 +41,7 @@ namespace NUnit.Core.Tests
             RunTestOnFixture(typeof(SquareRootTest_Method_ArrayOfDouble));
         }
 
-#if NET_2_0
+#if NET_2_0 && CS_3_0
         [Test]
         public void WorksOnIEnumerableOfT()
         {

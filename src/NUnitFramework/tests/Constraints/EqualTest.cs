@@ -120,6 +120,7 @@ namespace NUnit.Framework.Constraints
 
         #region Dictionary Tests
         // TODO: Move these to a separate fixture
+#if CS_3_0
         [Test]
         public void CanMatchHashtables_SameOrder()
         {
@@ -169,6 +170,7 @@ namespace NUnit.Framework.Constraints
             Assert.AreEqual(new Hashtable { { 0, 0 }, { 1, 1 }, { 2, 2 } },
                             new Dictionary<int, int> { { 0, 0 }, { 2, 2 }, { 1, 1 } });
         }
+#endif
 #endif
         #endregion
 

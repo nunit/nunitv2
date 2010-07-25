@@ -42,7 +42,7 @@ namespace NUnit.TestData.DatapointFixture
         public double[] values = new double[] { 0.0, 1.0, -1.0, double.MaxValue, double.PositiveInfinity };
     }
 
-#if NET_2_0
+#if NET_2_0 && CS_3_0
     public class SquareRootTest_Field_IEnumerableOfDouble : SquareRootTest
     {
         [Datapoints]
