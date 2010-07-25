@@ -14,6 +14,7 @@ namespace NUnit.Core.Filters
 	public class NotFilter : TestFilter
 	{
 		ITestFilter baseFilter;
+        bool topLevel = false;
 
 		/// <summary>
 		/// Construct a not filter on another filter
@@ -23,6 +24,16 @@ namespace NUnit.Core.Filters
 		{
 			this.baseFilter = baseFilter;
 		}
+
+        /// <summary>
+        /// Indicates whether this is a top-level NotFilter,
+        /// requiring special handling of Explicit
+        /// </summary>
+        public bool TopLevel
+        {
+            get { return topLevel; }
+            set { topLevel = value; }
+        }
 
 		/// <summary>
 		/// Gets the base filter
@@ -39,7 +50,10 @@ namespace NUnit.Core.Filters
 		/// <returns>True if it matches, otherwise false</returns>
 		public override bool Match( ITest test )
 		{
-			return test.RunState != RunState.Explicit && !baseFilter.Pass( test );
+            if (topLevel && test.RunState == RunState.Explicit)
+                return false;
+
+			return !baseFilter.Pass( test );
 		}
 
 		/// <summary>
@@ -49,7 +63,7 @@ namespace NUnit.Core.Filters
 		/// <returns>True if at least one descendant matches the filter criteria</returns>
 		protected override bool MatchDescendant(ITest test)
 		{
-			if (!test.IsSuite || test.Tests == null || test.RunState == RunState.Explicit)
+			if (!test.IsSuite || test.Tests == null || topLevel && test.RunState == RunState.Explicit)
 				return false;
 
 			foreach (ITest child in test.Tests)

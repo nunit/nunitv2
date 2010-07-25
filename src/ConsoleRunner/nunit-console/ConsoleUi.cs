@@ -109,6 +109,9 @@ namespace NUnit.ConsoleRunner
 						testFilter = new AndFilter( testFilter, excludeFilter );
 				}
 
+                if (testFilter is NotFilter)
+                    ((NotFilter)testFilter).TopLevel = true;
+
 				TestResult result = null;
 				string savedDirectory = Environment.CurrentDirectory;
 				TextWriter savedOut = Console.Out;

@@ -88,7 +88,8 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ExcludingCategoryDoesNotRunExplicitTestCases()
 		{
-			TestFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
+			NotFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
+            filter.TopLevel = true;
 			TestResult result = mockTestFixture.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( MockTestFixture.TestsRun - MockTestFixture.MockCategoryTests, summarizer.TestsRun );
@@ -97,7 +98,8 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ExcludingCategoryDoesNotRunExplicitTestFixtures()
 		{
-			TestFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
+			NotFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
+            filter.TopLevel = true;
 			TestAssemblyBuilder builder = new TestAssemblyBuilder();
 			TestSuite suite = builder.Build( "mock-assembly.dll", true );
 			TestResult result = suite.Run( NullListener.NULL, filter );
@@ -220,7 +222,9 @@ namespace NUnit.Core.Tests
 			CategoryFilter filter = new CategoryFilter();
 			filter.AddCategory("MockCategory");
 			RecordingListener listener = new RecordingListener();
-			testSuite.Run(listener, new NotFilter( filter ) );
+            NotFilter notFilter = new NotFilter(filter);
+            notFilter.TopLevel = true;
+			testSuite.Run(listener, notFilter);
 			CollectionAssert.AreEquivalent( 
 				new string[] { "MockTest1", "MockTest4", "MockTest5", 
                     "TestWithManyProperties", "NotRunnableTest", "FailingTest", 
