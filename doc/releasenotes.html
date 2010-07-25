@@ -38,6 +38,55 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.5.6 - Version 2.5.6.10205 - July 24, 2010</h3>
+
+<h4>Features</h4>
+
+<ul>
+<li><b>ReusableConstraint</b> provides reusability of constraint
+expressions within the test code. This feature is experimental.
+<li>The <b>Mono 4.0</b> profile is now listed in the Gui when support for it is detected.
+<li>Multiple test names may be supplied to the console <b>/run</b> option.
+<li><b>Dictionaries</b> and <b>Hashtables</b> may be tested for equality without regard to order of entries.
+<li><b>PNunit</b> has been updated to match the latest release available.
+<li><b>DirectoryAssert</b>, xxxx and xxx are now marked as Obsolete.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>441022 	Setup not called when test method inherited
+<li>498656 	TestCase should show array values in GUI
+<li>532488 	Constraints from ConstraintExpression/ConstraintBuilder are not reusable
+<li>548841  [Explicit] does not get overridden if there is another category exclude
+<li>570162 	FileNotFoundException when loading .nunit file
+<li>571256 	NUnit 2.5.5 Console Runner Requires /framework flag to run with .NET 4
+<li>574408 	DirectoryAssert fails to recognise the sub folder using IsWithin
+<li>590717 	Category contains dash or trail spaces is not selectable
+<li>590970 	Static TestFixtureSetUp/TestFixtureTearDown methods in base classes are not run
+<li>591622 	When SetUp method fails, no clear indication in GUI
+<li>595996 	Missing files in source package
+<li>600554 	NUnit uses wrong priority-scheme for addins
+<li>600555 	NullReferenceException when ISuiteBuilder.BuildFrom(Type) returns null
+<li>600627 	Assertion message formatted poorly by PropertyConstraint
+<li>601108 	Duplicate test using abstract test fixtures
+<li>601129 	Mono 4.0 not supported
+<li>601645 	Parameterized test should try to convert data type from source to parameter
+<li>602798 	NUnitConfiguration.MonoExePath returns wrong path
+<li>604861 	Console runner /run option should allow multiple test names
+<li>605432  ToString not working properly for some properties
+<li>605793 	Multiple instances of Nunit runners, which use nunit-agent, cannot be run in parallel
+<li>607924 	PNUnit is out of date
+<li>608875 	NUnit Equality Comparer incorrectly defines equality for Dictionary objects
+<li>606548 	Deprecate Directory Assert
+<li>609509  Test assembly file lock in version 2.5.5 
+</ul>
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.5.5 - Version 2.5.5.10112 - April 22, 2010</h3>
 
 <h4>Features</h4>
@@ -1161,7 +1210,7 @@ this release may be removed or changed in future releases.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.5</a></li>
+<li><a href="index.html">NUnit 2.5.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
