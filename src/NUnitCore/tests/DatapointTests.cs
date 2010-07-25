@@ -1,5 +1,7 @@
 ﻿using System;
+#if NET_2_0
 using System.Collections.Generic;
+#endif
 using NUnit.Framework;
 using NUnit.TestData.DatapointFixture;
 using NUnit.TestUtilities;
