@@ -3,7 +3,7 @@
 
   <Product UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A"
            Name="NUnit $(var.NominalVersion)"
-	   Id="9137E62C-1C49-4323-9E09-8F20B1DA9561"
+	   Id="287AE36C-1E07-45bb-9E93-0F98612EB89F"
            Version="$(var.ProductVersion)"
            Manufacturer="nunit.org"
            Language="1033">
