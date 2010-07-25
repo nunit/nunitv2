@@ -45,10 +45,12 @@ namespace NUnit.Util
             {
                 foreach (string assembly in package.Assemblies)
                 {
-                    AssemblyReader reader = new AssemblyReader(assembly);
-                    Version v = new Version(reader.ImageRuntimeVersion.Substring(1));
-                    log.Debug("Assembly {0} uses version {1}", assembly, v);
-                    if (v > targetVersion) targetVersion = v;
+                    using (AssemblyReader reader = new AssemblyReader(assembly))
+                    {
+                        Version v = new Version(reader.ImageRuntimeVersion.Substring(1));
+                        log.Debug("Assembly {0} uses version {1}", assembly, v);
+                        if (v > targetVersion) targetVersion = v;
+                    }
                 }
 
                 RuntimeFramework checkFramework = new RuntimeFramework(targetRuntime, targetVersion);
