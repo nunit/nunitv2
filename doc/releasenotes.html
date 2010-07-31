@@ -38,6 +38,42 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.5.7 - Version 2.5.7.10213 - August 1, 2010</h3>
+
+<h4>Features</h4>
+
+<ul>
+<li>The new <b>TestContext</b> class allows tests to
+access information about themselves. The following properties
+are supported:
+<ul>
+<li><b>TestName</b> gets the name of the test
+<li><b>Properties</b> gets the test properties dictionary
+<li><b>State</b> gets the TestState
+<li><b>Status</b> gets the TestStatus
+</ul>
+<br><b>Notes:</b> 
+<ol>
+<li>This is an experimental feature and could change in future releases. It is not included in the docs at this time.
+<li><b>TestState</b> and <b>TestStatus</b> are intended for use in a TearDown method. Consult the intellisense for values of each enumeration. 
+<li><b>TestStatus</b> should preferred over <b>TestState</b> for compatibility with future releases.
+</ol>
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>570162  FileNotFoundException when loading .nunit file
+<li>595683  NUnit console runner fails to load assemblies
+<li>611325  Allow Teardown to detect if last test failed
+<li>611938  Generic Test Instances disappear
+</ul>
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.5.6 - Version 2.5.6.10205 - July 24, 2010</h3>
 
 <h4>Features</h4>
@@ -1210,7 +1246,7 @@ this release may be removed or changed in future releases.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.6</a></li>
+<li><a href="index.html">NUnit 2.5.7</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
