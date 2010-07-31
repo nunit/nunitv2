@@ -88,9 +88,12 @@
         <include name="TestCaseAttribute.cs"/>
         <include name="TestCaseData.cs"/>
         <include name="TestCaseSourceAttribute.cs"/>
+        <include name="TestContext.cs"/>
         <include name="TestFixtureAttribute.cs"/>
         <include name="TestFixtureSetUpAttribute.cs"/>
         <include name="TestFixtureTearDownAttribute.cs"/>
+        <include name="TestState.cs"/>
+        <include name="TestStatus.cs"/>
         <include name="Text.cs"/>
         <include name="TextMessageWriter.cs"/>
         <include name="TheoryAttribute.cs"/>

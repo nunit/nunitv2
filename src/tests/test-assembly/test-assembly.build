@@ -25,8 +25,8 @@
     <include name="TestCaseTest.cs"/>
     <include name="TestData.cs"/>
     <include name="TestFixtureBuilderTests.cs"/>
+    <include name="TestFixtureData.cs"/>
     <include name="TestFixtureExtensionTests.cs"/>
-    <include name="TestFixtureTests.cs"/>
     <include name="TestMethodSignatureFixture.cs"/>
     <include name="TheoryFixture.cs"/>
     <include name="ThreadingFixture.cs"/>
