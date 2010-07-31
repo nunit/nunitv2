@@ -7,7 +7,7 @@
 using System;
 using NUnit.Framework;
 
-namespace NUnit.TestData.TestFixtureTests
+namespace NUnit.TestData.TestFixtureData
 {
 	/// <summary>
 	/// Classes used for testing NUnit

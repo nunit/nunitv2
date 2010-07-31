@@ -195,12 +195,11 @@
       <Link>TestFixtureBuilderTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="..\..\..\..\src\tests\test-assembly\TestFixtureData.cs">
+      <Link>TestFixtureData.cs</Link>
+    </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\TestFixtureExtensionTests.cs">
       <Link>TestFixtureExtensionTests.cs</Link>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="..\..\..\..\src\tests\test-assembly\TestFixtureTests.cs">
-      <Link>TestFixtureTests.cs</Link>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="..\..\..\..\src\tests\test-assembly\TestMethodSignatureFixture.cs">
