@@ -290,7 +290,9 @@ namespace NUnit.Util
 
 			foreach( string assembly in assemblies )
 			{
-				string dir = PathUtils.RelativePath( basePath, Path.GetDirectoryName( Path.GetFullPath(assembly) ) );
+				string dir = PathUtils.RelativePath(
+                    Path.GetFullPath(basePath), 
+                    Path.GetDirectoryName( Path.GetFullPath(assembly) ) );
 				if ( dir != null && dir != "." && !dirList.Contains( dir ) )
 				{
 					dirList.Add( dir );
