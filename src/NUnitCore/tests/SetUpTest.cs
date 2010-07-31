@@ -116,6 +116,63 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(expected, result.Message);
         }
 
+        #region TestContext Tests
+        // TODO: Put these in their own file once NUnit.Core.TestContext is renamed
+
+        [Test]
+        public void TestCanAccessItsOwnName()
+        {
+            Assert.That(NUnit.Framework.TestContext.TestName, Is.EqualTo("TestCanAccessItsOwnName"));
+        }
+
+        [Test]
+        [Property("Answer", 42)]
+        public void TestCanAccessItsOwnProperties()
+        {
+            Assert.That(NUnit.Framework.TestContext.Properties["Answer"], Is.EqualTo(42));
+        }
+
+        [Test]
+        public void TestCanAccessTestState_PassingTest()
+        {
+            TestStateRecordingFixture fixture = new TestStateRecordingFixture();
+            TestBuilder.RunTestFixture(fixture);
+            Assert.That(fixture.stateList, Is.EqualTo("Inconclusive=>Inconclusive=>Success"));
+            Assert.That(fixture.statusList, Is.EqualTo("Inconclusive=>Inconclusive=>Passed"));
+        }
+
+        [Test]
+        public void TestCanAccessTestState_FailureInSetUp()
+        {
+            TestStateRecordingFixture fixture = new TestStateRecordingFixture();
+            fixture.setUpFailure = true;
+            TestBuilder.RunTestFixture(fixture);
+            Assert.That(fixture.stateList, Is.EqualTo("Inconclusive=>=>Failure"));
+            Assert.That(fixture.statusList, Is.EqualTo("Inconclusive=>=>Failed"));
+        }
+
+        [Test]
+        public void TestCanAccessTestState_FailingTest()
+        {
+            TestStateRecordingFixture fixture = new TestStateRecordingFixture();
+            fixture.testFailure = true;
+            TestBuilder.RunTestFixture(fixture);
+            Assert.That(fixture.stateList, Is.EqualTo("Inconclusive=>Inconclusive=>Failure"));
+            Assert.That(fixture.statusList, Is.EqualTo("Inconclusive=>Inconclusive=>Failed"));
+        }
+
+        [Test]
+        public void TestCanAccessTestState_IgnoredInSetUp()
+        {
+            TestStateRecordingFixture fixture = new TestStateRecordingFixture();
+            fixture.setUpIgnore = true;
+            TestBuilder.RunTestFixture(fixture);
+            Assert.That(fixture.stateList, Is.EqualTo("Inconclusive=>=>Ignored"));
+            Assert.That(fixture.statusList, Is.EqualTo("Inconclusive=>=>Skipped"));
+        }
+
+        #endregion
+
         public class SetupCallBase
         {
             protected int setupCount = 0;

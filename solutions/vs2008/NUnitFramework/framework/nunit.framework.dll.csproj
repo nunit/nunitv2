@@ -422,6 +422,16 @@
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\CollectionTally.cs">
       <Link>Constraints\CollectionTally.cs</Link>
     </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestStatus.cs">
+      <Link>TestStatus.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestContext.cs">
+      <Link>TestContext.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\..\src\NUnitFramework\framework\TestState.cs">
+      <SubType>Code</SubType>
+      <Link>TestState.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\..\..\..\src\NUnitFramework\framework\SyntaxElements.txt">

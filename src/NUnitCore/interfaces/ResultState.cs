@@ -15,42 +15,42 @@ namespace NUnit.Core
         /// <summary>
         /// The result is inconclusive
         /// </summary>
-        Inconclusive,
+        Inconclusive = 0,
 
         /// <summary>
         /// The test was not runnable.
         /// </summary>
-		NotRunnable, 
+		NotRunnable = 1, 
 
         /// <summary>
         /// The test has been skipped. 
         /// </summary>
-		Skipped,
+		Skipped = 2,
 
         /// <summary>
         /// The test has been ignored.
         /// </summary>
-		Ignored,
+		Ignored = 3,
 
         /// <summary>
         /// The test succeeded
         /// </summary>
-		Success,
+		Success = 4,
 
         /// <summary>
         /// The test failed
         /// </summary>
-		Failure,
+		Failure = 5,
 
         /// <summary>
         /// The test encountered an unexpected exception
         /// </summary>
-		Error,
+		Error = 6,
 
         /// <summary>
         /// The test was cancelled by the user
         /// </summary>
-        Cancelled
+        Cancelled =7
 	}
 
     /// <summary>

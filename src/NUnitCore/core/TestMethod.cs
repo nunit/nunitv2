@@ -7,6 +7,8 @@
 namespace NUnit.Core
 {
 	using System;
+    using System.Collections;
+    using System.Runtime.Remoting.Messaging;
     using System.Threading;
 	using System.Text;
 	using System.Text.RegularExpressions;
@@ -23,6 +25,8 @@ namespace NUnit.Core
 	public abstract class TestMethod : Test
 	{
         static Logger log = InternalTrace.GetLogger(typeof(TestMethod));
+
+        static ContextDictionary context;
 
 		#region Fields
 		/// <summary>
@@ -79,6 +83,20 @@ namespace NUnit.Core
             this.method = method;
 		}
 		#endregion
+
+        #region Static Properties
+	    private static ContextDictionary Context
+	    {
+	        get
+	        {
+	            if (context==null)
+	            {
+	                context = new ContextDictionary();
+	            }
+	            return context;
+	        }
+	    }
+        #endregion
 
 		#region Properties
 
@@ -137,6 +155,13 @@ namespace NUnit.Core
             using (new TestContext())
             {
                 TestResult testResult = new TestResult(this);
+
+                ContextDictionary context = Context;
+                context._testResult = testResult;
+                context["TestName"] = this.TestName.Name;
+                context["Properties"] = this.Properties;
+
+                CallContext.SetData("NUnit.Framework.TestContext", context);
 
                 log.Debug("Test Starting: " + this.TestName.FullName);
                 listener.TestStarted(this.TestName);
@@ -352,5 +377,27 @@ namespace NUnit.Core
             testResult.SetResult(NUnitFramework.GetResultState(exception), exception, failureSite);
 		}
 		#endregion
+
+        #region Inner Classes
+        private class ContextDictionary : Hashtable
+        {
+            internal TestResult _testResult;
+
+            public override object this[object key]
+            {
+                get
+                {
+                    if ("State".Equals(key))
+                        return (int)_testResult.ResultState;
+
+                    return base[key];
+                }
+                set
+                {
+                    base[key] = value;
+                }
+            }
+        }
+        #endregion
     }
 }
