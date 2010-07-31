@@ -146,8 +146,11 @@ namespace NUnit.Core.Tests
         [Test]
         public void CanRunGenericFixtureWithProperArgsProvided()
         {
-            TestAssert.IsRunnable(
+            TestSuite suite = TestBuilder.MakeFixture(
                 Type.GetType("NUnit.TestData.TestFixtureTests.GenericFixtureWithProperArgsProvided`1,test-assembly"));
+            Assert.That(suite.RunState, Is.EqualTo(RunState.Runnable));
+            Assert.That(suite is ParameterizedFixtureSuite);
+            Assert.That(suite.Tests.Count, Is.EqualTo(2));
         }
 
         [Test]
@@ -177,8 +180,10 @@ namespace NUnit.Core.Tests
         public void CanRunGenericFixtureDerivedFromAbstractFixtureWithArgsProvided()
         {
             Test suite = TestBuilder.MakeFixture(
-                Type.GetType("NUnit.TestData.TestFixtureTests.GenericFixtureDerivedFromAbstractFixtureWithArgsProvided`1,test-assembly"));
-            TestAssert.IsRunnable((Test)suite.Tests[0]);
+                Type.GetType("NUnit.TestData.TestFixtureData.GenericFixtureDerivedFromAbstractFixtureWithArgsProvided`1,test-assembly"));
+            Assert.That(suite.RunState, Is.EqualTo(RunState.Runnable));
+            Assert.That(suite is ParameterizedFixtureSuite);
+            Assert.That(suite.Tests.Count, Is.EqualTo(2));
         }
 #endif
 
