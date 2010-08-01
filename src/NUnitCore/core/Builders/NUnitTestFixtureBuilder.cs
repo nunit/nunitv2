@@ -269,7 +269,7 @@ namespace NUnit.Core.Builders
                 object[] args = (object[])Reflect.GetPropertyValue(attrs[i], "Arguments");
                 object[] typeArgs = (object[])Reflect.GetPropertyValue(attrs[i], "TypeArgs");
 
-                if (args.Length > 0 || typeArgs.Length > 0)
+                if (args.Length > 0 || typeArgs != null && typeArgs.Length > 0)
                 {
                     withArgs++;
                     hasArgs[i] = true;
