@@ -12,7 +12,11 @@ namespace NUnit.Framework
     /// <summary>
     /// Provide the context information of the current test
     /// </summary>
+#if NET_2_0
     public static class TestContext
+#else
+    public class TestContext
+#endif
     {
         private const string contextKey = "NUnit.Framework.TestContext";
         private const string stateKey = "State";
