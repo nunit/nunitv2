@@ -84,6 +84,7 @@
         <File Id="requiresMTA.html" Name="REQMTA.HTM" LongName="requiresMTA.html" />
         <File Id="requiresSTA.html" Name="REQSTA.HTM" LongName="requiresSTA.html" />
         <File Id="requiresThread.html" Name="REQTHRD.HTM" LongName="requiresThread.html" />
+        <File Id="reusableConstraint.html" Name="REUSABLE.HTM" LongName="reusableConstraint.html" />
         <File Id="runningTests.html" Name="RUNTESTS.HTM" LongName="runningTests.html" />
         <File Id="runtimeSelection.html" Name="RUNTIME.HTM" LongName="runtimeSelection.html" />
         <File Id="sameasConstraint.html" Name="SAMEAS.HTM" LongName="sameasConstraint.html" />
@@ -150,6 +151,17 @@
         <File Id="generalOptions.jpg" Name="GENOPTS.JPG" LongName="generalOptions.jpg" />
         <File Id="testOutputOptions.jpg" Name="OUTOPTS.JPG" LongName="testOutputOptions.jpg" />
         <File Id="testLoadOptions.jpg" Name="LOADOPTS.JPG" LongName="testLoadOptions.jpg" />
+        <File Id="advancedSettings.jpg" Name="ADVANCED.JPG" LongName="advancedSettings.jpg" />
+        <File Id="assemblyReloadSettings.jpg" Name="ASRELOAD.JPG" LongName="assemblyReloadSettings.jpg" />
+        <File Id="displayTab.jpg" Name="DSPLYTAB.JPG" LongName="displayTab.jpg" />
+        <File Id="generalSettings.jpg" Name="GENERAL.JPG" LongName="generalSettings.jpg" />
+        <File Id="resultTab.jpg" Name="RSLTTAB.JPG" LongName="resultTab.jpg" />
+        <File Id="testLoadSettings.jpg" Name="TESTLOAD.JPG" LongName="testLoadSettings.jpg" />
+        <File Id="testOutputSettings.jpg" Name="TESTOTPT.JPG" LongName="testOutputSettings.jpg" />
+        <File Id="testResultSettings.jpg" Name="TESTRSLT.JPG" LongName="testResultSettings.jpg" />
+        <File Id="textOutputSettings.jpg" Name="TEXTOTPT.JPG" LongName="textOutputSettings.jpg" />
+        <File Id="treeDisplaySettings.jpg" Name="TREEDISP.JPG" LongName="treeDisplaySettings.jpg" />
+        <File Id="visualStudioSettings.jpg" Name="VSTUDIO.JPG" LongName="visualStudioSettings.jpg" />
         <RemoveFile Id="RemoveThumbnails_Doc_Img" Name="*" On="uninstall" />
       </Component>
     </DirectoryRef>
