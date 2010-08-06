@@ -156,7 +156,7 @@
       <Link>Constraints\ConstraintExpressionBase.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ConstraintFactory.cs">
-      <Link>ConstraintFactory.cs</Link>
+      <Link>Constraints\ConstraintFactory.cs</Link>
     </Compile>
     <Compile Include="..\..\..\..\src\NUnitFramework\framework\Constraints\ContainsConstraint.cs">
       <Link>Constraints\ContainsConstraint.cs</Link>
