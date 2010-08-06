@@ -74,10 +74,10 @@
   </patternset>
 
   <patternset id="resource-files">
-        <include name="TestImage1.jpg"/>
-        <include name="TestImage2.jpg"/>
-        <include name="TestText1.txt"/>
-        <include name="TestText2.txt"/>
+        <include name="data/TestImage1.jpg"/>
+        <include name="data/TestImage2.jpg"/>
+        <include name="data/TestText1.txt"/>
+        <include name="data/TestText2.txt"/>
   </patternset>
 
   <target name="build">

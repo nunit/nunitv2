@@ -172,10 +172,10 @@
     <Compile Include="ValuesAttributeTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestImage1.jpg" />
-    <EmbeddedResource Include="TestImage2.jpg" />
-    <EmbeddedResource Include="TestText1.txt" />
-    <EmbeddedResource Include="TestText2.txt" />
+    <EmbeddedResource Include="data\TestImage1.jpg" />
+    <EmbeddedResource Include="data\TestImage2.jpg" />
+    <EmbeddedResource Include="data\TestText1.txt" />
+    <EmbeddedResource Include="data\TestText2.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
