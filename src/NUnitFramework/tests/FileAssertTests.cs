@@ -20,7 +20,7 @@ namespace NUnit.Framework.Tests
 		#region Nested TestFile Utility Class
 		public TestFile(string fileName, string resourceName)
 		{
-			_resourceName = "NUnit.Framework.Tests." + resourceName;
+			_resourceName = "NUnit.Framework.Tests.data." + resourceName;
 			_fileName = fileName;
 
 			Assembly a = Assembly.GetExecutingAssembly();
@@ -153,8 +153,8 @@ namespace NUnit.Framework.Tests
         [Test]
 		public void AreEqualPassesWithFiles()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
-			using(TestFile tf2 = new TestFile("Test2.jpg","TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
+            using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage1.jpg"))
 			{
 				FileAssert.AreEqual( "Test1.jpg", "Test2.jpg", "Failed using file names" );
 			}
@@ -163,7 +163,7 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void AreEqualPassesUsingSameFileTwice()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
 				FileAssert.AreEqual( "Test1.jpg", "Test1.jpg" );
 			}
@@ -199,7 +199,7 @@ namespace NUnit.Framework.Tests
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void AreEqualFailsWhenOneIsNull()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
 				using(FileStream expected = File.OpenRead("Test1.jpg"))
 				{
@@ -216,9 +216,9 @@ namespace NUnit.Framework.Tests
 		{
 			string expectedFile = "Test1.jpg";
 			string actualFile = "Test2.jpg";
-			using(TestFile tf1 = new TestFile(expectedFile,"TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile(expectedFile, "TestImage1.jpg"))
 			{
-				using(TestFile tf2 = new TestFile(actualFile,"TestImage2.jpg"))
+                using (TestFile tf2 = new TestFile(actualFile, "TestImage2.jpg"))
 				{
 					using(FileStream expected = File.OpenRead(expectedFile))
 					{
@@ -237,9 +237,9 @@ namespace NUnit.Framework.Tests
 		[Test,ExpectedException(typeof(AssertionException))]
 		public void AreEqualFailsWithFileInfos()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
-				using(TestFile tf2 = new TestFile("Test2.jpg","TestImage2.jpg"))
+                using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage2.jpg"))
 				{
 					FileInfo expected = new FileInfo( "Test1.jpg" );
 					FileInfo actual = new FileInfo( "Test2.jpg" );
@@ -257,9 +257,9 @@ namespace NUnit.Framework.Tests
 		{
 			string expected = "Test1.jpg";
 			string actual = "Test2.jpg";
-			using(TestFile tf1 = new TestFile(expected,"TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile(expected, "TestImage1.jpg"))
 			{
-				using(TestFile tf2 = new TestFile(actual,"TestImage2.jpg"))
+                using (TestFile tf2 = new TestFile(actual, "TestImage2.jpg"))
 				{
 					expectedMessage =
 						string.Format("  Expected Stream length {0} but was {1}." + Environment.NewLine,
@@ -275,9 +275,9 @@ namespace NUnit.Framework.Tests
             MatchType=MessageMatch.Contains)]
 		public void AreEqualFailsWithTextFilesAfterReadingBothFiles()
 		{
-			using(TestFile tf1 = new TestFile("Test1.txt","TestText1.txt"))
+            using (TestFile tf1 = new TestFile("Test1.txt", "TestText1.txt"))
 			{
-				using(TestFile tf2 = new TestFile("Test2.txt","TestText2.txt"))
+                using (TestFile tf2 = new TestFile("Test2.txt", "TestText2.txt"))
 				{
 					FileAssert.AreEqual( "Test1.txt", "Test2.txt" );
 				}
@@ -293,7 +293,7 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void AreNotEqualPassesIfOneIsNull()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
 				using(FileStream expected = File.OpenRead("Test1.jpg"))
 				{
@@ -305,9 +305,9 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void AreNotEqualPassesWithStreams()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
-				using(TestFile tf2 = new TestFile("Test2.jpg","TestImage2.jpg"))
+                using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage2.jpg"))
 				{
 					using(FileStream expected = File.OpenRead("Test1.jpg"))
 					{
@@ -323,9 +323,9 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void AreNotEqualPassesWithFiles()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
-				using(TestFile tf2 = new TestFile("Test2.jpg","TestImage2.jpg"))
+                using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage2.jpg"))
 				{
 					FileAssert.AreNotEqual( "Test1.jpg", "Test2.jpg" );
 				}
@@ -335,9 +335,9 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void AreNotEqualPassesWithFileInfos()
 		{
-			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
+            using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
-				using(TestFile tf2 = new TestFile("Test2.jpg","TestImage2.jpg"))
+                using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage2.jpg"))
 				{
 					FileInfo expected = new FileInfo( "Test1.jpg" );
 					FileInfo actual = new FileInfo( "Test2.jpg" );
@@ -349,9 +349,9 @@ namespace NUnit.Framework.Tests
 		[Test]
 		public void AreNotEqualIteratesOverTheEntireFile()
 		{
-			using(TestFile tf1 = new TestFile("Test1.txt","TestText1.txt"))
+            using (TestFile tf1 = new TestFile("Test1.txt", "TestText1.txt"))
 			{
-				using(TestFile tf2 = new TestFile("Test2.txt","TestText2.txt"))
+                using (TestFile tf2 = new TestFile("Test2.txt", "TestText2.txt"))
 				{
 					FileAssert.AreNotEqual( "Test1.txt", "Test2.txt" );
 				}

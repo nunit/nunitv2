@@ -92,7 +92,7 @@
         <patternset refid="source-files"/>
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
-      <resources prefix="NUnit.Framework.Tests">
+      <resources prefix="NUnit.Framework.Tests.data">
         <patternset refid="resource-files"/>
       </resources>
       <references>
