@@ -47,11 +47,10 @@ namespace NUnit.Core.Builders
 			{ 
 				if ( assemblyInfo == null && assembly != null )
 				{
-					string path = AssemblyHelper.GetAssemblyPath( assembly );
-					AssemblyReader rdr = new AssemblyReader( path );
+					AssemblyReader rdr = new AssemblyReader( assembly );
 					Version imageRuntimeVersion = new Version( rdr.ImageRuntimeVersion.Substring( 1 ) );
 					IList frameworks = CoreExtensions.Host.TestFrameworks.GetReferencedFrameworks( assembly );
-					assemblyInfo = new TestAssemblyInfo( path, imageRuntimeVersion, RuntimeFramework.CurrentFramework, frameworks );
+					assemblyInfo = new TestAssemblyInfo( rdr.AssemblyPath, imageRuntimeVersion, RuntimeFramework.CurrentFramework, frameworks );
 				}
 
 				return assemblyInfo;
