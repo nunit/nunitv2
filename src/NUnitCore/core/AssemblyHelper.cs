@@ -12,6 +12,12 @@ namespace NUnit.Core
     public class AssemblyHelper
     {
         #region GetAssemblyPath
+
+        public static string GetAssemblyPath(Type type)
+        {
+            return GetAssemblyPath(type.Assembly);
+        }
+
         public static string GetAssemblyPath(Assembly assembly)
         {
             string path = assembly.CodeBase;
@@ -24,14 +30,9 @@ namespace NUnit.Core
             if (uri.IsUnc)
                 return path.Substring(Uri.UriSchemeFile.Length + 1);
 
-
-            int start = Uri.UriSchemeFile.Length + Uri.SchemeDelimiter.Length;
-
-            if (path[start] == '/' && path[start + 2] == ':')
-                ++start;
-
-            return path.Substring(start);
+            return uri.LocalPath;
         }
+
         #endregion
 
         #region GetDirectoryName

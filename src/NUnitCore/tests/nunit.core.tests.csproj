@@ -155,6 +155,7 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AllTests.cs" />
+    <Compile Include="AssemblyHelperTests.cs" />
     <Compile Include="AssemblyReaderTests.cs" />
     <Compile Include="AssemblyResolverTests.cs" />
     <Compile Include="AssemblyTests.cs" />

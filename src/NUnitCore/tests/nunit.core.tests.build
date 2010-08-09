@@ -7,6 +7,7 @@
         <include name="Generic/SimpleGenericMethods.cs"/>
         <include name="Generic/TypeParameterUsedWithTestMethod.cs"/>
         <include name="AllTests.cs"/>
+        <include name="AssemblyHelperTests.cs"/>
         <include name="AssemblyReaderTests.cs"/>
         <include name="AssemblyResolverTests.cs"/>
         <include name="AssemblyTests.cs"/>
