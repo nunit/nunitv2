@@ -29,7 +29,7 @@ namespace NUnit.Core
 	/// save and restore settings for a block. It should be 
 	/// used with using() or Disposed in a finally block.
 	/// </summary>
-	public class TestContext : IDisposable
+	public class TestExecutionContext : IDisposable
 	{
 		#region Instance Variables
 		/// <summary>
@@ -123,7 +123,7 @@ namespace NUnit.Core
 		/// </summary>
 		public static void Save()
 		{
-			TestContext.current = new ContextHolder( current );
+			TestExecutionContext.current = new ContextHolder( current );
 		}
 
         /// <summary>
@@ -150,9 +150,9 @@ namespace NUnit.Core
 		/// <summary>
 		/// The constructor saves the current context.
 		/// </summary>
-		public TestContext() 
+		public TestExecutionContext() 
 		{ 
-			TestContext.Save();
+			TestExecutionContext.Save();
 		}
 
 		/// <summary>
@@ -160,7 +160,7 @@ namespace NUnit.Core
 		/// </summary>
 		public void Dispose()
 		{
-			TestContext.Restore();
+			TestExecutionContext.Restore();
 		}
 		#endregion
 

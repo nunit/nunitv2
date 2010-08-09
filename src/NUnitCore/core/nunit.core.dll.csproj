@@ -199,8 +199,8 @@
     <Compile Include="TestAssembly.cs" />
     <Compile Include="TestBuilderAttribute.cs" />
     <Compile Include="TestCaseBuilderAttribute.cs" />
-    <Compile Include="TestContext.cs" />
     <Compile Include="TestDecoratorAttribute.cs" />
+    <Compile Include="TestExecutionContext.cs" />
     <Compile Include="TestFixture.cs" />
     <Compile Include="TestFixtureBuilder.cs" />
     <Compile Include="TestMethod.cs" />

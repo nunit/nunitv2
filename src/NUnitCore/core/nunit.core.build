@@ -52,8 +52,8 @@
     <include name="TestBuilderAttribute.cs"/>
     <include name="TestCaseBuilder.cs"/>
     <include name="TestCaseBuilderAttribute.cs"/>
-    <include name="TestContext.cs"/>
     <include name="TestDecoratorAttribute.cs"/>
+    <include name="TestExecutionContext.cs"/>
     <include name="TestFixture.cs"/>
     <include name="TestFixtureBuilder.cs"/>
     <include name="TestMethod.cs"/>

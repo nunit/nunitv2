@@ -57,8 +57,8 @@
         <include name="TestCaseSourceTests.cs"/>
         <include name="TestCaseTest.cs"/>
         <include name="TestConsole.cs"/>
-        <include name="TestContextTests.cs"/>
         <include name="TestDelegateFixture.cs"/>
+        <include name="TestExecutionContextTests.cs"/>
         <include name="TestFixtureBuilderTests.cs"/>
         <include name="TestFixtureExtension.cs"/>
         <include name="TestFixtureTests.cs"/>
