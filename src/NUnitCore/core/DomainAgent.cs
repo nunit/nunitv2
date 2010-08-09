@@ -129,8 +129,13 @@ namespace NUnit.Core
             InternalTrace.Initialize("%a_%p.log", traceLevel);
             log = InternalTrace.GetLogger(typeof(DomainInitializer));
 
-            log.Info("Initializing domain " + AppDomain.CurrentDomain.FriendlyName);
-            AppDomain.CurrentDomain.DomainUnload += new EventHandler(OnDomainUnload);
+            AppDomain domain = AppDomain.CurrentDomain;
+            
+            log.Info("Initializing domain {0}", domain.FriendlyName);
+            log.Debug("  Base Directory: {0}", domain.BaseDirectory);
+            log.Debug("  Probing Path: {0}", domain.SetupInformation.PrivateBinPath);
+
+            domain.DomainUnload += new EventHandler(OnDomainUnload);
 
             AssemblyResolver resolver = new AssemblyResolver();
             resolver.AddDirectory(NUnitConfiguration.NUnitLibDirectory);
