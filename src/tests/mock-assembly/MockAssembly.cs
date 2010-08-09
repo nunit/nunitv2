@@ -47,6 +47,8 @@ namespace NUnit.Tests
 						+ BadFixture.Nodes
 						+ 6;  // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly 
 			public static int Categories = MockTestFixture.Categories;
+
+            public static string AssemblyPath = AssemblyHelper.GetAssemblyPath(typeof(MockAssembly));
 		}
 
 		public class MockSuite

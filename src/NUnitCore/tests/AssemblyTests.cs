@@ -18,13 +18,14 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class AssemblyTests 
 	{
-		private string thisDll;
-	    private readonly string noTestFixturesDll = "test-utilities.dll";
+        private string thisDll;
+	    private string noTestFixturesDll;
 
 		[SetUp]
 		public void InitStrings()
 		{
-			thisDll = this.GetType().Module.Name;
+            thisDll = AssemblyHelper.GetAssemblyPath(this.GetType());
+            noTestFixturesDll = AssemblyHelper.GetAssemblyPath(typeof(NUnit.TestUtilities.TestBuilder));
 		}
 
 		// TODO: Review and remove unnecessary tests
@@ -55,7 +56,7 @@ namespace NUnit.Core.Tests
 		public void LoadAssemblyNotFound()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			builder.Build( new TestPackage( "XXXX.dll" ) );
+			builder.Build( new TestPackage( "/XXXX.dll" ) );
 		}
 
 		[Test]

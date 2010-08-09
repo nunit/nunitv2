@@ -17,8 +17,8 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class NamespaceAssemblyTests
 	{
-		private string testsDll = "mock-assembly.dll";
-		private string nonamespaceDLL = "nonamespace-assembly.dll";
+        private string testsDll = MockAssembly.AssemblyPath;
+        private string nonamespaceDLL = NoNamespaceTestFixture.AssemblyPath;
 		
 		[Test]
 		public void LoadTestFixtureFromAssembly()

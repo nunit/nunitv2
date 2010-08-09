@@ -101,7 +101,7 @@ namespace NUnit.Core.Tests
 			NotFilter filter = new NotFilter( new CategoryFilter( "MockCategory" ) );
             filter.TopLevel = true;
 			TestAssemblyBuilder builder = new TestAssemblyBuilder();
-			TestSuite suite = builder.Build( "mock-assembly.dll", true );
+			TestSuite suite = builder.Build( MockAssembly.AssemblyPath, true );
 			TestResult result = suite.Run( NullListener.NULL, filter );
 			ResultSummarizer summarizer = new ResultSummarizer( result );
 			Assert.AreEqual( MockAssembly.TestsRun - 2, summarizer.TestsRun );

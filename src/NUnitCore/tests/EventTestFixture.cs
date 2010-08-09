@@ -17,7 +17,7 @@ namespace NUnit.Core.Tests
 	[TestFixture(Description="Tests that proper events are generated when running  test")]
 	public class EventTestFixture
 	{
-		private string testsDll = "mock-assembly.dll";
+        private string testsDll = MockAssembly.AssemblyPath;
 
 		internal class EventCounter : EventListener
 		{

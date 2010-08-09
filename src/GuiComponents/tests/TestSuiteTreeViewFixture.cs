@@ -20,7 +20,7 @@ namespace NUnit.UiKit.Tests
 	/// 
 	public class TestSuiteTreeViewFixture
 	{
-		protected string testsDll = "mock-assembly.dll";
+		protected string testsDll = MockAssembly.AssemblyPath;
 		protected Test suite;
         protected TestSuiteTreeView treeView;
 
@@ -64,7 +64,7 @@ namespace NUnit.UiKit.Tests
             //treeView.Load( new TestNode( suite ) );
 			Assert.IsNotNull( treeView.Nodes[0] );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
-			Assert.AreEqual( "mock-assembly.dll", treeView.Nodes[0].Text );	
+			Assert.AreEqual( testsDll, treeView.Nodes[0].Text );	
 			Assert.AreEqual( "NUnit", treeView.Nodes[0].Nodes[0].Text );
 			Assert.AreEqual( "Tests", treeView.Nodes[0].Nodes[0].Nodes[0].Text );
 		}
@@ -78,7 +78,7 @@ namespace NUnit.UiKit.Tests
 				treeView.GetNodeCount( true ) );
 			
 			TestSuiteTreeNode node = treeView.Nodes[0] as TestSuiteTreeNode;
-			Assert.AreEqual( "mock-assembly.dll", node.Text );
+			Assert.AreEqual( testsDll, node.Text );
 			Assert.IsNotNull( node.Result, "No Result on top-level Node" );
 	
 			node = node.Nodes[0].Nodes[0] as TestSuiteTreeNode;

@@ -16,6 +16,7 @@ namespace NUnit.Util.Tests
 	public class CategoryManagerTest
 	{
 		private CategoryManager categoryManager;
+        string mockDll = MockAssembly.AssemblyPath;
 
 		[SetUp]
 		public void CreateCategoryManager()
@@ -59,7 +60,7 @@ namespace NUnit.Util.Tests
 		public void CanAddTestCategories()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build( new TestPackage( "mock-assembly.dll" ) );
+			Test suite = builder.Build( new TestPackage( mockDll ) );
 			
 			Test test = TestFinder.Find( "MockTest3", suite, true );
 			categoryManager.AddCategories( test );
@@ -70,7 +71,7 @@ namespace NUnit.Util.Tests
 		public void CanAddAllAvailableCategoriesInTestTree()
 		{
 			TestSuiteBuilder builder = new TestSuiteBuilder();
-			Test suite = builder.Build( new TestPackage( "mock-assembly.dll" ) );
+			Test suite = builder.Build( new TestPackage( mockDll ) );
 			
 			categoryManager.AddAllCategories( suite );
 			Assert.AreEqual( MockAssembly.Categories, categoryManager.Categories.Count );

@@ -210,7 +210,7 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
-			using( new TestContext() )
+			using( new TestExecutionContext() )
 			{
 				TestResult suiteResult = new TestResult( this );
 
@@ -254,11 +254,11 @@ namespace NUnit.Core
             DoOneTimeSetUp(suiteResult);
 
             if (this.Properties["_SETCULTURE"] != null)
-                TestContext.CurrentCulture =
+                TestExecutionContext.CurrentCulture =
                     new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
             if (this.Properties["_SETUICULTURE"] != null)
-                TestContext.CurrentUICulture =
+                TestExecutionContext.CurrentUICulture =
                     new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
 
             switch (suiteResult.ResultState)
@@ -299,7 +299,7 @@ namespace NUnit.Core
                         foreach( MethodInfo fixtureSetUp in fixtureSetUpMethods )
                             Reflect.InvokeMethod(fixtureSetUp, fixtureSetUp.IsStatic ? null : Fixture);
 
-                    TestContext.Update();
+                    TestExecutionContext.Update();
                 }
                 catch (Exception ex)
                 {
@@ -391,7 +391,7 @@ namespace NUnit.Core
 			TestResult suiteResult, EventListener listener, ITestFilter filter )
 		{
             if (Properties.Contains("Timeout"))
-                TestContext.TestCaseTimeout = (int)Properties["Timeout"];
+                TestExecutionContext.TestCaseTimeout = (int)Properties["Timeout"];
 
             foreach (Test test in ArrayList.Synchronized(Tests))
             {

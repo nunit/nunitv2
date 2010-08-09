@@ -16,6 +16,7 @@ namespace NUnit.Util.Tests
 	public class NUnitProjectTests
 	{
 		static readonly string xmlfile = "test.nunit";
+        static readonly string mockDll = NUnit.Tests.Assemblies.MockAssembly.AssemblyPath;
 
 		private NUnitProject project;
 		private ProjectService projectService;
@@ -102,17 +103,17 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void ConfigurationFileFromAssembly() 
 		{
-			NUnitProject project = projectService.WrapAssembly("mock-assembly.dll");
+			NUnitProject project = projectService.WrapAssembly(mockDll);
 			string config = Path.GetFileName( project.ConfigurationFile );
-			Assert.AreEqual("mock-assembly.dll.config", config);
+			Assert.That(config, Is.EqualTo("mock-assembly.dll.config").IgnoreCase);
 		}
 
 		[Test]
 		public void ConfigurationFileFromAssemblies() 
 		{
-			NUnitProject project = projectService.WrapAssemblies(new string[] {"mock-assembly.dll"});
+			NUnitProject project = projectService.WrapAssemblies(new string[] {mockDll});
 			string config = Path.GetFileName( project.ConfigurationFile );
-			Assert.AreEqual("mock-assembly.dll.config", config);
+			Assert.That(config, Is.EqualTo("mock-assembly.dll.config").IgnoreCase);
 		}
 
 		[Test]

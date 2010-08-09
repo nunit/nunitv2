@@ -23,8 +23,8 @@ namespace NUnit.Core.Tests
 	/// </summary>
 	public abstract class BasicRunnerTests
 	{
-		private static readonly string testsDll = Path.GetFullPath("nonamespace-assembly.dll");
-		private static readonly string mockDll = Path.GetFullPath("mock-assembly.dll");
+		private static readonly string testsDll = NoNamespaceTestFixture.AssemblyPath;
+		private static readonly string mockDll = MockAssembly.AssemblyPath;
 		private readonly string[] assemblies = new string[] { testsDll, mockDll };
         private readonly RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
 

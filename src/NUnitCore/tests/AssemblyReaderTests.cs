@@ -32,14 +32,15 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void CreateFromPath()
 		{
-			Assert.AreEqual( "nunit.core.tests.dll", new AssemblyReader( "nunit.core.tests.dll" ).AssemblyPath );
+            string path = AssemblyHelper.GetAssemblyPath(System.Reflection.Assembly.GetAssembly(GetType()));
+            Assert.AreEqual(path, new AssemblyReader(path).AssemblyPath);
 		}
 
 		[Test]
 		public void CreateFromAssembly()
 		{
-			Assert.That( rdr.AssemblyPath, Is.SamePath(Path.GetFullPath( "nunit.core.tests.dll" )));
-			//StringAssert.AreEqualIgnoringCase( Path.GetFullPath("nunit.core.tests.dll"), rdr.AssemblyPath );
+            string path = AssemblyHelper.GetAssemblyPath(System.Reflection.Assembly.GetAssembly(GetType()));
+            Assert.AreEqual(path, rdr.AssemblyPath);
 		}
 
 		[Test]

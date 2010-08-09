@@ -7,7 +7,7 @@ namespace NUnit.Util.Tests
     [TestFixture]
     public class RuntimeFrameworkSelectorTests
     {
-        TestPackage package = new TestPackage("dummy.dll");
+        TestPackage package = new TestPackage("/dummy.dll");
 
         [Datapoints]
         RuntimeFramework[] frameworks = new RuntimeFramework[] { 

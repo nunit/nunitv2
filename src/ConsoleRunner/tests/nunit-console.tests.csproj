@@ -90,6 +90,14 @@
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll.csproj">
+      <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
+      <Name>nunit.core.dll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NUnitCore\interfaces\nunit.core.interfaces.dll.csproj">
+      <Project>{435428F8-5995-4CE4-8022-93D595A8CC0F}</Project>
+      <Name>nunit.core.interfaces.dll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NUnitCore\tests\nunit.core.tests.csproj">
       <Name>nunit.core.tests</Name>
       <Project>{DD758D21-E5D5-4D40-9450-5F65A32F359C}</Project>
@@ -106,6 +114,10 @@
       <Project>{2E368281-3BA8-4050-B05E-0E0E43F8F446}</Project>
       <Name>mock-assembly</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\tests\nonamespace-assembly\nonamespace-assembly.csproj">
+      <Project>{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}</Project>
+      <Name>nonamespace-assembly</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\test-assembly\test-assembly.csproj">
       <Name>test-assembly</Name>

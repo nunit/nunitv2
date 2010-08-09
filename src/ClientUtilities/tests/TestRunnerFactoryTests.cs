@@ -8,7 +8,7 @@ namespace NUnit.Util.Tests
     public class TestRunnerFactoryTests
     {
         private RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
-        private string testDll = "test.dll";
+        private string testDll = "/test.dll";
         private DefaultTestRunnerFactory factory;
         private TestPackage package;
 

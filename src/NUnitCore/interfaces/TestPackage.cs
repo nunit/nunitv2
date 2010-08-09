@@ -92,14 +92,17 @@ namespace NUnit.Core
 		/// </summary>
 		/// <param name="name">The name of the package</param>
 		public TestPackage( string name )
-		{
-			this.fullName = name;
+		{          
+            this.fullName = name;
 			this.name = Path.GetFileName( name );
 			this.assemblies = new ArrayList();
 			if ( IsAssemblyFileType( name ) )
 			{
-				this.isSingleAssembly = true;
-				this.assemblies.Add( name );
+                if (!Path.IsPathRooted(name))
+                    throw new ArgumentException("Assembly in TestPackage must be specified as an absolute path", "name");
+                
+                this.isSingleAssembly = true;
+				this.assemblies.Add(name);
 			}
 		}
 
@@ -113,7 +116,13 @@ namespace NUnit.Core
 		{
 			this.fullName = name;
 			this.name = Path.GetFileName( name );
-			this.assemblies = new ArrayList( assemblies );
+			this.assemblies = new ArrayList();
+            foreach (string assembly in assemblies)
+            {
+                if (!Path.IsPathRooted(assembly))
+                    throw new ArgumentException("Assembly in TestPackage must be specified as an absolute path", "assemblies");
+                this.assemblies.Add(assembly);
+            }
 			this.isSingleAssembly = false;
 		}
 

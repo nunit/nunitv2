@@ -97,7 +97,7 @@ namespace NUnit.Core.Tests
 
 		private void runSchemaValidatorTest(string reportFileName)
 		{
-			string testsDll = "mock-assembly.dll";
+            string testsDll = NUnit.Tests.Assemblies.MockAssembly.AssemblyPath;
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( testsDll ) );
 
@@ -111,7 +111,7 @@ namespace NUnit.Core.Tests
 
 		private void runSchemaValidatorTest(TextWriter writer)
 		{
-			string testsDll = "mock-assembly.dll";
+            string testsDll = NUnit.Tests.Assemblies.MockAssembly.AssemblyPath;
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( testsDll ) );
 

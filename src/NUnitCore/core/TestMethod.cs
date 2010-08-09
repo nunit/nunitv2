@@ -138,7 +138,7 @@ namespace NUnit.Core
             {
                 return Properties.Contains("Timeout")
                     ? (int)Properties["Timeout"]
-                    : TestContext.TestCaseTimeout;
+                    : TestExecutionContext.TestCaseTimeout;
             }
         }
 
@@ -152,14 +152,15 @@ namespace NUnit.Core
 		#region Run Methods
         public override TestResult Run(EventListener listener, ITestFilter filter)
         {
-            using (new TestContext())
+            using (new TestExecutionContext())
             {
                 TestResult testResult = new TestResult(this);
 
                 ContextDictionary context = Context;
                 context._testResult = testResult;
-                context["TestName"] = this.TestName.Name;
-                context["Properties"] = this.Properties;
+                context["Test.Name"] = this.TestName.Name;
+                context["Test.FullName"] = this.TestName.FullName;
+                context["Test.Properties"] = this.Properties;
 
                 CallContext.SetData("NUnit.Framework.TestContext", context);
 
@@ -217,11 +218,11 @@ namespace NUnit.Core
                     Fixture = Reflect.Construct(this.FixtureType);
 
                 if (this.Properties["_SETCULTURE"] != null)
-                    TestContext.CurrentCulture =
+                    TestExecutionContext.CurrentCulture =
                         new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
                 if (this.Properties["_SETUICULTURE"] != null)
-                    TestContext.CurrentUICulture =
+                    TestExecutionContext.CurrentUICulture =
                         new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
 
                 int repeatCount = this.Properties.Contains("Repeat")
@@ -387,10 +388,15 @@ namespace NUnit.Core
             {
                 get
                 {
-                    if ("State".Equals(key))
-                        return (int)_testResult.ResultState;
-
-                    return base[key];
+                    // Get Result values dynamically, since
+                    // they may change as execution proceeds
+                    switch (key as string)
+                    {
+                        case "Result.State":
+                            return (int)_testResult.ResultState;
+                        default:
+                            return base[key];
+                    }
                 }
                 set
                 {

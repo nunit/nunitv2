@@ -19,8 +19,8 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class TestLoaderAssemblyTests
 	{
-		private readonly string assembly = "mock-assembly.dll";
-		private readonly string badFile = "x.dll";
+		private readonly string assembly = MockAssembly.AssemblyPath;
+		private readonly string badFile = "/x.dll";
 
 		private TestLoader loader;
 		private TestEventCatcher catcher;

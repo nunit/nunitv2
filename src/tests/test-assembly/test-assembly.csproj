@@ -157,6 +157,7 @@
     <Compile Include="TestCaseAttributeFixture.cs" />
     <Compile Include="TestCaseSourceAttributeFixture.cs" />
     <Compile Include="TestCaseTest.cs" />
+    <Compile Include="TestContextData.cs" />
     <Compile Include="TestData.cs" />
     <Compile Include="TestFixtureBuilderTests.cs" />
     <Compile Include="TestFixtureData.cs" />

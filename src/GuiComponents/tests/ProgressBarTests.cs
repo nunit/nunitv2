@@ -22,7 +22,7 @@ namespace NUnit.UiKit.Tests
 	{
 		private TestProgressBar progressBar;
 		private MockTestEventSource mockEvents;
-		private string testsDll = "mock-assembly.dll";
+		private string testsDll = MockAssembly.AssemblyPath;
 		private TestSuite suite;
 		int testCount;
 

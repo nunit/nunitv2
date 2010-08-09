@@ -29,10 +29,10 @@ namespace NUnit.Core.Tests
 
 		[SetUp] public void LoadFixture()
 		{
-			string testsDll = "test-assembly.dll";
+            string testsDll = AssemblyHelper.GetAssemblyPath(typeof(DerivedTestFixture));
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			TestPackage package = new TestPackage( testsDll );
-			package.TestName = "NUnit.TestData.TestFixtureExtension.DerivedTestFixture";
+			package.TestName = typeof(DerivedTestFixture).FullName;
 			suite= builder.Build( package );
 		}
 

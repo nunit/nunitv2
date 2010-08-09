@@ -16,6 +16,7 @@ namespace NUnit.Util.Tests
 	public class NUnitProjectLoad
 	{
 		static readonly string xmlfile = "test.nunit";
+        static readonly string mockDll = NUnit.Tests.Assemblies.MockAssembly.AssemblyPath;
 
 		private ProjectService projectService;
 		private NUnitProject project;
@@ -90,9 +91,9 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void FromAssembly()
 		{
-			NUnitProject project = projectService.WrapAssembly( "nunit.util.tests.dll" );
+			NUnitProject project = projectService.WrapAssembly(mockDll);
 			Assert.AreEqual( "Default", project.ActiveConfigName );
-			Assert.AreEqual( Path.GetFullPath( "nunit.util.tests.dll" ), project.ActiveConfig.Assemblies[0] );
+			Assert.AreEqual( mockDll, project.ActiveConfig.Assemblies[0] );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
 			Assert.IsTrue( project.IsAssemblyWrapper, "Not wrapper" );
 			Assert.IsFalse( project.IsDirty, "Not dirty" );
@@ -101,7 +102,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SaveClearsAssemblyWrapper()
 		{
-			NUnitProject project = projectService.WrapAssembly( "nunit.util.tests.dll" );
+			NUnitProject project = projectService.WrapAssembly(mockDll);
 			project.Save( xmlfile );
 			Assert.IsFalse( project.IsAssemblyWrapper,
 				"Changed project should no longer be wrapper");

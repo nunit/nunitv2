@@ -21,7 +21,7 @@ namespace NUnit.Fixtures.Tests
 	{
 		private TestCompiler compiler;
 		private static string[] references = new string[] { "System.dll", "nunit.framework.dll" };
-		private static string outputName = "test.dll";
+		private static string outputName = Path.GetFullPath("test.dll");
 		private static string goodCode = 
 @"using System;
 using NUnit.Framework;

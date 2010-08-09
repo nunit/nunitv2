@@ -24,7 +24,7 @@ namespace NUnit.Util.Tests
 		[TestFixtureSetUp]
 		public void RunMockTests()
 		{
-			string testsDll = "mock-assembly.dll";
+			string testsDll = NUnit.Tests.Assemblies.MockAssembly.AssemblyPath;
 			TestSuiteBuilder suiteBuilder = new TestSuiteBuilder();
 			Test suite = suiteBuilder.Build( new TestPackage( testsDll ) );
 

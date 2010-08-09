@@ -13,6 +13,8 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class RemoteTestResultTest
 	{
+        private static readonly string mockDll = 
+            NUnit.Tests.Assemblies.MockAssembly.AssemblyPath; 
         private TestDomain domain;
 
         [SetUp]
@@ -31,7 +33,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void ResultStillValidAfterDomainUnload() 
 		{
-			TestPackage package = new TestPackage( "mock-assembly.dll" );
+			TestPackage package = new TestPackage( mockDll );
 			Assert.IsTrue( domain.Load( package ) );
 			TestResult result = domain.Run( new NullListener() );
 			TestResult caseResult = findCaseResult(result);
@@ -45,7 +47,7 @@ namespace NUnit.Util.Tests
         public void AppDomainUnloadedBug()
         {
             TestDomain domain = new TestDomain();
-            domain.Load( new TestPackage( "mock-assembly.dll" ) );
+            domain.Load( new TestPackage( mockDll ) );
             domain.Run(new NullListener());
             domain.Unload();
         }

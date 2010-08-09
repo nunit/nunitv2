@@ -89,7 +89,7 @@ namespace NUnit.ConsoleRunner.Tests
 		public void InvalidFixture()
 		{
 			int resultCode = executeConsole( new string[] 
-				{ GetType().Module.Name, "-fixture:NUnit.Tests.BogusTest" } );
+				{ MockAssembly.AssemblyPath, "-fixture:NUnit.Tests.BogusTest" } );
 			Assert.AreEqual(ConsoleUi.FIXTURE_NOT_FOUND, resultCode);
 		}
 
@@ -137,55 +137,55 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void CanRunWithoutTestDomain()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole("mock-assembly.dll", "-domain:None", "-process:single"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-process:single"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithSingleTestDomain()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole("mock-assembly.dll", "-domain:Single", "-process:single"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-process:single"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithMultipleTestDomains()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole("mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple", "-process:single"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-process:single"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithoutTestDomain_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole("mock-assembly.dll", "-domain:None", "-nothread", "-process:single"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-nothread", "-process:single"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithSingleTestDomain_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole("mock-assembly.dll", "-domain:Single", "-nothread", "-process:single"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-nothread", "-process:single"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test,Platform(Exclude="Mono")]
 		public void CanRunWithMultipleTestDomains_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole("mock-assembly.dll", "nonamespace-assembly.dll", "-domain:Multiple", "-nothread", "-process:single"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-nothread", "-process:single"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		private int runFixture( Type type )
 		{
-			return executeConsole( new string[] { type.Module.Name, "-process:single", "-fixture:" + type.FullName });
+			return executeConsole( new string[] { AssemblyHelper.GetAssemblyPath(type), "-process:single", "-fixture:" + type.FullName });
 		}
 
 		private int runFixture( Type type, params string[] arguments )
 		{
 			string[] args = new string[arguments.Length+3];
 			int n = 0;
-			args[n++] = type.Module.Name;
+			args[n++] = AssemblyHelper.GetAssemblyPath(type);
             args[n++] = "-process:single";
 			args[n++] = "-fixture:" + type.FullName;
 			foreach( string arg in arguments )

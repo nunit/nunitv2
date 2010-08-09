@@ -9,16 +9,15 @@ using System.IO;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.TestUtilities;
-using NUnit.TestData.SuiteBuilderTests;
 
 namespace NUnit.Core.Tests
 {
 	[TestFixture]
 	public class SuiteBuilderTests
 	{
-		private string testsDll = "nunit.core.tests.dll";
-		private string testData = "test-assembly.dll";
-		private string tempFile = "x.dll";
+        private string testsDll = AssemblyHelper.GetAssemblyPath(typeof(SuiteBuilderTests));
+		private string testData = AssemblyHelper.GetAssemblyPath(typeof(NUnit.TestData.EmptyFixture));
+		private string tempFile = "/x.dll";
 		private TestSuiteBuilder builder;
 
 		[SetUp]
@@ -105,7 +104,7 @@ namespace NUnit.Core.Tests
 		[ExpectedException(typeof(FileNotFoundException))]
 		public void FileNotFound()
 		{
-			builder.Build( new TestPackage( "xxxx.dll" ) );
+			builder.Build( new TestPackage( "/xxxx.dll" ) );
 		}
 
 		// Gives FileNotFoundException on Mono

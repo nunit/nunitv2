@@ -13,7 +13,7 @@ namespace NUnit.Core.Tests
     [TestFixture]
     public class SetUpFixtureTests
     {
-        private static readonly string testAssembly = "test-assembly.dll";
+        private static readonly string testAssembly = AssemblyHelper.GetAssemblyPath(typeof(NUnit.TestData.EmptyFixture));
 
         #region SetUp
         [SetUp]

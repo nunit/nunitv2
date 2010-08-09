@@ -209,6 +209,7 @@
     <Compile Include="TestCaseSourceTests.cs" />
     <Compile Include="TestCaseTest.cs" />
     <Compile Include="TestConsole.cs" />
+    <Compile Include="TestContextTests.cs" />
     <Compile Include="TestDelegateFixture.cs" />
     <Compile Include="TestExecutionContextTests.cs" />
     <Compile Include="TestFixtureBuilderTests.cs" />

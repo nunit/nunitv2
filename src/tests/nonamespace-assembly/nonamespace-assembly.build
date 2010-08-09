@@ -11,6 +11,7 @@
       </sources>
       <references>
         <include name="${current.framework.dir}/nunit.framework.dll"/>
+        <include name="${current.lib.dir}/nunit.core.dll"/>
       </references>
     </csc>
   </target>

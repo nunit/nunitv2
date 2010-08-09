@@ -19,8 +19,10 @@ namespace NUnit.Core.Tests
 		private static readonly int totalTests = NoNamespaceTestFixture.Tests + MockAssembly.Tests;
 
 		private TestSuiteBuilder builder;
-		private static string[] assemblies = new string[]
-			{ "nonamespace-assembly.dll", "mock-assembly.dll" };
+		private static string[] assemblies = new string[] {
+            NoNamespaceTestFixture.AssemblyPath,
+            MockAssembly.AssemblyPath
+        };
 		private Test loadedSuite;
 
 		[SetUp]

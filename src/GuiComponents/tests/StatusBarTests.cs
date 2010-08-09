@@ -21,7 +21,7 @@ namespace NUnit.UiKit.Tests
 	{
 		private StatusBar statusBar;
 		private MockTestEventSource mockEvents;
-		private static string testsDll = "mock-assembly.dll";
+		private static string testsDll = MockAssembly.AssemblyPath;
 		TestSuite suite;
 	    int testCount = 0;
 
