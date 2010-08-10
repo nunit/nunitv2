@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using NUnit.Framework;
 using NUnit.TestData.TestContextData;
 using NUnit.TestUtilities;
@@ -26,6 +27,15 @@ namespace NUnit.Core.Tests
         public void TestCanAccessItsOwnProperties()
         {
             Assert.That(TestContext.CurrentContext.Test.Properties["Answer"], Is.EqualTo(42));
+        }
+
+        [Test]
+        public void TestCanAccessTestDirectory()
+        {
+            string testDirectory = TestContext.CurrentContext.TestDirectory;
+            Assert.NotNull(testDirectory);
+            Assert.That(Directory.Exists(testDirectory));
+            Assert.That(File.Exists(Path.Combine(testDirectory, "nunit.core.tests.dll")));
         }
 
         [Test]

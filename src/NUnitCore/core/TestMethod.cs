@@ -25,7 +25,7 @@ namespace NUnit.Core
 	public abstract class TestMethod : Test
 	{
         static Logger log = InternalTrace.GetLogger(typeof(TestMethod));
-
+        
         static ContextDictionary context;
 
 		#region Fields
@@ -138,7 +138,7 @@ namespace NUnit.Core
             {
                 return Properties.Contains("Timeout")
                     ? (int)Properties["Timeout"]
-                    : TestExecutionContext.TestCaseTimeout;
+                    : TestExecutionContext.CurrentContext.TestCaseTimeout;
             }
         }
 
@@ -152,54 +152,57 @@ namespace NUnit.Core
 		#region Run Methods
         public override TestResult Run(EventListener listener, ITestFilter filter)
         {
-            using (new TestExecutionContext())
+            TestResult testResult = new TestResult(this);
+
+            log.Debug("Test Starting: " + this.TestName.FullName);
+            listener.TestStarted(this.TestName);
+            long startTime = DateTime.Now.Ticks;
+
+            switch (this.RunState)
             {
-                TestResult testResult = new TestResult(this);
-
-                ContextDictionary context = Context;
-                context._testResult = testResult;
-                context["Test.Name"] = this.TestName.Name;
-                context["Test.FullName"] = this.TestName.FullName;
-                context["Test.Properties"] = this.Properties;
-
-                CallContext.SetData("NUnit.Framework.TestContext", context);
-
-                log.Debug("Test Starting: " + this.TestName.FullName);
-                listener.TestStarted(this.TestName);
-                long startTime = DateTime.Now.Ticks;
-
-                switch (this.RunState)
-                {
-                    case RunState.Runnable:
-                    case RunState.Explicit:
-                        Run(testResult);
-                        break;
-                    case RunState.Skipped:
-                    default:
-                        testResult.Skip(IgnoreReason);
-                        break;
-                    case RunState.NotRunnable:
-                        if (BuilderException != null)
-                            testResult.Invalid(BuilderException);
-                        else
-                            testResult.Invalid(IgnoreReason);
-                        break;
-                    case RunState.Ignored:
-                        testResult.Ignore(IgnoreReason);
-                        break;
-                }
-
-                long stopTime = DateTime.Now.Ticks;
-                double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-                testResult.Time = time;
-
-                listener.TestFinished(testResult);
-                return testResult;
+                case RunState.Runnable:
+                case RunState.Explicit:
+                    Run(testResult);
+                    break;
+                case RunState.Skipped:
+                default:
+                    testResult.Skip(IgnoreReason);
+                    break;
+                case RunState.NotRunnable:
+                    if (BuilderException != null)
+                        testResult.Invalid(BuilderException);
+                    else
+                        testResult.Invalid(IgnoreReason);
+                    break;
+                case RunState.Ignored:
+                    testResult.Ignore(IgnoreReason);
+                    break;
             }
+
+            long stopTime = DateTime.Now.Ticks;
+            double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+            testResult.Time = time;
+
+            listener.TestFinished(testResult);
+            return testResult;
         }
         
         public virtual void Run(TestResult testResult)
 		{
+            TestExecutionContext.Save();
+
+            TestExecutionContext.CurrentContext.CurrentTest = this;
+            TestExecutionContext.CurrentContext.CurrentResult = testResult;
+
+            ContextDictionary context = Context;
+            context._ec = TestExecutionContext.CurrentContext;
+            //context["Test.Name"] = this.TestName.Name;
+            //context["Test.FullName"] = this.TestName.FullName;
+            //context["Test.Properties"] = this.Properties;
+            //context["TestDirectory"] = AssemblyHelper.GetDirectoryName(this.FixtureType.Assembly);
+
+            CallContext.SetData("NUnit.Framework.TestContext", context);
+
             try
             {
                 if (this.Parent != null)
@@ -218,11 +221,11 @@ namespace NUnit.Core
                     Fixture = Reflect.Construct(this.FixtureType);
 
                 if (this.Properties["_SETCULTURE"] != null)
-                    TestExecutionContext.CurrentCulture =
+                    TestExecutionContext.CurrentContext.CurrentCulture =
                         new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
                 if (this.Properties["_SETUICULTURE"] != null)
-                    TestExecutionContext.CurrentUICulture =
+                    TestExecutionContext.CurrentContext.CurrentUICulture =
                         new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
 
                 int repeatCount = this.Properties.Contains("Repeat")
@@ -254,6 +257,9 @@ namespace NUnit.Core
             finally
             {
                 Fixture = null;
+
+                CallContext.FreeNamedDataSlot("NUnit.Framework.TestContext");
+                TestExecutionContext.Restore();
             }
 		}
 
@@ -382,7 +388,7 @@ namespace NUnit.Core
         #region Inner Classes
         private class ContextDictionary : Hashtable
         {
-            internal TestResult _testResult;
+            internal TestExecutionContext _ec;
 
             public override object this[object key]
             {
@@ -392,8 +398,16 @@ namespace NUnit.Core
                     // they may change as execution proceeds
                     switch (key as string)
                     {
+                        case "Test.Name":
+                            return _ec.CurrentTest.TestName.Name;
+                        case "Test.FullName":
+                            return _ec.CurrentTest.TestName.FullName;
+                        case "Test.Properties":
+                            return _ec.CurrentTest.Properties;
                         case "Result.State":
-                            return (int)_testResult.ResultState;
+                            return (int)_ec.CurrentResult.ResultState;
+                        case "TestDirectory":
+                            return AssemblyHelper.GetDirectoryName(_ec.CurrentTest.FixtureType.Assembly);
                         default:
                             return base[key];
                     }

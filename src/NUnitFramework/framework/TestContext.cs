@@ -33,17 +33,6 @@ namespace NUnit.Framework
 
         #region Properties
 
-        //private static IDictionary Context
-        //{
-        //    get
-        //    {
-        //        if (_context == null)
-        //            _context = (IDictionary)CallContext.GetData(contextKey);
-
-        //        return _context;
-        //    }
-        //}
-
         /// <summary>
         /// Get the current test context. This is created
         /// as needed. The user may save the context for
@@ -77,6 +66,14 @@ namespace NUnit.Framework
                     _result = new ResultAdapter(_context);
 
                 return _result;
+            }
+        }
+
+        public string TestDirectory
+        {
+            get
+            {
+                return (string)_context["TestDirectory"];
             }
         }
 

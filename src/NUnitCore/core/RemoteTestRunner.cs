@@ -131,12 +131,12 @@ namespace NUnit.Core
 
 		private void StartTextCapture( EventListener queue )
 		{
-			TestExecutionContext.Out = new EventListenerTextWriter( queue, TestOutputType.Out );
-			TestExecutionContext.Error = new EventListenerTextWriter( queue, TestOutputType.Error );
-			TestExecutionContext.TraceWriter = new EventListenerTextWriter( queue, TestOutputType.Trace );
-			TestExecutionContext.Tracing = true;
-			TestExecutionContext.LogWriter = new EventListenerTextWriter( queue, TestOutputType.Log );
-			TestExecutionContext.Logging = true;
+            TestExecutionContext.CurrentContext.Out = new EventListenerTextWriter(queue, TestOutputType.Out);
+            TestExecutionContext.CurrentContext.Error = new EventListenerTextWriter(queue, TestOutputType.Error);
+            TestExecutionContext.CurrentContext.TraceWriter = new EventListenerTextWriter(queue, TestOutputType.Trace);
+            TestExecutionContext.CurrentContext.Tracing = true;
+            TestExecutionContext.CurrentContext.LogWriter = new EventListenerTextWriter(queue, TestOutputType.Log);
+            TestExecutionContext.CurrentContext.Logging = true;
 		}
 		#endregion
 

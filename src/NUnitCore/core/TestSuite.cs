@@ -210,42 +210,48 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
-			using( new TestExecutionContext() )
-			{
-				TestResult suiteResult = new TestResult( this );
+            TestExecutionContext.Save();
 
-				listener.SuiteStarted( this.TestName );
-				long startTime = DateTime.Now.Ticks;
+            try
+            {
+                TestResult suiteResult = new TestResult(this);
 
-				switch (this.RunState)
-				{
-					case RunState.Runnable:
-					case RunState.Explicit:
+                listener.SuiteStarted(this.TestName);
+                long startTime = DateTime.Now.Ticks;
+
+                switch (this.RunState)
+                {
+                    case RunState.Runnable:
+                    case RunState.Explicit:
                         if (RequiresThread || ApartmentState != GetCurrentApartment())
                             new TestSuiteThread(this).Run(suiteResult, listener, filter);
                         else
                             Run(suiteResult, listener, filter);
-						break;
+                        break;
 
-					default:
+                    default:
                     case RunState.Skipped:
-				        SkipAllTests(suiteResult, listener, filter);
+                        SkipAllTests(suiteResult, listener, filter);
                         break;
                     case RunState.NotRunnable:
-                        MarkAllTestsInvalid( suiteResult, listener, filter);
+                        MarkAllTestsInvalid(suiteResult, listener, filter);
                         break;
                     case RunState.Ignored:
                         IgnoreAllTests(suiteResult, listener, filter);
                         break;
-				}
+                }
 
-				long stopTime = DateTime.Now.Ticks;
-				double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-				suiteResult.Time = time;
+                long stopTime = DateTime.Now.Ticks;
+                double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+                suiteResult.Time = time;
 
-				listener.SuiteFinished(suiteResult);
-				return suiteResult;
-			}
+                listener.SuiteFinished(suiteResult);
+                return suiteResult;
+            }
+            finally
+            {
+                TestExecutionContext.Restore();
+            }
 		}
 
         public void Run(TestResult suiteResult, EventListener listener, ITestFilter filter)
@@ -254,11 +260,11 @@ namespace NUnit.Core
             DoOneTimeSetUp(suiteResult);
 
             if (this.Properties["_SETCULTURE"] != null)
-                TestExecutionContext.CurrentCulture =
+                TestExecutionContext.CurrentContext.CurrentCulture =
                     new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
 
             if (this.Properties["_SETUICULTURE"] != null)
-                TestExecutionContext.CurrentUICulture =
+                TestExecutionContext.CurrentContext.CurrentUICulture =
                     new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
 
             switch (suiteResult.ResultState)
@@ -299,7 +305,7 @@ namespace NUnit.Core
                         foreach( MethodInfo fixtureSetUp in fixtureSetUpMethods )
                             Reflect.InvokeMethod(fixtureSetUp, fixtureSetUp.IsStatic ? null : Fixture);
 
-                    TestExecutionContext.Update();
+                    TestExecutionContext.CurrentContext.Update();
                 }
                 catch (Exception ex)
                 {
@@ -391,7 +397,7 @@ namespace NUnit.Core
 			TestResult suiteResult, EventListener listener, ITestFilter filter )
 		{
             if (Properties.Contains("Timeout"))
-                TestExecutionContext.TestCaseTimeout = (int)Properties["Timeout"];
+                TestExecutionContext.CurrentContext.TestCaseTimeout = (int)Properties["Timeout"];
 
             foreach (Test test in ArrayList.Synchronized(Tests))
             {

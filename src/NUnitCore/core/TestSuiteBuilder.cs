@@ -60,7 +60,7 @@ namespace NUnit.Core
 		{
 			bool autoNamespaceSuites = package.GetSetting( "AutoNamespaceSuites", true );
 			bool mergeAssemblies = package.GetSetting( "MergeAssemblies", false );
-            TestExecutionContext.TestCaseTimeout = package.GetSetting("DefaultTimeout", 0);
+            TestExecutionContext.CurrentContext.TestCaseTimeout = package.GetSetting("DefaultTimeout", 0);
 
 			if ( package.IsSingleAssembly )
 				return BuildSingleAssembly( package );
