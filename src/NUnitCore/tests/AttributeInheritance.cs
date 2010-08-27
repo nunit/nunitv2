@@ -33,5 +33,23 @@ namespace NUnit.Core.Tests
 			Test fixture = builder.BuildFrom( typeof( TestData.When_collecting_test_fixtures ) );
 			Assert.AreEqual( 1, fixture.TestCount );
 		}
+
+        [Test]
+        public void InheritedExplicitAttributeIsRecognized()
+        {
+            Test fixture = builder.BuildFrom(typeof(TestData.AttributeInheritanceFixture));
+            Test test = TestUtilities.TestFinder.Find("ShouldBeExplicit", fixture, false);
+            Assert.That(test.RunState, Is.EqualTo(RunState.Explicit));
+            Assert.That(test.IgnoreReason, Is.EqualTo("Work in progress"));
+        }
+
+        [Test]
+        public void InheritedIgnoreAttributeIsRecognized()
+        {
+            Test fixture = builder.BuildFrom(typeof(TestData.AttributeInheritanceFixture));
+            Test test = TestUtilities.TestFinder.Find("ShouldBeIgnored", fixture, false);
+            Assert.That(test.RunState, Is.EqualTo(RunState.Ignored));
+            Assert.That(test.IgnoreReason, Is.EqualTo("Not yet implemented"));
+        }
 	}
 }

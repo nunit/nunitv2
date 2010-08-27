@@ -188,20 +188,6 @@ namespace NUnit.Core
 					case DescriptionAttribute:
 						test.Description = GetDescription( attribute );
 						break;
-					case ExplicitAttribute:
-                        if (isValid)
-                        {
-                            test.RunState = RunState.Explicit;
-                            test.IgnoreReason = GetIgnoreReason(attribute);
-                        }
-                        break;
-                    case IgnoreAttribute:
-                        if (isValid)
-                        {
-                            test.RunState = RunState.Ignored;
-                            test.IgnoreReason = GetIgnoreReason(attribute);
-                        }
-                        break;
                     case PlatformAttribute:
                         PlatformHelper pHelper = new PlatformHelper();
                         if (isValid && !pHelper.IsPlatformSupported(attribute))
@@ -253,6 +239,22 @@ namespace NUnit.Core
                                 foreach( DictionaryEntry entry in props )
                                     test.Properties.Add(entry.Key, entry.Value);
 						}
+                        else if ( Reflect.InheritsFrom( attributeType, ExplicitAttribute ) )
+                         {
+                             if (isValid)
+                             {
+                                 test.RunState = RunState.Explicit;
+                                 test.IgnoreReason = GetIgnoreReason(attribute);
+                             }
+                         }
+                         else if ( Reflect.InheritsFrom( attributeType, IgnoreAttribute ) )
+                         {
+                             if (isValid)
+                             {
+                                 test.RunState = RunState.Ignored;
+                                 test.IgnoreReason = GetIgnoreReason(attribute);
+                             }
+                         }
 						break;
                 }
             }

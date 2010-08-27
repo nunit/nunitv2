@@ -37,4 +37,25 @@ namespace NUnit.TestData
 		{
 		}
 	}
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    class NYIAttribute : IgnoreAttribute
+    {
+        public NYIAttribute() : base("Not yet implemented") { }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    class WorkInProcessAttribute : ExplicitAttribute
+    {
+        public WorkInProcessAttribute() : base("Work in progress") { }
+    }
+
+    public class AttributeInheritanceFixture
+    {
+        [Test, WorkInProcess]
+        public void ShouldBeExplicit() { }
+
+        [Test, NYI]
+        public void ShouldBeIgnored() { }
+    }
 }
