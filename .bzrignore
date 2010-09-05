@@ -26,3 +26,6 @@ debug
 release
 Debug
 Release
+*.pidb
+*.resources
+*.userprefs
