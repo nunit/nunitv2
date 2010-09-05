@@ -14,42 +14,6 @@
 <!-- ***************************************************************** -->
 
 <!-- ***************************************************************** -->
-<!-- ***                 Default Help Target                       *** -->
-<!-- ***************************************************************** -->
-
-<target name="help" description="Displays additional help information">
-  <echo>
-    This build file will build NUnitLite for any of the supported
-    runtime frameworks which are actually installed. To add or
-    support for a framework, edit this script
-
-    Running on the current system, the following runtime frameworks
-    are available for building and testing NUnit:
-  </echo>
-
-  <foreach item="String" delim="," 
-      property="framework" in="${installed.frameworks}">
-    <echo message="        ${string::pad-right(framework,15,' ')}${framework::get-description(framework)}"/>
-  </foreach>
-
-  <echo>
-    The default build target is the ${default.runtime} debug config.
-    Generic runtime targets use the following defaults:
-        net           ${default.net.runtime}
-        mono          ${default.mono.runtime}
-
-    Note that targets that set the build configuration or runtime
-    to be used must come before action targets. For example:
-
-        nant net-1.1 release build
-        nant build-all
-        nant debug clean build
-
-    Use   nant -projecthelp to see a full list of targets.
-  </echo>
-</target>
-
-<!-- ***************************************************************** -->
 <!-- ********* Common properties that control the build ************** -->
 <!-- ***************************************************************** -->
  
@@ -99,6 +63,49 @@
 
   <!-- Additional internal properties are set in the include file -->
   <include buildfile="nunit.build.include"/>
+
+<!-- ***************************************************************** -->
+<!-- ***                 Default Help Target                       *** -->
+<!-- ***************************************************************** -->
+
+<target name="help" description="Displays additional help information">
+  <echo>
+    This build file will build NUnitLite for any of the supported
+    runtime frameworks which are actually installed. To add or
+    support for a framework, edit this script
+
+    Running on the current system, the following runtime frameworks
+    are available for building and testing NUnit:
+  </echo>
+
+  <foreach item="String" delim="," 
+      property="framework" in="${installed.frameworks}">
+    <echo message="        ${string::pad-right(framework,15,' ')}${framework::get-description(framework)}"/>
+  </foreach>
+  
+  <property name="default.net.target" value="(Not available)"/>
+  <property name="default.mono.target" value="(Not available)"/>
+  <property name="default.net.target" value="${default.net.runtime}"
+    if="${property::exists('default.net.runtime')}"/>
+  <property name="default.mono.target" value="${default.mono.runtime}"
+    if="${property::exists('default.mono.runtime')}"/>
+
+  <echo>
+    The default build target is the ${default.runtime} debug config.
+    Generic runtime targets use the following defaults:
+        net           ${default.net.target}
+        mono          ${default.mono.target}
+
+    Note that targets that set the build configuration or runtime
+    to be used must come before action targets. For example:
+
+        nant net-1.1 release build
+        nant build-all
+        nant debug clean build
+
+    Use   nant -projecthelp to see a full list of targets.
+  </echo>
+</target>
 
 <!-- ***************************************************************** -->
 <!-- ***          Targets that set the build configuration         *** -->
