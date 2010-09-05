@@ -24,6 +24,7 @@
         <include name="${current.test.dir}/nunit.framework.tests.dll"/>
         <include name="${current.test.dir}/test-assembly.dll"/>
         <include name="${current.test.dir}/mock-assembly.dll"/>
+		<include name="${current.test.dir}/nonamespace-assembly.dll"/>
       </references>
     </csc>
   </target>
