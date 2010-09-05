@@ -149,6 +149,7 @@
     <Compile Include="StatusBarTests.cs" />
     <Compile Include="TestSuiteTreeNodeTests.cs" />
     <Compile Include="TestSuiteTreeViewFixture.cs" />
+    <Compile Include="TestTreeTests.cs" />
     <Compile Include="VisualStateTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

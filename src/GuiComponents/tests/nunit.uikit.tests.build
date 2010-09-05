@@ -11,6 +11,7 @@
         <include name="StatusBarTests.cs"/>
         <include name="TestSuiteTreeNodeTests.cs"/>
         <include name="TestSuiteTreeViewFixture.cs"/>
+        <include name="TestTreeTests.cs"/>
         <include name="VisualStateTests.cs"/>
   </patternset>
 
