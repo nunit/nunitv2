@@ -22,7 +22,12 @@ namespace NUnit.Framework.Constraints
 		/// <summary>
 		/// The expected path used in the constraint
 		/// </summary>
-		protected string expected;
+		protected string expectedPath;
+		
+		/// <summary>
+		/// The actual path being tested
+		/// </summary>
+		protected string actualPath;
 
         /// <summary>
         /// Flag indicating whether a caseInsensitive comparison should be made
@@ -35,7 +40,7 @@ namespace NUnit.Framework.Constraints
 		/// <param name="expected">The expected path</param>
 		protected PathConstraint( string expected ) : base(expected)
 		{
-			this.expected = expected;
+			this.expectedPath = expected;
         }
 
         /// <summary>
@@ -57,11 +62,29 @@ namespace NUnit.Framework.Constraints
         }
 
         /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
+		public override bool Matches (object actual)
+		{
+			this.actual = actual;
+			this.actualPath = actual as string;
+
+			if (actualPath == null)
+                return false;
+			
+			return IsMatch(expectedPath, actualPath);
+		}
+		
+		protected abstract bool IsMatch(string expectedPath, string actualPath);
+		
+        /// <summary>
         /// Returns the string representation of this constraint
         /// </summary>
         protected override string GetStringRepresentation()
         {
-            return string.Format( "<{0} \"{1}\" {2}>", DisplayName, expected, caseInsensitive ? "ignorecase" : "respectcase" );
+            return string.Format( "<{0} \"{1}\" {2}>", DisplayName, expectedPath, caseInsensitive ? "ignorecase" : "respectcase" );
         }
 
         #region Helper Methods
@@ -70,8 +93,15 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns>The path in standardized form</returns>
-		protected string Canonicalize( string path )
+		protected static string Canonicalize( string path )
 		{
+			bool initialSeparator = false;
+			
+			if (path.Length > 0)
+				foreach(char c in DirectorySeparatorChars)
+					if (path[0] == c)
+						initialSeparator = true;
+			
 			ArrayList parts = new ArrayList( path.Split( DirectorySeparatorChars ) );
 
 			for( int index = 0; index < parts.Count; )
@@ -99,8 +129,13 @@ namespace NUnit.Framework.Constraints
             if ((string)parts[parts.Count - 1] == "")
                 parts.RemoveAt(parts.Count - 1);
 
-            return String.Join(Path.DirectorySeparatorChar.ToString(), 
+            string result = String.Join(Path.DirectorySeparatorChar.ToString(), 
 				(string[])parts.ToArray( typeof( string ) ) );
+			
+			if (initialSeparator)
+				result = Path.DirectorySeparatorChar.ToString() + result;
+			
+			return result;
 		}
 
 		/// <summary>
@@ -109,10 +144,34 @@ namespace NUnit.Framework.Constraints
 		/// <param name="path1">The first path</param>
 		/// <param name="path2">The second path</param>
 		/// <returns></returns>
-		protected bool IsSamePath( string path1, string path2 )
+		protected static bool IsSamePath( string path1, string path2, bool ignoreCase )
 		{
-			return string.Compare( Canonicalize( expected ), Canonicalize( (string)actual ), caseInsensitive ) == 0;
+			return string.Compare( path1, path2, ignoreCase ) == 0;
 		}
+
+		/// <summary>
+		/// Test whether one path is under another path
+		/// </summary>
+		/// <param name="path1">The first path - supposed to be the parent path</param>
+		/// <param name="path2">The second path - supposed to be the child path</param>
+		/// <returns></returns>
+		protected static bool IsSubPath( string path1, string path2, bool ignoreCase )
+		{
+			int length1 = path1.Length;
+			int length2 = path2.Length;
+
+			// if path1 is longer or equal, then path2 can't be under it
+			if ( length1 >= length2 )
+				return false;
+
+			// path 2 is longer than path 1: see if initial parts match
+			if ( string.Compare( path1, path2.Substring( 0, length1 ), ignoreCase ) != 0 )
+				return false;
+			
+			// must match through or up to a directory separator boundary
+			return	path2[length1-1] == Path.DirectorySeparatorChar ||
+				length2 > length1 && path2[length1] == Path.DirectorySeparatorChar;
+        }
 
 		/// <summary>
 		/// Test whether one path is the same as or under another path
@@ -122,9 +181,6 @@ namespace NUnit.Framework.Constraints
 		/// <returns></returns>
 		protected bool IsSamePathOrUnder( string path1, string path2 )
 		{
-			path1 = Canonicalize( path1 );
-			path2 = Canonicalize( path2 );
-
 			int length1 = path1.Length;
 			int length2 = path2.Length;
 
@@ -144,7 +200,7 @@ namespace NUnit.Framework.Constraints
 			return	path2[length1-1] == Path.DirectorySeparatorChar ||
 				path2[length1] == Path.DirectorySeparatorChar;
         }
-        #endregion
+#endregion
     }
     #endregion
 
@@ -165,14 +221,9 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual">The value to be tested</param>
         /// <returns>True for success, false for failure</returns>
-		public override bool Matches(object actual)
+		protected override bool IsMatch(string expectedPath, string actualPath)
 		{
-			this.actual = actual;
-
-			if ( !(actual is string) )
-				return false;
-
-			return IsSamePath( expected, (string)actual );
+			return IsSamePath( Canonicalize(expectedPath), Canonicalize(actualPath), caseInsensitive );
 		}
 
         /// <summary>
@@ -182,10 +233,47 @@ namespace NUnit.Framework.Constraints
 		public override void WriteDescriptionTo(MessageWriter writer)
 		{
 			writer.WritePredicate( "Path matching" );
-			writer.WriteExpectedValue( expected );
+			writer.WriteExpectedValue( expectedPath );
 		}
     }
     #endregion
+	
+	#region SubPathConstraint
+    /// <summary>
+    /// SubPathConstraint tests that the actual path is under the expected path
+    /// </summary>
+	public class SubPathConstraint : PathConstraint
+	{
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:SubPathConstraint"/> class.
+        /// </summary>
+        /// <param name="expected">The expected path</param>
+		public SubPathConstraint( string expected ) : base( expected ) { }
+
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
+		protected override bool IsMatch(string expectedPath, string actualPath)
+		{
+			if (actualPath == null)
+                throw new ArgumentException("The actual value may not be null", "actual");
+
+			return IsSubPath( Canonicalize(expectedPath), Canonicalize(actualPath), caseInsensitive );
+		}
+
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
+		public override void WriteDescriptionTo(MessageWriter writer)
+		{
+			writer.WritePredicate( "Path under" );
+			writer.WriteExpectedValue( expectedPath );
+		}
+    }
+	#endregion
 
     #region SamePathOrUnderConstraint
     /// <summary>
@@ -204,14 +292,11 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual">The value to be tested</param>
         /// <returns>True for success, false for failure</returns>
-		public override bool Matches(object actual)
+		protected override bool IsMatch(string expectedPath, string actualPath)
 		{
-			this.actual = actual;
-
-			if ( !(actual is string) )
-				return false;
-
-			return IsSamePathOrUnder( expected, (string) actual );
+			string path1 = Canonicalize(expectedPath);
+			string path2 = Canonicalize(actualPath);
+			return IsSamePath(path1, path2, caseInsensitive) || IsSubPath(path1, path2, caseInsensitive);
 		}
 
         /// <summary>
@@ -221,7 +306,7 @@ namespace NUnit.Framework.Constraints
 		public override void WriteDescriptionTo(MessageWriter writer)
 		{
 			writer.WritePredicate( "Path under or matching" );
-			writer.WriteExpectedValue( expected );
+			writer.WriteExpectedValue( expectedPath );
 		}
     }
     #endregion

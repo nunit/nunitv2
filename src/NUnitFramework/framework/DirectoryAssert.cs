@@ -380,7 +380,12 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         public static void IsWithin(DirectoryInfo directory, DirectoryInfo actual, string message, params object[] args)
         {
-            Assert.That(actual, new SubDirectoryConstraint(directory), message, args);
+			if (directory == null)
+                throw new ArgumentException("The directory may not be null", "directory");
+			if (directory == null)
+                throw new ArgumentException("The actual value may not be null", "actual");
+
+			IsWithin(directory.FullName, actual.FullName, message, args);
         }
 
         /// <summary>
@@ -392,7 +397,12 @@ namespace NUnit.Framework
         /// <param name="message">The message to display if directory is not within the path</param>
         static public void IsWithin(DirectoryInfo directory, DirectoryInfo actual, string message)
         {
-            IsWithin(directory, actual, message, null);
+			if (directory == null)
+                throw new ArgumentException("The directory may not be null", "directory");
+			if (directory == null)
+                throw new ArgumentException("The actual value may not be null", "actual");
+
+            IsWithin(directory.FullName, actual.FullName, message, null);
         }
 
         /// <summary>
@@ -403,7 +413,12 @@ namespace NUnit.Framework
         /// <param name="actual">sub-directory asserted to exist under directory</param>
         static public void IsWithin(DirectoryInfo directory, DirectoryInfo actual)
         {
-            IsWithin(directory, actual, string.Empty, null);
+			if (directory == null)
+                throw new ArgumentException("The directory may not be null", "directory");
+			if (directory == null)
+                throw new ArgumentException("The actual value may not be null", "actual");
+
+            IsWithin(directory.FullName, actual.FullName, string.Empty, null);
         }
 
         /// <summary>
@@ -416,13 +431,7 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         static public void IsWithin(string directory, string actual, string message, params object[] args)
         {
-            // create a directory info object for the expected path
-            DirectoryInfo diExpected = new DirectoryInfo(directory);
-
-            // create a directory info object for the actual path
-            DirectoryInfo diActual = new DirectoryInfo(actual);
-
-            IsWithin(diExpected, diActual, message, args);
+			Assert.That(actual, new SubPathConstraint(directory), message, args);
         }
 
         /// <summary>
@@ -462,7 +471,12 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         static public void IsNotWithin(DirectoryInfo directory, DirectoryInfo actual, string message, params object[] args)
         {
-            Assert.That(actual, new NotConstraint( new SubDirectoryConstraint(directory) ), message, args );
+			if (directory == null)
+                throw new ArgumentException("The directory may not be null", "directory");
+			if (directory == null)
+                throw new ArgumentException("The actual value may not be null", "actual");
+
+			IsNotWithin(directory.FullName, actual.FullName, message, args);
         }
 
         /// <summary>
@@ -474,7 +488,12 @@ namespace NUnit.Framework
         /// <param name="message">The message to display if directory is not within the path</param>
         static public void IsNotWithin(DirectoryInfo directory, DirectoryInfo actual, string message)
         {
-            IsNotWithin(directory, actual, message, null);
+			if (directory == null)
+                throw new ArgumentException("The directory may not be null", "directory");
+			if (directory == null)
+                throw new ArgumentException("The actual value may not be null", "actual");
+
+            IsNotWithin(directory.FullName, actual.FullName, message, null);
         }
 
         /// <summary>
@@ -485,7 +504,12 @@ namespace NUnit.Framework
         /// <param name="actual">sub-directory asserted to exist under directory</param>
         static public void IsNotWithin(DirectoryInfo directory, DirectoryInfo actual)
         {
-            IsNotWithin(directory, actual, string.Empty, null);
+			if (directory == null)
+                throw new ArgumentException("The directory may not be null", "directory");
+			if (directory == null)
+                throw new ArgumentException("The actual value may not be null", "actual");
+
+            IsNotWithin(directory.FullName, actual.FullName, string.Empty, null);
         }
 
         /// <summary>
@@ -498,13 +522,7 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         static public void IsNotWithin(string directory, string actual, string message, params object[] args)
         {
-            // create a directory info object for the expected path
-            DirectoryInfo diExpected = new DirectoryInfo(directory);
-
-            // create a directory info object for the actual path
-            DirectoryInfo diActual = new DirectoryInfo(actual);
-
-            IsNotWithin(diExpected, diActual, message, args);
+			Assert.That(actual, new NotConstraint(new SubPathConstraint(directory)), message, args);
         }
 
         /// <summary>
