@@ -32,6 +32,7 @@
         <include name="TestDomainFixture.cs"/>
         <include name="TestDomainTests_Multiple.cs"/>
         <include name="TestEventCatcher.cs"/>
+        <include name="TestLoaderWatcherTests.cs"/>
         <include name="TestLoaderAssemblyTests.cs"/>
         <include name="TestRunnerFactoryTests.cs"/>
         <include name="TestServerTests.cs"/>

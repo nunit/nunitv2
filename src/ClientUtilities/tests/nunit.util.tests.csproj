@@ -135,7 +135,6 @@
       <Name>nunit.util.dll</Name>
       <Project>{61CE9CE5-943E-44D4-A381-814DC1406767}</Project>
       <Package>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</Package>
-      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +197,7 @@
     <Compile Include="TestDomainTests_Multiple.cs" />
     <Compile Include="TestEventCatcher.cs" />
     <Compile Include="TestLoaderAssemblyTests.cs" />
+    <Compile Include="TestLoaderWatcherTests.cs" />
     <Compile Include="TestRunnerFactoryTests.cs" />
     <Compile Include="TestServerTests.cs" />
     <Compile Include="VisualStudioConverterTests.cs" />

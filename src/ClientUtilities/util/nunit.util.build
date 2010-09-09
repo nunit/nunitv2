@@ -11,6 +11,7 @@
         <include name="CommandLineOptions.cs"/>
         <include name="ConsoleWriter.cs"/>
         <include name="DefaultTestRunnerFactory.cs"/>
+        <include name="IAssemblyWatcher.cs"/>
         <include name="InProcessTestRunnerFactory.cs"/>
         <include name="MemorySettingsStorage.cs"/>
         <include name="NUnitProject.cs"/>
