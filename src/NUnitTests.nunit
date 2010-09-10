@@ -1,6 +1,6 @@
 ﻿<NUnitProject>
   <Settings activeconfig="Debug" autoconfig="true" />
-  <Config name="Debug" binpath="bin/Debug/lib;bin/debug/tests;bin/debug/framework" runtimeFramework="v2.0.50727">
+  <Config name="Debug" binpath="bin/Debug/lib;bin/Debug/tests;bin/Debug/framework" runtimeFramework="v2.0.50727">
     <assembly path="bin/Debug/tests/nunit.framework.tests.dll" />
     <assembly path="bin/Debug/tests/nunit.core.tests.dll" />
     <assembly path="bin/Debug/tests/nunit.util.tests.dll" />
