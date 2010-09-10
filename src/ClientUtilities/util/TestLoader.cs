@@ -9,6 +9,7 @@ namespace NUnit.Util
 	using System;
 	using System.IO;
 	using System.Collections;
+	using System.Diagnostics;
 	using System.Threading;
 	using System.Configuration;
 	using NUnit.Core;
@@ -88,7 +89,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// Watcher fires when the assembly changes
 		/// </summary>
-		private AssemblyWatcher watcher;
+		private IAssemblyWatcher watcher;
 
 		/// <summary>
 		/// Assembly changed during a test and
@@ -116,11 +117,18 @@ namespace NUnit.Util
 		public TestLoader()
 			: this( new TestEventDispatcher() ) { }
 
-		public TestLoader(TestEventDispatcher eventDispatcher )
+		public TestLoader(TestEventDispatcher eventDispatcher)
+			: this(eventDispatcher, new AssemblyWatcher()) { }
+
+		public TestLoader(IAssemblyWatcher assemblyWatcher)
+			: this(new TestEventDispatcher(), assemblyWatcher) { }
+
+		public TestLoader(TestEventDispatcher eventDispatcher, IAssemblyWatcher assemblyWatcher)
 		{
 			this.events = eventDispatcher;
-            this.factory = new DefaultTestRunnerFactory();
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler( OnUnhandledException );
+			this.watcher = assemblyWatcher;
+			this.factory = new DefaultTestRunnerFactory();
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(OnUnhandledException);
 		}
 
 		#endregion
@@ -571,7 +579,10 @@ namespace NUnit.Util
                 currentRuntime = framework;
 				reloadPending = false;
 
-                testProject.HasChangesRequiringReload = false;
+				if (Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnChange", true))
+					InstallWatcher();
+
+				testProject.HasChangesRequiringReload = false;
                 events.FireTestReloaded(TestFileName, loadedTest);
 
                 log.Info("Reload complete");
@@ -669,10 +680,12 @@ namespace NUnit.Util
 		/// </summary>
 		private void InstallWatcher()
 		{
-			if(watcher!=null) watcher.Stop();
+			Debug.Assert(!ReferenceEquals(watcher, null));
+			watcher.Stop();
+			watcher.FreeResources();
 
-			watcher = new AssemblyWatcher( 1000, TestProject.ActiveConfig.Assemblies.ToArray() );
-			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( OnTestChanged );
+			watcher.Setup(1000, TestProject.ActiveConfig.Assemblies.ToArray());
+			watcher.AssemblyChanged += new AssemblyChangedHandler( OnTestChanged );
 			watcher.Start();
 		}
 
@@ -681,11 +694,9 @@ namespace NUnit.Util
 		/// </summary>
 		private void RemoveWatcher()
 		{
-			if ( watcher != null )
-			{
-				watcher.Stop();
-				watcher = null;
-			}
+			Debug.Assert(!ReferenceEquals(watcher, null));
+			watcher.Stop();
+			watcher.FreeResources();
 		}
 
 		private TestPackage MakeTestPackage( string testName )

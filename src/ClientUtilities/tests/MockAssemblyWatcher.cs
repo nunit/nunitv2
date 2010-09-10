@@ -21,9 +21,6 @@ namespace NUnit.Util.Tests
 		private DateTime triggerTime;
 		private DateTime publishTime;
 
-		public MockAssemblyWatcher( int delay, string assemblyFileName )
-			: base( delay, assemblyFileName ) { }
-		
 		public bool EventPublished
 		{
 			get { return eventPublished; }

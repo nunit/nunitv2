@@ -31,8 +31,9 @@ namespace NUnit.Util.Tests
 			writer.Close();
 
 			handler = new CounterEventHandler();
-			watcher = new AssemblyWatcher(watcherDelayMs, fileName);
-			watcher.AssemblyChangedEvent += new AssemblyWatcher.AssemblyChangedHandler( handler.OnChanged );
+			watcher = new AssemblyWatcher();
+			watcher.Setup(watcherDelayMs, fileName);
+			watcher.AssemblyChanged += new AssemblyChangedHandler( handler.OnChanged );
 			watcher.Start();
 		}
 
