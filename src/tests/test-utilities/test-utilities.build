@@ -32,6 +32,7 @@
     <copy todir="${package.src.dir}/tests/test-utilities">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="test-utilities.csproj"/>
         <include name="test-utilities.build"/>
       </fileset>
     </copy>

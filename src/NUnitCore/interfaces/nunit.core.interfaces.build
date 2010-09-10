@@ -69,6 +69,7 @@
     <copy todir="${package.src.dir}/NUnitCore/interfaces">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="nunit.core.interfaces.dll.csproj"/>
         <include name="nunit.core.interfaces.build"/>
       </fileset>
     </copy>

@@ -28,6 +28,7 @@
     <copy todir="${package.src.dir}/tests/timing-tests">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="timing-tests.csproj"/>
         <include name="timing-tests.build"/>
       </fileset>
     </copy>

@@ -1,7 +1,7 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -105,6 +105,9 @@
     <Compile Include="MockCall.cs" />
     <Compile Include="MockInterfaceHandler.cs" />
     <Compile Include="MockMethod.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="nunit.mocks.build" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

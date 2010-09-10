@@ -909,6 +909,10 @@
     <!-- Copy src dir files -->
     <copy todir="${package.src.dir}">
       <fileset basedir="${project.src.dir}">
+        <include name="nunit.sln"/>
+        <include name="NUnitTests.nunit"/>
+        <include name="NUnitTests.config"/>
+        <include name="nunit.snk"/>
         <include name="CommonAssemblyInfo.cs"/>
         <include name="nunit20under21.config"/>
         <include name="nunit20under22.config"/>
@@ -945,19 +949,6 @@
     <nant target="package" inheritrefs="true">
       <buildfiles refid="gui.buildfiles" />
     </nant>
-
-    <mkdir dir="${package.solutions.dir}" />
-
-    <!-- Copy VS2008 solution -->
-    <copy todir="${package.solutions.dir}/vs2008">
-      <fileset basedir="${project.solutions.dir}/vs2008">
-        <include name="nunit.sln"/>
-        <include name="NUnitTests.nunit"/>
-        <include name="NUnitTests.config"/>
-        <include name="nunit.snk"/>
-        <include name="**/*.csproj"/>
-      </fileset>
-    </copy>
 
   </target>
 

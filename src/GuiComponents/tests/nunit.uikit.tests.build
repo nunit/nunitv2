@@ -43,6 +43,7 @@
     <copy todir="${package.src.dir}/GuiComponents/tests">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="nunit.uikit.tests.csproj"/>
         <include name="nunit.uikit.tests.build"/>
       </fileset>
     </copy>

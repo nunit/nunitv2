@@ -21,6 +21,7 @@
     <copy todir="${package.src.dir}/tests/loadtest-assembly">
       <fileset>
         <include name="**/*.cs"/>
+        <include name="loadtest-assembly.csproj"/>
         <include name="loadtest-assembly.build"/>
       </fileset>
     </copy>

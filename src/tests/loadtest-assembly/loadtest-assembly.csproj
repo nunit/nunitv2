@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{20ABDB3C-EA46-468A-A574-0552299A32DB}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -66,6 +66,9 @@
       <Name>nunit.framework.dll</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="loadtest-assembly.build" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

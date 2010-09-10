@@ -23,6 +23,7 @@
         <include name="TestServerConsoleApp.cs"/>
         <include name="App.ico"/>
         <include name="App.config"/>
+        <include name="nunit-server.exe.csproj"/>
         <include name="nunit-server.exe.build"/>
       </fileset>
     </copy>

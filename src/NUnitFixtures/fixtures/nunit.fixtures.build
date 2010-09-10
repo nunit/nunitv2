@@ -43,6 +43,7 @@
     <copy todir="${package.src.dir}/NUnitFixtures/fixtures">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="nunit.fixtures.csproj"/>
         <include name="nunit.fixtures.build"/>
       </fileset>
     </copy>

@@ -32,6 +32,7 @@
     <copy todir="${package.src.dir}/ConsoleRunner/nunit-console">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="nunit-console.csproj"/>
         <include name="nunit-console.build"/>
         <include name="App.ico"/>
       </fileset>

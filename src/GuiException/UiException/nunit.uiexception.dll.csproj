@@ -112,6 +112,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="nunit.uiexception.build" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

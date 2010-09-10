@@ -28,6 +28,7 @@
     <copy todir="${package.src.dir}/NUnitFixtures/tests">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="nunit.fixtures.tests.csproj"/>
         <include name="nunit.fixtures.tests.build"/>
       </fileset>
     </copy>
