@@ -17,13 +17,14 @@ namespace NUnit.Core.Tests
 	{
         private string testsDll = AssemblyHelper.GetAssemblyPath(typeof(SuiteBuilderTests));
 		private string testData = AssemblyHelper.GetAssemblyPath(typeof(NUnit.TestData.EmptyFixture));
-		private string tempFile = "/x.dll";
+		private string tempFile;
 		private TestSuiteBuilder builder;
 
 		[SetUp]
 		public void CreateBuilder()
 		{
 			builder = new TestSuiteBuilder();
+            tempFile = Path.ChangeExtension(Path.GetTempFileName(), ".dll");
 		}
 		[TearDown]
 		public void TearDown()
