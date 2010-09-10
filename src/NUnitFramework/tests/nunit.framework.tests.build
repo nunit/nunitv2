@@ -108,6 +108,7 @@
       <fileset>
         <patternset refid="source-files"/>
         <patternset refid="resource-files"/>
+        <include name="nunit.framework.tests.csproj"/>
         <include name="nunit.framework.tests.build"/>
       </fileset>
     </copy>

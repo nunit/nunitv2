@@ -20,6 +20,7 @@
     <copy todir="${package.src.dir}/tests/nonamespace-assembly">
       <fileset>
         <include name="NoNamespaceTestFixture.cs"/>
+        <include name="nonamespace-assembly.csproj"/>
         <include name="nonamespace-assembly.build"/>
       </fileset>
     </copy>

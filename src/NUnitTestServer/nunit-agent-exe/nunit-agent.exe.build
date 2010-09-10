@@ -55,6 +55,7 @@
         <patternset refid="source-files" />
         <include name="App.config" />
         <include name="Ship.config"/>
+        <include name="nunit-agent.exe.csproj"/>
         <include name="nunit-agent.exe.build"/>
       </fileset>
     </copy>

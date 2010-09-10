@@ -21,6 +21,7 @@
     <copy todir="${package.src.dir}/tests/mock-assembly">
       <fileset>
         <include name="MockAssembly.cs"/>
+        <include name="mock-assembly.csproj"/>
         <include name="mock-assembly.build"/>
       </fileset>
     </copy>

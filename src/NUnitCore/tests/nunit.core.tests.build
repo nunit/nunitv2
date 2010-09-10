@@ -57,8 +57,9 @@
         <include name="TestCaseResultFixture.cs"/>
         <include name="TestCaseSourceTests.cs"/>
         <include name="TestCaseTest.cs"/>
-        <include name="TestConsole.cs"/>
-        <include name="TestDelegateFixture.cs"/>
+    <include name="TestContextTests.cs"/>
+    <include name="TestConsole.cs"/>
+    <include name="TestDelegateFixture.cs"/>
         <include name="TestExecutionContextTests.cs"/>
         <include name="TestFixtureBuilderTests.cs"/>
         <include name="TestFixtureExtension.cs"/>
@@ -114,6 +115,8 @@
     <copy todir="${package.src.dir}/NUnitCore/tests">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="Results.xsd"/>
+        <include name="nunit.core.tests.csproj"/>
         <include name="nunit.core.tests.build"/>
       </fileset>
     </copy>

@@ -125,6 +125,7 @@
         <patternset refid="source-files"/>
         <patternset refid="resource-files"/>
         <patternset refid="content-files"/>
+        <include name="nunit.uikit.dll.csproj"/>
         <include name="nunit.uikit.build"/>
       </fileset>
     </copy>

@@ -115,6 +115,7 @@
         <patternset refid="source-files"/>
         <include name="results.xsd"/> <!-- Need to check this -->
         <include name="summary.xslt"/>    <!-- and this -->
+        <include name="nunit.core.dll.csproj"/>
         <include name="nunit.core.build"/>
       </fileset>
     </copy>

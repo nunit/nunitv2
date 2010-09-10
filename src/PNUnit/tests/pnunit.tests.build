@@ -26,6 +26,7 @@
     <copy todir="${package.src.dir}/PNUnit/tests">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="pnunit.tests.csproj"/>
         <include name="pnunit.tests.build"/>
       </fileset>
     </copy>

@@ -37,6 +37,7 @@
     <copy todir="${package.src.dir}/NUnitMocks/mocks">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="nunit.mocks.csproj"/>
         <include name="nunit.mocks.build"/>
       </fileset>
     </copy>

@@ -86,6 +86,7 @@
         <patternset refid="source-files"/>
         <patternset refid="resource-files"/>
         <patternset refid="content-files"/>
+        <include name="nunit.uiexception.dll.csproj"/>
         <include name="nunit.uiexception.build"/>
       </fileset>
     </copy>

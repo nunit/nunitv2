@@ -38,6 +38,7 @@
         <include name="App.ico"/>
         <include name="App.config"/>
         <include name="Ship.config"/>
+        <include name="pnunit-launcher.csproj"/>
         <include name="pnunit-launcher.build"/>
       </fileset>
     </copy>

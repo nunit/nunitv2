@@ -50,6 +50,7 @@
         <include name="App.config"/>
         <include name="Ship.config"/>
         <include name="App.ico"/>
+        <include name="nunit-console.exe.csproj"/>
         <include name="nunit-console.exe.build"/>
       </fileset>
     </copy>

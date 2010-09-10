@@ -33,6 +33,7 @@
     <copy todir="${package.src.dir}/ConsoleRunner/tests">
       <fileset>
         <patternset refid="source-files" />
+        <include name="nunit-console.tests.csproj" />
         <include name="nunit-console.tests.build" />
       </fileset>
     </copy>

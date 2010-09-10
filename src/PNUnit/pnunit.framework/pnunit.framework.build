@@ -32,6 +32,7 @@
     <copy todir="${package.src.dir}/PNUnit/pnunit.framework">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="pnunit.framework.csproj"/>
         <include name="pnunit.framework.build"/>
       </fileset>
     </copy>

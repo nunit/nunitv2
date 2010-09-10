@@ -322,6 +322,9 @@
     <Content Include="Success.png" />
     <Content Include="unpinned.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="nunit.uikit.build" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

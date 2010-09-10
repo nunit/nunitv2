@@ -204,6 +204,9 @@
     <Compile Include="VSProjectTests.cs" />
     <Compile Include="XmlResultWriterTest.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="nunit.util.tests.build" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

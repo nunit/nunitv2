@@ -47,6 +47,7 @@
     <copy todir="${package.src.dir}/GuiRunner/nunit-gui-exe">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="nunit-gui.exe.csproj"/>
         <include name="nunit-gui.exe.build"/>
         <include name="App.ico"/>
         <include name="App.config"/>

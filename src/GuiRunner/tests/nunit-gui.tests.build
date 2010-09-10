@@ -30,6 +30,7 @@
     <copy todir="${package.src.dir}/GuiRunner/tests">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="nunit-gui.tests.csproj"/>
         <include name="nunit-gui.tests.build"/>
       </fileset>
     </copy>
