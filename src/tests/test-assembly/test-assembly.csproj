@@ -150,6 +150,7 @@
     <Compile Include="ThreadingFixture.cs" />
     <Compile Include="TypeHelperFixture.cs" />
     <Compile Include="UnhandledExceptions.cs" />
+    <Compile Include="DirectoryChangeFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="test-assembly.build" />

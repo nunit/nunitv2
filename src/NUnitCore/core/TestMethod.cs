@@ -296,9 +296,10 @@ namespace NUnit.Core
 				TimeSpan span = stop.Subtract(start);
 				testResult.Time = (double)span.Ticks / (double)TimeSpan.TicksPerSecond;
 
-
-                if (testResult.IsSuccess && this.Properties.Contains("MaxTime"))
-                {
+                if (testResult.IsSuccess)
+				{
+					if (this.Properties.Contains("MaxTime"))
+                	{
                     int elapsedTime = (int)Math.Round(testResult.Time * 1000.0);
                     int maxTime = (int)this.Properties["MaxTime"];
 
@@ -307,7 +308,15 @@ namespace NUnit.Core
                             string.Format("Elapsed time of {0}ms exceeds maximum of {1}ms",
                                 elapsedTime, maxTime),
                             null);
-                }
+					}
+					
+					if (testResult.IsSuccess && testResult.Message == null && 
+					    Environment.CurrentDirectory != TestExecutionContext.CurrentContext.prior.CurrentDirectory)
+					{
+						// TODO: Introduce a warning result state in NUnit 3.0
+						testResult.SetResult(ResultState.Success, "Warning: Test changed the CurrentDirectory", null);
+					}
+				}
 			}
 		}
 		#endregion

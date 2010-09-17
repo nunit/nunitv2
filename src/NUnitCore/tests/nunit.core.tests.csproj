@@ -207,6 +207,7 @@
     <Compile Include="UnhandledExceptionTests.cs" />
     <Compile Include="ValueSourceTests.cs" />
     <Compile Include="XmlTest.cs" />
+    <Compile Include="DirectoryChangeTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

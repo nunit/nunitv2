@@ -69,7 +69,7 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( currentDirectory, Environment.CurrentDirectory, "Directory was not restored" );
             Assert.AreEqual(currentDirectory, TestExecutionContext.CurrentContext.CurrentDirectory, "Directory not in final context");
 		}
-
+		
 		[Test]
 		public void SetAndRestoreCurrentCulture()
 		{
