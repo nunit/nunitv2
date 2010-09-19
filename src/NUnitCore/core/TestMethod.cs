@@ -141,6 +141,14 @@ namespace NUnit.Core
                     : TestExecutionContext.CurrentContext.TestCaseTimeout;
             }
         }
+		
+		protected override bool ShouldRunOnOwnThread 
+		{
+			get 
+			{
+                return base.ShouldRunOnOwnThread || Timeout > 0;
+			}
+		}
 
         public Exception BuilderException
         {
@@ -152,18 +160,29 @@ namespace NUnit.Core
 		#region Run Methods
         public override TestResult Run(EventListener listener, ITestFilter filter)
         {
-            TestResult testResult = new TestResult(this);
-
             log.Debug("Test Starting: " + this.TestName.FullName);
             listener.TestStarted(this.TestName);
             long startTime = DateTime.Now.Ticks;
 
+            TestResult testResult = this.RunState == RunState.Runnable || this.RunState == RunState.Explicit
+				? RunTestInContext() : SkipTest();
+
+			log.Debug("Test result = " + testResult.ResultState);
+
+            long stopTime = DateTime.Now.Ticks;
+            double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+            testResult.Time = time;
+
+            listener.TestFinished(testResult);
+            return testResult;
+        }
+		      
+		private TestResult SkipTest()
+		{
+			TestResult testResult = new TestResult(this);
+			
             switch (this.RunState)
             {
-                case RunState.Runnable:
-                case RunState.Explicit:
-                    Run(testResult);
-                    break;
                 case RunState.Skipped:
                 default:
                     testResult.Skip(IgnoreReason);
@@ -178,44 +197,34 @@ namespace NUnit.Core
                     testResult.Ignore(IgnoreReason);
                     break;
             }
-
-            long stopTime = DateTime.Now.Ticks;
-            double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-            testResult.Time = time;
-
-            listener.TestFinished(testResult);
-            return testResult;
-        }
-        
-        public virtual void Run(TestResult testResult)
+			
+			return testResult;
+		}
+		
+        private TestResult RunTestInContext()
 		{
-            TestExecutionContext.Save();
+			TestExecutionContext.Save();
 
             TestExecutionContext.CurrentContext.CurrentTest = this;
-            TestExecutionContext.CurrentContext.CurrentResult = testResult;
 
             ContextDictionary context = Context;
             context._ec = TestExecutionContext.CurrentContext;
-            //context["Test.Name"] = this.TestName.Name;
-            //context["Test.FullName"] = this.TestName.FullName;
-            //context["Test.Properties"] = this.Properties;
-            //context["TestDirectory"] = AssemblyHelper.GetDirectoryName(this.FixtureType.Assembly);
 
             CallContext.SetData("NUnit.Framework.TestContext", context);
 
+            if (this.Parent != null)
+            {
+                this.Fixture = this.Parent.Fixture;
+                TestSuite suite = this.Parent as TestSuite;
+                if (suite != null)
+                {
+                    this.setUpMethods = suite.GetSetUpMethods();
+                    this.tearDownMethods = suite.GetTearDownMethods();
+                }
+            }
+
             try
             {
-                if (this.Parent != null)
-                {
-                    this.Fixture = this.Parent.Fixture;
-                    TestSuite suite = this.Parent as TestSuite;
-                    if (suite != null)
-                    {
-                        this.setUpMethods = suite.GetSetUpMethods();
-                        this.tearDownMethods = suite.GetTearDownMethods();
-                    }
-                }
-
                 // Temporary... to allow for tests that directly execute a test case
                 if (Fixture == null && !method.IsStatic)
                     Fixture = Reflect.Construct(this.FixtureType);
@@ -228,31 +237,19 @@ namespace NUnit.Core
                     TestExecutionContext.CurrentContext.CurrentUICulture =
                         new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
 
-                int repeatCount = this.Properties.Contains("Repeat")
-                    ? (int)this.Properties["Repeat"] : 1;
-
-                while (repeatCount-- > 0)
-                {
-                    if (RequiresThread || Timeout > 0 || ApartmentState != GetCurrentApartment())
-                        new TestMethodThread(this).Run(testResult, NullListener.NULL, TestFilter.Empty);
-                    else
-                        doRun(testResult);
-
-                    if (testResult.ResultState == ResultState.Failure ||
-                        testResult.ResultState == ResultState.Error ||
-                        testResult.ResultState == ResultState.Cancelled)
-                    {
-                        break;
-                    }
-                }
-
+				return RunRepeatedTest();
             }
             catch (Exception ex)
             {
+				log.Debug("TestMethod: Caught " + ex.GetType().Name);
+				
                 if (ex is ThreadAbortException)
                     Thread.ResetAbort();
 
+				TestResult testResult = new TestResult(this);
                 RecordException(ex, testResult, FailureSite.Test);
+				
+				return testResult;
             }
             finally
             {
@@ -262,6 +259,33 @@ namespace NUnit.Core
                 TestExecutionContext.Restore();
             }
 		}
+		
+		// TODO: Repeated tests need to be implemented as separate tests
+		// in the tree of tests. Once that is done, this method will no
+		// longer be needed and RunTest can be called directly.
+		private TestResult RunRepeatedTest()
+		{
+			TestResult testResult = null;
+			
+			int repeatCount = this.Properties.Contains("Repeat")
+				? (int)this.Properties["Repeat"] : 1;
+			
+            while (repeatCount-- > 0)
+            {
+                testResult = ShouldRunOnOwnThread
+                    ? new TestMethodThread(this).Run(NullListener.NULL, TestFilter.Empty)
+                    : RunTest();
+
+                if (testResult.ResultState == ResultState.Failure ||
+                    testResult.ResultState == ResultState.Error ||
+                    testResult.ResultState == ResultState.Cancelled)
+                {
+                    break;
+                }
+            }
+			
+			return testResult;
+		}
 
 		/// <summary>
 		/// The doRun method is used to run a test internally.
@@ -269,15 +293,18 @@ namespace NUnit.Core
 		/// TestFixtureSetUp and TestFixtureTearDown needed.
 		/// </summary>
 		/// <param name="testResult">The result in which to record success or failure</param>
-		public virtual void doRun( TestResult testResult )
+		public virtual TestResult RunTest()
 		{
 			DateTime start = DateTime.Now;
 
+			TestResult testResult = new TestResult(this);
+			TestExecutionContext.CurrentContext.CurrentResult =  testResult;
+			
 			try 
 			{
-                doSetUp();
+                RunSetUp();
 
-				doTestCase( testResult );
+				RunTestCase( testResult );
 			}
 			catch(Exception ex)
 			{
@@ -290,7 +317,7 @@ namespace NUnit.Core
 			}
 			finally 
 			{
-				doTearDown( testResult );
+				RunTearDown( testResult );
 
 				DateTime stop = DateTime.Now;
 				TimeSpan span = stop.Subtract(start);
@@ -318,19 +345,23 @@ namespace NUnit.Core
 					}
 				}
 			}
+			
+			log.Debug("Test result = " + testResult.ResultState);
+				
+			return testResult;
 		}
 		#endregion
 
 		#region Invoke Methods by Reflection, Recording Errors
 
-        private void doSetUp()
+        private void RunSetUp()
         {
             if (setUpMethods != null)
                 foreach( MethodInfo setUpMethod in setUpMethods )
                     Reflect.InvokeMethod(setUpMethod, setUpMethod.IsStatic ? null : this.Fixture);
         }
 
-		private void doTearDown( TestResult testResult )
+		private void RunTearDown( TestResult testResult )
 		{
 			try
 			{
@@ -350,7 +381,7 @@ namespace NUnit.Core
 			}
 		}
 
-		private void doTestCase( TestResult testResult )
+		private void RunTestCase( TestResult testResult )
 		{
             try
             {
@@ -370,7 +401,7 @@ namespace NUnit.Core
             }
 		}
 
-		public virtual void RunTestMethod(TestResult testResult)
+		private void RunTestMethod(TestResult testResult)
 		{
 		    object fixture = this.method.IsStatic ? null : this.Fixture;
 

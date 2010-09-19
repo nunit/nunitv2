@@ -81,7 +81,21 @@ namespace NUnit.Core
             return Thread.CurrentThread.ApartmentState;
 #endif
         }
-        #endregion
+
+        /// <summary>
+        /// Gets a boolean value indicating whether this 
+        /// test should run on it's own thread.
+        /// </summary>
+        protected virtual bool ShouldRunOnOwnThread
+        {
+            get
+            {
+                return RequiresThread
+                    || ApartmentState != ApartmentState.Unknown
+                    && ApartmentState != GetCurrentApartment();
+            }
+        }
+		#endregion
 
         #region Construction
 

@@ -17,22 +17,21 @@ namespace NUnit.Core
     {
         static Logger log = InternalTrace.GetLogger(typeof(TestThread));
 
-        #region Private Fields
-        /// <summary>
-        /// The TestMethod or TestSuite to be run on the thread
-        /// </summary>
-        private Test test;
-
+		private Test test;
+		
+        #region Protected Fields
         /// <summary>
         /// The Thread object used to run tests
         /// </summary>
         protected Thread thread;
 
-        /// <summary>
-        /// The result of the test being run
-        /// </summary>
-        protected TestResult testResult;
-
+		/// <summary>
+		/// The result of running the test, which must be kept
+		/// separate from the returned TestResult to avoid
+		/// race conditions.
+		/// </summary>
+		protected TestResult threadResult;
+		
         protected EventListener listener;
 
         protected ITestFilter filter;
@@ -46,8 +45,8 @@ namespace NUnit.Core
         #region Constructor
         protected TestThread(Test test)
         {
-            this.test = test;
-
+			this.test = test;
+			
             this.thread = new Thread(new ThreadStart(RunTestProc));
             thread.CurrentCulture = Thread.CurrentThread.CurrentCulture;
             thread.CurrentUICulture = Thread.CurrentThread.CurrentUICulture;
@@ -82,29 +81,38 @@ namespace NUnit.Core
         /// part of the pubic interface, but it would require some
         /// restructuring of the Test hierarchy.
         /// </summary>
-        public void Run(TestResult testResult, EventListener listener, ITestFilter filter)
+        public TestResult Run(EventListener listener, ITestFilter filter)
         {
+			TestResult testResult = new TestResult(test);
+			
             this.thrownException = null;
-            this.testResult = testResult;
             this.listener = listener;
             this.filter = filter;
 
-            log.Debug("Starting TestThread");
+            log.Debug("Starting test in separate thread");
             thread.Start();
             thread.Join(this.Timeout);
-            log.Debug("Join Complete");
 
             // Timeout?
             if (thread.IsAlive)
             {
+				log.Debug("Test timed out - aborting thread");
                 thread.Abort();
                 //thread.Join();
                 testResult.Failure(string.Format("Test exceeded Timeout value of {0}ms", Timeout), null);
             }
-
-            // Handle any exception communicated back from the thread, ie. from proc!
-            if (thrownException != null && thrownException.GetType() != typeof(ThreadAbortException))
-                throw thrownException;
+			else if (thrownException != null)
+			{
+				log.Debug("Test threw " + thrownException.GetType().Name);
+				throw thrownException;
+			}
+			else
+			{
+				log.Debug("Test completed normally");
+	            testResult.SetResult(threadResult.ResultState, threadResult.Message, threadResult.StackTrace);
+			}
+			
+			return testResult;
         }
 
         /// <summary>
@@ -141,7 +149,7 @@ namespace NUnit.Core
         {
             get 
             { 
-                return testMethod.Timeout == 0 || System.Diagnostics.Debugger.IsAttached
+                return testMethod.Timeout == 0 //|| System.Diagnostics.Debugger.IsAttached
                     ? System.Threading.Timeout.Infinite
                     : testMethod.Timeout;
             }
@@ -149,7 +157,7 @@ namespace NUnit.Core
 
         protected override void RunTest()
         {
-            testMethod.doRun(testResult);
+			this.threadResult = testMethod.RunTest();
         }
     }
 
@@ -170,7 +178,7 @@ namespace NUnit.Core
 
         protected override void RunTest()
         {
-            suite.Run(testResult, listener, filter);
+			this.threadResult = suite.RunSuite(listener, filter);
         }
     }
 }

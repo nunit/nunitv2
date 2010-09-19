@@ -21,6 +21,8 @@ namespace NUnit.Core
 	public class TestSuite : Test
 	{
 		#region Fields
+        static Logger log = InternalTrace.GetLogger(typeof(TestSuite));
+
 		/// <summary>
 		/// Our collection of child tests
 		/// </summary>
@@ -210,43 +212,51 @@ namespace NUnit.Core
 
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
+            listener.SuiteStarted(this.TestName);
+            long startTime = DateTime.Now.Ticks;
+
+			TestResult suiteResult = this.RunState == RunState.Runnable || this.RunState == RunState.Explicit
+				? RunSuiteInContext(listener, filter)
+				: SkipSuite(listener, filter);
+			
+            long stopTime = DateTime.Now.Ticks;
+            double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+            suiteResult.Time = time;
+
+            listener.SuiteFinished(suiteResult);
+            return suiteResult;
+		}
+		
+		private TestResult SkipSuite(EventListener listener, ITestFilter filter)
+		{
+			TestResult suiteResult = new TestResult(this);
+			
+            switch (this.RunState)
+            {
+                default:
+                case RunState.Skipped:
+                    SkipAllTests(suiteResult, listener, filter);
+                    break;
+                case RunState.NotRunnable:
+                    MarkAllTestsInvalid(suiteResult, listener, filter);
+                    break;
+                case RunState.Ignored:
+                    IgnoreAllTests(suiteResult, listener, filter);
+                    break;
+            }
+
+			return suiteResult;
+		}
+
+		private TestResult RunSuiteInContext(EventListener listener, ITestFilter filter)
+		{
             TestExecutionContext.Save();
 
             try
             {
-                TestResult suiteResult = new TestResult(this);
-
-                listener.SuiteStarted(this.TestName);
-                long startTime = DateTime.Now.Ticks;
-
-                switch (this.RunState)
-                {
-                    case RunState.Runnable:
-                    case RunState.Explicit:
-                        if (RequiresThread || ApartmentState != GetCurrentApartment())
-                            new TestSuiteThread(this).Run(suiteResult, listener, filter);
-                        else
-                            Run(suiteResult, listener, filter);
-                        break;
-
-                    default:
-                    case RunState.Skipped:
-                        SkipAllTests(suiteResult, listener, filter);
-                        break;
-                    case RunState.NotRunnable:
-                        MarkAllTestsInvalid(suiteResult, listener, filter);
-                        break;
-                    case RunState.Ignored:
-                        IgnoreAllTests(suiteResult, listener, filter);
-                        break;
-                }
-
-                long stopTime = DateTime.Now.Ticks;
-                double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
-                suiteResult.Time = time;
-
-                listener.SuiteFinished(suiteResult);
-                return suiteResult;
+				return ShouldRunOnOwnThread
+	                ? new TestSuiteThread(this).Run(listener, filter)
+	                : RunSuite(listener, filter);
             }
             finally
             {
@@ -254,9 +264,10 @@ namespace NUnit.Core
             }
 		}
 
-        public void Run(TestResult suiteResult, EventListener listener, ITestFilter filter)
+        public TestResult RunSuite(EventListener listener, ITestFilter filter)
         {
-           // suiteResult.Success(); // Assume success
+			TestResult suiteResult = new TestResult(this);
+			
             DoOneTimeSetUp(suiteResult);
 
             if (this.Properties["_SETCULTURE"] != null)
@@ -287,6 +298,8 @@ namespace NUnit.Core
                     }
                     break;
             }
+			
+			return suiteResult;
         }
 		#endregion
 
@@ -413,7 +426,11 @@ namespace NUnit.Core
 
                     TestResult result = test.Run(listener, filter);
 
+					log.Debug("Test result = " + result.ResultState);
+					
                     suiteResult.AddResult(result);
+					
+					log.Debug("Suite result = " + suiteResult.ResultState);
 
                     if (saveRunState != test.RunState)
                     {

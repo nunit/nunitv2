@@ -26,11 +26,13 @@ namespace NUnit.Core
 		/// to count assertions.
 		/// </summary>
 		/// <param name="testResult"></param>
-		public override void Run(TestResult testResult)
+		public override TestResult RunTest()
 		{
-			base.Run(testResult);
+			TestResult testResult = base.RunTest();
 
 			testResult.AssertCount = NUnitFramework.Assert.GetAssertCount();
+			
+			return testResult;
 		}
         #endregion
 	}
