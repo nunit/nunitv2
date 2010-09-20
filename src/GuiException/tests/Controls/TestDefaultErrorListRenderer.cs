@@ -44,7 +44,6 @@ namespace NUnit.UiException.Tests.Controls
         public void DefaultState()
         {
             Assert.NotNull(_renderer.Font);
-            Assert.That(_renderer.Font.Name, Is.EqualTo("Microsoft Sans Serif"));
             Assert.That(_renderer.Font.Size, Is.EqualTo(8.25f));
 
             return;
@@ -57,9 +56,9 @@ namespace NUnit.UiException.Tests.Controls
             SizeF exp;
             SizeF actual;
 
-            ErrorItem itemClass = new ErrorItem("C:\\f.cs", "0123456789012.a()", 3);
-            ErrorItem itemMethod = new ErrorItem("C:\\f.cs", "a.0123456789012()", 3);
-            ErrorItem itemFile = new ErrorItem("C:\\0123456789012.cs", "a.b()", 3);
+            ErrorItem itemClass = new ErrorItem("/dir/f.cs", "0123456789012.a()", 3);
+            ErrorItem itemMethod = new ErrorItem("/dir/f.cs", "a.0123456789012()", 3);
+            ErrorItem itemFile = new ErrorItem("/dir/0123456789012.cs", "a.b()", 3);
 
             // measure an item whoose width should be determined
             // by class field value
@@ -117,7 +116,7 @@ namespace NUnit.UiException.Tests.Controls
         {
             TestingRenderer renderer = new TestingRenderer();
             Size docSize;
-            SizeF szItem;
+            SizeF maxSize = SizeF.Empty;
 
             // measuring an empty list returns 0x0
             
@@ -127,11 +126,17 @@ namespace NUnit.UiException.Tests.Controls
 
             // measure for a non empty list relies on the longest item
             // in that list
+			
+			foreach(ErrorItem item in _filled.Items)
+			{
+				SizeF sz = renderer.MeasureItem(_gr, item);
+				if (sz.Width > maxSize.Width)
+					maxSize = sz;
+			}
 
-            szItem = renderer.MeasureItem(_gr, _filled.Items[2]); // the longest item
             docSize = renderer.GetDocumentSize(_filled.Items, _gr);
             Assert.NotNull(docSize);
-            Assert.That(docSize.Width, Is.EqualTo((int)szItem.Width));
+            Assert.That(docSize.Width, Is.EqualTo((int)maxSize.Width));
             int itemHeight = renderer.Font.Height * 4 + 6;
             Assert.That(docSize.Height, Is.EqualTo(_filled.Items.Count * itemHeight));
 

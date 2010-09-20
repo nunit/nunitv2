@@ -96,11 +96,11 @@ namespace NUnit.UiException.Tests
         {
             ErrorItem item;
 
-            item = new ErrorItem("C:\\dir\\file.txt", 13);
+            item = new ErrorItem("/dir/file.txt", 13);
 
             Assert.That(item.FileName, Is.EqualTo("file.txt"));
             Assert.That(item.FileExtension, Is.EqualTo("txt"));
-            Assert.That(item.Path, Is.EqualTo("C:\\dir\\file.txt"));
+            Assert.That(item.Path, Is.EqualTo("/dir/file.txt"));
             Assert.That(item.LineNumber, Is.EqualTo(13));
             Assert.That(item.HasSourceAttachment, Is.True);
 

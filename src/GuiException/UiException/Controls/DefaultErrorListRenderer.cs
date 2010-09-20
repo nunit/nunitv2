@@ -42,7 +42,7 @@ namespace NUnit.UiException.Controls
 
         public DefaultErrorListRenderer()
         {
-            this.Font = new Font("Microsoft Sans Serif", 8.25f);
+            this.Font = new Font(FontFamily.GenericSansSerif, 8.25f);
             //_fontUnderlined = new Font(_font, FontStyle.Underline);
             //_itemHeight = _font.Height * 4 + 6;
 

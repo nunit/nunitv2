@@ -154,7 +154,7 @@ namespace NUnit.UiException.Controls
 
             _language = "";
 
-            this.Font = new Font("Courier New", 8);
+            this.Font = new Font(FontFamily.GenericMonospace, 8);
             this.BackColor = Color.White;
 
             createGraphics();
