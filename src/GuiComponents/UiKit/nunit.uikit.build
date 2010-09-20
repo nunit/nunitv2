@@ -22,7 +22,6 @@
         <include name="ResultTabs.cs"/>
         <include name="SettingsDialogBase.cs"/>
         <include name="SimpleSettingsDialog.cs"/>
-        <include name="SimpleTextDisplay.cs"/>
         <include name="ScrollingTextDisplayForm.cs"/>
         <include name="SettingsPage.cs"/>
         <include name="StatusBar.cs"/>
@@ -62,7 +61,6 @@
         <include name="SettingsDialogBase.resx"/>
         <include name="SettingsPage.resx"/>
         <include name="SimpleSettingsDialog.resx"/>
-        <include name="SimpleTextDisplay.resx"/>
         <include name="StatusBar.resx"/>
         <include name="TabbedSettingsDialog.resx"/>
         <include name="TestPropertiesDialog.resx"/>

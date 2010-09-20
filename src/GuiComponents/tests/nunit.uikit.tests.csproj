@@ -120,7 +120,6 @@
     <Compile Include="LongRunningOperationDisplayTests.cs" />
     <Compile Include="ProgressBarTests.cs" />
     <Compile Include="RecentFileMenuHandlerTests.cs" />
-    <Compile Include="SimpleTextDisplayTests.cs" />
     <Compile Include="StatusBarTests.cs" />
     <Compile Include="TestSuiteTreeNodeTests.cs" />
     <Compile Include="TestSuiteTreeViewFixture.cs" />

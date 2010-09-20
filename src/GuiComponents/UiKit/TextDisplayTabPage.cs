@@ -3,7 +3,7 @@
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
-#define TABS_USE_TEXTBOX
+
 using System;
 using System.IO;
 using System.Windows.Forms;
@@ -17,7 +17,7 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TextDisplayTabPage : TabPage
 	{
-#if TABS_USE_TEXTBOX
+#if true
 		private TextBoxDisplay display;
 #else
 		private SimpleTextDisplay display;
@@ -27,7 +27,7 @@ namespace NUnit.UiKit
 
 		public TextDisplayTabPage()
 		{
-#if TABS_USE_TEXTBOX
+#if true
 			this.display = new TextBoxDisplay();
 #else
 			this.display = new SimpleTextDisplay();

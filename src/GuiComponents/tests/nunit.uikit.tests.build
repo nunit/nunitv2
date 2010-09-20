@@ -7,7 +7,6 @@
         <include name="LongRunningOperationDisplayTests.cs"/>
         <include name="ProgressBarTests.cs"/>
         <include name="RecentFileMenuHandlerTests.cs"/>
-        <include name="SimpleTextDisplayTests.cs"/>
         <include name="StatusBarTests.cs"/>
         <include name="TestSuiteTreeNodeTests.cs"/>
         <include name="TestSuiteTreeViewFixture.cs"/>
