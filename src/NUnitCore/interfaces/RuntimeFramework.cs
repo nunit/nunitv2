@@ -68,9 +68,9 @@ namespace NUnit.Core
 
             this.clrVersion = version;
             if (frameworkVersion.Major == 3)
-                this.clrVersion = new Version(2, 0, 50727);
+                this.clrVersion = new Version(2, 0);
             else if (runtime == RuntimeType.Mono && version.Major == 1)
-                this.clrVersion = new Version(1, 1, 4322);
+                this.clrVersion = new Version(1, 1);
 
             this.displayName = GetDefaultDisplayName(runtime, version);
         }
