@@ -37,17 +37,6 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void LocalMachine()
-		{
-			NUnitRegistry.TestMode = false;
-			using( RegistryKey key = NUnitRegistry.LocalMachine )
-			{
-				Assert.IsNotNull( key );
-				StringAssert.EndsWith( @"Software\nunit.org\Nunit\2.4".ToLower(), key.Name.ToLower() );
-			}
-		}
-
-		[Test]
 		public void CurrentUserTestMode()
 		{
 
@@ -56,17 +45,6 @@ namespace NUnit.Util.Tests
 			{
 				Assert.IsNotNull( key );
 				Assert.AreEqual( @"HKEY_CURRENT_USER\Software\nunit.org\Nunit-Test".ToLower(), key.Name.ToLower() );
-			}
-		}
-
-		[Test]
-		public void LocalMachineTestMode()
-		{
-			NUnitRegistry.TestMode = true;
-			using( RegistryKey key = NUnitRegistry.LocalMachine )
-			{
-				Assert.IsNotNull( key );
-				StringAssert.EndsWith( @"Software\nunit.org\Nunit-Test".ToLower(), key.Name.ToLower() );
 			}
 		}
 

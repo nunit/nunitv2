@@ -13,7 +13,7 @@ namespace NUnit.Util
 
 	/// <summary>
 	/// NUnitRegistry provides static properties for NUnit's
-	/// CurrentUser and LocalMachine subkeys.
+	/// subkey under CurrentUser.
 	/// </summary>
 	public class NUnitRegistry
 	{
@@ -71,14 +71,6 @@ namespace NUnit.Util
 			{
 				return key != null;
 			} 
-		}
-
-		/// <summary>
-		/// Registry subkey for the local machine
-		/// </summary>
-		public static RegistryKey LocalMachine
-		{
-			get { return Registry.LocalMachine.CreateSubKey( testMode ? TEST_KEY : KEY ); }
 		}
 
 		public static void ClearTestKeys()
