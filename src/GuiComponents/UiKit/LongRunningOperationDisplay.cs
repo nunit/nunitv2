@@ -76,7 +76,7 @@ namespace NUnit.UiKit
 			// 
 			this.operation.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.operation.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.operation.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
+			this.operation.Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 10.2F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
 			this.operation.Location = new System.Drawing.Point(0, 0);
 			this.operation.Name = "operation";
 			this.operation.Size = new System.Drawing.Size(320, 40);

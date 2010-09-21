@@ -75,7 +75,7 @@ namespace NUnit.UiKit
 
 		private void restoreFontMenuItem_Click(object sender, EventArgs e)
 		{
-			applyFont( new Font( "Courier New", 8.0f ) );
+			applyFont( new Font( FontFamily.GenericMonospace, 8.0f ) );
 		}
 
 		private void applyFont( Font font )

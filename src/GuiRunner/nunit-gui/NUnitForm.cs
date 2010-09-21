@@ -1103,7 +1103,7 @@ namespace NUnit.Gui
 
 		private void restoreFixedFontMenuItem_Click(object sender, System.EventArgs e)
 		{
-			applyFixedFont( new Font( "Courier New", 8.0f ) );
+			applyFixedFont( new Font( FontFamily.GenericMonospace, 8.0f ) );
 		}
 
 		private void applyFixedFont( Font font )
@@ -1420,7 +1420,7 @@ namespace NUnit.Gui
 			this.treeSplitter.SplitterMoved += new SplitterEventHandler( treeSplitter_SplitterMoved );
 
 			// Get the fixed font used by result tabs
-            this.fixedFont = userSettings.GetSetting("Gui.FixedFont", new Font("Courier New", 8.0f));
+            this.fixedFont = userSettings.GetSetting("Gui.FixedFont", new Font(FontFamily.GenericMonospace, 8.0f));
 
 			// Handle changes in form settings
 			userSettings.Changed += new SettingsEventHandler(userSettings_Changed);

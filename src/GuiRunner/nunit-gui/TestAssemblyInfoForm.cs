@@ -24,7 +24,7 @@ namespace NUnit.Gui
             this.Text = "Test Assemblies";
             this.TextBox.WordWrap = false;
             //this.TextBox.ContentsResized += new ContentsResizedEventHandler(TextBox_ContentsResized);
-            this.TextBox.Font = new System.Drawing.Font("Courier New", 8.25F);
+            this.TextBox.Font = new System.Drawing.Font(FontFamily.GenericMonospace, 8.25F);
 
             base.OnLoad(e);
 

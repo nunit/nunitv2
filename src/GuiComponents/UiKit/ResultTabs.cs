@@ -433,8 +433,8 @@ namespace NUnit.UiKit
 				ISettings settings = Services.UserSettings;
 
 				return settings == null 
-                    ? new Font("Courier New", 8.0f) 
-                    : settings.GetSetting("Gui.FixedFont", new Font("Courier New", 8.0f));
+                    ? new Font(FontFamily.GenericMonospace, 8.0f) 
+                    : settings.GetSetting("Gui.FixedFont", new Font(FontFamily.GenericMonospace, 8.0f));
 			}
 
 			#region TestObserver Members

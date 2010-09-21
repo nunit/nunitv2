@@ -21,7 +21,7 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class ErrorDisplay : System.Windows.Forms.UserControl, TestObserver
 	{
-        static readonly Font DefaultFixedFont = new Font("Courier New", 8.0F);
+        static readonly Font DefaultFixedFont = new Font(FontFamily.GenericMonospace, 8.0F);
 
         private ISettings settings = null;
 		int hoverIndex = -1;

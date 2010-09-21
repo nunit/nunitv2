@@ -144,7 +144,7 @@ namespace NUnit.UiKit
             // 
             // testResult
             // 
-            this.testResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
+            this.testResult.Font = new System.Drawing.Font(FontFamily.GenericSansSerif, 9F, System.Drawing.FontStyle.Bold);
             this.testResult.Location = new System.Drawing.Point(16, 16);
             this.testResult.Name = "testResult";
             this.testResult.Size = new System.Drawing.Size(120, 16);
