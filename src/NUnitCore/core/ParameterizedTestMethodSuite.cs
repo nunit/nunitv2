@@ -63,7 +63,7 @@ namespace NUnit.Core
             // DYNAMIC: Get the parameters, and add the methods here.
             
             TestResult result = base.Run(listener, filter);
-
+			
             if (this.isTheory && result.ResultState == ResultState.Inconclusive)
                 result.SetResult(
                     ResultState.Failure,
@@ -71,6 +71,10 @@ namespace NUnit.Core
                         ? "No test cases were provided"
                         : "All test cases were inconclusive",
                     null);
+
+			this.Fixture = null;
+			this.setUpMethods = null;
+			this.tearDownMethods = null;
 
             return result;
         }
