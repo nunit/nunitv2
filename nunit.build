@@ -323,7 +323,7 @@
       workingdir="${current.build.dir}" 
 	  program="nunit-console.exe" 
       managed="strict"
-	  commandline="NUnitTests.nunit ${nunit.options} /xml:${result.file}.xml /domain:Multiple" />
+	  commandline="NUnitTests.nunit ${nunit.options} -xml:${result.file}.xml -domain:Multiple" />
 
   </target>
 
