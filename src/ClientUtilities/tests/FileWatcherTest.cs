@@ -14,7 +14,6 @@ namespace NUnit.Util.Tests
 {
 	[TestFixture]
 	[Platform( Exclude = "Win95,Win98,WinMe" )]
-	[Platform( Exclude = "Mono", Reason = "NYI on Mono under Windows" )]
 	public class FileWatcherTest
 	{
 		private AssemblyWatcher watcher;
@@ -76,6 +75,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		[Platform( Exclude = "Linux", Reason = "Attribute change triggers watcher" )]	
 		public void ChangingAttributesDoesNotTriggerWatcher()
 		{
 			FileInfo fi = new FileInfo(fileName);

@@ -50,7 +50,6 @@ namespace NUnit.Util.Tests
 	}
 
 	[TestFixture]
-	[Platform(Exclude="Linux")]
 	public class PathUtilTests_Windows : PathUtils
 	{
 		[TestFixtureSetUp]
@@ -91,6 +90,7 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
+		[Platform(Exclude="Linux")]
 		public void RelativePath()
 		{
 			Assert.AreEqual( @"folder2\folder3", PathUtils.RelativePath( 

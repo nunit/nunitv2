@@ -61,15 +61,16 @@ namespace NUnit.Gui.Tests
             Assert.AreEqual( Environment.CurrentDirectory, GetText( "projectBaseTextBox" ) );
 		}
 
-		[Test, Platform(Exclude="Linux", Reason="Validate on focus change doesn't work on Mono")]
+		[Test]
 		public void SetProjectBase()
 		{
 			editor.Show();
             TextBox textBox = TextBoxes["projectBaseTextBox"];
             textBox.Focus();
-            textBox.Text = Environment.SystemDirectory; // Guaranteed to exist
+			string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            textBox.Text = appDataPath;
             Buttons["closeButton"].Focus();
-            Assert.AreEqual( Environment.SystemDirectory, project.BasePath );
+            Assert.AreEqual( appDataPath, project.BasePath );
 		}
 	}
 }

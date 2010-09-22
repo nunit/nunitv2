@@ -155,21 +155,21 @@ namespace NUnit.ConsoleRunner.Tests
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
-		[Test,Platform(Exclude="Mono")]
+		[Test]
 		public void CanRunWithoutTestDomain_NoThread()
 		{
             Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-nothread", "-process:single"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
-		[Test,Platform(Exclude="Mono")]
+		[Test]
 		public void CanRunWithSingleTestDomain_NoThread()
 		{
             Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-nothread", "-process:single"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
-		[Test,Platform(Exclude="Mono")]
+		[Test]
 		public void CanRunWithMultipleTestDomains_NoThread()
 		{
             Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-nothread", "-process:single"));
