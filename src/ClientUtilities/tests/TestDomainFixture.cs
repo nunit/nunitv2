@@ -205,7 +205,7 @@ namespace NUnit.Util.Tests
 		// Turning off shadow copy only works when done for the primary app domain
 		// So this test can only work if it's already off
 		// This doesn't seem to be documented anywhere
-		[Test]
+		[Test, Platform(Exclude="mono-1.0", Reason="Test hangs under the 1.0 profile")]
 		public void TurnOffShadowCopy()
 		{
 			TestPackage package = new TestPackage(mockDll);
