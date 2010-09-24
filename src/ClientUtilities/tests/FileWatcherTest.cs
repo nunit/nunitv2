@@ -48,7 +48,9 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void MultipleCloselySpacedChangesTriggerWatcherOnlyOnce()
+        // TODO: Exclusion should really only apply to Mono on Windows
+        [Platform(Exclude = "Mono")]
+        public void MultipleCloselySpacedChangesTriggerWatcherOnlyOnce()
 		{
 			for(int i=0; i<3; i++)
 			{
@@ -63,7 +65,9 @@ namespace NUnit.Util.Tests
 		}
 
 		[Test]
-		public void ChangingFileTriggersWatcher()
+        // TODO: Exclusion should really only apply to Mono on Windows
+        [Platform(Exclude = "Mono")]
+        public void ChangingFileTriggersWatcher()
 		{
 			StreamWriter writer = new StreamWriter( fileName );
 			writer.Write( "Goodbye" );

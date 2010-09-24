@@ -17,7 +17,9 @@ namespace NUnit.Fixtures.Tests
 	/// Summary description for CompilationTests.
 	/// </summary>
 	[TestFixture]
-	public class CompilationTests
+    // TODO: Exclusion should really only apply to Mono on Windows
+    [Platform(Exclude = "Mono")]
+    public class CompilationTests
 	{
 		private TestCompiler compiler;
 		private static string[] references = new string[] { "System.dll", "nunit.framework.dll" };
