@@ -73,7 +73,6 @@ namespace NUnit.Util
             return true;
 		}
 
-        [System.Runtime.Remoting.Messaging.OneWay]
         public override void Stop()
 		{
 			log.Info( "Stopping" );

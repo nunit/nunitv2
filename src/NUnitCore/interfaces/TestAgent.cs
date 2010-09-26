@@ -80,7 +80,6 @@ namespace NUnit.Core
         /// <summary>
         /// Stops the agent, releasing any resources
         /// </summary>
-        [System.Runtime.Remoting.Messaging.OneWay]
         public abstract void Stop();
 
 		/// <summary>
