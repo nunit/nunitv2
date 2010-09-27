@@ -9,6 +9,7 @@ using System.IO;
 using NUnit.Core;
 using NUnit.Core.Tests;
 using NUnit.Framework;
+using NUnit.Tests.Assemblies;
 
 namespace NUnit.Util.Tests
 {
@@ -32,6 +33,18 @@ namespace NUnit.Util.Tests
         {
             if (myRunner != null)
                 myRunner.Dispose();
+        }
+
+        [Test]
+        public void  TestProcessIsReused()
+        {
+            TestPackage package = new TestPackage(MockAssembly.AssemblyPath);
+            myRunner.Load(package);
+            int processId = ((TestAssemblyInfo)myRunner.AssemblyInfo[0]).ProcessId;
+            Assert.AreNotEqual(Process.GetCurrentProcess().Id, processId, "Not in separate process");
+            myRunner.Unload();
+            myRunner.Load(package);
+            Assert.AreEqual(processId, ((TestAssemblyInfo)myRunner.AssemblyInfo[0]).ProcessId, "Reloaded in different process");
         }
     }
 }

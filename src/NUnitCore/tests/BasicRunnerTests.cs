@@ -49,7 +49,7 @@ namespace NUnit.Core.Tests
         [SetUp]
         public void CreatePackages()
         {
-            package1 = new TestPackage(mockDll);
+            package1 = new TestPackage(MockAssembly.AssemblyPath);
             package2 = new TestPackage("TestSuite", assemblies);
 
             // Set current framework explicitly to avoid running out of process
@@ -67,10 +67,12 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-		public void LoadAssembly() 
+		public virtual void LoadAndReloadAssembly() 
 		{
             Assert.IsTrue(runner.Load(package1), "Unable to load assembly");
-		}
+            runner.Unload();
+            Assert.IsTrue(runner.Load(package1), "Unable to reload assembly");
+        }
 
 		[Test]
 		public void LoadAssemblyWithoutNamespaces()

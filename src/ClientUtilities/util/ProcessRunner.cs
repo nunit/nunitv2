@@ -47,14 +47,16 @@ namespace NUnit.Util
 
 			try
 			{
-				if (this.agent == null)
+                if (this.agent == null)
+                {
                     this.agent = Services.TestAgency.GetAgent(
                         runtimeFramework,
                         20000,
                         enableDebug);
-		
-				if (this.agent == null)
-					return false;
+
+                    if (this.agent == null)
+                        return false;
+                }
 	
 				if ( this.TestRunner == null )
 					this.TestRunner = agent.CreateRunner(this.runnerID);
@@ -77,6 +79,12 @@ namespace NUnit.Util
                 this.TestRunner.Unload();
                 this.TestRunner = null;
             }
+		}
+
+		#region IDisposable Members
+		public void Dispose()
+		{
+			Unload();
 
             if (this.agent != null)
             {
@@ -84,13 +92,7 @@ namespace NUnit.Util
                 agent.Stop();
                 this.agent = null;
             }
-		}
-
-		#region IDisposable Members
-		public void Dispose()
-		{
-			Unload();
-		}
+        }
 		#endregion
 	}
 }
