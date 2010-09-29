@@ -134,7 +134,7 @@ namespace NUnit.UiKit
         {
             Graphics g = Graphics.FromHwnd(Handle);
             SizeF sizeNeeded = g.MeasureString(text, Font);
-            panel.Width = Math.Max((int)sizeNeeded.Width + 2, 60);
+            panel.Width = Math.Max((int)sizeNeeded.Width + 12, 60);
             panel.Text = text;
         }
 
