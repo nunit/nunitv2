@@ -127,8 +127,6 @@ namespace NUnit.UiKit
 			this.tabControl.Controls.Add(this.errorTab);
 			this.tabControl.Controls.Add(this.notRunTab);
 			this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl.ForeColor = System.Drawing.Color.Red;
-			this.tabControl.ItemSize = new System.Drawing.Size(99, 18);
 			this.tabControl.Location = new System.Drawing.Point(0, 0);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
@@ -339,7 +337,7 @@ namespace NUnit.UiKit
         {
             base.OnFontChanged(e);
 
-            tabControl.ItemSize = new Size(tabControl.ItemSize.Width, this.Font.Height + 2);
+            tabControl.ItemSize = new Size(tabControl.ItemSize.Width, this.Font.Height + 7);
         }
 
 		private class TextDisplayController : TestObserver
