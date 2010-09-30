@@ -119,6 +119,9 @@ namespace NUnit.Framework.Constraints
 
             if (x == null || y == null)
                 return false;
+			
+			if (object.ReferenceEquals(x, y))
+				return true;
 
             Type xType = x.GetType();
             Type yType = y.GetType();
