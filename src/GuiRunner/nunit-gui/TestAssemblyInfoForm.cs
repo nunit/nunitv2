@@ -54,6 +54,9 @@ namespace NUnit.Gui
 
                 AppendAssemblyInfo(info);
             }
+			
+			TextBox.Select(0,0);
+			TextBox.ScrollToCaret();
         }
 
         private void AppendProcessInfo(TestAssemblyInfo info)
