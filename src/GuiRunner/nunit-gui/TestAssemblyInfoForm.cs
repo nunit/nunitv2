@@ -32,7 +32,10 @@ namespace NUnit.Gui
             int currentProcessId = p.Id;
             string currentDomainName = "";
 
-            AppendProcessInfo( p.Id, p.MainModule.ModuleName, RuntimeFramework.CurrentFramework );
+            AppendProcessInfo(
+			      currentProcessId, 
+			      Path.GetFileName(Assembly.GetEntryAssembly().Location), 
+			      RuntimeFramework.CurrentFramework );
 
             foreach (TestAssemblyInfo info in Services.TestLoader.AssemblyInfo)
             {

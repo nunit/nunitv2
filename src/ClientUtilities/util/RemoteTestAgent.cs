@@ -7,6 +7,8 @@
 using System;
 using System.Threading;
 using System.Collections;
+using System.IO;
+using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
@@ -108,6 +110,20 @@ namespace NUnit.Util
                 
                 return base.Load(package);
             }
+			
+			public override IList AssemblyInfo 
+			{
+				get 
+				{
+					IList result = base.AssemblyInfo;
+					string name = Path.GetFileName(Assembly.GetEntryAssembly().Location);
+					
+					foreach( TestAssemblyInfo info in result )
+						info.ModuleName = name;
+					
+					return result;
+				}
+			}
         }
         #endregion
     }

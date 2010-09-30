@@ -44,7 +44,10 @@ namespace NUnit.Core
             this.testFrameworks = testFrameworks;
             Process p = Process.GetCurrentProcess();
             this.processId = p.Id;
-            this.moduleName = p.MainModule.ModuleName;
+			Assembly entryAssembly = Assembly.GetEntryAssembly();
+            this.moduleName = entryAssembly != null
+				? Path.GetFileName(Assembly.GetEntryAssembly().Location)
+				: p.MainModule.ModuleName;
             this.domainName = AppDomain.CurrentDomain.FriendlyName;
             this.appBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             this.configFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile;
@@ -129,6 +132,7 @@ namespace NUnit.Core
         public string ModuleName
         {
             get { return moduleName; }
+			set { moduleName = value; }
         }
 
         /// <summary>
