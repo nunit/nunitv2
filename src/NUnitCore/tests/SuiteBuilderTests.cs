@@ -87,7 +87,7 @@ namespace NUnit.Core.Tests
 		public void DiscoverSuite()
 		{
 			TestPackage package = new TestPackage( testData );
-			package.TestName = "NUnit.TestData.SuiteBuilderTests.Suite";
+			package.TestName = "NUnit.TestData.LegacySuiteData.Suite";
 			Test suite = builder.Build( package );
 			Assert.IsNotNull(suite, "Could not discover suite attribute");
 		}
@@ -96,9 +96,10 @@ namespace NUnit.Core.Tests
 		public void WrongReturnTypeSuite()
 		{
 			TestPackage package = new TestPackage( testData );
-			package.TestName = "NUnit.TestData.SuiteBuilderTests.NonConformingSuite";
+			package.TestName = "NUnit.TestData.LegacySuiteData.NonConformingSuite";
 			Test suite = builder.Build( package );
 			Assert.AreEqual(RunState.NotRunnable, suite.RunState);
+            Assert.AreEqual("Suite property must return either TestSuite or IEnumerable", suite.IgnoreReason);
 		}
 
 		[Test]

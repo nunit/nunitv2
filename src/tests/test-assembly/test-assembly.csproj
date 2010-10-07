@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -98,6 +98,10 @@
       <Name>nunit.framework.dll</Name>
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\nonamespace-assembly\nonamespace-assembly.csproj">
+      <Project>{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}</Project>
+      <Name>nonamespace-assembly</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
@@ -130,13 +134,13 @@
     <Compile Include="FailFixtureTests.cs" />
     <Compile Include="FixtureSetUpTearDownTests.cs" />
     <Compile Include="IgnoreFixtureTests.cs" />
+    <Compile Include="LegacySuiteData.cs" />
     <Compile Include="MaxTimeFixture.cs" />
     <Compile Include="ParameterizedTestFixture.cs" />
     <Compile Include="PropertyAttributeTests.cs" />
     <Compile Include="RepeatedTestFixtureTests.cs" />
     <Compile Include="SetupFixtureTests.cs" />
     <Compile Include="SetUpTest.cs" />
-    <Compile Include="SuiteBuilderTests.cs" />
     <Compile Include="TestCaseAttributeFixture.cs" />
     <Compile Include="TestCaseSourceAttributeFixture.cs" />
     <Compile Include="TestCaseTest.cs" />

@@ -9,6 +9,7 @@ using System.Collections;
 using NUnit.Framework;
 using NUnit.Core;
 using NUnit.TestData;
+using NUnit.TestData.LegacySuiteData;
 
 namespace NUnit.Core.Tests
 {
@@ -54,6 +55,15 @@ namespace NUnit.Core.Tests
                     return suite;
                 }
             }
+        }
+
+        [Test]
+        public void SuiteReturningFixtureWithArguments()
+        {
+            Test suite = builder.BuildFrom(typeof(LegacySuiteReturningFixtureWithArguments));
+            Assert.AreEqual(RunState.Runnable, suite.RunState);
+            Assert.AreEqual(1, suite.Tests.Count);
+            Assert.AreEqual(0, suite.TestCount);
         }
 
         [Test]

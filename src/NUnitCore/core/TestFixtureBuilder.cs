@@ -44,8 +44,20 @@ namespace NUnit.Core
 		public static Test BuildFrom( object fixture )
 		{
 			Test suite = BuildFrom( fixture.GetType() );
+			
 			if( suite != null)
+			{
 				suite.Fixture = fixture;
+				
+				// TODO: Integrate building from an object as part of NUnitTestFixtureBuilder
+				if (suite.RunState == RunState.NotRunnable &&
+					Reflect.GetConstructor(fixture.GetType()) == null)
+				{
+					suite.RunState = RunState.Runnable;
+					suite.IgnoreReason = null;
+				}
+			}
+			
 			return suite;
 		}
 
