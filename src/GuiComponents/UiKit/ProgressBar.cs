@@ -112,7 +112,7 @@ namespace NUnit.UiKit
 					if (this.min != value) 
 					{
 						this.min = value;
-						this.PaintBar();
+						this.Invalidate();
 					}
 				}
 				else
@@ -134,7 +134,7 @@ namespace NUnit.UiKit
 					if (this.max != value) 
 					{
 						this.max = value;
-						this.PaintBar();
+						this.Invalidate();
 					}
 				}
 				else
@@ -186,7 +186,7 @@ namespace NUnit.UiKit
 				else if(value <= Maximum && value >= Minimum)
 				{
 					this.val = value;
-					this.PaintBar();
+					this.Invalidate();
 				}
 				else
 				{
@@ -265,14 +265,6 @@ namespace NUnit.UiKit
 			}
 		}
 
-		private void PaintBar()
-		{
-			using(Graphics g = this.CreateGraphics())
-			{
-				this.PaintBar(g);
-			}
-		}
-		
 		private void PaintBar(Graphics g)
 		{
 			Rectangle theBar = Rectangle.Inflate(ClientRectangle, -2, -2);

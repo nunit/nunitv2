@@ -47,6 +47,12 @@ namespace NUnit.UiKit
 			statusPanel.AutoSize = System.Windows.Forms.StatusBarPanelAutoSize.Spring;
 			statusPanel.BorderStyle = StatusBarPanelBorderStyle.None;
 			statusPanel.Text = "Status";
+			
+			testCountPanel.AutoSize = StatusBarPanelAutoSize.Contents;
+			testsRunPanel.AutoSize = StatusBarPanelAutoSize.Contents;
+			errorsPanel.AutoSize = StatusBarPanelAutoSize.Contents;
+			failuresPanel.AutoSize = StatusBarPanelAutoSize.Contents;
+			timePanel.AutoSize = StatusBarPanelAutoSize.Contents;
 
 			ShowPanels = true;
 			InitPanels();
@@ -93,50 +99,46 @@ namespace NUnit.UiKit
 
 		private void InitPanels()
 		{
+			this.testCountPanel.MinWidth = 50;
 			DisplayTestCount();
+
+			this.testsRunPanel.MinWidth = 50;
 			this.testsRunPanel.Text = "";
+
+			this.errorsPanel.MinWidth = 50;
 			this.errorsPanel.Text = "";
+			
+			this.failuresPanel.MinWidth = 50;
 			this.failuresPanel.Text = "";
+			
+			this.timePanel.MinWidth = 50;
 			this.timePanel.Text = "";
 		}
 
 		private void DisplayTestCount()
 		{
-            AutoDisplay(testCountPanel, "Test Cases : " + testCount.ToString());
+            testCountPanel.Text = "Test Cases : " + testCount.ToString();
 		}
 
 		private void DisplayTestsRun()
 		{
-            AutoDisplay(testsRunPanel, "Tests Run : " + testsRun.ToString());
+            testsRunPanel.Text = "Tests Run : " + testsRun.ToString();
 		}
 
 		private void DisplayErrors()
 		{
-            AutoDisplay(errorsPanel, "Errors : " + errors.ToString());
+            errorsPanel.Text = "Errors : " + errors.ToString();
 		}
 
 		private void DisplayFailures()
 		{
-            AutoDisplay(failuresPanel, "Failures : " + failures.ToString());
+            failuresPanel.Text = "Failures : " + failures.ToString();
 		}
 
 		private void DisplayTime()
 		{
-            AutoDisplay(timePanel, "Time : " + time.ToString());
+            timePanel.Text = "Time : " + time.ToString();
 		}
-
-        private void AutoDisplay(StatusBarPanel panel)
-        {
-            AutoDisplay(panel, panel.Text);
-        }
-
-        private void AutoDisplay(StatusBarPanel panel, string text)
-        {
-            Graphics g = Graphics.FromHwnd(Handle);
-            SizeF sizeNeeded = g.MeasureString(text, Font);
-            panel.Width = Math.Max((int)sizeNeeded.Width + 12, 60);
-            panel.Text = text;
-        }
 
 		private void DisplayResult(TestResult result)
 		{
@@ -233,18 +235,12 @@ namespace NUnit.UiKit
 			}
 		}
 
-        protected override void OnFontChanged(EventArgs e)
-        {
-            base.OnFontChanged(e);
-
-            this.Height = (int)(this.Font.Height * 1.6);
-
-            AutoDisplay(testCountPanel);
-            AutoDisplay(testsRunPanel);
-            AutoDisplay(errorsPanel);
-            AutoDisplay(failuresPanel);
-            AutoDisplay(timePanel);
-        }
+//        protected override void OnFontChanged(EventArgs e)
+//        {
+//            base.OnFontChanged(e);
+//
+//            this.Height = (int)(this.Font.Height * 1.6);
+//        }
 
 		#region TestObserver Members
 
