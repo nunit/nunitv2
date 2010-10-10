@@ -4,6 +4,7 @@
 // obtain a copy of the license at http://nunit.org.
 // ****************************************************************
 using System;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 
 namespace NUnit.Core
@@ -35,6 +36,8 @@ namespace NUnit.Core
         protected EventListener listener;
 
         protected ITestFilter filter;
+		
+		protected TestMethod.ContextDictionary contextDictionary;
 
         /// <summary>
         /// Unexpected exception thrown by test thread
@@ -53,7 +56,7 @@ namespace NUnit.Core
 
             // Setting to Unknown causes an error under the Mono 1.0 profile
             if ( test.ApartmentState != ApartmentState.Unknown )
-                this.ApartmentState = test.ApartmentState;
+                this.ApartmentState = test.ApartmentState;		
         }
         #endregion
 
@@ -88,6 +91,7 @@ namespace NUnit.Core
             this.thrownException = null;
             this.listener = listener;
             this.filter = filter;
+			this.contextDictionary = (TestMethod.ContextDictionary)CallContext.GetData("NUnit.Framework.TestContext");
 
             log.Debug("Starting test in separate thread");
             thread.Start();
@@ -121,6 +125,8 @@ namespace NUnit.Core
         /// </summary>
         private void RunTestProc()
         {
+			CallContext.SetData("NUnit.Framework.TestContext", contextDictionary);
+			
             try
             {
                 RunTest();
@@ -129,6 +135,10 @@ namespace NUnit.Core
             {
                 thrownException = e;
             }
+			finally
+			{
+				CallContext.FreeNamedDataSlot("NUnit.Framework.TestContext");
+			}
         }
 
         protected abstract int Timeout { get; }

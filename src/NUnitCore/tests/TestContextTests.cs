@@ -75,6 +75,12 @@ namespace NUnit.Core.Tests
             TestBuilder.RunTestFixture(fixture);
             Assert.That(fixture.stateList, Is.EqualTo("Inconclusive=>=>Ignored"));
             Assert.That(fixture.statusList, Is.EqualTo("Inconclusive=>=>Skipped"));
+        }	
+
+	        [Test, RequiresThread]
+        public void CanAccessTestContextOnSeparateThread()
+        {
+            Assert.That(TestContext.CurrentContext.Test.Name, Is.EqualTo("CanAccessTestContextOnSeparateThread"));
         }
-    }
+	}
 }

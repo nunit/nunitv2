@@ -426,7 +426,7 @@ namespace NUnit.Core
 		#endregion
 
         #region Inner Classes
-        private class ContextDictionary : Hashtable
+        public class ContextDictionary : Hashtable
         {
             internal TestExecutionContext _ec;
 
