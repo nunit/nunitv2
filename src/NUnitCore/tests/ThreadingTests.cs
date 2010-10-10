@@ -147,7 +147,7 @@ namespace NUnit.Core.Tests
             [Test]
             public void RequiresThreadCanBeSetOnTestFixture()
             {
-                Assert.That(Environment.StackTrace, Text.Contains("TestSuiteThread"));
+                Assert.That(Environment.StackTrace, Text.Contains("TestThread.RunTestProc"));
             }
         }
     }
