@@ -13,6 +13,7 @@ using System.Reflection;
 using System.Configuration;
 using System.Diagnostics;
 using System.Security;
+using System.Security.Permissions;
 using System.Security.Policy;
 using NUnit.Core;
 
@@ -115,7 +116,18 @@ namespace NUnit.Util
 
             log.Info("Creating AppDomain " + domainName);
 
-            AppDomain runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
+			AppDomain runnerDomain;
+			
+			// TODO: Try to eliminate this test. Currently, running on
+			// Linux with the permission set specified causes an
+			// unexplained crash when unloading the domain.
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			{
+            	PermissionSet permissionSet = new PermissionSet( PermissionState.Unrestricted );	
+           		runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup, permissionSet, null);
+			}
+			else
+            	runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 
 			// HACK: Only pass down our AddinRegistry one level so that tests of NUnit
 			// itself start without any addins defined.
