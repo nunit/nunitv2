@@ -121,12 +121,14 @@ namespace NUnit.Util
 			// TODO: Try to eliminate this test. Currently, running on
 			// Linux with the permission set specified causes an
 			// unexplained crash when unloading the domain.
+#if NET_2_0
 			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
 			{
             	PermissionSet permissionSet = new PermissionSet( PermissionState.Unrestricted );	
            		runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup, permissionSet, null);
 			}
 			else
+#endif
             	runnerDomain = AppDomain.CreateDomain(domainName, evidence, setup);
 
 			// HACK: Only pass down our AddinRegistry one level so that tests of NUnit
@@ -138,7 +140,7 @@ namespace NUnit.Util
             // approaches, but this works for all CLR versions.
             DomainInitializer initializer = DomainInitializer.CreateInstance(runnerDomain);
             initializer.InitializeDomain( IsTestDomain(AppDomain.CurrentDomain)
-                ? TraceLevel.Off : InternalTrace.Level );
+                ? InternalTraceLevel.Off : InternalTrace.Level );
 
 			return runnerDomain;
 		}
