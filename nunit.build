@@ -1089,22 +1089,25 @@
 
     <!-- JSharp Samples -->
     <include name="jsharp/failures/jsharp-failures.build"
-      if="${task::exists('vjc')}" />
+      if="${task::exists('vjc') and platform::is-win32()}" />
 
     <!-- VB Samples -->
     <include name="vb/failures/vb-failures.build"
-      if="${task::exists('vbc')}" />
+      if="${task::exists('vbc') and platform::is-win32()}" />
     <include name="vb/money/vb-money.build"
-      if="${task::exists('vbc')}" />
+      if="${task::exists('vbc') and platform::is-win32()}" />
     <include name="vb/syntax/vb-syntax.build"
-      if="${task::exists('vbc')}" />
+      if="${task::exists('vbc') and platform::is-win32()}" />
 
     <!-- Managed C++ Samples -->
-    <include name="cpp/managed/failures/cpp-managed-failures.build"/>
+    <include name="cpp/managed/failures/cpp-managed-failures.build"
+      if="${platform::is-win32()}" />
 
     <!-- C++/CLI Samples -->
-    <include name="cpp/cpp-cli/failures/cpp-cli-failures.build"/>
-    <include name="cpp/cpp-cli/syntax/cpp-cli-syntax.build"/>
+    <include name="cpp/cpp-cli/failures/cpp-cli-failures.build"
+      if="${platform::is-win32()}" />
+    <include name="cpp/cpp-cli/syntax/cpp-cli-syntax.build"
+      if="${platform::is-win32()}" />
 
     <!-- Extensibility Samples -->
     <include name="Extensibility/Core/Minimal/Minimal.build" />
