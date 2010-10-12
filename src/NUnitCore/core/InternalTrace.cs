@@ -5,16 +5,28 @@
 // ****************************************************************
 
 using System;
-using System.Diagnostics;
 
 namespace NUnit.Core
 {
-	/// <summary>
+    /// <summary>
+    /// InternalTraceLevel is an enumeration controlling the
+    /// level of detailed presented in the internal log.
+    /// </summary>
+    public enum InternalTraceLevel
+    {
+        Default,
+        Off,
+        Error,
+        Warning,
+        Info,
+        Verbose
+    }
+    
+    /// <summary>
 	/// Summary description for Logger.
 	/// </summary>
 	public class InternalTrace
 	{
-		private readonly static string NL = Environment.NewLine;
         private readonly static string TIME_FMT = "HH:mm:ss.fff";
 
 		private static bool initialized;
@@ -25,20 +37,21 @@ namespace NUnit.Core
             get { return writer; }
         }
 
-		public static TraceLevel Level;
+		public static InternalTraceLevel Level;
 
         public static void Initialize(string logName)
         {
-			Initialize(logName, new TraceSwitch( "NTrace", "NUnit internal trace" ).Level);
+            int lev = (int) new System.Diagnostics.TraceSwitch("NTrace", "NUnit internal trace").Level;
+            Initialize(logName, (InternalTraceLevel)lev);
         }
 
-        public static void Initialize(string logName, TraceLevel level)
+        public static void Initialize(string logName, InternalTraceLevel level)
         {
 			if (!initialized)
 			{
 				Level = level;
 
-				if (writer == null && Level > TraceLevel.Off)
+				if (writer == null && Level > InternalTraceLevel.Off)
 				{
 					writer = new InternalTraceWriter(logName);
 					writer.WriteLine("InternalTrace: Initializing at level " + Level.ToString());
@@ -72,16 +85,16 @@ namespace NUnit.Core
 			return new Logger( type.FullName );
 		}
 
-        public static void Log(TraceLevel level, string message, string category)
+        public static void Log(InternalTraceLevel level, string message, string category)
         {
             Log(level, message, category, null);
         }
 
-        public static void Log(TraceLevel level, string message, string category, Exception ex)
+        public static void Log(InternalTraceLevel level, string message, string category, Exception ex)
         {
             Writer.WriteLine("{0} {1,-5} [{2,2}] {3}: {4}",
                 DateTime.Now.ToString(TIME_FMT),
-                level == TraceLevel.Verbose ? "Debug" : level.ToString(),
+                level == InternalTraceLevel.Verbose ? "Debug" : level.ToString(),
 #if NET_2_0
                 System.Threading.Thread.CurrentThread.ManagedThreadId,
 #else

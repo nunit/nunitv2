@@ -37,6 +37,9 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Label each test in stdOut")]
 		public bool labels = false;
 
+        [Option(Description = "Set internal trace level: Off, Error, Warning, Info, Verbose")]
+        public InternalTraceLevel trace;
+
 		[Option(Description = "List of categories to include")]
 		public string include;
 

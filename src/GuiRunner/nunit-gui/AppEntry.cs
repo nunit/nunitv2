@@ -31,7 +31,9 @@ namespace NUnit.Gui
         [STAThread]
         public static int Main(string[] args)
         {
-            InternalTrace.Initialize("nunit-gui_%p.log");
+            // Create SettingsService early so we know the trace level right at the start
+            SettingsService settingsService = new SettingsService();
+            InternalTrace.Initialize("nunit-gui_%p.log", (InternalTraceLevel)settingsService.GetSetting("Options.InternalTraceLevel", InternalTraceLevel.Default));
 
             log.Info("Starting NUnit GUI");
 
@@ -73,7 +75,7 @@ namespace NUnit.Gui
             {
                 // Add Standard Services to ServiceManager
                 log.Info("Adding Services");
-                ServiceManager.Services.AddService(new SettingsService());
+                ServiceManager.Services.AddService(settingsService);
                 ServiceManager.Services.AddService(new DomainManager());
                 ServiceManager.Services.AddService(new RecentFilesService());
                 ServiceManager.Services.AddService(new ProjectService());

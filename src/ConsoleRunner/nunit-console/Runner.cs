@@ -22,9 +22,17 @@ namespace NUnit.ConsoleRunner
 		[STAThread]
 		public static int Main(string[] args)
 		{
-			log.Info( "NUnit-console.exe starting" );
-
 			ConsoleOptions options = new ConsoleOptions(args);
+
+            // Create SettingsService early so we know the trace level right at the start
+            SettingsService settingsService = new SettingsService();
+            InternalTraceLevel level = (InternalTraceLevel)settingsService.GetSetting("Options.InternalTraceLevel", InternalTraceLevel.Default);
+            if (options.trace != InternalTraceLevel.Default)
+                level = options.trace;
+
+            InternalTrace.Initialize("nunit-console_%p.log", level);
+            
+            log.Info("NUnit-console.exe starting");
 
 			if(!options.nologo)
 				WriteCopyright();
@@ -51,7 +59,7 @@ namespace NUnit.ConsoleRunner
 			}
 
 			// Add Standard Services to ServiceManager
-			ServiceManager.Services.AddService( new SettingsService() );
+			ServiceManager.Services.AddService( settingsService );
 			ServiceManager.Services.AddService( new DomainManager() );
 			//ServiceManager.Services.AddService( new RecentFilesService() );
 			ServiceManager.Services.AddService( new ProjectService() );

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -85,6 +85,10 @@
       <Project>{27531BBF-183D-4C3A-935B-D840B9F1A3A4}</Project>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\GuiException\UiException\nunit.uiexception.dll.csproj">
+      <Project>{3E87A106-EB20-4147-84C8-95B0BB43A1D4}</Project>
+      <Name>nunit.uiexception.dll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll.csproj">
       <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
       <Name>nunit.core.dll</Name>
@@ -129,6 +133,12 @@
     </Compile>
     <Compile Include="SettingsPages\GuiSettingsPage.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsPages\InternalTraceSettingsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsPages\InternalTraceSettingsPage.Designer.cs">
+      <DependentUpon>InternalTraceSettingsPage.cs</DependentUpon>
     </Compile>
     <Compile Include="SettingsPages\TestLoaderSettingsPage.cs">
       <SubType>UserControl</SubType>
@@ -179,6 +189,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsPages\GuiSettingsPage.resx">
       <DependentUpon>GuiSettingsPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsPages\InternalTraceSettingsPage.resx">
+      <DependentUpon>InternalTraceSettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsPages\TestLoaderSettingsPage.resx">

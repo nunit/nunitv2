@@ -20,11 +20,7 @@ namespace NUnit.ConsoleRunner
 		[STAThread]
 		public static int Main(string[] args)
 		{
-            InternalTrace.Initialize("nunit-console_%p.log");
-
             return Runner.Main(args);
-
-            //InternalTrace.Close();
         }
 	}
 }

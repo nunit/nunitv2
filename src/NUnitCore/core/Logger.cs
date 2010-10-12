@@ -4,7 +4,6 @@
 // obtain a copy of the license at http://nunit.org.
 // ****************************************************************
 using System;
-using System.Diagnostics;
 
 namespace NUnit.Core
 {
@@ -24,19 +23,19 @@ namespace NUnit.Core
         #region Error
         public void Error(string message)
         {
-            Log(TraceLevel.Error, message);
+            Log(InternalTraceLevel.Error, message);
         }
 
         public void Error(string message, params object[] args)
         {
-            Log(TraceLevel.Error, message, args);
+            Log(InternalTraceLevel.Error, message, args);
         }
 
         public void Error(string message, Exception ex)
         {
-            if (InternalTrace.Level >= TraceLevel.Error)
+            if (InternalTrace.Level >= InternalTraceLevel.Error)
             {
-                InternalTrace.Log(TraceLevel.Error, message, name, ex);
+                InternalTrace.Log(InternalTraceLevel.Error, message, name, ex);
             }
         }
         #endregion
@@ -44,47 +43,47 @@ namespace NUnit.Core
         #region Warning
         public void Warning(string message)
         {
-            Log(TraceLevel.Warning, message);
+            Log(InternalTraceLevel.Warning, message);
         }
 
         public void Warning(string message, params object[] args)
         {
-            Log(TraceLevel.Warning, message, args);
+            Log(InternalTraceLevel.Warning, message, args);
         }
         #endregion
 
         #region Info
         public void Info(string message)
         {
-            Log(TraceLevel.Info, message);
+            Log(InternalTraceLevel.Info, message);
         }
 
         public void Info(string message, params object[] args)
         {
-            Log(TraceLevel.Info, message, args);
+            Log(InternalTraceLevel.Info, message, args);
         }
         #endregion
 
         #region Debug
         public void Debug(string message)
         {
-            Log(TraceLevel.Verbose, message);
+            Log(InternalTraceLevel.Verbose, message);
         }
 
         public void Debug(string message, params object[] args)
         {
-            Log(TraceLevel.Verbose, message, args);
+            Log(InternalTraceLevel.Verbose, message, args);
         }
         #endregion
 
         #region Helper Methods
-        public void Log(TraceLevel level, string message)
+        public void Log(InternalTraceLevel level, string message)
         {
             if (InternalTrace.Level >= level)
                 InternalTrace.Log(level, message, name);
         }
 
-        private void Log(TraceLevel level, string format, params object[] args)
+        private void Log(InternalTraceLevel level, string format, params object[] args)
         {
             if (InternalTrace.Level >= level)
                 Log(level, string.Format( format, args ) );

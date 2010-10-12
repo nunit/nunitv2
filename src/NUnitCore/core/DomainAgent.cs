@@ -124,8 +124,10 @@ namespace NUnit.Core
             return (DomainInitializer)obj;
         }
 
-        public void InitializeDomain(TraceLevel traceLevel)
+        public void InitializeDomain(int level)
         {
+            InternalTraceLevel traceLevel = (InternalTraceLevel)level;
+
             InternalTrace.Initialize("%a_%p.log", traceLevel);
             log = InternalTrace.GetLogger(typeof(DomainInitializer));
 

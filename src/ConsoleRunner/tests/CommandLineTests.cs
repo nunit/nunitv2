@@ -94,10 +94,11 @@ namespace NUnit.ConsoleRunner.Tests
 			TestStringOption( "output" );
 			TestStringOption( "output", "out" );
 			TestStringOption( "err" );
-			TestStringOption( "include" );
+            TestStringOption("include");
 			TestStringOption( "exclude" );
 			TestEnumOption( "domain" );
-		}
+            TestEnumOption("trace");
+        }
 
 		[Test]
 		public void AssemblyName()

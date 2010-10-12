@@ -44,7 +44,10 @@ namespace NUnit.Agent
                 System.Windows.Forms.MessageBox.Show( "Attach debugger if desired, then press OK", "NUnit-Agent");
 #endif
 
-            InternalTrace.Initialize("nunit-agent_%p.log");
+            // Create SettingsService early so we know the trace level right at the start
+            SettingsService settingsService = new SettingsService(false);
+            InternalTrace.Initialize("nunit-agent_%p.log", (InternalTraceLevel)settingsService.GetSetting("Options.InternalTraceLevel", InternalTraceLevel.Default));
+
 			log.Info("Agent process {0} starting", Process.GetCurrentProcess().Id);
             log.Info("Running under version {0}, {1}", 
                 Environment.Version, 
@@ -52,7 +55,7 @@ namespace NUnit.Agent
 
 			// Add Standard Services to ServiceManager
             log.Info("Adding Services");
-            ServiceManager.Services.AddService(new SettingsService(false));
+            ServiceManager.Services.AddService(settingsService);
             ServiceManager.Services.AddService(new ProjectService());
 			ServiceManager.Services.AddService( new DomainManager() );
 			//ServiceManager.Services.AddService( new RecentFilesService() );

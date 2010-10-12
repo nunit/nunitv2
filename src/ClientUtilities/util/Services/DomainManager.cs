@@ -139,8 +139,12 @@ namespace NUnit.Util
             // Inject DomainInitializer into the remote domain - there are other
             // approaches, but this works for all CLR versions.
             DomainInitializer initializer = DomainInitializer.CreateInstance(runnerDomain);
-            initializer.InitializeDomain( IsTestDomain(AppDomain.CurrentDomain)
-                ? InternalTraceLevel.Off : InternalTrace.Level );
+
+            // HACK: Under nunit-console, direct use of the enum fails
+            int traceLevel = IsTestDomain(AppDomain.CurrentDomain)
+                ? (int)InternalTraceLevel.Off : (int)InternalTrace.Level;
+
+            initializer.InitializeDomain(traceLevel);
 
 			return runnerDomain;
 		}

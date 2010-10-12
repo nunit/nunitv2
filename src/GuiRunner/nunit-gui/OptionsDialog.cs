@@ -27,7 +27,8 @@ namespace NUnit.Gui
 				new TestLoaderSettingsPage("Test Loader.Assembly Isolation"),
 				new AssemblyReloadSettingsPage("Test Loader.Assembly Reload"),
 				new AdvancedLoaderSettingsPage("Test Loader.Advanced"),
-				new VisualStudioSettingsPage("IDE Support.Visual Studio"));
+				new VisualStudioSettingsPage("IDE Support.Visual Studio"),
+                new InternalTraceSettingsPage("Advanced Settings.Internal Trace"));
 		}
 #else
 		public static void Display( Form owner )
