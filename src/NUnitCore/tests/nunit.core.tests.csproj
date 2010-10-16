@@ -227,11 +227,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Results.xsd" />
     <None Include="nunit.core.tests.build" />
-    <None Include="Results.xsx">
-      <DependentUpon>Results.xsd</DependentUpon>
-    </None>
+    <EmbeddedResource Include="..\schemas\Results.xsd">
+      <Link>Results.xsd</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -113,10 +113,14 @@
     <copy todir="${package.src.dir}/NUnitCore/core">
       <fileset>
         <patternset refid="source-files"/>
-        <include name="results.xsd"/> <!-- Need to check this -->
         <include name="summary.xslt"/>    <!-- and this -->
         <include name="nunit.core.dll.csproj"/>
         <include name="nunit.core.build"/>
+      </fileset>
+    </copy>
+    <copy todir="${package.src.dir}/NUnitCore/schemas">
+      <fileset>
+        <include name="Results.xsd"/>
       </fileset>
     </copy>
   </target>
