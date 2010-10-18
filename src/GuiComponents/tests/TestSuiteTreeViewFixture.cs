@@ -387,7 +387,7 @@ namespace NUnit.UiKit.Tests
             package.Settings["AutoNamespaceSuites"] = false;
             TestSuite suite2 = builder.Build(package);
             Assert.AreEqual(originalTestCount, suite2.TestCount);
-            Assert.AreEqual(MockAssembly.Fixtures, suite2.Tests.Count);
+            Assert.AreEqual(MockAssembly.Classes, suite2.Tests.Count);
 
             ReassignTestIDsAndReload(suite2);
             CheckTreeAgainstSuite(suite2, "after turning automatic namespaces OFF");

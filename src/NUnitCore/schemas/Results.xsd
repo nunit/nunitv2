@@ -94,7 +94,7 @@
 				<xs:element name="failure" type="failureType" minOccurs="0" />
 				<xs:element name="reason" type="reasonType" minOccurs="0" />
 			</xs:choice>
-			<xs:element name="results" type="resultsType" />
+			<xs:element name="results" type="resultsType" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
     <xs:attribute name="type" type="xs:string" use="required" />
 		<xs:attribute name="name" type="xs:string" use="required" />

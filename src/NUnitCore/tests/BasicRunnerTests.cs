@@ -81,7 +81,7 @@ namespace NUnit.Core.Tests
             Assert.IsTrue(runner.Load(package1), "Unable to load assembly");
 			ITest test = runner.Test;
 			Assert.IsNotNull( test );
-			Assert.AreEqual( MockAssembly.Fixtures, test.Tests.Count );
+			Assert.AreEqual( MockAssembly.Classes, test.Tests.Count );
 			Assert.AreEqual( "MockTestFixture", ((ITest)test.Tests[0]).TestName.Name );
 		}
 

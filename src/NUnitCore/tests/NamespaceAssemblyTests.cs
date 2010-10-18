@@ -49,7 +49,7 @@ namespace NUnit.Core.Tests
 
             suite = (Test)suite.Tests[0];
             Assert.AreEqual("Tests", suite.TestName.Name);
-			Assert.AreEqual(MockAssembly.Fixtures, suite.Tests.Count);
+			Assert.AreEqual(MockAssembly.Classes, suite.Tests.Count);
 
 			Test singletonSuite = TestFinder.Find("Singletons", suite, false);
 			Assert.AreEqual(1, singletonSuite.Tests.Count);
