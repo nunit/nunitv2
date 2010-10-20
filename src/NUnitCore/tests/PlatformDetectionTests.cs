@@ -134,10 +134,18 @@ namespace NUnit.Core.Tests
 		}
 
 		[Test]
+		public void DetectWinXPProfessionalX64()
+		{
+			CheckOSPlatforms( 
+				new OSPlatform( PlatformID.Win32NT, new Version( 5, 2 ), OSPlatform.ProductType.WorkStation ),
+				"WinXP,NT5,Win32NT,Win32,Win,Win-5.1" );
+		}
+
+		[Test]
 		public void DetectWin2003Server()
 		{
             CheckOSPlatforms(
-                new OSPlatform(PlatformID.Win32NT, new Version(5, 2)),
+                new OSPlatform(PlatformID.Win32NT, new Version(5, 2), OSPlatform.ProductType.Server),
                 "Win2003Server,NT5,Win32NT,Win32,Win,Win-5.2");
         }
 
@@ -150,11 +158,27 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void DetectWin2008Server()
+        public void DetectWin2008ServerOriginal()
         {
             CheckOSPlatforms(
                 new OSPlatform(PlatformID.Win32NT, new Version(6, 0), OSPlatform.ProductType.Server),
                 "Win2008Server,NT6,Win32NT,Win32,Win,Win-6.0");
+        }
+
+        [Test]
+        public void DetectWin2008ServerR2()
+        {
+            CheckOSPlatforms(
+                new OSPlatform(PlatformID.Win32NT, new Version(6, 1), OSPlatform.ProductType.Server),
+                "Win2008Server,Win2008ServerR2,NT6,Win32NT,Win32,Win,Win-6.1");
+        }
+
+        [Test]
+        public void DetectWindows7()
+        {
+            CheckOSPlatforms(
+                new OSPlatform(PlatformID.Win32NT, new Version(6, 1), OSPlatform.ProductType.WorkStation),
+                "Windows7,NT6,Win32NT,Win32,Win,Win-6.1");
         }
 
         [Test]
