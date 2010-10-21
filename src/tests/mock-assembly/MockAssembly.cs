@@ -16,8 +16,12 @@ namespace NUnit.Tests
 		/// </summary>
 		public class MockAssembly
 		{
-			public static int Classes = 9;
-			public static int NamespaceSuites = 6; // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly
+#if NET_2_0
+            public static int Classes = 9;
+#else
+            public static int Classes = 8;
+#endif
+            public static int NamespaceSuites = 6; // assembly, NUnit, Tests, Assemblies, Singletons, TestAssembly
 
 			public static int Tests = MockTestFixture.Tests 
 						+ Singletons.OneTestCase.Tests 
@@ -234,8 +238,13 @@ namespace NUnit.Tests
 	[TestFixture]
 	public class FixtureWithTestCases
 	{
+#if NET_2_0
 		public static readonly int Tests = 4;
 		public static readonly int Suites = 3;
+#else
+		public static readonly int Tests = 2;
+		public static readonly int Suites = 2;
+#endif
 		
 		[TestCase(2, 2, Result=4)]
 		[TestCase(9, 11, Result=20)]
@@ -243,12 +252,14 @@ namespace NUnit.Tests
 		{
 			return x+y;
 		}
-		
+
+#if NET_2_0
 		[TestCase(2, 4)]
 		[TestCase(9.2, 11.7)]
 		public void GenericMethod<T>(T x, T y)
 		{
 		}
+#endif
 	}
 	
 	[TestFixture(5)]
@@ -269,10 +280,16 @@ namespace NUnit.Tests
 	
 	public class GenericFixtureConstants
 	{
+#if NET_2_0
 		public static readonly int Tests = 4;
 		public static readonly int Suites = 3;
+#else
+        public static readonly int Tests = 0;
+        public static readonly int Suites = 0;
+#endif
 	}
 		
+#if NET_2_0
 	[TestFixture(5)]
 	[TestFixture(11.5)]
 	public class GenericFixture<T>
@@ -285,4 +302,5 @@ namespace NUnit.Tests
 		[Test]
 		public void Test2() { }
 	}
+#endif
 }
