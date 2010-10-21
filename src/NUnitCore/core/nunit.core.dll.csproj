@@ -200,7 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="nunit.core.build" />
-    <None Include="Results.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
