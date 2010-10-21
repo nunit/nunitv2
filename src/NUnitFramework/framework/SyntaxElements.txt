@@ -475,6 +475,12 @@ Gen3: Is.SamePath(string expected)=>new SamePathConstraint(expected)
 /// Returns a constraint that tests whether the path provided 
 /// is the same path or under an expected path after canonicalization.
 /// </summary>
+Gen3: Is.SubPath(string expected)=>new SubPathConstraint(expected)
+%
+/// <summary>
+/// Returns a constraint that tests whether the path provided 
+/// is the same path or under an expected path after canonicalization.
+/// </summary>
 Gen3: Is.SamePathOrUnder(string expected)=>new SamePathOrUnderConstraint(expected)
 %
 #
