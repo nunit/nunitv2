@@ -357,7 +357,7 @@ namespace NUnit.Core
             else // Assuming we're currently running Mono - change if more runtimes are added
             {
                 string libMonoDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
-                monoPrefix = Path.GetDirectoryName(Path.GetDirectoryName(libMonoDir));
+                monoPrefix = Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(libMonoDir)));
             }
             
             if (monoPrefix != null)
@@ -374,7 +374,7 @@ namespace NUnit.Core
                 framework.displayName = string.Format(displayFmt, "2.0");
                 frameworks.Add(framework);
 
-                if (File.Exists(Path.Combine(monoPrefix, "lib/Mono/4.0/mscorlib.dll")))
+                if (File.Exists(Path.Combine(monoPrefix, "lib/mono/4.0/mscorlib.dll")))
                 {
                     framework = new RuntimeFramework(RuntimeType.Mono, new Version(4, 0, 30319));
                     framework.displayName = string.Format(displayFmt, "4.0");
