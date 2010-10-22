@@ -135,29 +135,23 @@
     <DirectoryRef Id="img" FileSource="doc\img">
       <Component Id="DocImages" DiskId="1" Guid="7bb6dd10-1ff2-11db-a98b-0800200c9a66">
         <File Id="addinsDialog.jpg" Name="ADDINDLG.JPG" LongName="addinsDialog.jpg" />
-        <File Id="F__doc_file83" Name="ASSEMB_1.JPG" LongName="assembliesTab.jpg" />
-        <File Id="F__doc_file84" Name="BULLET_1.GIF" LongName="bulletOff.gif" />
-        <File Id="F__doc_file85" Name="bulletOn.gif" />
-        <File Id="F__doc_file86" Name="CONFIG_1.JPG" LongName="configEditor.jpg" />
-        <File Id="F__doc_file87" Name="CONSOL_1.JPG" LongName="console-mock.jpg" />
-        <File Id="F__doc_file89" Name="GENERA_1.JPG" LongName="generalTab.jpg" />
-        <File Id="F__doc_file90" Name="GUI-SC_1.JPG" LongName="gui-screenshot.jpg" />
-        <File Id="F__doc_file91" Name="GUI-VE_1.JPG" LongName="gui-verify.jpg" />
-        <File Id="F__doc_file93" Name="LANGFI_1.GIF" LongName="langFilter.gif" />
-        <File Id="F__doc_file94" Name="logo.gif" />
-        <File Id="F__doc_file96" Name="miniGui.jpg" />
-        <File Id="F__doc_file97" Name="OPTION_1.JPG" LongName="optionsDialog.jpg" />
-        <File Id="F__doc_file103" Name="TESTPR_1.JPG" LongName="testProperties.jpg" />
-        <File Id="generalOptions.jpg" Name="GENOPTS.JPG" LongName="generalOptions.jpg" />
-        <File Id="testOutputOptions.jpg" Name="OUTOPTS.JPG" LongName="testOutputOptions.jpg" />
-        <File Id="testLoadOptions.jpg" Name="LOADOPTS.JPG" LongName="testLoadOptions.jpg" />
         <File Id="advancedSettings.jpg" Name="ADVANCED.JPG" LongName="advancedSettings.jpg" />
         <File Id="assemblyReloadSettings.jpg" Name="ASRELOAD.JPG" LongName="assemblyReloadSettings.jpg" />
-        <File Id="displayTab.jpg" Name="DSPLYTAB.JPG" LongName="displayTab.jpg" />
+        <File Id="assembliesTab.jpg" Name="ASSEMB_1.JPG" LongName="assembliesTab.jpg" />
+        <File Id="bulletOff.gif" Name="BULLET_1.GIF" LongName="bulletOff.gif" />
+        <File Id="bulletOn.gif" Name="bulletOn.gif" />
+        <File Id="configEditor.jpg" Name="CONFIG_1.JPG" LongName="configEditor.jpg" />
+        <File Id="console-mock.jpg" Name="CONSOL_1.JPG" LongName="console-mock.jpg" />
         <File Id="generalSettings.jpg" Name="GENERAL.JPG" LongName="generalSettings.jpg" />
-        <File Id="resultTab.jpg" Name="RSLTTAB.JPG" LongName="resultTab.jpg" />
+        <File Id="generalTab.jpg" Name="GENERA_1.JPG" LongName="generalTab.jpg" />
+        <File Id="gui-screenshot.jpg" Name="GUI-SC_1.JPG" LongName="gui-screenshot.jpg" />
+        <File Id="gui-verify.jpg" Name="GUI-VE_1.JPG" LongName="gui-verify.jpg" />
+        <File Id="internalTraceSettings.jpg" Name="NTRACE.JPG" LongName="internalTraceSettings.jpg" />
+        <File Id="langFilter.gif" Name="LANGFI_1.GIF" LongName="langFilter.gif" />
+        <File Id="logo.gif" Name="logo.gif" />
+        <File Id="miniGui.jpg" Name="miniGui.jpg" />
+        <File Id="testProperties.jpg" Name="TESTPR_1.JPG" LongName="testProperties.jpg" />
         <File Id="testLoadSettings.jpg" Name="TESTLOAD.JPG" LongName="testLoadSettings.jpg" />
-        <File Id="testOutputSettings.jpg" Name="TESTOTPT.JPG" LongName="testOutputSettings.jpg" />
         <File Id="testResultSettings.jpg" Name="TESTRSLT.JPG" LongName="testResultSettings.jpg" />
         <File Id="textOutputSettings.jpg" Name="TEXTOTPT.JPG" LongName="textOutputSettings.jpg" />
         <File Id="treeDisplaySettings.jpg" Name="TREEDISP.JPG" LongName="treeDisplaySettings.jpg" />
