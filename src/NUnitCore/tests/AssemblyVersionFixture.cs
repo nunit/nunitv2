@@ -19,15 +19,8 @@ namespace NUnit.Core.Tests
 	{
 		private static readonly string mockAssemblyName = "mock-test-assembly.dll";
 		
-		[TearDown]
-		public void DeleteMockAssembly()
-		{
-			FileInfo info = new FileInfo(mockAssemblyName);
-			if(info.Exists)
-				info.Delete();
-		}
-
 		[Test]
+        // TODO: Figure out what we're testing here! Was there a bug?
 		public void Version()
 		{
 			Version version = new Version("1.0.0.2002");
@@ -36,7 +29,7 @@ namespace NUnit.Core.Tests
 			AssemblyName assemblyName = new AssemblyName(); 
 			assemblyName.Name = nameString;
 			assemblyName.Version = version;
-			MakeDynamicAssembly(assemblyName, mockAssemblyName);
+			MakeDynamicAssembly(assemblyName);
 
 			Assembly assembly = FindAssemblyByName(nameString);
 
@@ -58,10 +51,9 @@ namespace NUnit.Core.Tests
 			return assembly;
 		}
 
-		public static void MakeDynamicAssembly(AssemblyName myAssemblyName, string fileName)
+		public static void MakeDynamicAssembly(AssemblyName myAssemblyName)
 		{
 			AssemblyBuilder myAssemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(myAssemblyName, AssemblyBuilderAccess.RunAndSave);			
-			myAssemblyBuilder.Save(fileName);
 		}
 	}
 }
