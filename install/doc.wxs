@@ -78,7 +78,6 @@
         <File Id="random.html" Name="RANDOM.HTM" LongName="random.html" />
         <File Id="range.html" Name="RANGE.HTM" LongName="range.html" />
         <File Id="releaseNotes.html" Name="RELNOTES.HTM" LongName="releaseNotes.html" />
-        <File Id="releaseDetail.html" Name="RELDTAIL.HTM" LongName="releaseDetail.html" />
         <File Id="repeat.html" Name="REPEAT.HTM" LongName="repeat.html" />
         <File Id="requiredAddin.html" Name="REQADDIN.HTM" LongName="requiredAddin.html" />
         <File Id="requiresMTA.html" Name="REQMTA.HTM" LongName="requiresMTA.html" />
@@ -141,11 +140,11 @@
         <File Id="bulletOff.gif" Name="BULLET_1.GIF" LongName="bulletOff.gif" />
         <File Id="bulletOn.gif" Name="bulletOn.gif" />
         <File Id="configEditor.jpg" Name="CONFIG_1.JPG" LongName="configEditor.jpg" />
-        <File Id="console-mock.jpg" Name="CONSOL_1.JPG" LongName="console-mock.jpg" />
+        <File Id="console_mock.jpg" Name="CONSOL_1.JPG" LongName="console-mock.jpg" />
         <File Id="generalSettings.jpg" Name="GENERAL.JPG" LongName="generalSettings.jpg" />
         <File Id="generalTab.jpg" Name="GENERA_1.JPG" LongName="generalTab.jpg" />
-        <File Id="gui-screenshot.jpg" Name="GUI-SC_1.JPG" LongName="gui-screenshot.jpg" />
-        <File Id="gui-verify.jpg" Name="GUI-VE_1.JPG" LongName="gui-verify.jpg" />
+        <File Id="gui_screenshot.jpg" Name="GUI-SC_1.JPG" LongName="gui-screenshot.jpg" />
+        <File Id="gui_verify.jpg" Name="GUI-VE_1.JPG" LongName="gui-verify.jpg" />
         <File Id="internalTraceSettings.jpg" Name="NTRACE.JPG" LongName="internalTraceSettings.jpg" />
         <File Id="langFilter.gif" Name="LANGFI_1.GIF" LongName="langFilter.gif" />
         <File Id="logo.gif" Name="logo.gif" />
