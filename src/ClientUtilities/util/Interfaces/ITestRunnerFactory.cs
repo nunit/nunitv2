@@ -20,5 +20,14 @@ namespace NUnit.Util
         /// <param name="package">The test package to be loaded by the runner</param>
         /// <returns>A TestRunner</returns>
         TestRunner MakeTestRunner(TestPackage package);
+
+        /// <summary>
+        /// Return true if the provided runner is suitable for reuse in loading
+        /// the test package provided. Otherwise, return false.
+        /// </summary>
+        /// <param name="package"></param>
+        /// <param name="runner"></param>
+        /// <returns>True if the runner may be reused</returns>
+        bool CanReuse(TestRunner runner, TestPackage package);
     }
 }

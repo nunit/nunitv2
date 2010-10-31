@@ -28,13 +28,7 @@ namespace NUnit.Util
         /// <returns>A TestRunner</returns>
         public override TestRunner MakeTestRunner(TestPackage package)
         {
-            RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
-            RuntimeFramework targetFramework = selector.SelectRuntimeFramework(package);
-
-            ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
-            if ( processModel == ProcessModel.Default )
-                if ( !targetFramework.Matches( currentFramework ) )
-                    processModel = ProcessModel.Separate;
+            ProcessModel processModel = GetTargetProcessModel(package);
 
             switch (processModel)
             {
@@ -47,6 +41,40 @@ namespace NUnit.Util
                 default:
                     return base.MakeTestRunner(package);
             }
+        }
+
+        public override bool CanReuse(TestRunner runner, TestPackage package)
+        {
+            RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
+            RuntimeFramework targetFramework = selector.SelectRuntimeFramework(package);
+
+            ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
+            if (processModel == ProcessModel.Default)
+                if (!targetFramework.Matches(currentFramework))
+                    processModel = ProcessModel.Separate;
+
+            switch (processModel)
+            {
+                case ProcessModel.Multiple:
+                    return runner is MultipleTestProcessRunner;
+                case ProcessModel.Separate:
+                    ProcessRunner processRunner = runner as ProcessRunner;
+                    return processRunner != null && processRunner.RuntimeFramework == targetFramework;
+                default:
+                    return base.CanReuse(runner, package);
+            }
+        }
+
+        private ProcessModel GetTargetProcessModel(TestPackage package)
+        {
+            RuntimeFramework currentFramework = RuntimeFramework.CurrentFramework;
+            RuntimeFramework targetFramework = selector.SelectRuntimeFramework(package);
+
+            ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
+            if (processModel == ProcessModel.Default)
+                if (!targetFramework.Matches(currentFramework))
+                    processModel = ProcessModel.Separate;
+            return processModel;
         }
     }
 

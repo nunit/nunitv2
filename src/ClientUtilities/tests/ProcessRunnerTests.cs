@@ -28,11 +28,13 @@ namespace NUnit.Util.Tests
             return myRunner;
         }
 
-        [TestFixtureTearDown]
-        public void DestroyRunner()
+        protected override void DestroyRunner()
         {
             if (myRunner != null)
+            {
+                myRunner.Unload();
                 myRunner.Dispose();
+            }
         }
 
         [Test]

@@ -42,8 +42,7 @@ namespace NUnit.Core.Tests
         [TestFixtureTearDown]
         public void TearDownRunner()
         {
-            if (runner != null)
-                runner.Unload();
+            DestroyRunner();
         }
 
         [SetUp]
@@ -59,6 +58,12 @@ namespace NUnit.Core.Tests
         }
 
 		protected abstract TestRunner CreateRunner( int runnerID );
+
+        protected virtual void DestroyRunner()
+        {
+            if (runner != null)
+                runner.Unload();
+        }
 
         [Test]
         public void CheckRunnerID()

@@ -36,7 +36,7 @@ namespace NUnit.Core
     /// result of the last run may be obtained by querying the TestResult property.
     /// 
     /// </summary>
-	public interface TestRunner
+	public interface TestRunner : IDisposable
 	{
 		#region Properties
 		/// <summary>

@@ -170,5 +170,14 @@ namespace NUnit.Core
 		}
 		#endregion
 
-	}
+        #region IDisposable Implementation
+
+        public virtual void Dispose()
+        {
+            if (testRunner != null)
+                testRunner.Dispose();
+        }
+
+        #endregion
+    }
 }

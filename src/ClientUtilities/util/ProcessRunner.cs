@@ -20,11 +20,13 @@ namespace NUnit.Util
 	/// <summary>
 	/// Summary description for ProcessRunner.
 	/// </summary>
-	public class ProcessRunner : ProxyTestRunner, IDisposable
+	public class ProcessRunner : ProxyTestRunner
 	{
         static Logger log = InternalTrace.GetLogger(typeof(ProcessRunner));
 
 		private TestAgent agent;
+
+        private RuntimeFramework runtimeFramework;
 
 		#region Constructors
 		public ProcessRunner() : base( 0 ) { }
@@ -32,12 +34,19 @@ namespace NUnit.Util
 		public ProcessRunner( int runnerID ) : base( runnerID ) { }
 		#endregion
 
-		public override bool Load(TestPackage package)
+        #region Properties
+        public RuntimeFramework RuntimeFramework
+        {
+            get { return runtimeFramework; }
+        }
+        #endregion
+
+        public override bool Load(TestPackage package)
 		{
             log.Info("Loading " + package.Name);
 			Unload();
 
-            RuntimeFramework runtimeFramework = package.Settings["RuntimeFramework"] as RuntimeFramework;
+            runtimeFramework = package.Settings["RuntimeFramework"] as RuntimeFramework;
             if ( runtimeFramework == null )
                  runtimeFramework = RuntimeFramework.CurrentFramework;
 
@@ -82,9 +91,12 @@ namespace NUnit.Util
 		}
 
 		#region IDisposable Members
-		public void Dispose()
+
+		public override void Dispose()
 		{
-			Unload();
+            // Do this first, because the next step will
+            // make the downstream runner inaccessible.
+            base.Dispose();
 
             if (this.agent != null)
             {
@@ -93,6 +105,7 @@ namespace NUnit.Util
                 this.agent = null;
             }
         }
+
 		#endregion
 	}
 }
