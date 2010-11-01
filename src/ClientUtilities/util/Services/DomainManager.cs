@@ -182,12 +182,16 @@ namespace NUnit.Util
 
             private void UnloadOnThread()
             {
-                bool shadowCopy = domain.ShadowCopyFiles;
-                string cachePath = domain.SetupInformation.CachePath;
-                string domainName = domain.FriendlyName;
+                bool shadowCopy = false;
+                string cachePath = null;
+                string domainName = "UNKNOWN";               
 
                 try
                 {
+                    shadowCopy = domain.ShadowCopyFiles;
+                    cachePath = domain.SetupInformation.CachePath;
+                    domainName = domain.FriendlyName;
+
                     AppDomain.Unload(domain);
                 }
                 catch (Exception ex)
@@ -199,7 +203,7 @@ namespace NUnit.Util
                 }
                 finally
                 {
-                    if (shadowCopy)
+                    if (shadowCopy && cachePath != null)
                         DeleteCacheDir(new DirectoryInfo(cachePath));
                 }
             }
