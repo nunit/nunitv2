@@ -196,6 +196,14 @@ namespace NUnit.Framework.Syntax
                 }
             }
         }
+
+        [Test]
+        public void LambdaThrowsNothing()
+        {
+            Assert.That(
+                () => null,
+                Throws.Nothing);
+        }
 #else
         [Test]
         public void DelegateThrowsException()
