@@ -227,6 +227,7 @@ namespace NUnit.Core
 
         public void Dispose()
         {
+            Unload();
         }
 
         #endregion

@@ -66,12 +66,11 @@ namespace NUnit.ConsoleRunner
                     ? package.Settings["RuntimeFramework"]
                     : "Default");
 
-            TestRunner testRunner = new DefaultTestRunnerFactory().MakeTestRunner(package);
-            testRunner.Load(package);
-
-            try
+            using (TestRunner testRunner = new DefaultTestRunnerFactory().MakeTestRunner(package))
 			{
-				if (testRunner.Test == null)
+                testRunner.Load(package);
+
+                if (testRunner.Test == null)
 				{
 					testRunner.Unload();
 					Console.Error.WriteLine("Unable to locate fixture {0}", options.fixture);
@@ -177,10 +176,6 @@ namespace NUnit.ConsoleRunner
 				}
             
 				return returnCode;
-			}
-			finally
-			{
-				testRunner.Unload();
 			}
 		}
 
