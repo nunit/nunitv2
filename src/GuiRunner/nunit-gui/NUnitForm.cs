@@ -328,8 +328,8 @@ namespace NUnit.Gui
             // reloadProjectMenuItem
             // 
             this.reloadProjectMenuItem.Index = 7;
-            this.reloadProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
-            this.reloadProjectMenuItem.Text = "Reload &Project";
+            this.reloadProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlL;
+            this.reloadProjectMenuItem.Text = "Re&load Project";
             this.reloadProjectMenuItem.Click += new System.EventHandler(this.reloadProjectMenuItem_Click);
             // 
             // reloadTestsMenuItem
@@ -352,7 +352,7 @@ namespace NUnit.Gui
             // recentProjectsMenu
             // 
             this.recentProjectsMenu.Index = 11;
-            this.recentProjectsMenu.Text = "Recent &Files";
+            this.recentProjectsMenu.Text = "Recent &Projects";
             // 
             // fileMenuSeparator4
             // 
