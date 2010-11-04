@@ -14,7 +14,7 @@ namespace NUnit.Framework
     /// TestCaseAttribute is used to mark parameterized test cases
     /// and provide them with their arguments.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited=false)]
     public class TestCaseAttribute : Attribute, ITestCaseData
     {
         private object[] arguments;

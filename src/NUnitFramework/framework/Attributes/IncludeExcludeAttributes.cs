@@ -68,7 +68,7 @@ namespace NUnit.Framework
 	/// PlatformAttribute is used to mark a test fixture or an
 	/// individual method as applying to a particular platform only.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true, Inherited=false)]
 	public class PlatformAttribute : IncludeExcludeAttribute
 	{
 		/// <summary>
@@ -88,7 +88,7 @@ namespace NUnit.Framework
 	/// CultureAttribute is used to mark a test fixture or an
 	/// individual method as applying to a particular Culture only.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=false)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=false, Inherited=false)]
 	public class CultureAttribute : IncludeExcludeAttribute
 	{
 		/// <summary>

@@ -12,7 +12,7 @@ namespace NUnit.Framework
 	/// Attribute used to provide descriptive text about a 
 	/// test case or fixture.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=false)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=false, Inherited=false)]
 	public class DescriptionAttribute : Attribute
 	{
 		string description;

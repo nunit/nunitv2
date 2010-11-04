@@ -15,7 +15,7 @@ namespace NUnit.Framework
     /// cases and so should be used judiciously. This is the default join
     /// type, so the attribute need not be used except as documentation.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited=false)]
     public class CombinatorialAttribute : PropertyAttribute
     {
         /// <summary>
@@ -30,7 +30,7 @@ namespace NUnit.Framework
     /// least once, using as small a number of test cases as it can. With
     /// only two arguments, this is the same as a combinatorial join.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited=false)]
     public class PairwiseAttribute : PropertyAttribute
     {
         /// <summary>
@@ -47,7 +47,7 @@ namespace NUnit.Framework
     /// for which it runs out of values. Normally, this should be
     /// used with the same number of arguments for each parameter.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited=false)]
     public class SequentialAttribute : PropertyAttribute
     {
         /// <summary>

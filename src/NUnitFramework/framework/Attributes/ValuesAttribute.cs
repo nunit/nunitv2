@@ -14,7 +14,7 @@ namespace NUnit.Framework
     /// Abstract base class for attributes that apply to parameters 
     /// and supply data for the parameter.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
     public abstract class ParameterDataAttribute : Attribute
     {
         /// <summary>
@@ -27,7 +27,7 @@ namespace NUnit.Framework
     /// ValuesAttribute is used to provide literal arguments for
     /// an individual parameter of a test.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
     public class ValuesAttribute : ParameterDataAttribute
     {
         /// <summary>
