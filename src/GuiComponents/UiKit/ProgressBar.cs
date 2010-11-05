@@ -342,22 +342,30 @@ namespace NUnit.UiKit
 
 		private void Initialize( int testCount )
 		{
-			ForeColor = SuccessColor;
 			Value = 0;
 			Maximum = testCount;
-		}
+            ForeColor = SuccessColor;
+        }
 
 		private void OnRunStarting( object Sender, TestEventArgs e )
 		{
 			Initialize( e.TestCount );
 		}
 
-		private void OnLoadComplete( object sender, TestEventArgs e )
-		{
-			Initialize( e.TestCount );
-		}
+        private void OnTestLoaded(object sender, TestEventArgs e)
+        {
+            Initialize(e.TestCount);
+        }
 
-		private void OnUnloadComplete( object sender, TestEventArgs e )
+        private void OnTestReloaded(object sender, TestEventArgs e)
+        {
+            if (Services.UserSettings.GetSetting("Options.TestLoader.ClearResultsOnReload", false))
+                Initialize(e.TestCount);
+            else
+                Value = Maximum = e.TestCount;
+        }
+
+        private void OnTestUnloaded(object sender, TestEventArgs e)
 		{
 			Initialize( 100 );
 		}
@@ -406,9 +414,9 @@ namespace NUnit.UiKit
 
 		public void Subscribe(ITestEvents events)
 		{
-			events.TestLoaded	+= new TestEventHandler( OnLoadComplete );
-			events.TestReloaded	+= new TestEventHandler( OnLoadComplete );
-			events.TestUnloaded	+= new TestEventHandler( OnUnloadComplete );
+			events.TestLoaded	+= new TestEventHandler( OnTestLoaded );
+            events.TestReloaded += new TestEventHandler(OnTestReloaded);
+			events.TestUnloaded	+= new TestEventHandler( OnTestUnloaded );
 			events.RunStarting	+= new TestEventHandler( OnRunStarting );
 			events.TestFinished	+= new TestEventHandler( OnTestFinished );
 			events.SuiteFinished += new TestEventHandler( OnSuiteFinished );

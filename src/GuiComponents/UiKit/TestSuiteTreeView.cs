@@ -82,11 +82,6 @@ namespace NUnit.UiKit
 		private bool displayProgress = true;
 
 		/// <summary>
-		/// Whether to clear test results when tests change
-		/// </summary>
-		private bool clearResultsOnChange;
-
-		/// <summary>
 		/// The properties dialog if displayed
 		/// </summary>
 		private TestPropertiesDialog propertiesDialog;
@@ -126,10 +121,6 @@ namespace NUnit.UiKit
 
 			// See if there are any overriding images in the directory;
             LoadAlternateImages();
-
-			if ( !this.DesignMode )
-				this.clearResultsOnChange = 
-					Services.UserSettings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false );
 		}
 
         private void LoadAlternateImages()
@@ -389,7 +380,7 @@ namespace NUnit.UiKit
 			if ( test != null )
 			{
 				Invoke( new LoadHandler( Reload ), new object[]{ test } );
-				if ( clearResultsOnChange )
+				if ( Services.UserSettings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false ) )
 					ClearAllResults();
 			}
 		}

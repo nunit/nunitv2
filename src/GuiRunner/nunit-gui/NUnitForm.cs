@@ -1689,7 +1689,9 @@ namespace NUnit.Gui
 		private void OnTestUnloaded( object sender, TestEventArgs e )
 		{
 			suiteName.Text = null;
+            runCount.Text = null;
 			EnableRunCommand( false );
+            Refresh();
 		}
 
 		/// <summary>
@@ -1706,6 +1708,10 @@ namespace NUnit.Gui
 				longOpDisplay.Dispose();
 				longOpDisplay = null;
 			}
+
+            if (userSettings.GetSetting("Options.TestLoader.ClearResultsOnReload", false))
+                runCount.Text = null;
+
 			EnableRunCommand( true );
 		}
 
