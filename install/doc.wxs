@@ -90,6 +90,7 @@
         <File Id="samples.html" Name="SAMPLE_1.HTM" LongName="samples.html" />
         <File Id="sequential.html" Name="SEQUENTL.HTM" LongName="sequential.html" />
         <File Id="setCulture.html" Name="SETCULTR.HTM" LongName="setCulture.html" />
+        <File Id="setUICulture.html" Name="SETUICLT.HTM" LongName="setUICulture.html" />
         <File Id="settingsDialog.html" Name="SETTINGS.HTM" LongName="settingsDialog.html" />
         <File Id="setup.html" Name="SETUP_1.HTM" LongName="setup.html" />
         <File Id="setupFixture.html" Name="SETUPF_1.HTM" LongName="setupFixture.html" />
