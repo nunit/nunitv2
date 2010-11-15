@@ -81,7 +81,9 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class CollectionItemsEqualConstraint : CollectionConstraint
     {
-        private NUnitEqualityComparer comparer = NUnitEqualityComparer.Default;
+		// This is internal so that ContainsConstraint can set it
+		// TODO: Figure out a way to avoid this indirection
+        internal NUnitEqualityComparer comparer = NUnitEqualityComparer.Default;
 
         /// <summary>
         /// Construct an empty CollectionConstraint

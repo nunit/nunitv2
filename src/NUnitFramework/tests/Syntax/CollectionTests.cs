@@ -9,6 +9,7 @@ using System.Collections;
 #if NET_2_0
 using System.Collections.Generic;
 #endif
+using NUnit.Framework.Tests;
 
 namespace NUnit.Framework.Syntax
 {
@@ -134,6 +135,78 @@ namespace NUnit.Framework.Syntax
         }
     }
 
+    public class CollectionContainsTest_String : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<contains \"abc\">";
+            staticSyntax = Contains.Item("abc");
+            inheritedSyntax = Helper().Contains("abc");
+            builderSyntax = Builder().Contains("abc");
+        }
+    }
+
+    public class CollectionContainsTest_Comparer : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<contains 42>";
+            staticSyntax = Contains.Item(42).Using(Comparer.Default);
+            inheritedSyntax = Helper().Contains(42).Using(Comparer.Default);
+            builderSyntax = Builder().Contains(42).Using(Comparer.Default);
+        }
+
+		[Test]
+		public void ComparerIsCalled()
+		{
+			TestComparer comparer = new TestComparer();
+            Assert.That(new int[] { 1, 2, 3 }, 
+                Contains.Item(2).Using(comparer));
+			Assert.That(comparer.Called, "Comparer was not called");
+		}
+
+		[Test]
+		public void ComparerIsCalledInExpression()
+		{
+			TestComparer comparer = new TestComparer();
+            Assert.That(new int[] { 1, 2, 3 }, 
+                Has.Length.EqualTo(3).And.Contains(2).Using(comparer));
+			Assert.That(comparer.Called, "Comparer was not called");
+		}
+	}
+
+    public class CollectionContainsTest_Comparer_String : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<contains \"abc\">";
+            staticSyntax = Contains.Item("abc").Using(Comparer.Default);
+            inheritedSyntax = Helper().Contains("abc").Using(Comparer.Default);
+            builderSyntax = Builder().Contains("abc").Using(Comparer.Default);
+        }
+		
+		[Test]
+		public void ComparerIsCalled()
+		{
+			TestComparer comparer = new TestComparer();
+            Assert.That(new string[] { "Hello", "World" }, 
+                Contains.Item("World").Using(comparer));
+			Assert.That(comparer.Called, "Comparer was not called");
+		}
+
+		[Test]
+		public void ComparerIsCalledInExpression()
+		{
+			TestComparer comparer = new TestComparer();
+            Assert.That(new string[] { "Hello", "World" }, 
+                Has.Length.EqualTo(2).And.Contains("World").Using(comparer));
+			Assert.That(comparer.Called, "Comparer was not called");
+		}
+    }
+
     public class CollectionMemberTest : SyntaxTest
     {
         [SetUp]
@@ -143,6 +216,18 @@ namespace NUnit.Framework.Syntax
             staticSyntax = Has.Member(42);
             inheritedSyntax = Helper().Contains(42);
             builderSyntax = Builder().Contains(42);
+        }
+    }
+
+    public class CollectionMemberTest_Comparer : SyntaxTest
+    {
+        [SetUp]
+        public void SetUp()
+        {
+            parseTree = "<contains 42>";
+            staticSyntax = Has.Member(42).Using(Comparer.Default);
+            inheritedSyntax = Helper().Contains(42).Using(Comparer.Default);
+            builderSyntax = Builder().Contains(42).Using(Comparer.Default);
         }
     }
 
