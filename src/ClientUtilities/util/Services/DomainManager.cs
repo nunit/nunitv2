@@ -173,7 +173,7 @@ namespace NUnit.Util
 
                 thread = new Thread(new ThreadStart(UnloadOnThread));
                 thread.Start();
-                if (!thread.Join(20000))
+                if (!thread.Join(30000))
                 {
                     log.Error("Unable to unload AppDomain {0}, Unload thread timed out", domain.FriendlyName);
                     thread.Abort();

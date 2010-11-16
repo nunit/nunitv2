@@ -60,7 +60,7 @@ namespace NUnit.Util
                 {
                     this.agent = Services.TestAgency.GetAgent(
                         runtimeFramework,
-                        20000,
+                        30000,
                         enableDebug);
 
                     if (this.agent == null)

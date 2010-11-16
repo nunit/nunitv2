@@ -16,7 +16,7 @@ namespace NUnit.Util.Tests
 	/// <summary>
 	/// Summary description for ProcessRunnerTests.
 	/// </summary>
-    [TestFixture, Timeout(10000)]
+    [TestFixture, Timeout(30000)]
     [Platform(Exclude = "Mono", Reason = "Process Start not working correctly")]
     public class ProcessRunnerTests : BasicRunnerTests
     {
