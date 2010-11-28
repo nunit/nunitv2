@@ -49,6 +49,11 @@ namespace NUnit.Core
         protected MethodInfo[] tearDownMethods;
 
         /// <summary>
+        /// The behavior attributes for this suite
+        /// </summary>
+	    protected Attribute[] behaviorAttributes;
+
+        /// <summary>
         /// Set to true to suppress sorting this suite's contents
         /// </summary>
         protected bool maintainTestOrder;
@@ -186,6 +191,11 @@ namespace NUnit.Core
         public MethodInfo[] GetTearDownMethods()
         {
             return tearDownMethods;
+        }
+
+        public Attribute[] GetBehaviorAttributes()
+        {
+            return this.behaviorAttributes;
         }
         #endregion
 

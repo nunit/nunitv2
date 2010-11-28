@@ -25,6 +25,9 @@ namespace NUnit.Core
 		#region Attribute Names
 		// NOTE: Attributes used in switch statements must be const
 
+        // Attributes that apply to Assemblies, Classes, Interfaces and Methods
+        public const string BehaviorAttribute = "NUnit.Framework.BehaviorAttribute";
+
         // Attributes that apply to Assemblies, Classes and Methods
         public const string IgnoreAttribute = "NUnit.Framework.IgnoreAttribute";
 		public const string PlatformAttribute = "NUnit.Framework.PlatformAttribute";

@@ -3,11 +3,11 @@
 // may obtain a copy of the license as well as information regarding
 // copyright ownership at http://nunit.org.
 // ****************************************************************
-
 namespace NUnit.Core
 {
 	using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Runtime.Remoting.Messaging;
     using System.Threading;
 	using System.Text;
@@ -43,6 +43,16 @@ namespace NUnit.Core
 		/// The teardown method
 		/// </summary>
 		protected MethodInfo[] tearDownMethods;
+
+        /// <summary>
+        /// The behavior attributes
+        /// </summary>
+	    protected Attribute[] behaviorAttributes;
+
+        /// <summary>
+        /// The parent suite's behavior attributes
+        /// </summary>
+	    protected Attribute[] suiteBehaviorAttributes;
 
         /// <summary>
         /// The ExpectedExceptionProcessor for this test, if any
@@ -220,11 +230,14 @@ namespace NUnit.Core
                 {
                     this.setUpMethods = suite.GetSetUpMethods();
                     this.tearDownMethods = suite.GetTearDownMethods();
+                    this.suiteBehaviorAttributes = suite.GetBehaviorAttributes();
                 }
             }
 
             try
             {
+                this.behaviorAttributes = Reflect.GetAttributes(method, NUnitFramework.BehaviorAttribute, true);
+
                 // Temporary... to allow for tests that directly execute a test case
                 if (Fixture == null && !method.IsStatic)
                     Fixture = Reflect.Construct(this.FixtureType);
@@ -300,9 +313,10 @@ namespace NUnit.Core
 			TestResult testResult = new TestResult(this);
 			TestExecutionContext.CurrentContext.CurrentResult =  testResult;
 			
-			try 
+			try
 			{
                 RunSetUp();
+			    RunBeforeBehaviors();
 
 				RunTestCase( testResult );
 			}
@@ -317,6 +331,7 @@ namespace NUnit.Core
 			}
 			finally 
 			{
+			    RunAfterBehaviors(testResult);
 				RunTearDown( testResult );
 
 				DateTime stop = DateTime.Now;
@@ -353,6 +368,68 @@ namespace NUnit.Core
 		#endregion
 
 		#region Invoke Methods by Reflection, Recording Errors
+
+        private void RunBeforeBehaviors()
+        {
+            ExecuteBehaviors(new Attribute[][]{ this.suiteBehaviorAttributes, this.behaviorAttributes }, "BeforeTest", /* inNaturalOrder: */ false);
+        }
+
+        private void RunAfterBehaviors(TestResult testResult)
+        {
+            try
+            {
+                ExecuteBehaviors(new Attribute[][] { this.behaviorAttributes, this.suiteBehaviorAttributes }, "AfterTest", /* inNaturalOrder: */ true);
+            }
+            catch(Exception ex)
+            {
+                if (ex is NUnitException)
+                    ex = ex.InnerException;
+                // TODO: What about ignore exceptions in teardown?
+                testResult.Error(ex, FailureSite.TearDown);
+            }
+        }
+
+        private static void SortBehaviorAttributes(Attribute[] attributes, bool inNaturalOrder)
+        {
+            Array.Sort(attributes, delegate(Attribute left, Attribute right)
+            {
+                if(inNaturalOrder)
+                    return ((int)Reflect.GetPropertyValue(left, "Priority")).CompareTo((int)Reflect.GetPropertyValue(right, "Priority"));
+                else
+                    return ((int)Reflect.GetPropertyValue(right, "Priority")).CompareTo((int)Reflect.GetPropertyValue(left, "Priority"));
+            });
+        }
+
+        private static void ExecuteBehaviors(IEnumerable<Attribute[]> behaviorAttributeSets, string method, bool inNaturalOrder)
+        {
+            if(behaviorAttributeSets == null)
+                throw new ArgumentNullException("behaviorAttributeSets");
+
+            MethodInfo behaviorMethod = null;
+
+            foreach (Attribute[] behaviorAttributes in behaviorAttributeSets)
+            {
+                if(behaviorAttributes == null)
+                    continue;
+
+                Attribute[] sortedBehaviors = (Attribute[])behaviorAttributes.Clone();
+                SortBehaviorAttributes(sortedBehaviors, inNaturalOrder);
+
+                foreach (Attribute behaviorAttribute in sortedBehaviors)
+                {
+                    if (behaviorMethod == null)
+                    {
+                        Type behaviorAttributeType = behaviorAttribute.GetType();
+                        while (behaviorAttributeType.FullName != NUnitFramework.BehaviorAttribute)
+                            behaviorAttributeType = behaviorAttributeType.BaseType;
+
+                        behaviorMethod = Reflect.GetNamedMethod(behaviorAttributeType, method);
+                    }
+
+                    Reflect.InvokeMethod(behaviorMethod, behaviorAttribute);
+                }
+            }
+        }
 
         private void RunSetUp()
         {

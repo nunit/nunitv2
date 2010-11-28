@@ -2,6 +2,7 @@
 <project name="NUnitFramework" default="build" basedir=".">
 
   <patternset id="source-files">
+        <include name="Attributes/BehaviorAttribute.cs"/>
         <include name="Attributes/CategoryAttribute.cs"/>
         <include name="Attributes/DatapointAttributes.cs"/>
         <include name="Attributes/DescriptionAttribute.cs"/>
