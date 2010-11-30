@@ -5,8 +5,8 @@
 // ****************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
+using System.Collections;
 
 namespace NUnit.Core
 {
@@ -30,8 +30,17 @@ namespace NUnit.Core
             this.tearDownMethods = 
                 Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
 
-            this.behaviorAttributes = 
-                Reflect.GetAttributes(this.FixtureType, NUnitFramework.BehaviorAttribute, true);
+            ArrayList collectedBehaviorAttributes = new ArrayList();
+
+            collectedBehaviorAttributes.AddRange(Reflect.GetAttributes(this.FixtureType, NUnitFramework.BehaviorAttribute, true));
+
+            Type[] fixtureInterfaces = this.FixtureType.GetInterfaces();
+
+            foreach(Type fixtureInterface in fixtureInterfaces)
+                collectedBehaviorAttributes.AddRange(Reflect.GetAttributes(fixtureInterface, NUnitFramework.BehaviorAttribute, true));
+
+            this.behaviorAttributes = new Attribute[collectedBehaviorAttributes.Count];
+            collectedBehaviorAttributes.CopyTo(this.behaviorAttributes);
         }
 
         protected override void DoOneTimeSetUp(TestResult suiteResult)

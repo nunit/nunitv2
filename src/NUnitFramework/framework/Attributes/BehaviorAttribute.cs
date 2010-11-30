@@ -15,22 +15,22 @@ namespace NUnit.Framework
         /// <summary>
         /// Called once before any tests within a fixture are run
         /// </summary>
-        public virtual void BeforeTestFixture() { }
+        public virtual void BeforeTestFixture(object fixture) { }
 
         /// <summary>
         /// Called once after all tests within a fixture are run
         /// </summary>
-        public virtual void AfterTestFixture() { }
+        public virtual void AfterTestFixture(object fixture) { }
 
         /// <summary>
         /// Called once before each test is run
         /// </summary>
-        public virtual void BeforeTest() { }
+        public virtual void BeforeTest(object fixture) { }
 
         /// <summary>
         /// Called after a test is run
         /// </summary>
-        public virtual void AfterTest() { }
+        public virtual void AfterTest(object fixture) { }
 
         /// <summary>
         /// Indicates the priority of this behavior. Used to order execution of behaviors - higher number priorities execute first. Default is zero (0).

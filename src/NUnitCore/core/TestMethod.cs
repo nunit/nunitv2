@@ -7,7 +7,6 @@ namespace NUnit.Core
 {
 	using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.Runtime.Remoting.Messaging;
     using System.Threading;
 	using System.Text;
@@ -371,14 +370,14 @@ namespace NUnit.Core
 
         private void RunBeforeBehaviors()
         {
-            ExecuteBehaviors(new Attribute[][]{ this.suiteBehaviorAttributes, this.behaviorAttributes }, "BeforeTest", /* inNaturalOrder: */ false);
+            ExecuteBehaviors(new Attribute[][]{ this.suiteBehaviorAttributes, this.behaviorAttributes }, "BeforeTest", this.Fixture, /* inNaturalOrder: */ false);
         }
 
         private void RunAfterBehaviors(TestResult testResult)
         {
             try
             {
-                ExecuteBehaviors(new Attribute[][] { this.behaviorAttributes, this.suiteBehaviorAttributes }, "AfterTest", /* inNaturalOrder: */ true);
+                ExecuteBehaviors(new Attribute[][] { this.behaviorAttributes, this.suiteBehaviorAttributes }, "AfterTest", this.Fixture, /* inNaturalOrder: */ true);
             }
             catch(Exception ex)
             {
@@ -391,16 +390,23 @@ namespace NUnit.Core
 
         private static void SortBehaviorAttributes(Attribute[] attributes, bool inNaturalOrder)
         {
-            Array.Sort(attributes, delegate(Attribute left, Attribute right)
-            {
-                if(inNaturalOrder)
-                    return ((int)Reflect.GetPropertyValue(left, "Priority")).CompareTo((int)Reflect.GetPropertyValue(right, "Priority"));
-                else
-                    return ((int)Reflect.GetPropertyValue(right, "Priority")).CompareTo((int)Reflect.GetPropertyValue(left, "Priority"));
-            });
+            if(inNaturalOrder)
+                Array.Sort(attributes, CompareBehaviorAttributePriorityInNaturalOrder);
+            else
+                Array.Sort(attributes, CompareBehaviorAttributePriorityInReverseOfNaturalOrder);
         }
 
-        private static void ExecuteBehaviors(IEnumerable<Attribute[]> behaviorAttributeSets, string method, bool inNaturalOrder)
+        private static int CompareBehaviorAttributePriorityInNaturalOrder(Attribute left, Attribute right)
+        {
+            return ((int)Reflect.GetPropertyValue(left, "Priority")).CompareTo((int)Reflect.GetPropertyValue(right, "Priority"));
+        }
+
+        private static int CompareBehaviorAttributePriorityInReverseOfNaturalOrder(Attribute left, Attribute right)
+        {
+            return ((int)Reflect.GetPropertyValue(right, "Priority")).CompareTo((int)Reflect.GetPropertyValue(left, "Priority"));
+        }
+
+        private static void ExecuteBehaviors(IEnumerable behaviorAttributeSets, string method, object fixture, bool inNaturalOrder)
         {
             if(behaviorAttributeSets == null)
                 throw new ArgumentNullException("behaviorAttributeSets");
@@ -426,7 +432,7 @@ namespace NUnit.Core
                         behaviorMethod = Reflect.GetNamedMethod(behaviorAttributeType, method);
                     }
 
-                    Reflect.InvokeMethod(behaviorMethod, behaviorAttribute);
+                    Reflect.InvokeMethod(behaviorMethod, behaviorAttribute, fixture);
                 }
             }
         }
