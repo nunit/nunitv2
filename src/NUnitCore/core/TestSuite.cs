@@ -279,6 +279,7 @@ namespace NUnit.Core
 			TestResult suiteResult = new TestResult(this);
 			
             DoOneTimeSetUp(suiteResult);
+            DoOneTimeBeforeTestFixtureBehaviors(suiteResult);
 
             if (this.Properties["_SETCULTURE"] != null)
                 TestExecutionContext.CurrentContext.CurrentCulture =
@@ -304,6 +305,7 @@ namespace NUnit.Core
                     }
                     finally
                     {
+                        DoOneTimeAfterTestFixtureBehaviors(suiteResult);
                         DoOneTimeTearDown(suiteResult);
                     }
                     break;
@@ -327,6 +329,39 @@ namespace NUnit.Core
                     if (this.fixtureSetUpMethods != null)
                         foreach( MethodInfo fixtureSetUp in fixtureSetUpMethods )
                             Reflect.InvokeMethod(fixtureSetUp, fixtureSetUp.IsStatic ? null : Fixture);
+
+                    TestExecutionContext.CurrentContext.Update();
+                }
+                catch (Exception ex)
+                {
+                    if (ex is NUnitException || ex is System.Reflection.TargetInvocationException)
+                        ex = ex.InnerException;
+
+                    if (ex is InvalidTestFixtureException)
+                        suiteResult.Invalid(ex.Message);
+                    else if (IsIgnoreException(ex))
+                    {
+                        this.RunState = RunState.Ignored;
+                        suiteResult.Ignore(ex.Message);
+                        suiteResult.StackTrace = ex.StackTrace;
+                        this.IgnoreReason = ex.Message;
+                    }
+                    else if (IsAssertException(ex))
+                        suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.SetUp);
+                    else
+                        suiteResult.Error(ex, FailureSite.SetUp);
+                }
+            }
+        }
+
+        protected virtual void DoOneTimeBeforeTestFixtureBehaviors(TestResult suiteResult)
+        {
+            if (FixtureType != null)
+            {
+                try
+                {
+                    if (this.behaviorAttributes != null)
+                        BehaviorsHelper.ExecuteBehaviors(new Attribute[][]{this.behaviorAttributes}, this.Fixture, "BeforeTestFixture", false);
 
                     TestExecutionContext.CurrentContext.Update();
                 }
@@ -394,6 +429,29 @@ namespace NUnit.Core
 				}
 
                 this.Fixture = null;
+            }
+        }
+
+        protected virtual void DoOneTimeAfterTestFixtureBehaviors(TestResult suiteResult)
+        {
+            if (this.FixtureType != null)
+            {
+                try
+                {
+                    if (this.behaviorAttributes != null)
+                        BehaviorsHelper.ExecuteBehaviors(new Attribute[][] { this.behaviorAttributes }, this.Fixture, "AfterTestFixture", true);
+                }
+                catch (Exception ex)
+                {
+                    // Error in TestFixtureTearDown or Dispose causes the
+                    // suite to be marked as a failure, even if
+                    // all the contained tests passed.
+                    NUnitException nex = ex as NUnitException;
+                    if (nex != null)
+                        ex = nex.InnerException;
+
+                    suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.TearDown);
+                }
             }
         }
 

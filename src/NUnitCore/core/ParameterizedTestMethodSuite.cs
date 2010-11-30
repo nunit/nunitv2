@@ -57,6 +57,7 @@ namespace NUnit.Core
                 {
                     this.setUpMethods = suite.GetSetUpMethods();
                     this.tearDownMethods = suite.GetTearDownMethods();
+                    this.behaviorAttributes = suite.GetBehaviorAttributes();
                 }
             }
 
@@ -75,6 +76,7 @@ namespace NUnit.Core
 			this.Fixture = null;
 			this.setUpMethods = null;
 			this.tearDownMethods = null;
+            this.behaviorAttributes = null;
 
             return result;
         }

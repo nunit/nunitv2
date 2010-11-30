@@ -370,14 +370,16 @@ namespace NUnit.Core
 
         private void RunBeforeBehaviors()
         {
-            ExecuteBehaviors(new Attribute[][]{ this.suiteBehaviorAttributes, this.behaviorAttributes }, "BeforeTest", this.Fixture, /* inNaturalOrder: */ false);
+            Attribute[][] behaviors = new Attribute[][] {this.suiteBehaviorAttributes, this.behaviorAttributes};
+            BehaviorsHelper.ExecuteBehaviors(behaviors, this.Fixture, /* inNaturalOrder: */ "BeforeTest", false);
         }
 
         private void RunAfterBehaviors(TestResult testResult)
         {
             try
             {
-                ExecuteBehaviors(new Attribute[][] { this.behaviorAttributes, this.suiteBehaviorAttributes }, "AfterTest", this.Fixture, /* inNaturalOrder: */ true);
+                Attribute[][] behaviors = new Attribute[][] {this.behaviorAttributes, this.suiteBehaviorAttributes};
+                BehaviorsHelper.ExecuteBehaviors(behaviors, this.Fixture, /* inNaturalOrder: */ "AfterTest", true);
             }
             catch(Exception ex)
             {
@@ -388,56 +390,7 @@ namespace NUnit.Core
             }
         }
 
-        private static void SortBehaviorAttributes(Attribute[] attributes, bool inNaturalOrder)
-        {
-            if(inNaturalOrder)
-                Array.Sort(attributes, CompareBehaviorAttributePriorityInNaturalOrder);
-            else
-                Array.Sort(attributes, CompareBehaviorAttributePriorityInReverseOfNaturalOrder);
-        }
-
-        private static int CompareBehaviorAttributePriorityInNaturalOrder(Attribute left, Attribute right)
-        {
-            return ((int)Reflect.GetPropertyValue(left, "Priority")).CompareTo((int)Reflect.GetPropertyValue(right, "Priority"));
-        }
-
-        private static int CompareBehaviorAttributePriorityInReverseOfNaturalOrder(Attribute left, Attribute right)
-        {
-            return ((int)Reflect.GetPropertyValue(right, "Priority")).CompareTo((int)Reflect.GetPropertyValue(left, "Priority"));
-        }
-
-        private static void ExecuteBehaviors(IEnumerable behaviorAttributeSets, string method, object fixture, bool inNaturalOrder)
-        {
-            if(behaviorAttributeSets == null)
-                throw new ArgumentNullException("behaviorAttributeSets");
-
-            MethodInfo behaviorMethod = null;
-
-            foreach (Attribute[] behaviorAttributes in behaviorAttributeSets)
-            {
-                if(behaviorAttributes == null)
-                    continue;
-
-                Attribute[] sortedBehaviors = (Attribute[])behaviorAttributes.Clone();
-                SortBehaviorAttributes(sortedBehaviors, inNaturalOrder);
-
-                foreach (Attribute behaviorAttribute in sortedBehaviors)
-                {
-                    if (behaviorMethod == null)
-                    {
-                        Type behaviorAttributeType = behaviorAttribute.GetType();
-                        while (behaviorAttributeType.FullName != NUnitFramework.BehaviorAttribute)
-                            behaviorAttributeType = behaviorAttributeType.BaseType;
-
-                        behaviorMethod = Reflect.GetNamedMethod(behaviorAttributeType, method);
-                    }
-
-                    Reflect.InvokeMethod(behaviorMethod, behaviorAttribute, fixture);
-                }
-            }
-        }
-
-        private void RunSetUp()
+	    private void RunSetUp()
         {
             if (setUpMethods != null)
                 foreach( MethodInfo setUpMethod in setUpMethods )

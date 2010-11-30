@@ -32,6 +32,12 @@ namespace NUnit.TestData
             ((IWithBehavior)this).Results.Add("SomeTest");
         }
 
+        [Test]
+        public void SomeOtherTest()
+        {
+            ((IWithBehavior)this).Results.Add("SomeOtherTest");
+        }
+
         private class FixtureBehaviorAttribute : BehaviorAttribute
         {
             public override void BeforeTestFixture(object fixture)
