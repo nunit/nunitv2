@@ -323,7 +323,7 @@
       workingdir="${current.build.dir}" 
 	  program="nunit-console.exe" 
       managed="strict"
-	  commandline="NUnitTests.nunit ${nunit.options} -xml:${result.file}.xml -domain:Multiple" />
+	  commandline="NUnitTests.nunit ${nunit.options} -xml:${result.file}.xml" />
 
   </target>
 
@@ -920,6 +920,7 @@
         <include name="nunit21under22.config"/>
         <include name="PNUnit/*.conf"/>
         <include name="PNUnit/runpnunit.bat"/>
+        <include name="NUnitCore/schemas/*"/>
       </fileset>
     </copy>
 
