@@ -37,7 +37,7 @@ namespace NUnit.Util
 
 			if ( File.Exists( settingsFile ) )
 				storage.LoadSettings();
-			else
+			else if (writeable)
 				ConvertLegacySettings();
 		}
 
