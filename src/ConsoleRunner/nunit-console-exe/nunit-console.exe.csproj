@@ -42,7 +42,7 @@
     <DebugType>full</DebugType>
     <ErrorReport>prompt</ErrorReport>
     <Externalconsole>true</Externalconsole>
-    <Commandlineparameters>-load=NUnit.Core.Tests.AllTests ../../NUnitTests.nunit</Commandlineparameters>
+    <Commandlineparameters>../../NUnitTests.nunit</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>..\..\..\bin\Release\</OutputPath>
