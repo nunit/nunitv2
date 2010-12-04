@@ -25,9 +25,6 @@ namespace NUnit.Core
 		#region Attribute Names
 		// NOTE: Attributes used in switch statements must be const
 
-        // Attributes that apply to Assemblies, Classes, Interfaces and Methods
-        public const string BehaviorAttribute = "NUnit.Framework.BehaviorAttribute";
-
         // Attributes that apply to Assemblies, Classes and Methods
         public const string IgnoreAttribute = "NUnit.Framework.IgnoreAttribute";
 		public const string PlatformAttribute = "NUnit.Framework.PlatformAttribute";
@@ -58,6 +55,14 @@ namespace NUnit.Core
         #endregion
 
         #region Other Framework Types
+
+        public static readonly string BehaviorInterface = "NUnit.Framework.IBehavior, NUnit.Framework";
+
+        public static readonly string AssemblyBehaviorInterface = "NUnit.Framework.IAssemblyBehavior, NUnit.Framework";
+        public static readonly string SuiteBehaviorInterface = "NUnit.Framework.ISuiteBehavior, NUnit.Framework";
+        public static readonly string TestBehaviorInterface = "NUnit.Framework.ITestBehavior, NUnit.Framework";
+        public static readonly string TestCaseBehaviorInterface = "NUnit.Framework.ITestCaseBehavior, NUnit.Framework";
+
         public static readonly string AssertException = "NUnit.Framework.AssertionException";
         public static readonly string IgnoreException = "NUnit.Framework.IgnoreException";
         public static readonly string InconclusiveException = "NUnit.Framework.InconclusiveException";

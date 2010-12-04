@@ -361,7 +361,7 @@ namespace NUnit.Core
                 try
                 {
                     if (this.behaviorAttributes != null)
-                        BehaviorsHelper.ExecuteBehaviors(new Attribute[][]{this.behaviorAttributes}, this.Fixture, "BeforeTestFixture", false);
+                        BehaviorsHelper.ExecuteBehaviors(BehaviorLevel.Suite, BehaviorPhase.Before, this.behaviorAttributes, this.fixture);
 
                     TestExecutionContext.CurrentContext.Update();
                 }
@@ -439,7 +439,7 @@ namespace NUnit.Core
                 try
                 {
                     if (this.behaviorAttributes != null)
-                        BehaviorsHelper.ExecuteBehaviors(new Attribute[][] { this.behaviorAttributes }, this.Fixture, "AfterTestFixture", true);
+                        BehaviorsHelper.ExecuteBehaviors(BehaviorLevel.Suite, BehaviorPhase.After, this.behaviorAttributes, this.fixture);
                 }
                 catch (Exception ex)
                 {

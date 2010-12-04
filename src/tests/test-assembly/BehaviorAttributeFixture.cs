@@ -5,9 +5,9 @@ using NUnit.Framework;
 namespace NUnit.TestData
 {
     [TestFixture]
-    [FixtureBehavior(Priority = 2)]
-    [FixtureBehavior(Priority = 1)]
-    [FixtureBehavior(Priority = 3)]
+    [SuiteBehavior(/* priority: */ 2)]
+    [SuiteBehavior(/* priority: */ 1)]
+    [SuiteBehavior(/* priority: */ 3)]
     public class BehaviorAttributeFixture : IWithBehavior
     {
         public static StringCollection Results { get { return _LastRunFixture == null ? null : _LastRunFixture._Results; } }
@@ -23,9 +23,9 @@ namespace NUnit.TestData
 
         StringCollection IWithBehavior.Results { get { return _Results; } }
 
-        [TestBehavior(Priority = 2)]
-        [TestBehavior(Priority = 1)]
-        [TestBehavior(Priority = 3)]
+        [TestBehavior(/* priority: */ 2)]
+        [TestBehavior(/* priority: */ 1)]
+        [TestBehavior(/* priority: */ 3)]
         [Test]
         public void SomeTest()
         {
@@ -38,70 +38,109 @@ namespace NUnit.TestData
             ((IWithBehavior)this).Results.Add("SomeOtherTest");
         }
 
-        private class FixtureBehaviorAttribute : BehaviorAttribute
+        [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+        private class SuiteBehaviorAttribute : Attribute, ISuiteBehavior, ITestBehavior
         {
-            public override void BeforeTestFixture(object fixture)
+            private int _Priority = 0;
+
+            public SuiteBehaviorAttribute(int priority)
             {
-                ((IWithBehavior)fixture).Results.Add("Fixture.BeforeTestFixture-" + Priority);
+                _Priority = priority;
             }
 
-            public override void AfterTestFixture(object fixture)
+            void ISuiteBehavior.BeforeSuite(object fixture)
             {
-                ((IWithBehavior)fixture).Results.Add("Fixture.AfterTestFixture-" + Priority);
+                ((IWithBehavior)fixture).Results.Add("Fixture.BeforeSuite-" + _Priority);
             }
 
-            public override void BeforeTest(object fixture)
+            void ISuiteBehavior.AfterSuite(object fixture)
             {
-                ((IWithBehavior)fixture).Results.Add("Fixture.BeforeTest-" + Priority);
+                ((IWithBehavior)fixture).Results.Add("Fixture.AfterSuite-" + _Priority);
             }
 
-            public override void AfterTest(object fixture)
+            void ITestBehavior.BeforeTest(object fixture)
             {
-                ((IWithBehavior)fixture).Results.Add("Fixture.AfterTest-" + Priority);
+                ((IWithBehavior)fixture).Results.Add("Fixture.BeforeTest-" + _Priority);
+            }
+
+            void ITestBehavior.AfterTest(object fixture)
+            {
+                ((IWithBehavior)fixture).Results.Add("Fixture.AfterTest-" + _Priority);
+            }
+
+            int IBehavior.Priority
+            {
+                get { return _Priority; }
             }
         }
 
-        private class TestBehavior : BehaviorAttribute
+        [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+        private class TestBehaviorAttribute : Attribute, ITestBehavior
         {
-            public override void BeforeTest(object fixture)
+            private int _Priority = 0;
+
+            public TestBehaviorAttribute(int priority)
             {
-                ((IWithBehavior)fixture).Results.Add("Test.BeforeTest-" + Priority);
+                _Priority = priority;
             }
 
-            public override void AfterTest(object fixture)
+            void ITestBehavior.BeforeTest(object fixture)
             {
-                ((IWithBehavior)fixture).Results.Add("Test.AfterTest-" + Priority);
+                ((IWithBehavior)fixture).Results.Add("Test.BeforeTest-" + _Priority);
+            }
+
+            void ITestBehavior.AfterTest(object fixture)
+            {
+                ((IWithBehavior)fixture).Results.Add("Test.AfterTest-" + _Priority);
+            }
+
+            int IBehavior.Priority
+            {
+                get { return _Priority; }
             }
         }
 
     }
 
-    [InterfaceBehavior(Priority = 2)]
+    [InterfaceBehavior(/* priority: */ 2)]
     public interface IWithBehavior
     {
         StringCollection Results { get; }
     }
 
-    public class InterfaceBehaviorAttribute : BehaviorAttribute
+    [AttributeUsage(AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
+    public class InterfaceBehaviorAttribute : Attribute, ISuiteBehavior, ITestBehavior
     {
-        public override void BeforeTestFixture(object fixture)
+        private int _Priority = 0;
+
+        public InterfaceBehaviorAttribute(int priority)
         {
-            ((IWithBehavior)fixture).Results.Add("Interface.BeforeTestFixture-" + Priority);
+            _Priority = priority;
         }
 
-        public override void AfterTestFixture(object fixture)
+        void ISuiteBehavior.BeforeSuite(object fixture)
         {
-            ((IWithBehavior)fixture).Results.Add("Interface.AfterTestFixture-" + Priority);
+            ((IWithBehavior)fixture).Results.Add("Interface.BeforeSuite-" + _Priority);
         }
 
-        public override void BeforeTest(object fixture)
+        void ISuiteBehavior.AfterSuite(object fixture)
         {
-            ((IWithBehavior)fixture).Results.Add("Interface.BeforeTest-" + Priority);
+            ((IWithBehavior)fixture).Results.Add("Interface.AfterSuite-" + _Priority);
         }
 
-        public override void AfterTest(object fixture)
+        void ITestBehavior.BeforeTest(object fixture)
         {
-            ((IWithBehavior)fixture).Results.Add("Interface.AfterTest-" + Priority);
+            ((IWithBehavior)fixture).Results.Add("Interface.BeforeTest-" + _Priority);
+        }
+
+        void ITestBehavior.AfterTest(object fixture)
+        {
+            ((IWithBehavior)fixture).Results.Add("Interface.AfterTest-" + _Priority);
+        }
+
+        int IBehavior.Priority
+        {
+            get { return _Priority; }
         }
     }
 }

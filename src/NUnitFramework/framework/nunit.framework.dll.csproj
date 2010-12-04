@@ -76,7 +76,6 @@
     <Compile Include="Assert.cs" />
     <Compile Include="AssertionHelper.cs" />
     <Compile Include="Assume.cs" />
-    <Compile Include="Attributes\BehaviorAttribute.cs" />
     <Compile Include="Attributes\CategoryAttribute.cs" />
     <Compile Include="Attributes\DatapointAttributes.cs" />
     <Compile Include="Attributes\DescriptionAttribute.cs" />
@@ -156,9 +155,14 @@
     <Compile Include="FileAssert.cs" />
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="Has.cs" />
+    <Compile Include="Interfaces\IAssemblyBehavior.cs" />
+    <Compile Include="Interfaces\IBehavior.cs" />
     <Compile Include="IExpectException.cs" />
     <Compile Include="Is.cs" />
+    <Compile Include="Interfaces\ITestBehavior.cs" />
     <Compile Include="ITestCaseData.cs" />
+    <Compile Include="Interfaces\ITestCaseBehavior.cs" />
+    <Compile Include="Interfaces\ISuiteBehavior.cs" />
     <Compile Include="Iz.cs" />
     <Compile Include="List.cs" />
     <Compile Include="ListMapper.cs" />

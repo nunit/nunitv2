@@ -30,14 +30,16 @@ namespace NUnit.Core
             this.tearDownMethods = 
                 Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
 
+            this.behaviorAttributes = BehaviorsHelper.GetBehaviorAttributes(fixtureType);
+
             ArrayList collectedBehaviorAttributes = new ArrayList();
 
-            collectedBehaviorAttributes.AddRange(Reflect.GetAttributes(this.FixtureType, NUnitFramework.BehaviorAttribute, true));
+            collectedBehaviorAttributes.AddRange(BehaviorsHelper.GetBehaviorAttributes(fixtureType));
 
             Type[] fixtureInterfaces = this.FixtureType.GetInterfaces();
 
-            foreach(Type fixtureInterface in fixtureInterfaces)
-                collectedBehaviorAttributes.AddRange(Reflect.GetAttributes(fixtureInterface, NUnitFramework.BehaviorAttribute, true));
+            foreach (Type fixtureInterface in fixtureInterfaces)
+                collectedBehaviorAttributes.AddRange(BehaviorsHelper.GetBehaviorAttributes(fixtureInterface));
 
             this.behaviorAttributes = new Attribute[collectedBehaviorAttributes.Count];
             collectedBehaviorAttributes.CopyTo(this.behaviorAttributes);

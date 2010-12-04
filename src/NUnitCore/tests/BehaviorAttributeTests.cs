@@ -12,41 +12,41 @@ namespace NUnit.Core.Tests
     {
         private TestResult _result = null;
 
-        #region  BeforeTestFixture() & AfterTestFixture() indicies
+        #region  BeforeSuite() & AfterSuite() indicies
 
-        private int _fixtureLevel_BeforeTestFixture_PriorityOne_Index = -1;
-        private int _fixtureLevel_BeforeTestFixture_PriorityTwo_Index = -1;
-        private int _fixtureLevel_BeforeTestFixture_PriorityThree_Index = -1;
+        private int _fixtureDefined_BeforeSuite_PriorityOne_Index = -1;
+        private int _fixtureDefined_BeforeSuite_PriorityTwo_Index = -1;
+        private int _fixtureDefined_BeforeSuite_PriorityThree_Index = -1;
 
-        private int _fixtureLevel_AfterTestFixture_PriorityOne_Index = -1;
-        private int _fixtureLevel_AfterTestFixture_PriorityTwo_Index = -1;
-        private int _fixtureLevel_AfterTestFixture_PriorityThree_Index = -1;
+        private int _fixtureDefined_AfterSuite_PriorityOne_Index = -1;
+        private int _fixtureDefined_AfterSuite_PriorityTwo_Index = -1;
+        private int _fixtureDefined_AfterSuite_PriorityThree_Index = -1;
 
-        private int _interfaceLevel_BeforeTestFixture_PriorityTwo_Index = -1;
-        private int _interfaceLevel_AfterTestFixture_PriorityTwo_Index = -1;
+        private int _interfaceDefined_BeforeSuite_PriorityTwo_Index = -1;
+        private int _interfaceDefined_AfterSuite_PriorityTwo_Index = -1;
 
         #endregion
 
         #region BeforeTest() & AfterTest() indicies
 
-        private int _fixtureLevel_BeforeTest_PriorityOne_Index = -1;
-        private int _fixtureLevel_BeforeTest_PriorityTwo_Index = -1;
-        private int _fixtureLevel_BeforeTest_PriorityThree_Index = -1;
+        private int _fixtureDefined_BeforeTest_PriorityOne_Index = -1;
+        private int _fixtureDefined_BeforeTest_PriorityTwo_Index = -1;
+        private int _fixtureDefined_BeforeTest_PriorityThree_Index = -1;
 
-        private int _fixtureLevel_AfterTest_PriorityOne_Index = -1;
-        private int _fixtureLevel_AfterTest_PriorityTwo_Index = -1;
-        private int _fixtureLevel_AfterTest_PriorityThree_Index = -1;
+        private int _fixtureDefined_AfterTest_PriorityOne_Index = -1;
+        private int _fixtureDefined_AfterTest_PriorityTwo_Index = -1;
+        private int _fixtureDefined_AfterTest_PriorityThree_Index = -1;
 
-        private int _interfaceLevel_BeforeTest_PriorityTwo_Index = -1;
-        private int _interfaceLevel_AfterTest_PriorityTwo_Index = -1;
+        private int _interfaceDefined_BeforeTest_PriorityTwo_Index = -1;
+        private int _interfaceDefined_AfterTest_PriorityTwo_Index = -1;
 
-        private int _testLevel_BeforeTest_PriorityOne_Index = -1;
-        private int _testLevel_BeforeTest_PriorityTwo_Index = -1;
-        private int _testLevel_BeforeTest_PriorityThree_Index = -1;
+        private int _testDefined_BeforeTest_PriorityOne_Index = -1;
+        private int _testDefined_BeforeTest_PriorityTwo_Index = -1;
+        private int _testDefined_BeforeTest_PriorityThree_Index = -1;
 
-        private int _testLevel_AfterTest_PriorityOne_Index = -1;
-        private int _testLevel_AfterTest_PriorityTwo_Index = -1;
-        private int _testLevel_AfterTest_PriorityThree_Index = -1;
+        private int _testDefined_AfterTest_PriorityOne_Index = -1;
+        private int _testDefined_AfterTest_PriorityTwo_Index = -1;
+        private int _testDefined_AfterTest_PriorityThree_Index = -1;
 
         #endregion
 
@@ -55,41 +55,41 @@ namespace NUnit.Core.Tests
         {
             _result = TestBuilder.RunTestFixture(typeof(BehaviorAttributeFixture));
 
-            #region  BeforeTestFixture() & AfterTestFixture() indicies
+            #region  BeforeSuite() & AfterSuite() indicies
 
-            _fixtureLevel_BeforeTestFixture_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTestFixture-1");
-            _fixtureLevel_BeforeTestFixture_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTestFixture-2");
-            _fixtureLevel_BeforeTestFixture_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTestFixture-3");
+            _fixtureDefined_BeforeSuite_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeSuite-1");
+            _fixtureDefined_BeforeSuite_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeSuite-2");
+            _fixtureDefined_BeforeSuite_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeSuite-3");
 
-            _fixtureLevel_AfterTestFixture_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTestFixture-1");
-            _fixtureLevel_AfterTestFixture_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTestFixture-2");
-            _fixtureLevel_AfterTestFixture_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTestFixture-3");
+            _fixtureDefined_AfterSuite_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterSuite-1");
+            _fixtureDefined_AfterSuite_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterSuite-2");
+            _fixtureDefined_AfterSuite_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterSuite-3");
 
-            _interfaceLevel_BeforeTestFixture_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Interface.BeforeTestFixture-2");
-            _interfaceLevel_AfterTestFixture_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Interface.AfterTestFixture-2");
+            _interfaceDefined_BeforeSuite_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Interface.BeforeSuite-2");
+            _interfaceDefined_AfterSuite_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Interface.AfterSuite-2");
 
             #endregion
 
             #region update BeforeTest() & AfterTest() indicies
 
-            _fixtureLevel_BeforeTest_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTest-1");
-            _fixtureLevel_BeforeTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTest-2");
-            _fixtureLevel_BeforeTest_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTest-3");
+            _fixtureDefined_BeforeTest_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTest-1");
+            _fixtureDefined_BeforeTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTest-2");
+            _fixtureDefined_BeforeTest_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.BeforeTest-3");
 
-            _fixtureLevel_AfterTest_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTest-1");
-            _fixtureLevel_AfterTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTest-2");
-            _fixtureLevel_AfterTest_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTest-3");
+            _fixtureDefined_AfterTest_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTest-1");
+            _fixtureDefined_AfterTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTest-2");
+            _fixtureDefined_AfterTest_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Fixture.AfterTest-3");
 
-            _interfaceLevel_BeforeTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Interface.BeforeTest-2");
-            _interfaceLevel_AfterTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Interface.AfterTest-2");
+            _interfaceDefined_BeforeTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Interface.BeforeTest-2");
+            _interfaceDefined_AfterTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Interface.AfterTest-2");
 
-            _testLevel_BeforeTest_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Test.BeforeTest-1");
-            _testLevel_BeforeTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Test.BeforeTest-2");
-            _testLevel_BeforeTest_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Test.BeforeTest-3");
+            _testDefined_BeforeTest_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Test.BeforeTest-1");
+            _testDefined_BeforeTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Test.BeforeTest-2");
+            _testDefined_BeforeTest_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Test.BeforeTest-3");
 
-            _testLevel_AfterTest_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Test.AfterTest-1");
-            _testLevel_AfterTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Test.AfterTest-2");
-            _testLevel_AfterTest_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Test.AfterTest-3");
+            _testDefined_AfterTest_PriorityOne_Index = BehaviorAttributeFixture.Results.IndexOf("Test.AfterTest-1");
+            _testDefined_AfterTest_PriorityTwo_Index = BehaviorAttributeFixture.Results.IndexOf("Test.AfterTest-2");
+            _testDefined_AfterTest_PriorityThree_Index = BehaviorAttributeFixture.Results.IndexOf("Test.AfterTest-3");
 
             #endregion
         }
@@ -101,34 +101,34 @@ namespace NUnit.Core.Tests
             Assert.Contains("SomeTest", BehaviorAttributeFixture.Results);
         }
 
-        #region Tests for BeforeTestFixture() and AfterTestFixture invocation ordering
+        #region Tests for BeforeSuite() and AfterSuite invocation ordering
 
         [Test]
-        public void FixtureLevelBehavior_BeforeTestFixture_InCorrectOrder()
+        public void FixtureDefinedBehavior_BeforeSuite_InCorrectOrder()
         {
-            Assert.IsTrue(_fixtureLevel_BeforeTestFixture_PriorityThree_Index < _fixtureLevel_BeforeTestFixture_PriorityTwo_Index, "Priority 3 fixture-level behavior should run BeforeTestFixture() before fixture-level behaviors of priority <= 2");
-            Assert.IsTrue(_fixtureLevel_BeforeTestFixture_PriorityTwo_Index < _fixtureLevel_BeforeTestFixture_PriorityOne_Index, "Priority 2 fixture-level behavior should run BeforeTestFixture() before fixture-level behaviors of priority <= 1");
+            Assert.IsTrue(_fixtureDefined_BeforeSuite_PriorityThree_Index < _fixtureDefined_BeforeSuite_PriorityTwo_Index, "Priority 3 fixture-defined behavior should run BeforeSuite() before fixture-defined behaviors of priority <= 2");
+            Assert.IsTrue(_fixtureDefined_BeforeSuite_PriorityTwo_Index < _fixtureDefined_BeforeSuite_PriorityOne_Index, "Priority 2 fixture-defined behavior should run BeforeSuite() before fixture-defined behaviors of priority <= 1");
         }
 
         [Test]
-        public void FixtureLevelBehavior_AfterTestFixture_InCorrectOrder()
+        public void FixtureDefinedBehavior_AfterSuite_InCorrectOrder()
         {
-            Assert.IsTrue(_fixtureLevel_AfterTestFixture_PriorityThree_Index > _fixtureLevel_AfterTestFixture_PriorityTwo_Index, "Priority 3 fixture-level test behavior should run AfterTestFixture() after fixture-level behaviors of priority <= 2");
-            Assert.IsTrue(_fixtureLevel_AfterTestFixture_PriorityTwo_Index > _fixtureLevel_AfterTestFixture_PriorityOne_Index, "Priority 2 fixture-level test behavior should run AfterTestFixture() after fixture-level behaviors of priority <= 1");
+            Assert.IsTrue(_fixtureDefined_AfterSuite_PriorityThree_Index > _fixtureDefined_AfterSuite_PriorityTwo_Index, "Priority 3 fixture-defined test behavior should run AfterSuite() after fixture-defined behaviors of priority <= 2");
+            Assert.IsTrue(_fixtureDefined_AfterSuite_PriorityTwo_Index > _fixtureDefined_AfterSuite_PriorityOne_Index, "Priority 2 fixture-defined test behavior should run AfterSuite() after fixture-defined behaviors of priority <= 1");
         }
 
         [Test]
-        public void InterfaceLevelBehavior_BeforeTestFixture_InCorrectOrder()
+        public void InterfaceLevelBehavior_BeforeSuite_InCorrectOrder()
         {
-            Assert.IsTrue(_fixtureLevel_BeforeTestFixture_PriorityThree_Index < _interfaceLevel_BeforeTestFixture_PriorityTwo_Index, "Priority 3 fixture-level behavior should run BeforeTestFixture() before interface-level behaviors of priority <= 2");
-            Assert.IsTrue(_interfaceLevel_BeforeTestFixture_PriorityTwo_Index < _fixtureLevel_BeforeTestFixture_PriorityOne_Index, "Priority 2 interface-level behavior should run BeforeTestFixture() before fixture-level behaviors of priority <= 1");
+            Assert.IsTrue(_fixtureDefined_BeforeSuite_PriorityThree_Index < _interfaceDefined_BeforeSuite_PriorityTwo_Index, "Priority 3 fixture-defined behavior should run BeforeSuite() before interface-defined behaviors of priority <= 2");
+            Assert.IsTrue(_interfaceDefined_BeforeSuite_PriorityTwo_Index < _fixtureDefined_BeforeSuite_PriorityOne_Index, "Priority 2 interface-defined behavior should run BeforeSuite() before fixture-defined behaviors of priority <= 1");
         }
 
         [Test]
-        public void InterfaceLevelBehavior_AfterTestFixture_InCorrectOrder()
+        public void InterfaceLevelBehavior_AfterSuite_InCorrectOrder()
         {
-            Assert.IsTrue(_fixtureLevel_AfterTestFixture_PriorityThree_Index > _interfaceLevel_AfterTestFixture_PriorityTwo_Index, "Priority 3 fixture-level test behavior should run AfterTestFixture() after interface-level behaviors of priority <= 2");
-            Assert.IsTrue(_interfaceLevel_AfterTestFixture_PriorityTwo_Index > _fixtureLevel_AfterTestFixture_PriorityOne_Index, "Priority 2 interface-level test behavior should run AfterTestFixture() after fixture-level behaviors of priority <= 1");
+            Assert.IsTrue(_fixtureDefined_AfterSuite_PriorityThree_Index > _interfaceDefined_AfterSuite_PriorityTwo_Index, "Priority 3 fixture-defined behavior should run AfterSuite() after interface-defined behaviors of priority <= 2");
+            Assert.IsTrue(_interfaceDefined_AfterSuite_PriorityTwo_Index > _fixtureDefined_AfterSuite_PriorityOne_Index, "Priority 2 interface-defined behavior should run AfterSuite() after fixture-defined behaviors of priority <= 1");
         }
 
         #endregion
@@ -136,45 +136,45 @@ namespace NUnit.Core.Tests
         #region Tests for BeforeTest() and AfterTest() invocation ordering
 
         [Test]
-        public void FixtureLevelBehavior_BeforeTest_InCorrectOrder()
+        public void FixtureDefinedBehavior_BeforeTest_InCorrectOrder()
         {
-            Assert.IsTrue(_fixtureLevel_BeforeTest_PriorityThree_Index < _fixtureLevel_BeforeTest_PriorityTwo_Index, "Priority 3 fixture-level behavior should run BeforeTest() before fixture-level behaviors of priority <= 2");
-            Assert.IsTrue(_fixtureLevel_BeforeTest_PriorityTwo_Index < _fixtureLevel_BeforeTest_PriorityOne_Index, "Priority 2 fixture-level behavior should run BeforeTest() before fixture-level behaviors of priority <= 1");
+            Assert.IsTrue(_fixtureDefined_BeforeTest_PriorityThree_Index < _fixtureDefined_BeforeTest_PriorityTwo_Index, "Priority 3 fixture-defined behavior should run BeforeTest() before fixture-defined behaviors of priority <= 2");
+            Assert.IsTrue(_fixtureDefined_BeforeTest_PriorityTwo_Index < _fixtureDefined_BeforeTest_PriorityOne_Index, "Priority 2 fixture-defined behavior should run BeforeTest() before fixture-defined behaviors of priority <= 1");
         }
 
         [Test]
-        public void FixtureLevelBehavior_AfterTest_InCorrectOrder()
+        public void FixtureDefinedBehavior_AfterTest_InCorrectOrder()
         {
-            Assert.IsTrue(_fixtureLevel_AfterTest_PriorityThree_Index > _fixtureLevel_AfterTest_PriorityTwo_Index, "Priority 3 fixture-level test behavior should run AfterTest() after fixture-level behaviors of priority <= 2");
-            Assert.IsTrue(_fixtureLevel_AfterTest_PriorityTwo_Index > _fixtureLevel_AfterTest_PriorityOne_Index, "Priority 2 fixture-level test behavior should run AfterTest() after fixture-level behaviors of priority <= 1");
+            Assert.IsTrue(_fixtureDefined_AfterTest_PriorityThree_Index > _fixtureDefined_AfterTest_PriorityTwo_Index, "Priority 3 fixture-defined behavior should run AfterTest() after fixture-defined behaviors of priority <= 2");
+            Assert.IsTrue(_fixtureDefined_AfterTest_PriorityTwo_Index > _fixtureDefined_AfterTest_PriorityOne_Index, "Priority 2 fixture-defined behavior should run AfterTest() after fixture-defined behaviors of priority <= 1");
         }
 
         [Test]
         public void InterfaceLevelBehavior_BeforeTest_InCorrectOrder()
         {
-            Assert.IsTrue(_fixtureLevel_BeforeTest_PriorityThree_Index < _interfaceLevel_BeforeTest_PriorityTwo_Index, "Priority 3 fixture-level behavior should run BeforeTest() before interface-level behaviors of priority <= 2");
-            Assert.IsTrue(_interfaceLevel_BeforeTest_PriorityTwo_Index < _fixtureLevel_BeforeTest_PriorityOne_Index, "Priority 2 interface-level behavior should run BeforeTest() before fixture-level behaviors of priority <= 1");
+            Assert.IsTrue(_fixtureDefined_BeforeTest_PriorityThree_Index < _interfaceDefined_BeforeTest_PriorityTwo_Index, "Priority 3 fixture-defined behavior should run BeforeTest() before interface-defined behaviors of priority <= 2");
+            Assert.IsTrue(_interfaceDefined_BeforeTest_PriorityTwo_Index < _fixtureDefined_BeforeTest_PriorityOne_Index, "Priority 2 interface-defined behavior should run BeforeTest() before fixture-defined behaviors of priority <= 1");
         }
 
         [Test]
         public void InterfaceLevelBehavior_AfterTest_InCorrectOrder()
         {
-            Assert.IsTrue(_fixtureLevel_AfterTest_PriorityThree_Index > _interfaceLevel_AfterTest_PriorityTwo_Index, "Priority 3 fixture-level test behavior should run AfterTest() after interface-level behaviors of priority <= 2");
-            Assert.IsTrue(_interfaceLevel_AfterTest_PriorityTwo_Index > _fixtureLevel_AfterTest_PriorityOne_Index, "Priority 2 interface-level test behavior should run AfterTest() after fixture-level behaviors of priority <= 1");
+            Assert.IsTrue(_fixtureDefined_AfterTest_PriorityThree_Index > _interfaceDefined_AfterTest_PriorityTwo_Index, "Priority 3 fixture-defined behavior should run AfterTest() after interface-defined behaviors of priority <= 2");
+            Assert.IsTrue(_interfaceDefined_AfterTest_PriorityTwo_Index > _fixtureDefined_AfterTest_PriorityOne_Index, "Priority 2 interface-defined behavior should run AfterTest() after fixture-defined behaviors of priority <= 1");
         }
 
         [Test]
         public void TestLevelBehavior_BeforeTest_InCorrectOrder()
         {
-            Assert.IsTrue(_testLevel_BeforeTest_PriorityThree_Index < _testLevel_BeforeTest_PriorityTwo_Index, "Priority 3 test-level behavior should run BeforeTest() before test-level behaviors of priority <= 2");
-            Assert.IsTrue(_testLevel_BeforeTest_PriorityTwo_Index < _testLevel_BeforeTest_PriorityOne_Index, "Priority 2 test-level behavior should run BeforeTest() before test-level behaviors of priority <= 1");
+            Assert.IsTrue(_testDefined_BeforeTest_PriorityThree_Index < _testDefined_BeforeTest_PriorityTwo_Index, "Priority 3 test-defined behavior should run BeforeTest() before test-defined behaviors of priority <= 2");
+            Assert.IsTrue(_testDefined_BeforeTest_PriorityTwo_Index < _testDefined_BeforeTest_PriorityOne_Index, "Priority 2 test-defined behavior should run BeforeTest() before test-defined behaviors of priority <= 1");
         }
 
         [Test]
         public void TestLevelBehavior_AfterTest_InCorrectOrder()
         {
-            Assert.IsTrue(_testLevel_AfterTest_PriorityThree_Index > _testLevel_AfterTest_PriorityTwo_Index, "Priority 3 test-level behavior should run AfterTest() after test-level behaviors of priority <= 2");
-            Assert.IsTrue(_testLevel_AfterTest_PriorityTwo_Index > _testLevel_AfterTest_PriorityOne_Index, "Priority 2 test-level behavior should run AfterTest() after test-level behaviors of priority <= 1");
+            Assert.IsTrue(_testDefined_AfterTest_PriorityThree_Index > _testDefined_AfterTest_PriorityTwo_Index, "Priority 3 test-defined behavior should run AfterTest() after test-defined behaviors of priority <= 2");
+            Assert.IsTrue(_testDefined_AfterTest_PriorityTwo_Index > _testDefined_AfterTest_PriorityOne_Index, "Priority 2 test-defined behavior should run AfterTest() after test-defined behaviors of priority <= 1");
         }
 
         #endregion

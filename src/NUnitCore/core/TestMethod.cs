@@ -235,9 +235,21 @@ namespace NUnit.Core
 
             try
             {
-                this.behaviorAttributes = Reflect.GetAttributes(method, NUnitFramework.BehaviorAttribute, true);
+                ArrayList testLevelAttributes = new ArrayList();
 
-                // Temporary... to allow for tests that directly execute a test case
+                Attribute[] allAttributes = Reflect.GetAttributes(method, true);
+                Type testBehaviorInterface = Type.GetType(NUnitFramework.TestBehaviorInterface);
+
+                foreach(Attribute attribute in allAttributes)
+                {
+                    if (testBehaviorInterface.IsAssignableFrom(attribute.GetType()))
+                        testLevelAttributes.Add(attribute);
+                }
+
+                this.behaviorAttributes = new Attribute[testLevelAttributes.Count];
+                testLevelAttributes.CopyTo(this.behaviorAttributes);
+
+                // Temporary... to allow for tests that directly execute a test case);
                 if (Fixture == null && !method.IsStatic)
                     Fixture = Reflect.Construct(this.FixtureType);
 
@@ -371,7 +383,7 @@ namespace NUnit.Core
         private void RunBeforeBehaviors()
         {
             Attribute[][] behaviors = new Attribute[][] {this.suiteBehaviorAttributes, this.behaviorAttributes};
-            BehaviorsHelper.ExecuteBehaviors(behaviors, this.Fixture, /* inNaturalOrder: */ "BeforeTest", false);
+            BehaviorsHelper.ExecuteBehaviors(BehaviorLevel.Test, BehaviorPhase.Before, behaviors, this.Fixture);
         }
 
         private void RunAfterBehaviors(TestResult testResult)
@@ -379,7 +391,7 @@ namespace NUnit.Core
             try
             {
                 Attribute[][] behaviors = new Attribute[][] {this.behaviorAttributes, this.suiteBehaviorAttributes};
-                BehaviorsHelper.ExecuteBehaviors(behaviors, this.Fixture, /* inNaturalOrder: */ "AfterTest", true);
+                BehaviorsHelper.ExecuteBehaviors(BehaviorLevel.Test, BehaviorPhase.After, behaviors, this.Fixture);
             }
             catch(Exception ex)
             {
