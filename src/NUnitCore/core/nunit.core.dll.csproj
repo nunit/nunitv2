@@ -117,7 +117,7 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AssemblyReader.cs" />
     <Compile Include="AssemblyResolver.cs" />
-    <Compile Include="BehaviorsHelper.cs" />
+    <Compile Include="ActionsHelper.cs" />
     <Compile Include="Builders\CombinatorialStrategy.cs" />
     <Compile Include="Builders\CombinatorialTestCaseProvider.cs" />
     <Compile Include="Builders\CombiningStrategy.cs" />

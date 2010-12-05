@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NUnit.Framework
 {
-    public interface ISuiteBehavior : IBehavior
+    public interface ISuiteAction : IAction
     {
         void BeforeSuite(object fixture);
         void AfterSuite(object fixture);

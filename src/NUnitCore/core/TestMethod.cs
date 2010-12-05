@@ -44,14 +44,14 @@ namespace NUnit.Core
 		protected MethodInfo[] tearDownMethods;
 
         /// <summary>
-        /// The behavior attributes
+        /// The actions
         /// </summary>
-	    protected Attribute[] behaviorAttributes;
+	    protected object[] actions;
 
         /// <summary>
-        /// The parent suite's behavior attributes
+        /// The parent suite's actions
         /// </summary>
-	    protected Attribute[] suiteBehaviorAttributes;
+	    protected object[] suiteActions;
 
         /// <summary>
         /// The ExpectedExceptionProcessor for this test, if any
@@ -229,7 +229,7 @@ namespace NUnit.Core
                 {
                     this.setUpMethods = suite.GetSetUpMethods();
                     this.tearDownMethods = suite.GetTearDownMethods();
-                    this.suiteBehaviorAttributes = suite.GetBehaviorAttributes();
+                    this.suiteActions = suite.GetActions();
                 }
             }
 
@@ -238,16 +238,16 @@ namespace NUnit.Core
                 ArrayList testLevelAttributes = new ArrayList();
 
                 Attribute[] allAttributes = Reflect.GetAttributes(method, true);
-                Type testBehaviorInterface = Type.GetType(NUnitFramework.TestBehaviorInterface);
+                Type testActionInterface = Type.GetType(NUnitFramework.TestActionInterface);
 
                 foreach(Attribute attribute in allAttributes)
                 {
-                    if (testBehaviorInterface.IsAssignableFrom(attribute.GetType()))
+                    if (testActionInterface.IsAssignableFrom(attribute.GetType()))
                         testLevelAttributes.Add(attribute);
                 }
 
-                this.behaviorAttributes = new Attribute[testLevelAttributes.Count];
-                testLevelAttributes.CopyTo(this.behaviorAttributes);
+                this.actions = new Attribute[testLevelAttributes.Count];
+                testLevelAttributes.CopyTo(this.actions);
 
                 // Temporary... to allow for tests that directly execute a test case);
                 if (Fixture == null && !method.IsStatic)
@@ -327,7 +327,7 @@ namespace NUnit.Core
 			try
 			{
                 RunSetUp();
-			    RunBeforeBehaviors();
+			    RunBeforeActions();
 
 				RunTestCase( testResult );
 			}
@@ -342,7 +342,7 @@ namespace NUnit.Core
 			}
 			finally 
 			{
-			    RunAfterBehaviors(testResult);
+			    RunAfterActions(testResult);
 				RunTearDown( testResult );
 
 				DateTime stop = DateTime.Now;
@@ -380,18 +380,18 @@ namespace NUnit.Core
 
 		#region Invoke Methods by Reflection, Recording Errors
 
-        private void RunBeforeBehaviors()
+        private void RunBeforeActions()
         {
-            Attribute[][] behaviors = new Attribute[][] {this.suiteBehaviorAttributes, this.behaviorAttributes};
-            BehaviorsHelper.ExecuteBehaviors(BehaviorLevel.Test, BehaviorPhase.Before, behaviors, this.Fixture);
+            object[][] targetActions = new object[][] {this.suiteActions, this.actions};
+            ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.Before, targetActions, this.Fixture);
         }
 
-        private void RunAfterBehaviors(TestResult testResult)
+        private void RunAfterActions(TestResult testResult)
         {
             try
             {
-                Attribute[][] behaviors = new Attribute[][] {this.behaviorAttributes, this.suiteBehaviorAttributes};
-                BehaviorsHelper.ExecuteBehaviors(BehaviorLevel.Test, BehaviorPhase.After, behaviors, this.Fixture);
+                object[][] targetActions = new object[][] {this.actions, this.suiteActions};
+                ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.After, targetActions, this.Fixture);
             }
             catch(Exception ex)
             {

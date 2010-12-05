@@ -141,7 +141,7 @@
     <Compile Include="AttributeDescriptionFixture.cs" />
     <Compile Include="AttributeInheritance.cs" />
     <Compile Include="BasicRunnerTests.cs" />
-    <Compile Include="BehaviorAttributeTests.cs" />
+    <Compile Include="ActionAttributeTests.cs" />
     <Compile Include="CallContextTests.cs" />
     <Compile Include="CategoryAttributeTests.cs" />
     <Compile Include="CombinatorialTests.cs" />

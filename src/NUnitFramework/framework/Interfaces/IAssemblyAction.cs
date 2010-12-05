@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NUnit.Framework
 {
-    public interface IAssemblyBehavior : IBehavior
+    public interface IAssemblyAction : IAction
     {
         void BeforeAllTests();
         void AfterAllTests();

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NUnit.Framework
 {
-    public interface ITestCaseBehavior
+    public interface ITestCaseAction : IAction
     {
         void BeforeTestCase(object fixture);
         void AfterTestCase(object fixture);

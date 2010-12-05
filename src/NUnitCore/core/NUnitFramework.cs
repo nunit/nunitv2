@@ -56,12 +56,12 @@ namespace NUnit.Core
 
         #region Other Framework Types
 
-        public static readonly string BehaviorInterface = "NUnit.Framework.IBehavior, NUnit.Framework";
+        public static readonly string ActionInterface = "NUnit.Framework.IAction, NUnit.Framework";
 
-        public static readonly string AssemblyBehaviorInterface = "NUnit.Framework.IAssemblyBehavior, NUnit.Framework";
-        public static readonly string SuiteBehaviorInterface = "NUnit.Framework.ISuiteBehavior, NUnit.Framework";
-        public static readonly string TestBehaviorInterface = "NUnit.Framework.ITestBehavior, NUnit.Framework";
-        public static readonly string TestCaseBehaviorInterface = "NUnit.Framework.ITestCaseBehavior, NUnit.Framework";
+        public static readonly string AssemblyActionInterface = "NUnit.Framework.IAssemblyAction, NUnit.Framework";
+        public static readonly string SuiteActionInterface = "NUnit.Framework.ISuiteAction, NUnit.Framework";
+        public static readonly string TestActionInterface = "NUnit.Framework.ITestAction, NUnit.Framework";
+        public static readonly string TestCaseActionInterface = "NUnit.Framework.ITestCaseAction, NUnit.Framework";
 
         public static readonly string AssertException = "NUnit.Framework.AssertionException";
         public static readonly string IgnoreException = "NUnit.Framework.IgnoreException";

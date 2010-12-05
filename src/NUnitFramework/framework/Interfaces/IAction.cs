@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NUnit.Framework
 {
-    public interface IBehavior
+    public interface IAction
     {
         int Priority { get; }
     }

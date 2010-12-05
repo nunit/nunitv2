@@ -49,9 +49,9 @@ namespace NUnit.Core
         protected MethodInfo[] tearDownMethods;
 
         /// <summary>
-        /// The behavior attributes for this suite
+        /// The actions for this suite
         /// </summary>
-	    protected Attribute[] behaviorAttributes;
+	    protected object[] actions;
 
         /// <summary>
         /// Set to true to suppress sorting this suite's contents
@@ -193,9 +193,9 @@ namespace NUnit.Core
             return tearDownMethods;
         }
 
-        public Attribute[] GetBehaviorAttributes()
+        public object[] GetActions()
         {
-            return this.behaviorAttributes;
+            return this.actions;
         }
         #endregion
 
@@ -279,7 +279,7 @@ namespace NUnit.Core
 			TestResult suiteResult = new TestResult(this);
 			
             DoOneTimeSetUp(suiteResult);
-            DoOneTimeBeforeTestFixtureBehaviors(suiteResult);
+            DoOneTimeBeforeTestSuiteActions(suiteResult);
 
             if (this.Properties["_SETCULTURE"] != null)
                 TestExecutionContext.CurrentContext.CurrentCulture =
@@ -305,7 +305,7 @@ namespace NUnit.Core
                     }
                     finally
                     {
-                        DoOneTimeAfterTestFixtureBehaviors(suiteResult);
+                        DoOneTimeAfterTestSuiteActions(suiteResult);
                         DoOneTimeTearDown(suiteResult);
                     }
                     break;
@@ -354,14 +354,14 @@ namespace NUnit.Core
             }
         }
 
-        protected virtual void DoOneTimeBeforeTestFixtureBehaviors(TestResult suiteResult)
+        protected virtual void DoOneTimeBeforeTestSuiteActions(TestResult suiteResult)
         {
             if (FixtureType != null)
             {
                 try
                 {
-                    if (this.behaviorAttributes != null)
-                        BehaviorsHelper.ExecuteBehaviors(BehaviorLevel.Suite, BehaviorPhase.Before, this.behaviorAttributes, this.fixture);
+                    if (this.actions != null)
+                        ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.Before, this.actions, this.fixture);
 
                     TestExecutionContext.CurrentContext.Update();
                 }
@@ -432,14 +432,14 @@ namespace NUnit.Core
             }
         }
 
-        protected virtual void DoOneTimeAfterTestFixtureBehaviors(TestResult suiteResult)
+        protected virtual void DoOneTimeAfterTestSuiteActions(TestResult suiteResult)
         {
             if (this.FixtureType != null)
             {
                 try
                 {
-                    if (this.behaviorAttributes != null)
-                        BehaviorsHelper.ExecuteBehaviors(BehaviorLevel.Suite, BehaviorPhase.After, this.behaviorAttributes, this.fixture);
+                    if (this.actions != null)
+                        ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.After, this.actions, this.fixture);
                 }
                 catch (Exception ex)
                 {
