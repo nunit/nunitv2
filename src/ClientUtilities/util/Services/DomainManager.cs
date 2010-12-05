@@ -169,13 +169,23 @@ namespace NUnit.Util
 
             public void Unload()
             {
-                log.Info("Unloading AppDomain " + domain.FriendlyName);
+                string domainName;
+                try
+                {
+                    domainName = domain.FriendlyName;
+                }
+                catch (AppDomainUnloadedException)
+                {
+                    return;
+                }
+
+                log.Info("Unloading AppDomain " + domainName);
 
                 thread = new Thread(new ThreadStart(UnloadOnThread));
                 thread.Start();
                 if (!thread.Join(30000))
                 {
-                    log.Error("Unable to unload AppDomain {0}, Unload thread timed out", domain.FriendlyName);
+                    log.Error("Unable to unload AppDomain {0}, Unload thread timed out", domainName);
                     thread.Abort();
                 }
             }
