@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text;
 using NUnit.Framework;
-using NUnit.TestData;
+using NUnit.TestData.ActionAttributeTests;
 using NUnit.TestUtilities;
 
 namespace NUnit.Core.Tests
@@ -10,9 +11,20 @@ namespace NUnit.Core.Tests
     [TestFixture]
     public class ActionAttributeTests
     {
+        private class ActionAttributeFixtureFilter : TestFilter
+        {
+            public override bool Match(ITest test)
+            {
+                return test.TestName.FullName.StartsWith(typeof(ActionAttributeFixture).FullName);
+            }
+        }
+
         private TestResult _result = null;
 
-        #region  BeforeSuite() & AfterSuite() indicies
+        #region Define BeforeSuite() & AfterSuite() indicies
+
+        private int _setupFixtureDefined_BeforeSuite_PriorityFourIndex = -1;
+        private int _setupFixtureDefined_AfterSuite_PriorityFourIndex = -1;
 
         private int _fixtureDefined_BeforeSuite_PriorityOne_Index = -1;
         private int _fixtureDefined_BeforeSuite_PriorityTwo_Index = -1;
@@ -27,7 +39,10 @@ namespace NUnit.Core.Tests
 
         #endregion
 
-        #region BeforeTest() & AfterTest() indicies
+        #region Define BeforeTest() & AfterTest() indicies
+
+        private int _setupFixtureDefined_BeforeTest_PriorityFourIndex = -1;
+        private int _setupFixtureDefined_AfterTest_PriorityFourIndex = -1;
 
         private int _fixtureDefined_BeforeTest_PriorityOne_Index = -1;
         private int _fixtureDefined_BeforeTest_PriorityTwo_Index = -1;
@@ -50,12 +65,22 @@ namespace NUnit.Core.Tests
 
         #endregion
 
-        [SetUp]
+        [TestFixtureSetUp]
         public void Setup()
         {
-            _result = TestBuilder.RunTestFixture(typeof(ActionAttributeFixture));
+            ActionAttributeFixture.Results = new StringCollection();
 
-            #region  BeforeSuite() & AfterSuite() indicies
+            TestSuiteBuilder builder = new TestSuiteBuilder();
+            TestPackage package = new TestPackage(AssemblyHelper.GetAssemblyPath(typeof(ActionAttributeFixture)));
+            package.TestName = typeof(ActionAttributeFixture).Namespace;
+
+            Test suite = builder.Build(package);
+            _result = suite.Run(new NullListener(), new ActionAttributeFixtureFilter());
+
+            #region Update BeforeSuite() & AfterSuite() indicies
+
+            _setupFixtureDefined_BeforeSuite_PriorityFourIndex = ActionAttributeFixture.Results.IndexOf("SetUpFixture.BeforeSuite-4");
+            _setupFixtureDefined_AfterSuite_PriorityFourIndex = ActionAttributeFixture.Results.IndexOf("SetUpFixture.AfterSuite-4");
 
             _fixtureDefined_BeforeSuite_PriorityOne_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeSuite-1");
             _fixtureDefined_BeforeSuite_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeSuite-2");
@@ -70,7 +95,10 @@ namespace NUnit.Core.Tests
 
             #endregion
 
-            #region update BeforeTest() & AfterTest() indicies
+            #region Update BeforeTest() & AfterTest() indicies
+
+            _setupFixtureDefined_BeforeTest_PriorityFourIndex = ActionAttributeFixture.Results.IndexOf("SetUpFixture.BeforeTest-4");
+            _setupFixtureDefined_AfterTest_PriorityFourIndex = ActionAttributeFixture.Results.IndexOf("SetUpFixture.AfterTest-4");
 
             _fixtureDefined_BeforeTest_PriorityOne_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeTest-1");
             _fixtureDefined_BeforeTest_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeTest-2");
@@ -99,6 +127,25 @@ namespace NUnit.Core.Tests
         {
             Assert.IsTrue(_result.IsSuccess);
             Assert.Contains("SomeTest", ActionAttributeFixture.Results);
+        }
+
+        [Test]
+        public void SetUpFixtureDefinedAction_WrapsEntireSuite()
+        {
+            Assert.IsTrue(_setupFixtureDefined_BeforeSuite_PriorityFourIndex == 0, "Highest priority setup-fixture-defined action should run first.");
+            Assert.IsTrue(_setupFixtureDefined_AfterSuite_PriorityFourIndex == ActionAttributeFixture.Results.Count - 1, "Highest priority setup-fixture-defined action should run AfterSuite() last.");
+        }
+
+        [Test]
+        public void SetUpFixtureDefinedAction_BeforeTest_InCorrectOrder()
+        {
+            Assert.IsTrue(_setupFixtureDefined_BeforeTest_PriorityFourIndex < _fixtureDefined_BeforeTest_PriorityThree_Index);
+        }
+
+        [Test]
+        public void SetUpFixtureDefinedAction_AfterTest_InCorrectOrder()
+        {
+            Assert.IsTrue(_setupFixtureDefined_AfterTest_PriorityFourIndex > _fixtureDefined_AfterTest_PriorityThree_Index);
         }
 
         #region Tests for BeforeSuite() and AfterSuite invocation ordering

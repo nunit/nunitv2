@@ -58,7 +58,6 @@ namespace NUnit.Core
 
         public static readonly string ActionInterface = "NUnit.Framework.IAction, NUnit.Framework";
 
-        public static readonly string AssemblyActionInterface = "NUnit.Framework.IAssemblyAction, NUnit.Framework";
         public static readonly string SuiteActionInterface = "NUnit.Framework.ISuiteAction, NUnit.Framework";
         public static readonly string TestActionInterface = "NUnit.Framework.ITestAction, NUnit.Framework";
         public static readonly string TestCaseActionInterface = "NUnit.Framework.ITestCaseAction, NUnit.Framework";

@@ -20,7 +20,6 @@ namespace NUnit.Core
 
             _ActionTypes = new Hashtable();
 
-            _ActionTypes.Add(ActionLevel.Assembly, Type.GetType(NUnitFramework.AssemblyActionInterface));
             _ActionTypes.Add(ActionLevel.Suite, Type.GetType(NUnitFramework.SuiteActionInterface));
             _ActionTypes.Add(ActionLevel.Test, Type.GetType(NUnitFramework.TestActionInterface));
             _ActionTypes.Add(ActionLevel.TestCase, Type.GetType(NUnitFramework.TestCaseActionInterface));
@@ -102,9 +101,6 @@ namespace NUnit.Core
         {
             if (phase == ActionPhase.Before)
             {
-                if (level == ActionLevel.Assembly)
-                    return Reflect.GetNamedMethod(actionType, "BeforeAllTests");
-
                 if (level == ActionLevel.Suite)
                     return Reflect.GetNamedMethod(actionType, "BeforeSuite");
 
@@ -113,9 +109,6 @@ namespace NUnit.Core
 
                 return Reflect.GetNamedMethod(actionType, "BeforeTestCase");
             }
-
-            if (level == ActionLevel.Assembly)
-                return Reflect.GetNamedMethod(actionType, "AfterAllTests");
 
             if (level == ActionLevel.Suite)
                 return Reflect.GetNamedMethod(actionType, "AfterSuite");
@@ -147,7 +140,6 @@ namespace NUnit.Core
 
     internal enum ActionLevel
     {
-        Assembly,
         Suite,
         Test,
         TestCase

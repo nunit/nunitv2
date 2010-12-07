@@ -195,7 +195,20 @@ namespace NUnit.Core
 
         public object[] GetActions()
         {
-            return this.actions;
+            ArrayList allActions = new ArrayList();
+
+            if (this.Parent != null && this.Parent is TestSuite)
+            {
+                object[] parentActions = ((TestSuite) this.Parent).GetActions();
+
+                if(parentActions != null)
+                    allActions.AddRange(parentActions);
+            }
+
+            if(this.actions != null)
+                allActions.AddRange(this.actions);
+
+            return allActions.ToArray();
         }
         #endregion
 

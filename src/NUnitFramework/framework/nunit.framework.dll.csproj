@@ -155,7 +155,6 @@
     <Compile Include="FileAssert.cs" />
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="Has.cs" />
-    <Compile Include="Interfaces\IAssemblyAction.cs" />
     <Compile Include="Interfaces\IAction.cs" />
     <Compile Include="IExpectException.cs" />
     <Compile Include="Is.cs" />
