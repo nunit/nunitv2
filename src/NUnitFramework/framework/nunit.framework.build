@@ -76,10 +76,8 @@
         <include name="Exceptions/InconclusiveException.cs"/>
         <include name="Exceptions/SuccessException.cs"/>
         <include name="Interfaces/IAction.cs" />
-        <include name="Interfaces/IAssemblyAction.cs" />
         <include name="Interfaces/ISuiteAction.cs" />
         <include name="Interfaces/ITestAction.cs" />
-        <include name="Interfaces/ITestCaseAction.cs" />
         <include name="AssemblyInfo.cs"/>
         <include name="Assert.cs"/>
         <include name="AssertionHelper.cs"/>

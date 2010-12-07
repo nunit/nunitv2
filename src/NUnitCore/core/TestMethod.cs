@@ -229,25 +229,13 @@ namespace NUnit.Core
                 {
                     this.setUpMethods = suite.GetSetUpMethods();
                     this.tearDownMethods = suite.GetTearDownMethods();
-                    this.suiteActions = suite.GetActions();
+                    this.suiteActions = suite.GetTestActions();
                 }
             }
 
             try
             {
-                ArrayList testLevelAttributes = new ArrayList();
-
-                Attribute[] allAttributes = Reflect.GetAttributes(method, true);
-                Type testActionInterface = Type.GetType(NUnitFramework.TestActionInterface);
-
-                foreach(Attribute attribute in allAttributes)
-                {
-                    if (testActionInterface.IsAssignableFrom(attribute.GetType()))
-                        testLevelAttributes.Add(attribute);
-                }
-
-                this.actions = new Attribute[testLevelAttributes.Count];
-                testLevelAttributes.CopyTo(this.actions);
+                this.actions = ActionsHelper.GetActionsFromAttributes(method);
 
                 // Temporary... to allow for tests that directly execute a test case);
                 if (Fixture == null && !method.IsStatic)

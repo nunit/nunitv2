@@ -160,7 +160,6 @@
     <Compile Include="Is.cs" />
     <Compile Include="Interfaces\ITestAction.cs" />
     <Compile Include="ITestCaseData.cs" />
-    <Compile Include="Interfaces\ITestCaseAction.cs" />
     <Compile Include="Interfaces\ISuiteAction.cs" />
     <Compile Include="Iz.cs" />
     <Compile Include="List.cs" />

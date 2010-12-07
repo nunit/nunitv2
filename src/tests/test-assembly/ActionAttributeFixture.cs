@@ -25,13 +25,14 @@ namespace NUnit.TestData.ActionAttributeTests
 
         StringCollection IWithAction.Results { get { return Results; } }
 
+        [MethodSuiteAction(0, "MethodSuite")]
         [TestAction(/* priority: */ 2, "Test")]
         [TestAction(/* priority: */ 1, "Test")]
         [TestAction(/* priority: */ 3, "Test")]
-        [Test]
-        public void SomeTest()
+        [Test, TestCase("SomeTest-Case1"), TestCase("SomeTest-Case2")]
+        public void SomeTest(string message)
         {
-            ((IWithAction)this).Results.Add("SomeTest");
+            ((IWithAction)this).Results.Add(message);
         }
 
         [Test]
@@ -116,6 +117,34 @@ namespace NUnit.TestData.ActionAttributeTests
         void ITestAction.AfterTest(object fixture)
         {
             ((IWithAction)fixture).Results.Add(_Prefix + ".AfterTest-" + _Priority);
+        }
+
+        int IAction.Priority
+        {
+            get { return _Priority; }
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    public class MethodSuiteActionAttribute : Attribute, ISuiteAction
+    {
+        private int _Priority = 0;
+        private string _Prefix = null;
+
+        public MethodSuiteActionAttribute(int priority, string prefix)
+        {
+            _Priority = priority;
+            _Prefix = prefix;
+        }
+
+        void ISuiteAction.BeforeSuite(object fixture)
+        {
+            ((IWithAction)fixture).Results.Add(_Prefix + ".BeforeSuite-" + _Priority);
+        }
+
+        void ISuiteAction.AfterSuite(object fixture)
+        {
+            ((IWithAction)fixture).Results.Add(_Prefix + ".AfterSuite-" + _Priority);
         }
 
         int IAction.Priority

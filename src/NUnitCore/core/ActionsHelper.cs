@@ -22,7 +22,6 @@ namespace NUnit.Core
 
             _ActionTypes.Add(ActionLevel.Suite, Type.GetType(NUnitFramework.SuiteActionInterface));
             _ActionTypes.Add(ActionLevel.Test, Type.GetType(NUnitFramework.TestActionInterface));
-            _ActionTypes.Add(ActionLevel.TestCase, Type.GetType(NUnitFramework.TestCaseActionInterface));
         }
 
         public static object[] GetActionsFromAttributes(ICustomAttributeProvider attributeProvider)
@@ -77,11 +76,11 @@ namespace NUnit.Core
                         if(nestedItem == null)
                             continue;
 
-                        if (actionType.IsAssignableFrom(nestedItem.GetType()))
+                        if (actionType.IsAssignableFrom(nestedItem.GetType()) && filteredActions.Contains(nestedItem) != true)
                             filteredActions.Add(nestedItem);
                     }
                 }
-                else if(actionType.IsAssignableFrom(actionItem.GetType()))
+                else if(actionType.IsAssignableFrom(actionItem.GetType()) && filteredActions.Contains(actionItem) != true)
                     filteredActions.Add(actionItem);
             }
 
@@ -104,19 +103,13 @@ namespace NUnit.Core
                 if (level == ActionLevel.Suite)
                     return Reflect.GetNamedMethod(actionType, "BeforeSuite");
 
-                if (level == ActionLevel.Test)
-                    return Reflect.GetNamedMethod(actionType, "BeforeTest");
-
-                return Reflect.GetNamedMethod(actionType, "BeforeTestCase");
+                return Reflect.GetNamedMethod(actionType, "BeforeTest");
             }
 
             if (level == ActionLevel.Suite)
                 return Reflect.GetNamedMethod(actionType, "AfterSuite");
 
-            if (level == ActionLevel.Test)
-                return Reflect.GetNamedMethod(actionType, "AfterTest");
-
-            return Reflect.GetNamedMethod(actionType, "AfterTestCase");
+            return Reflect.GetNamedMethod(actionType, "AfterTest");
         }
 
         private static void SortActions(object[] actions, bool inReversePriority)
@@ -141,8 +134,7 @@ namespace NUnit.Core
     internal enum ActionLevel
     {
         Suite,
-        Test,
-        TestCase
+        Test
     }
 
     internal enum ActionPhase

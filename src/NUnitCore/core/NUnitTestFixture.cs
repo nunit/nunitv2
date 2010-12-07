@@ -30,8 +30,6 @@ namespace NUnit.Core
             this.tearDownMethods = 
                 Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
 
-            this.actions = ActionsHelper.GetActionsFromAttributes(fixtureType);
-
             ArrayList collectedActions = new ArrayList();
 
             collectedActions.AddRange(ActionsHelper.GetActionsFromAttributes(fixtureType));

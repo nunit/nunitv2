@@ -3,6 +3,7 @@
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org.
 // ****************************************************************
+using System.Collections;
 using System.Reflection;
 using System.Text;
 
@@ -15,6 +16,7 @@ namespace NUnit.Core
     public class ParameterizedMethodSuite : TestSuite
     {
         private bool isTheory;
+        private MethodInfo method;
 
         /// <summary>
         /// Construct from a MethodInfo
@@ -25,6 +27,7 @@ namespace NUnit.Core
         {
             this.maintainTestOrder = true;
             this.isTheory = Reflect.HasAttribute(method, NUnitFramework.TheoryAttribute, true);
+            this.method = method;
         }
 
         /// <summary>
@@ -57,9 +60,10 @@ namespace NUnit.Core
                 {
                     this.setUpMethods = suite.GetSetUpMethods();
                     this.tearDownMethods = suite.GetTearDownMethods();
-                    this.actions = suite.GetActions();
                 }
             }
+
+            this.actions = ActionsHelper.GetActionsFromAttributes(this.method);
 
             // DYNAMIC: Get the parameters, and add the methods here.
             

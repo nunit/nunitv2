@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Text;
@@ -125,15 +126,19 @@ namespace NUnit.Core.Tests
         [Test]
         public void TestRunsSuccessfully()
         {
-            Assert.IsTrue(_result.IsSuccess);
-            Assert.Contains("SomeTest", ActionAttributeFixture.Results);
+            Assert.IsTrue(_result.IsSuccess, "Test run was not successful.");
+            Assert.Contains("SomeTest-Case1", ActionAttributeFixture.Results, "Test Case 1 was not run.");
+            Assert.Contains("SomeTest-Case2", ActionAttributeFixture.Results, "Test Case 2 was not run.");
+
+            foreach(string message in ActionAttributeFixture.Results)
+                Console.WriteLine(message);
         }
 
         [Test]
         public void SetUpFixtureDefinedAction_WrapsEntireSuite()
         {
             Assert.IsTrue(_setupFixtureDefined_BeforeSuite_PriorityFourIndex == 0, "Highest priority setup-fixture-defined action should run first.");
-            Assert.IsTrue(_setupFixtureDefined_AfterSuite_PriorityFourIndex == ActionAttributeFixture.Results.Count - 1, "Highest priority setup-fixture-defined action should run AfterSuite() last.");
+            Assert.IsTrue(_setupFixtureDefined_AfterSuite_PriorityFourIndex == (ActionAttributeFixture.Results.Count - 1), "Highest priority setup-fixture-defined action should run AfterSuite() last.");
         }
 
         [Test]
@@ -146,6 +151,26 @@ namespace NUnit.Core.Tests
         public void SetUpFixtureDefinedAction_AfterTest_InCorrectOrder()
         {
             Assert.IsTrue(_setupFixtureDefined_AfterTest_PriorityFourIndex > _fixtureDefined_AfterTest_PriorityThree_Index);
+        }
+
+        [Test]
+        public void MethodDefinedAction_BeforeSuite_ExcutedOnlyOnce()
+        {
+            ArrayList messages = new ArrayList();
+            messages.AddRange(ActionAttributeFixture.Results);
+
+            int firstIndex = messages.IndexOf("MethodSuite-BeforeSuite1");
+            Assert.AreEqual(-1, messages.IndexOf("MethodSuite-BeforeSuite1", firstIndex + 1));
+        }
+
+        [Test]
+        public void MethodDefinedAction_AfterSuite_ExcutedOnlyOnce()
+        {
+            ArrayList messages = new ArrayList();
+            messages.AddRange(ActionAttributeFixture.Results);
+
+            int firstIndex = messages.IndexOf("MethodSuite-AfterSuite1");
+            Assert.AreEqual(-1, messages.IndexOf("MethodSuite-AfterSuite1", firstIndex + 1));
         }
 
         #region Tests for BeforeSuite() and AfterSuite invocation ordering
