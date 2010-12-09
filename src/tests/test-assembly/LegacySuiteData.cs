@@ -52,7 +52,7 @@ namespace NUnit.TestData.LegacySuiteData
         [TestFixture]
         public class TestClass
         {
-            int num;
+            public int num;
 
             public TestClass(int num)
             {

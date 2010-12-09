@@ -21,19 +21,19 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<throws <typeof System.ArgumentException>>";
         }
 
-        static object[] SuccessData = new object[]
+        internal static object[] SuccessData = new object[]
         {
             new TestDelegate( TestDelegates.ThrowsArgumentException )
         };
 
-        static object[] FailureData = new object[]
+        internal static object[] FailureData = new object[]
         {
             new TestDelegate( TestDelegates.ThrowsApplicationException ),
             new TestDelegate( TestDelegates.ThrowsNothing ),
             new TestDelegate( TestDelegates.ThrowsSystemException )
         };
 
-        static string[] ActualValues = new string[]
+        internal static string[] ActualValues = new string[]
         {
             "<System.ApplicationException>",
             "no exception thrown",
@@ -53,20 +53,20 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<throws <instanceof System.ApplicationException>>";
         }
 
-        static object[] SuccessData = new object[]
+        internal static object[] SuccessData = new object[]
         {
             new TestDelegate( TestDelegates.ThrowsApplicationException ),
             new TestDelegate( TestDelegates.ThrowsDerivedApplicationException )
         };
 
-        static object[] FailureData = new object[]
+        internal static object[] FailureData = new object[]
         {
             new TestDelegate( TestDelegates.ThrowsArgumentException ),
             new TestDelegate( TestDelegates.ThrowsNothing ),
             new TestDelegate( TestDelegates.ThrowsSystemException )
         };
 
-        static string[] ActualValues = new string[]
+        internal static string[] ActualValues = new string[]
         {
             "<System.ArgumentException>",
             "no exception thrown",
@@ -87,19 +87,19 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = @"<throws <and <typeof System.ArgumentException> <property ParamName <equal ""myParam"">>>>";
         }
 
-        static object[] SuccessData = new object[]
+        internal static object[] SuccessData = new object[]
         {
             new TestDelegate( TestDelegates.ThrowsArgumentException )
         };
 
-        static object[] FailureData = new object[]
+        internal static object[] FailureData = new object[]
         {
             new TestDelegate( TestDelegates.ThrowsApplicationException ),
             new TestDelegate( TestDelegates.ThrowsNothing ),
             new TestDelegate( TestDelegates.ThrowsSystemException )
         };
 
-        static string[] ActualValues = new string[]
+        internal static string[] ActualValues = new string[]
         {
             "<System.ApplicationException>",
             "no exception thrown",

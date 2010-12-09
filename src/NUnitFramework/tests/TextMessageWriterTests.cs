@@ -117,7 +117,7 @@ namespace NUnit.Framework.Tests
             string exp = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXY...";
 
             writer.DisplayStringDifferences(s72, "abcde", 5, false, true);
-            string message = writer.ToString();
+//            string message = writer.ToString();
             Expect(writer.ToString(), EqualTo(
                 TextMessageWriter.Pfx_Expected + Q(exp) + Environment.NewLine +
                 TextMessageWriter.Pfx_Actual + Q("abcde") + Environment.NewLine +
@@ -130,7 +130,7 @@ namespace NUnit.Framework.Tests
             string s72 = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
             writer.DisplayStringDifferences(s72, "abcde", 5, false, false);
-            string message = writer.ToString();
+//            string message = writer.ToString();
             Expect(writer.ToString(), EqualTo(
                 TextMessageWriter.Pfx_Expected + Q(s72) + Environment.NewLine +
                 TextMessageWriter.Pfx_Actual + Q("abcde") + Environment.NewLine +

@@ -85,7 +85,7 @@ namespace NUnit.UiException.Tests.Controls
             DynamicMock mockSourceDisplay = MockHelper.NewMockIErrorRenderer("browser", 2);
 
             ToolStripButton tracePlugin = new ToolStripButton();
-            ToolStripItem[] traceOptions = new ToolStripItem[] { };
+//            ToolStripItem[] traceOptions = new ToolStripItem[] { };
             Control traceContent = new TextBox();
             
             mockTraceDisplay.SetReturnValue("Text", "Displays the actual stack trace");

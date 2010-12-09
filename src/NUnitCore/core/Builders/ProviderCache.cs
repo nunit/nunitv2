@@ -16,16 +16,11 @@ namespace NUnit.Core.Builders
 
         public static object GetInstanceOf(Type providerType)
         {
-            return GetInstanceOf(providerType, null);
-        }
-
-        public static object GetInstanceOf(Type providerType, object[] providerArgs)
-        {
-            CacheEntry entry = new CacheEntry(providerType, providerArgs);
+            CacheEntry entry = new CacheEntry(providerType);
 
             object instance = instances[entry];
             return instance == null
-                ? instances[entry] = Reflect.Construct(providerType, providerArgs)
+                ? instances[entry] = Reflect.Construct(providerType)
                 : instance;
         }
 
@@ -44,12 +39,10 @@ namespace NUnit.Core.Builders
         class CacheEntry
         {
             private Type providerType;
-            private object[] providerArgs;
 
-            public CacheEntry(Type providerType, object[] providerArgs)
+            public CacheEntry(Type providerType)
             {
                 this.providerType = providerType;
-                this.providerArgs = providerArgs;
             }
 
             public override bool Equals(object obj)

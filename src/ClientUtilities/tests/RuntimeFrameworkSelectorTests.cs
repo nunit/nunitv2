@@ -10,7 +10,7 @@ namespace NUnit.Util.Tests
         TestPackage package = new TestPackage("/dummy.dll");
 
         [Datapoints]
-        RuntimeFramework[] frameworks = new RuntimeFramework[] { 
+        internal RuntimeFramework[] frameworks = new RuntimeFramework[] { 
             RuntimeFramework.Parse("net-1.0"), 
             RuntimeFramework.Parse("net-1.1"), 
             RuntimeFramework.Parse("net-2.0"),

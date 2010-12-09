@@ -138,7 +138,6 @@ namespace NUnit.Util
 				switch ( extension )
 				{
 					case ".vcproj":
-						XmlNode topNode = doc.SelectSingleNode( "/VisualStudioProject" );
 
 						// TODO: This is all very hacked up... replace it.
 						foreach ( XmlNode configNode in doc.SelectNodes( "/VisualStudioProject/Configurations/Configuration" ) )

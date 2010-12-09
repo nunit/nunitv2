@@ -70,7 +70,7 @@ namespace NUnit.TestData.FailFixture
 
 		private class CustomException : Exception
 		{
-			private CustomType custom;
+			public CustomType custom;
 
 			public CustomException( string msg, CustomType custom ) : base( msg )
 			{

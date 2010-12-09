@@ -25,14 +25,14 @@ namespace NUnit.Framework.Constraints
             //SetValueTrueAfterDelay(300);
 		}
 
-        object[] SuccessData = new object[] { true };
-        object[] FailureData = new object[] { false, 0, null };
-		string[] ActualValues = new string[] { "False", "0", "null" };
+        internal object[] SuccessData = new object[] { true };
+        internal object[] FailureData = new object[] { false, 0, null };
+		internal string[] ActualValues = new string[] { "False", "0", "null" };
 
-		object[] InvalidData = new object[] { InvalidDelegate };
+		internal object[] InvalidData = new object[] { InvalidDelegate };
 
-        ActualValueDelegate[] SuccessDelegates = new ActualValueDelegate[] { DelegateReturningValue };
-        ActualValueDelegate[] FailureDelegates = new ActualValueDelegate[] { DelegateReturningFalse, DelegateReturningZero };
+        internal ActualValueDelegate[] SuccessDelegates = new ActualValueDelegate[] { DelegateReturningValue };
+        internal ActualValueDelegate[] FailureDelegates = new ActualValueDelegate[] { DelegateReturningFalse, DelegateReturningZero };
 
         [Test, TestCaseSource("SuccessDelegates")]
         public void SucceedsWithGoodDelegates(ActualValueDelegate del)

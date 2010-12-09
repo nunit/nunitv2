@@ -28,12 +28,9 @@ namespace NUnit.Util
 		static Logger log = InternalTrace.GetLogger(typeof(RemoteTestAgent));
 
 		#region Fields
-		/// <summary>
-		/// Lock used to avoid thread contention
-		/// </summary>
-		private object theLock = new object();
 
         private ManualResetEvent stopSignal = new ManualResetEvent(false);
+		
 		#endregion
 
 		#region Constructor

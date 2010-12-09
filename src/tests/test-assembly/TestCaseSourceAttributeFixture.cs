@@ -35,7 +35,7 @@ namespace NUnit.TestData
             Assert.Ignore("Ignore this");
         }
 
-        private static object[] source = new object[] {
+        internal static object[] source = new object[] {
             new TestCaseData( 2, 3, 4 ).Throws(typeof(ArgumentNullException)) };
 
         [TestCaseSource("exception_source")]

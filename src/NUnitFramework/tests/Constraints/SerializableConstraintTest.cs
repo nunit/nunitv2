@@ -23,13 +23,13 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<binaryserializable>";
         }
 
-        object[] SuccessData = new object[] { 1, "a", new ArrayList(), new InternalWithSerializableAttributeClass() };
+        internal object[] SuccessData = new object[] { 1, "a", new ArrayList(), new InternalWithSerializableAttributeClass() };
         
-        object[] FailureData = new object[] { new InternalClass() };
+        internal object[] FailureData = new object[] { new InternalClass() };
 
-        string[] ActualValues = new string[] { "<InternalClass>" }; 
+        internal string[] ActualValues = new string[] { "<InternalClass>" }; 
 
-        object[] InvalidData = new object[] { null };
+        internal object[] InvalidData = new object[] { null };
     }
 
     [TestFixture]
@@ -43,18 +43,18 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<xmlserializable>";
         }
 
-        object[] SuccessData = new object[] { 1, "a", new ArrayList() };
+        internal object[] SuccessData = new object[] { 1, "a", new ArrayList() };
 
 #if NET_2_0
-		object[] FailureData = new object[] { new Dictionary<string, string>(), new InternalClass(), new InternalWithSerializableAttributeClass() };
-        string[] ActualValues = new string[] { "<Dictionary`2>", "<InternalClass>", "<InternalWithSerializableAttributeClass>" };
+		internal object[] FailureData = new object[] { new Dictionary<string, string>(), new InternalClass(), new InternalWithSerializableAttributeClass() };
+        internal string[] ActualValues = new string[] { "<Dictionary`2>", "<InternalClass>", "<InternalWithSerializableAttributeClass>" };
 #else
-		object[] FailureData = new object[] { new InternalClass(), new InternalWithSerializableAttributeClass() };
-		string[] ActualValues = new string[] { "<InternalClass>", "<InternalWithSerializableAttributeClass>" };
+		internal object[] FailureData = new object[] { new InternalClass(), new InternalWithSerializableAttributeClass() };
+		internal string[] ActualValues = new string[] { "<InternalClass>", "<InternalWithSerializableAttributeClass>" };
 #endif
 
 
-        object[] InvalidData = new object[] { null };
+        internal object[] InvalidData = new object[] { null };
     }
 
     internal class InternalClass

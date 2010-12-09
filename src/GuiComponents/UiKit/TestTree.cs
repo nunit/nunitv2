@@ -333,7 +333,6 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(TestTree));
 			this.tabs = new System.Windows.Forms.TabControl();
 			this.testPage = new System.Windows.Forms.TabPage();
 			this.testPanel = new System.Windows.Forms.Panel();

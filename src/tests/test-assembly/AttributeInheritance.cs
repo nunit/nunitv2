@@ -13,7 +13,7 @@ namespace NUnit.TestData
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple=false)]
 	class ConcernAttribute : TestFixtureAttribute
 	{
-		private Type typeOfConcern;
+		public Type typeOfConcern;
 
 		public ConcernAttribute( Type typeOfConcern )
 		{
