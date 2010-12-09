@@ -8,6 +8,7 @@
     <include name="ConsoleRunnerTest.cs"/>
     <include name="CultureAttributeTests.cs"/>
     <include name="DatapointFixture.cs"/>
+    <include name="DirectoryChangeFixture.cs"/>
     <include name="ExpectExceptionTest.cs"/>
     <include name="FailFixtureTests.cs"/>
     <include name="FixtureSetUpTearDownTests.cs"/>

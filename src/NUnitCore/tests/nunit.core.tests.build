@@ -22,6 +22,7 @@
         <include name="CoreExtensionsTests.cs"/>
         <include name="CultureSettingAndDetectionTests.cs"/>
         <include name="DatapointTests.cs"/>
+        <include name="DirectoryChangeTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>
         <include name="EventQueueTests.cs"/>
         <include name="EventTestFixture.cs"/>
