@@ -66,7 +66,7 @@ namespace NUnit.Framework.Tests
     /// <summary>
 	/// Summary description for DirectoryAssertTests.
 	/// </summary>
-	[TestFixture]
+	[TestFixture, Obsolete("DirectoryAssert is obsolete")]
     public class DirectoryAssertTests : MessageChecker
     {
         #region AreEqual

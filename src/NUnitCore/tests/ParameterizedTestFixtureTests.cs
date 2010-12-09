@@ -123,7 +123,6 @@ namespace NUnit.Core.Tests
     public class ParameterizedTestFixtureNamingTests
     {
         Test fixture;
-        Test[] instances;
 
         [SetUp]
         public void MakeFixture()
@@ -181,8 +180,5 @@ namespace NUnit.Core.Tests
             Assert.That(testcase.TestName.Name, Is.EqualTo("MethodWithParams(10,20)"));
             Assert.That(testcase.TestName.FullName, Is.EqualTo(instance.TestName.FullName + ".MethodWithParams(10,20)"));
         }
-
-        //[Test]
-        //public void M
     }
 }

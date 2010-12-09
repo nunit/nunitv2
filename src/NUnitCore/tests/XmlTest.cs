@@ -56,8 +56,7 @@ namespace NUnit.Core.Tests
 				try
 				{
 					// Set the validation event handler
-					myXmlValidatingReader.ValidationEventHandler += new ValidationEventHandler (this.ValidationEventHandle);file:///home/charlie/Dev/NUnit/nunit-2.5/work/src/bin/Debug/tests/temp2a7bb23b-48b1-4f3f-a4ed-3990d0635421.xml
-
+					myXmlValidatingReader.ValidationEventHandler += new ValidationEventHandler (this.ValidationEventHandle);
 
 					// Read XML data
 					while (myXmlValidatingReader.Read()){}

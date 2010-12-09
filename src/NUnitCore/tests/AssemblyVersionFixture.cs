@@ -17,8 +17,6 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class AssemblyVersionFixture
 	{
-		private static readonly string mockAssemblyName = "mock-test-assembly.dll";
-		
 		[Test]
         // TODO: Figure out what we're testing here! Was there a bug?
 		public void Version()

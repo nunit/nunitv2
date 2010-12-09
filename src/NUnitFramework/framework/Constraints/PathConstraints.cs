@@ -77,6 +77,9 @@ namespace NUnit.Framework.Constraints
 			return IsMatch(expectedPath, actualPath);
 		}
 		
+        /// <summary>
+        /// Returns true if the expected path and actual path match
+        /// </summary>
 		protected abstract bool IsMatch(string expectedPath, string actualPath);
 		
         /// <summary>
@@ -143,6 +146,7 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="path1">The first path</param>
 		/// <param name="path2">The second path</param>
+        /// <param name="ignoreCase">Indicates whether case should be ignored</param>
 		/// <returns></returns>
 		protected static bool IsSamePath( string path1, string path2, bool ignoreCase )
 		{
@@ -154,6 +158,7 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		/// <param name="path1">The first path - supposed to be the parent path</param>
 		/// <param name="path2">The second path - supposed to be the child path</param>
+        /// <param name="ignoreCase">Indicates whether case should be ignored</param>
 		/// <returns></returns>
 		protected static bool IsSubPath( string path1, string path2, bool ignoreCase )
 		{
@@ -219,7 +224,8 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
         /// </summary>
-        /// <param name="actual">The value to be tested</param>
+        /// <param name="expectedPath">The expected path</param>
+        /// <param name="actualPath">The actual path</param>
         /// <returns>True for success, false for failure</returns>
 		protected override bool IsMatch(string expectedPath, string actualPath)
 		{
@@ -253,7 +259,8 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
         /// </summary>
-        /// <param name="actual">The value to be tested</param>
+        /// <param name="expectedPath">The expected path</param>
+        /// <param name="actualPath">The actual path</param>
         /// <returns>True for success, false for failure</returns>
 		protected override bool IsMatch(string expectedPath, string actualPath)
 		{
@@ -290,7 +297,8 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Test whether the constraint is satisfied by a given value
         /// </summary>
-        /// <param name="actual">The value to be tested</param>
+        /// <param name="expectedPath">The expected path</param>
+        /// <param name="actualPath">The actual path</param>
         /// <returns>True for success, false for failure</returns>
 		protected override bool IsMatch(string expectedPath, string actualPath)
 		{

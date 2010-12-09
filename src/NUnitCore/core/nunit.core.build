@@ -100,7 +100,7 @@
     <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <nowarn>
-        <warning number="618,1699" if="${runtime.version=='2.0'}"/>
+        <warning number="618,1699" if="${runtime.version>='2.0'}"/>
       </nowarn>
       <references>
 	<include name="System.Configuration.dll"/>

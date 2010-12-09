@@ -41,7 +41,7 @@ namespace NUnit.Core.Tests
         }
 
         [Datapoint]
-        object objData = null;
+        internal object objData = null;
 
         [Test]
         public void EnumArgumentsAreSuppliedAutomatically()
