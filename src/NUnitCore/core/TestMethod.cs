@@ -371,15 +371,15 @@ namespace NUnit.Core
         private void RunBeforeActions()
         {
             object[][] targetActions = new object[][] {this.suiteActions, this.actions};
-            ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.Before, targetActions, this.Fixture);
+            ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.Before, targetActions, this.Fixture, this.Method);
         }
 
         private void RunAfterActions(TestResult testResult)
         {
             try
             {
-                object[][] targetActions = new object[][] {this.actions, this.suiteActions};
-                ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.After, targetActions, this.Fixture);
+                object[][] targetActions = new object[][] { this.suiteActions, this.actions };
+                ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.After, targetActions, this.Fixture, this.Method);
             }
             catch(Exception ex)
             {

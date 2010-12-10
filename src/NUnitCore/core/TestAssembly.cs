@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Reflection;
 
 namespace NUnit.Core
 {
@@ -18,7 +19,10 @@ namespace NUnit.Core
         /// Initializes a new instance of the <see cref="TestAssembly"/> class.
         /// </summary>
         /// <param name="path">The path.</param>
-        public TestAssembly(string path) : base(path) { }
+        public TestAssembly(Assembly assembly, string path) : base(path)
+        {
+            this.actions = ActionsHelper.GetActionsFromAttributes(assembly);
+        }
 
         /// <summary>
         /// Gets the type of the test.

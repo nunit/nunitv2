@@ -6,6 +6,5 @@ namespace NUnit.Framework
 {
     public interface IAction
     {
-        int Priority { get; }
     }
 }

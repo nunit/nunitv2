@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Text;
 using NUnit.Framework;
 using NUnit.TestData.ActionAttributeTests;
-using NUnit.TestUtilities;
 
 namespace NUnit.Core.Tests
 {
@@ -21,50 +18,14 @@ namespace NUnit.Core.Tests
         }
 
         private TestResult _result = null;
-
-        #region Define BeforeSuite() & AfterSuite() indicies
-
-        private int _setupFixtureDefined_BeforeSuite_PriorityFourIndex = -1;
-        private int _setupFixtureDefined_AfterSuite_PriorityFourIndex = -1;
-
-        private int _fixtureDefined_BeforeSuite_PriorityOne_Index = -1;
-        private int _fixtureDefined_BeforeSuite_PriorityTwo_Index = -1;
-        private int _fixtureDefined_BeforeSuite_PriorityThree_Index = -1;
-
-        private int _fixtureDefined_AfterSuite_PriorityOne_Index = -1;
-        private int _fixtureDefined_AfterSuite_PriorityTwo_Index = -1;
-        private int _fixtureDefined_AfterSuite_PriorityThree_Index = -1;
-
-        private int _interfaceDefined_BeforeSuite_PriorityTwo_Index = -1;
-        private int _interfaceDefined_AfterSuite_PriorityTwo_Index = -1;
-
-        #endregion
-
-        #region Define BeforeTest() & AfterTest() indicies
-
-        private int _setupFixtureDefined_BeforeTest_PriorityFourIndex = -1;
-        private int _setupFixtureDefined_AfterTest_PriorityFourIndex = -1;
-
-        private int _fixtureDefined_BeforeTest_PriorityOne_Index = -1;
-        private int _fixtureDefined_BeforeTest_PriorityTwo_Index = -1;
-        private int _fixtureDefined_BeforeTest_PriorityThree_Index = -1;
-
-        private int _fixtureDefined_AfterTest_PriorityOne_Index = -1;
-        private int _fixtureDefined_AfterTest_PriorityTwo_Index = -1;
-        private int _fixtureDefined_AfterTest_PriorityThree_Index = -1;
-
-        private int _interfaceDefined_BeforeTest_PriorityTwo_Index = -1;
-        private int _interfaceDefined_AfterTest_PriorityTwo_Index = -1;
-
-        private int _testDefined_BeforeTest_PriorityOne_Index = -1;
-        private int _testDefined_BeforeTest_PriorityTwo_Index = -1;
-        private int _testDefined_BeforeTest_PriorityThree_Index = -1;
-
-        private int _testDefined_AfterTest_PriorityOne_Index = -1;
-        private int _testDefined_AfterTest_PriorityTwo_Index = -1;
-        private int _testDefined_AfterTest_PriorityThree_Index = -1;
-
-        #endregion
+        private readonly string[] _definitionSites = new string[]
+        {
+            "Assembly",
+            "SetUpFixture",
+            "Fixture",
+            "Interface",
+            "Method"
+        };
 
         [TestFixtureSetUp]
         public void Setup()
@@ -77,178 +38,172 @@ namespace NUnit.Core.Tests
 
             Test suite = builder.Build(package);
             _result = suite.Run(new NullListener(), new ActionAttributeFixtureFilter());
-
-            #region Update BeforeSuite() & AfterSuite() indicies
-
-            _setupFixtureDefined_BeforeSuite_PriorityFourIndex = ActionAttributeFixture.Results.IndexOf("SetUpFixture.BeforeSuite-4");
-            _setupFixtureDefined_AfterSuite_PriorityFourIndex = ActionAttributeFixture.Results.IndexOf("SetUpFixture.AfterSuite-4");
-
-            _fixtureDefined_BeforeSuite_PriorityOne_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeSuite-1");
-            _fixtureDefined_BeforeSuite_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeSuite-2");
-            _fixtureDefined_BeforeSuite_PriorityThree_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeSuite-3");
-
-            _fixtureDefined_AfterSuite_PriorityOne_Index = ActionAttributeFixture.Results.IndexOf("Fixture.AfterSuite-1");
-            _fixtureDefined_AfterSuite_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Fixture.AfterSuite-2");
-            _fixtureDefined_AfterSuite_PriorityThree_Index = ActionAttributeFixture.Results.IndexOf("Fixture.AfterSuite-3");
-
-            _interfaceDefined_BeforeSuite_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Interface.BeforeSuite-2");
-            _interfaceDefined_AfterSuite_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Interface.AfterSuite-2");
-
-            #endregion
-
-            #region Update BeforeTest() & AfterTest() indicies
-
-            _setupFixtureDefined_BeforeTest_PriorityFourIndex = ActionAttributeFixture.Results.IndexOf("SetUpFixture.BeforeTest-4");
-            _setupFixtureDefined_AfterTest_PriorityFourIndex = ActionAttributeFixture.Results.IndexOf("SetUpFixture.AfterTest-4");
-
-            _fixtureDefined_BeforeTest_PriorityOne_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeTest-1");
-            _fixtureDefined_BeforeTest_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeTest-2");
-            _fixtureDefined_BeforeTest_PriorityThree_Index = ActionAttributeFixture.Results.IndexOf("Fixture.BeforeTest-3");
-
-            _fixtureDefined_AfterTest_PriorityOne_Index = ActionAttributeFixture.Results.IndexOf("Fixture.AfterTest-1");
-            _fixtureDefined_AfterTest_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Fixture.AfterTest-2");
-            _fixtureDefined_AfterTest_PriorityThree_Index = ActionAttributeFixture.Results.IndexOf("Fixture.AfterTest-3");
-
-            _interfaceDefined_BeforeTest_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Interface.BeforeTest-2");
-            _interfaceDefined_AfterTest_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Interface.AfterTest-2");
-
-            _testDefined_BeforeTest_PriorityOne_Index = ActionAttributeFixture.Results.IndexOf("Test.BeforeTest-1");
-            _testDefined_BeforeTest_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Test.BeforeTest-2");
-            _testDefined_BeforeTest_PriorityThree_Index = ActionAttributeFixture.Results.IndexOf("Test.BeforeTest-3");
-
-            _testDefined_AfterTest_PriorityOne_Index = ActionAttributeFixture.Results.IndexOf("Test.AfterTest-1");
-            _testDefined_AfterTest_PriorityTwo_Index = ActionAttributeFixture.Results.IndexOf("Test.AfterTest-2");
-            _testDefined_AfterTest_PriorityThree_Index = ActionAttributeFixture.Results.IndexOf("Test.AfterTest-3");
-
-            #endregion
         }
 
         [Test]
-        public void TestRunsSuccessfully()
+        public void TestsRunsSuccessfully()
         {
             Assert.IsTrue(_result.IsSuccess, "Test run was not successful.");
             Assert.Contains("SomeTest-Case1", ActionAttributeFixture.Results, "Test Case 1 was not run.");
             Assert.Contains("SomeTest-Case2", ActionAttributeFixture.Results, "Test Case 2 was not run.");
+            Assert.Contains("SomeOtherTest", ActionAttributeFixture.Results, "SomeOtherTest was not run.");
 
             foreach(string message in ActionAttributeFixture.Results)
                 Console.WriteLine(message);
         }
 
         [Test]
-        public void SetUpFixtureDefinedAction_WrapsEntireSuite()
+        public void FirstFourDefinitionSites_BeforeSuite_ExecuteFirst_InOrder()
         {
-            Assert.IsTrue(_setupFixtureDefined_BeforeSuite_PriorityFourIndex == 0, "Highest priority setup-fixture-defined action should run first.");
-            Assert.IsTrue(_setupFixtureDefined_AfterSuite_PriorityFourIndex == (ActionAttributeFixture.Results.Count - 1), "Highest priority setup-fixture-defined action should run AfterSuite() last.");
+            for(int i = 0; i < 4; i++)
+            {
+                string prefix = string.Format("{0}.BeforeSuite-", _definitionSites[i]);
+                
+                Assert.IsTrue(
+                    ActionAttributeFixture.Results[i].StartsWith(prefix),
+                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+            }
+        }
+
+
+        [Test]
+        public void FirstFourDefinitionSites_AfterSuite_ExecuteLast_InOrder()
+        {
+            int lastIndex = ActionAttributeFixture.Results.Count - 1;
+            for (int i = lastIndex; i > lastIndex - 4; i--)
+            {
+                string prefix = string.Format("{0}.AfterSuite-", _definitionSites[lastIndex - i]);
+
+                Assert.IsTrue(
+                    ActionAttributeFixture.Results[i].StartsWith(prefix),
+                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+            }
         }
 
         [Test]
-        public void SetUpFixtureDefinedAction_BeforeTest_InCorrectOrder()
+        public void FirstFourDefinitionSites_BeforeTest_ExecuteInOrder_ForSomeOtherTest()
         {
-            Assert.IsTrue(_setupFixtureDefined_BeforeTest_PriorityFourIndex < _fixtureDefined_BeforeTest_PriorityThree_Index);
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest") - 4;
+            for (int i = startIndex; i < startIndex; i++)
+            {
+                string prefix = string.Format("{0}.BeforeTest-", _definitionSites[i - startIndex]);
+
+                Assert.IsTrue(
+                    ActionAttributeFixture.Results[i].StartsWith(prefix),
+                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+            }
         }
 
         [Test]
-        public void SetUpFixtureDefinedAction_AfterTest_InCorrectOrder()
+        public void FirstFourDefinitionSites_AfterTest_ExecuteInOrder_ForSomeOtherTest()
         {
-            Assert.IsTrue(_setupFixtureDefined_AfterTest_PriorityFourIndex > _fixtureDefined_AfterTest_PriorityThree_Index);
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest");
+            for (int i = 1; i <= 4; i++)
+            {
+                string prefix = string.Format("{0}.AfterTest-", _definitionSites[4 - i]);
+
+                Assert.IsTrue(
+                    ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
+                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+            }
         }
 
         [Test]
-        public void MethodDefinedAction_BeforeSuite_ExcutedOnlyOnce()
+        public void AllDefinitionSites_BeforeTest_ExecuteInOrder_ForSomeTestCase1()
         {
-            ArrayList messages = new ArrayList();
-            messages.AddRange(ActionAttributeFixture.Results);
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1") - 5;
+            for (int i = startIndex; i < startIndex; i++)
+            {
+                string prefix = string.Format("{0}.BeforeTest-", _definitionSites[i - startIndex]);
 
-            int firstIndex = messages.IndexOf("MethodSuite-BeforeSuite1");
-            Assert.AreEqual(-1, messages.IndexOf("MethodSuite-BeforeSuite1", firstIndex + 1));
+                Assert.IsTrue(
+                    ActionAttributeFixture.Results[i].StartsWith(prefix),
+                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+            }
         }
 
         [Test]
-        public void MethodDefinedAction_AfterSuite_ExcutedOnlyOnce()
+        public void AllDefinitionSites_AfterTest_ExecuteInOrder_ForSomeTestCase1()
         {
-            ArrayList messages = new ArrayList();
-            messages.AddRange(ActionAttributeFixture.Results);
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1");
+            for (int i = 1; i <= 5; i++)
+            {
+                string prefix = string.Format("{0}.AfterTest-", _definitionSites[5 - i]);
 
-            int firstIndex = messages.IndexOf("MethodSuite-AfterSuite1");
-            Assert.AreEqual(-1, messages.IndexOf("MethodSuite-AfterSuite1", firstIndex + 1));
-        }
-
-        #region Tests for BeforeSuite() and AfterSuite invocation ordering
-
-        [Test]
-        public void FixtureDefinedAction_BeforeSuite_InCorrectOrder()
-        {
-            Assert.IsTrue(_fixtureDefined_BeforeSuite_PriorityThree_Index < _fixtureDefined_BeforeSuite_PriorityTwo_Index, "Priority 3 fixture-defined action should run BeforeSuite() before fixture-defined actions of priority <= 2");
-            Assert.IsTrue(_fixtureDefined_BeforeSuite_PriorityTwo_Index < _fixtureDefined_BeforeSuite_PriorityOne_Index, "Priority 2 fixture-defined action should run BeforeSuite() before fixture-defined actions of priority <= 1");
+                Assert.IsTrue(
+                    ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
+                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+            }
         }
 
         [Test]
-        public void FixtureDefinedAction_AfterSuite_InCorrectOrder()
+        public void AllDefinitionSites_BeforeTest_ExecuteInOrder_ForSomeTestCase2()
         {
-            Assert.IsTrue(_fixtureDefined_AfterSuite_PriorityThree_Index > _fixtureDefined_AfterSuite_PriorityTwo_Index, "Priority 3 fixture-defined test action should run AfterSuite() after fixture-defined actions of priority <= 2");
-            Assert.IsTrue(_fixtureDefined_AfterSuite_PriorityTwo_Index > _fixtureDefined_AfterSuite_PriorityOne_Index, "Priority 2 fixture-defined test action should run AfterSuite() after fixture-defined actions of priority <= 1");
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2") - 5;
+            for (int i = startIndex; i < startIndex; i++)
+            {
+                string prefix = string.Format("{0}.BeforeTest-", _definitionSites[i - startIndex]);
+
+                Assert.IsTrue(
+                    ActionAttributeFixture.Results[i].StartsWith(prefix),
+                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+            }
         }
 
         [Test]
-        public void InterfaceLevelAction_BeforeSuite_InCorrectOrder()
+        public void AllDefinitionSites_AfterTest_ExecuteInOrder_ForSomeTestCase2()
         {
-            Assert.IsTrue(_fixtureDefined_BeforeSuite_PriorityThree_Index < _interfaceDefined_BeforeSuite_PriorityTwo_Index, "Priority 3 fixture-defined action should run BeforeSuite() before interface-defined actions of priority <= 2");
-            Assert.IsTrue(_interfaceDefined_BeforeSuite_PriorityTwo_Index < _fixtureDefined_BeforeSuite_PriorityOne_Index, "Priority 2 interface-defined action should run BeforeSuite() before fixture-defined actions of priority <= 1");
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2");
+            for (int i = 1; i <= 5; i++)
+            {
+                string prefix = string.Format("{0}.AfterTest-", _definitionSites[5 - i]);
+
+                Assert.IsTrue(
+                    ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
+                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+            }
         }
 
         [Test]
-        public void InterfaceLevelAction_AfterSuite_InCorrectOrder()
+        public void MethodDefinedSite_BeforeSuite_BeforeSomeTestCase1()
         {
-            Assert.IsTrue(_fixtureDefined_AfterSuite_PriorityThree_Index > _interfaceDefined_AfterSuite_PriorityTwo_Index, "Priority 3 fixture-defined action should run AfterSuite() after interface-defined actions of priority <= 2");
-            Assert.IsTrue(_interfaceDefined_AfterSuite_PriorityTwo_Index > _fixtureDefined_AfterSuite_PriorityOne_Index, "Priority 2 interface-defined action should run AfterSuite() after fixture-defined actions of priority <= 1");
-        }
-
-        #endregion
-
-        #region Tests for BeforeTest() and AfterTest() invocation ordering
-
-        [Test]
-        public void FixtureDefinedAction_BeforeTest_InCorrectOrder()
-        {
-            Assert.IsTrue(_fixtureDefined_BeforeTest_PriorityThree_Index < _fixtureDefined_BeforeTest_PriorityTwo_Index, "Priority 3 fixture-defined action should run BeforeTest() before fixture-defined actions of priority <= 2");
-            Assert.IsTrue(_fixtureDefined_BeforeTest_PriorityTwo_Index < _fixtureDefined_BeforeTest_PriorityOne_Index, "Priority 2 fixture-defined action should run BeforeTest() before fixture-defined actions of priority <= 1");
+            int testCase = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1");
+            Assert.IsTrue(testCase > ActionAttributeFixture.Results.IndexOf("Method.BeforeSuite-ActionAttributeFixture"));
         }
 
         [Test]
-        public void FixtureDefinedAction_AfterTest_InCorrectOrder()
+        public void MethodDefinedSite_AfterSuite_BeforeSomeTestCase2()
         {
-            Assert.IsTrue(_fixtureDefined_AfterTest_PriorityThree_Index > _fixtureDefined_AfterTest_PriorityTwo_Index, "Priority 3 fixture-defined action should run AfterTest() after fixture-defined actions of priority <= 2");
-            Assert.IsTrue(_fixtureDefined_AfterTest_PriorityTwo_Index > _fixtureDefined_AfterTest_PriorityOne_Index, "Priority 2 fixture-defined action should run AfterTest() after fixture-defined actions of priority <= 1");
+            int testCase = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2");
+            Assert.IsTrue(testCase < ActionAttributeFixture.Results.IndexOf("Method.AfterSuite-ActionAttributeFixture"));
         }
 
         [Test]
-        public void InterfaceLevelAction_BeforeTest_InCorrectOrder()
+        public void AllActions_BeforeAndAfterTest_HasAccessToFixture()
         {
-            Assert.IsTrue(_fixtureDefined_BeforeTest_PriorityThree_Index < _interfaceDefined_BeforeTest_PriorityTwo_Index, "Priority 3 fixture-defined action should run BeforeTest() before interface-defined actions of priority <= 2");
-            Assert.IsTrue(_interfaceDefined_BeforeTest_PriorityTwo_Index < _fixtureDefined_BeforeTest_PriorityOne_Index, "Priority 2 interface-defined action should run BeforeTest() before fixture-defined actions of priority <= 1");
+            foreach(string message in ActionAttributeFixture.Results)
+            {
+                if (message.Contains("BeforeTest") || message.Contains("AfterTest"))
+                    Assert.IsTrue(message.Contains(typeof(ActionAttributeFixture).Name), string.Format("'{0}' shows action does not have access to fixture.", message));
+            }
         }
 
         [Test]
-        public void InterfaceLevelAction_AfterTest_InCorrectOrder()
+        public void AllActions_BeforeAndAfterTest_HasAccessToMethodInfo()
         {
-            Assert.IsTrue(_fixtureDefined_AfterTest_PriorityThree_Index > _interfaceDefined_AfterTest_PriorityTwo_Index, "Priority 3 fixture-defined action should run AfterTest() after interface-defined actions of priority <= 2");
-            Assert.IsTrue(_interfaceDefined_AfterTest_PriorityTwo_Index > _fixtureDefined_AfterTest_PriorityOne_Index, "Priority 2 interface-defined action should run AfterTest() after fixture-defined actions of priority <= 1");
-        }
+            StringCollection validEndSegments = new StringCollection();
+            validEndSegments.AddRange(new string[] {"SomeOtherTest", "SomeTest"});
 
-        [Test]
-        public void TestLevelAction_BeforeTest_InCorrectOrder()
-        {
-            Assert.IsTrue(_testDefined_BeforeTest_PriorityThree_Index < _testDefined_BeforeTest_PriorityTwo_Index, "Priority 3 test-defined action should run BeforeTest() before test-defined actions of priority <= 2");
-            Assert.IsTrue(_testDefined_BeforeTest_PriorityTwo_Index < _testDefined_BeforeTest_PriorityOne_Index, "Priority 2 test-defined action should run BeforeTest() before test-defined actions of priority <= 1");
-        }
+            foreach (string message in ActionAttributeFixture.Results)
+            {
+                if (message.Contains("BeforeTest") || message.Contains("AfterTest"))
+                {
+                    string endSegment = message.Substring(message.LastIndexOf('-') + 1);
 
-        [Test]
-        public void TestLevelAction_AfterTest_InCorrectOrder()
-        {
-            Assert.IsTrue(_testDefined_AfterTest_PriorityThree_Index > _testDefined_AfterTest_PriorityTwo_Index, "Priority 3 test-defined action should run AfterTest() after test-defined actions of priority <= 2");
-            Assert.IsTrue(_testDefined_AfterTest_PriorityTwo_Index > _testDefined_AfterTest_PriorityOne_Index, "Priority 2 test-defined action should run AfterTest() after test-defined actions of priority <= 1");
+                    Assert.IsTrue(validEndSegments.Contains(endSegment),
+                                  string.Format("'{0}' shows action does not have access to method info.", message));
+                }
+            }
         }
-
-        #endregion
     }
 }

@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Specialized;
 using NUnit.Framework;
+using System.Diagnostics;
+using System.Reflection;
+using NUnit.TestData.ActionAttributeTests;
+
+[assembly: SampleAction("Assembly")]
 
 namespace NUnit.TestData.ActionAttributeTests
 {
-    [SetUpFixtureAction(4, "SetUpFixture")]
     [SetUpFixture]
-    public class SetupFixtureWithActionAttribute
+    [SampleAction("SetUpFixture")]
+    public class SetupFixture
     {
     }
 
     [TestFixture]
-    [SuiteAction(/* priority: */ 2, "Fixture")]
-    [SuiteAction(/* priority: */ 1, "Fixture")]
-    [SuiteAction(/* priority: */ 3, "Fixture")]
+    [SampleAction("Fixture")]
     public class ActionAttributeFixture : IWithAction
     {
         private static StringCollection _Results = null;
@@ -25,11 +28,8 @@ namespace NUnit.TestData.ActionAttributeTests
 
         StringCollection IWithAction.Results { get { return Results; } }
 
-        [MethodSuiteAction(0, "MethodSuite")]
-        [TestAction(/* priority: */ 2, "Test")]
-        [TestAction(/* priority: */ 1, "Test")]
-        [TestAction(/* priority: */ 3, "Test")]
         [Test, TestCase("SomeTest-Case1"), TestCase("SomeTest-Case2")]
+        [SampleAction("Method")]
         public void SomeTest(string message)
         {
             ((IWithAction)this).Results.Add(message);
@@ -43,180 +43,55 @@ namespace NUnit.TestData.ActionAttributeTests
 
     }
 
-    [InterfaceAction(/* priority: */ 2, "Interface")]
+    [SampleAction("Interface")]
     public interface IWithAction
     {
         StringCollection Results { get; }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-    public class SetUpFixtureActionAttribute : Attribute, ISuiteAction, ITestAction
+    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Module, AllowMultiple = true, Inherited = true)]
+    public class SampleActionAttribute : Attribute, ISuiteAction, ITestAction
     {
-        private int _Priority = 0;
         private string _Prefix = null;
 
-        public SetUpFixtureActionAttribute(int priority, string prefix)
+        public SampleActionAttribute(string prefix)
         {
-            _Priority = priority;
             _Prefix = prefix;
         }
 
         void ISuiteAction.BeforeSuite(object fixture)
         {
-            ActionAttributeFixture.Results.Add(_Prefix + ".BeforeSuite-" + _Priority);
+            AddResult(fixture, null);
         }
 
         void ISuiteAction.AfterSuite(object fixture)
         {
-            ActionAttributeFixture.Results.Add(_Prefix + ".AfterSuite-" + _Priority);
+            AddResult(fixture, null);
         }
 
-        void ITestAction.BeforeTest(object fixture)
+        void ITestAction.BeforeTest(object fixture, MethodInfo method)
         {
-            ActionAttributeFixture.Results.Add(_Prefix + ".BeforeTest-" + _Priority);
+            AddResult(fixture, method);
         }
 
-        void ITestAction.AfterTest(object fixture)
+        void ITestAction.AfterTest(object fixture, MethodInfo method)
         {
-            ActionAttributeFixture.Results.Add(_Prefix + ".AfterTest-" + _Priority);
+            AddResult(fixture, method);
         }
 
-        int IAction.Priority
+        private void AddResult(object fixture, MethodInfo method)
         {
-            get { return _Priority; }
+            StackFrame frame = new StackFrame(1);
+            MethodBase actionMethod = frame.GetMethod();
+
+            string actionMethodName = actionMethod.Name.Substring(actionMethod.Name.LastIndexOf('.') + 1);
+            string message = string.Format("{0}.{1}-{2}" + (method != null ? "-{3}" : ""),
+                                           _Prefix,
+                                           actionMethodName,
+                                           fixture == null ? "{no-fixture}" : fixture.GetType().Name,
+                                           method != null ? method.Name : "");
+
+            ActionAttributeFixture.Results.Add(message);
         }
     }
-
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
-    public class SuiteActionAttribute : Attribute, ISuiteAction, ITestAction
-    {
-        private int _Priority = 0;
-        private string _Prefix = null;
-
-        public SuiteActionAttribute(int priority, string prefix)
-        {
-            _Priority = priority;
-            _Prefix = prefix;
-        }
-
-        void ISuiteAction.BeforeSuite(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".BeforeSuite-" + _Priority);
-        }
-
-        void ISuiteAction.AfterSuite(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".AfterSuite-" + _Priority);
-        }
-
-        void ITestAction.BeforeTest(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".BeforeTest-" + _Priority);
-        }
-
-        void ITestAction.AfterTest(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".AfterTest-" + _Priority);
-        }
-
-        int IAction.Priority
-        {
-            get { return _Priority; }
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class MethodSuiteActionAttribute : Attribute, ISuiteAction
-    {
-        private int _Priority = 0;
-        private string _Prefix = null;
-
-        public MethodSuiteActionAttribute(int priority, string prefix)
-        {
-            _Priority = priority;
-            _Prefix = prefix;
-        }
-
-        void ISuiteAction.BeforeSuite(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".BeforeSuite-" + _Priority);
-        }
-
-        void ISuiteAction.AfterSuite(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".AfterSuite-" + _Priority);
-        }
-
-        int IAction.Priority
-        {
-            get { return _Priority; }
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class TestActionAttribute : Attribute, ITestAction
-    {
-        private int _Priority = 0;
-        private string _Prefix = null;
-
-        public TestActionAttribute(int priority, string prefix)
-        {
-            _Priority = priority;
-            _Prefix = prefix;
-        }
-
-        void ITestAction.BeforeTest(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".BeforeTest-" + _Priority);
-        }
-
-        void ITestAction.AfterTest(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".AfterTest-" + _Priority);
-        }
-
-        int IAction.Priority
-        {
-            get { return _Priority; }
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Interface, AllowMultiple = true, Inherited = true)]
-    public class InterfaceActionAttribute : Attribute, ISuiteAction, ITestAction
-    {
-        private int _Priority = 0;
-        private string _Prefix = null;
-
-        public InterfaceActionAttribute(int priority, string prefix)
-        {
-            _Priority = priority;
-            _Prefix = prefix;
-        }
-
-        void ISuiteAction.BeforeSuite(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".BeforeSuite-" + _Priority);
-        }
-
-        void ISuiteAction.AfterSuite(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".AfterSuite-" + _Priority);
-        }
-
-        void ITestAction.BeforeTest(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".BeforeTest-" + _Priority);
-        }
-
-        void ITestAction.AfterTest(object fixture)
-        {
-            ((IWithAction)fixture).Results.Add(_Prefix + ".AfterTest-" + _Priority);
-        }
-
-        int IAction.Priority
-        {
-            get { return _Priority; }
-        }
-    }
-
 }

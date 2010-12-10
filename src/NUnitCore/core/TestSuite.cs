@@ -372,7 +372,7 @@ namespace NUnit.Core
             try
             {
                 if (this.actions != null)
-                    ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.Before, this.actions, this.Fixture);
+                    ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.Before, this.actions, this.Fixture, null);
 
                 TestExecutionContext.CurrentContext.Update();
             }
@@ -447,7 +447,7 @@ namespace NUnit.Core
             try
             {
                 if (this.actions != null)
-                    ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.After, this.actions, this.Fixture);
+                    ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.After, this.actions, this.Fixture, null);
             }
             catch (Exception ex)
             {
