@@ -328,8 +328,8 @@ namespace NUnit.Gui
             // reloadProjectMenuItem
             // 
             this.reloadProjectMenuItem.Index = 7;
-            this.reloadProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlP;
-            this.reloadProjectMenuItem.Text = "Reload &Project";
+            this.reloadProjectMenuItem.Shortcut = System.Windows.Forms.Shortcut.CtrlL;
+            this.reloadProjectMenuItem.Text = "Re&load Project";
             this.reloadProjectMenuItem.Click += new System.EventHandler(this.reloadProjectMenuItem_Click);
             // 
             // reloadTestsMenuItem
@@ -352,7 +352,7 @@ namespace NUnit.Gui
             // recentProjectsMenu
             // 
             this.recentProjectsMenu.Index = 11;
-            this.recentProjectsMenu.Text = "Recent &Files";
+            this.recentProjectsMenu.Text = "Recent &Projects";
             // 
             // fileMenuSeparator4
             // 
@@ -1689,7 +1689,9 @@ namespace NUnit.Gui
 		private void OnTestUnloaded( object sender, TestEventArgs e )
 		{
 			suiteName.Text = null;
+            runCount.Text = null;
 			EnableRunCommand( false );
+            Refresh();
 		}
 
 		/// <summary>
@@ -1706,6 +1708,10 @@ namespace NUnit.Gui
 				longOpDisplay.Dispose();
 				longOpDisplay = null;
 			}
+
+            if (userSettings.GetSetting("Options.TestLoader.ClearResultsOnReload", false))
+                runCount.Text = null;
+
 			EnableRunCommand( true );
 		}
 

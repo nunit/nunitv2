@@ -12,7 +12,7 @@ namespace NUnit.Framework
 	/// Attribute used to mark a static (shared in VB) property
 	/// that returns a list of tests.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Property, AllowMultiple=false)]
+	[AttributeUsage(AttributeTargets.Property, AllowMultiple=false, Inherited=false)]
 	public class SuiteAttribute : Attribute
 	{}
 }

@@ -37,13 +37,13 @@ namespace NUnit.UiException.Tests.CodeFormatters
         public void Test_Default()
         {
             List<string> extensions;
-            ErrorItem errorCS;
-            ErrorItem errorCS_Upper;
-            ErrorItem errorTxt;
+//            ErrorItem errorCS;
+//            ErrorItem errorCS_Upper;
+//            ErrorItem errorTxt;
 
-            errorCS = new ErrorItem("C:\\dir\\file.cs", 1);
-            errorCS_Upper = new ErrorItem("C:\\dir\\file.CS", 1);
-            errorTxt = new ErrorItem("C:\\dir\\file.txt", 1);
+//            errorCS = new ErrorItem("C:\\dir\\file.cs", 1);
+//            errorCS_Upper = new ErrorItem("C:\\dir\\file.CS", 1);
+//            errorTxt = new ErrorItem("C:\\dir\\file.txt", 1);
 
             Assert.That(_empty.Count, Is.EqualTo(0));
             Assert.That(_empty.HasExtension("cs"), Is.False);
@@ -126,14 +126,16 @@ namespace NUnit.UiException.Tests.CodeFormatters
         [ExpectedException(typeof(ArgumentNullException))]
         public void StringIndexer_Can_Throw_NullExtensionException()
         {
-            object o = _empty[(string)null]; // throws exception
+            if (_empty[(string)null] == null) // throws exception
+				return;
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ItemIndexer_Can_Throw_NullExtensionException()
         {
-            object o = _empty[null]; // throws exception
+            if (_empty[null] == null) // throws exception
+				return;
         }
 
         [Test]
@@ -142,7 +144,8 @@ namespace NUnit.UiException.Tests.CodeFormatters
             MatchType = MessageMatch.Contains)]
         public void Indexer_Can_Throw_UnknownExtensionException()
         {
-            object o = _empty["unk"]; // throws exception
+            if (_empty["unk"] == null) // throws exception
+				return;
         }
 
         [Test]

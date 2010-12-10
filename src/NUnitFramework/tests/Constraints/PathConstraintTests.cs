@@ -22,7 +22,7 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<samepath \"C:\\folder1\\file.tmp\" ignorecase>";
         }
 
-        object[] SuccessData = new object[] 
+        internal object[] SuccessData = new object[] 
             { 
                 @"C:\folder1\file.tmp", 
                 @"C:\Folder1\File.TMP",
@@ -31,13 +31,13 @@ namespace NUnit.Framework.Constraints
                 @"C:\FOLDER1\.\folder2\..\File.TMP",
                 @"C:/folder1/file.tmp"
             };
-        object[] FailureData = new object[] 
+        internal object[] FailureData = new object[] 
             { 
                 123,
                 @"C:\folder2\file.tmp",
                 @"C:\folder1\.\folder2\..\file.temp"
             };
-        string[] ActualValues = new string[] 
+        internal string[] ActualValues = new string[] 
             { 
                 "123",
                 "\"C:\\folder2\\file.tmp\"",
@@ -62,7 +62,7 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = @"<samepath ""/folder1/file.tmp"" respectcase>";
         }
 
-        object[] SuccessData = new object[] 
+        internal object[] SuccessData = new object[] 
             { 
                 @"/folder1/file.tmp", 
                 @"/folder1/./file.tmp",
@@ -70,7 +70,7 @@ namespace NUnit.Framework.Constraints
                 @"/folder1/./folder2/../file.tmp",
                 @"\folder1\file.tmp"
             };
-        object[] FailureData = new object[] 
+        internal object[] FailureData = new object[] 
             { 
                 123,
                 @"/folder2/file.tmp",
@@ -78,7 +78,7 @@ namespace NUnit.Framework.Constraints
                 @"/Folder1/File.TMP",
                 @"/FOLDER1/./folder2/../File.TMP",
             };
-        string[] ActualValues = new string[] 
+        internal string[] ActualValues = new string[] 
             { 
                 "123",
                 "\"/folder2/file.tmp\"",
@@ -105,7 +105,7 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = @"<subpath ""C:\folder1\folder2"" ignorecase>";
         }
 
-        object[] SuccessData = new object[]
+        internal object[] SuccessData = new object[]
             {
                 @"C:\folder1\folder2\folder3",
                 @"C:\folder1\.\folder2\folder3",
@@ -113,7 +113,7 @@ namespace NUnit.Framework.Constraints
                 @"C:\FOLDER1\.\junk\..\Folder2\temp\..\Folder3",
                 @"C:/folder1/folder2/folder3",
             };
-        object[] FailureData = new object[]
+        internal object[] FailureData = new object[]
             {
                 123,
                 @"C:\folder1\folder3",
@@ -125,7 +125,7 @@ namespace NUnit.Framework.Constraints
                 @"C:\FOLDER1\.\junk\..\Folder2",
                 @"C:/folder1/folder2"
             };
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "123",
                 "\"C:\\folder1\\folder3\"",
@@ -156,14 +156,14 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = @"<subpath ""/folder1/folder2"" respectcase>";
         }
 
-        object[] SuccessData = new object[]
+        internal object[] SuccessData = new object[]
             {
                 @"/folder1/folder2/folder3",
                 @"/folder1/./folder2/folder3",
                 @"/folder1/junk/../folder2/folder3",
                 @"\folder1\folder2\folder3",
             };
-        object[] FailureData = new object[]
+        internal object[] FailureData = new object[]
             {
                 123,
                 "/Folder1/Folder2",
@@ -177,7 +177,7 @@ namespace NUnit.Framework.Constraints
                 "/folder1/junk/../folder2",
                 @"\folder1\folder2"
             };
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "123",
                 "\"/Folder1/Folder2\"",
@@ -210,7 +210,7 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = @"<samepathorunder ""C:\folder1\folder2"" ignorecase>";
         }
 
-        object[] SuccessData = new object[]
+        internal object[] SuccessData = new object[]
             {
                 @"C:\folder1\folder2",
                 @"C:\Folder1\Folder2",
@@ -224,13 +224,13 @@ namespace NUnit.Framework.Constraints
                 @"C:\FOLDER1\.\junk\..\Folder2\temp\..\Folder3",
                 @"C:/folder1/folder2/folder3",
             };
-        object[] FailureData = new object[]
+        internal object[] FailureData = new object[]
             {
                 123,
                 @"C:\folder1\folder3",
                 @"C:\folder1\.\folder2\..\file.temp"
             };
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "123",
                 "\"C:\\folder1\\folder3\"",
@@ -249,7 +249,7 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = @"<samepathorunder ""/folder1/folder2"" respectcase>";
         }
 
-        object[] SuccessData = new object[]
+        internal object[] SuccessData = new object[]
             {
                 @"/folder1/folder2",
                 @"/folder1/./folder2",
@@ -260,7 +260,7 @@ namespace NUnit.Framework.Constraints
                 @"/folder1/junk/../folder2/folder3",
                 @"\folder1\folder2\folder3",
             };
-        object[] FailureData = new object[]
+        internal object[] FailureData = new object[]
             {
                 123,
                 "/Folder1/Folder2",
@@ -270,7 +270,7 @@ namespace NUnit.Framework.Constraints
                 "/folder1/./folder2/../folder3",
 				"/folder1"
             };
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "123",
                 "\"/Folder1/Folder2\"",

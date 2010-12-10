@@ -82,7 +82,7 @@ namespace NUnit.Core.Tests
     {
         private int answer;
 
-        object[] myData = { new int[] { 6, 7 }, new int[] { 3, 14 } };
+        internal object[] myData = { new int[] { 6, 7 }, new int[] { 3, 14 } };
 
         public ParameterizedTestFixtureWithDataSources(int val)
         {
@@ -110,7 +110,7 @@ namespace NUnit.Core.Tests
         }
 #endif
 
-        int[] intvals = new int[] { 1, 2, 3 };
+        internal int[] intvals = new int[] { 1, 2, 3 };
 
         [Test]
         public void CanAccessValueSource(
@@ -123,7 +123,6 @@ namespace NUnit.Core.Tests
     public class ParameterizedTestFixtureNamingTests
     {
         Test fixture;
-        Test[] instances;
 
         [SetUp]
         public void MakeFixture()
@@ -181,8 +180,5 @@ namespace NUnit.Core.Tests
             Assert.That(testcase.TestName.Name, Is.EqualTo("MethodWithParams(10,20)"));
             Assert.That(testcase.TestName.FullName, Is.EqualTo(instance.TestName.FullName + ".MethodWithParams(10,20)"));
         }
-
-        //[Test]
-        //public void M
     }
 }

@@ -24,6 +24,10 @@ namespace NUnit.Framework
 
         #region Constructor
 
+        /// <summary>
+        /// Constructs a TestContext using the provided context dictionary
+        /// </summary>
+        /// <param name="context">A context dictionary</param>
         public TestContext(IDictionary context)
         {
             _context = context;
@@ -47,6 +51,9 @@ namespace NUnit.Framework
             }
         }
 
+        /// <summary>
+        /// Gets a TestAdapter representing the currently executing test in this context.
+        /// </summary>
         public TestAdapter Test
         {
             get
@@ -58,6 +65,10 @@ namespace NUnit.Framework
             }
         }
 
+        /// <summary>
+        /// Gets a ResultAdapter representing the current result for the test 
+        /// executing in this context.
+        /// </summary>
         public ResultAdapter Result
         {
             get
@@ -69,6 +80,9 @@ namespace NUnit.Framework
             }
         }
 
+        /// <summary>
+        /// Gets the current directory for this TestContext
+        /// </summary>
         public string TestDirectory
         {
             get
@@ -91,6 +105,10 @@ namespace NUnit.Framework
 
             #region Constructor
 
+            /// <summary>
+            /// Constructs a TestAdapter for this context
+            /// </summary>
+            /// <param name="context">The context dictionary</param>
             public TestAdapter(IDictionary context)
             {
                 _context = context;
@@ -151,9 +169,9 @@ namespace NUnit.Framework
             #region Constructor
 
             /// <summary>
-            /// Construct a ResultAdapter for a TestResult
+            /// Construct a ResultAdapter for a context
             /// </summary>
-            /// <param name="result">The TestResult to be adapted</param>
+            /// <param name="context">The context holding the result</param>
             public ResultAdapter(IDictionary context)
             {
                 this._context = context;

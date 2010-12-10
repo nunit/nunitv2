@@ -16,6 +16,8 @@ namespace NUnit.Util
     /// </summary>
     public class InProcessTestRunnerFactory : ITestRunnerFactory
     {
+        #region ITestRunnerFactory Members
+
         /// <summary>
         /// Returns a test runner based on the settings in a TestPackage.
         /// Any setting that is "consumed" by the factory is removed, so
@@ -41,5 +43,12 @@ namespace NUnit.Util
                     return new TestDomain();
             }
         }
+
+        public virtual bool CanReuse(TestRunner runner, TestPackage package)
+        {
+            return false;
+        }
+
+        #endregion
     }
 }

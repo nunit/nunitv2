@@ -37,7 +37,6 @@ namespace NUnit.Core
                 false, BindingFlags.Default, null, null, null, null, null);
 
             object obj = oh.Unwrap();
-            Type type = obj.GetType();
             return (DomainAgent)obj;
         }
 
@@ -120,7 +119,6 @@ namespace NUnit.Core
                 false, BindingFlags.Default, null, null, null, null, null);
 
             object obj = oh.Unwrap();
-            Type type = obj.GetType();
             return (DomainInitializer)obj;
         }
 

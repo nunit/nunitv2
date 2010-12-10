@@ -459,6 +459,8 @@ namespace NUnit.Util
 				events.FireTestLoading( TestFileName );
 
                 TestPackage package = MakeTestPackage(testName);
+                if (testRunner != null)
+                    testRunner.Dispose();
 				testRunner = factory.MakeTestRunner(package);
 
                 bool loaded = testRunner.Load(package);
@@ -534,6 +536,7 @@ namespace NUnit.Util
 					RemoveWatcher();
 
 					testRunner.Unload();
+                    testRunner.Dispose();
 					testRunner = null;
 
 					loadedTest = null;
@@ -568,7 +571,11 @@ namespace NUnit.Util
                     package.Settings["RuntimeFramework"] = framework;
 
                 testRunner.Unload();
-                testRunner = factory.MakeTestRunner(package);
+                if (!factory.CanReuse(testRunner, package))
+                {
+                    testRunner.Dispose();
+                    testRunner = factory.MakeTestRunner(package);
+                }
 
                 if (testRunner.Load(package))
                     this.currentFramework = package.Settings.Contains("RuntimeFramework")

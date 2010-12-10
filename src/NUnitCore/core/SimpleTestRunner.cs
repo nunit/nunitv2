@@ -222,5 +222,14 @@ namespace NUnit.Core
             return null;
         }
 	#endregion
-	}
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            Unload();
+        }
+
+        #endregion
+    }
 }

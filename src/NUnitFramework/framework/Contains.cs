@@ -37,7 +37,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="substring">The value of the substring</param>
         /// <returns>A SubstringConstraint</returns>
-        public static Constraint Substring(string substring)
+        public static SubstringConstraint Substring(string substring)
         {
             return new SubstringConstraint(substring);
         }
@@ -47,7 +47,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="item">The item that should be found.</param>
         /// <returns>A new CollectionContainsConstraint</returns>
-        public static Constraint Item(object item)
+        public static CollectionContainsConstraint Item(object item)
         {
             return new CollectionContainsConstraint(item);
         }

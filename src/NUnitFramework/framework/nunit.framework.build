@@ -104,44 +104,44 @@
         <include name="Text.cs"/>
         <include name="TextMessageWriter.cs"/>
         <include name="Throws.cs"/>
-    </patternset>
+  </patternset>
 
-    <target name="build">
+  <target name="build">
 
-        <csc target="library"
-            output="${current.framework.dir}/nunit.framework.dll"
-            doc="${current.framework.dir}/nunit.framework.xml"
-            debug="${build.debug}"
-            define="${build.defines}">
-            <nowarn>
-                <warning number="618,672"/>
-                <warning number="1699" if="${runtime.version=='2.0'}"/>
-            </nowarn>
-            <sources basedir=".">
-                <patternset refid="source-files"/>
-                <include name="../../GeneratedAssemblyInfo.cs" />
-            </sources>
-        </csc>
+    <csc target="library"
+        output="${current.framework.dir}/nunit.framework.dll"
+        doc="${current.framework.dir}/nunit.framework.xml"
+        debug="${build.debug}" 
+        define="${build.defines}">
+      <nowarn>
+        <warning number="618,672"/>
+        <warning number="1699" if="${runtime.version>='2.0'}"/>
+      </nowarn>
+      <sources basedir=".">
+        <patternset refid="source-files"/>
+        <include name="../../GeneratedAssemblyInfo.cs" />
+      </sources>
+    </csc>
 
-        <!-- Needed locally by some NUnit tests -->
-        <copy file="${current.framework.dir}/nunit.framework.dll"
-          todir="${current.test.dir}"/>
+    <!-- Needed locally by some NUnit tests -->
+    <copy file="${current.framework.dir}/nunit.framework.dll"
+      todir="${current.test.dir}"/>
 
-        <!-- Needed in base dir by pnunit tests -->
-        <copy file="${current.framework.dir}/nunit.framework.dll"
-          todir="${current.build.dir}"/>
+    <!-- Needed in base dir by pnunit tests -->
+    <copy file="${current.framework.dir}/nunit.framework.dll"
+      todir="${current.build.dir}"/>
 
-    </target>
+  </target>
 
-    <target name="package">
-        <copy todir="${package.src.dir}/NUnitFramework/framework">
-            <fileset>
-                <patternset refid="source-files"/>
-                <include name="nunit.framework.build"/>
-                <include name="nunit.framework.dll.csproj"/>
-                <include name="SyntaxElements.txt"/>
-            </fileset>
-        </copy>
-    </target>
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitFramework/framework">
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit.framework.build"/>
+        <include name="nunit.framework.dll.csproj"/>
+        <include name="SyntaxElements.txt"/>
+      </fileset>
+    </copy>
+  </target>
 
 </project>

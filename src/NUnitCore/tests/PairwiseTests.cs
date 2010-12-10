@@ -48,7 +48,7 @@ namespace NUnit.Core.Tests
         // Test data is taken from various sources. See "Lessons Learned
         // in Software Testing" pp 53-59, for example. For orthogonal cases, see 
         // http://www.freequality.org/sites/www_freequality_org/documents/tools/Tagarray_files/tamatrix.htm
-        static object[] cases = new object[]
+        internal static object[] cases = new object[]
         {
 #if ORIGINAL
             new TestCaseData( new int[] { 2, 4 }, 8, 8 ).SetName("Test 2x4"),

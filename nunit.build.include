@@ -79,6 +79,8 @@
 
   <call target="set-${default.runtime}-runtime-config" />
 
+  <call target="set-debug-build-config" />
+
   <call target="set-default-package-config" />
 
 <!-- ***************************************************************** -->

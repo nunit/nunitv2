@@ -43,6 +43,12 @@ namespace NUnit.Core.Tests
 			Test test2 = (Test)fixture.Tests[1];
 			Assert.Contains( "Critical", test2.Categories );
 		}
+		
+		[Test]
+		public void DerivedCategoryMayBeInherited()
+		{
+			Assert.Contains("MyCategory", fixture.Categories);
+		}
 
         [Test]
         public void CountTestsWithoutCategoryFilter()

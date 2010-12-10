@@ -139,6 +139,14 @@ namespace NUnit.Util.Tests
 			AreResourcesFreed = true;
 		}
 
+        // This method is not used. It exists only to supress a 
+        // warning about AssemblyChanged never being used
+        public void FireAssemblyChanged(string path)
+        {
+            if (AssemblyChanged != null)
+                AssemblyChanged(path);
+        }
+
 		public event AssemblyChangedHandler AssemblyChanged;
     }
 }

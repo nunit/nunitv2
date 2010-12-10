@@ -311,24 +311,24 @@ namespace NUnit.Core
 		/// <param name="reason">The reason the test was not run</param>
         /// <param name="stackTrace">Stack trace giving the location of the command</param>
         /// <param name="failureSite">The location of the failure, if any</param>
-        public void SetResult(ResultState resultState, string reason, string stack, FailureSite failureSite)
+        public void SetResult(ResultState resultState, string reason, string stackTrace, FailureSite failureSite)
 		{
             if (failureSite == FailureSite.SetUp)
                 reason = "SetUp : " + reason;
             else if (failureSite == FailureSite.TearDown)
             {
                 reason = "TearDown : " + reason;
-                stack = "--TearDown" + Environment.NewLine + stack;
+                stackTrace = "--TearDown" + Environment.NewLine + stackTrace;
 
                 if (this.message != null)
                     reason = this.message + Environment.NewLine + reason;
                 if (this.stackTrace != null)
-                    stack = this.stackTrace + Environment.NewLine + stack;
+                    stackTrace = this.stackTrace + Environment.NewLine + stackTrace;
             }
 
             this.resultState = resultState;
             this.message = reason;
-            this.stackTrace = stack;
+            this.stackTrace = stackTrace;
             this.failureSite = failureSite;
 		}
 
@@ -348,6 +348,7 @@ namespace NUnit.Core
         /// </summary>
         /// <param name="resultState">The ResultState to use in the result</param>
         /// <param name="ex">The exception that caused this result</param>
+        /// <param name="failureSite">The site at which an error or failure occured</param>
         public void SetResult(ResultState resultState, Exception ex, FailureSite failureSite)
         {
             if (resultState == ResultState.Cancelled)
@@ -397,8 +398,8 @@ namespace NUnit.Core
 		/// from the indicated FailureSite.
 		/// </summary>
 		/// <param name="exception">The exception that was caught</param>
-		/// <param name="failureSite">The site from which it was thrown</param>
-		public void Error( Exception exception, FailureSite failureSite )
+        /// <param name="failureSite">The site from which it was thrown</param>
+        public void Error(Exception exception, FailureSite failureSite)
 		{
             SetResult(ResultState.Error, exception, failureSite);
             //string message = BuildMessage(exception);

@@ -938,8 +938,7 @@ namespace NUnit.Gui
 			{
                 try
                 {
-                    FileInfo info = new FileInfo(
-                        Path.Combine(selectedConfig.BasePath, configFile));
+                    new FileInfo(Path.Combine(selectedConfig.BasePath, configFile));
                 }
                 catch (System.Exception exception)
                 {
@@ -1030,16 +1029,21 @@ namespace NUnit.Gui
 
         private void runtimeVersionComboBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            try
-            {
-                Version v = this.RuntimeVersion;
-            }
-            catch (Exception ex)
-            {
-                runtimeVersionComboBox.SelectAll();
-                UserMessage.DisplayFailure(ex, "Invalid Runtime Version");
-                e.Cancel = true;
-            }
+			string s = runtimeVersionComboBox.Text;
+			
+			if (s != string.Empty && s != "Default")
+			{
+		        try
+		        {
+		            new Version(s);
+		        }
+		        catch (Exception ex)
+		        {
+		            runtimeVersionComboBox.SelectAll();
+		            UserMessage.DisplayFailure(ex, "Invalid Runtime Version");
+		            e.Cancel = true;
+		        }
+			}
         }
 
         private void runtimeVersionComboBox_Validated(object sender, System.EventArgs e)

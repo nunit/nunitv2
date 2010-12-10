@@ -165,11 +165,11 @@ namespace NUnit.UiException.Controls
 
         private void doLayout()
         {
-            int widthLeft;
+//            int widthLeft;
             int widthRight;
 
             widthRight = _header.WidthAt(PANEL_RIGHT);
-            widthLeft = _header.WidthAt(PANEL_LEFT);
+//            widthLeft = _header.WidthAt(PANEL_LEFT);
 
             _header[PANEL_LEFT].Width = Math.Max(0, Width - widthRight);
             _contentCurrent.Width = Width;

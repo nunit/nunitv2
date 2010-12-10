@@ -21,12 +21,12 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit Base Package Version - First three digits -->
-  <property name="base.package.version" value="2.5.8"/>
+  <property name="base.package.version" value="2.5.9"/>
  
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
        but may differ when we are in alpha or beta. -->
-  <property name="nominal.version" value="2.5.8" />
+  <property name="nominal.version" value="2.5.9" />
 
   <!-- Determine todays build number -->
   <property name="temp.now" value="${datetime::now()}"/>
@@ -323,7 +323,7 @@
       workingdir="${current.build.dir}" 
 	  program="nunit-console.exe" 
       managed="strict"
-	  commandline="NUnitTests.nunit ${nunit.options} -xml:${result.file}.xml -domain:Multiple" />
+	  commandline="NUnitTests.nunit ${nunit.options} -xml:${result.file}.xml" />
 
   </target>
 
@@ -561,7 +561,8 @@
 <!-- ***                    Package as a zip                       *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package-zip" depends="build-install-image,create-zip"
+  <target name="package-zip" 
+    depends="build-install-image,create-zip"
     description="Create zip binary distribution package"/>
 
 <!-- ***************************************************************** -->
@@ -618,7 +619,7 @@
   <!-- Create msi from existing install image -->
   <target name="create-msi">
   
-    <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-win32()}"/>
+    <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-windows()}"/>
     <fail message="MSI can only be built for a Win32 runtime" unless="${build.win32}"/>
 
     <property name="wix.dir"
@@ -757,7 +758,7 @@
       <property name="filename"
         value="${path::get-file-name-without-extension(file)}"/>
       <copy file="${file}" 
-        tofile="${projdir}/${filename}.${culture}.resources"/>"/>
+        tofile="${projdir}/${filename}.${culture}.resources"/>"
     </foreach>
     </foreach>
     </foreach>   
@@ -919,6 +920,7 @@
         <include name="nunit21under22.config"/>
         <include name="PNUnit/*.conf"/>
         <include name="PNUnit/runpnunit.bat"/>
+        <include name="NUnitCore/schemas/*"/>
       </fileset>
     </copy>
 
@@ -1089,25 +1091,25 @@
 
     <!-- JSharp Samples -->
     <include name="jsharp/failures/jsharp-failures.build"
-      if="${task::exists('vjc') and platform::is-win32()}" />
+      if="${task::exists('vjc') and platform::is-windows()}" />
 
     <!-- VB Samples -->
     <include name="vb/failures/vb-failures.build"
-      if="${task::exists('vbc') and platform::is-win32()}" />
+      if="${task::exists('vbc') and platform::is-windows()}" />
     <include name="vb/money/vb-money.build"
-      if="${task::exists('vbc') and platform::is-win32()}" />
+      if="${task::exists('vbc') and platform::is-windows()}" />
     <include name="vb/syntax/vb-syntax.build"
-      if="${task::exists('vbc') and platform::is-win32()}" />
+      if="${task::exists('vbc') and platform::is-windows()}" />
 
     <!-- Managed C++ Samples -->
     <include name="cpp/managed/failures/cpp-managed-failures.build"
-      if="${platform::is-win32()}" />
+      if="${platform::is-windows()}" />
 
     <!-- C++/CLI Samples -->
     <include name="cpp/cpp-cli/failures/cpp-cli-failures.build"
-      if="${platform::is-win32()}" />
+      if="${platform::is-windows()}" />
     <include name="cpp/cpp-cli/syntax/cpp-cli-syntax.build"
-      if="${platform::is-win32()}" />
+      if="${platform::is-windows()}" />
 
     <!-- Extensibility Samples -->
     <include name="Extensibility/Core/Minimal/Minimal.build" />

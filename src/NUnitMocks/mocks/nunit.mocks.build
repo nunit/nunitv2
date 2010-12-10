@@ -25,7 +25,7 @@
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <nowarn>
-        <warning number="1699" if="${runtime.version=='2.0'}"/>
+        <warning number="1699" if="${runtime.version>='2.0'}"/>
       </nowarn>
       <references basedir="${current.framework.dir}">
         <include name="nunit.framework.dll"/>

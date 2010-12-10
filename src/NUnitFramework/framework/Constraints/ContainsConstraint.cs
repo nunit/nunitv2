@@ -5,6 +5,10 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
+#if NET_2_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Constraints
 {
@@ -22,6 +26,8 @@ namespace NUnit.Framework.Constraints
 		Constraint realConstraint;
         bool ignoreCase;
 
+        private EqualityAdapter adapter = null;
+
 		private Constraint RealConstraint
 		{
 			get 
@@ -36,9 +42,16 @@ namespace NUnit.Framework.Constraints
                         this.realConstraint = constraint;
                     }
                     else
-                        this.realConstraint = new CollectionContainsConstraint(expected);
+					{
+                        CollectionContainsConstraint constraint = new CollectionContainsConstraint(expected);
+						
+						if (this.adapter != null)
+							constraint.comparer.ExternalComparer = adapter;
+							
+						this.realConstraint = constraint;
+					}
 				}
-
+				
 				return realConstraint;
 			}
 			set 
@@ -52,6 +65,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="expected">The expected.</param>
 		public ContainsConstraint( object expected )
+			: base(expected)
 		{
 			this.expected = expected;
 		}
@@ -83,5 +97,62 @@ namespace NUnit.Framework.Constraints
 		{
 			this.RealConstraint.WriteDescriptionTo(writer);
 		}
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public ContainsConstraint Using(IComparer comparer)
+        {
+            this.adapter = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+#if NET_2_0
+        /// <summary>
+        /// Flag the constraint to use the supplied IComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public ContainsConstraint Using<T>(IComparer<T> comparer)
+        {
+            this.adapter = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied Comparison object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public ContainsConstraint Using<T>(Comparison<T> comparer)
+        {
+            this.adapter = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IEqualityComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public ContainsConstraint Using(IEqualityComparer comparer)
+        {
+            this.adapter = EqualityAdapter.For(comparer);
+            return this;
+        }
+
+        /// <summary>
+        /// Flag the constraint to use the supplied IEqualityComparer object.
+        /// </summary>
+        /// <param name="comparer">The IComparer object to use.</param>
+        /// <returns>Self.</returns>
+        public ContainsConstraint Using<T>(IEqualityComparer<T> comparer)
+        {
+            this.adapter = EqualityAdapter.For(comparer);
+            return this;
+        }
+#endif
 	}
 }

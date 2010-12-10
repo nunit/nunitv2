@@ -56,7 +56,7 @@ namespace PNUnit.Agent
 					mTestInfo.TestName, mTestInfo.TestToRun, mTestInfo.AssemblyName);
 				ConsoleWriter outStream = new ConsoleWriter(Console.Out);
 
-				ConsoleWriter errorStream = new ConsoleWriter(Console.Error);                     
+//				ConsoleWriter errorStream = new ConsoleWriter(Console.Error);                     
           
 #if NUNIT_2_5
                 ITest test = MakeTest(testDomain, Path.Combine(mConfig.PathToAssemblies, mTestInfo.AssemblyName));
@@ -80,12 +80,12 @@ namespace PNUnit.Agent
 		
 				EventListener collector = new EventCollector( outStream );
 
-				string savedDirectory = Environment.CurrentDirectory;
+//				string savedDirectory = Environment.CurrentDirectory;
 
 				log.Info("Creating PNUnitServices in the AppDomain of the test");
 				object[] param = { mTestInfo, (ITestConsoleAccess)this }; 
 
-				object obj = testDomain.AppDomain.CreateInstanceAndUnwrap(
+				testDomain.AppDomain.CreateInstanceAndUnwrap(
 					typeof(PNUnitServices).Assembly.FullName, 
 					typeof(PNUnitServices).FullName,
 					false, BindingFlags.Default, null, param, null, null, null);

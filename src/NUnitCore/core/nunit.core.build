@@ -101,7 +101,7 @@
     <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <nowarn>
-        <warning number="618,1699" if="${runtime.version=='2.0'}"/>
+        <warning number="618,1699" if="${runtime.version>='2.0'}"/>
       </nowarn>
       <references>
 	<include name="System.Configuration.dll"/>
@@ -117,11 +117,6 @@
         <include name="summary.xslt"/>    <!-- and this -->
         <include name="nunit.core.dll.csproj"/>
         <include name="nunit.core.build"/>
-      </fileset>
-    </copy>
-    <copy todir="${package.src.dir}/NUnitCore/schemas">
-      <fileset>
-        <include name="Results.xsd"/>
       </fileset>
     </copy>
   </target>

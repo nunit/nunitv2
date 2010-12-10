@@ -138,13 +138,126 @@ namespace NUnit.Framework.Constraints
             Assert.That(new string[] { "Hello", "World" }, 
                 new CollectionContainsConstraint("WORLD").IgnoreCase);
         }
+		
+        [Test]
+        public void UsesProvidedIComparer()
+        {
+            MyComparer comparer = new MyComparer();
+            Assert.That(new string[] { "Hello", "World" }, 
+                new CollectionContainsConstraint("World").Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyComparer : IComparer
+        {
+            public bool Called;
+
+            public int Compare(object x, object y)
+            {
+                Called = true;
+                return Comparer.Default.Compare(x, y);
+            }
+        }
+
+#if NET_2_0	
+        [Test]
+        public void UsesProvidedEqualityComparer()
+        {
+            MyEqualityComparer comparer = new MyEqualityComparer();
+            Assert.That(new string[] { "Hello", "World" }, 
+                new CollectionContainsConstraint("World").Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyEqualityComparer : IEqualityComparer
+        {
+            public bool Called;
+
+            bool IEqualityComparer.Equals(object x, object y)
+            {
+                Called = true;
+                return Comparer.Default.Compare(x, y) == 0;
+            }
+
+            int IEqualityComparer.GetHashCode(object x)
+            {
+                return x.GetHashCode();
+            }
+        }
+
+        [Test]
+        public void UsesProvidedEqualityComparerOfT()
+        {
+            MyEqualityComparerOfT<string> comparer = new MyEqualityComparerOfT<string>();
+            Assert.That(new string[] { "Hello", "World" }, 
+                new CollectionContainsConstraint("World").Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyEqualityComparerOfT<T> : IEqualityComparer<T>
+        {
+            public bool Called;
+
+            bool IEqualityComparer<T>.Equals(T x, T y)
+            {
+                Called = true;
+                return Comparer<T>.Default.Compare(x, y) == 0;
+            }
+
+            int IEqualityComparer<T>.GetHashCode(T x)
+            {
+                return x.GetHashCode();
+            }
+        }
+
+        [Test]
+        public void UsesProvidedComparerOfT()
+        {
+            MyComparer<string> comparer = new MyComparer<string>();
+            Assert.That(new string[] { "Hello", "World" }, 
+                new CollectionContainsConstraint("World").Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyComparer<T> : IComparer<T>
+        {
+            public bool Called;
+
+            public int Compare(T x, T y)
+            {
+                Called = true;
+                return Comparer<T>.Default.Compare(x, y);
+            }
+        }
+
+        [Test]
+        public void UsesProvidedComparisonOfT()
+        {
+            MyComparison<string> comparer = new MyComparison<string>();
+            Assert.That(new string[] { "Hello", "World" }, 
+                new CollectionContainsConstraint("World").Using(new Comparison<string>(comparer.Compare)));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        class MyComparison<T>
+        {
+            public bool Called;
+
+            public int Compare(T x, T y)
+            {
+                Called = true;
+                return Comparer<T>.Default.Compare(x, y);
+            }
+        }
+
 #if CS_3_0
         [Test]
-        public void UsingIsHonored()
+        public void UsesProvidedLambdaExpression()
         {
             Assert.That(new string[] { "Hello", "World" },
                 new CollectionContainsConstraint("WORLD").Using<string>( (x,y)=>String.Compare(x, y, true) ));
         }
+#endif
 #endif
     }
     #endregion

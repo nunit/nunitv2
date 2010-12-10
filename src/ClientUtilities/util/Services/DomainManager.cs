@@ -169,25 +169,39 @@ namespace NUnit.Util
 
             public void Unload()
             {
-                log.Info("Unloading AppDomain " + domain.FriendlyName);
+                string domainName;
+                try
+                {
+                    domainName = domain.FriendlyName;
+                }
+                catch (AppDomainUnloadedException)
+                {
+                    return;
+                }
+
+                log.Info("Unloading AppDomain " + domainName);
 
                 thread = new Thread(new ThreadStart(UnloadOnThread));
                 thread.Start();
-                if (!thread.Join(20000))
+                if (!thread.Join(30000))
                 {
-                    log.Error("Unable to unload AppDomain {0}, Unload thread timed out", domain.FriendlyName);
+                    log.Error("Unable to unload AppDomain {0}, Unload thread timed out", domainName);
                     thread.Abort();
                 }
             }
 
             private void UnloadOnThread()
             {
-                bool shadowCopy = domain.ShadowCopyFiles;
-                string cachePath = domain.SetupInformation.CachePath;
-                string domainName = domain.FriendlyName;
+                bool shadowCopy = false;
+                string cachePath = null;
+                string domainName = "UNKNOWN";               
 
                 try
                 {
+                    shadowCopy = domain.ShadowCopyFiles;
+                    cachePath = domain.SetupInformation.CachePath;
+                    domainName = domain.FriendlyName;
+
                     AppDomain.Unload(domain);
                 }
                 catch (Exception ex)
@@ -199,7 +213,7 @@ namespace NUnit.Util
                 }
                 finally
                 {
-                    if (shadowCopy)
+                    if (shadowCopy && cachePath != null)
                         DeleteCacheDir(new DirectoryInfo(cachePath));
                 }
             }

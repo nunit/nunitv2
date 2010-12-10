@@ -20,7 +20,7 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<empty>";
         }
 
-        static object[] SuccessData = new object[] 
+        internal static object[] SuccessData = new object[] 
         {
             string.Empty,
             new object[0],
@@ -30,19 +30,19 @@ namespace NUnit.Framework.Constraints
 #endif  
         };
 
-        static object[] FailureData = new object[]
+        internal static object[] FailureData = new object[]
         {
             "Hello",
             new object[] { 1, 2, 3 }
         };
 
-        static string[] ActualValues = new string[]
+        internal static string[] ActualValues = new string[]
         {
             "\"Hello\"",
             "< 1, 2, 3 >"
         };
 
-        static object[] InvalidData = new object[]
+        internal static object[] InvalidData = new object[]
             {
                 null,
                 5
@@ -60,23 +60,23 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<nullorempty>";
         }
 
-        static object[] SuccessData = new object[] 
+        internal static object[] SuccessData = new object[] 
         {
             string.Empty,
             null
         };
 
-        static object[] FailureData = new object[]
+        internal static object[] FailureData = new object[]
         {
             "Hello"
         };
 
-        static string[] ActualValues = new string[]
+        internal static string[] ActualValues = new string[]
         {
             "\"Hello\""
         };
 
-        static object[] InvalidData = new object[]
+        internal static object[] InvalidData = new object[]
             {
                 5
             };

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A65042E1-D8BC-48DD-8DE1-F0991F07EA77}"
 	ProjectSection(SolutionItems) = preProject
-		nunit.build = nunit.build
 		nunit.build.include = nunit.build.include
 		src\nunit.snk = src\nunit.snk
-		src\NUnitTests.config = src\NUnitTests.config
-		src\NUnitTests.nunit = src\NUnitTests.nunit
+		NUnitTests.config = NUnitTests.config
+		NUnitTests.nunit = NUnitTests.nunit
+		nunit.build = nunit.build
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.exe", "src\GuiRunner\nunit-gui-exe\nunit-gui.exe.csproj", "{AAB186A4-FA3D-404D-AD78-7EB5BB861655}"

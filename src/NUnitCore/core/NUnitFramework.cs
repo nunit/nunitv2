@@ -153,7 +153,7 @@ namespace NUnit.Core
         /// <param name="test">The test to which the attributes apply</param>
         public static void ApplyCommonAttributes(MemberInfo member, Test test)
         {
-            ApplyCommonAttributes( Reflect.GetAttributes( member, false ), test );
+            ApplyCommonAttributes( Reflect.GetAttributes( member, true ), test );
         }
 
         /// <summary>

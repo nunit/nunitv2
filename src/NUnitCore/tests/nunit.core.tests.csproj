@@ -40,7 +40,7 @@
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\bin\Debug\tests\</OutputPath>
+    <OutputPath>..\..\..\bin\Debug\tests\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
@@ -58,7 +58,7 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\bin\Release\tests\</OutputPath>
+    <OutputPath>..\..\..\bin\Release\tests\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
@@ -229,9 +229,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="nunit.core.tests.build" />
-    <EmbeddedResource Include="..\schemas\Results.xsd">
-      <Link>Results.xsd</Link>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Results.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

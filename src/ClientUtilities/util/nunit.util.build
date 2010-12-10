@@ -58,7 +58,6 @@
         <include name="ProjectConverters/VisualStudioConverter.cs"/>
         <include name="Services/AddinManager.cs"/>
         <include name="Services/AddinRegistry.cs"/>
-        <include name="Services/ClientExtensions.cs"/>
         <include name="Services/DomainManager.cs"/>
         <include name="Services/ProjectService.cs"/>
         <include name="Services/RecentFilesService.cs"/>
@@ -81,7 +80,7 @@
       </sources>
       <nowarn>
         <warning number="618"/>
-        <warning number="1699" if="${runtime.version=='2.0'}"/>
+        <warning number="1699" if="${runtime.version>='2.0'}"/>
       </nowarn>
       <resources prefix="NUnit.Util">
         <patternset refid="resource-files"/>

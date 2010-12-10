@@ -17,13 +17,13 @@ namespace NUnit.Core.Tests
     public class SetCultureAttributeTests
     {
         private CultureInfo originalCulture;
-        private CultureInfo originalUICulture;
+//        private CultureInfo originalUICulture;
 
         [SetUp]
         public void Setup()
         {
             originalCulture = CultureInfo.CurrentCulture;
-            originalUICulture = CultureInfo.CurrentUICulture;
+//            originalUICulture = CultureInfo.CurrentUICulture;
         }        
 
         [Test, SetUICulture("fr-FR")]

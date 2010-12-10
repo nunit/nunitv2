@@ -17,11 +17,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = string.Format("<typeof {0}>", typeof(D1));
         }
 
-        object[] SuccessData = new object[] { new D1() };
+        internal object[] SuccessData = new object[] { new D1() };
         
-        object[] FailureData = new object[] { new B(), new D2() };
+        internal object[] FailureData = new object[] { new B(), new D2() };
 
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.B>",
                 "<NUnit.Framework.Constraints.D2>"
@@ -39,11 +39,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = string.Format("<instanceof {0}>", typeof(D1));
         }
 
-        object[] SuccessData = new object[] { new D1(), new D2() };
+        internal object[] SuccessData = new object[] { new D1(), new D2() };
 
-        object[] FailureData = new object[] { new B() };
+        internal object[] FailureData = new object[] { new B() };
 
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.B>"
             };
@@ -60,11 +60,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = string.Format("<assignablefrom {0}>", typeof(D1));
         }
 
-        object[] SuccessData = new object[] { new D1(), new B() };
+        internal object[] SuccessData = new object[] { new D1(), new B() };
             
-        object[] FailureData = new object[] { new D2() };
+        internal object[] FailureData = new object[] { new D2() };
 
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.D2>"
             };
@@ -81,11 +81,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = string.Format("<assignableto {0}>", typeof(D1));
         }
         
-        object[] SuccessData = new object[] { new D1(), new D2() };
+        internal object[] SuccessData = new object[] { new D1(), new D2() };
             
-        object[] FailureData = new object[] { new B() };
+        internal object[] FailureData = new object[] { new B() };
 
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.B>"
             };
@@ -108,11 +108,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<attributeexists NUnit.Framework.TestFixtureAttribute>";
         }
 
-        object[] SuccessData = new object[] { typeof(AttributeExistsConstraintTest) };
+        internal object[] SuccessData = new object[] { typeof(AttributeExistsConstraintTest) };
             
-        object[] FailureData = new object[] { typeof(D2) };
+        internal object[] FailureData = new object[] { typeof(D2) };
 
-        string[] ActualValues = new string[]
+        internal string[] ActualValues = new string[]
             {
                 "<NUnit.Framework.Constraints.D2>"
             };

@@ -11,7 +11,7 @@ namespace NUnit.Framework
 	/// <summary>
 	/// Summary description for SetCultureAttribute.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true)]
+	[AttributeUsage(AttributeTargets.Class|AttributeTargets.Method|AttributeTargets.Assembly, AllowMultiple=true, Inherited=true)]
 	public class SetCultureAttribute : PropertyAttribute
 	{
 		/// <summary>

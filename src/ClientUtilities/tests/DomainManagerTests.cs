@@ -61,6 +61,16 @@ namespace NUnit.Util.Tests
                 DomainManager.GetCommonAppBase(assemblies));
         }
 
+        [Test]
+        public void UnloadUnloadedDomain()
+        {
+            AppDomain domain = AppDomain.CreateDomain("DomainManagerTests-domain");
+            AppDomain.Unload(domain);
+
+            DomainManager manager = new DomainManager();
+            manager.Unload(domain);
+        }
+
         /// <summary>
         /// Take a valid Linux path and make a valid windows path out of it
         /// if we are on Windows. Change slashes to backslashes and, if the

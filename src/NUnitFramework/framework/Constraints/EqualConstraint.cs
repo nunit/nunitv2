@@ -22,9 +22,8 @@ namespace NUnit.Framework.Constraints
     public class EqualConstraint : Constraint
     {
         #region Static and Instance Fields
-        private static IDictionary constraintHelpers = new Hashtable();
 
-        private readonly object expected;
+		private readonly object expected;
 
         /// <summary>
         /// If true, strings in error messages will be clipped
@@ -53,6 +52,7 @@ namespace NUnit.Framework.Constraints
 			"Values differ at index {0}";
 		private static readonly string ValuesDiffer_2 =
 			"Values differ at expected index {0}, actual index {1}";
+		
         #endregion
 
         #endregion

@@ -15,7 +15,7 @@ namespace NUnit.Framework
     /// is exceeded. Used on a method or assembly, sets the default timeout 
     /// for all contained test methods.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false, Inherited=false)]
     public class TimeoutAttribute : PropertyAttribute
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace NUnit.Framework
     /// On methods, you may also use STAThreadAttribute
     /// to serve the same purpose.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false, Inherited=false)]
     public class RequiresSTAAttribute : PropertyAttribute
     {
         /// <summary>
@@ -52,7 +52,7 @@ namespace NUnit.Framework
     /// On methods, you may also use MTAThreadAttribute
     /// to serve the same purpose.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false, Inherited=false)]
     public class RequiresMTAAttribute : PropertyAttribute
     {
         /// <summary>
@@ -67,7 +67,7 @@ namespace NUnit.Framework
     /// <summary>
     /// Marks a test that must run on a separate thread.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false, Inherited=false)]
     public class RequiresThreadAttribute : PropertyAttribute
     {
         /// <summary>

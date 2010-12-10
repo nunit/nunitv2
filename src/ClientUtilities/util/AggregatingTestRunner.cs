@@ -398,6 +398,17 @@ namespace NUnit.Util
 			return null;
 		}
 		#endregion
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            foreach (TestRunner runner in runners)
+                if (runner != null)
+                    runner.Dispose();
+        }
+
+        #endregion
     }
     #endregion
 

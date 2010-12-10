@@ -21,11 +21,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<null>";
         }
         
-        object[] SuccessData = new object[] { null };
+        internal object[] SuccessData = new object[] { null };
         
-        object[] FailureData = new object[] { "hello" };
+        internal object[] FailureData = new object[] { "hello" };
 
-        string[] ActualValues = new string[] { "\"hello\"" };
+        internal string[] ActualValues = new string[] { "\"hello\"" };
     }
 
     [TestFixture]
@@ -39,11 +39,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<true>";
         }
         
-        object[] SuccessData = new object[] { true, 2+2==4 };
+        internal object[] SuccessData = new object[] { true, 2+2==4 };
         
-        object[] FailureData = new object[] { null, "hello", false, 2+2==5 };
+        internal object[] FailureData = new object[] { null, "hello", false, 2+2==5 };
 
-        string[] ActualValues = new string[] { "null", "\"hello\"", "False", "False" };
+        internal string[] ActualValues = new string[] { "null", "\"hello\"", "False", "False" };
     }
 
     [TestFixture]
@@ -57,11 +57,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<false>";
         }
 
-        object[] SuccessData = new object[] { false, 2 + 2 == 5 };
+        internal object[] SuccessData = new object[] { false, 2 + 2 == 5 };
 
-        object[] FailureData = new object[] { null, "hello", true, 2+2==4 };
+        internal object[] FailureData = new object[] { null, "hello", true, 2+2==4 };
 
-        string[] ActualValues = new string[] { "null", "\"hello\"", "True", "True" };
+        internal string[] ActualValues = new string[] { "null", "\"hello\"", "True", "True" };
     }
 
     [TestFixture]
@@ -75,13 +75,13 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<nan>";
         }
         
-        object[] SuccessData = new object[] { double.NaN, float.NaN };
+        internal object[] SuccessData = new object[] { double.NaN, float.NaN };
 
-        object[] FailureData = new object[] { null, "hello", 42, 
+        internal object[] FailureData = new object[] { null, "hello", 42, 
             double.PositiveInfinity, double.NegativeInfinity,
             float.PositiveInfinity, float.NegativeInfinity };
 
-        string[] ActualValues = new string[] { "null", "\"hello\"", "42", 
+        internal string[] ActualValues = new string[] { "null", "\"hello\"", "42", 
             "Infinity", "-Infinity", "Infinity", "-Infinity" };
     }
 }

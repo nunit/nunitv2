@@ -41,7 +41,7 @@ namespace NUnit.Core.Tests
         }
 
         [Datapoint]
-        object objData = null;
+        internal object objData = null;
 
         [Test]
         public void EnumArgumentsAreSuppliedAutomatically()
@@ -74,7 +74,7 @@ namespace NUnit.Core.Tests
         }
 
         [Datapoints]
-        string[] vals = new string[] { "xyz1", "xyz2", "xyz3" };
+        internal string[] vals = new string[] { "xyz1", "xyz2", "xyz3" };
 
         [Theory]
         public void ArrayWithDatapointsAttributeIsUsed(string s)

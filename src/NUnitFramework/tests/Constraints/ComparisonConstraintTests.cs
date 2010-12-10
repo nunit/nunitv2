@@ -99,13 +99,13 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<greaterthan 5>";
         }
 
-        object[] SuccessData = new object[] { 6, 5.001 };
+        internal object[] SuccessData = new object[] { 6, 5.001 };
 
-        object[] FailureData = new object[] { 4, 5 };
+        internal object[] FailureData = new object[] { 4, 5 };
 
-        string[] ActualValues = new string[] { "4", "5" };
+        internal string[] ActualValues = new string[] { "4", "5" };
 
-        object[] InvalidData = new object[] { null, "xxx" };
+        internal object[] InvalidData = new object[] { null, "xxx" };
 
         [Test]
         public void CanCompareIComparables()
@@ -139,13 +139,13 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<greaterthanorequal 5>";
         }
 
-        object[] SuccessData = new object[] { 6, 5 };
+        internal object[] SuccessData = new object[] { 6, 5 };
 
-        object[] FailureData = new object[] { 4 };
+        internal object[] FailureData = new object[] { 4 };
 
-        string[] ActualValues = new string[] { "4" };
+        internal string[] ActualValues = new string[] { "4" };
 
-        object[] InvalidData = new object[] { null, "xxx" };
+        internal object[] InvalidData = new object[] { null, "xxx" };
 
         [Test]
         public void CanCompareIComparables()
@@ -179,13 +179,13 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<lessthan 5>";
         }
 
-        object[] SuccessData = new object[] { 4, 4.999 };
+        internal object[] SuccessData = new object[] { 4, 4.999 };
 
-        object[] FailureData = new object[] { 6, 5 };
+        internal object[] FailureData = new object[] { 6, 5 };
 
-        string[] ActualValues = new string[] { "6", "5" };
+        internal string[] ActualValues = new string[] { "6", "5" };
 
-        object[] InvalidData = new object[] { null, "xxx" };
+        internal object[] InvalidData = new object[] { null, "xxx" };
 
         [Test]
         public void CanCompareIComparables()
@@ -219,13 +219,13 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<lessthanorequal 5>";
         }
 
-        object[] SuccessData = new object[] { 4, 5 };
+        internal object[] SuccessData = new object[] { 4, 5 };
 
-        object[] FailureData = new object[] { 6 };
+        internal object[] FailureData = new object[] { 6 };
 
-        string[] ActualValues = new string[] { "6" };
+        internal string[] ActualValues = new string[] { "6" };
 
-        object[] InvalidData = new object[] { null, "xxx" };
+        internal object[] InvalidData = new object[] { null, "xxx" };
 
         [Test]
         public void CanCompareIComparables()
@@ -261,13 +261,13 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<range 5 42>";
         }
 
-        object[] SuccessData = new object[] { 5, 23, 42 };
+        internal object[] SuccessData = new object[] { 5, 23, 42 };
 
-        object[] FailureData = new object[] { 4, 43 };
+        internal object[] FailureData = new object[] { 4, 43 };
 
-        string[] ActualValues = new string[] { "4", "43" };
+        internal string[] ActualValues = new string[] { "4", "43" };
 
-        object[] InvalidData = new object[] { null, "xxx" };
+        internal object[] InvalidData = new object[] { null, "xxx" };
 
         [Test]
         public void UsesProvidedIComparer()

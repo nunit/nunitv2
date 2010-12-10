@@ -30,7 +30,7 @@ namespace NUnit.TestServerApp
 			if ( args.Length > 1 )
 				port = int.Parse( args[1] );
 
-			TestServer server = new TestServer( uri, 9000 );
+			TestServer server = new TestServer( uri, port );
 			server.Start();
 
 			Console.WriteLine( "Waiting for Stop" );

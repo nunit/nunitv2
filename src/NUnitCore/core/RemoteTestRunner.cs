@@ -40,7 +40,6 @@ namespace NUnit.Core
                 false, BindingFlags.Default, null, new object[] { ID }, null, null, null);
 
             object obj = oh.Unwrap();
-            Type type = obj.GetType();
             return (RemoteTestRunner)obj;
         }
 

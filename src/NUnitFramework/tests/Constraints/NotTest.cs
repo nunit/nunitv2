@@ -19,11 +19,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<not <equal null>>";
         }
 
-        object[] SuccessData = new object[] { 42, "Hello" };
+        internal object[] SuccessData = new object[] { 42, "Hello" };
             
-        object[] FailureData = new object [] { null };
+        internal object[] FailureData = new object [] { null };
 
-        string[] ActualValues = new string[] { "null" };
+        internal string[] ActualValues = new string[] { "null" };
 
         [Test, ExpectedException(typeof(AssertionException), ExpectedMessage = "ignoring case", MatchType = MessageMatch.Contains)]
         public void NotHonorsIgnoreCaseUsingConstructors()

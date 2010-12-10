@@ -20,10 +20,10 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<sameas System.Object>";
         }
 
-        static object[] SuccessData = new object[] { obj1 };
+        internal static object[] SuccessData = new object[] { obj1 };
 
-        static object[] FailureData = new object[] { obj2, 3, "Hello" };
+        internal static object[] FailureData = new object[] { obj2, 3, "Hello" };
 
-        static string[] ActualValues = new string[] { "<System.Object>", "3", "\"Hello\"" };
+        internal static string[] ActualValues = new string[] { "<System.Object>", "3", "\"Hello\"" };
     }
 }
