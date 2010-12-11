@@ -114,7 +114,8 @@ namespace NUnit.Core
 			{
 				log.Debug("Test completed normally");
 	            testResult.SetResult(threadResult.ResultState, threadResult.Message, threadResult.StackTrace);
-			}
+                testResult.AssertCount = threadResult.AssertCount;
+            }
 			
 			return testResult;
         }
