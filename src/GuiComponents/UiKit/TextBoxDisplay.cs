@@ -18,7 +18,6 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TextBoxDisplay : System.Windows.Forms.RichTextBox, TextDisplay, TestObserver
 	{
-		private ContextMenu contextMenu = new ContextMenu();
 		private MenuItem copyMenuItem;
 		private MenuItem selectAllMenuItem;
 		private MenuItem wordWrapMenuItem;

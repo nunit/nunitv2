@@ -79,7 +79,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("StaticField", source);
         }
 
-        static object[] StaticField = { "StaticField" };
+        internal static object[] StaticField = { "StaticField" };
 
         [Test]
         public void ValueSourceCanBeInstanceField(
@@ -88,7 +88,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("InstanceField", source);
         }
 
-        static object[] InstanceField = { "InstanceField" };
+        internal static object[] InstanceField = { "InstanceField" };
 
         [Test]
         public void ValueSourceIsInvokedWithCorrectCurrentDirectory(
@@ -114,9 +114,9 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(q, n / d);
         }
 
-        static int[] Numerators = new int[] { 12, 12, 12 };
-        static int[] Denominators = new int[] { 3, 4, 6 };
-        static int[] Quotients = new int[] { 4, 3, 2 };
+        internal static int[] Numerators = new int[] { 12, 12, 12 };
+        internal static int[] Denominators = new int[] { 3, 4, 6 };
+        internal static int[] Quotients = new int[] { 4, 3, 2 };
 
         [Test, Sequential]
         public void ValueSourceMayBeInAnotherClass(
@@ -129,9 +129,9 @@ namespace NUnit.Core.Tests
 
         private class DivideDataProvider
         {
-            static int[] Numerators = new int[] { 12, 12, 12 };
-            static int[] Denominators = new int[] { 3, 4, 6 };
-            static int[] Quotients = new int[] { 4, 3, 2 };
+            internal static int[] Numerators = new int[] { 12, 12, 12 };
+            internal static int[] Denominators = new int[] { 3, 4, 6 };
+            internal static int[] Quotients = new int[] { 4, 3, 2 };
         }
 
 #if NET_2_0

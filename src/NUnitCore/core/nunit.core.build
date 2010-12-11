@@ -118,11 +118,6 @@
         <include name="nunit.core.build"/>
       </fileset>
     </copy>
-    <copy todir="${package.src.dir}/NUnitCore/schemas">
-      <fileset>
-        <include name="Results.xsd"/>
-      </fileset>
-    </copy>
   </target>
 
 </project>

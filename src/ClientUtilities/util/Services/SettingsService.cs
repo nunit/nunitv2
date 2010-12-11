@@ -76,13 +76,11 @@ namespace NUnit.Util
 		private class LegacySettingsConverter : SettingsGroup
 		{
 			private ISettingsStorage legacy;
-			private ISettingsStorage current;
 
 			public LegacySettingsConverter( ISettingsStorage legacy, ISettingsStorage current )
 				: base( current )
 			{
 				this.legacy = legacy;
-				this.current = current;
 			}
 
 			public void Convert()

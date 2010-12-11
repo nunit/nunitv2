@@ -82,7 +82,7 @@ namespace NUnit.Core.Tests
     {
         private int answer;
 
-        object[] myData = { new int[] { 6, 7 }, new int[] { 3, 14 } };
+        internal object[] myData = { new int[] { 6, 7 }, new int[] { 3, 14 } };
 
         public ParameterizedTestFixtureWithDataSources(int val)
         {
@@ -110,7 +110,7 @@ namespace NUnit.Core.Tests
         }
 #endif
 
-        int[] intvals = new int[] { 1, 2, 3 };
+        internal int[] intvals = new int[] { 1, 2, 3 };
 
         [Test]
         public void CanAccessValueSource(

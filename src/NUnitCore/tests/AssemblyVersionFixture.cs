@@ -51,7 +51,7 @@ namespace NUnit.Core.Tests
 
 		public static void MakeDynamicAssembly(AssemblyName myAssemblyName)
 		{
-			AssemblyBuilder myAssemblyBuilder = Thread.GetDomain().DefineDynamicAssembly(myAssemblyName, AssemblyBuilderAccess.RunAndSave);			
+			Thread.GetDomain().DefineDynamicAssembly(myAssemblyName, AssemblyBuilderAccess.RunAndSave);			
 		}
 	}
 }

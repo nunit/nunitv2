@@ -21,7 +21,7 @@ namespace NUnit.UiException.Tests.Controls
     {
         private TestingCodeBox _box;
 
-        private FormattedCode _emptyText;
+//        private FormattedCode _emptyText;
         private FormattedCode _someText;
         private FormattedCode _someCode;
 
@@ -39,7 +39,7 @@ namespace NUnit.UiException.Tests.Controls
             _box.Width = 150;
             _box.Height = 150;
 
-            _emptyText = Format("", "");
+//            _emptyText = Format("", "");
             _someText = Format("some C# code", "");
             _someCode = Format("some C# code", "C#");
 

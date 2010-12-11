@@ -72,7 +72,6 @@ namespace NUnit.UiKit
 		{
 			Graphics g = pe.Graphics;
 			string text = builder.ToString();
-			Rectangle clip = pe.ClipRectangle;
 
 			g.DrawString( text, this.Font, Brushes.Black, this.AutoScrollPosition );
 

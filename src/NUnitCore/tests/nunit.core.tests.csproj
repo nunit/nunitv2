@@ -228,9 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="nunit.core.tests.build" />
-    <EmbeddedResource Include="..\schemas\Results.xsd">
-      <Link>Results.xsd</Link>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Results.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

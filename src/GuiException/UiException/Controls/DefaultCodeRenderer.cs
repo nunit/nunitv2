@@ -26,7 +26,7 @@ namespace NUnit.UiException.Controls
         {
             List<PaintLineLocation> list = new List<PaintLineLocation>();
             int visibles = CountVisibleLines(viewport.Height, fontHeight);
-            int topIndex = YCoordinateToLineIndex(viewport.Top, fontHeight);
+//            int topIndex = YCoordinateToLineIndex(viewport.Top, fontHeight);
             int lineIndex = YCoordinateToLineIndex(viewport.Top, fontHeight);
             int i;
 

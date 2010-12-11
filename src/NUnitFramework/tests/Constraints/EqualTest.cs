@@ -25,11 +25,11 @@ namespace NUnit.Framework.Constraints
             stringRepresentation = "<equal 4>";
         }
 
-        object[] SuccessData = new object[] { 4, 4.0f, 4.0d, 4.0000m };
+        internal object[] SuccessData = new object[] { 4, 4.0f, 4.0d, 4.0000m };
             
-        object[] FailureData = new object[] { 5, null, "Hello", double.NaN, double.PositiveInfinity };
+        internal object[] FailureData = new object[] { 5, null, "Hello", double.NaN, double.PositiveInfinity };
 
-        string[] ActualValues = new string[] { "5", "null", "\"Hello\"", "NaN", "Infinity" };
+        internal string[] ActualValues = new string[] { "5", "null", "\"Hello\"", "NaN", "Infinity" };
 
         [TestCase(double.NaN)]
         [TestCase(double.PositiveInfinity)]
@@ -240,13 +240,13 @@ namespace NUnit.Framework.Constraints
         [Test, ExpectedException(typeof(InvalidOperationException))]
         public void ErrorWithPercentAndUlpsToleranceModes()
         {
-            EqualConstraint shouldFail = new EqualConstraint(100.0f).Within(10.0f).Percent.Ulps;
+            Assert.That(100.0f, new EqualConstraint(100.0f).Within(10.0f).Percent.Ulps);
         }
 
         /// <summary>Applies both the Ulps and Percent modifiers to cause an exception</summary>
         [Test, ExpectedException(typeof(InvalidOperationException))]
         public void ErrorWithUlpsAndPercentToleranceModes() {
-          EqualConstraint shouldFail = new EqualConstraint(100.0f).Within(10.0f).Ulps.Percent;
+        	Assert.That(100.0f, new EqualConstraint(100.0f).Within(10.0f).Ulps.Percent);
         }
 
         [Test, ExpectedException(typeof(InvalidOperationException))]

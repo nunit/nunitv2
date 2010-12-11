@@ -58,7 +58,6 @@
         <include name="ProjectConverters/VisualStudioConverter.cs"/>
         <include name="Services/AddinManager.cs"/>
         <include name="Services/AddinRegistry.cs"/>
-        <include name="Services/ClientExtensions.cs"/>
         <include name="Services/DomainManager.cs"/>
         <include name="Services/ProjectService.cs"/>
         <include name="Services/RecentFilesService.cs"/>

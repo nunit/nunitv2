@@ -196,7 +196,6 @@ namespace NUnit.UiKit
 					return;
 			}
 
-            bool wasActive = project.ActiveConfigName == project.Configs[selectedIndex].Name;
 			project.Configs.RemoveAt( selectedIndex );
 			FillListBox();
 		}

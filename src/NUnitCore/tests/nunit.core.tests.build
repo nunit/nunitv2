@@ -22,6 +22,7 @@
         <include name="CoreExtensionsTests.cs"/>
         <include name="CultureSettingAndDetectionTests.cs"/>
         <include name="DatapointTests.cs"/>
+        <include name="DirectoryChangeTests.cs"/>
         <include name="DirectorySwapperTests.cs"/>
         <include name="EventQueueTests.cs"/>
         <include name="EventTestFixture.cs"/>
@@ -94,7 +95,7 @@
         <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <resources prefix="NUnit.Core.Tests">
-        <include name="../schemas/Results.xsd"/>
+        <include name="Results.xsd"/>
       </resources>
       <references>
         <include name="${current.framework.dir}/nunit.framework.dll"/>
@@ -115,6 +116,7 @@
     <copy todir="${package.src.dir}/NUnitCore/tests">
       <fileset>
         <patternset refid="source-files"/>
+        <include name="Results.xsd"/>
         <include name="nunit.core.tests.csproj"/>
         <include name="nunit.core.tests.build"/>
       </fileset>

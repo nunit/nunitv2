@@ -36,7 +36,7 @@ namespace NUnit.UiException.Controls
         private Rectangle _rectIconDll;
         private Rectangle _rectIconCSharp;
         private Rectangle _rectIconArrow;
-        private Rectangle _rectShadow;
+//        private Rectangle _rectShadow;
 
         private PaintData _paintData;
 
@@ -57,7 +57,7 @@ namespace NUnit.UiException.Controls
             _rectIconDll = new Rectangle(1, 59, 16, 15);
             _rectIconCSharp = new Rectangle(18, 59, 14, 15);
             _rectIconArrow = new Rectangle(35, 60, 9, 5);
-            _rectShadow = new Rectangle(49, 60, 4, 8);
+//            _rectShadow = new Rectangle(49, 60, 4, 8);
 
             _paintData = new PaintData();
 

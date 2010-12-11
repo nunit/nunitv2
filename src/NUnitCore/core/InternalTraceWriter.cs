@@ -41,8 +41,8 @@ namespace NUnit.Core
 			string domainName = AppDomain.CurrentDomain.FriendlyName;
 
 			string fileName = logName
-				.Replace("%p", Process.GetCurrentProcess().Id.ToString() )
-				.Replace("%a", AppDomain.CurrentDomain.FriendlyName );
+				.Replace("%p", pId.ToString() )
+				.Replace("%a", domainName );
 
             string logPath = Path.Combine(LogDirectory, fileName);
             this.writer = new StreamWriter(logPath, true);

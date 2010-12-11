@@ -18,7 +18,7 @@ namespace NUnit.UiException.Tests.Controls
     {
         private ICodeRenderer _renderer;
         private FormattedCode _empty;
-        private FormattedCode _code;
+//        private FormattedCode _code;
         private FormattedCode _loremIpsum;
         private FormattedCode _text3x7;
         private CodeRenderingContext _args;
@@ -32,11 +32,11 @@ namespace NUnit.UiException.Tests.Controls
 
             _empty = formatter.Format("");
 
-            _code = formatter.Format(
-                "line 1\r\n" +
-                "line 2\r\n" +
-                "line 3\r\n" +
-                "line 4\r\n");
+//            _code = formatter.Format(
+//                "line 1\r\n" +
+//                "line 2\r\n" +
+//                "line 3\r\n" +
+//                "line 4\r\n");
 
             _text3x7 = formatter.Format(
                     "111\r\n" +

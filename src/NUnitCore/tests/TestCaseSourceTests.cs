@@ -65,7 +65,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("StaticField", source);
         }
 
-        static object[] StaticField =
+        internal static object[] StaticField =
             { new object[] { "StaticField" } };
 
         [Test, TestCaseSource("InstanceField")]
@@ -74,7 +74,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("InstanceField", source);
         }
 
-        static object[] InstanceField =
+        internal static object[] InstanceField =
             { new object[] { "InstanceField" } };
 
         [Test, TestCaseSource("CheckCurrentDirectory")]
@@ -216,7 +216,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(lhs, rhs);
         }
 
-        object[] testCases =
+        internal object[] testCases =
         {
             new TestCaseData(
                 new string[] { "A" },
@@ -231,24 +231,24 @@ namespace NUnit.Core.Tests
         }
 
         #region Sources used by the tests
-        static object[] MyData = new object[] {
+        internal static object[] MyData = new object[] {
             new object[] { 12, 3, 4 },
             new object[] { 12, 4, 3 },
             new object[] { 12, 6, 2 } };
 
-        static object[] MyIntData = new object[] {
+        internal static object[] MyIntData = new object[] {
             new int[] { 12, 3, 4 },
             new int[] { 12, 4, 3 },
             new int[] { 12, 6, 2 } };
 
-        static object[] FourArgs = new object[] {
+        internal static object[] FourArgs = new object[] {
             new TestCaseData( 12, 3, 4, 0 ),
             new TestCaseData( 12, 4, 3, 0 ),
             new TestCaseData( 12, 5, 2, 2 ) };
 
-        static int[] EvenNumbers = new int[] { 2, 4, 6, 8 };
+        internal static int[] EvenNumbers = new int[] { 2, 4, 6, 8 };
 
-        static object[] ExpectNull = new object[] {
+        internal static object[] ExpectNull = new object[] {
             new TestCaseData().Returns(null) };
 
         private static IEnumerable CheckCurrentDirectory
@@ -259,11 +259,11 @@ namespace NUnit.Core.Tests
             }
         }
 
-        static object[] MoreData = new object[] {
+        internal static object[] MoreData = new object[] {
             new object[] { 12, 1, 12 },
             new object[] { 12, 2, 6 } };
 
-        static object[] Params = new object[] {
+        internal static object[] Params = new object[] {
             new TestCaseData(24, 3).Returns(8),
             new TestCaseData(24, 2).Returns(12) };
 
