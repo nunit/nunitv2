@@ -28,8 +28,8 @@ namespace NUnit.Core
 
 		/// <summary>
 		/// The result of running the test, which must be kept
-		/// separate from the returned TestResult to avoid
-		/// race conditions.
+		/// separate from the returned TestResult while the thread
+        /// is running to avoid race conditions.
 		/// </summary>
 		protected TestResult threadResult;
 		
@@ -113,8 +113,7 @@ namespace NUnit.Core
 			else
 			{
 				log.Debug("Test completed normally");
-	            testResult.SetResult(threadResult.ResultState, threadResult.Message, threadResult.StackTrace);
-                testResult.AssertCount = threadResult.AssertCount;
+                testResult = threadResult;
             }
 			
 			return testResult;
