@@ -47,7 +47,8 @@ namespace NUnit.Util.Tests
 
 			// assert
 			AssertWatcherIsPrepared();
-		}
+            Assert.AreEqual(1, mockWatcher.DelegateCount);
+        }
 
 		[Test]
 		public void ReloadShouldStartWatcher()
@@ -62,7 +63,8 @@ namespace NUnit.Util.Tests
 
 			// assert
 			AssertWatcherIsPrepared();
-		}
+            Assert.AreEqual(1, mockWatcher.DelegateCount);
+        }
 
 		[Test]
 		public void UnloadShouldStopWatcherAndFreeResources()
@@ -74,10 +76,11 @@ namespace NUnit.Util.Tests
 			// assert
 			Assert.IsFalse(mockWatcher.IsWatching);
 			Assert.IsTrue(mockWatcher.AreResourcesFreed);
-		}
+            Assert.AreEqual(0, mockWatcher.DelegateCount);
+        }
 
 		[Test]
-		public void LoadShouldStartWatcherDepedningOnSettings()
+		public void LoadShouldStartWatcherDependingOnSettings()
 		{
 			// arrange
 			Services.UserSettings.SaveSetting(ReloadOnChangeSetting, false);
@@ -85,10 +88,11 @@ namespace NUnit.Util.Tests
 
 			// assert
 			Assert.IsFalse(mockWatcher.IsWatching);
-		}
+            Assert.AreEqual(0, mockWatcher.DelegateCount);
+        }
 
 		[Test]
-		public void ReloadShouldStartWatcherDepedningOnSettings()
+		public void ReloadShouldStartWatcherDependingOnSettings()
 		{
 			// arrange
 			Services.UserSettings.SaveSetting(ReloadOnChangeSetting, false);
@@ -97,7 +101,8 @@ namespace NUnit.Util.Tests
 
 			// assert
 			Assert.IsFalse(mockWatcher.IsWatching);
-		}
+            Assert.AreEqual(0, mockWatcher.DelegateCount);
+        }
 	}
 
 	internal class MockAssemblyWatcher2 : IAssemblyWatcher
@@ -145,6 +150,16 @@ namespace NUnit.Util.Tests
         {
             if (AssemblyChanged != null)
                 AssemblyChanged(path);
+        }
+
+        public int DelegateCount
+        {
+            get 
+            { 
+                return AssemblyChanged == null
+                    ? 0
+                    : AssemblyChanged.GetInvocationList().Length; 
+            }
         }
 
 		public event AssemblyChangedHandler AssemblyChanged;

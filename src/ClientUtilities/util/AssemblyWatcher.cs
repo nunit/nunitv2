@@ -7,6 +7,7 @@
 using System;
 using System.IO;
 using System.Timers;
+using NUnit.Core;
 
 namespace NUnit.Util
 {
@@ -20,7 +21,9 @@ namespace NUnit.Util
 	/// </summary>
 	public class AssemblyWatcher : IAssemblyWatcher
 	{
-		private FileSystemWatcher[] fileWatchers;
+        static Logger log = InternalTrace.GetLogger(typeof(AssemblyWatcher));
+
+        private FileSystemWatcher[] fileWatchers;
 		private FileInfo[] files;
 		private bool isWatching;
 
@@ -43,11 +46,15 @@ namespace NUnit.Util
         public void Setup(int delay, System.Collections.IList assemblies)
 #endif
 		{
+            log.Info("Setting up watcher");
+
 			files = new FileInfo[assemblies.Count];
 			fileWatchers = new FileSystemWatcher[assemblies.Count];
 
 			for (int i = 0; i < assemblies.Count; i++)
 			{
+                log.Debug("Setting up FileSystemWatcher for {0}", assemblies[i]);
+                
 				files[i] = new FileInfo((string)assemblies[i]);
 
 				fileWatchers[i] = new FileSystemWatcher();
@@ -76,35 +83,32 @@ namespace NUnit.Util
 
 		private void EnableWatchers( bool enable )
 		{
-			if (ReferenceEquals(fileWatchers, null))
-				return;
-
-			foreach( FileSystemWatcher watcher in fileWatchers )
-				watcher.EnableRaisingEvents = enable;
+            if (fileWatchers != null)
+    			foreach( FileSystemWatcher watcher in fileWatchers )
+	    			watcher.EnableRaisingEvents = enable;
 
 			isWatching = enable;
 		}
 
 		public void FreeResources()
 		{
-			if (isWatching)
-			{
-				EnableWatchers(false);
-			}
+            log.Info("FreeResources");
 
-			if (!ReferenceEquals(fileWatchers, null))
+            Stop();
+
+			if (fileWatchers != null)
 			{
 				foreach (FileSystemWatcher watcher in fileWatchers)
 				{
-					if (ReferenceEquals(watcher, null))
-						continue;
-
-					watcher.Changed -= new FileSystemEventHandler(OnChanged);
-					watcher.Dispose();
+                    if (watcher != null)
+                    {
+                        watcher.Changed -= new FileSystemEventHandler(OnChanged);
+                        watcher.Dispose();
+                    }
 				}
 			}
 
-			if (!ReferenceEquals(timer, null))
+			if (timer != null)
 			{
 				timer.Stop();
 				timer.Close();
@@ -120,6 +124,7 @@ namespace NUnit.Util
 		{
 			lock(this)
 			{
+                log.Info("Timer expired");
 				PublishEvent();
 				timer.Enabled=false;
 			}
@@ -127,6 +132,8 @@ namespace NUnit.Util
 		
 		protected void OnChanged(object source, FileSystemEventArgs e)
 		{
+            log.Info("File {0} changed", e.Name);
+
 			changedAssemblyPath = e.FullPath;
 			if ( timer != null )
 			{
@@ -134,6 +141,7 @@ namespace NUnit.Util
 				{
 					if(!timer.Enabled)
 						timer.Enabled=true;
+                    log.Info("Setting timer");
 					timer.Start();
 				}
 			}
@@ -145,8 +153,11 @@ namespace NUnit.Util
 	
 		protected void PublishEvent()
 		{
-			if ( AssemblyChanged != null )
-				AssemblyChanged( changedAssemblyPath );
+            if (AssemblyChanged != null)
+            {
+                log.Debug("Publishing Event to {0} listeners", AssemblyChanged.GetInvocationList().Length);
+                AssemblyChanged(changedAssemblyPath);
+            }
 		}
 	}
 }
