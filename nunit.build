@@ -899,8 +899,10 @@
         <include name="license.rtf"/>
         <include name="nunit.build"/>
         <include name="nunit.build.include"/>
+        <include name="nunit.sln"/>
         <include name="nunit.snk"/>
         <include name="NUnitFitTests.html"/>
+        <include name="NUnitTests.nunit"/>
         <include name="NUnitTests.config"/>
         <include name="NUnitTests.v1.nunit"/>
         <include name="NUnitTests.v2.nunit"/>
@@ -910,9 +912,6 @@
     <!-- Copy src dir files -->
     <copy todir="${package.src.dir}">
       <fileset basedir="${project.src.dir}">
-        <include name="nunit.sln"/>
-        <include name="NUnitTests.nunit"/>
-        <include name="NUnitTests.config"/>
         <include name="nunit.snk"/>
         <include name="CommonAssemblyInfo.cs"/>
         <include name="nunit20under21.config"/>
@@ -920,7 +919,6 @@
         <include name="nunit21under22.config"/>
         <include name="PNUnit/*.conf"/>
         <include name="PNUnit/runpnunit.bat"/>
-        <include name="NUnitCore/schemas/*"/>
       </fileset>
     </copy>
 
