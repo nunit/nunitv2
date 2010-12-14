@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - RunningTests</title>
+<title>NUnit - Nunit-agent</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <link rel="stylesheet" type="text/css" href="nunit.css">
@@ -24,46 +24,35 @@
 
 <div id="content">
 
-<h2>Running Tests</h2>
+<h2>NUnit-Agent</h2>
 
-<p>Nunit provides three different runners, which may be used to load and
-run your tests.
+<p>The nunit-agent.exe program is used by other runners when the tests are being
+   run in a separate process. It is not intended for direct execution by users.
 
-<ul>
-<li>The <a href="nunit-console.html">console runner</a>, 
-    nunit-console.exe, is used for batch execution.
-<li>The <a href="nunit-gui.html">gui runner</a>, nunit.exe,
-    provides interactive loading and running of tests.
-<li>The <a href="pnunit.html">pNUnit runner</a>, 
-    pnunit-launcher.exe, is used to run parallel, distributed tests under the
-	control of pNUnit.
-</ul>
+<p>NUnit runs tests in a separate process in several situations:
 
-<h3>NUnit Agent</h3>
+<ol>
+<li>When the program needs to be run under a different framework or version
+from the one being used by NUnit itself.
+<li>When the user requests process-level isolation through the command line
+or the NUnit settings.
+</ol>
 
-<p>When running tests in a separate process, the console and gui runners
-   make use of the <a href="nunit-agent.html">nunit-agent</a>   program, nunit-agent.exe. Although not directly run by users, nunit-agent
-   does load and execute tests and users need to be aware of it, especially
-   when debugging is involved.
+<h3>Debugging</h3>
 
-<h3>Third-Party Runners</h3>
+<p>When debugging tests that are run in a separate process, it is 
+   not possible to do so by simply running the console or gui runner
+   under the debugger. Rather, it is necessary to attach the debugger
+   to the nunit-agent process after the tests have been loaded. 
 
-<p>Various third-party applications are available for loading and running
-   NUnit tests. Some of these actually use NUnit to load the tests, while
-   others provide their own emulation and may not work in the same way 
-   that NUnit does.
-   
-<p>Because the status of such projects may change from time to time, we don't
-   discuss them individually here. For the latest information, consult the 
-   manufacturer of any third-party software or ask other users on our
-   <a href="http://groups.google.com/group/nunit-discuss">discussion list</a>.
-   
-<h3>Additional Information</h3>
+<p>When running under the Gui, NUnit will continue to use the same 
+   process to reload tests so that it is not normally necessary to 
+   re-attach to a new process. However, if the settings are changed
+   in a way that requires a differnt process - for example, by changing 
+   the version of the runtime that is being used - the old process will
+   be terminated and a new one created. In that case, it's necessary
+   to re-attach to the new process.
 
-<p>For additional general information on how tests are loaded and run, see
-
-<ul>
-<li><a href="runtimeSelection.html">Runtime Selection</a><li><a href="assemblyIsolation.html">Assembly Isolation</a><li><a href="configFiles.html">Configuration Files</a><li><a href="multiAssembly.html">Multiple Assemblies</a><li><a href="vsSupport.html">Visual Studio Support</a></ul>
 
 </div>
 
@@ -76,12 +65,12 @@ run your tests.
 <li><a href="assertions.html">Assertions</a></li>
 <li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="attributes.html">Attributes</a></li>
-<li id="current"><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
 <ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="pnunit.html">PNUnit&nbsp;Runner</a></li>
-<li><a href="nunit-agent.html">NUnit&nbsp;Agent</a></li>
+<li id="current"><a href="nunit-agent.html">NUnit&nbsp;Agent</a></li>
 <li><a href="runtimeSelection.html">Runtime&nbsp;Selection</a></li>
 <li><a href="assemblyIsolation.html">Assembly&nbsp;Isolation</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
