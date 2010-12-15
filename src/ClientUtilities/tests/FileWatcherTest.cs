@@ -19,12 +19,16 @@ namespace NUnit.Util.Tests
 		private AssemblyWatcher watcher;
 		private CounterEventHandler handler;
 		private static int watcherDelayMs = 100;
-		private static readonly String fileName = "temp.txt";
-		private static readonly String tempFileName = "newTempFile.txt";
+		private string fileName;
+		private string tempFileName;
 
 		[SetUp]
 		public void CreateFile()
 		{
+            string tempDir = Path.GetTempPath();
+            fileName = Path.Combine(tempDir, "temp.txt");
+            tempFileName = Path.Combine(tempDir, "newTempFile.txt");
+
 			StreamWriter writer = new StreamWriter( fileName );
 			writer.Write( "Hello" );
 			writer.Close();
