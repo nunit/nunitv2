@@ -16,6 +16,14 @@ namespace NUnit.TestData
         {
             while (true) { }
         }
+		
+		[Test, RequiresThread]
+		public void MethodWithThreeAsserts()
+		{
+			Assert.True(true);
+			Assert.True(true);
+			Assert.True(true);
+		}
     }
 
     [TestFixture, Timeout(50)]

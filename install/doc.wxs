@@ -63,6 +63,7 @@
         <File Id="mainMenu.html" Name="MAINME_1.HTM" LongName="mainMenu.html" />
         <File Id="maxtime.html" Name="MAXTIME.HTM" LongName="maxtime.html" />
         <File Id="multiAssembly.html" Name="MULTIA_1.HTM" LongName="multiAssembly.html" />
+        <File Id="nunit_agent.html" Name="NU_AGENT.HTM" LongName="nunit-agent.html" />
         <File Id="nunit_console.html" Name="NUNIT-_1.HTM" LongName="nunit-console.html" />
         <File Id="nunit_gui.html" Name="NUNIT-_2.HTM" LongName="nunit-gui.html" />
         <File Id="nunitAddins.html" Name="ADDINS.HTM" LongName="nunitAddins.html" />

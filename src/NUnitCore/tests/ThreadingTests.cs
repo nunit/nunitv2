@@ -110,6 +110,13 @@ namespace NUnit.Core.Tests
             Assert.That(Thread.CurrentThread.ApartmentState, Is.EqualTo(ApartmentState.MTA));
             Assert.That(Thread.CurrentThread, Is.Not.EqualTo(parentThread));
         }
+		
+		[Test]
+		public void TestOnSeparateThreadReportsAssertCountCorrectly()
+		{
+			TestResult result = TestBuilder.RunTestCase(typeof(ThreadingFixture), "MethodWithThreeAsserts");
+			Assert.That(result.AssertCount, Is.EqualTo(3));
+		}
 
         [Test]
         public void TimeoutCanBeSetOnTestFixture()

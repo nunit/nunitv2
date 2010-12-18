@@ -18,7 +18,8 @@ namespace NUnit.Fixtures.Tests
 	/// </summary>
 	[TestFixture]
     // TODO: Exclusion should really only apply to Mono on Windows
-    [Platform(Exclude = "Mono")]
+    //[Platform(Exclude = "Mono")]
+    [Explicit]
     public class CompilationTests
 	{
 		private TestCompiler compiler;

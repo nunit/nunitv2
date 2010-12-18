@@ -17,23 +17,12 @@ namespace NUnit.UiKit
 	/// </summary>
 	public class TextDisplayTabPage : TabPage
 	{
-#if true
 		private TextBoxDisplay display;
-#else
-		private SimpleTextDisplay display;
-#endif
-
-//		private string prefix;
 
 		public TextDisplayTabPage()
 		{
-#if true
 			this.display = new TextBoxDisplay();
-#else
-			this.display = new SimpleTextDisplay();
-#endif
-			this.display.Dock = DockStyle.Fill;
-			
+			this.display.Dock = DockStyle.Fill;		
 			this.Controls.Add( display );
 		}
 
@@ -46,7 +35,6 @@ namespace NUnit.UiKit
 		public TextDisplayTabPage( TextDisplayTabSettings.TabInfo tabInfo ) : this()
 		{
 			this.Name = tabInfo.Name;
-//			this.prefix = TextDisplayTabSettings.Prefix + tabInfo.Name;
 			this.Text = tabInfo.Title;
 			this.Display.Content = tabInfo.Content;
 		}
