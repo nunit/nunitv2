@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -30,7 +30,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
-    <DocumentationFile>..\..\bin\Debug\framework\nunit.framework.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\bin\Debug\framework\nunit.framework.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
     <NoWarn>1699</NoWarn>
@@ -47,7 +47,7 @@
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
     <DefineConstants>TRACE;NET_2_0</DefineConstants>
-    <DocumentationFile>..\..\bin\Release\framework\nunit.framework.xml</DocumentationFile>
+    <DocumentationFile>..\..\..\bin\Release\framework\nunit.framework.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
     <NoWarn>1699</NoWarn>
     <Optimize>true</Optimize>

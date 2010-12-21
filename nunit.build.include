@@ -60,20 +60,24 @@
   <foreach item="String" delim="," 
       property="framework" in="${supported.frameworks}">
     <if test="${framework::exists( framework )}">
-    <if test="${framework::sdk-exists( framework )}">
       <property name="installed.frameworks" value="${installed.frameworks},${framework}"
         if="${property::exists('installed.frameworks')}"/>
       <property name="installed.frameworks" value="${framework}"
         unless="${property::exists('installed.frameworks')}"/>
-      <property name="default.runtime" value="${framework}"
-        unless="${property::exists('default.runtime')}"/>
-      <property name="default.net.runtime" value="${framework}"
-        if="${string::starts-with(framework,'net')}"
-        unless="${property::exists('default.net.runtime')}"/>
-      <property name="default.mono.runtime" value="${framework}"
-        if="${string::starts-with(framework,'mono')}"
-        unless="${property::exists('default.mono.runtime')}"/>
-    </if>
+      <if test="${framework::sdk-exists( framework )}">
+        <property name="installed.sdks" value="${installed.sdks},${framework}"
+          if="${property::exists('installed.sdks')}"/>
+        <property name="installed.sdks" value="${framework}"
+          unless="${property::exists('installed.sdks')}"/>
+        <property name="default.runtime" value="${framework}"
+          unless="${property::exists('default.runtime')}"/>
+        <property name="default.net.runtime" value="${framework}"
+          if="${string::starts-with(framework,'net')}"
+          unless="${property::exists('default.net.runtime')}"/>
+        <property name="default.mono.runtime" value="${framework}"
+          if="${string::starts-with(framework,'mono')}"
+          unless="${property::exists('default.mono.runtime')}"/>
+      </if>
     </if>
   </foreach>
 
@@ -130,7 +134,9 @@
   </target>
 
   <target name="set-net-1.0-runtime-config">
-    <fail unless="${framework::exists('net-1.0') and framework::sdk-exists('net-1.0')}"
+    <fail unless="${framework::exists('net-1.0')}"
+      message="The .NET 1.0 runtime is not installed"/>
+    <fail unless="${framework::sdk-exists('net-1.0')}"
       message="The .NET 1.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -142,6 +148,7 @@
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="false"/>
     <property name="build.gui" value="false"/>
+    <property name="build.sdk" value="net-1.0"/>
     <property name="nant.settings.currentframework" 
       value="net-1.0"/>
     <property name="supported.test.platforms" 
@@ -149,7 +156,9 @@
   </target>
 	
   <target name="set-net-1.1-runtime-config">
-    <fail unless="${framework::exists('net-1.1') and framework::sdk-exists('net-1.1')}"
+    <fail unless="${framework::exists('net-1.1')}"
+      message="The .NET 1.1 runtime is not installed"/>
+    <fail unless="${framework::sdk-exists('net-1.1')}"
       message="The .NET 1.1 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -161,6 +170,7 @@
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="false"/>
     <property name="build.gui" value="false"/>
+    <property name="build.sdk" value="net-1.1"/>
     <property name="nant.settings.currentframework" 
       value="net-1.1"/>
     <property name="supported.test.platforms"
@@ -168,8 +178,15 @@
   </target>
 	
   <target name="set-net-2.0-runtime-config">
-    <fail unless="${framework::exists('net-2.0') and framework::sdk-exists('net-2.0')}"
-      message="The .NET 2.0 SDK is not configured or not installed"/>
+    <fail unless="${framework::exists('net-2.0')}"
+      message="The .NET 2.0 runtime is not installed"/>
+
+    <property name="build.sdk" value="net-3.5"
+      if="${framework::sdk-exists('net-3.5')}"/>
+    <property name="build.sdk" value="net-2.0"
+      if="${framework::sdk-exists('net-2.0')}"/>
+    <fail unless="${property::exists('build.sdk')}"
+      message="No SDK is installed that supports net-2.0"/>
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="2.0"/>
@@ -187,7 +204,9 @@
    
 <!--     
   <target name="set-net-3.0-runtime-config">
-    <fail unless="${framework::exists('net-3.0') and framework::sdk-exists('net-3.0')}"
+    <fail unless="${framework::exists('net-3.0')}"
+      message="The .NET 3.0 runtime is not installed"/>
+    <fail unless="${framework::sdk-exists('net-3.0')}"
       message="The .NET 3.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -206,7 +225,9 @@
 -->
 	
   <target name="set-net-3.5-runtime-config">
-    <fail unless="${framework::exists('net-3.5') and framework::sdk-exists('net-3.5')}"
+    <fail unless="${framework::exists('net-3.5')}"
+      message="The .NET 3.5 runtime is not installed"/>
+    <fail unless="${framework::sdk-exists('net-3.5')}"
       message="The .NET 3.5 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -218,13 +239,16 @@
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="true"/>
     <property name="build.gui" value="true"/>
+    <property name="build.sdk" value="net-3.5"/>
     <property name="nant.settings.currentframework" 
       value="net-3.5"/>
     <property name="supported.test.platforms" value="net-3.5,mono-3.5"/>
   </target>
  	
   <target name="set-net-4.0-runtime-config">
-    <fail unless="${framework::exists('net-4.0') and framework::sdk-exists('net-4.0')}"
+    <fail unless="${framework::exists('net-4.0')}"
+      message="The .NET 4.0 runtime is not installed"/>
+    <fail unless="${framework::sdk-exists('net-4.0')}"
       message="The .NET 4.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
@@ -242,7 +266,9 @@
   </target>
  	
   <target name="set-mono-1.0-runtime-config">
-    <fail unless="${framework::exists('mono-1.0') and framework::sdk-exists('mono-1.0')}"
+    <fail unless="${framework::exists('mono-1.0')}"
+      message="The Mono 1.0 runtime is not installed"/>
+    <fail unless="${framework::sdk-exists('mono-1.0')}"
       message="The Mono 1.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="mono"/>
@@ -261,7 +287,9 @@
   </target>
 
   <target name="set-mono-2.0-runtime-config">
-    <fail unless="${framework::exists('mono-2.0') and framework::sdk-exists('mono-2.0')}"
+    <fail unless="${framework::exists('mono-2.0')}"
+      message="The Mono 2.0 runtime is not installed"/>
+    <fail unless="${framework::sdk-exists('mono-2.0')}"
       message="The Mono 2.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="mono"/>
@@ -361,26 +389,31 @@
     <echo>   Package:  ${project.package.dir}</echo>
     <echo>   Tools:    ${project.tools.dir}</echo>
     <echo></echo>
-    <echo>Runtime Versions</echo>
-    <echo>  Supported: ${supported.frameworks}</echo>
-    <echo>  Installed: ${installed.frameworks}</echo>
-    <echo>  Default:   ${default.runtime}</echo>
+    <echo>Runtimes Supported:</echo>
+    <echo>  ${supported.frameworks}</echo>
+    <echo>Runtimes Installed:</echo>
+    <echo>  ${installed.frameworks}</echo>
+    <echo>Framework SDKs Installed:</echo>
+    <echo>  ${installed.sdks}</echo>
+    <echo></echo>
     <if test="${property::exists('default.net.runtime')}">
-    <echo>    .Net:    ${default.net.runtime}</echo>
+    <echo>Default .Net Runtime: ${default.net.runtime}</echo>
     </if>
     <if test="${not property::exists('default.net.runtime')}">
-    <echo>    .Net:    (none)</echo>
+    <echo>Default .Net Runtime: (none)</echo>
     </if>
     <if test="${property::exists('default.mono.runtime')}">
-    <echo>    Mono:    ${default.mono.runtime}</echo>
+    <echo>Default Mono Runtime: ${default.mono.runtime}</echo>
     </if>
     <if test="${not property::exists('default.mono.runtime')}">
-    <echo>    Mono:    (none)</echo>
+    <echo>Default Mono Runtime: (none)</echo>
     </if>
+    <echo>     General Default: ${default.runtime}</echo>
     <echo></echo>
-    <echo>Current Build Settings</echo>
+    <echo>Current Build Target</echo>
     <echo>  Config:    ${build.config}</echo>
     <echo>  Runtime:   ${runtime.config}</echo>
+    <echo>  Build SDK: ${build.sdk}</echo>
     <echo>  Build Dir: ${current.build.dir}</echo>
     <echo>  Defines:   ${build.defines}</echo>
     <echo></echo>
