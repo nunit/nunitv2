@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<project name="NUnitEditor" default="build" basedir=".">
+
+  <patternset id="source-files">
+    <include name="AboutBox.cs"/>
+    <include name="AboutBox.Designer.cs"/>
+    <include name="PathUtils.cs"/>
+    <include name="Program.cs"/>
+    <include name="ProjectFormatException.cs"/>
+    <include name="Models/AssemblyList.cs"/>
+    <include name="Models/ConfigList.cs"/>
+    <include name="Models/DomainUsage.cs"/>
+    <include name="Models/IProjectModel.cs"/>
+    <include name="Models/ProcessModel.cs"/>
+    <include name="Models/ProjectConfig.cs"/>
+    <include name="Models/ProjectModel.cs"/>
+    <include name="Models/RuntimeFramework.cs"/>
+    <include name="Models/VSProject.cs"/>
+    <include name="Models/VSProjectConfig.cs"/>
+    <include name="Models/VSProjectConfigCollection.cs"/>
+    <include name="Models/XmlHelper.cs"/>
+    <include name="Presenters/ConfigurationEditor.cs"/>
+    <include name="Presenters/ProjectPresenter.cs"/>
+    <include name="Presenters/PropertyPresenter.cs"/>
+    <include name="Presenters/XmlPresenter.cs"/>
+    <include name="Views/AddConfigurationDialog.cs"/>
+    <include name="Views/ConfigurationEditorView.cs"/>
+    <include name="Views/IConfigurationEditorView.cs"/>
+    <include name="Views/IMessageBoxCreator.cs"/>
+    <include name="Views/IProjectView.cs"/>
+    <include name="Views/IPropertyView.cs"/>
+    <include name="Views/IXmlView.cs"/>
+    <include name="Views/MainForm.cs"/>
+    <include name="Views/MainForm.Designer.cs"/>
+    <include name="Views/MessageBoxCreator.cs"/>
+    <include name="Views/PropertyView.cs"/>
+    <include name="Views/PropertyView.Designer.cs"/>
+    <include name="Views/RenameConfigurationDialog.cs"/>
+    <include name="Views/XmlView.cs"/>
+    <include name="Views/XmlView.Designer.cs"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="winexe" 
+        output="${current.build.dir}/nunit-editor.exe" 
+        debug="${build.debug}"
+        define="${build.defines}">
+      <sources>
+        <patternset refid="source-files"/>
+      </sources>
+      <references>
+        <include name="System.Windows.Forms.dll"/>
+        <include name="System.Drawing.dll"/>
+        <include name="System.Xml.dll"/>
+      </references>
+    </csc>
+<!--
+    <copy file="Ship.config"
+      tofile="${current.build.dir}/nunit-editor.config"/>
+ -->      
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/GuiRunner/nunit-gui-exe">
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="nunit-editor.csproj"/>
+        <include name="nunit-editor.build"/>
+        <include name="App.ico"/>
+        <include name="App.config"/>
+        <include name="Ship.config"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>
