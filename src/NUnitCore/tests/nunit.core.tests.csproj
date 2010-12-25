@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{DD758D21-E5D5-4D40-9450-5F65A32F359C}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -131,6 +131,7 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionAttributeTests.cs" />
     <Compile Include="AllTests.cs" />
     <Compile Include="AssemblyHelperTests.cs" />
     <Compile Include="AssemblyReaderTests.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="AttributeDescriptionFixture.cs" />
     <Compile Include="AttributeInheritance.cs" />
     <Compile Include="BasicRunnerTests.cs" />
-    <Compile Include="ActionAttributeTests.cs" />
     <Compile Include="CallContextTests.cs" />
     <Compile Include="CategoryAttributeTests.cs" />
     <Compile Include="CombinatorialTests.cs" />

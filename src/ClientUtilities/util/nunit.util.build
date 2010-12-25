@@ -82,9 +82,9 @@
         <warning number="618"/>
         <warning number="1699" if="${runtime.version>='2.0'}"/>
       </nowarn>
-      <resources prefix="NUnit.Util">
+      <!--<resources prefix="NUnit.Util">
         <patternset refid="resource-files"/>
-      </resources>
+      </resources>-->
       <references>
         <include name="System.Runtime.Remoting.dll"/>
         <include name="System.Configuration.dll"/>

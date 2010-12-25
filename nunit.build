@@ -2,7 +2,7 @@
 <project name="NUnit" default="help" basedir=".">
 
 <!-- ***************************************************************** -->
-<!-- This script has been tested with the NAnt 0.86 beta 1 release.    -->
+<!-- This script has been tested with the NAnt 0.90 release.           -->
 <!--                                                                   -->
 <!-- At least one of the supported runtimes and sdk must be installed. -->
 <!-- In order to build the msi, WiX 2.0 and the WiX tasks for NAnt     -->
@@ -21,12 +21,12 @@
   <property name="project.name" value="NUnit"/>
 
   <!-- NUnit Base Package Version - First three digits -->
-  <property name="base.package.version" value="2.5.9"/>
+  <property name="base.package.version" value="2.6.0"/>
  
   <!-- Nominal version used for install directory and program
        files menu. Normally the same as the package version, 
        but may differ when we are in alpha or beta. -->
-  <property name="nominal.version" value="2.5.9" />
+  <property name="nominal.version" value="2.6" />
 
   <!-- Determine todays build number -->
   <property name="temp.now" value="${datetime::now()}"/>
@@ -70,7 +70,7 @@
 
 <target name="help" description="Displays additional help information">
   <echo>
-    This build file will build NUnitLite for any of the supported
+    This build file will build NUnit for any of the supported
     runtime frameworks which are actually installed. To add or
     support for a framework, edit this script
 
@@ -789,12 +789,9 @@
     <foreach item="String" delim="+"
       property="runtime" in="${package.runtimes}">
 
-      <if test="${framework::exists( runtime )}">
-        <if test="${framework::sdk-exists( runtime )}">
-          <call target="set-${runtime}-runtime-config"/>
-          <call target="copy-bins" />
-        </if>
-      </if>
+        <call target="set-${runtime}-runtime-config"/>
+        <call target="copy-bins" />
+
     </foreach>
 
     <call target="copy-docs" />

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="NUnitFramework" default="build" basedir=".">
 
-    <patternset id="source-files">
+  <patternset id="source-files">
         <include name="Attributes/CategoryAttribute.cs"/>
         <include name="Attributes/DatapointAttributes.cs"/>
         <include name="Attributes/DescriptionAttribute.cs"/>
