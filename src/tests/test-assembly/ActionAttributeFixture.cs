@@ -91,7 +91,8 @@ namespace NUnit.TestData.ActionAttributeTests
                                            fixture == null ? "{no-fixture}" : fixture.GetType().Name,
                                            method != null ? method.Name : "");
 
-            ActionAttributeFixture.Results.Add(message);
+            if(ActionAttributeFixture.Results != null)
+                ActionAttributeFixture.Results.Add(message);
         }
     }
 }
