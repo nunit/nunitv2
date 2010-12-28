@@ -13,11 +13,11 @@ namespace NUnit.Core
 
         static ActionsHelper()
         {
-            _ActionInterfaceType = Type.GetType(NUnitFramework.ActionInterface);
+            _ActionInterfaceType = Type.GetType(NUnitFramework.TestActionInterface);
             _ActionTypes = new Hashtable();
 
-            _ActionTypes.Add(ActionLevel.Suite, Type.GetType(NUnitFramework.SuiteActionInterface));
-            _ActionTypes.Add(ActionLevel.Test, Type.GetType(NUnitFramework.TestActionInterface));
+            _ActionTypes.Add(ActionLevel.Suite, Type.GetType(NUnitFramework.TestSuiteActionInterface));
+            _ActionTypes.Add(ActionLevel.Test, Type.GetType(NUnitFramework.TestCaseActionInterface));
         }
 
         public static object[] GetActionsFromAttributes(ICustomAttributeProvider attributeProvider)
@@ -101,15 +101,15 @@ namespace NUnit.Core
             if (phase == ActionPhase.Before)
             {
                 if (level == ActionLevel.Suite)
-                    return Reflect.GetNamedMethod(actionType, "BeforeSuite");
+                    return Reflect.GetNamedMethod(actionType, "BeforeTestSuite");
 
-                return Reflect.GetNamedMethod(actionType, "BeforeTest");
+                return Reflect.GetNamedMethod(actionType, "BeforeTestCase");
             }
 
             if (level == ActionLevel.Suite)
-                return Reflect.GetNamedMethod(actionType, "AfterSuite");
+                return Reflect.GetNamedMethod(actionType, "AfterTestSuite");
 
-            return Reflect.GetNamedMethod(actionType, "AfterTest");
+            return Reflect.GetNamedMethod(actionType, "AfterTestCase");
         }
     }
 

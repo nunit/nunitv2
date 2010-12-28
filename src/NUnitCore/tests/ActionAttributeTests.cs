@@ -57,7 +57,7 @@ namespace NUnit.Core.Tests
         {
             for(int i = 0; i < 4; i++)
             {
-                string prefix = string.Format("{0}.BeforeSuite-", _definitionSites[i]);
+                string prefix = string.Format("{0}.BeforeTestSuite-", _definitionSites[i]);
                 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
@@ -72,7 +72,7 @@ namespace NUnit.Core.Tests
             int lastIndex = ActionAttributeFixture.Results.Count - 1;
             for (int i = lastIndex; i > lastIndex - 4; i--)
             {
-                string prefix = string.Format("{0}.AfterSuite-", _definitionSites[lastIndex - i]);
+                string prefix = string.Format("{0}.AfterTestSuite-", _definitionSites[lastIndex - i]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
@@ -86,7 +86,7 @@ namespace NUnit.Core.Tests
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest") - 4;
             for (int i = startIndex; i < startIndex; i++)
             {
-                string prefix = string.Format("{0}.BeforeTest-", _definitionSites[i - startIndex]);
+                string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
@@ -100,7 +100,7 @@ namespace NUnit.Core.Tests
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest");
             for (int i = 1; i <= 4; i++)
             {
-                string prefix = string.Format("{0}.AfterTest-", _definitionSites[4 - i]);
+                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[4 - i]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
@@ -114,7 +114,7 @@ namespace NUnit.Core.Tests
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1") - 5;
             for (int i = startIndex; i < startIndex; i++)
             {
-                string prefix = string.Format("{0}.BeforeTest-", _definitionSites[i - startIndex]);
+                string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
@@ -128,7 +128,7 @@ namespace NUnit.Core.Tests
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1");
             for (int i = 1; i <= 5; i++)
             {
-                string prefix = string.Format("{0}.AfterTest-", _definitionSites[5 - i]);
+                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[5 - i]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
@@ -142,7 +142,7 @@ namespace NUnit.Core.Tests
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2") - 5;
             for (int i = startIndex; i < startIndex; i++)
             {
-                string prefix = string.Format("{0}.BeforeTest-", _definitionSites[i - startIndex]);
+                string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
@@ -156,7 +156,7 @@ namespace NUnit.Core.Tests
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2");
             for (int i = 1; i <= 5; i++)
             {
-                string prefix = string.Format("{0}.AfterTest-", _definitionSites[5 - i]);
+                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[5 - i]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
@@ -168,14 +168,14 @@ namespace NUnit.Core.Tests
         public void MethodDefinedSite_BeforeSuite_BeforeSomeTestCase1()
         {
             int testCase = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1");
-            Assert.IsTrue(testCase > ActionAttributeFixture.Results.IndexOf("Method.BeforeSuite-ActionAttributeFixture"));
+            Assert.IsTrue(testCase > ActionAttributeFixture.Results.IndexOf("Method.BeforeTestSuite-ActionAttributeFixture"));
         }
 
         [Test]
         public void MethodDefinedSite_AfterSuite_BeforeSomeTestCase2()
         {
             int testCase = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2");
-            Assert.IsTrue(testCase < ActionAttributeFixture.Results.IndexOf("Method.AfterSuite-ActionAttributeFixture"));
+            Assert.IsTrue(testCase < ActionAttributeFixture.Results.IndexOf("Method.AfterTestSuite-ActionAttributeFixture"));
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace NUnit.Core.Tests
         {
             foreach(string message in ActionAttributeFixture.Results)
             {
-                if (message.Contains("BeforeTest") || message.Contains("AfterTest"))
+                if (message.Contains("BeforeTestCase") || message.Contains("AfterTestCase"))
                     Assert.IsTrue(message.Contains(typeof(ActionAttributeFixture).Name), string.Format("'{0}' shows action does not have access to fixture.", message));
             }
         }
@@ -196,7 +196,7 @@ namespace NUnit.Core.Tests
 
             foreach (string message in ActionAttributeFixture.Results)
             {
-                if (message.Contains("BeforeTest") || message.Contains("AfterTest"))
+                if (message.Contains("BeforeTestCase") || message.Contains("AfterTestCase"))
                 {
                     string endSegment = message.Substring(message.LastIndexOf('-') + 1);
 

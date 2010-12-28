@@ -50,7 +50,7 @@ namespace NUnit.TestData.ActionAttributeTests
     }
 
     [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Module, AllowMultiple = true, Inherited = true)]
-    public class SampleActionAttribute : Attribute, ISuiteAction, ITestAction
+    public class SampleActionAttribute : Attribute, ITestSuiteAction, ITestCaseAction
     {
         private string _Prefix = null;
 
@@ -59,22 +59,22 @@ namespace NUnit.TestData.ActionAttributeTests
             _Prefix = prefix;
         }
 
-        void ISuiteAction.BeforeSuite(object fixture)
+        void ITestSuiteAction.BeforeTestSuite(object fixture)
         {
             AddResult(fixture, null);
         }
 
-        void ISuiteAction.AfterSuite(object fixture)
+        void ITestSuiteAction.AfterTestSuite(object fixture)
         {
             AddResult(fixture, null);
         }
 
-        void ITestAction.BeforeTest(object fixture, MethodInfo method)
+        void ITestCaseAction.BeforeTestCase(object fixture, MethodInfo method)
         {
             AddResult(fixture, method);
         }
 
-        void ITestAction.AfterTest(object fixture, MethodInfo method)
+        void ITestCaseAction.AfterTestCase(object fixture, MethodInfo method)
         {
             AddResult(fixture, method);
         }

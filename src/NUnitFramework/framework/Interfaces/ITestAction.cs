@@ -1,27 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 
 namespace NUnit.Framework
 {
     /// <summary>
-    /// The interface implemented to provide actions to execute before and after tests.
+    /// The base interface for test actions
     /// </summary>
-    public interface ITestAction : IAction
+    public interface ITestAction
     {
-        /// <summary>
-        /// Executed before each test is run
-        /// </summary>
-        /// <param name="fixture">The fixture the test is part of</param>
-        /// <param name="method">The method that implements the test</param>
-        void BeforeTest(object fixture, MethodInfo method);
-
-        /// <summary>
-        /// Executed after each test is run
-        /// </summary>
-        /// <param name="fixture">The fixture the test is part of</param>
-        /// <param name="method">The method that implements the test</param>
-        void AfterTest(object fixture, MethodInfo method);
     }
 }
