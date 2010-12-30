@@ -11,13 +11,18 @@ namespace NUnit.TestData.ActionAttributeTests
 {
     [SetUpFixture]
     [SampleAction("SetUpFixture")]
-    public class SetupFixture
+    public class SetupFixture : BaseSetupFixture
+    {
+    }
+
+    [SampleAction("BaseSetUpFixture")]
+    public abstract class BaseSetupFixture
     {
     }
 
     [TestFixture]
     [SampleAction("Fixture")]
-    public class ActionAttributeFixture : IWithAction
+    public class ActionAttributeFixture : BaseActionAttributeFixture, IWithAction
     {
         private static StringCollection _Results = null;
         public static StringCollection Results
@@ -43,10 +48,20 @@ namespace NUnit.TestData.ActionAttributeTests
 
     }
 
+    [SampleAction("BaseFixture")]
+    public abstract class BaseActionAttributeFixture : IBaseWithAction
+    {
+    }
+
     [SampleAction("Interface")]
-    public interface IWithAction
+    public interface IWithAction : IBaseWithAction
     {
         StringCollection Results { get; }
+    }
+
+    [SampleAction("BaseInterface")]
+    public interface IBaseWithAction
+    {
     }
 
     [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Module, AllowMultiple = true, Inherited = true)]

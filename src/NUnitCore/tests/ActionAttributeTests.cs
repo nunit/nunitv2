@@ -21,9 +21,12 @@ namespace NUnit.Core.Tests
         private readonly string[] _definitionSites = new string[]
         {
             "Assembly",
+            "BaseSetUpFixture",
             "SetUpFixture",
-            "Fixture",
+            "BaseInterface",
+            "BaseFixture",
             "Interface",
+            "Fixture",
             "Method"
         };
 
@@ -53,9 +56,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void FirstFourDefinitionSites_BeforeSuite_ExecuteFirst_InOrder()
+        public void DefinitionSites_BeforeSuite_ExecuteFirst_InOrder()
         {
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < _definitionSites.Length - 1; i++)
             {
                 string prefix = string.Format("{0}.BeforeTestSuite-", _definitionSites[i]);
                 
@@ -67,10 +70,10 @@ namespace NUnit.Core.Tests
 
 
         [Test]
-        public void FirstFourDefinitionSites_AfterSuite_ExecuteLast_InOrder()
+        public void DefinitionSites_AfterSuite_ExecuteLast_InOrder()
         {
             int lastIndex = ActionAttributeFixture.Results.Count - 1;
-            for (int i = lastIndex; i > lastIndex - 4; i--)
+            for (int i = lastIndex; i > lastIndex - _definitionSites.Length; i--)
             {
                 string prefix = string.Format("{0}.AfterTestSuite-", _definitionSites[lastIndex - i]);
 
@@ -81,9 +84,9 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void FirstFourDefinitionSites_BeforeTest_ExecuteInOrder_ForSomeOtherTest()
+        public void DefinitionSites_BeforeTest_ExecuteInOrder_ForSomeOtherTest()
         {
-            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest") - 4;
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest") - _definitionSites.Length - 1;
             for (int i = startIndex; i < startIndex; i++)
             {
                 string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
@@ -95,12 +98,12 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void FirstFourDefinitionSites_AfterTest_ExecuteInOrder_ForSomeOtherTest()
+        public void DefinitionSites_AfterTest_ExecuteInOrder_ForSomeOtherTest()
         {
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest");
-            for (int i = 1; i <= 4; i++)
+            for (int i = 1; i <= _definitionSites.Length - 1; i++)
             {
-                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[4 - i]);
+                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[_definitionSites.Length - 1 - i]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
@@ -111,7 +114,7 @@ namespace NUnit.Core.Tests
         [Test]
         public void AllDefinitionSites_BeforeTest_ExecuteInOrder_ForSomeTestCase1()
         {
-            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1") - 5;
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1") - _definitionSites.Length;
             for (int i = startIndex; i < startIndex; i++)
             {
                 string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
@@ -126,9 +129,9 @@ namespace NUnit.Core.Tests
         public void AllDefinitionSites_AfterTest_ExecuteInOrder_ForSomeTestCase1()
         {
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1");
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= _definitionSites.Length; i++)
             {
-                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[5 - i]);
+                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[_definitionSites.Length - i]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
@@ -139,7 +142,7 @@ namespace NUnit.Core.Tests
         [Test]
         public void AllDefinitionSites_BeforeTest_ExecuteInOrder_ForSomeTestCase2()
         {
-            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2") - 5;
+            int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2") - _definitionSites.Length;
             for (int i = startIndex; i < startIndex; i++)
             {
                 string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
@@ -154,9 +157,9 @@ namespace NUnit.Core.Tests
         public void AllDefinitionSites_AfterTest_ExecuteInOrder_ForSomeTestCase2()
         {
             int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2");
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= _definitionSites.Length; i++)
             {
-                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[5 - i]);
+                string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[_definitionSites.Length - i]);
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),

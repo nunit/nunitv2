@@ -30,17 +30,7 @@ namespace NUnit.Core
             this.tearDownMethods = 
                 Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
 
-            ArrayList collectedActions = new ArrayList();
-
-            collectedActions.AddRange(ActionsHelper.GetActionsFromAttributes(fixtureType));
-
-            Type[] fixtureInterfaces = this.FixtureType.GetInterfaces();
-
-            foreach (Type fixtureInterface in fixtureInterfaces)
-                collectedActions.AddRange(ActionsHelper.GetActionsFromAttributes(fixtureInterface));
-
-            this.actions = new Attribute[collectedActions.Count];
-            collectedActions.CopyTo(this.actions);
+            this.actions = ActionsHelper.GetActionsFromTypeAttributes(this.FixtureType);
         }
 
         protected override void DoOneTimeSetUp(TestResult suiteResult)

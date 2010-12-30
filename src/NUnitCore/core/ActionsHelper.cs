@@ -20,11 +20,48 @@ namespace NUnit.Core
             _ActionTypes.Add(ActionLevel.Test, Type.GetType(NUnitFramework.TestCaseActionInterface));
         }
 
+        public static object[] GetActionsFromTypeAttributes(Type type)
+        {
+            if(type == typeof(object))
+                return new object[0];
+
+            ArrayList actions = new ArrayList();
+
+            actions.AddRange(GetActionsFromTypeAttributes(type.BaseType));
+
+            Type[] declaredInterfaces = GetDeclaredInterfaces(type);
+
+            foreach(Type interfaceType in declaredInterfaces)
+                actions.AddRange(GetActionsFromAttributes(interfaceType));
+
+            actions.AddRange(GetActionsFromAttributes(type));
+
+            return actions.ToArray();
+        }
+
+        private static Type[] GetDeclaredInterfaces(Type type)
+        {
+            Type[] interfaces = type.GetInterfaces();
+            Type[] baseInterfaces = new Type[0];
+
+            if (type.BaseType != typeof(object))
+                return interfaces;
+
+            ArrayList declaredInterfaces = new ArrayList();
+            foreach (Type interfaceType in interfaces)
+            {
+                if (Array.IndexOf(baseInterfaces, interfaceType) < 0)
+                    declaredInterfaces.Add(interfaceType);
+            }
+
+            return (Type[])declaredInterfaces.ToArray(typeof(Type));
+        }
+
         public static object[] GetActionsFromAttributes(ICustomAttributeProvider attributeProvider)
         {
             ArrayList resultList = new ArrayList();
 
-            object[] attributes = attributeProvider.GetCustomAttributes(true);
+            object[] attributes = attributeProvider.GetCustomAttributes(false);
 
             foreach (Attribute attribute in attributes)
             {
@@ -47,8 +84,6 @@ namespace NUnit.Core
             MethodInfo actionMethod = GetActionMethod(actionType, level, phase);
 
             object[] filteredActions = GetFilteredAndSortedActions(actions, phase, actionType);
-
-            
 
             foreach (object action in filteredActions)
             {
