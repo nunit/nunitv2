@@ -4,13 +4,10 @@
 // ****************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using NSubstitute;
 using NUnit.Framework;
 using NUnit.UiException.Controls;
-using System.Drawing;
 using System.Windows.Forms;
-using NUnit.Mocks;
 
 namespace NUnit.UiException.Tests.Controls
 {
@@ -18,20 +15,13 @@ namespace NUnit.UiException.Tests.Controls
     public class TestErrorBrowser
     {
         private TestingErrorBrowser _errorBrowser;
-
-        private DynamicMock _mockStackDisplay;
         private bool _stackTraceChanged;
 
         [SetUp]
         public void Setup()
         {
             _errorBrowser = new TestingErrorBrowser();
-
-            _mockStackDisplay = MockHelper.NewMockIErrorRenderer("StackTraceDisplay", 1);
-            _mockStackDisplay.SetReturnValue("Text", "Display actual stack trace");
-
             _stackTraceChanged = false;
-
             _errorBrowser.StackTraceSourceChanged += new EventHandler(_errorBrowser_StackTraceSourceChanged);
 
             return;
@@ -81,28 +71,21 @@ namespace NUnit.UiException.Tests.Controls
             // - when registering an IErrorDisplay for the first time, ErrorBrowser
             //   should select the instance automatically.
 
-            DynamicMock mockTraceDisplay = MockHelper.NewMockIErrorRenderer("raw", 1);
-            DynamicMock mockSourceDisplay = MockHelper.NewMockIErrorRenderer("browser", 2);
+            IErrorDisplay mockTraceDisplay = Substitute.For<IErrorDisplay>();
+            IErrorDisplay mockSourceDisplay = Substitute.For<IErrorDisplay>();
 
             ToolStripButton tracePlugin = new ToolStripButton();
-//            ToolStripItem[] traceOptions = new ToolStripItem[] { };
             Control traceContent = new TextBox();
             
-            mockTraceDisplay.SetReturnValue("Text", "Displays the actual stack trace");
+            mockTraceDisplay.PluginItem.Returns(tracePlugin);
+            mockTraceDisplay.Content.Returns(traceContent);
 
-            // looks like Mock needs a bit enhancements to handle multiple calls
+            _errorBrowser.RegisterDisplay(mockTraceDisplay);
 
-            mockTraceDisplay.ExpectAndReturn("get_PluginItem", tracePlugin);
-            mockTraceDisplay.ExpectAndReturn("get_PluginItem", tracePlugin);
-            mockTraceDisplay.ExpectAndReturn("get_PluginItem", tracePlugin);
-            mockTraceDisplay.ExpectAndReturn("get_Content", traceContent);
-            mockTraceDisplay.Expect("OnStackTraceChanged", new object[] { _errorBrowser.StackTraceSource });
-
-            _errorBrowser.RegisterDisplay((IErrorDisplay)mockTraceDisplay.MockInstance);
-            mockTraceDisplay.Verify();
+            mockTraceDisplay.Received().OnStackTraceChanged(_errorBrowser.StackTraceSource);
 
             Assert.That(_errorBrowser.SelectedDisplay, Is.Not.Null);
-            Assert.That(_errorBrowser.SelectedDisplay, Is.SameAs(mockTraceDisplay.MockInstance));
+            Assert.That(_errorBrowser.SelectedDisplay, Is.SameAs(mockTraceDisplay));
             Assert.That(_errorBrowser.LayoutPanel.Content, Is.EqualTo(traceContent));
 
             // test #2: Asks ErrorBrowser to register another instance of IErrorDisplay
@@ -112,40 +95,32 @@ namespace NUnit.UiException.Tests.Controls
             ToolStripItem sourcePluginItem = new ToolStripButton();
             Control sourceContent = new Button();
 
-            mockSourceDisplay.SetReturnValue("Text", "Displays source code context");
-            mockSourceDisplay.ExpectAndReturn("get_PluginItem", sourcePluginItem);
-            mockSourceDisplay.ExpectAndReturn("get_PluginItem", sourcePluginItem);
+            mockSourceDisplay.PluginItem.Returns(sourcePluginItem);
 
-            _errorBrowser.RegisterDisplay((IErrorDisplay)mockSourceDisplay.MockInstance);
-            mockSourceDisplay.Verify();
+            _errorBrowser.RegisterDisplay(mockSourceDisplay);
 
             Assert.That(_errorBrowser.SelectedDisplay, Is.Not.Null);
-            Assert.That(_errorBrowser.SelectedDisplay, Is.SameAs(mockTraceDisplay.MockInstance));
+            Assert.That(_errorBrowser.SelectedDisplay, Is.SameAs(mockTraceDisplay));
 
             // test #3: changes current selection
 
-            mockTraceDisplay.ExpectAndReturn("get_PluginItem", tracePlugin);
-            mockSourceDisplay.ExpectAndReturn("get_PluginItem", sourcePluginItem);            
-            mockSourceDisplay.ExpectAndReturn("get_Content", sourceContent);
+            mockTraceDisplay.PluginItem.Returns(tracePlugin);
+            mockSourceDisplay.Content.Returns(sourceContent);
 
-            _errorBrowser.Toolbar.SelectedDisplay = (IErrorDisplay)mockSourceDisplay.MockInstance;
+            _errorBrowser.Toolbar.SelectedDisplay = mockSourceDisplay;
 
-            mockSourceDisplay.Verify();
-            mockTraceDisplay.Verify();
-
-            Assert.That(_errorBrowser.Toolbar.SelectedDisplay, Is.SameAs(mockSourceDisplay.MockInstance));
+            Assert.That(_errorBrowser.Toolbar.SelectedDisplay, Is.SameAs(mockSourceDisplay));
             Assert.That(_errorBrowser.LayoutPanel.Content, Is.EqualTo(sourceContent));
 
             // test #4: changing ErrorSource update all renderers
 
             string stack = "à test() C:\\file.cs:ligne 1";
 
-            mockTraceDisplay.Expect("OnStackTraceChanged", new object[] { stack });
-            mockSourceDisplay.Expect("OnStackTraceChanged", new object[] { stack });
             _errorBrowser.StackTraceSource = stack;
             Assert.That(_errorBrowser.LayoutPanel.Content, Is.TypeOf(typeof(Button)));
-            mockSourceDisplay.Verify();
-            mockTraceDisplay.Verify();
+
+            mockTraceDisplay.Received().OnStackTraceChanged(stack);
+            mockSourceDisplay.Received().OnStackTraceChanged(stack);
             
             // clears all renderers
 

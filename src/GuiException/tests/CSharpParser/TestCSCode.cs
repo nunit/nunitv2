@@ -5,11 +5,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using NUnit.UiException.CodeFormatters;
-using System.Collections;
-using NUnit.UiException;
 
 namespace NUnit.UiException.Tests.CodeFormatters
 {

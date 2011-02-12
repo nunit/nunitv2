@@ -4,11 +4,9 @@
 // ****************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Text;
+using NSubstitute;
 using NUnit.Framework;
 using NUnit.UiException.Controls;
-using NUnit.Mocks;
 using System.Windows.Forms;
 using System.Drawing;
 
@@ -20,8 +18,6 @@ namespace NUnit.UiException.Tests.Controls
         private ErrorToolbar _emptyToolbar;
         private ErrorToolbar _filledToolbar;
 
-        private DynamicMock _rawMock;
-        private DynamicMock _browserMock;
         private IErrorDisplay _raw;
         private IErrorDisplay _browser;
 
@@ -33,13 +29,11 @@ namespace NUnit.UiException.Tests.Controls
             _emptyToolbar = new ErrorToolbar();
             _filledToolbar = new ErrorToolbar();
 
-            _rawMock = MockHelper.NewMockIErrorRenderer("raw", 1);
-            _rawMock.SetReturnValue("get_PluginItem", new ToolStripButton());
-            _raw = (IErrorDisplay)_rawMock.MockInstance;
+            _raw = Substitute.For<IErrorDisplay>();
+            _raw.PluginItem.Returns(new ToolStripButton());
             
-            _browserMock = MockHelper.NewMockIErrorRenderer("browser", 2);
-            _browserMock.SetReturnValue("get_PluginItem", new ToolStripButton());
-            _browser = (IErrorDisplay)_browserMock.MockInstance;
+            _browser = Substitute.For<IErrorDisplay>();
+            _browser.PluginItem.Returns(new ToolStripButton());
 
             _filledToolbar.Register(_raw);
             _filledToolbar.Register(_browser);
@@ -89,8 +83,8 @@ namespace NUnit.UiException.Tests.Controls
             }
 
             try {
-                _rawMock.SetReturnValue("get_PluginItem", null); 
-                _emptyToolbar.Register((IErrorDisplay)_rawMock.MockInstance); // throws exception
+                _raw.PluginItem.Returns((ToolStripButton) null); 
+                _emptyToolbar.Register(_raw); // throws exception
                 Assert.Fail();
             }
             catch (Exception e) {
@@ -106,13 +100,9 @@ namespace NUnit.UiException.Tests.Controls
              MatchType = MessageMatch.Contains)]
         public void Cannot_Select_UnRegistered_Display()
         {
-            DynamicMock unknown = new DynamicMock(typeof(IErrorDisplay));
+            IErrorDisplay unknown = Substitute.For<IErrorDisplay>();
 
-            _rawMock.SetReturnValue("Equals", false);
-            _browserMock.SetReturnValue("Equals", false);
-
-            _filledToolbar.SelectedDisplay = 
-                (IErrorDisplay)unknown.MockInstance; // throws exception
+            _filledToolbar.SelectedDisplay = unknown; // throws exception
 
             return;
         }
@@ -164,21 +154,14 @@ namespace NUnit.UiException.Tests.Controls
             ToolStripItem[] btns = new ToolStripItem[] { new ToolStripButton("swap") };
 
             // add part            
-            _rawMock.ExpectAndReturn("get_PluginItem", rawView);
-            _rawMock.ExpectAndReturn("get_PluginItem", rawView);
-            _rawMock.ExpectAndReturn("get_PluginItem", rawView);
-            _rawMock.ExpectAndReturn("get_OptionItems", null);
-            _rawMock.ExpectAndReturn("get_OptionItems", null);
+            _raw.PluginItem.Returns(rawView);
+            _raw.OptionItems.Returns((ToolStripItem[]) null);
             _emptyToolbar.Register(_raw);
-            _rawMock.Verify();
             Assert.True(_emptyToolbar.Items.Contains(rawView));
 
-            _browserMock.ExpectAndReturn("get_PluginItem", browserView);
-            _browserMock.ExpectAndReturn("get_PluginItem", browserView);
-            _browserMock.ExpectAndReturn("get_OptionItems", btns);
-            _browserMock.ExpectAndReturn("get_OptionItems", btns);
+            _browser.PluginItem.Returns(browserView);
+            _browser.OptionItems.Returns(btns);
             _emptyToolbar.Register(_browser);
-            _browserMock.Verify();
             Assert.True(_emptyToolbar.Items.Contains(rawView));
             Assert.True(_emptyToolbar.Items.Contains(browserView));
             Assert.True(_emptyToolbar.Items.Contains(btns[0]));

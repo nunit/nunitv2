@@ -4,10 +4,7 @@
 // ****************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using NUnit.UiException;
 using NUnit.UiException.Tests.data;
 using System.IO;
 
