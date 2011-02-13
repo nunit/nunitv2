@@ -8,7 +8,7 @@ using NUnit.Framework;
 using NUnit.TestData;
 using NUnit.TestUtilities;
 using System.Collections;
-#if NET_2_0
+#if NET_2_0 || NET_3_5
 using System.Collections.Generic;
 #endif
 
@@ -26,9 +26,9 @@ namespace NUnit.Core.Tests
 
         static IEnumerable StaticProperty
         {
-            get 
+            get
             {
-#if NET_2_0
+#if NET_2_0 || NET_3_5
                 yield return "StaticProperty";
 #else
                 return new object[] { "StaticProperty" }; 
@@ -134,7 +134,7 @@ namespace NUnit.Core.Tests
             internal static int[] Quotients = new int[] { 4, 3, 2 };
         }
 
-#if NET_2_0
+#if NET_2_0 || NET_3_5
         [Test]
         public void ValueSourceMayBeGeneric(
             [ValueSourceAttribute(typeof(ValueProvider), "IntegerProvider")] int val)

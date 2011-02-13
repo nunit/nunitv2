@@ -3,6 +3,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
+#if NET_3_5
 using System;
 using NSubstitute;
 using NUnit.Framework;
@@ -405,3 +406,4 @@ namespace NUnit.UiException.Tests.Controls
         }
     }
 }
+#endif

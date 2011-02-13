@@ -79,7 +79,7 @@ namespace NUnit.Core.Tests
             return (sbyte)(x + y);
         }
 
-#if NET_2_0
+#if NET_2_0 || NET_3_5
         [TestCase(Result = null)]
         public object ExpectedResultCanBeNull()
         {
@@ -122,7 +122,7 @@ namespace NUnit.Core.Tests
         }
 
 
-#if NET_2_0
+#if NET_2_0 || NET_3_5
         [TestCase(null, null)]
         public void CanPassNullAsArgument(object a, string b)
         {

@@ -6,7 +6,9 @@
 using System;
 using System.Text;
 using System.Reflection;
+#if NET_3_5
 using NSubstitute;
+#endif
 using NUnit.Framework;
 using NUnit.Core.Extensibility;
 
@@ -68,20 +70,6 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( typeof( FrameworkRegistry ), ep.GetType() );
 		}
 
-		[Test]
-		public void CanAddDecorator()
-		{
-            ITestDecorator mockDecorator = Substitute.For<ITestDecorator>();
-
-            IExtensionPoint ep = host.GetExtensionPoint("TestDecorators");
-            ep.Install(mockDecorator);
-
-            ITestDecorator decorators = (ITestDecorator)ep;
-            decorators.Decorate(null, null);
-
-            mockDecorator.Received().Decorate(null, null);
-		}
-
         class MockDecorator : ITestDecorator
         {
             private string name;
@@ -100,7 +88,7 @@ namespace NUnit.Core.Tests
             }
         }
 
-	    [Test]
+        [Test]
         public void DecoratorsRunInOrderOfPriorities()
         {
             StringBuilder sb = new StringBuilder();
@@ -131,9 +119,24 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("mock0mock1mock3cmock3bmock3amock5bmock5amock8mock9", sb.ToString());
 
             sb.Remove(0, sb.Length);
-	        decorators.Decorate(null, null);
+            decorators.Decorate(null, null);
             Assert.AreEqual("mock0mock1mock3cmock3bmock3amock5bmock5amock8mock9", sb.ToString());
         }
+
+#if NET_3_5
+		[Test]
+		public void CanAddDecorator()
+		{
+            ITestDecorator mockDecorator = Substitute.For<ITestDecorator>();
+
+            IExtensionPoint ep = host.GetExtensionPoint("TestDecorators");
+            ep.Install(mockDecorator);
+
+            ITestDecorator decorators = (ITestDecorator)ep;
+            decorators.Decorate(null, null);
+
+            mockDecorator.Received().Decorate(null, null);
+		}
 
 	    [Test]
 		public void CanAddSuiteBuilder()
@@ -192,5 +195,6 @@ namespace NUnit.Core.Tests
 			listeners.RunFinished( new TestResult( new TestInfo( new TestSuite( "test" ) ) ) );
             mockListener.Received().RunFinished(Arg.Is<TestResult>(x=>x.Name=="test"));
 		}
+#endif
 	}
 }

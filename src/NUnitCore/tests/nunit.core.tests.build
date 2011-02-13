@@ -103,6 +103,7 @@
         <include name="${current.lib.dir}/nunit.core.interfaces.dll"/>
         <include name="${current.lib.dir}/nunit.core.dll"/>
         <include name="${current.lib.dir}/nunit.util.dll"/>
+        <include name="${current.lib.dir}/NSubstitute.dll" if="${runtime.version >= '3.5'}"/>
         <include name="${current.test.dir}/test-assembly.dll"/>
         <include name="${current.test.dir}/test-utilities.dll"/>
         <include name="${current.test.dir}/mock-assembly.dll"/>

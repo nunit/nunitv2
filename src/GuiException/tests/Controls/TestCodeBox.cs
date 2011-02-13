@@ -10,6 +10,7 @@ using NUnit.UiException.Controls;
 using NUnit.UiException.CodeFormatters;
 using System.Windows.Forms;
 
+#if NET_3_5
 namespace NUnit.UiException.Tests.Controls
 {
     [TestFixture]
@@ -553,3 +554,4 @@ namespace NUnit.UiException.Tests.Controls
         #endregion
     } */
 }
+#endif

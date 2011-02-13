@@ -54,7 +54,7 @@ namespace NUnit.Core.Tests
         }
     }
 
-#if NET_2_0
+#if NET_2_0 || NET_3_5
     [TestFixture("A", null)]
     [TestFixture(null, "A")]
     [TestFixture(null, null)]
@@ -95,7 +95,7 @@ namespace NUnit.Core.Tests
             Assert.That(x * y, Is.EqualTo(answer));
         }
 
-#if NET_2_0
+#if NET_2_0 || NET_3_5
         IEnumerable GenerateData()
         {
             for(int i = 1; i <= answer; i++)
