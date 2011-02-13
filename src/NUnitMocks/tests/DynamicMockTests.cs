@@ -13,7 +13,8 @@ namespace NUnit.Mocks.Tests
 	/// Summary description for DynamicMockTests.
 	/// </summary>
 	[TestFixture]
-	public class DynamicMockTests
+    [Obsolete("NUnit now uses NSubstitute")]
+    public class DynamicMockTests
 	{
 		private DynamicMock mock;
 		private IStuff instance;

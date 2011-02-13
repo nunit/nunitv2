@@ -13,7 +13,8 @@ namespace NUnit.Mocks
 	/// <summary>
 	/// Summary description for ExpectedCall.
 	/// </summary>
-	public class MockCall : ICall
+    [Obsolete("NUnit now uses NSubstitute")]
+    public class MockCall : ICall
 	{
 		private MethodSignature signature;
 		private object returnVal;

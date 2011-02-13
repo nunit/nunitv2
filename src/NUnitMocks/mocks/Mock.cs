@@ -15,7 +15,8 @@ namespace NUnit.Mocks
 	/// <summary>
 	/// Summary description for MockObject.
 	/// </summary>
-	public class Mock : IMock
+    [Obsolete("NUnit now uses NSubstitute")]
+    public class Mock : IMock
 	{
 		#region Private Fields
 

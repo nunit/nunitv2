@@ -11,6 +11,7 @@ namespace NUnit.Mocks
 	/// <summary>
 	/// Summary description for DynamicMock.
 	/// </summary>
+    [Obsolete("NUnit now uses NSubstitute")]
 	public class DynamicMock : Mock
 	{
 		private Type type;

@@ -12,7 +12,8 @@ namespace NUnit.Mocks.Tests
 	/// <summary>
 	/// Summary description for MockTests.
 	/// </summary>
-	[TestFixture]
+    [TestFixture]
+    [Obsolete("NUnit now uses NSubstitute")]
 	public class MockTests
 	{
 		private Mock mock;
