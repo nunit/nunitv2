@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -37,7 +37,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\..\bin\Debug\tests\</OutputPath>
@@ -75,8 +75,15 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NSubstitute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\NSubstitute.1.0.0.0\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data">
       <Name>System.Data</Name>
@@ -92,11 +99,6 @@
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
       <Name>nunit.framework.dll</Name>
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NUnitMocks\mocks\nunit.mocks.csproj">
-      <Name>nunit.mocks</Name>
-      <Project>{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}</Project>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\mock-assembly\mock-assembly.csproj">
       <Name>mock-assembly</Name>
@@ -160,7 +162,6 @@
     <Compile Include="IgnoreFixture.cs" />
     <Compile Include="LegacySuiteTests.cs" />
     <Compile Include="MaxTimeTests.cs" />
-    <Compile Include="MockTestRunner.cs" />
     <Compile Include="NameFilterTest.cs" />
     <Compile Include="NamespaceAssemblyTests.cs" />
     <Compile Include="PairwiseTests.cs" />

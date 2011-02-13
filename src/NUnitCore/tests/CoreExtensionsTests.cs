@@ -6,9 +6,9 @@
 using System;
 using System.Text;
 using System.Reflection;
+using NSubstitute;
 using NUnit.Framework;
 using NUnit.Core.Extensibility;
-using NUnit.Mocks;
 
 namespace NUnit.Core.Tests
 {
@@ -71,16 +71,15 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void CanAddDecorator()
 		{
-			DynamicMock mock = new DynamicMock( typeof(ITestDecorator) );
-			mock.Expect( "Decorate" );
+            ITestDecorator mockDecorator = Substitute.For<ITestDecorator>();
 
             IExtensionPoint ep = host.GetExtensionPoint("TestDecorators");
-            ep.Install(mock.MockInstance);
+            ep.Install(mockDecorator);
 
             ITestDecorator decorators = (ITestDecorator)ep;
             decorators.Decorate(null, null);
 
-			mock.Verify();
+            mockDecorator.Received().Decorate(null, null);
 		}
 
         class MockDecorator : ITestDecorator
@@ -139,62 +138,59 @@ namespace NUnit.Core.Tests
 	    [Test]
 		public void CanAddSuiteBuilder()
 		{
-			DynamicMock mock = new DynamicMock( typeof(ISuiteBuilder) );
-			mock.ExpectAndReturn( "CanBuildFrom", true, null );
-			mock.Expect( "BuildFrom" );
+            ISuiteBuilder mockBuilder = Substitute.For<ISuiteBuilder>();
+            mockBuilder.CanBuildFrom(Arg.Any<Type>()).Returns(true);
 			
 			IExtensionPoint ep = host.GetExtensionPoint("SuiteBuilders");
-			ep.Install( mock.MockInstance );
+            ep.Install(mockBuilder);
 			ISuiteBuilder builders = (ISuiteBuilder)ep;
 			builders.BuildFrom( null );
 
-			mock.Verify();
+            mockBuilder.Received().BuildFrom(null);
 		}
 
         [Test]
         public void CanAddTestCaseBuilder()
         {
-            DynamicMock mock = new DynamicMock(typeof(ITestCaseBuilder));
-            mock.ExpectAndReturn("CanBuildFrom", true, null);
-            mock.Expect("BuildFrom");
+            ITestCaseBuilder mockBuilder = Substitute.For<ITestCaseBuilder>();
+            mockBuilder.CanBuildFrom(null).Returns(true);
 
             IExtensionPoint ep = host.GetExtensionPoint("TestCaseBuilders");
-            ep.Install(mock.MockInstance);
+            ep.Install(mockBuilder);
             ITestCaseBuilder builders = (ITestCaseBuilder)ep;
             builders.BuildFrom(null);
 
-            mock.Verify();
+            mockBuilder.Received().BuildFrom(null);
         }
 
         [Test]
         public void CanAddTestCaseBuilder2()
         {
-            DynamicMock mock = new DynamicMock(typeof(ITestCaseBuilder2));
-            mock.ExpectAndReturn("CanBuildFrom", true, null);
-            mock.Expect("BuildFrom");
+            ITestCaseBuilder2 mockBuilder = Substitute.For<ITestCaseBuilder2>();
+            mockBuilder.CanBuildFrom(null, null).Returns(true);
 
             IExtensionPoint ep = host.GetExtensionPoint("TestCaseBuilders");
-            ep.Install(mock.MockInstance);
+            ep.Install(mockBuilder);
             ITestCaseBuilder2 builders = (ITestCaseBuilder2)ep;
             builders.BuildFrom(null, null);
 
-            mock.Verify();
+            mockBuilder.Received().BuildFrom(null, null);
         }
 
         [Test]
 		public void CanAddEventListener()
 		{
-			DynamicMock mock = new DynamicMock( typeof(EventListener) );
-			mock.Expect( "RunStarted" );
-			mock.Expect( "RunFinished" );
+            EventListener mockListener = Substitute.For<EventListener>();
 
 			IExtensionPoint ep = host.GetExtensionPoint("EventListeners");
-			ep.Install( mock.MockInstance );
+			ep.Install( mockListener );
 			EventListener listeners = (EventListener)ep;
-			listeners.RunStarted( "test", 0 );
-			listeners.RunFinished( new TestResult( new TestInfo( new TestSuite( "test" ) ) ) );
 
-			mock.Verify();
+			listeners.RunStarted( "test", 0 );
+            mockListener.Received().RunStarted("test", 0);
+
+			listeners.RunFinished( new TestResult( new TestInfo( new TestSuite( "test" ) ) ) );
+            mockListener.Received().RunFinished(Arg.Is<TestResult>(x=>x.Name=="test"));
 		}
 	}
 }
