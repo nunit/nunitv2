@@ -5,8 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
-using NUnit.UiException;
 using NUnit.Framework;
 using NUnit.UiException.Tests.data;
 

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,8 +9,13 @@
     <OutputType>Library</OutputType>
     <RootNamespace>NUnit.UiException.Tests</RootNamespace>
     <AssemblyName>nunit.uiexception.tests</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,7 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NSubstitute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\NSubstitute.1.0.0.0\NSubstitute.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -40,11 +52,6 @@
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
       <Name>nunit.framework.dll</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\NUnitMocks\mocks\nunit.mocks.csproj">
-      <Project>{EEE7C98B-23E6-472D-9036-C2D53B0DFE7C}</Project>
-      <Name>nunit.mocks</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\tests\test-utilities\test-utilities.csproj">
       <Project>{3E63AD0F-24D4-46BE-BEE4-5A3299847D86}</Project>
@@ -81,7 +88,6 @@
     <Compile Include="CSharpParser\TestTokenDictionary.cs" />
     <EmbeddedResource Include="data\Basic.cs" />
     <Compile Include="data\TestResource.cs" />
-    <Compile Include="MockHelper.cs" />
     <Compile Include="StackTraceAnalysers\TestFunctionParser.cs" />
     <Compile Include="StackTraceAnalysers\TestIErrorParser.cs" />
     <Compile Include="StackTraceAnalysers\TestLineNumberParser.cs" />

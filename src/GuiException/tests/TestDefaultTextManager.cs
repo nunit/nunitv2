@@ -3,11 +3,8 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-using System;
 using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
-using NUnit.UiException;
 
 namespace NUnit.UiException.Tests
 {
