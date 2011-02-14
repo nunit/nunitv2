@@ -3,12 +3,11 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
+#if NET_3_5
 using System;
-using System.Collections.Generic;
-using System.Text;
+using NSubstitute;
 using NUnit.Framework;
 using NUnit.UiException.Controls;
-using NUnit.Mocks;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -17,22 +16,22 @@ namespace NUnit.UiException.Tests.Controls
     [TestFixture]
     public class TestErrorList
     {
-        private TestingErrorList _list;        
+        private TestingErrorList _list;
         private bool _selectionNotification;
 
         private string _trace1;
         private string _trace2;
 
-        private DynamicMock _mock;
+        private IErrorListRenderer _mockRenderer;
 
         [SetUp]
         public void SetUp()
         {
-            _mock = new DynamicMock(typeof(IErrorListRenderer));
+            _mockRenderer = Substitute.For<IErrorListRenderer>();
 
-            _list = new TestingErrorList((IErrorListRenderer)_mock.MockInstance);
+            _list = new TestingErrorList(_mockRenderer);
 
-            _trace1 = 
+            _trace1 =
                 "à SomeClass.SomeMethod() dans C:\\folder\\file1.cs:ligne 20\r\n" +
                 "à ExternClass.ExternMethod()\r\n" +
                 "à AnotherExternClass.AnotherExternMethod()\r\n" +
@@ -111,11 +110,9 @@ namespace NUnit.UiException.Tests.Controls
         {
             Size docSize = new Size(200, 500);
 
-            _mock.ExpectAndReturn("GetDocumentSize", docSize,
-                new object[] { _list.Items, _list.WorkingGraphics });
+            _mockRenderer.GetDocumentSize(_list.Items, _list.WorkingGraphics).Returns(docSize);
 
             _list.StackTrace = _trace1;
-            _mock.Verify();
             Assert.That(_list.AutoScrollMinSize, Is.EqualTo(new Size(200, 500)));
 
             Assert.That(_list.StackTrace, Is.EqualTo(_trace1));
@@ -123,7 +120,7 @@ namespace NUnit.UiException.Tests.Controls
             Assert.That(_list.Items[0].LineNumber, Is.EqualTo(20));
             Assert.That(_list.Items[3].LineNumber, Is.EqualTo(42));
             Assert.That(_list.Items[4].LineNumber, Is.EqualTo(93));
-            
+
             return;
         }
 
@@ -224,7 +221,7 @@ namespace NUnit.UiException.Tests.Controls
 
             list.ListOrderPolicy = ErrorListOrderPolicy.ReverseOrder;
             list.StackTrace = _trace1;
-            Assert.That(list.SelectedItem.LineNumber, Is.EqualTo(93));      
+            Assert.That(list.SelectedItem.LineNumber, Is.EqualTo(93));
 
             return;
         }
@@ -237,7 +234,7 @@ namespace NUnit.UiException.Tests.Controls
             // feeding ErrorList with garbage details should make it
             // fail gracefully.
 
-            list.StackTrace = 
+            list.StackTrace =
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\r\n" +
                 "Nam at nisi ut neque sollicitudin ultrices. Sed rhoncus\r\n" +
                 "rhoncus arcu. Morbi eu elit ut augue congue luctus. Nullam\r\n" +
@@ -246,7 +243,7 @@ namespace NUnit.UiException.Tests.Controls
                 "Phasellus rhoncus diam a nulla. Integer vestibulum.\r\n";
 
             Assert.That(list.Items.Count, Is.EqualTo(1));
-            Assert.That(list.Items[0].BaseMethodName, Is.EqualTo("Fail to parse stack trace"));            
+            Assert.That(list.Items[0].BaseMethodName, Is.EqualTo("Fail to parse stack trace"));
             Assert.IsFalse(list.Items[0].HasSourceAttachment);
 
             return;
@@ -258,22 +255,18 @@ namespace NUnit.UiException.Tests.Controls
         {
             Size docSize = new Size(200, 500);
 
-            _mock.ExpectAndReturn("GetDocumentSize", docSize,
-                new object[] { _list.Items, _list.WorkingGraphics });
+            _mockRenderer.GetDocumentSize(_list.Items, _list.WorkingGraphics).Returns(docSize);
 
             _list.StackTrace = _trace1;
-            _mock.Verify();
-            
-            _mock.Expect("DrawToGraphics",
-                new object[] { _list.Items, _list.SelectedItem, _list.WorkingGraphics, _list.ClientRectangle });
-            _mock.Expect("DrawItem",
-                new object[] { _list.Items[0], 0, true, false, _list.WorkingGraphics, _list.ClientRectangle });
+
             _list.HoveredIndex = 0;
             _list.FireOnPaint();
-            _mock.Verify();            
+
+            _mockRenderer.Received().DrawToGraphics(_list.Items, _list.SelectedItem, _list.WorkingGraphics, _list.ClientRectangle);
+            _mockRenderer.Received().DrawItem(_list.Items[0], 0, true, false, _list.WorkingGraphics, _list.ClientRectangle);
 
             return;
-        }        
+        }
 
         [Test]
         public void Click_Can_Select_Item()
@@ -282,19 +275,15 @@ namespace NUnit.UiException.Tests.Controls
             Point point;
             ErrorItem selection;
 
-            _mock.ExpectAndReturn("GetDocumentSize", docSize,
-                new object[] { _list.Items, _list.WorkingGraphics });
-
+            _mockRenderer.GetDocumentSize(_list.Items, _list.WorkingGraphics).Returns(docSize);
             _list.StackTrace = _trace1;
-            _mock.Verify();
 
             // simulate a click to 10, 10 - a clickable element
 
             point = new Point(10, 10);
-            _mock.ExpectAndReturn("ItemAt", _list.Items[0],
-                new object[] { _list.Items, _list.WorkingGraphics, point });
+            _mockRenderer.ItemAt(_list.Items, _list.WorkingGraphics, point).Returns(_list.Items[0]);
             _list.FireClick(point);
-            _mock.Verify();
+
             Assert.NotNull(_list.SelectedItem);
             Assert.That(_list.SelectedItem, Is.EqualTo(_list.Items[0]));
 
@@ -302,10 +291,9 @@ namespace NUnit.UiException.Tests.Controls
 
             selection = _list.SelectedItem;
             point = new Point(10, 110);
-            _mock.ExpectAndReturn("ItemAt", _list.Items[1],
-                new object[] { _list.Items, _list.WorkingGraphics, point });
+            _mockRenderer.ItemAt(_list.Items, _list.WorkingGraphics, point).Returns(_list.Items[1]);
             _list.FireClick(point);
-            _mock.Verify();
+
             Assert.NotNull(_list.SelectedItem);
             Assert.That(_list.SelectedItem, Is.SameAs(selection));
 
@@ -318,46 +306,37 @@ namespace NUnit.UiException.Tests.Controls
             Size docSize = new Size(200, 500);
             Point point;
 
-            _mock.ExpectAndReturn("GetDocumentSize", docSize,
-                new object[] { _list.Items, _list.WorkingGraphics });
+            _mockRenderer.GetDocumentSize(_list.Items, _list.WorkingGraphics).Returns(docSize);
 
             _list.StackTrace = _trace1;
-            _mock.Verify();
 
             // mouse move hover a selectable item
 
             point = new Point(0, 0);
-            _mock.ExpectAndReturn("ItemAt", _list.Items[0],
-                new object[] { _list.Items, _list.WorkingGraphics, point });
+            _mockRenderer.ItemAt(_list.Items, _list.WorkingGraphics, point).Returns(_list.Items[0]);
             _list.FireMouseMove(point);
             Assert.True(_list.ITEM_ENTERED_NOTIFICATION);
             Assert.That(_list.HoveredIndex, Is.EqualTo(0));
-            _mock.Verify();
 
             _list.ResetFlags();
             point = new Point(0, 50);
-            _mock.ExpectAndReturn("ItemAt", _list.Items[1],
-                new object[] { _list.Items, _list.WorkingGraphics, point });
+            _mockRenderer.ItemAt(_list.Items, _list.WorkingGraphics, point).Returns(_list.Items[1]);
             _list.FireMouseMove(point);
-            _mock.Verify();
             Assert.False(_list.ITEM_ENTERED_NOTIFICATION); // items[1] is not hoverable...
             Assert.True(_list.ITEM_LEAVED_NOTIFICATION); // has left items[0]            
             Assert.That(_list.HoveredIndex, Is.EqualTo(-1));
 
             _list.ResetFlags();
             point = new Point(0, 100);
-            _mock.ExpectAndReturn("ItemAt", _list.Items[3],
-                new object[] { _list.Items, _list.WorkingGraphics, point });
+            _mockRenderer.ItemAt(_list.Items, _list.WorkingGraphics, point).Returns(_list.Items[3]);
             _list.FireMouseMove(point);
-            _mock.Verify();
             Assert.True(_list.ITEM_ENTERED_NOTIFICATION); // items[3] is hoverable...
             Assert.False(_list.ITEM_LEAVED_NOTIFICATION); // items[1] was not hoverable
             Assert.That(_list.HoveredIndex, Is.EqualTo(3));
 
             // reset of stack trace causes HoverIndex to reset as well
 
-            _mock.ExpectAndReturn("GetDocumentSize", docSize,
-                new object[] { _list.Items, _list.WorkingGraphics });
+            _mockRenderer.GetDocumentSize(_list.Items, _list.WorkingGraphics).Returns(docSize);
             _list.StackTrace = null;
             Assert.That(_list.HoveredIndex, Is.EqualTo(-1));
 
@@ -427,3 +406,4 @@ namespace NUnit.UiException.Tests.Controls
         }
     }
 }
+#endif

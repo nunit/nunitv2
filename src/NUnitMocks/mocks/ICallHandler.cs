@@ -12,7 +12,8 @@ namespace NUnit.Mocks
 	/// The ICallHandler interface dispatches calls to methods or
 	/// other objects implementing the ICall interface.
 	/// </summary>
-	public interface ICallHandler
+    [Obsolete("NUnit now uses NSubstitute")]
+    public interface ICallHandler
 	{		
 		/// <summary>
 		/// Simulate a method call on the mocked object.

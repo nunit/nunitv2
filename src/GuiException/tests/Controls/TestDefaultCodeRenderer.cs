@@ -4,8 +4,6 @@
 // ****************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using NUnit.UiException.Controls;
 using NUnit.UiException.CodeFormatters;
@@ -18,7 +16,6 @@ namespace NUnit.UiException.Tests.Controls
     {
         private ICodeRenderer _renderer;
         private FormattedCode _empty;
-//        private FormattedCode _code;
         private FormattedCode _loremIpsum;
         private FormattedCode _text3x7;
         private CodeRenderingContext _args;
@@ -31,12 +28,6 @@ namespace NUnit.UiException.Tests.Controls
             ICodeFormatter formatter = new PlainTextCodeFormatter();
 
             _empty = formatter.Format("");
-
-//            _code = formatter.Format(
-//                "line 1\r\n" +
-//                "line 2\r\n" +
-//                "line 3\r\n" +
-//                "line 4\r\n");
 
             _text3x7 = formatter.Format(
                     "111\r\n" +

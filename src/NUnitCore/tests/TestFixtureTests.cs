@@ -126,9 +126,9 @@ namespace NUnit.Core.Tests
 		public void CanRunMultipleTestFixtureTearDown()
 		{
             TestAssert.IsRunnable(typeof(MultipleFixtureTearDownAttributes));
-		}
+        }
 
-#if NET_2_0
+#if NET_2_0 || NET_3_5
         [Test]
         public void ConstructFromStaticTypeWithoutTestFixtureAttribute()
         {

@@ -236,10 +236,11 @@
     <!-- Copy key file to base directory, so second level files can access it -->
     <copy file="${project.base.dir}/nunit.snk" todir="${project.build.dir}"/>-->
 
-    <!-- Copy lib files to current lib dir dir -->
-    <copy todir="${current.lib.dir}">
+    <!-- Copy lib files to current lib dir -->
+    <copy todir="${current.lib.dir}" flatten="true">
       <fileset basedir="${project.lib.dir}">
         <include name="*.dll"/>
+        <include name="NSubstitute.1.0.0.0/NSubstitute.dll" if="${runtime.version >= '3.5'}"/>
       </fileset>
     </copy>
 
@@ -923,6 +924,7 @@
     <copy todir="${package.lib.dir}">
       <fileset basedir="${project.lib.dir}">
         <include name="*.dll"/>
+        <include name="NSubstitute.1.0.0.0/*.*"/>
       </fileset>
     </copy>
 

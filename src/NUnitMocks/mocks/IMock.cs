@@ -11,7 +11,8 @@ namespace NUnit.Mocks
 	/// <summary>
 	/// Summary description for IMock.
 	/// </summary>
-	public interface IMock : IVerify, ICallHandler
+    [Obsolete("NUnit now uses NSubstitute")]
+    public interface IMock : IVerify, ICallHandler
 	{
 		/// <summary>
 		/// The name of this mock - used in messages

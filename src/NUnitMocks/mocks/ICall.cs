@@ -12,7 +12,8 @@ namespace NUnit.Mocks
 	/// The ICall interface is implemented by objects that can be called
 	/// with an array of arguments and return a value.
 	/// </summary>
-	public interface ICall
+    [Obsolete("NUnit now uses NSubstitute")]
+    public interface ICall
 	{
 		/// <summary>
 		/// Process a call with a possibly empty set of arguments.

@@ -4,7 +4,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_2_0
+#if NET_2_0 || NET_3_5
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;

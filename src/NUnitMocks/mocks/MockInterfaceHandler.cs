@@ -15,7 +15,8 @@ namespace NUnit.Mocks
 	/// <summary>
 	/// Summary description for MockInterfaceHandler.
 	/// </summary>
-	public class MockInterfaceHandler : RealProxy
+    [Obsolete("NUnit now uses NSubstitute")]
+    public class MockInterfaceHandler : RealProxy
 	{
 		private ICallHandler callHandler;
 
