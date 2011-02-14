@@ -924,7 +924,7 @@
     <copy todir="${package.lib.dir}">
       <fileset basedir="${project.lib.dir}">
         <include name="*.dll"/>
-        <include name="NSubstitute.1.0.0.0/NSubstitute.dll"/>
+        <include name="NSubstitute.1.0.0.0/*.*"/>
       </fileset>
     </copy>
 
