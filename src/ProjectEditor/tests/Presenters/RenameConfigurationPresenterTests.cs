@@ -1,4 +1,10 @@
-﻿#if NET_3_5
+﻿// ****************************************************************
+// Copyright 2011, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org
+// ****************************************************************
+
+#if NET_3_5
 using System;
 using System.Collections.Generic;
 using NSubstitute;
