@@ -22,31 +22,43 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.ViewElements
 {
-    static class Program
+    /// <summary>
+    /// MenuItemWrapper is the implementation of MenuItem 
+    /// used in the actual application.
+    /// </summary>
+    public class MenuElement : ICommand
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        private ToolStripMenuItem menuItem;
+
+        public MenuElement(ToolStripMenuItem menuItem)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            this.menuItem = menuItem;
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+            menuItem.Click += delegate 
+                { if (Execute != null) Execute(); };
+        }
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
+        public event CommandDelegate Execute;
 
-            Application.Run(view);
+        public string Name
+        {
+            get { return menuItem.Name; }
+        }
+
+        public bool Enabled
+        {
+            get { return menuItem.Enabled; }
+            set { menuItem.Enabled = value; }
+        }
+
+        public string Text
+        {
+            get { return menuItem.Text; }
+            set { menuItem.Text = value; }
         }
     }
 }

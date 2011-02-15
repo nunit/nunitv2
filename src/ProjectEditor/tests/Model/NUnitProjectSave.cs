@@ -27,20 +27,22 @@ using System.Xml;
 using System.IO;
 using NUnit.Framework;
 
-namespace NUnit.ProjectEditor.Tests
+namespace NUnit.ProjectEditor.Tests.Model
 {
 	[TestFixture]
 	public class NUnitProjectSave
 	{
 		static readonly string xmlfile = "test.nunit";
 
+        private ProjectDocument doc;
         private ProjectModel project;
 
 		[SetUp]
 		public void SetUp()
 		{
-            project = new ProjectModel();
-            project.CreateNewProject();
+            doc = new ProjectDocument();
+            project = new ProjectModel(doc);
+            doc.CreateNewProject();
 		}
 
 		[TearDown]
@@ -59,8 +61,8 @@ namespace NUnit.ProjectEditor.Tests
 		[Test]
 		public void EmptyConfigs()
 		{
-            project.Configs.Add("Debug");
-            project.Configs.Add("Release");
+            project.AddConfig("Debug");
+            project.AddConfig("Release");
             project.ActiveConfigName = "Debug";
             project.Configs["Debug"].BinPathType = BinPathType.Auto;
             project.Configs["Release"].BinPathType = BinPathType.Auto;
@@ -71,13 +73,13 @@ namespace NUnit.ProjectEditor.Tests
         [Test]
         public void NormalProject()
         {
-            ProjectConfig config1 = project.Configs.Add("Debug");
+            IProjectConfig config1 = project.AddConfig("Debug");
             config1.BasePath = "bin" + Path.DirectorySeparatorChar + "debug";
             config1.BinPathType = BinPathType.Auto;
             config1.Assemblies.Add("assembly1.dll");
             config1.Assemblies.Add("assembly2.dll");
 
-            ProjectConfig config2 = project.Configs.Add("Release");
+            IProjectConfig config2 = project.AddConfig("Release");
             config2.BasePath = "bin" + Path.DirectorySeparatorChar + "release";
             config2.BinPathType = BinPathType.Auto;
             config2.Assemblies.Add("assembly1.dll");
@@ -91,21 +93,21 @@ namespace NUnit.ProjectEditor.Tests
         [Test]
         public void NormalProject_RoundTrip()
         {
-            project.LoadXml(NUnitProjectXml.NormalProject);
+            doc.LoadXml(NUnitProjectXml.NormalProject);
             CheckContents(NUnitProjectXml.NormalProject);
         }
 
         [Test]
         public void ProjectWithComplexSettings()
         {
-            ProjectConfig config1 = project.Configs.Add("Debug");
+            IProjectConfig config1 = project.AddConfig("Debug");
             config1.BasePath = "debug";
             config1.BinPathType = BinPathType.Auto;
             config1.RuntimeFramework = new RuntimeFramework(RuntimeType.Any, new Version(2, 0));
             config1.Assemblies.Add("assembly1.dll");
             config1.Assemblies.Add("assembly2.dll");
 
-            ProjectConfig config2 = project.Configs.Add("Release");
+            IProjectConfig config2 = project.AddConfig("Release");
             config2.BasePath = "release";
             config2.BinPathType = BinPathType.Auto;
             config2.RuntimeFramework = new RuntimeFramework(RuntimeType.Any, new Version(4, 0));
@@ -114,8 +116,8 @@ namespace NUnit.ProjectEditor.Tests
 
             project.ActiveConfigName = "Release";
             project.BasePath = "bin";
-            project.ProcessModel = ProcessModel.Separate;
-            project.DomainUsage = DomainUsage.Multiple;
+            project.ProcessModel = "Separate";
+            project.DomainUsage = "Multiple";
 
             CheckContents(NUnitProjectXml.ComplexSettingsProject);
         }
@@ -123,22 +125,22 @@ namespace NUnit.ProjectEditor.Tests
         [Test]
         public void ProjectWithComplexSettings_RoundTrip()
         {
-            project.LoadXml(NUnitProjectXml.ComplexSettingsProject);
+            doc.LoadXml(NUnitProjectXml.ComplexSettingsProject);
             CheckContents(NUnitProjectXml.ComplexSettingsProject);
         }
 
         [Test]
         public void ProjectWithComplexSettings_RoundTripWithChanges()
         {
-            project.LoadXml(NUnitProjectXml.ComplexSettingsProject);
-            project.ProcessModel = ProcessModel.Single;
+            doc.LoadXml(NUnitProjectXml.ComplexSettingsProject);
+            project.ProcessModel = "Single";
             CheckContents(NUnitProjectXml.ComplexSettingsProject
                 .Replace("Separate", "Single"));
         }
 
         private void CheckContents(string expected)
         {
-            project.Save(xmlfile);
+            doc.Save(xmlfile);
             StreamReader reader = new StreamReader(xmlfile);
             string contents = reader.ReadToEnd();
             reader.Close();

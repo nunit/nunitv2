@@ -22,31 +22,29 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.ViewElements
 {
-    static class Program
+    /// <summary>
+    /// IComboBox is implemented by view elements that associate
+    /// an editable TextBox with a SelectionList. The classic
+    /// implementation is System.Windows.Forms.ComboBox. This 
+    /// interface is only intended for use when the TextBox
+    /// is editable. Otherwise, ISelectionList provides all
+    /// the necessary functionality.
+    /// </summary>
+    public interface IComboBox : ISelectionList
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Gets or sets the value of the TextBox associated
+        /// with this ComboBox.
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        string Text { get; set; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
-
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
+        /// <summary>
+        /// Event that is raised when the text has changed
+        /// and the focus is moved away.
+        /// </summary>
+        event ActionDelegate TextValidated;
     }
 }

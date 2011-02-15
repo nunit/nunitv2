@@ -22,31 +22,24 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    /// <summary>
+    /// The IViewElement interface is exposed by the view
+    /// for an individual gui element. It is the base of
+    /// other more specific interfaces.
+    /// </summary>
+    public interface IViewElement
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Gets the name of the element in the view
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        string Name { get; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
-
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
+        /// <summary>
+        /// Gets or sets the enabled status of the element
+        /// </summary>
+        bool Enabled { get; set; }
     }
 }

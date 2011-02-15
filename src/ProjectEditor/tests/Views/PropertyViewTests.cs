@@ -22,31 +22,26 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Reflection;
+using NUnit.Framework;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.Tests.Views
 {
-    static class Program
+    public class PropertyViewTests
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        [Test]
+        public void AllViewElementsAreInitialized()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            PropertyView view = new PropertyView();
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
-
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
+            foreach (PropertyInfo prop in typeof(PropertyView).GetProperties())
+            {
+                if (typeof(IViewElement).IsAssignableFrom(prop.PropertyType))
+                {
+                    if (prop.GetValue(view, new object[0]) == null)
+                        Assert.Fail("{0} was not initialized", prop.Name);
+                }
+            }
         }
     }
 }

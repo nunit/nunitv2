@@ -22,31 +22,12 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+    public delegate void ActionDelegate();
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+    public delegate void CommandDelegate();
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
-    }
+    public delegate bool ActionStartingDelegate();
 }

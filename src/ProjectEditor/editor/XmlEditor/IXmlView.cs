@@ -22,31 +22,44 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using NUnit.ProjectEditor.ViewElements;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    /// <summary>
+    /// IXmlView is the interface implemented by the XmlView
+    /// and consumed by the XmlPresenter.
+    /// </summary>
+    public interface IXmlView : IView
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Gets or sets the XML text
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        ITextElement Xml { get; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+        /// <summary>
+        /// Display an error message at bottom of the view,
+        /// adjusting the text to make edit box to make room.
+        /// </summary>
+        /// <param name="message">The message to display</param>
+        void DisplayError(string message);
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
+        /// <summary>
+        /// Display an error message at bottom of the view,
+        /// adjusting the text to make edit box to make room
+        /// and highlighting the text that caused the error.
+        /// </summary>
+        /// <param name="message">The message to display</param>
+        /// <param name="lineNumber">The line number in which the error occured.</param>
+        /// <param name="linePosition">The position in the line that caused the error.</param>
+        void DisplayError(string message, int lineNumber, int linePosition);
 
-            Application.Run(view);
-        }
+        /// <summary>
+        /// Remove any error message from the view, adjusting
+        /// the edit box so it uses all the space.
+        /// </summary>
+        void RemoveError();
+
+        
     }
 }

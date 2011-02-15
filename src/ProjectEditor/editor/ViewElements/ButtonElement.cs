@@ -22,31 +22,27 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.ViewElements
 {
-    static class Program
+    /// <summary>
+    /// ControlWrapper is a general wrapper for controls used
+    /// by the view. It implements several different interfaces
+    /// so that the view may choose which one to expose, based
+    /// on the type of textBox and how it is used.
+    /// </summary>
+    public class ButtonElement : ControlElement, ICommand
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        public ButtonElement(Button button) : base(button)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
-
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
+            button.Click += delegate
+            {
+                if (Execute != null)
+                    Execute();
+            };
         }
+
+        public event CommandDelegate Execute;
     }
 }

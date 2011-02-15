@@ -22,31 +22,16 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.ViewElements
 {
-    static class Program
+    public interface ICommand : IViewElement
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Execute event is raised to signal the presenter
+        /// to execute the command with which this menu
+        /// item is associated.
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
-
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
+        event CommandDelegate Execute;
     }
 }

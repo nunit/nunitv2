@@ -22,31 +22,19 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.ViewElements
 {
-    static class Program
+    public interface ISelection : IViewElement
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Gets or sets the index of the currently selected item
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        int SelectedIndex { get; set; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
-
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
+        /// <summary>
+        /// Event raised when the selection is changed by the user
+        /// </summary>
+        event ActionDelegate SelectionChanged;
     }
 }

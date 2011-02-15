@@ -23,30 +23,56 @@
 
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using NUnit.ProjectEditor.ViewElements;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    public interface IPropertyView : IView
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        #region Properties
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+        IDialogManager DialogManager { get; }
+        IConfigurationEditorDialog ConfigurationEditorDialog { get; }
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
+        #region Command Elements
 
-            Application.Run(view);
-        }
+        ICommand BrowseProjectBaseCommand { get; }
+        ICommand EditConfigsCommand { get; }
+        ICommand BrowseConfigBaseCommand { get; }
+
+        ICommand AddAssemblyCommand { get; }
+        ICommand RemoveAssemblyCommand { get; }
+        ICommand BrowseAssemblyPathCommand { get; }
+
+        #endregion
+
+        #region Properties of the Model as a Whole
+
+        ITextElement ProjectPath { get; }
+        ITextElement ProjectBase { get; }
+        ISelectionList ProcessModel { get; }
+        ISelectionList DomainUsage { get; }
+        ITextElement ActiveConfigName { get; }
+
+        ISelectionList ConfigList { get; }
+
+        #endregion
+
+        #region Properties of the Selected Config
+
+        ISelectionList Runtime { get; }
+        IComboBox RuntimeVersion { get; }
+        ITextElement ApplicationBase { get; }
+        ITextElement ConfigurationFile { get; }
+
+        ISelection BinPathType { get; }
+        ITextElement PrivateBinPath { get; }
+
+        ISelectionList AssemblyList { get; }
+        ITextElement AssemblyPath { get; }
+
+        #endregion
+
+        #endregion
     }
 }

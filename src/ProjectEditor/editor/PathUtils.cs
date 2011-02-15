@@ -31,7 +31,7 @@ using System.Runtime.InteropServices;
 namespace NUnit.ProjectEditor
 {
 	/// <summary>
-	/// Static methods for manipulating project paths, including both directories
+	/// Static methods for manipulating doc paths, including both directories
 	/// and files. Some synonyms for System.Path methods are included as well.
 	/// </summary> 
 	public class PathUtils

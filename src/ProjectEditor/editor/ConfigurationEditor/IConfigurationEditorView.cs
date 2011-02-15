@@ -22,31 +22,20 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using NUnit.ProjectEditor.ViewElements;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    public interface IConfigurationEditorDialog : IDialog
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        ICommand AddCommand { get; }
+        ICommand RenameCommand { get; }
+        ICommand RemoveCommand { get; }
+        ICommand ActiveCommand { get; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+        ISelectionList ConfigList { get; }
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
+        IAddConfigurationDialog AddConfigurationDialog { get; }
+        IRenameConfigurationDialog RenameConfigurationDialog { get; }
     }
 }

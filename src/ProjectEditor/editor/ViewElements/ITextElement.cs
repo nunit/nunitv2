@@ -22,31 +22,27 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.ViewElements
 {
-    static class Program
+    public interface ITextElement : IViewElement
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Gets or sets the text of the element
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        string Text { get; set; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+        void Select(int offset, int length);
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
+        /// <summary>
+        /// Changed event is raised whenever the text changes
+        /// </summary>
+        event ActionDelegate Changed;
+        
+        /// <summary>
+        /// Validated event is raised when the text has been
+        /// changed and focus has left the UI element.
+        /// </summary>
+        event ActionDelegate Validated;
     }
 }

@@ -22,31 +22,23 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using NUnit.Framework;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.Tests.Views
 {
-    static class Program
+    public class ConfigurationEditorViewTests
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        [Test]
+        public void AllViewElementsAreWrapped()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            ConfigurationEditorDialog view = new ConfigurationEditorDialog();
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+            Assert.NotNull(view.AddCommand);
+            Assert.NotNull(view.RemoveCommand);
+            Assert.NotNull(view.RenameCommand);
+            Assert.NotNull(view.ActiveCommand);
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
+            Assert.NotNull(view.ConfigList);
         }
     }
 }

@@ -22,31 +22,44 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
+using NUnit.ProjectEditor.ViewElements;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    public delegate bool ActiveViewChangingHandler();
+    public delegate void ActiveViewChangedHandler();
+
+    /// <summary>
+    /// IMainView represents the top level view for the
+    /// Project editor. It provides a menu commands and several
+    /// utility methods used in opening and saving files. It
+    /// aggregates the property and xml views.
+    /// </summary>
+    public interface IMainView : IView
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        IDialogManager DialogManager { get; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+        ICommand NewProjectCommand { get; }
+        ICommand OpenProjectCommand { get; }
+        ICommand CloseProjectCommand { get; }
+        ICommand SaveProjectCommand { get; }
+        ICommand SaveProjectAsCommand { get; }
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
+        event ActiveViewChangingHandler ActiveViewChanging;
+        event ActiveViewChangedHandler ActiveViewChanged;
 
-            Application.Run(view);
-        }
+        event FormClosingEventHandler FormClosing;
+
+        IPropertyView PropertyView { get; }
+        IXmlView XmlView { get; }
+
+        SelectedView SelectedView { get; set;  }
+    }
+
+    public enum SelectedView
+    {
+        PropertyView = 0,
+        XmlView = 1
     }
 }

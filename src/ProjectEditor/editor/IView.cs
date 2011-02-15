@@ -22,31 +22,25 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using NUnit.ProjectEditor.ViewElements;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    /// <summary>
+    /// Common interface implemented by all views used in
+    /// the ProjectEditor application
+    /// </summary>
+    public interface IView
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Object that knows how to display various messages
+        /// in a MessageBox.
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        IMessageDisplay MessageDisplay { get; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
-
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
+        /// <summary>
+        /// Gets or sets the visibility of the view
+        /// </summary>
+        bool Visible { get; set; }
     }
 }

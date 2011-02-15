@@ -4,40 +4,67 @@
   <patternset id="source-files">
     <include name="AboutBox.cs"/>
     <include name="AboutBox.Designer.cs"/>
+    <include name="Delegates.cs"/>
+    <include name="IDialog.cs"/>
+    <include name="IView.cs"/>
     <include name="PathUtils.cs"/>
     <include name="Program.cs"/>
-    <include name="ProjectFormatException.cs"/>
-    <include name="Models/AssemblyList.cs"/>
-    <include name="Models/ConfigList.cs"/>
-    <include name="Models/DomainUsage.cs"/>
-    <include name="Models/IProjectModel.cs"/>
-    <include name="Models/ProcessModel.cs"/>
-    <include name="Models/ProjectConfig.cs"/>
-    <include name="Models/ProjectModel.cs"/>
-    <include name="Models/RuntimeFramework.cs"/>
-    <include name="Models/VSProject.cs"/>
-    <include name="Models/VSProjectConfig.cs"/>
-    <include name="Models/VSProjectConfigCollection.cs"/>
-    <include name="Models/XmlHelper.cs"/>
-    <include name="Presenters/ConfigurationEditor.cs"/>
-    <include name="Presenters/ProjectPresenter.cs"/>
-    <include name="Presenters/PropertyPresenter.cs"/>
-    <include name="Presenters/XmlPresenter.cs"/>
-    <include name="Views/AddConfigurationDialog.cs"/>
-    <include name="Views/ConfigurationEditorView.cs"/>
-    <include name="Views/IConfigurationEditorView.cs"/>
-    <include name="Views/IMessageBoxCreator.cs"/>
-    <include name="Views/IProjectView.cs"/>
-    <include name="Views/IPropertyView.cs"/>
-    <include name="Views/IXmlView.cs"/>
-    <include name="Views/MainForm.cs"/>
-    <include name="Views/MainForm.Designer.cs"/>
-    <include name="Views/MessageBoxCreator.cs"/>
-    <include name="Views/PropertyView.cs"/>
-    <include name="Views/PropertyView.Designer.cs"/>
-    <include name="Views/RenameConfigurationDialog.cs"/>
-    <include name="Views/XmlView.cs"/>
-    <include name="Views/XmlView.Designer.cs"/>
+    <include name="ConfigurationEditor/AddConfigurationDialog.cs"/>
+    <include name="ConfigurationEditor/AddConfigurationDialog.Designer.cs"/>
+    <include name="ConfigurationEditor/AddConfigurationPresenter.cs"/>
+    <include name="ConfigurationEditor/ConfigurationEditor.cs"/>
+    <include name="ConfigurationEditor/ConfigurationEditorView.cs"/>
+    <include name="ConfigurationEditor/ConfigurationEditorView.Designer.cs"/>
+    <include name="ConfigurationEditor/IConfigurationEditorView.cs"/>
+    <include name="ConfigurationEditor/RenameConfigurationDialog.cs"/>
+    <include name="ConfigurationEditor/RenameConfigurationDialog.Designer.cs"/>
+    <include name="ConfigurationEditor/RenameConfigurationPresenter.cs"/>
+    <include name="Main/IMainView.cs"/>
+    <include name="Main/IProjectDocument.cs"/>
+    <include name="Main/MainForm.cs"/>
+    <include name="Main/MainForm.Designer.cs"/>
+    <include name="Main/MainPresenter.cs"/>
+    <include name="Main/ProjectDocument.cs"/>
+    <include name="PropertyEditor/AssemblyList.cs"/>
+    <include name="PropertyEditor/ConfigList.cs"/>
+    <include name="PropertyEditor/IProjectConfig.cs"/>
+    <include name="PropertyEditor/IProjectModel.cs"/>
+    <include name="PropertyEditor/IPropertyView.cs"/>
+    <include name="PropertyEditor/ProjectConfig.cs"/>
+    <include name="PropertyEditor/ProjectModel.cs"/>
+    <include name="PropertyEditor/PropertyPresenter.cs"/>
+    <include name="PropertyEditor/PropertyView.cs"/>
+    <include name="PropertyEditor/PropertyView.Designer.cs"/>
+    <include name="PropertyEditor/RuntimeFramework.cs"/>
+    <include name="PropertyEditor/VSProject.cs"/>
+    <include name="PropertyEditor/VSProjectConfig.cs"/>
+    <include name="PropertyEditor/VSProjectConfigCollection.cs"/>
+    <include name="PropertyEditor/XmlHelper.cs"/>
+    <include name="ViewElements/ButtonElement.cs"/>
+    <include name="ViewElements/ComboBoxElement.cs"/>
+    <include name="ViewElements/ControlElement.cs"/>
+    <include name="ViewElements/DialogManager.cs"/>
+    <include name="ViewElements/IComboBox.cs"/>
+    <include name="ViewElements/ICommand.cs"/>
+    <include name="ViewElements/IDialogManager.cs"/>
+    <include name="ViewElements/IMessageDisplay.cs"/>
+    <include name="ViewElements/ISelection.cs"/>
+    <include name="ViewElements/ISelectionList.cs"/>
+    <include name="ViewElements/ITextElement.cs"/>
+    <include name="ViewElements/IViewElement.cs"/>
+    <include name="ViewElements/ListBoxElement.cs"/>
+    <include name="ViewElements/MenuElement.cs"/>
+    <include name="ViewElements/MessageDisplay.cs"/>
+    <include name="ViewElements/RadioButtonGroup.cs"/>
+    <include name="ViewElements/TextElement.cs"/>
+    <include name="XmlEditor/IXmlView.cs"/>
+    <include name="XmlEditor/XmlPresenter.cs"/>
+    <include name="XmlEditor/XmlView.cs"/>
+    <include name="XmlEditor/XmlView.Designer.cs"/>
+  </patternset>
+
+  <patternset id="resource-files">
+    <include name="**/*.resx"/>
   </patternset>
 
   <target name="build">
@@ -48,6 +75,9 @@
       <sources>
         <patternset refid="source-files"/>
       </sources>
+      <resources>
+        <patternset refid="resource-files"/>
+      </resources>
       <references>
         <include name="System.Windows.Forms.dll"/>
         <include name="System.Drawing.dll"/>

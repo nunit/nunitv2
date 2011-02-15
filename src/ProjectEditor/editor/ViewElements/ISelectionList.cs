@@ -22,31 +22,24 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
-namespace NUnit.ProjectEditor
+namespace NUnit.ProjectEditor.ViewElements
 {
-    static class Program
+    /// <summary>
+    /// The ISelectionList interface represents
+    /// a ui element that allows the user to select one of
+    /// a set of items.
+    /// </summary>
+    public interface ISelectionList : ISelection
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// Gets or sets the currently selected item
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        string SelectedItem { get; set; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
-
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
-
-            Application.Run(view);
-        }
+        /// <summary>
+        /// Gets or sets the contents of the selection list
+        /// </summary>
+        string[] SelectionList { get; set; }
     }
 }

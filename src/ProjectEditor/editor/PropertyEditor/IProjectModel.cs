@@ -22,31 +22,35 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    public interface IProjectModel
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        #region Properties
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+        IProjectDocument Document { get; }
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
+        string ProjectPath { get; set; }
+        string BasePath { get; set; }
+        string EffectiveBasePath { get; }
 
-            Application.Run(view);
-        }
+        string ActiveConfigName { get; set; }
+
+        string ProcessModel { get; set; }
+        string DomainUsage { get; set; }
+
+        ConfigList Configs { get; }
+        string[] ConfigNames { get; }
+
+        #endregion
+
+        #region Methods
+
+        IProjectConfig AddConfig(string name);
+        void RemoveConfig(string name);
+        void RemoveConfigAt(int index);
+
+        #endregion
     }
 }

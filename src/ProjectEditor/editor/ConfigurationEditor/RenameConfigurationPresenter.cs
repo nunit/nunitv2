@@ -22,31 +22,45 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    public class RenameConfigurationPresenter
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main(string[] args)
+        private IProjectModel model;
+        private IRenameConfigurationDialog dlg;
+        private string originalName;
+
+        public RenameConfigurationPresenter(IProjectModel model, IRenameConfigurationDialog dlg, string originalName)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            this.model = model;
+            this.dlg = dlg;
+            this.originalName = originalName;
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+            dlg.ConfigurationName.Text = originalName;
+            dlg.ConfigurationName.Select(0, originalName.Length);
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
+            dlg.ConfigurationName.Changed += delegate
+            {
+                string text = dlg.ConfigurationName.Text;
+                dlg.OkButton.Enabled = text != string.Empty && text != originalName;
+            };
 
-            Application.Run(view);
+            dlg.OkButton.Execute += delegate
+            {
+                string newName = dlg.ConfigurationName.Text;
+
+                foreach (string existingName in model.ConfigNames)
+                {
+                    if (existingName == newName)
+                    {
+                        dlg.MessageDisplay.Error("A configuration with that name already exists");
+                        return;
+                    }
+                }
+
+                model.Configs[originalName].Name = newName;
+            };
         }
     }
 }

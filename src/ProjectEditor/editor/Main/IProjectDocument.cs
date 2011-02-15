@@ -22,31 +22,57 @@
 // ***********************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Xml;
 
 namespace NUnit.ProjectEditor
 {
-    static class Program
+    public interface IProjectDocument
     {
+        #region Events
+
+        event ActionDelegate ProjectCreated;
+        event ActionDelegate ProjectClosed;
+        event ActionDelegate ProjectChanged;
+
+        #endregion
+
+        #region Properties
+
+        string Name { get; }
+
         /// <summary>
-        /// The main entry point for the application.
+        /// Gets or sets the path to which a doc will be saved.
         /// </summary>
-        [STAThread]
-        static void Main(string[] args)
-        {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+        string ProjectPath { get; set; }
 
-            // Set up main editor triad
-            ProjectDocument doc = new ProjectDocument();
-            MainForm view = new MainForm();
-            new MainPresenter(doc, view);
+        bool IsEmpty { get; }
+        bool IsValid { get; }
 
-            if (args.Length > 0)
-                doc.OpenProject(args[0]);
+        string XmlText { get; set; }
+        Exception Exception { get; }
 
-            Application.Run(view);
-        }
+        XmlNode RootNode { get; }
+        XmlNode SettingsNode { get; }
+        XmlNodeList ConfigNodes { get; }
+
+        bool HasUnsavedChanges { get; }
+
+        string GetSettingsAttribute(string name);
+        void SetSettingsAttribute(string name, string value);
+        void RemoveSettingsAttribute(string name);
+
+        #endregion
+
+        #region Methods
+
+        void CreateNewProject();
+        void OpenProject(string fileName);
+        void CloseProject();
+        void SaveProject();
+        void SaveProject(string fileName);
+
+        void LoadXml(string xmlText);
+
+        #endregion
     }
 }
