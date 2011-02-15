@@ -49,7 +49,7 @@
          The first .NET and Mono frameworks found are the
          respective net and mono defaults. -->
   <property name="supported.frameworks" 
-    value="net-2.0,net-3.5,net-4.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
+    value="net-3.5,net-4.0,net-2.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
 
   <!-- Packages we normally create -->
   <!--<property name="standard.packages" value="std,mono" />-->
@@ -239,8 +239,8 @@
     <!-- Copy lib files to current lib dir -->
     <copy todir="${current.lib.dir}" flatten="true">
       <fileset basedir="${project.lib.dir}">
-        <include name="*.dll"/>
-        <include name="NSubstitute.1.0.0.0/NSubstitute.dll" if="${runtime.version >= '3.5'}"/>
+        <include name="*"/>
+        <include name="3.5/*" if="${runtime.version >= '3.5'}"/>
       </fileset>
     </copy>
 
