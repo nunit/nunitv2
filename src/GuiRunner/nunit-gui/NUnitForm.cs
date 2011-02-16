@@ -10,6 +10,7 @@ using System.Collections;
 using System.Configuration;
 using System.ComponentModel;
 using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
 using System.IO;
@@ -41,6 +42,9 @@ namespace NUnit.Gui
 
 		// Our current run command line options
 		private GuiOptions guiOptions;
+
+        // Our nunit project watcher
+        private FileWatcher projectWatcher;
 
 		private System.ComponentModel.IContainer components;
 
@@ -921,17 +925,7 @@ namespace NUnit.Gui
 
 		private void reloadProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-            bool wrapper = TestProject.IsAssemblyWrapper;
-            string projectPath = TestProject.ProjectPath;
-            string activeConfigName = TestProject.ActiveConfigName;
-
-            // Unload first to avoid message asking about saving
-            TestLoader.UnloadProject();
-
-			if ( wrapper )
-				TestLoaderUI.OpenProject( this, projectPath );
-			else
-				TestLoaderUI.OpenProject( this, projectPath, activeConfigName, null );
+            TestLoaderUI.ReloadProject(this);
 		}
 
 		private void reloadTestsMenuItem_Click(object sender, System.EventArgs e)
@@ -1193,13 +1187,41 @@ namespace NUnit.Gui
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-			using ( ProjectEditor editor = new ProjectEditor( TestProject ) )
-			{
-				this.Site.Container.Add( editor );
-				editor.ShowDialog( this );
-			}
+            NUnitProject project = TestLoader.TestProject;
 
-            LoadOrReloadTestAsNeeded();
+            if (!NUnitProject.IsNUnitProjectFile(project.ProjectPath))
+            {
+                if (MessageBox.Show(
+                    "In order to edit the project, it will first be saved",
+                    "NUnit",
+                    MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    TestLoaderUI.SaveProject(this);
+                }
+            }
+            else if (project.IsDirty)
+            {
+                switch (MessageBox.Show(
+                    "There are unsaved changes. Do you want to save them before running the editor?",
+                    "NUnit",
+                    MessageBoxButtons.YesNoCancel))
+                {
+                    case DialogResult.Yes:
+                        TestLoaderUI.SaveProject(this);
+                        if (project.IsDirty) // Save failed
+                            return;
+                        break;
+
+                    case DialogResult.Cancel:
+                        return;
+                }
+            }
+
+            Process p = new Process();
+            // TODO: Get this from the settings
+            p.StartInfo.FileName = Path.Combine(NUnitConfiguration.NUnitBinDirectory, "nunit-editor.exe");
+            p.StartInfo.Arguments = project.ProjectPath;
+            p.Start();
         }
 
         private void LoadOrReloadTestAsNeeded()
@@ -1614,19 +1636,36 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Event Handlers for Test Load and Unload
+		#region Event Handlers for Project Load and Unload
 
 		private void OnTestProjectLoaded( object sender, TestEventArgs e )
 		{
 			SetTitleBar( e.Name );
 			projectMenu.Visible = true;
 			runCount.Text = "";
+
+            // If this is an NUnit project, set up watcher
+            if (NUnitProject.IsNUnitProjectFile(e.Name))
+            {
+                this.projectWatcher = new FileWatcher(e.Name, 100);
+
+                this.projectWatcher.Changed += new FileChangedHandler(OnTestProjectChanged);
+                this.projectWatcher.Start();
+            }
 		}
 
-		private void OnTestProjectUnloading( object sender, TestEventArgs e )
+        private void OnTestProjectUnloading(object sender, TestEventArgs e)
 		{
+            // Remove any watcher
 			if ( e.Name != null && File.Exists( e.Name ) )
 			{
+                if (projectWatcher != null)
+                {
+                    projectWatcher.Stop();
+                    projectWatcher.Dispose();
+                    projectWatcher = null;
+                }
+
 				Version version = Environment.Version;
 				foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
 					if ( info.ImageRuntimeVersion < version )
@@ -1643,7 +1682,30 @@ namespace NUnit.Gui
 			runCount.Text = "";
 		}
 
-		private void OnTestLoadStarting( object sender, TestEventArgs e )
+        private void OnTestProjectChanged(string filePath)
+        {
+            string message = filePath + Environment.NewLine + Environment.NewLine +
+                "This file has been modified outside of NUnit." + Environment.NewLine +
+                "Do you want to reload it?";
+
+            if (MessageBox.Show(message, "Project Changed", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                TestLoaderUI.ReloadProject(this);
+        }
+
+        private void OnProjectLoadFailure(object sender, TestEventArgs e)
+        {
+            UserMessage.DisplayFailure(e.Exception, "Project Not Loaded");
+
+            recentFilesService.Remove(e.Name);
+
+            EnableRunCommand(true);
+        }
+
+        #endregion
+
+        #region Event Handlers for Test Load and Unload
+
+        private void OnTestLoadStarting(object sender, TestEventArgs e)
 		{
 			EnableRunCommand( false );
 			longOpDisplay = new LongRunningOperationDisplay( this, "Loading..." );
@@ -1711,15 +1773,6 @@ namespace NUnit.Gui
 
             if (userSettings.GetSetting("Options.TestLoader.ClearResultsOnReload", false))
                 runCount.Text = null;
-
-			EnableRunCommand( true );
-		}
-
-		private void OnProjectLoadFailure( object sender, TestEventArgs e )
-		{
-			UserMessage.DisplayFailure( e.Exception, "Project Not Loaded" );
-
-			recentFilesService.Remove( e.Name );
 
 			EnableRunCommand( true );
 		}

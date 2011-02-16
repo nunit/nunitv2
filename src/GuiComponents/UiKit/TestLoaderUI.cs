@@ -279,6 +279,7 @@ namespace NUnit.UiKit
 				else
 				{
 					loader.TestProject.Save( dlg.FileName );
+                    ReloadProject(owner);
 					return;
 				}
 			}
@@ -299,7 +300,24 @@ namespace NUnit.UiKit
 				loader.NewProject( dlg.FileName );
 		}
 
-		public static DialogResult CloseProject( Form owner )
+        public static void ReloadProject(Form owner)
+        {
+            NUnitProject project = Services.TestLoader.TestProject;
+
+            bool wrapper = project.IsAssemblyWrapper;
+            string projectPath = project.ProjectPath;
+            string activeConfigName = project.ActiveConfigName;
+
+            // Unload first to avoid message asking about saving
+            Services.TestLoader.UnloadProject();
+
+            if (wrapper)
+                OpenProject(owner, projectPath);
+            else
+                OpenProject(owner, projectPath, activeConfigName, null);
+        }
+
+        public static DialogResult CloseProject(Form owner)
 		{
 			DialogResult result = SaveProjectIfDirty( owner );
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -141,11 +141,12 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AssemblyListTests.cs" />
+    <Compile Include="AssemblyWatcherTests.cs" />
     <Compile Include="CategoryManagerTest.cs" />
     <Compile Include="CategoryParseTests.cs" />
     <Compile Include="DomainManagerTests.cs" />
     <Compile Include="EventDispatcherTests.cs" />
-    <Compile Include="FileWatcherTest.cs" />
+    <Compile Include="FileWatcherTests.cs" />
     <Compile Include="MemorySettingsStorageTests.cs" />
     <Compile Include="MockAssemblyWatcher.cs" />
     <Compile Include="NUnitProjectLoad.cs" />
