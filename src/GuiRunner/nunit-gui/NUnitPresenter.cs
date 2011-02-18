@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using NUnit.Core;
@@ -446,6 +447,57 @@ namespace NUnit.Gui
                 OpenProject(projectPath);
             else
                 OpenProject(projectPath, activeConfigName, null);
+        }
+
+        #endregion
+
+        #region Edit Project
+
+        public void EditProject()
+        {
+            NUnitProject project = loader.TestProject;
+
+            if (!NUnitProject.IsNUnitProjectFile(project.ProjectPath))
+            {
+                if (Form.MessageDisplay.Display(
+                    "The project has not yet been saved. In order to edit the project, it must first be saved. Click OK to save the project or Cancel to exit.",
+                    MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    project.Save();
+                }
+            }
+            else if (!File.Exists(project.ProjectPath))
+            {
+                project.Save();
+            }
+            else if (project.IsDirty)
+            {
+                switch (Form.MessageDisplay.Ask(
+                    "There are unsaved changes. Do you want to save them before running the editor?",
+                    MessageBoxButtons.YesNoCancel))
+                {
+                    case DialogResult.Yes:
+                        project.Save();
+                        break;
+
+                    case DialogResult.Cancel:
+                        return;
+                }
+            }
+
+            // In case we tried to save project and failed
+            if (NUnitProject.IsNUnitProjectFile(project.ProjectPath) && File.Exists(project.ProjectPath))
+            {
+                Process p = new Process();
+
+                string editorPath = (string)Services.UserSettings.GetSetting("Options.ProjectEditor.EditorPath");
+                if (editorPath == null)
+                    editorPath = Path.Combine(NUnitConfiguration.NUnitBinDirectory, "nunit-editor.exe");
+
+                p.StartInfo.FileName = editorPath;
+                p.StartInfo.Arguments = project.ProjectPath;
+                p.Start();
+            }
         }
 
         #endregion

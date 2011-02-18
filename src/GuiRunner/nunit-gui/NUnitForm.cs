@@ -10,7 +10,6 @@ using System.Collections;
 using System.Configuration;
 using System.ComponentModel;
 using System.ComponentModel.Design;
-using System.Diagnostics;
 using System.Globalization;
 using System.Windows.Forms;
 using System.IO;
@@ -1195,46 +1194,7 @@ namespace NUnit.Gui
 
 		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-            NUnitProject project = TestLoader.TestProject;
-
-            if (!NUnitProject.IsNUnitProjectFile(project.ProjectPath))
-            {
-                if (MessageDisplay.Display(
-                    "The project has not yet been saved. In order to edit the project, it must first be saved. Click OK to save the project or Cancel to exit.",
-                    MessageBoxButtons.OKCancel) == DialogResult.OK)
-                {
-                    project.Save();
-                }
-            }
-            else if (!File.Exists(project.ProjectPath))
-            {
-                project.Save();
-            }
-            else if (project.IsDirty)
-            {
-                switch (MessageDisplay.Ask(
-                    "There are unsaved changes. Do you want to save them before running the editor?",
-                    MessageBoxButtons.YesNoCancel))
-                {
-                    case DialogResult.Yes:
-                        project.Save();
-                        break;
-
-                    case DialogResult.Cancel:
-                        return;
-                }
-            }
-
-            // In case we tried to save project and failed
-            if (NUnitProject.IsNUnitProjectFile(project.ProjectPath) && File.Exists(project.ProjectPath))
-            {
-                Process p = new Process();
-
-                // TODO: Get this from the settings
-                p.StartInfo.FileName = Path.Combine(NUnitConfiguration.NUnitBinDirectory, "nunit-editor.exe");
-                p.StartInfo.Arguments = project.ProjectPath;
-                p.Start();
-            }
+            presenter.EditProject();
         }
 
         private void LoadOrReloadTestAsNeeded()
