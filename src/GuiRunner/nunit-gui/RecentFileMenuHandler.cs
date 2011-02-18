@@ -9,7 +9,7 @@ using System.Collections;
 using System.Windows.Forms;
 using NUnit.Util;
 
-namespace NUnit.UiKit
+namespace NUnit.Gui
 {
 	public class RecentFileMenuHandler
 	{
@@ -83,7 +83,10 @@ namespace NUnit.UiKit
 			MenuItem item = (MenuItem) sender;
 			string testFileName = item.Text.Substring( 2 );
 
-			TestLoaderUI.OpenProject( item.GetMainMenu().GetForm(), testFileName ); 
+            // TODO: Figure out a better way
+            NUnitForm form = item.GetMainMenu().GetForm() as NUnit.Gui.NUnitForm;
+            if ( form != null)
+                form.Presenter.OpenProject( testFileName ); 
 		}
 	}
 }

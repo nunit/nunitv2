@@ -254,7 +254,7 @@ namespace NUnit.Gui.SettingsPages
 				if ( errmsg != null )
 				{
 					recentFilesCountTextBox.SelectAll();
-					UserMessage.DisplayFailure( errmsg );
+                    MessageDisplay.Error(errmsg);
 					e.Cancel = true;
 				}
 			}

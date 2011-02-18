@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="CommandLineTests.cs" />
     <Compile Include="ExceptionDetailsFormTests.cs" />
+    <Compile Include="RecentFileMenuHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nunit-gui.tests.build" />

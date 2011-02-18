@@ -7,7 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nunit.build.include = nunit.build.include
 		src\nunit.snk = src\nunit.snk
 		NUnitTests.config = NUnitTests.config
-		NUnitTests.nunit = NUnitTests.nunit
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-gui.exe", "src\GuiRunner\nunit-gui-exe\nunit-gui.exe.csproj", "{AAB186A4-FA3D-404D-AD78-7EB5BB861655}"

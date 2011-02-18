@@ -446,9 +446,9 @@ namespace NUnit.UiKit
 
 		#endregion
 
-		#region Methods
+        #region Methods
 
-		private void SetTitleBarText()
+        private void SetTitleBarText()
 		{
 			string name = test.TestName.Name;
 			int index = name.LastIndexOfAny( new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar } );

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using NUnit.Framework;
 using NUnit.Util;
 
-namespace NUnit.UiKit.Tests
+namespace NUnit.Gui.Tests
 {
 	[TestFixture]
 	public class RecentFileMenuHandlerTests

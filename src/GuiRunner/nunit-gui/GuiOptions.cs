@@ -75,7 +75,7 @@ namespace NUnit.Gui
 		public override string GetHelpText()
 		{
 			return
-				"NUNIT-GUI [inputfile] [options]\r\r" +
+				"NUNIT [inputfile] [options]\r\r" +
 				"Runs a set of NUnit tests from the console. You may specify\r" +
 				"an assembly or a project file of type .nunit as input.\r\r" +
 				"Options:\r" +

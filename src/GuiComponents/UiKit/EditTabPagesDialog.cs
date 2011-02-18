@@ -14,7 +14,7 @@ namespace NUnit.UiKit
 	/// <summary>
 	/// Summary description for EditTabPagesDialog.
 	/// </summary>
-	public class EditTabPagesDialog : System.Windows.Forms.Form
+	public class EditTabPagesDialog : NUnitFormBase
 	{
 		private TextDisplayTabSettings tabSettings;
 		private int selectedIndex = -1;

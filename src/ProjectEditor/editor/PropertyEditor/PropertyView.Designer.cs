@@ -82,7 +82,7 @@
             this.domainUsageComboBox.Items.AddRange(new object[] {
             "Default"});
             this.domainUsageComboBox.Location = new System.Drawing.Point(262, 65);
-            this.domainUsageComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.domainUsageComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.domainUsageComboBox.Name = "domainUsageComboBox";
             this.domainUsageComboBox.Size = new System.Drawing.Size(76, 21);
             this.domainUsageComboBox.TabIndex = 22;
@@ -93,7 +93,7 @@
             this.processModelComboBox.Items.AddRange(new object[] {
             "Default"});
             this.processModelComboBox.Location = new System.Drawing.Point(91, 65);
-            this.processModelComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.processModelComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.processModelComboBox.Name = "processModelComboBox";
             this.processModelComboBox.Size = new System.Drawing.Size(80, 21);
             this.processModelComboBox.TabIndex = 21;
@@ -121,7 +121,7 @@
             this.projectBaseBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.projectBaseBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("projectBaseBrowseButton.Image")));
             this.projectBaseBrowseButton.Location = new System.Drawing.Point(491, 36);
-            this.projectBaseBrowseButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.projectBaseBrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this.projectBaseBrowseButton.Name = "projectBaseBrowseButton";
             this.projectBaseBrowseButton.Size = new System.Drawing.Size(18, 16);
             this.projectBaseBrowseButton.TabIndex = 18;
@@ -131,7 +131,7 @@
             this.projectBaseTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.projectBaseTextBox.Location = new System.Drawing.Point(73, 34);
-            this.projectBaseTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.projectBaseTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.projectBaseTextBox.Name = "projectBaseTextBox";
             this.projectBaseTextBox.Size = new System.Drawing.Size(404, 20);
             this.projectBaseTextBox.TabIndex = 17;
@@ -175,9 +175,9 @@
             this.groupBox1.Controls.Add(this.configComboBox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(10, 103);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(500, 297);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
@@ -192,7 +192,7 @@
             this.projectTabControl.Controls.Add(this.assemblyTabPage);
             this.projectTabControl.ItemSize = new System.Drawing.Size(49, 18);
             this.projectTabControl.Location = new System.Drawing.Point(5, 67);
-            this.projectTabControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.projectTabControl.Margin = new System.Windows.Forms.Padding(2);
             this.projectTabControl.Name = "projectTabControl";
             this.projectTabControl.SelectedIndex = 0;
             this.projectTabControl.Size = new System.Drawing.Size(488, 226);
@@ -215,7 +215,7 @@
             this.generalTabPage.Controls.Add(this.applicationBaseTextBox);
             this.generalTabPage.Controls.Add(this.label3);
             this.generalTabPage.Location = new System.Drawing.Point(4, 22);
-            this.generalTabPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.generalTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.generalTabPage.Name = "generalTabPage";
             this.generalTabPage.Size = new System.Drawing.Size(480, 200);
             this.generalTabPage.TabIndex = 0;
@@ -224,7 +224,7 @@
             // runtimeVersionComboBox
             // 
             this.runtimeVersionComboBox.Location = new System.Drawing.Point(240, 13);
-            this.runtimeVersionComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.runtimeVersionComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.runtimeVersionComboBox.Name = "runtimeVersionComboBox";
             this.runtimeVersionComboBox.Size = new System.Drawing.Size(77, 21);
             this.runtimeVersionComboBox.TabIndex = 14;
@@ -244,7 +244,7 @@
             this.runtimeComboBox.Items.AddRange(new object[] {
             "Any"});
             this.runtimeComboBox.Location = new System.Drawing.Point(65, 13);
-            this.runtimeComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.runtimeComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.runtimeComboBox.Name = "runtimeComboBox";
             this.runtimeComboBox.Size = new System.Drawing.Size(62, 21);
             this.runtimeComboBox.TabIndex = 12;
@@ -261,7 +261,7 @@
             // autoBinPathRadioButton
             // 
             this.autoBinPathRadioButton.Location = new System.Drawing.Point(18, 125);
-            this.autoBinPathRadioButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.autoBinPathRadioButton.Margin = new System.Windows.Forms.Padding(2);
             this.autoBinPathRadioButton.Name = "autoBinPathRadioButton";
             this.autoBinPathRadioButton.Size = new System.Drawing.Size(205, 17);
             this.autoBinPathRadioButton.TabIndex = 10;
@@ -270,7 +270,7 @@
             // manualBinPathRadioButton
             // 
             this.manualBinPathRadioButton.Location = new System.Drawing.Point(18, 151);
-            this.manualBinPathRadioButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.manualBinPathRadioButton.Margin = new System.Windows.Forms.Padding(2);
             this.manualBinPathRadioButton.Name = "manualBinPathRadioButton";
             this.manualBinPathRadioButton.Size = new System.Drawing.Size(76, 16);
             this.manualBinPathRadioButton.TabIndex = 9;
@@ -279,7 +279,7 @@
             // noBinPathRadioButton
             // 
             this.noBinPathRadioButton.Location = new System.Drawing.Point(18, 177);
-            this.noBinPathRadioButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.noBinPathRadioButton.Margin = new System.Windows.Forms.Padding(2);
             this.noBinPathRadioButton.Name = "noBinPathRadioButton";
             this.noBinPathRadioButton.Size = new System.Drawing.Size(265, 17);
             this.noBinPathRadioButton.TabIndex = 8;
@@ -290,7 +290,7 @@
             this.configBaseBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.configBaseBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("configBaseBrowseButton.Image")));
             this.configBaseBrowseButton.Location = new System.Drawing.Point(454, 46);
-            this.configBaseBrowseButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.configBaseBrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this.configBaseBrowseButton.Name = "configBaseBrowseButton";
             this.configBaseBrowseButton.Size = new System.Drawing.Size(15, 16);
             this.configBaseBrowseButton.TabIndex = 7;
@@ -300,7 +300,7 @@
             this.privateBinPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.privateBinPathTextBox.Location = new System.Drawing.Point(108, 151);
-            this.privateBinPathTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.privateBinPathTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.privateBinPathTextBox.Name = "privateBinPathTextBox";
             this.privateBinPathTextBox.Size = new System.Drawing.Size(365, 20);
             this.privateBinPathTextBox.TabIndex = 5;
@@ -320,7 +320,7 @@
             this.configFileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.configFileTextBox.Location = new System.Drawing.Point(126, 78);
-            this.configFileTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.configFileTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.configFileTextBox.Name = "configFileTextBox";
             this.configFileTextBox.Size = new System.Drawing.Size(347, 20);
             this.configFileTextBox.TabIndex = 3;
@@ -340,7 +340,7 @@
             this.applicationBaseTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.applicationBaseTextBox.Location = new System.Drawing.Point(96, 46);
-            this.applicationBaseTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.applicationBaseTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.applicationBaseTextBox.Name = "applicationBaseTextBox";
             this.applicationBaseTextBox.Size = new System.Drawing.Size(353, 20);
             this.applicationBaseTextBox.TabIndex = 1;
@@ -364,7 +364,7 @@
             this.assemblyTabPage.Controls.Add(this.addAssemblyButton);
             this.assemblyTabPage.Controls.Add(this.removeAssemblyButton);
             this.assemblyTabPage.Location = new System.Drawing.Point(4, 22);
-            this.assemblyTabPage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.assemblyTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.assemblyTabPage.Name = "assemblyTabPage";
             this.assemblyTabPage.Size = new System.Drawing.Size(480, 200);
             this.assemblyTabPage.TabIndex = 1;
@@ -375,8 +375,8 @@
             // 
             this.assemblyPathBrowseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.assemblyPathBrowseButton.Image = ((System.Drawing.Image)(resources.GetObject("assemblyPathBrowseButton.Image")));
-            this.assemblyPathBrowseButton.Location = new System.Drawing.Point(428, 156);
-            this.assemblyPathBrowseButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.assemblyPathBrowseButton.Location = new System.Drawing.Point(428, 169);
+            this.assemblyPathBrowseButton.Margin = new System.Windows.Forms.Padding(2);
             this.assemblyPathBrowseButton.Name = "assemblyPathBrowseButton";
             this.assemblyPathBrowseButton.Size = new System.Drawing.Size(15, 16);
             this.assemblyPathBrowseButton.TabIndex = 11;
@@ -385,15 +385,15 @@
             // 
             this.assemblyPathTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.assemblyPathTextBox.Location = new System.Drawing.Point(10, 156);
-            this.assemblyPathTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.assemblyPathTextBox.Location = new System.Drawing.Point(10, 169);
+            this.assemblyPathTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.assemblyPathTextBox.Name = "assemblyPathTextBox";
             this.assemblyPathTextBox.Size = new System.Drawing.Size(405, 20);
             this.assemblyPathTextBox.TabIndex = 8;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(10, 143);
+            this.label2.Location = new System.Drawing.Point(10, 155);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(80, 11);
@@ -405,16 +405,16 @@
             this.assemblyListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.assemblyListBox.Location = new System.Drawing.Point(10, 20);
-            this.assemblyListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.assemblyListBox.Margin = new System.Windows.Forms.Padding(2);
             this.assemblyListBox.Name = "assemblyListBox";
-            this.assemblyListBox.Size = new System.Drawing.Size(370, 108);
+            this.assemblyListBox.Size = new System.Drawing.Size(370, 121);
             this.assemblyListBox.TabIndex = 6;
             // 
             // addAssemblyButton
             // 
             this.addAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.addAssemblyButton.Location = new System.Drawing.Point(385, 17);
-            this.addAssemblyButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.addAssemblyButton.Margin = new System.Windows.Forms.Padding(2);
             this.addAssemblyButton.Name = "addAssemblyButton";
             this.addAssemblyButton.Size = new System.Drawing.Size(58, 27);
             this.addAssemblyButton.TabIndex = 2;
@@ -424,7 +424,7 @@
             // 
             this.removeAssemblyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.removeAssemblyButton.Location = new System.Drawing.Point(385, 49);
-            this.removeAssemblyButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.removeAssemblyButton.Margin = new System.Windows.Forms.Padding(2);
             this.removeAssemblyButton.Name = "removeAssemblyButton";
             this.removeAssemblyButton.Size = new System.Drawing.Size(58, 23);
             this.removeAssemblyButton.TabIndex = 5;
@@ -434,7 +434,7 @@
             // 
             this.editConfigsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editConfigsButton.Location = new System.Drawing.Point(379, 27);
-            this.editConfigsButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.editConfigsButton.Margin = new System.Windows.Forms.Padding(2);
             this.editConfigsButton.Name = "editConfigsButton";
             this.editConfigsButton.Size = new System.Drawing.Size(110, 21);
             this.editConfigsButton.TabIndex = 8;
@@ -447,7 +447,7 @@
             this.configComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.configComboBox.ItemHeight = 13;
             this.configComboBox.Location = new System.Drawing.Point(81, 28);
-            this.configComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.configComboBox.Margin = new System.Windows.Forms.Padding(2);
             this.configComboBox.Name = "configComboBox";
             this.configComboBox.Size = new System.Drawing.Size(294, 21);
             this.configComboBox.TabIndex = 7;
@@ -502,7 +502,7 @@
             this.Controls.Add(this.projectBaseTextBox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label5);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "PropertyView";
             this.Size = new System.Drawing.Size(526, 403);
             this.groupBox1.ResumeLayout(false);

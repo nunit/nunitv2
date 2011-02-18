@@ -24,7 +24,7 @@ namespace NUnit.Gui
 	using NUnit.UiKit;
 	using CP.Windows.Forms;
 
-	public class NUnitForm : System.Windows.Forms.Form
+	public class NUnitForm : NUnitFormBase
 	{
 		#region Instance variables
 
@@ -43,8 +43,8 @@ namespace NUnit.Gui
 		// Our current run command line options
 		private GuiOptions guiOptions;
 
-        // Our nunit project watcher
-        private FileWatcher projectWatcher;
+        // Our 'presenter' - under development
+        private NUnitPresenter presenter;
 
 		private System.ComponentModel.IContainer components;
 
@@ -136,13 +136,15 @@ namespace NUnit.Gui
 		
 		#region Construction and Disposal
 
-		public NUnitForm( GuiOptions guiOptions )
+		public NUnitForm( GuiOptions guiOptions ) : base("NUnit")
 		{
 			InitializeComponent();
 
 			this.guiOptions = guiOptions;
 			this.recentFilesService = Services.RecentFiles;
 			this.userSettings = Services.UserSettings;
+
+            this.presenter = new NUnitPresenter(this, TestLoader);
 		}
 
 		protected override void Dispose( bool disposing )
@@ -808,9 +810,18 @@ namespace NUnit.Gui
 
 		#endregion
 
-		#region Properties used internally
+        #region Public Properties
 
-		private TestLoader _testLoader;
+        public NUnitPresenter Presenter
+        {
+            get { return presenter; }
+        }
+
+        #endregion
+
+        #region Properties used internally
+
+        private TestLoader _testLoader;
 		private TestLoader TestLoader
 		{
 			get
@@ -891,30 +902,27 @@ namespace NUnit.Gui
 
 		private void newMenuItem_Click(object sender, System.EventArgs e)
 		{
-			if ( IsProjectLoaded )
-				TestLoaderUI.CloseProject( this );
-
-			TestLoaderUI.NewProject( this );
+            presenter.NewProject();
 		}
 
 		private void openMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.OpenProject( this );
+            presenter.OpenProject();
 		}
 
 		private void closeMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.CloseProject( this );
+            presenter.CloseProject();
 		}
 
 		private void saveMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.SaveProject( this );
+            presenter.SaveProject();
 		}
 
 		private void saveAsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.SaveProjectAs( this );
+            presenter.SaveProjectAs();
             SetTitleBar(TestProject.Name);
 		}
 
@@ -925,7 +933,7 @@ namespace NUnit.Gui
 
 		private void reloadProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-            TestLoaderUI.ReloadProject(this);
+            presenter.ReloadProject();
 		}
 
 		private void reloadTestsMenuItem_Click(object sender, System.EventArgs e)
@@ -1175,13 +1183,13 @@ namespace NUnit.Gui
 
 		private void addAssemblyMenuItem_Click(object sender, System.EventArgs e)
 		{
-            TestLoaderUI.AddAssembly(this);
+            presenter.AddAssembly();
             LoadOrReloadTestAsNeeded();
 		}
 
 		private void addVSProjectMenuItem_Click(object sender, System.EventArgs e)
 		{
-            TestLoaderUI.AddVSProject(this);
+            presenter.AddVSProject();
             LoadOrReloadTestAsNeeded();
 		}
 
@@ -1191,25 +1199,25 @@ namespace NUnit.Gui
 
             if (!NUnitProject.IsNUnitProjectFile(project.ProjectPath))
             {
-                if (MessageBox.Show(
-                    "In order to edit the project, it will first be saved",
-                    "NUnit",
+                if (MessageDisplay.Display(
+                    "The project has not yet been saved. In order to edit the project, it must first be saved. Click OK to save the project or Cancel to exit.",
                     MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
-                    TestLoaderUI.SaveProject(this);
+                    project.Save();
                 }
+            }
+            else if (!File.Exists(project.ProjectPath))
+            {
+                project.Save();
             }
             else if (project.IsDirty)
             {
-                switch (MessageBox.Show(
+                switch (MessageDisplay.Ask(
                     "There are unsaved changes. Do you want to save them before running the editor?",
-                    "NUnit",
                     MessageBoxButtons.YesNoCancel))
                 {
                     case DialogResult.Yes:
-                        TestLoaderUI.SaveProject(this);
-                        if (project.IsDirty) // Save failed
-                            return;
+                        project.Save();
                         break;
 
                     case DialogResult.Cancel:
@@ -1217,11 +1225,16 @@ namespace NUnit.Gui
                 }
             }
 
-            Process p = new Process();
-            // TODO: Get this from the settings
-            p.StartInfo.FileName = Path.Combine(NUnitConfiguration.NUnitBinDirectory, "nunit-editor.exe");
-            p.StartInfo.Arguments = project.ProjectPath;
-            p.Start();
+            // In case we tried to save project and failed
+            if (NUnitProject.IsNUnitProjectFile(project.ProjectPath) && File.Exists(project.ProjectPath))
+            {
+                Process p = new Process();
+
+                // TODO: Get this from the settings
+                p.StartInfo.FileName = Path.Combine(NUnitConfiguration.NUnitBinDirectory, "nunit-editor.exe");
+                p.StartInfo.Arguments = project.ProjectPath;
+                p.Start();
+            }
         }
 
         private void LoadOrReloadTestAsNeeded()
@@ -1278,7 +1291,7 @@ namespace NUnit.Gui
 
 		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestLoaderUI.SaveLastResult( this );
+            presenter.SaveLastResult();
 		}
 
 		private void exceptionDetailsMenuItem_Click(object sender, System.EventArgs e)
@@ -1362,14 +1375,14 @@ namespace NUnit.Gui
 				// Load test specified on command line or
 				// the most recent one if options call for it
 				if ( guiOptions.ParameterCount != 0 )
-					TestLoaderUI.OpenProject( this, (string)guiOptions.Parameters[0], guiOptions.config, guiOptions.fixture );
+                    presenter.OpenProject((string)guiOptions.Parameters[0], guiOptions.config, guiOptions.fixture);
 				else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !guiOptions.noload )
 				{
 					foreach( RecentFileEntry entry in recentFilesService.Entries )
 					{
 						if ( entry != null && entry.Exists && entry.IsCompatibleCLRVersion )
 						{
-							TestLoaderUI.OpenProject( this, entry.Path, guiOptions.config, guiOptions.fixture );
+                            presenter.OpenProject(entry.Path, guiOptions.config, guiOptions.fixture);
 							break;
 						}
 					}
@@ -1563,7 +1576,7 @@ namespace NUnit.Gui
 		{
 			if ( IsTestRunning )
 			{
-				DialogResult dialogResult = UserMessage.Ask( 
+                DialogResult dialogResult = MessageDisplay.Ask( 
 					"A test is running, do you want to stop the test and exit?" );
 
 				if ( dialogResult == DialogResult.No )
@@ -1572,8 +1585,8 @@ namespace NUnit.Gui
 					TestLoader.CancelTestRun();
 			}
 
-			if ( !e.Cancel && IsProjectLoaded && 
-				TestLoaderUI.CloseProject( this ) == DialogResult.Cancel )
+			if ( !e.Cancel && IsProjectLoaded &&
+                presenter.CloseProject() == DialogResult.Cancel)
 				e.Cancel = true;
 		}
 
@@ -1615,7 +1628,7 @@ namespace NUnit.Gui
 
 			if ( IsTestRunning )
 			{
-				DialogResult dialogResult = UserMessage.Ask( 
+                DialogResult dialogResult = MessageDisplay.Ask( 
 					"Do you want to cancel the running test?" );
 
 				if ( dialogResult == DialogResult.No )
@@ -1640,31 +1653,23 @@ namespace NUnit.Gui
 
 		private void OnTestProjectLoaded( object sender, TestEventArgs e )
 		{
-			SetTitleBar( e.Name );
+            string projectPath = e.Name;
+
+			SetTitleBar( projectPath );
 			projectMenu.Visible = true;
 			runCount.Text = "";
 
             // If this is an NUnit project, set up watcher
-            if (NUnitProject.IsNUnitProjectFile(e.Name))
-            {
-                this.projectWatcher = new FileWatcher(e.Name, 100);
-
-                this.projectWatcher.Changed += new FileChangedHandler(OnTestProjectChanged);
-                this.projectWatcher.Start();
-            }
+            if (NUnitProject.IsNUnitProjectFile(projectPath) && File.Exists(projectPath))
+                presenter.WatchProject(projectPath);
 		}
 
         private void OnTestProjectUnloading(object sender, TestEventArgs e)
 		{
             // Remove any watcher
-			if ( e.Name != null && File.Exists( e.Name ) )
-			{
-                if (projectWatcher != null)
-                {
-                    projectWatcher.Stop();
-                    projectWatcher.Dispose();
-                    projectWatcher = null;
-                }
+            if (e.Name != null && File.Exists(e.Name))
+            {
+                presenter.RemoveWatcher();
 
 				Version version = Environment.Version;
 				foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
@@ -1682,19 +1687,9 @@ namespace NUnit.Gui
 			runCount.Text = "";
 		}
 
-        private void OnTestProjectChanged(string filePath)
-        {
-            string message = filePath + Environment.NewLine + Environment.NewLine +
-                "This file has been modified outside of NUnit." + Environment.NewLine +
-                "Do you want to reload it?";
-
-            if (MessageBox.Show(message, "Project Changed", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                TestLoaderUI.ReloadProject(this);
-        }
-
         private void OnProjectLoadFailure(object sender, TestEventArgs e)
         {
-            UserMessage.DisplayFailure(e.Exception, "Project Not Loaded");
+            MessageDisplay.Error("Project Not Loaded", e.Exception);
 
             recentFilesService.Remove(e.Name);
 
@@ -1740,7 +1735,7 @@ namespace NUnit.Gui
 				foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
 					if ( info.TestFrameworks.Count > 0 ) return;
 
-				UserMessage.Display( "This assembly was not built with any known testing framework.", "Not a Test Assembly");
+                MessageDisplay.Error("This assembly was not built with any known testing framework.");
 			}
 		}
 
@@ -1792,11 +1787,12 @@ namespace NUnit.Gui
 			string message = null;
 			if ( e.Exception is BadImageFormatException )
 				message = string.Format(
+                    "Assembly Not Loaded" + Environment.NewLine + Environment.NewLine +
 					@"You may be attempting to load an assembly built with a later version of the CLR than
 the version under which NUnit is currently running ({0}) or trying to load a 64-bit assembly into a 32-bit process.",
 					Environment.Version.ToString(3) );
 
-			UserMessage.DisplayFailure( e.Exception, message, "Assembly Not Loaded" );
+            MessageDisplay.Error(message, e.Exception);
 
 			if ( !IsTestLoaded )
 				OnTestUnloaded( sender, e );
@@ -1824,7 +1820,7 @@ the version under which NUnit is currently running ({0}) or trying to load a 64-
 			if ( e.Exception != null )
 			{
 				if ( ! ( e.Exception is System.Threading.ThreadAbortException ) )
-					UserMessage.DisplayFailure( e.Exception, "NUnit Test Run Failed" );
+                    MessageDisplay.Error("NUnit Test Run Failed", e.Exception);
 			}
 
 			ResultSummarizer summary = new ResultSummarizer( e.Result );

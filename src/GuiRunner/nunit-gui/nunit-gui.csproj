@@ -122,6 +122,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="OptionsDialog.cs" />
+    <Compile Include="RecentFileMenuHandler.cs" />
     <Compile Include="SettingsPages\AdvancedLoaderSettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -152,6 +153,7 @@
     <Compile Include="TestAssemblyInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="NUnitPresenter.cs" />
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
       <SubType>Designer</SubType>
