@@ -16,9 +16,9 @@ namespace NUnit.Util
 	/// Summary description for XmlResultTransform.
 	/// </summary>
 	public class XmlResultTransform
-	{
-#if NET_2_0
-		private XslCompiledTransform xslTransform = new XslCompiledTransform();
+    {
+#if CLR_2_0
+        private XslCompiledTransform xslTransform = new XslCompiledTransform();
 #else
         private XslTransform xslTransform = new XslTransform();
 #endif

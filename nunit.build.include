@@ -191,7 +191,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="2.0"/>
     <property name="runtime.config" value="net-2.0"/>
-    <property name="runtime.defines" value="MSNET,NET_2_0"/>
+    <property name="runtime.defines" value="MSNET,NET_2_0,CLR_2_0"/>
     <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
@@ -212,7 +212,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="3.0"/>
     <property name="runtime.config" value="net-3.0"/>
-    <property name="runtime.defines" value="MSNET,NET_3_0"/>
+    <property name="runtime.defines" value="MSNET,CLR_2_0,CLR_3_0"/>
     <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
@@ -233,7 +233,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="3.5"/>
     <property name="runtime.config" value="net-3.5"/>
-    <property name="runtime.defines" value="MSNET,NET_2_0,CS_3_0"/>
+    <property name="runtime.defines" value="MSNET,NET_3_5,CLR_2_0,CS_3_0"/>
     <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
     <property name="build.mono" value="false"/>
     <property name="build.win32" value="true"/>
@@ -295,7 +295,7 @@
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="2.0"/>
     <property name="runtime.config" value="mono-2.0"/>
-    <property name="runtime.defines" value="MONO,NET_2_0"/>
+    <property name="runtime.defines" value="MONO,NET_2_0,CLR_2_0"/>
     <property name="build.mono" value="true"/>
     <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
     <property name="build.win32" value="false"/>

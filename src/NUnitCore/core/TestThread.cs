@@ -63,7 +63,7 @@ namespace NUnit.Core
         #region Properties
         public ApartmentState ApartmentState
         {
-#if NET_2_0
+#if CLR_2_0
             get { return thread.GetApartmentState(); }
             set { thread.SetApartmentState(value); }
 #else

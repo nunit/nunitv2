@@ -153,7 +153,7 @@ namespace NUnit.Core.Tests
 			}
 		}
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
         [Test, SetCulture("de-DE")]
         [TestCase(Result="01.06.2010 00:00:00")]
         public string UseWithParameterizedTest()

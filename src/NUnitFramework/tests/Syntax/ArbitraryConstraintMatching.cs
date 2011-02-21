@@ -27,10 +27,10 @@ namespace NUnit.Framework.Syntax
         public void CanMatchCustomConstraintsUnderAndOperator()
         {
             IResolveConstraint constraint = Is.All.Matches(custom).And.Matches(another);
-            Assert.That(constraint.Resolve().ToString(), Is.EqualTo("<all <and <custom> <another>>>")); 
+            Assert.That(constraint.Resolve().ToString(), Is.EqualTo("<all <and <custom> <another>>>"));
         }
 
-#if NET_2_0
+#if CLR_2_0
         [Test]
         public void CanMatchPredicate()
         {

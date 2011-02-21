@@ -89,8 +89,8 @@ namespace NUnit.Util
 		#region Static Methods
 
 		public static bool IsProjectFile( string path )
-		{
-#if NET_2_0
+        {
+#if CLR_2_0
             if (path.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
 #else
 			if ( path.IndexOfAny( Path.InvalidPathChars ) >= 0 )

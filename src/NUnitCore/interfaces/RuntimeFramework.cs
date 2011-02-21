@@ -446,7 +446,7 @@ namespace NUnit.Core
             }
         }
 
-#if NET_2_0
+#if CLR_2_0
         private class FrameworkCollection : System.Collections.Generic.List<RuntimeFramework> { }
 #else
         private class FrameworkCollection : ArrayList 

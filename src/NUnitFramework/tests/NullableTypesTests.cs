@@ -7,7 +7,8 @@ using System;
 
 namespace NUnit.Framework.Tests
 {
-#if NET_2_0 && !MONO
+#if CLR_2_0
+#if !MONO
     [TestFixture, Category("Generics")]
     public class NullableTypesTests
     {
@@ -242,5 +243,6 @@ namespace NUnit.Framework.Tests
             Assert.AreEqual(struct2, two);
         }
     }
+#endif
 #endif
 }

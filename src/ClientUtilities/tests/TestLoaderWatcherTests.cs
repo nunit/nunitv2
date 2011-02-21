@@ -108,7 +108,7 @@ namespace NUnit.Util.Tests
 	internal class MockAssemblyWatcher2 : IAssemblyWatcher
 	{
 		public bool IsWatching;
-#if NET_2_0 || NET_4_0
+#if CLR_2_0 || NET_4_0
         public System.Collections.Generic.IList<string> AssembliesToWatch;
 #else
 		public System.Collections.IList AssembliesToWatch;
@@ -125,7 +125,7 @@ namespace NUnit.Util.Tests
 			IsWatching = true;
 		}
 
-#if NET_2_0 || NET_4_0
+#if CLR_2_0 || NET_4_0
 		public void Setup(int delayInMs, System.Collections.Generic.IList<string> assemblies)
 #else
         public void Setup(int delayInMs, System.Collections.IList assemblies)

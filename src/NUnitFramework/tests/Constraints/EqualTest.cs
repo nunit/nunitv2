@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0
 using System.Collections.Generic;
 #endif
 
@@ -142,7 +142,7 @@ namespace NUnit.Framework.Constraints
                             new Hashtable { { 0, 0 }, { 2, 2 }, { 1, 1 } });
         }
 
-#if NET_2_0
+#if CLR_2_0
         [Test]
         public void CanMatchDictionaries_SameOrder()
         {
@@ -332,7 +332,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if NET_2_0
+#if CLR_2_0
         [Test]
         public void UsesProvidedEqualityComparer()
         {
@@ -532,7 +532,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if NET_2_0
+#if CLR_2_0
         [Test]
         public void TestPropertyWithPrivateSetter()
         {

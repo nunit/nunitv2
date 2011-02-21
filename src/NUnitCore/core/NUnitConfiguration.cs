@@ -60,7 +60,7 @@ namespace NUnit.Core
 
         private static NameValueCollection GetConfigSection( string name )
         {
-#if NET_2_0
+#if CLR_2_0
             return (NameValueCollection)System.Configuration.ConfigurationManager.GetSection(name);
 #else
 			return (NameValueCollection)System.Configuration.ConfigurationSettings.GetConfig(name);
@@ -261,7 +261,7 @@ namespace NUnit.Core
         {
             get
             {
-#if NET_2_0
+#if CLR_2_0
                 string helpUrl = ConfigurationManager.AppSettings["helpUrl"];
 #else
                 string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
@@ -365,7 +365,7 @@ namespace NUnit.Core
             string binDir = GetNUnitBinDirectory(v);
             if ( binDir == null ) return null;
 
-#if NET_2_0
+#if CLR_2_0
             Assembly a = System.Reflection.Assembly.GetEntryAssembly();
             string agentName = v.Major > 1 && a != null && a.GetName().ProcessorArchitecture == ProcessorArchitecture.X86
                 ? "nunit-agent-x86.exe" 

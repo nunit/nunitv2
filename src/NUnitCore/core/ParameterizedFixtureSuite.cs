@@ -34,7 +34,7 @@ namespace NUnit.Core
         {
             get
             {
-#if NET_2_0
+#if CLR_2_0
                 if (type.IsGenericType)
                     return "GenericFixture";
 #endif

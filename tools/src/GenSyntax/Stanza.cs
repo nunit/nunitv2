@@ -129,7 +129,7 @@ namespace GenSyntax
                     }
 
                     if (spec.IsGeneric)
-                        writer.WriteLineNoTabs("#if NET_2_0");
+                        writer.WriteLineNoTabs("#if NET_2_0 || NET_3_5");
 
                     if (spec.ClassName == "Assert")
                         GenerateAssertOverloads(writer, isStatic, spec);

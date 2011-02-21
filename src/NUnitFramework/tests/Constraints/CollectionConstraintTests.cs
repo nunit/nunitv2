@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0
 using System.Collections.Generic;
 #endif
 using NUnit.Framework.Tests;
@@ -48,7 +48,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(c, new AllItemsConstraint(new RangeConstraint(10, 100).Using(Comparer.Default)));
         }
 
-#if NET_2_0
+#if CLR_2_0
         [Test]
         public void AllItemsAreInRange_UsingIComparerOfT()
         {
@@ -159,7 +159,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if NET_2_0	
+#if NET_2_0	|| NET_3_5
         [Test]
         public void UsesProvidedEqualityComparer()
         {
@@ -482,7 +482,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(comparer.Called, "TestComparer was not called");
         }
 
-#if NET_2_0
+#if CLR_2_0
         [Test]
         public void UsesProvidedComparerOfT()
         {

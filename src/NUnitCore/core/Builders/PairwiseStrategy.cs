@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0
 using System.Collections.Generic;
 #endif
 using System.Reflection;
@@ -637,7 +637,7 @@ namespace NUnit.Core.Builders
 
 			IEnumerable pairwiseTestCases = new PairwiseTestCaseGenerator(dimensions).GetTestCases();
 
-#if NET_2_0
+#if CLR_2_0
             List<ParameterSet> testCases = new List<ParameterSet>();
 #else
             ArrayList testCases = new ArrayList();
