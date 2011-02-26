@@ -49,6 +49,11 @@ namespace NUnit.Core
         protected MethodInfo[] tearDownMethods;
 
         /// <summary>
+        /// The actions for this suite
+        /// </summary>
+	    protected object[] actions;
+
+        /// <summary>
         /// Set to true to suppress sorting this suite's contents
         /// </summary>
         protected bool maintainTestOrder;
@@ -187,6 +192,24 @@ namespace NUnit.Core
         {
             return tearDownMethods;
         }
+
+        internal virtual object[] GetTestActions()
+        {
+            ArrayList allActions = new ArrayList();
+
+            if (this.Parent != null && this.Parent is TestSuite)
+            {
+                object[] parentActions = ((TestSuite)this.Parent).GetTestActions();
+
+                if (parentActions != null)
+                    allActions.AddRange(parentActions);
+            }
+
+            if (this.actions != null)
+                allActions.AddRange(this.actions);
+
+            return allActions.ToArray();
+        }
         #endregion
 
 		#region Test Overrides
@@ -269,6 +292,7 @@ namespace NUnit.Core
 			TestResult suiteResult = new TestResult(this);
 			
             DoOneTimeSetUp(suiteResult);
+            DoOneTimeBeforeTestSuiteActions(suiteResult);
 
             if (this.Properties["_SETCULTURE"] != null)
                 TestExecutionContext.CurrentContext.CurrentCulture =
@@ -294,6 +318,7 @@ namespace NUnit.Core
                     }
                     finally
                     {
+                        DoOneTimeAfterTestSuiteActions(suiteResult);
                         DoOneTimeTearDown(suiteResult);
                     }
                     break;
@@ -342,6 +367,36 @@ namespace NUnit.Core
             }
         }
 
+        protected virtual void DoOneTimeBeforeTestSuiteActions(TestResult suiteResult)
+        {
+            try
+            {
+                if (this.actions != null)
+                    ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.Before, this.actions, this.Fixture, null);
+
+                TestExecutionContext.CurrentContext.Update();
+            }
+            catch (Exception ex)
+            {
+                if (ex is NUnitException || ex is System.Reflection.TargetInvocationException)
+                    ex = ex.InnerException;
+
+                if (ex is InvalidTestFixtureException)
+                    suiteResult.Invalid(ex.Message);
+                else if (IsIgnoreException(ex))
+                {
+                    this.RunState = RunState.Ignored;
+                    suiteResult.Ignore(ex.Message);
+                    suiteResult.StackTrace = ex.StackTrace;
+                    this.IgnoreReason = ex.Message;
+                }
+                else if (IsAssertException(ex))
+                    suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.SetUp);
+                else
+                    suiteResult.Error(ex, FailureSite.SetUp);
+            }
+        }
+
 		protected virtual void CreateUserFixture()
 		{
             if (arguments != null && arguments.Length > 0)
@@ -384,6 +439,26 @@ namespace NUnit.Core
 				}
 
                 this.Fixture = null;
+            }
+        }
+
+        protected virtual void DoOneTimeAfterTestSuiteActions(TestResult suiteResult)
+        {
+            try
+            {
+                if (this.actions != null)
+                    ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.After, this.actions, this.Fixture, null);
+            }
+            catch (Exception ex)
+            {
+                // Error in TestFixtureTearDown or Dispose causes the
+                // suite to be marked as a failure, even if
+                // all the contained tests passed.
+                NUnitException nex = ex as NUnitException;
+                if (nex != null)
+                    ex = nex.InnerException;
+
+                suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.TearDown);
             }
         }
 

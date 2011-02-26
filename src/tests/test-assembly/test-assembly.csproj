@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="AttributeDescriptionTests.cs" />
     <Compile Include="AttributeInheritance.cs" />
+    <Compile Include="ActionAttributeFixture.cs" />
     <Compile Include="CategoryAttributeTests.cs" />
     <Compile Include="ConsoleRunnerTest.cs" />
     <Compile Include="CultureAttributeTests.cs" />

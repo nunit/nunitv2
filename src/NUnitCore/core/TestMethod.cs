@@ -3,7 +3,6 @@
 // may obtain a copy of the license as well as information regarding
 // copyright ownership at http://nunit.org.
 // ****************************************************************
-
 namespace NUnit.Core
 {
 	using System;
@@ -43,6 +42,16 @@ namespace NUnit.Core
 		/// The teardown method
 		/// </summary>
 		protected MethodInfo[] tearDownMethods;
+
+        /// <summary>
+        /// The actions
+        /// </summary>
+	    protected object[] actions;
+
+        /// <summary>
+        /// The parent suite's actions
+        /// </summary>
+	    protected object[] suiteActions;
 
         /// <summary>
         /// The ExpectedExceptionProcessor for this test, if any
@@ -220,12 +229,15 @@ namespace NUnit.Core
                 {
                     this.setUpMethods = suite.GetSetUpMethods();
                     this.tearDownMethods = suite.GetTearDownMethods();
+                    this.suiteActions = suite.GetTestActions();
                 }
             }
 
             try
             {
-                // Temporary... to allow for tests that directly execute a test case
+                this.actions = ActionsHelper.GetActionsFromAttributes(method);
+
+                // Temporary... to allow for tests that directly execute a test case);
                 if (Fixture == null && !method.IsStatic)
                     Fixture = Reflect.Construct(this.FixtureType);
 
@@ -300,9 +312,10 @@ namespace NUnit.Core
 			TestResult testResult = new TestResult(this);
 			TestExecutionContext.CurrentContext.CurrentResult =  testResult;
 			
-			try 
+			try
 			{
                 RunSetUp();
+			    RunBeforeActions();
 
 				RunTestCase( testResult );
 			}
@@ -317,6 +330,7 @@ namespace NUnit.Core
 			}
 			finally 
 			{
+			    RunAfterActions(testResult);
 				RunTearDown( testResult );
 
 				DateTime stop = DateTime.Now;
@@ -354,7 +368,29 @@ namespace NUnit.Core
 
 		#region Invoke Methods by Reflection, Recording Errors
 
-        private void RunSetUp()
+        private void RunBeforeActions()
+        {
+            object[][] targetActions = new object[][] {this.suiteActions, this.actions};
+            ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.Before, targetActions, this.Fixture, this.Method);
+        }
+
+        private void RunAfterActions(TestResult testResult)
+        {
+            try
+            {
+                object[][] targetActions = new object[][] { this.suiteActions, this.actions };
+                ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.After, targetActions, this.Fixture, this.Method);
+            }
+            catch(Exception ex)
+            {
+                if (ex is NUnitException)
+                    ex = ex.InnerException;
+                // TODO: What about ignore exceptions in teardown?
+                testResult.Error(ex, FailureSite.TearDown);
+            }
+        }
+
+	    private void RunSetUp()
         {
             if (setUpMethods != null)
                 foreach( MethodInfo setUpMethod in setUpMethods )

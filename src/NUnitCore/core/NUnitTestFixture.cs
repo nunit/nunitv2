@@ -6,6 +6,7 @@
 
 using System;
 using System.Reflection;
+using System.Collections;
 
 namespace NUnit.Core
 {
@@ -28,6 +29,8 @@ namespace NUnit.Core
                 Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.SetUpAttribute, true);
             this.tearDownMethods = 
                 Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
+
+            this.actions = ActionsHelper.GetActionsFromTypeAttributes(this.FixtureType);
         }
 
         protected override void DoOneTimeSetUp(TestResult suiteResult)
