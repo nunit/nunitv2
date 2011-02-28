@@ -9,7 +9,7 @@ namespace NUnit.Core.Tests
     [TestFixture]
     public class ActionAttributeTests
     {
-        private class ActionAttributeFixtureFilter : TestFilter
+        private class Filter : TestFilter
         {
             public override bool Match(ITest test)
             {
@@ -40,7 +40,7 @@ namespace NUnit.Core.Tests
             package.TestName = typeof(ActionAttributeFixture).Namespace;
 
             Test suite = builder.Build(package);
-            _result = suite.Run(new NullListener(), new ActionAttributeFixtureFilter());
+            _result = suite.Run(new NullListener(), new Filter());
         }
 
         [Test]

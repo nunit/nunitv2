@@ -311,11 +311,14 @@ namespace NUnit.Core
 
 			TestResult testResult = new TestResult(this);
 			TestExecutionContext.CurrentContext.CurrentResult =  testResult;
-			
+
+		    FailureSite failureSite = FailureSite.SetUp;
 			try
 			{
                 RunSetUp();
-			    RunBeforeActions();
+
+			    failureSite = FailureSite.BeforeTestCaseAction;
+			    RunBeforeActions(testResult);
 
 				RunTestCase( testResult );
 			}
@@ -326,7 +329,7 @@ namespace NUnit.Core
                 if (ex is ThreadAbortException)
                     Thread.ResetAbort();
 
-                RecordException(ex, testResult, FailureSite.SetUp);
+                RecordException(ex, testResult, failureSite);
 			}
 			finally 
 			{
@@ -368,9 +371,9 @@ namespace NUnit.Core
 
 		#region Invoke Methods by Reflection, Recording Errors
 
-        private void RunBeforeActions()
+        private void RunBeforeActions(TestResult testResult)
         {
-            object[][] targetActions = new object[][] {this.suiteActions, this.actions};
+            object[][] targetActions = new object[][] { this.suiteActions, this.actions };
             ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.Before, targetActions, this.Fixture, this.Method);
         }
 
@@ -381,12 +384,12 @@ namespace NUnit.Core
                 object[][] targetActions = new object[][] { this.suiteActions, this.actions };
                 ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.After, targetActions, this.Fixture, this.Method);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (ex is NUnitException)
                     ex = ex.InnerException;
                 // TODO: What about ignore exceptions in teardown?
-                testResult.Error(ex, FailureSite.TearDown);
+                testResult.Error(ex, FailureSite.AfterTestCaseAction);
             }
         }
 
