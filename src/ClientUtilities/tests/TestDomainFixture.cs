@@ -44,7 +44,7 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual(MockAssembly.Tests, loadedTest.TestCount );
 		}
 
-		[Test]
+        [Test, Platform("Linux,Net", Reason = "get_SetupInformation() fails on Windows+Mono")]
 		public void AppDomainIsSetUpCorrectly()
 		{
 			AppDomain domain = testDomain.AppDomain;
@@ -163,7 +163,7 @@ namespace NUnit.Util.Tests
             Assert.AreEqual(MockTestFixture.Failures, summarizer.Failures, "Failures");
         }
 
-		[Test]
+        [Test, Platform("Linux,Net", Reason = "get_SetupInformation() fails on Windows+Mono")]
 		public void ConfigFileOverrideIsHonored()
 		{
 			TestPackage package = new TestPackage( "MyProject.nunit" );
@@ -189,7 +189,7 @@ namespace NUnit.Util.Tests
 			Assert.AreEqual(  package.BasePath, testDomain.AppDomain.BaseDirectory );
 		}
 
-		[Test]
+        [Test, Platform("Linux,Net", Reason = "get_SetupInformation() fails on Windows+Mono")]
 		public void BinPathOverrideIsHonored()
 		{
 			TestPackage package = new TestPackage( "MyProject.nunit" );

@@ -11,7 +11,8 @@ namespace NUnit.Mocks
 	/// <summary>
 	/// The IVerify interface is implemented by objects capable of self-verification.
 	/// </summary>
-	public interface IVerify
+    [Obsolete("NUnit now uses NSubstitute")]
+    public interface IVerify
 	{
 		void Verify();
 	}

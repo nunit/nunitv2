@@ -11,7 +11,8 @@ namespace NUnit.Mocks
 	/// <summary>
 	/// Summary description for MockSignature.
 	/// </summary>
-	public class MethodSignature
+    [Obsolete("NUnit now uses NSubstitute")]
+    public class MethodSignature
 	{
 		public readonly string typeName;
 		public readonly string methodName;

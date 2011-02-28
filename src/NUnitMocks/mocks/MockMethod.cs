@@ -17,7 +17,8 @@ namespace NUnit.Mocks
 	/// of calls. If it has a call sequence, then the signature must match and
 	/// each call provides it's own return value or exception.
 	/// </summary>
-	public class MockMethod : IMethod
+    [Obsolete("NUnit now uses NSubstitute")]
+    public class MockMethod : IMethod
 	{
 		#region Private Fields
 

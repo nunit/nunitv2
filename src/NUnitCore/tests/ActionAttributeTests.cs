@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Specialized;
 using NUnit.Framework;
@@ -9,7 +9,7 @@ namespace NUnit.Core.Tests
     [TestFixture]
     public class ActionAttributeTests
     {
-        private class Filter : TestFilter
+        private class ActionAttributeFixtureFilter : TestFilter
         {
             public override bool Match(ITest test)
             {
@@ -40,7 +40,7 @@ namespace NUnit.Core.Tests
             package.TestName = typeof(ActionAttributeFixture).Namespace;
 
             Test suite = builder.Build(package);
-            _result = suite.Run(new NullListener(), new Filter());
+            _result = suite.Run(new NullListener(), new ActionAttributeFixtureFilter());
         }
 
         [Test]

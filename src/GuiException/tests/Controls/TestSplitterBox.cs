@@ -4,8 +4,6 @@
 // ****************************************************************
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 using NUnit.Framework;
 using NUnit.UiException.Controls;
 using System.Windows.Forms;

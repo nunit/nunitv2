@@ -3,12 +3,10 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+#if NET_3_5
+using NSubstitute;
 using NUnit.Framework;
 using NUnit.UiException.Controls;
-using NUnit.Mocks;
 using System.Windows.Forms;
 using NUnit.UiException.CodeFormatters;
 using NUnit.UiException.Tests.data;
@@ -20,24 +18,16 @@ namespace NUnit.UiException.Tests.Controls
     public class TestSourceCodeDisplay
     {
         private TestingCode _code;
-        private DynamicMock _mockStack;
-        private DynamicMock _mockCode;
+        private IStackTraceView _mockStack;
+        private ICodeView _mockCode;
 
         [SetUp]
         public void SetUp()
         {
-            Panel fakeStackControl = new Panel();
-            Panel fakeCodeControl = new Panel();
+            _mockStack = Substitute.For<IStackTraceView>();
+            _mockCode = Substitute.For<ICodeView>();
 
-            _mockStack = new DynamicMock(typeof(IStackTraceView));
-            _mockCode = new DynamicMock(typeof(ICodeView));
-
-            _mockStack.SetReturnValue("ToControl", fakeStackControl);
-            _mockCode.SetReturnValue("ToControl", fakeCodeControl);
-
-            _code = new TestingCode(
-                (IStackTraceView)_mockStack.MockInstance,
-                (ICodeView)_mockCode.MockInstance);
+            _code = new TestingCode(_mockStack, _mockCode);
 
             return;
         }
@@ -113,17 +103,15 @@ namespace NUnit.UiException.Tests.Controls
                 item = new ErrorItem("Basic.cs", 2);
                 Assert.That(item.ReadFile(), Is.Not.Null);
 
-                _mockStack.ExpectAndReturn("get_SelectedItem", item, null);
-                _mockCode.ExpectAndReturn("get_Formatter", formatter, null);
-                _mockCode.Expect("set_Text", new object[] { item.ReadFile() });
-                _mockCode.Expect("set_Language", new object[] { "C#" });
-
-                // CurrentLine is a based 0 index
-                _mockCode.Expect("set_CurrentLine", new object[] { 1 });
+                _mockStack.SelectedItem.Returns(item);
+                _mockCode.Formatter.Returns(formatter);
                 
                 _code.RaiseSelectedItemChanged();
-                _mockStack.Verify();
-                _mockCode.Verify();
+
+                Assert.That(_mockCode.Text, Is.EqualTo(item.ReadFile()));
+                Assert.That(_mockCode.Language, Is.EqualTo("C#"));
+                // CurrentLine is a based 0 index
+                Assert.That(_mockCode.CurrentLine, Is.EqualTo(1));
             }
 
             // test to fail:
@@ -131,12 +119,11 @@ namespace NUnit.UiException.Tests.Controls
             // should handle selection changed event even
             // if selection comes to null
 
-            _mockStack.ExpectAndReturn("get_SelectedItem", null, null);
-            _mockCode.Expect("set_Text", new object[] { null });
+            _mockStack.SelectedItem.Returns((ErrorItem) null); 
 
             _code.RaiseSelectedItemChanged();
-            _mockStack.Verify();
-            _mockCode.Verify();
+
+            Assert.That(_mockCode.Text, Is.EqualTo(null));
 
             return;
         }
@@ -144,17 +131,14 @@ namespace NUnit.UiException.Tests.Controls
         [Test]
         public void ListOrderPolicy()
         {
-            _mockStack.Expect("set_ListOrderPolicy", ErrorListOrderPolicy.ReverseOrder);
             _code.ListOrderPolicy = ErrorListOrderPolicy.ReverseOrder;
-            _mockStack.Verify();
+            Assert.That(_mockStack.ListOrderPolicy, Is.EqualTo(ErrorListOrderPolicy.ReverseOrder));
 
-            _mockStack.ExpectAndReturn("get_ListOrderPolicy", ErrorListOrderPolicy.ReverseOrder);
+            _mockStack.ListOrderPolicy = ErrorListOrderPolicy.ReverseOrder;
             Assert.That(_code.ListOrderPolicy, Is.EqualTo(ErrorListOrderPolicy.ReverseOrder));
-            _mockStack.Verify();
 
-            _mockStack.Expect("set_ListOrderPolicy", ErrorListOrderPolicy.InitialOrder);
+            _mockStack.ListOrderPolicy = ErrorListOrderPolicy.InitialOrder;
             _code.ListOrderPolicy = ErrorListOrderPolicy.InitialOrder;
-            _mockStack.Verify();
 
             return;
         }
@@ -198,3 +182,4 @@ namespace NUnit.UiException.Tests.Controls
         }
     }
 }
+#endif

@@ -12,7 +12,8 @@ namespace NUnit.Mocks
 	/// The IMethod interface represents an method or other named object that 
 	/// is both callable and self-verifying.
 	/// </summary>
-	public interface IMethod : IVerify, ICall
+    [Obsolete("NUnit now uses NSubstitute")]
+    public interface IMethod : IVerify, ICall
 	{
 		/// <summary>
 		/// The name of the object

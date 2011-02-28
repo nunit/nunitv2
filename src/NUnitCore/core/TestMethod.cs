@@ -311,7 +311,7 @@ namespace NUnit.Core
 
 			TestResult testResult = new TestResult(this);
 			TestExecutionContext.CurrentContext.CurrentResult =  testResult;
-
+			
 		    FailureSite failureSite = FailureSite.SetUp;
 			try
 			{
@@ -319,6 +319,7 @@ namespace NUnit.Core
 
 			    failureSite = FailureSite.BeforeTestCaseAction;
 			    RunBeforeActions(testResult);
+
 
 				RunTestCase( testResult );
 			}
@@ -392,6 +393,7 @@ namespace NUnit.Core
                 testResult.Error(ex, FailureSite.AfterTestCaseAction);
             }
         }
+
 
 	    private void RunSetUp()
         {

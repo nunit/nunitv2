@@ -4,62 +4,61 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
+#if NET_3_5
 using System;
+using NSubstitute;
 using NUnit.Framework;
 using NUnit.Core;
+using NUnit.Core.Filters;
 
 namespace NUnit.Core.Tests
 {
 	[TestFixture]
 	public class TestRunnerThreadTests
 	{
-		private MockTestRunner mockRunner;
+		private TestRunner mockRunner;
 		private TestRunnerThread runnerThread;
+        private EventListener listener;
 
 		[SetUp]
 		public void CreateRunnerThread()
 		{
-			mockRunner = new MockTestRunner( "TestRunner" );
-			runnerThread = new TestRunnerThread( (TestRunner)mockRunner.MockInstance );
-			// Set Strict false to avoid faults on the worker thread
-			mockRunner.Strict = false;
+            mockRunner = Substitute.For<TestRunner>();
+			runnerThread = new TestRunnerThread( mockRunner );
+            listener = NullListener.NULL;
 		}
 
 		[Test]
 		public void RunTestSuite()
 		{
-			mockRunner.Expect( "Run" );
-
-			runnerThread.StartRun(NullListener.NULL, null);
+			runnerThread.StartRun(listener, TestFilter.Empty);
 			runnerThread.Wait();
 
-			mockRunner.Verify();
+            mockRunner.Received().Run(listener, TestFilter.Empty);
 		}
 
-		[Test]
-		public void RunNamedTest()
-		{
-			mockRunner.Expect( "Run" );
+        [Test]
+        public void RunNamedTest()
+        {
+            runnerThread.StartRun(listener, new NameFilter(TestName.Parse("SomeTest")));
+            runnerThread.Wait();
 
-			runnerThread.StartRun( NullListener.NULL, new NUnit.Core.Filters.NameFilter( TestName.Parse( "SomeTest" ) ) );
-			runnerThread.Wait();
+            mockRunner.Received().Run(listener, Arg.Any<NameFilter>());
+        }
 
-			mockRunner.Verify();
-		}
+        [Test]
+        public void RunMultipleTests()
+        {
+            NUnit.Core.Filters.NameFilter filter = new NUnit.Core.Filters.NameFilter();
+            filter.Add(TestName.Parse("Test1"));
+            filter.Add(TestName.Parse("Test2"));
+            filter.Add(TestName.Parse("Test3"));
 
-		[Test]
-		public void RunMultipleTests()
-		{
-			NUnit.Core.Filters.NameFilter filter = new NUnit.Core.Filters.NameFilter();
-			filter.Add( TestName.Parse( "Test1" ) );
-			filter.Add( TestName.Parse( "Test2" ) );
-			filter.Add( TestName.Parse( "Test3" ) );
-			mockRunner.Expect( "Run" );
+            runnerThread.StartRun(listener, filter);
+            runnerThread.Wait();
 
-			runnerThread.StartRun( NullListener.NULL, filter );
-			runnerThread.Wait();
-
-			mockRunner.Verify();
-		}
+            mockRunner.Received().Run(listener, filter);
+        }
 	}
 }
+#endif

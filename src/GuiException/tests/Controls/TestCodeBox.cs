@@ -3,15 +3,12 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-using System;
-using System.Collections.Generic;
-using System.Text;
+#if NET_3_5
+using NSubstitute;
 using NUnit.Framework;
-using NUnit.UiException;
 using System.Drawing;
 using NUnit.UiException.Controls;
 using NUnit.UiException.CodeFormatters;
-using NUnit.Mocks;
 using System.Windows.Forms;
 
 namespace NUnit.UiException.Tests.Controls
@@ -21,25 +18,22 @@ namespace NUnit.UiException.Tests.Controls
     {
         private TestingCodeBox _box;
 
-//        private FormattedCode _emptyText;
         private FormattedCode _someText;
         private FormattedCode _someCode;
 
-        private DynamicMock _mockFormatter;
-        private DynamicMock _mockRenderer;
+        private IFormatterCatalog _mockFormatter;
+        private ICodeRenderer _mockRenderer;
 
         [SetUp]
         public void SetUp()
         {
-            _mockFormatter = new DynamicMock(typeof(IFormatterCatalog));
-            _mockRenderer = new DynamicMock(typeof(ICodeRenderer));
+            _mockFormatter = Substitute.For<IFormatterCatalog>();
+            _mockRenderer = Substitute.For<ICodeRenderer>();
 
-            _box = new TestingCodeBox((IFormatterCatalog)_mockFormatter.MockInstance,
-                                (ICodeRenderer)_mockRenderer.MockInstance);
+            _box = new TestingCodeBox(_mockFormatter, _mockRenderer);
             _box.Width = 150;
             _box.Height = 150;
 
-//            _emptyText = Format("", "");
             _someText = Format("some C# code", "");
             _someCode = Format("some C# code", "C#");
 
@@ -62,20 +56,13 @@ namespace NUnit.UiException.Tests.Controls
         {
             TestingCodeBox box;
 
-            box = new TestingCodeBox(
-                (IFormatterCatalog)_mockFormatter.MockInstance,
-                (ICodeRenderer)_mockRenderer.MockInstance);
+            box = new TestingCodeBox(_mockFormatter, _mockRenderer);
 
-            _mockFormatter.ExpectAndReturn("Format", code, new object[] { code.Text, "" });
-
-            _mockRenderer.ExpectAndReturn("GetDocumentSize", size,
-                new object[] { code, box.RenderingContext.Graphics, box.RenderingContext.Font });
+            _mockFormatter.Format(code.Text, "").Returns(code);
+            _mockRenderer.GetDocumentSize(code, box.RenderingContext.Graphics, box.RenderingContext.Font).Returns(size);
 
             box.Text = code.Text;
             Assert.That(box.Text, Is.EqualTo(code.Text));
-
-            _mockFormatter.Verify();
-            _mockRenderer.Verify();
 
             return (box);
         }
@@ -111,29 +98,20 @@ namespace NUnit.UiException.Tests.Controls
             // to format data in the current language mode.
             // The result should be assigned to the underlying display.
 
-            _mockFormatter.ExpectAndReturn("Format", _someText, new object[] { _someText.Text, "" });
-
-            _mockRenderer.ExpectAndReturn("GetDocumentSize", new SizeF(100, 100),
-                new object[] { _someText, _box.RenderingContext.Graphics, _box.RenderingContext.Font });
+            _mockFormatter.Format(_someText.Text, "").Returns(_someText);
+            _mockRenderer.GetDocumentSize(_someText, _box.RenderingContext.Graphics, _box.RenderingContext.Font).Returns(new SizeF(100, 100));
 
             _box.Text = _someText.Text;
-            _mockFormatter.Verify();
-            _mockRenderer.Verify();
 
             Assert.That(_box.Text, Is.EqualTo(_someText.Text));
             Assert.That(_box.AutoScrollMinSize, Is.EqualTo(new Size(100, 100)));
 
             // passing null to Text as same effect than passing ""
 
-            _mockFormatter.ExpectAndReturn("Format", FormattedCode.Empty,
-                new object[] { "", "" });
-
-            _mockRenderer.ExpectAndReturn("GetDocumentSize", new SizeF(0, 0),
-                new object[] { FormattedCode.Empty, _box.RenderingContext.Graphics, _box.RenderingContext.Font });
+            _mockFormatter.Format("", "").Returns(FormattedCode.Empty);
+            _mockRenderer.GetDocumentSize(FormattedCode.Empty, _box.RenderingContext.Graphics, _box.RenderingContext.Font).Returns(new SizeF(0, 0));
 
             _box.Text = null;
-            _mockFormatter.Verify();
-            _mockRenderer.Verify();
 
             Assert.That(_box.Text, Is.EqualTo(""));           
 
@@ -148,11 +126,9 @@ namespace NUnit.UiException.Tests.Controls
             box.Width = 150;
             box.Height = 150;
 
-            _mockRenderer.Expect("DrawToGraphics",
-                new object[] { _someText, box.RenderingContext, new Rectangle(0, 0, 150, 150) });
-
             box.FireOnPaint();
-            _mockRenderer.Verify();
+
+            _mockRenderer.Received().DrawToGraphics(_someText, box.RenderingContext, new Rectangle(0, 0, 150, 150));
 
             return;
         }
@@ -162,21 +138,16 @@ namespace NUnit.UiException.Tests.Controls
         {
             _box = SetupCodeBox(_someCode, new SizeF(200, 400));
 
-            _mockFormatter.ExpectAndReturn("Format", _someCode, new object[] { _someCode.Text, "C#" });
-            _mockRenderer.ExpectAndReturn("GetDocumentSize", new SizeF(200, 400),
-                new object[] { _someCode, _box.RenderingContext.Graphics, _box.RenderingContext.Font });
+            _mockFormatter.Format(_someCode.Text, "C#").Returns(_someCode);
+            _mockRenderer.GetDocumentSize(_someCode, _box.RenderingContext.Graphics, _box.RenderingContext.Font).Returns(new SizeF(200, 400));
 
             _box.Language = "C#";
             Assert.That(_box.Language, Is.EqualTo("C#"));
 
-            _mockFormatter.Verify();
-            _mockRenderer.Verify();
-
             // setting null in language is same as setting "" or "Plain text"
 
-            _mockFormatter.ExpectAndReturn("Format", _someText, new object[] { _someCode.Text, "" });
-            _mockRenderer.ExpectAndReturn("GetDocumentSize", new SizeF(100, 100),
-                new object[] { _box.FormattedCode, _box.RenderingContext.Graphics, _box.RenderingContext.Font });
+            _mockFormatter.Format(_someCode.Text, "").Returns(_someText);
+            _mockRenderer.GetDocumentSize(_box.FormattedCode, _box.RenderingContext.Graphics, _box.RenderingContext.Font).Returns(new SizeF(100, 100));
 
             _box.Language = null;
             Assert.That(_box.Language, Is.EqualTo(""));
@@ -191,14 +162,10 @@ namespace NUnit.UiException.Tests.Controls
 
             _box = SetupCodeBox(_someCode, new SizeF(200, 400));
 
-            _mockFormatter.ExpectAndReturn("Format", _someCode, new object[] { _someCode.Text, "" });
-            _mockRenderer.ExpectAndReturn("GetDocumentSize", new SizeF(200, 400),
-                new object[] { _someCode, _box.RenderingContext.Graphics, courier14 });
+            _mockFormatter.Format(_someCode.Text, "").Returns(_someCode);
+            _mockRenderer.GetDocumentSize(_someCode, _box.RenderingContext.Graphics, courier14).Returns(new SizeF(200, 400));
 
             _box.Font = courier14;
-
-            _mockFormatter.Verify();
-            _mockRenderer.Verify();
 
             Assert.That(_box.RenderingContext.Font, Is.SameAs(_box.Font));
 
@@ -216,22 +183,18 @@ namespace NUnit.UiException.Tests.Controls
 
             // CurrentLine: 0
 
-            _mockRenderer.ExpectAndReturn("LineIndexToYCoordinate", 0f,
-                new object[] { 0, _box.RenderingContext.Graphics, _box.RenderingContext.Font });
+            _mockRenderer.LineIndexToYCoordinate(0, _box.RenderingContext.Graphics, _box.RenderingContext.Font).Returns(0f);
 
             _box.CurrentLine = 0;
-            _mockRenderer.Verify();
 
             Assert.That(_box.CurrentLine, Is.EqualTo(0));
             Assert.That(_box.AutoScrollPosition, Is.EqualTo(new Point(0, 0)));
 
             // CurrentLine: 7
 
-            _mockRenderer.ExpectAndReturn("LineIndexToYCoordinate", 390f,
-                new object[] { 7, _box.RenderingContext.Graphics, _box.RenderingContext.Font });
+            _mockRenderer.LineIndexToYCoordinate(7, _box.RenderingContext.Graphics, _box.RenderingContext.Font).Returns(390f);
 
             _box.CurrentLine = 7;
-            _mockRenderer.Verify();
 
             Assert.That(_box.CurrentLine, Is.EqualTo(7));
             Assert.That(_box.AutoScrollPosition, Is.EqualTo(new Point(0, -375)));
@@ -591,3 +554,4 @@ namespace NUnit.UiException.Tests.Controls
         #endregion
     } */
 }
+#endif
