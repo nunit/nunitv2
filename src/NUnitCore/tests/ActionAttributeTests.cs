@@ -1,3 +1,4 @@
+#if NET_2_0 || NET_3_5
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -210,3 +211,4 @@ namespace NUnit.Core.Tests
         }
     }
 }
+#endif
