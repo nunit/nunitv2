@@ -391,9 +391,9 @@ namespace NUnit.Core
                     this.IgnoreReason = ex.Message;
                 }
                 else if (IsAssertException(ex))
-                    suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.BeforeTestSuiteAction);
+                    suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.SetUp);
                 else
-                    suiteResult.Error(ex, FailureSite.BeforeTestSuiteAction);
+                    suiteResult.Error(ex, FailureSite.SetUp);
             }
         }
 
@@ -458,7 +458,7 @@ namespace NUnit.Core
                 if (nex != null)
                     ex = nex.InnerException;
 
-                suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.AfterTestSuiteAction);
+                suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.TearDown);
             }
         }
 

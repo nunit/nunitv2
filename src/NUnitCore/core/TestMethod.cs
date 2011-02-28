@@ -312,14 +312,10 @@ namespace NUnit.Core
 			TestResult testResult = new TestResult(this);
 			TestExecutionContext.CurrentContext.CurrentResult =  testResult;
 			
-		    FailureSite failureSite = FailureSite.SetUp;
 			try
 			{
                 RunSetUp();
-
-			    failureSite = FailureSite.BeforeTestCaseAction;
 			    RunBeforeActions(testResult);
-
 
 				RunTestCase( testResult );
 			}
@@ -330,7 +326,7 @@ namespace NUnit.Core
                 if (ex is ThreadAbortException)
                     Thread.ResetAbort();
 
-                RecordException(ex, testResult, failureSite);
+                RecordException(ex, testResult, FailureSite.SetUp);
 			}
 			finally 
 			{
@@ -390,7 +386,7 @@ namespace NUnit.Core
                 if (ex is NUnitException)
                     ex = ex.InnerException;
                 // TODO: What about ignore exceptions in teardown?
-                testResult.Error(ex, FailureSite.AfterTestCaseAction);
+                testResult.Error(ex, FailureSite.TearDown);
             }
         }
 

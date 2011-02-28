@@ -74,15 +74,6 @@ namespace NUnit.Core
         /// </summary>
         TearDown,
 
-
-        BeforeTestSuiteAction,
-
-        AfterTestSuiteAction,
-
-        BeforeTestCaseAction,
-
-        AfterTestCaseAction,
-
         /// <summary>
         /// Failure of a parent test
         /// </summary>

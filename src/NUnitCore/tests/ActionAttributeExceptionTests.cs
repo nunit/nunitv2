@@ -50,7 +50,7 @@ namespace NUnit.Core.Tests
 
             TestResult result = FindFailureTestResult(RunTest());
 
-            Assert.IsTrue(result.FailureSite == FailureSite.BeforeTestSuiteAction);
+            Assert.IsTrue(result.FailureSite == FailureSite.SetUp);
             Assert.IsFalse(ActionAttributeExceptionFixture.TestRun);
         }
 
@@ -64,7 +64,7 @@ namespace NUnit.Core.Tests
 
             TestResult result = FindFailureTestResult(RunTest());
 
-            Assert.IsTrue(result.FailureSite == FailureSite.AfterTestSuiteAction);
+            Assert.IsTrue(result.FailureSite == FailureSite.TearDown);
             Assert.IsTrue(ActionAttributeExceptionFixture.TestRun);
         }
 
@@ -78,7 +78,7 @@ namespace NUnit.Core.Tests
 
             TestResult result = FindFailureTestResult(RunTest());
 
-            Assert.IsTrue(result.FailureSite == FailureSite.BeforeTestCaseAction);
+            Assert.IsTrue(result.FailureSite == FailureSite.SetUp);
             Assert.IsFalse(ActionAttributeExceptionFixture.TestRun);
         }
 
@@ -92,7 +92,7 @@ namespace NUnit.Core.Tests
 
             TestResult result = FindFailureTestResult(RunTest());
 
-            Assert.IsTrue(result.FailureSite == FailureSite.AfterTestCaseAction);
+            Assert.IsTrue(result.FailureSite == FailureSite.TearDown);
             Assert.IsTrue(ActionAttributeExceptionFixture.TestRun);
         }
     }
