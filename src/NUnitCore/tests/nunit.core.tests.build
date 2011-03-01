@@ -6,6 +6,8 @@
         <include name="Generic/SimpleGenericFixture.cs"/>
         <include name="Generic/SimpleGenericMethods.cs"/>
         <include name="Generic/TypeParameterUsedWithTestMethod.cs"/>
+    <include name="ActionAttributeExceptionTests.cs"/>
+    <include name="ActionAttributeTests.cs"/>
         <include name="AllTests.cs"/>
         <include name="AssemblyHelperTests.cs"/>
         <include name="AssemblyReaderTests.cs"/>

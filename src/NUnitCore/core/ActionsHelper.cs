@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace NUnit.Core
 {
-    internal static class ActionsHelper
+    internal class ActionsHelper
     {
         private static Type _ActionInterfaceType = null;
         private static Hashtable _ActionTypes = null;
