@@ -2,6 +2,56 @@
 <project name="NUnit" default="build" basedir=".">
 
 <!-- ***************************************************************** -->
+<!-- *********           Set Common Properties          ************** -->
+<!-- ***************************************************************** -->
+ 
+<target name="set-common-properties">
+
+  <!-- Project name - used as a prefix for packages -->
+  <property name="project.name" value="NUnit"/>
+
+  <!-- NUnit Base Package Version - First three digits -->
+  <property name="base.package.version" value="2.6.0"/>
+ 
+  <!-- Nominal version used for install directory and program
+       files menu. Normally the same as the package version, 
+       but may differ when we are in alpha or beta. -->
+  <property name="nominal.version" value="2.6" />
+
+  <!-- Determine todays build number -->
+  <property name="temp.now" value="${datetime::now()}"/>
+  <property name="temp.yr" value="${datetime::get-year(temp.now)-2000}"/>
+  <property name="temp.day" value="${string::pad-left(datetime::get-day-of-year(temp.now),3,'0')}"/>
+  <property name="package.build.number" value="${temp.yr}${temp.day}"/>
+
+  <!-- NUnit full package version -->
+  <property name="package.version" value="${base.package.version}.${package.build.number}"/>
+
+  <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
+  <property name="package.configuration" value=""/>
+  
+  <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
+  <property name="package.name" 
+      value="${project.name}-${package.version}"/>
+
+  <!-- Frameworks supported by this build script. The first
+         installed framework found is the default for builds. 
+         The first .NET and Mono frameworks found are the
+         respective net and mono defaults. -->
+  <property name="supported.frameworks" 
+    value="net-2.0,net-3.5,net-4.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
+
+  <!-- Packages we normally create -->
+  <!--<property name="standard.packages" value="std,mono" />-->
+  <property name="standard.packages" value="std" />
+
+  <!-- Our standard package for general distribution -->
+  <property name="default.package.config" value="std" />
+
+  <!-- Options for runing the NUnit tests -->
+  <property name="nunit.options" value=""/>
+
+<!-- ***************************************************************** -->
 <!-- **********Set Properties used by Various targets **************** -->
 <!-- ***************************************************************** -->
 
@@ -86,6 +136,11 @@
   <call target="set-debug-build-config" />
 
   <call target="set-default-package-config" />
+
+  <!-- Temporary until MSI is working -->
+  <property name="create.msi" value="false" />
+
+</target>
 
 <!-- ***************************************************************** -->
 <!-- ********* Targets for setting the build configuration *********** -->
@@ -321,7 +376,7 @@
   <target name="set-std-package-config">
     <property name="package.config" value="std"/>
     <property name="package.runtimes" value="net-1.1+net-2.0"/>
-    <property name="create.msi" value="true"/>
+    <property name="create.msi" value="false"/>
   </target>
 
   <target name="set-mono-package-config">
