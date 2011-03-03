@@ -3,7 +3,7 @@
 
   <Product UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A"
            Name="NUnit $(var.NominalVersion)"
-	   Id="EB9F3081-878A-424b-B14E-7596F95C896A"
+	   Id="321FC471-2945-4d25-8D04-10B6A7AE5F15"
            Version="$(var.ProductVersion)"
            Manufacturer="nunit.org"
            Language="1033">
@@ -20,16 +20,6 @@
     <!-- ***************************************************************** -->
     <!-- **********  Define Properties used in the install      ********** -->
     <!-- ***************************************************************** -->
-
-    <Property Id="FRAMEWORK10">
-      <RegistrySearch Id='Framework10Registry' Type='raw' Root='HKLM'
-                      Key='Software\Microsoft\.NETFramework\policy\v1.0' Name='3705' />
-    </Property>
-
-    <Property Id="FRAMEWORK11">
-      <RegistrySearch Id='Framework11Registry' Type='raw' Root='HKLM'
-                      Key='Software\Microsoft\.NETFramework\policy\v1.1' Name='4322' />
-    </Property>
 
     <Property Id="FRAMEWORK20">
       <RegistrySearch Id='Framework20Registry' Type='raw' Root='HKLM'
@@ -73,19 +63,10 @@
 
           <Directory Id='bin' Name='bin'>
 
-            <Directory Id='net_1.1' Name='net-1.1'>
-              <Directory Id='lib_1.1' Name='lib' />
-              <Directory Id='addins_1.1' Name='addins' />
-              <Directory Id='tests_1.1' Name='tests' />
-              <Directory Id='framework_1.1' Name='FRAMEWK' LongName='framework' />
-            </Directory>
-
-            <Directory Id='net_2.0' Name='net-2.0'>
-              <Directory Id='lib_2.0' Name='lib' />
-              <Directory Id='addins_2.0' Name='addins' />
-              <Directory Id='tests_2.0' Name='tests' />
-              <Directory Id='framework_2.0' Name='FRAMEWK' LongName='framework' />
-            </Directory>
+            <Directory Id='lib' Name='lib' />
+            <Directory Id='addins' Name='addins' />
+            <Directory Id='tests' Name='tests' />
+            <Directory Id='framework' Name='FRAMEWK' LongName='framework' />
 
           </Directory>
 
@@ -125,8 +106,8 @@
     <!-- ***************************************************************** -->
 
     <Feature Id="TopLevelFeature" ConfigurableDirectory="INSTALLDIR"
-		         Level="1" Title="NUnit $(var.NominalVersion)" Display='expand'
-		         Description="Installs NUnit with all selected components">
+         Level="1" Title="NUnit $(var.NominalVersion)" Display='expand'
+         Description="Installs the NUnit console runner and supporting assemblies required to write and run tests.">
 
       <!-- Defined below -->
       <ComponentRef Id="C__LICENSE" />
@@ -134,79 +115,34 @@
       <ComponentRef Id="C__LOGO" />
       <ComponentRef Id="InstallationRegistryEntry"/>
 
-      <Feature Id="Net_2.0_BaseFeature" Title="Base Level Support" Level="0" Display="collapse"
-			         Description="NUnit assemblies required to write and run tests under .NET 2.0.">
-        <Condition Level="1">FRAMEWORK20 = "50727-50727" OR MONODIRECTORY</Condition>
+      <!-- Defined in bin.wxs -->
+      <ComponentGroupRef Id="FrameworkGroup"/>
+      <ComponentGroupRef Id="CoreGroup"/>
+      <ComponentGroupRef Id="ConsoleRunnerGroup" />
 
-        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-        <ComponentGroupRef Id="Net_2.0_ConsoleRunnerGroup" />
+      <Feature Id="GuiRunner" Level="1" Title='Gui Runner' Display='expand'
+				         Description="Installs the NUnit GUI runner.">
 
-      </Feature>
-
-      <Feature Id="Net_2.0_GuiRunner" Level="1" Title='Gui Runner' Display='expand'
-				         Description="Installs NUnit Windows GUI runner for .NET 2.0">
-
-        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-        <ComponentGroupRef Id="Net_2.0_GuiRunnerGroup"/>
+        <ComponentGroupRef Id="GuiRunnerGroup"/>
 
       </Feature>
 
-      <Feature Id="Net_2.0_PNunitRunner" Level="10" Title='PNUnit Runner' Display='expand'
-               Description="Installs the PNUnit runner for parallel distributed tests">
+      <Feature Id="PNunitRunner" Level="10" Title='PNUnit Runner' Display='expand'
+               Description="Installs the PNUnit runner for parallel distributed tests.">
 
-        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-        <ComponentGroupRef Id="pnunit_2.0"/>
+        <ComponentGroupRef Id="PNunitGroup"/>
 
       </Feature>
 
-      <Feature Id="Net_2.0_TestsFeature" Level="10" Title='Unit Tests' Display='expand'
-				         Description='Unit tests for NUnit under .NET 1.1'>
+      <Feature Id="TestsFeature" Level="10" Title='Unit Tests' Display='expand'
+				         Description='Installs the unit tests for NUnit itself.'>
 
-        <ComponentGroupRef Id="Net_2.0_TestsGroup" />
-
-      </Feature>
-
-      <Feature Id="Net_1.1_BaseFeature" Level="10" Title=".NET 1.1 Support" Display="collapse"
-			         Description="NUnit assemblies required to write and run tests under .NET 1.1.">
-        <!--<Condition Level="1">FRAMEWORK10 = "3321-3705" OR FRAMEWORK11 = "3706-4322" OR MONODIRECTORY</Condition>-->
-
-        <Feature Id="Net_1.1_Framework"	Level="10" Title="Framework Assemblies" Display="expand"
-				         Description = "Assemblies referenced by user tests">
-
-          <ComponentGroupRef Id="Net_1.1_FrameworkGroup" />
-
-        </Feature>
-
-        <Feature Id="Net_1.1_ConsoleRunner" Level="10" Title="Console Runner" Display="expand"
-				         Description="Installs NUnit console runner for .NET 1.1">
-
-          <ComponentGroupRef Id="Net_1.1_FrameworkGroup"/>
-          <ComponentGroupRef Id="Net_1.1_CoreGroup"/>
-          <ComponentGroupRef Id="Net_1.1_ConsoleRunnerGroup" />
-
-        </Feature>
-
-        <Feature Id="Net_1.1_PNUnitRunner" Level="10" Title='PNUnit Runner' Display='expand'
-                 Description="Installs the PNUnit runner for parallel distributed tests">
-
-          <ComponentGroupRef Id="pnunit_1.1"/>
-
-        </Feature>
-
-        <Feature Id="Net_1.1_TestsFeature" Level="10" Title='Unit Tests' Display='expand'
-				         Description='Unit tests for NUnit under .NET 1.1' >
-
-          <ComponentGroupRef Id="Net_1.1_TestsGroup" />
-
-        </Feature>
+        <ComponentGroupRef Id="TestsGroup" />
 
       </Feature>
 
       <Feature Id="DocumentationFeature" Level="1" Title='Documentation' Display='expand'
-			         Description="HTML documentation for NUNit">
+          Description="Installs the NUnit documentation.">
 
         <ComponentGroupRef Id="DocumentationComponents"/>
 
@@ -214,10 +150,38 @@
 
 
       <!-- Defined in samples.wxs -->
-      <Feature Id="SamplesFeature" Level="1" Title='Samples' Display='expand'
-               Description='Sample code showing the use of NUnit' >
+      <Feature Id="SamplesFeature" Level="1" Title='Samples' Display='collapse'
+               Description='Installs sample code showing the use of NUnit.' >
 
         <ComponentGroupRef Id="SampleComponents"/>
+
+        <Feature Id="CSharpSamples" Level="1" Title='C# Samples' Display='expand'
+               Description='Installs C# samples.' >
+
+          <ComponentGroupRef Id="CSharpSampleComponents"/>
+
+        </Feature>
+
+        <Feature Id="VBSamples" Level="1" Title='Visual Basic Samples' Display='expand'
+               Description='Installs Visual Basic samples.' >
+
+          <ComponentGroupRef Id="VBSampleComponents"/>
+
+        </Feature>
+
+        <Feature Id="JSharpSamples" Level="1" Title='J# Samples' Display='expand'
+               Description='Installs J# samples.' >
+
+          <ComponentGroupRef Id="JSharpSampleComponents"/>
+
+        </Feature>
+
+        <Feature Id="CPPSamples" Level="1" Title='C++ Samples' Display='expand'
+               Description='Installs C++ samples.' >
+
+          <ComponentGroupRef Id="CPPSampleComponents"/>
+
+        </Feature>
 
       </Feature>
 
@@ -230,8 +194,8 @@
     <!-- **********  Define our GUI using standard WiX UI       ********** -->
     <!-- ***************************************************************** -->
 
-    <UIRef Id="WixUI_Mondo" />
-    <!--<UIRef Id="WixUI_FeatureTree" />-->
+    <!--<UIRef Id="WixUI_Mondo" />-->
+    <UIRef Id="WixUI_FeatureTree" />
     <UIRef Id="WixUI_ErrorProgressText" />
 
     <!-- ***************************************************************** -->

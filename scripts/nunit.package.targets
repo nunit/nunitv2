@@ -18,9 +18,9 @@
 <!-- ***  Include common targets and initialize property settings  *** -->
 <!-- ***************************************************************** -->
 
-<include buildfile="scripts/nunit.common.targets"/>
+  <include buildfile="scripts/nunit.common.targets"/>
 
-<call target="set-common-properties"/>
+  <call target="set-common-properties"/>
 
 <!-- ***************************************************************** -->
 <!-- ***             Targets that clean directories                *** -->
@@ -46,9 +46,9 @@
     <call target="package-docs"/>
 
     <foreach item="String" delim="," 
-        property="package.config" in="${standard.packages}">
+        property="runtime.config" in="${standard.packages}">
 
-      <call target="set-package-config"/>
+      <call target="set-runtime-config"/>
       <call target="package"/>
 
     </foreach>
@@ -128,11 +128,11 @@
   <target name="create-zip">
     <!-- Create the zip file -->
     <property name="zip.file.name" 
-      value="${package.name}-${package.config}${build.suffix}"
-      unless="${package.config==default.package.config}"/>
+      value="${package.name}-${runtime.config}${build.suffix}"
+      unless="${runtime.config==default.package.config}"/>
     <property name="zip.file.name" 
       value="${package.name}${build.suffix}"
-      if="${package.config==default.package.config}"/>
+      if="${runtime.config==default.package.config}"/>
 
     <zip ziplevel="9"
         zipfile="${project.package.dir}/${zip.file.name}.zip">
@@ -162,11 +162,11 @@
     <property name="build.suffix" value=""
       unless="${property::exists('build.suffix')}" />
     <property name="msi.file.name"
-      value="${package.name}-${package.config}${build.suffix}.msi"
-      unless="${package.config==default.package.config}"/>
+      value="${package.name}-${runtime.config}${build.suffix}.msi"
+      unless="${runtime.config==default.package.config}"/>
     <property name="msi.file.name"
       value="${package.name}${build.suffix}.msi"
-      if="${package.config==default.package.config}"/>
+      if="${runtime.config==default.package.config}"/>
 
 
     <candle out="${work.dir}/" exedir="${wix.dir}">
@@ -176,13 +176,13 @@
         <define name="InstallImage" value="package\NUnit-${package.version}" />
       </defines>
       <sources basedir="${install.dir}">
+        <include name="NUnit.wxs" />
         <include name="bin.wxs" />
-        <include name="nunit-gui.wxs" />
+        <include name="nunit-gui.wxs" if="${runtime.version >= '2.0'}"/>
         <include name="doc.wxs" />
         <include name="tests.wxs" />
         <include name="samples.wxs" />
         <include name="pnunit.wxs" />
-        <include name="NUnit.wxs" />
       </sources>
     </candle>
 
@@ -316,14 +316,7 @@
 
     <call target="copy-top-level-files" />
 
-    <foreach item="String" delim="+"
-      property="runtime" in="${package.runtimes}">
-
-        <call target="set-${runtime}-runtime-config"/>
-        <call target="copy-bins" />
-
-    </foreach>
-
+    <call target="copy-bins" />
     <call target="copy-docs" />
     <call target="copy-samples" />
 
@@ -348,7 +341,7 @@
   <target name="copy-bins" depends="set-build-dir">
 
     <mkdir dir="${package.bin.dir}"/>
-    <copy todir="${package.bin.dir}/${runtime.config}">
+    <copy todir="${package.bin.dir}">
       <fileset basedir="${current.build.dir}">
         <include name="*"/>
         <include name="lib/*"/>

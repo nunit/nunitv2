@@ -42,11 +42,10 @@
     value="net-2.0,net-3.5,net-4.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
 
   <!-- Packages we normally create -->
-  <!--<property name="standard.packages" value="std,mono" />-->
-  <property name="standard.packages" value="std" />
+  <property name="standard.packages" value="net-2.0,net-1.1" />
 
   <!-- Our standard package for general distribution -->
-  <property name="default.package.config" value="std" />
+  <property name="default.package.config" value="net-2.0" />
 
   <!-- Options for runing the NUnit tests -->
   <property name="nunit.options" value=""/>
@@ -136,9 +135,6 @@
   <call target="set-debug-build-config" />
 
   <call target="set-default-package-config" />
-
-  <!-- Temporary until MSI is working -->
-  <property name="create.msi" value="false" />
 
 </target>
 
@@ -373,16 +369,14 @@
     <call target="set-${default.package.config}-package-config"/>
   </target>
   
-  <target name="set-std-package-config">
-    <property name="package.config" value="std"/>
-    <property name="package.runtimes" value="net-1.1+net-2.0"/>
-    <property name="create.msi" value="false"/>
+  <target name="set-net-2.0-package-config">
+    <property name="package.config" value="net-2.0"/>
+    <property name="create.msi" value="true"/>
   </target>
 
-  <target name="set-mono-package-config">
-    <property name="package.config" value="mono"/>
-    <property name="package.runtimes" value="mono-1.0+mono-2.0"/>
-    <property name="create.msi" value="false"/>
+  <target name="set-net-1.1-package-config">
+    <property name="package.config" value="net-1.1"/>
+    <property name="create.msi" value="true"/>
   </target>
 
 <!-- ***************************************************************** -->

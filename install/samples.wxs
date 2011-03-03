@@ -1,43 +1,47 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-	<ComponentGroup Id="SampleComponents">
-		<ComponentRef Id="C__SamplesCommon" />
-		<ComponentRef Id="C__SampleShortcuts" />
+    <ComponentGroup Id="SampleComponents">
+      <ComponentRef Id="C__SamplesCommon" />
+      <ComponentRef Id="C__SampleShortcuts" />
+    </ComponentGroup>
 
-		<!-- C# Samples -->
-		<ComponentRef Id="C__CSharp_Samples" />
-		<ComponentRef Id="C__CSharp_Failures" />
-		<ComponentRef Id="C__CSharp_Money" />
-		<ComponentRef Id="C__CSharp_Syntax" />
+    <ComponentGroup Id="CSharpSampleComponents">
+      <ComponentRef Id="C__CSharp_Samples" />
+      <ComponentRef Id="C__CSharp_Failures" />
+      <ComponentRef Id="C__CSharp_Money" />
+      <ComponentRef Id="C__CSharp_Syntax" />
+
+      <!-- Core Extensibility Samples -->
+      <ComponentRef Id="C__CoreExtensibility" />
+      <ComponentRef Id="C__MinimalAddin" />
+      <ComponentRef Id="C__SampleSuiteExtension" />
+      <ComponentRef Id="C__SampleSuiteExtension_Tests" />
+      <ComponentRef Id="C__SampleFixtureExtension" />
+      <ComponentRef Id="C__SampleFixtureExtension_Tests" />
+    </ComponentGroup>
 	
-		<!-- J# Samples -->
-		<ComponentRef Id="C__JSharp_Samples" />
-		<ComponentRef Id="C__JSharp_Failures" />
+    <ComponentGroup Id="JSharpSampleComponents">
+      <ComponentRef Id="C__JSharp_Samples" />
+      <ComponentRef Id="C__JSharp_Failures" />
+    </ComponentGroup>
 
-		<!-- Managed C++ Samples -->
-		<ComponentRef Id="C__CPP_Managed_Samples" />
-		<ComponentRef Id="C__CPP_Managed_Failures" />
+    <ComponentGroup Id="CPPSampleComponents">
+      <ComponentRef Id="C__CPP_Managed_Samples" />
+      <ComponentRef Id="C__CPP_Managed_Failures" />
 
-		<!-- C++/CLI Samples -->
-		<ComponentRef Id="C__CPP_CLI_Samples" />
-		<ComponentRef Id="C__CPP_CLI_Failures" />
-		<ComponentRef Id="C__CPP_CLI_Syntax" />
+      <!-- C++/CLI Samples -->
+      <ComponentRef Id="C__CPP_CLI_Samples" />
+      <ComponentRef Id="C__CPP_CLI_Failures" />
+      <ComponentRef Id="C__CPP_CLI_Syntax" />
+    </ComponentGroup>
 
-		<!-- VB Sample -->
-		<ComponentRef Id="C__VB_Samples" />
-		<ComponentRef Id="C__VB_Failures" />
-		<ComponentRef Id="C__VB_Money" />
-	    <ComponentRef Id="C__VB_Syntax" />
-		
-		<!-- Core Extensibility Samples -->
-		<ComponentRef Id="C__CoreExtensibility" />
-		<ComponentRef Id="C__MinimalAddin" />
-		<ComponentRef Id="C__SampleSuiteExtension" />
-		<ComponentRef Id="C__SampleSuiteExtension_Tests" />
-		<ComponentRef Id="C__SampleFixtureExtension" />
-		<ComponentRef Id="C__SampleFixtureExtension_Tests" />
-	</ComponentGroup>
+    <ComponentGroup Id="VBSampleComponents">
+      <ComponentRef Id="C__VB_Samples" />
+      <ComponentRef Id="C__VB_Failures" />
+      <ComponentRef Id="C__VB_Money" />
+      <ComponentRef Id="C__VB_Syntax" />
+    </ComponentGroup>
 		
 	<!-- Menu Shortcuts to samples -->
 	<DirectoryRef Id="samples" FileSource="$(var.InstallImage)\samples">
