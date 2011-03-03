@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-    <ComponentGroup Id="PNunitGroup">
+    <ComponentGroup Id="PNUnitGroup">
       <ComponentRef Id="pnunit_agent"/>
       <ComponentRef Id="pnunit_launcher"/>
       <ComponentRef Id="pnunit_framework"/>

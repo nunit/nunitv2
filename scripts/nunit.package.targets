@@ -173,16 +173,19 @@
       <defines>
         <define name="ProductVersion" value="${package.version}" />
         <define name="NominalVersion" value="${nominal.version}" />
+        <define name="TargetRuntime" value="${runtime.version}" />
         <define name="InstallImage" value="package\NUnit-${package.version}" />
       </defines>
       <sources basedir="${install.dir}">
-        <include name="NUnit.wxs" />
+        <include name="NUnit.wxs" if="${runtime.version >= '2.0'}"/>
+        <include name="NUnit-net-1.1.wxs" unless="${runtime.version >= '2.0'}"/>
         <include name="bin.wxs" />
-        <include name="nunit-gui.wxs" if="${runtime.version >= '2.0'}"/>
+        <include name="bin_x86.wxs" if="${runtime.version >= '2.0'}"/>
         <include name="doc.wxs" />
         <include name="tests.wxs" />
         <include name="samples.wxs" />
         <include name="pnunit.wxs" />
+        <include name="nunit-gui.wxs" if="${runtime.version >= '2.0'}"/>
       </sources>
     </candle>
 
@@ -190,13 +193,15 @@
       out="${project.package.dir}/${msi.file.name}" 
       locfile="${wix.dir}/WixUI_en-us.wxl">
       <sources>
-        <include name="${work.dir}/NUnit.wixobj" />
+        <include name="${work.dir}/NUnit.wixobj" if="${runtime.version >= '2.0'}"/>
+        <include name="${work.dir}/NUnit-net-1.1.wixobj" unless="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/bin.wixobj" />
-        <include name="${work.dir}/nunit-gui.wixobj" />
+        <include name="${work.dir}/bin_x86.wixobj" if="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/doc.wixobj" />
         <include name="${work.dir}/samples.wixobj" />
         <include name="${work.dir}/tests.wixobj" />
         <include name="${work.dir}/pnunit.wixobj" />
+        <include name="${work.dir}/nunit-gui.wixobj" if="${runtime.version >= '2.0'}"/>
         <include name="${wix.dir}/wixui.wixlib" />
       </sources>
     </light>

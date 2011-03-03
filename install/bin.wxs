@@ -17,10 +17,8 @@
 
     <ComponentGroup Id="ConsoleRunnerGroup">
       <ComponentRef Id="nunit_console"/>
-      <ComponentRef Id="nunit_console_x86"/>
       <ComponentRef Id="console.dll"/>
       <ComponentRef Id="nunit_agent"/>
-      <ComponentRef Id="nunit_agent_x86"/>
     </ComponentGroup>
 
     <DirectoryRef Id="bin" FileSource="bin">
@@ -30,21 +28,11 @@
         <File Id="console.config" Name="CONSOLE.CFG" LongName="nunit-console.exe.config" />
       </Component>
       
-      <Component Id="nunit_console_x86" DiskId="1" Guid="1243DDA4-E8A0-422d-BD0C-14F1D3EDCFCA">
-        <File Id="console_x86.exe" Name="CONSOL86.EXE" LongName="nunit-console-x86.exe" />
-        <File Id="console_x86.config" Name="CONSOL86.CFG" LongName="nunit-console-x86.exe.config" />
-      </Component>
-                
       <Component Id="nunit_agent" DiskId="1" Guid="E0819EB1-2DCE-4648-81CB-0C101ECB0109">
         <File Id="nunit_agent.exe" Name="AGENT.EXE" LongName="nunit-agent.exe" />
         <File Id="nunit_agent.config" Name="AGENT.CFG" LongName="nunit-agent.exe.config" />
       </Component>
 
-      <Component Id="nunit_agent_x86" DiskId="1" Guid="D2417C51-E283-4d75-BD4D-E47D9A7E64CD">
-        <File Id="nunit_agent_x86.exe" Name="AGENTX86.EXE" LongName="nunit-agent-x86.exe" />
-        <File Id="nunit_agent_x86.config" Name="AGENTX86.CFG" LongName="nunit-agent-x86.exe.config" />
-      </Component>
-          	  
     </DirectoryRef>
 
     <DirectoryRef Id="lib" FileSource="bin\lib">

@@ -6,7 +6,6 @@
       <ComponentRef Id="NUnitTestProject" />
       <ComponentRef Id="framework_copy_for_tests" />
       <ComponentRef Id="base_tests" />
-      <ComponentRef Id="gui_tests" />
       <ComponentRef Id="fit_tests" />
       <ComponentRef Id="fit_lib" />
     </ComponentGroup>
@@ -57,12 +56,6 @@
         <File Id="nunit.fixtures.tests.dll" Name="FIXTESTS.DLL" LongName="nunit.fixtures.tests.dll" />
       </Component>
           
-      <Component Id="gui_tests" DiskId="1" Guid="C7E0B8E5-DE60-455a-B247-B204A4C28677">
-        <File Id="nunit.uikit.tests" Name="TESTUIKI.DLL" LongName="nunit.uikit.tests.dll" />
-        <File Id="nunit.uiexception.tests.dll" Name="UIXCPTST.DLL" LongName="nunit.uiexception.tests.dll" />
-        <File Id="gui.tests" Name="GUITESTS.DLL" LongName="nunit-gui.tests.dll" />
-      </Component>
-
     </DirectoryRef>
 	
   </Fragment>

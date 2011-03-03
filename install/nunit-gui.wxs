@@ -15,6 +15,10 @@
       <ComponentRef Id="MenuShortcut_Mono_2.0" />
     </ComponentGroup>
         
+    <ComponentGroup Id="GuiTestsGroup">
+      <ComponentRef Id="gui_tests" />
+    </ComponentGroup>
+	
     <DirectoryRef Id="bin" FileSource="bin">
              
       <Component Id="nunit.exe" DiskId="1" Guid="E0AFF731-3B75-4a29-A885-076A46533D2D">
@@ -109,6 +113,16 @@
         <File Id="nunit.uiexception.dll" Name="UIXCPTN.DLL" LongName="nunit.uiexception.dll" />
       </Component>
       		
+    </DirectoryRef>
+
+    <DirectoryRef Id="tests" FileSource="bin\tests">
+
+      <Component Id="gui_tests" DiskId="1" Guid="C7E0B8E5-DE60-455a-B247-B204A4C28677">
+        <File Id="nunit.uikit.tests" Name="TESTUIKI.DLL" LongName="nunit.uikit.tests.dll" />
+        <File Id="nunit.uiexception.tests.dll" Name="UIXCPTST.DLL" LongName="nunit.uiexception.tests.dll" />
+        <File Id="gui.tests" Name="GUITESTS.DLL" LongName="nunit-gui.tests.dll" />
+      </Component>
+
     </DirectoryRef>
 
     <Icon Id="nunit_icon.exe" SourceFile="bin\nunit.exe" />
