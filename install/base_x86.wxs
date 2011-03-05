@@ -2,10 +2,12 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-    <ComponentGroup Id="X86RunnerGroup">
+    <FeatureRef Id="BaseFeature">
+
       <ComponentRef Id="nunit_console_x86"/>
       <ComponentRef Id="nunit_agent_x86"/>
-    </ComponentGroup>
+
+    </FeatureRef>
 
     <DirectoryRef Id="bin" FileSource="bin">
 

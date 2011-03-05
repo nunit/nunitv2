@@ -2,13 +2,15 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
   
-    <ComponentGroup Id="TestsGroup">
+    <FeatureRef Id="TestsFeature">
+
       <ComponentRef Id="NUnitTestProject" />
       <ComponentRef Id="framework_copy_for_tests" />
       <ComponentRef Id="base_tests" />
       <ComponentRef Id="fit_tests" />
       <ComponentRef Id="fit_lib" />
-    </ComponentGroup>
+
+    </FeatureRef>
 	
     <DirectoryRef Id="bin" FileSource="bin">
 

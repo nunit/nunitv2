@@ -179,8 +179,8 @@
       <sources basedir="${install.dir}">
         <include name="NUnit.wxs" if="${runtime.version >= '2.0'}"/>
         <include name="NUnit-net-1.1.wxs" unless="${runtime.version >= '2.0'}"/>
-        <include name="bin.wxs" />
-        <include name="bin_x86.wxs" if="${runtime.version >= '2.0'}"/>
+        <include name="base.wxs" />
+        <include name="base_x86.wxs" if="${runtime.version >= '2.0'}"/>
         <include name="doc.wxs" />
         <include name="tests.wxs" />
         <include name="samples.wxs" />
@@ -195,8 +195,8 @@
       <sources>
         <include name="${work.dir}/NUnit.wixobj" if="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/NUnit-net-1.1.wixobj" unless="${runtime.version >= '2.0'}"/>
-        <include name="${work.dir}/bin.wixobj" />
-        <include name="${work.dir}/bin_x86.wixobj" if="${runtime.version >= '2.0'}"/>
+        <include name="${work.dir}/base.wixobj" />
+        <include name="${work.dir}/base_x86.wixobj" if="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/doc.wixobj" />
         <include name="${work.dir}/samples.wixobj" />
         <include name="${work.dir}/tests.wixobj" />

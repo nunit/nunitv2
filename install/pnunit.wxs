@@ -2,12 +2,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-    <ComponentGroup Id="PNUnitGroup">
+    <FeatureRef Id="PNUnitRunner">
+
       <ComponentRef Id="pnunit_agent"/>
       <ComponentRef Id="pnunit_launcher"/>
       <ComponentRef Id="pnunit_framework"/>
       <ComponentRef Id="log4net"/>
-    </ComponentGroup>
+
+    </FeatureRef>
   
     <DirectoryRef Id="bin" FileSource="bin">
          

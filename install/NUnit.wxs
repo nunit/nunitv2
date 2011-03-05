@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
 
-  <Product UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A"
+  <Product 
+           UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A"
            Name="NUnit $(var.NominalVersion)"
 	   Id="321FC471-2945-4d25-8D04-10B6A7AE5F15"
            Version="$(var.ProductVersion)"
@@ -105,89 +106,30 @@
     <!-- **********      Define the NUnit feature tree          ********** -->
     <!-- ***************************************************************** -->
 
-    <Feature Id="TopLevelFeature" ConfigurableDirectory="INSTALLDIR"
+    <!-- Base features are defined in base.wxs and base_x86.wxs -->
+    <Feature Id="BaseFeature" ConfigurableDirectory="INSTALLDIR"
          Level="1" Title="NUnit $(var.NominalVersion)" Display='expand'
          Description="Installs the NUnit console runner and supporting assemblies required to write and run tests.">
 
-      <!-- Defined below -->
-      <ComponentRef Id="C__LICENSE" />
-      <ComponentRef Id="C__FIT_LICENSE" />
-      <ComponentRef Id="C__LOGO" />
-      <ComponentRef Id="InstallationRegistryEntry"/>
-
-      <!-- Defined in bin.wxs -->
-      <ComponentGroupRef Id="FrameworkGroup"/>
-      <ComponentGroupRef Id="CoreGroup"/>
-      <ComponentGroupRef Id="ConsoleRunnerGroup" />
-
-      <!-- Defined in bin_x86.wxs -->
-      <ComponentGroupRef Id="X86RunnerGroup" />
-
+      <!-- Defined in nunit-gui.wxs -->
       <Feature Id="GuiRunner" Level="1" Title='Gui Runner' Display='expand'
-				         Description="Installs the NUnit GUI runner.">
+				         Description="Installs the NUnit GUI runner."/>
 
-        <ComponentGroupRef Id="GuiRunnerGroup"/>
-
-      </Feature>
-
+      <!-- Defined in pnunit.wxs -->
       <Feature Id="PNunitRunner" Level="10" Title='PNUnit Runner' Display='expand'
-               Description="Installs the PNUnit runner for parallel distributed tests.">
+               Description="Installs the PNUnit runner for parallel distributed tests."/>
 
-        <ComponentGroupRef Id="PNUnitGroup"/>
-
-      </Feature>
-
+      <!-- Defined in tests.wxs and nunit-gui.wxs -->
       <Feature Id="TestsFeature" Level="10" Title='Unit Tests' Display='expand'
-				         Description='Installs the unit tests for NUnit itself.'>
+				         Description='Installs the unit tests for NUnit itself.'/>
 
-        <ComponentGroupRef Id="TestsGroup" />
-        <ComponentGroupRef Id="GuiTestsGroup" />
-
-      </Feature>
-
+      <!-- Defined in doc.wxs -->
       <Feature Id="DocumentationFeature" Level="1" Title='Documentation' Display='expand'
-          Description="Installs the NUnit documentation.">
-
-        <ComponentGroupRef Id="DocumentationComponents"/>
-
-      </Feature>
-
+          Description="Installs the NUnit documentation."/>
 
       <!-- Defined in samples.wxs -->
       <Feature Id="SamplesFeature" Level="1" Title='Samples' Display='collapse'
-               Description='Installs sample code showing the use of NUnit.' >
-
-        <ComponentGroupRef Id="SampleComponents"/>
-
-        <Feature Id="CSharpSamples" Level="1" Title='C# Samples' Display='expand'
-               Description='Installs C# samples.' >
-
-          <ComponentGroupRef Id="CSharpSampleComponents"/>
-
-        </Feature>
-
-        <Feature Id="VBSamples" Level="1" Title='Visual Basic Samples' Display='expand'
-               Description='Installs Visual Basic samples.' >
-
-          <ComponentGroupRef Id="VBSampleComponents"/>
-
-        </Feature>
-
-        <Feature Id="JSharpSamples" Level="1" Title='J# Samples' Display='expand'
-               Description='Installs J# samples.' >
-
-          <ComponentGroupRef Id="JSharpSampleComponents"/>
-
-        </Feature>
-
-        <Feature Id="CPPSamples" Level="1" Title='C++ Samples' Display='expand'
-               Description='Installs C++ samples.' >
-
-          <ComponentGroupRef Id="CPPSampleComponents"/>
-
-        </Feature>
-
-      </Feature>
+               Description='Installs sample code showing the use of NUnit.' />
 
     </Feature>
 
@@ -201,40 +143,6 @@
     <!--<UIRef Id="WixUI_Mondo" />-->
     <UIRef Id="WixUI_FeatureTree" />
     <UIRef Id="WixUI_ErrorProgressText" />
-
-    <!-- ***************************************************************** -->
-    <!-- **********       Define Top-level Components           ********** -->
-    <!-- ***************************************************************** -->
-
-    <DirectoryRef Id="INSTALLDIR">
-
-      <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
-        <File Id="_LOGO" Name="Logo.ico" Source="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
-        <RemoveFile Id="RemoveThumbnails" Name="*" On="uninstall" />
-      </Component>
-
-      <Component Id="C__LICENSE" Guid="7D03AE6B-15A7-16E0-0D21-D65708B2FA79">
-        <File Id="_LICENSE" Name="license.txt" Source="license.txt" Vital="yes" KeyPath="yes" DiskId="1" />
-      </Component>
-
-      <Component Id="C__FIT_LICENSE" Guid="6C47563D-CDCD-4a65-BD89-A37F3A3C681D">
-        <File Id="fit_license.txt" Name="FITLICNS.TXT" LongName="fit-license.txt"
-              Source="fit-license.txt" Vital="yes" KeyPath="yes" DiskId="1" />
-      </Component>
-
-      <Component Id="InstallationRegistryEntry" Guid="FD139082-C1B1-46be-AA70-BA970EBDF397">
-
-        <Registry Id="R__INSTALLDIR" Root="HKMU"
-                  Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)"
-                  Name="InstallDir" Action="write" Type="string" Value="[INSTALLDIR]" />
-
-        <Registry Id="R__ProductVersion" Root="HKMU"
-                  Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)"
-                  Name="ProductVersion" Action="write" Type="string" Value="[ProductVersion]" />
-
-      </Component>
-
-    </DirectoryRef>
 
   </Product>
 </Wix>

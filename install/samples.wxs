@@ -1,65 +1,80 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-    <ComponentGroup Id="SampleComponents">
+    <FeatureRef Id="SamplesFeature">
+
       <ComponentRef Id="C__SamplesCommon" />
       <ComponentRef Id="C__SampleShortcuts" />
-    </ComponentGroup>
 
-    <ComponentGroup Id="CSharpSampleComponents">
-      <ComponentRef Id="C__CSharp_Samples" />
-      <ComponentRef Id="C__CSharp_Failures" />
-      <ComponentRef Id="C__CSharp_Money" />
-      <ComponentRef Id="C__CSharp_Syntax" />
+      <Feature Id="CSharpSamples" Level="1" Title='C# Samples' Display='expand'
+             Description='Installs C# samples.' >
 
-      <!-- Core Extensibility Samples -->
-      <ComponentRef Id="C__CoreExtensibility" />
-      <ComponentRef Id="C__MinimalAddin" />
-      <ComponentRef Id="C__SampleSuiteExtension" />
-      <ComponentRef Id="C__SampleSuiteExtension_Tests" />
-      <ComponentRef Id="C__SampleFixtureExtension" />
-      <ComponentRef Id="C__SampleFixtureExtension_Tests" />
-    </ComponentGroup>
+        <ComponentRef Id="C__CSharp_Samples" />
+        <ComponentRef Id="C__CSharp_Failures" />
+        <ComponentRef Id="C__CSharp_Money" />
+        <ComponentRef Id="C__CSharp_Syntax" />
+
+        <!-- Core Extensibility Samples -->
+        <ComponentRef Id="C__CoreExtensibility" />
+        <ComponentRef Id="C__MinimalAddin" />
+        <ComponentRef Id="C__SampleSuiteExtension" />
+        <ComponentRef Id="C__SampleSuiteExtension_Tests" />
+        <ComponentRef Id="C__SampleFixtureExtension" />
+        <ComponentRef Id="C__SampleFixtureExtension_Tests" />
+
+      </Feature>
+
+      <Feature Id="VBSamples" Level="1" Title='Visual Basic Samples' Display='expand'
+             Description='Installs Visual Basic samples.' >
+
+        <ComponentRef Id="C__VB_Samples" />
+        <ComponentRef Id="C__VB_Failures" />
+        <ComponentRef Id="C__VB_Money" />
+        <ComponentRef Id="C__VB_Syntax" />
+
+      </Feature>
+
+      <Feature Id="JSharpSamples" Level="1" Title='J# Samples' Display='expand'
+             Description='Installs J# samples.' >
+
+        <ComponentRef Id="C__JSharp_Samples" />
+        <ComponentRef Id="C__JSharp_Failures" />
+
+      </Feature>
+
+      <Feature Id="CPPSamples" Level="1" Title='C++ Samples' Display='expand'
+             Description='Installs C++ samples.' >
+
+        <!-- Managed C++ Samples -->
+        <ComponentRef Id="C__CPP_Managed_Samples" />
+        <ComponentRef Id="C__CPP_Managed_Failures" />
+
+        <!-- C++/CLI Samples -->
+        <ComponentRef Id="C__CPP_CLI_Samples" />
+        <ComponentRef Id="C__CPP_CLI_Failures" />
+        <ComponentRef Id="C__CPP_CLI_Syntax" />
+
+      </Feature>
+
+    </FeatureRef>
+
+    <!-- Menu Shortcuts to samples -->
+    <DirectoryRef Id="samples" FileSource="$(var.InstallImage)\samples">
 	
-    <ComponentGroup Id="JSharpSampleComponents">
-      <ComponentRef Id="C__JSharp_Samples" />
-      <ComponentRef Id="C__JSharp_Failures" />
-    </ComponentGroup>
-
-    <ComponentGroup Id="CPPSampleComponents">
-      <ComponentRef Id="C__CPP_Managed_Samples" />
-      <ComponentRef Id="C__CPP_Managed_Failures" />
-
-      <!-- C++/CLI Samples -->
-      <ComponentRef Id="C__CPP_CLI_Samples" />
-      <ComponentRef Id="C__CPP_CLI_Failures" />
-      <ComponentRef Id="C__CPP_CLI_Syntax" />
-    </ComponentGroup>
-
-    <ComponentGroup Id="VBSampleComponents">
-      <ComponentRef Id="C__VB_Samples" />
-      <ComponentRef Id="C__VB_Failures" />
-      <ComponentRef Id="C__VB_Money" />
-      <ComponentRef Id="C__VB_Syntax" />
-    </ComponentGroup>
+      <Component Id="C__SampleShortcuts" DiskId="1" Guid="CCDAEC65-EED0-4794-89D0-363EB1AC3CC9">
+        <Shortcut Id="S__csharp" Target="[csharp]" Directory="SamplesMenu" Name="SCSHARP" LongName="C#" Show="normal" />
+        <Shortcut Id="S__jsharp" Target="[jsharp]" Directory="SamplesMenu" Name="SJSHARP" LongName="J#" Show="normal" />
+        <Shortcut Id="S__cpp" Target="[cpp]" Directory="SamplesMenu" Name="SCPP" LongName="C++" Show="normal" />
+        <Shortcut Id="S__vb" Target="[vb]" Directory="SamplesMenu" Name="SVB" LongName="VB" Show="normal" />
+        <Shortcut Id="S__extensibility" Target="[extensibility]" Directory="SamplesMenu" Name="SEXTENSI"             LongName="Extensibility" Show="normal" />
+      </Component>
 		
-	<!-- Menu Shortcuts to samples -->
-	<DirectoryRef Id="samples" FileSource="$(var.InstallImage)\samples">
-	
-        <Component Id="C__SampleShortcuts" DiskId="1" Guid="CCDAEC65-EED0-4794-89D0-363EB1AC3CC9">
-          <Shortcut Id="S__csharp" Target="[csharp]" Directory="SamplesMenu" Name="SCSHARP" LongName="C#" Show="normal" />
-          <Shortcut Id="S__jsharp" Target="[jsharp]" Directory="SamplesMenu" Name="SJSHARP" LongName="J#" Show="normal" />
-          <Shortcut Id="S__cpp" Target="[cpp]" Directory="SamplesMenu" Name="SCPP" LongName="C++" Show="normal" />
-          <Shortcut Id="S__vb" Target="[vb]" Directory="SamplesMenu" Name="SVB" LongName="VB" Show="normal" />
-          <Shortcut Id="S__extensibility" Target="[extensibility]" Directory="SamplesMenu" Name="SEXTENSI" LongName="Extensibility" Show="normal" />
-	</Component>
+      <Component Id="C__SamplesCommon" DiskId="1" Guid="9FBE1436-920F-450b-9E7E-D85473E727B4">
+        <File Id="ReadMe.txt" Name="ReadMe.txt" />
+        <File Id="samples.common" Name="SAMPLES.CMN" LongName="samples.common" />
+      </Component>
 		
-	<Component Id="C__SamplesCommon" DiskId="1" Guid="9FBE1436-920F-450b-9E7E-D85473E727B4">
-	  <File Id="ReadMe.txt" Name="ReadMe.txt" />
-	  <File Id="samples.common" Name="SAMPLES.CMN" LongName="samples.common" />
-	</Component>
-		
-	</DirectoryRef>
+    </DirectoryRef>
 
     <!-- C# Samples -->	
     <DirectoryRef Id="csharp" FileSource="$(var.InstallImage)\samples\csharp">

@@ -2,7 +2,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi"> 
   <Fragment> 
     
-    <ComponentGroup Id="GuiRunnerGroup">
+    <FeatureRef Id="GuiRunner">
+
       <ComponentRef Id="nunit.exe" />
       <ComponentRef Id="nunit_x86" />
       <ComponentRef Id="nunit_gui_runner" />
@@ -13,11 +14,12 @@
       <ComponentRef Id="MenuShortcut_NUnit" />
       <ComponentRef Id="MenuShortcut_2.0" />
       <ComponentRef Id="MenuShortcut_Mono_2.0" />
-    </ComponentGroup>
+
+    </FeatureRef>
         
-    <ComponentGroup Id="GuiTestsGroup">
+    <FeatureRef Id="TestsFeature">
       <ComponentRef Id="gui_tests" />
-    </ComponentGroup>
+    </FeatureRef>
 	
     <DirectoryRef Id="bin" FileSource="bin">
              
