@@ -4,6 +4,8 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 using System;
+using System.IO;
+using System.Reflection;
 using NUnit.Core;
 
 namespace NUnit.Util
@@ -43,18 +45,21 @@ namespace NUnit.Util
 
             if (targetVersion == RuntimeFramework.DefaultVersion)
             {
-                foreach (string assembly in package.Assemblies)
-                {
-                    using (AssemblyReader reader = new AssemblyReader(assembly))
+                if (Services.UserSettings.GetSetting("Options.TestLoader.RuntimeSelectionEnabled", true))
+                    foreach (string assembly in package.Assemblies)
                     {
-                        Version v = new Version(reader.ImageRuntimeVersion.Substring(1));
-                        log.Debug("Assembly {0} uses version {1}", assembly, v);
-                        if (v > targetVersion) targetVersion = v;
+                        using (AssemblyReader reader = new AssemblyReader(assembly))
+                        {
+                            Version v = new Version(reader.ImageRuntimeVersion.Substring(1));
+                            log.Debug("Assembly {0} uses version {1}", assembly, v);
+                            if (v > targetVersion) targetVersion = v;
+                        }
                     }
-                }
+                else
+                    targetVersion = RuntimeFramework.CurrentFramework.ClrVersion;
 
                 RuntimeFramework checkFramework = new RuntimeFramework(targetRuntime, targetVersion);
-                if (!checkFramework.IsAvailable || NUnitConfiguration.GetTestAgentExePath(targetVersion) == null)
+                if (!checkFramework.IsAvailable || !Services.TestAgency.IsRuntimeVersionSupported(targetVersion))
                 {
                     log.Debug("Preferred version {0} is not installed or this NUnit installation does not support it", targetVersion);
                     if (targetVersion < currentFramework.FrameworkVersion)

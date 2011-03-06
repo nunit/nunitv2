@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -131,6 +131,12 @@
     <Compile Include="SettingsPages\AssemblyReloadSettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="SettingsPages\RuntimeSelectionSettingsPage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsPages\RuntimeSelectionSettingsPage.Designer.cs">
+      <DependentUpon>RuntimeSelectionSettingsPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsPages\GuiSettingsPage.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -185,6 +191,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsPages\AssemblyReloadSettingsPage.resx">
       <DependentUpon>AssemblyReloadSettingsPage.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsPages\RuntimeSelectionSettingsPage.resx">
+      <DependentUpon>RuntimeSelectionSettingsPage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="SettingsPages\GuiSettingsPage.resx">

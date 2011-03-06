@@ -18,6 +18,8 @@
     <include name="SettingsPages/GuiSettingsPage.cs"/>
     <include name="SettingsPages/InternalTraceSettingsPage.cs"/>
     <include name="SettingsPages/InternalTraceSettingsPage.Designer.cs"/>
+    <include name="SettingsPages/RuntimeSelectionSettingsPage.cs"/>
+    <include name="SettingsPages/RuntimeSelectionSettingsPage.Designer.cs"/>
     <include name="SettingsPages/TestLoaderSettingsPage.cs"/>
     <include name="SettingsPages/TestResultSettingsPage.cs"/>
     <include name="SettingsPages/TreeSettingsPage.cs"/>

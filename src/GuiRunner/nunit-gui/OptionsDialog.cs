@@ -26,6 +26,7 @@ namespace NUnit.Gui
 				new TextOutputSettingsPage("Gui.Text Output"),
 				new TestLoaderSettingsPage("Test Loader.Assembly Isolation"),
 				new AssemblyReloadSettingsPage("Test Loader.Assembly Reload"),
+                new RuntimeSelectionSettingsPage("Test Loader.Runtime Selection"),
 				new AdvancedLoaderSettingsPage("Test Loader.Advanced"),
 				new VisualStudioSettingsPage("IDE Support.Visual Studio"),
                 new InternalTraceSettingsPage("Advanced Settings.Internal Trace"));

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Specialized;
+using System.Reflection;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Services;
 using System.Runtime.Remoting.Channels;
@@ -101,6 +102,18 @@ namespace NUnit.Util
 		#endregion
 
 		#region Public Methods - Called by Clients
+
+        public bool IsRuntimeVersionSupported(Version version)
+        {
+            if (version.Major == 1)
+            {
+                if (!Services.UserSettings.GetSetting("Options.TestLoader.Net-1.1.Support", false))
+                    return false;
+            }
+
+            return GetNUnitBinDirectory(version) != null;
+        }
+
 		public TestAgent GetAgent()
 		{
 			return GetAgent( RuntimeFramework.CurrentFramework, Timeout.Infinite );
@@ -159,7 +172,7 @@ namespace NUnit.Util
 		#region Helper Methods
 		private Guid LaunchAgentProcess(RuntimeFramework targetRuntime, bool enableDebug)
 		{
-            string agentExePath = NUnitConfiguration.GetTestAgentExePath(targetRuntime.ClrVersion);
+            string agentExePath = GetTestAgentExePath(targetRuntime.ClrVersion);
 
             if (agentExePath == null)
                 throw new ArgumentException(
@@ -253,7 +266,90 @@ namespace NUnit.Util
 
 			return null;
 		}
-		#endregion
+
+        /// <summary>
+        /// Return the NUnit Bin Directory for a particular
+        /// runtime version, or null if it's not installed.
+        /// For normal installations, there are only 1.1 and
+        /// 2.0 directories. However, this method accomodates
+        /// 3.5 and 4.0 directories for the benefit of NUnit
+        /// developers using those runtimes.
+        /// </summary>
+        private static string GetNUnitBinDirectory(Version v)
+        {
+            string dir = NUnitConfiguration.NUnitBinDirectory;
+
+            if ((Environment.Version.Major >= 2) == (v.Major >= 2))
+                return dir;
+
+            string[] v1Strings = new string[] { "1.0", "1.1" };
+            string[] v2Strings = new string[] { "2.0", "3.0", "3.5", "4.0" };
+
+            string[] search;
+            string[] replace;
+
+            if (Environment.Version.Major == 1)
+            {
+                search = v1Strings;
+                replace = v2Strings;
+            }
+            else
+            {
+                search = v2Strings;
+                replace = v1Strings;
+            }
+
+            // Look for current value in path so it can be replaced
+            string current = null;
+            foreach (string s in search)
+                if (dir.IndexOf(s) >= 0)
+                {
+                    current = s;
+                    break;
+                }
+
+            // Try substitution first, since this helps in development
+            if (current != null)
+            {
+                // First try exact replacement
+                string altDir = dir.Replace(current, v.ToString(2));
+                if (Directory.Exists(altDir))
+                    return altDir;
+
+                // Now try all the alternatives
+                foreach (string target in replace)
+                {
+                    altDir = dir.Replace(current, target);
+                    if (Directory.Exists(altDir))
+                        return altDir;
+                }
+            }
+
+            // Nothing was found - use setting for .NET 1.1 if present
+            return v.Major == 1
+                ? (string)Services.UserSettings.GetSetting("Options.TestLoader.Net-1.1.BinDirectory")
+                : null;
+        }
+
+        private static string GetTestAgentExePath(Version v)
+        {
+            string binDir = GetNUnitBinDirectory(v);
+            if (binDir == null) return null;
+
+#if NET_2_0
+            Assembly a = System.Reflection.Assembly.GetEntryAssembly();
+            string agentName = v.Major > 1 && a != null && a.GetName().ProcessorArchitecture == ProcessorArchitecture.X86
+                ? "nunit-agent-x86.exe"
+                : "nunit-agent.exe";
+#else
+            string agentName = "nunit-agent.exe";
+#endif
+
+            string agentExePath = Path.Combine(binDir, agentName);
+            return File.Exists(agentExePath) ? agentExePath : null;
+        }
+
+        #endregion
 
 		#region IService Members
 
