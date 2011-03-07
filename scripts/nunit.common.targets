@@ -192,6 +192,7 @@
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.0"/>
+    <property name="target.version" value="1.0"/>
     <property name="runtime.config" value="net-1.0"/>
     <property name="runtime.defines" value="MSNET,NET_1_0"/>
     <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
@@ -199,7 +200,6 @@
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="false"/>
     <property name="build.gui" value="false"/>
-    <property name="build.sdk" value="net-1.0"/>
     <property name="nant.settings.currentframework" 
       value="net-1.0"/>
     <property name="supported.test.platforms" 
@@ -214,6 +214,7 @@
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.1"/>
+    <property name="target.version" value="1.1"/>
     <property name="runtime.config" value="net-1.1"/>
     <property name="runtime.defines" value="MSNET,NET_1_1"/>
     <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
@@ -221,7 +222,6 @@
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="false"/>
     <property name="build.gui" value="false"/>
-    <property name="build.sdk" value="net-1.1"/>
     <property name="nant.settings.currentframework" 
       value="net-1.1"/>
     <property name="supported.test.platforms"
@@ -231,16 +231,12 @@
   <target name="set-net-2.0-runtime-config">
     <fail unless="${framework::exists('net-2.0')}"
       message="The .NET 2.0 runtime is not installed"/>
-
-    <property name="build.sdk" value="net-3.5"
-      if="${framework::sdk-exists('net-3.5')}"/>
-    <property name="build.sdk" value="net-2.0"
-      if="${framework::sdk-exists('net-2.0')}"/>
-    <fail unless="${property::exists('build.sdk')}"
-      message="No SDK is installed that supports net-2.0"/>
+    <fail unless="${framework::sdk-exists('net-2.0')}"
+      message="The .NET 2.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="2.0"/>
+    <property name="target.version" value="2.0"/>
     <property name="runtime.config" value="net-2.0"/>
     <property name="runtime.defines" value="MSNET,NET_2_0"/>
     <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
@@ -283,6 +279,7 @@
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="3.5"/>
+    <property name="target.version" value="2.0"/>
     <property name="runtime.config" value="net-3.5"/>
     <property name="runtime.defines" value="MSNET,NET_2_0,CS_3_0"/>
     <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
@@ -290,7 +287,6 @@
     <property name="build.win32" value="true"/>
     <property name="build.x86" value="true"/>
     <property name="build.gui" value="true"/>
-    <property name="build.sdk" value="net-3.5"/>
     <property name="nant.settings.currentframework" 
       value="net-3.5"/>
     <property name="supported.test.platforms" value="net-3.5,mono-3.5"/>
@@ -304,6 +300,7 @@
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="4.0"/>
+    <property name="target.version" value="2.0"/>
     <property name="runtime.config" value="net-4.0"/>
     <property name="runtime.defines" value="MSNET,NET_2_0,CS_3_0"/>
     <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
@@ -324,6 +321,7 @@
 
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="1.0"/>
+    <property name="target.version" value="1.0"/>
     <property name="runtime.config" value="mono-1.0"/>
     <property name="runtime.defines" value="MONO,NET_1_1"/>
     <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
@@ -345,6 +343,7 @@
 
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="2.0"/>
+    <property name="target.version" value="2.0"/>
     <property name="runtime.config" value="mono-2.0"/>
     <property name="runtime.defines" value="MONO,NET_2_0"/>
     <property name="build.mono" value="true"/>
@@ -459,10 +458,10 @@
     </if>
     <echo>     General Default: ${default.runtime}</echo>
     <echo></echo>
-    <echo>Current Build Target</echo>
+    <echo>Current Build Info</echo>
     <echo>  Config:    ${build.config}</echo>
     <echo>  Runtime:   ${runtime.config}</echo>
-    <echo>  Build SDK: ${build.sdk}</echo>
+    <echo>  Target Version: ${target.config}</echo>
     <echo>  Build Dir: ${current.build.dir}</echo>
     <echo>  Defines:   ${build.defines}</echo>
     <echo></echo>

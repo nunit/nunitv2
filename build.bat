@@ -1,13 +1,13 @@
 @echo off
 
-rem Wrapper script for nant build targets
+rem BUILD - Builds and tests NUnit
 
 setlocal
 
 set NANT=tools\NAnt-0.90\bin\nant.exe
 set OPTIONS=-f:scripts\nunit.build.targets
 set CONFIG=
-set TARGET=
+set RUNTIME=
 set CLEAN=
 set COMMANDS=
 goto start
@@ -24,32 +24,41 @@ IF /I "%1" EQU "/help"	goto usage
 IF /I "%1" EQU "debug" set CONFIG=debug&goto shift
 IF /I "%1" EQU "release" set CONFIG=release&goto shift
 
-IF /I "%1" EQU "net" set TARGET=net&goto shift
-IF /I "%1" EQU "net-1.0" set TARGET=net-1.0&goto shift
-IF /I "%1" EQU "net-1.1" set TARGET=net-1.1&goto shift
-IF /I "%1" EQU "net-2.0" set TARGET=net-2.0&goto shift
-IF /I "%1" EQU "net-3.0" set TARGET=net-3.0&goto shift
-IF /I "%1" EQU "net-3.5" set TARGET=net-3.5&goto shift
-IF /I "%1" EQU "net-4.0" set TARGET=net-4.0&goto shift
+IF /I "%1" EQU "net" set RUNTIME=net&goto shift
+IF /I "%1" EQU "net-1.0" set RUNTIME=net-1.0&goto shift
+IF /I "%1" EQU "net-1.1" set RUNTIME=net-1.1&goto shift
+IF /I "%1" EQU "net-2.0" set RUNTIME=net-2.0&goto shift
+IF /I "%1" EQU "net-3.0" set RUNTIME=net-3.0&goto shift
+IF /I "%1" EQU "net-3.5" set RUNTIME=net-3.5&goto shift
+IF /I "%1" EQU "net-4.0" set RUNTIME=net-4.0&goto shift
 
-IF /I "%1" EQU "mono" set TARGET=mono&goto shift
-IF /I "%1" EQU "mono-1.0" set TARGET=mono-1.0&goto shift
-IF /I "%1" EQU "mono-2.0" set TARGET=mono-2.0&goto shift
-IF /I "%1" EQU "mono-3.5" set TARGET=mono-3.5&goto shift
-IF /I "%1" EQU "mono-4.0" set TARGET=mono-4.0&goto shift
+IF /I "%1" EQU "mono" set RUNTIME=mono&goto shift
+IF /I "%1" EQU "mono-1.0" set RUNTIME=mono-1.0&goto shift
+IF /I "%1" EQU "mono-2.0" set RUNTIME=mono-2.0&goto shift
+IF /I "%1" EQU "mono-3.5" set RUNTIME=mono-3.5&goto shift
+IF /I "%1" EQU "mono-4.0" set RUNTIME=mono-4.0&goto shift
 
 if "%1" EQU "clean" set CLEAN=clean&goto shift
 IF "%1" EQU "samples" set COMMANDS=%COMMANDS% build-samples&goto shift
 IF "%1" EQU "tools" set COMMANDS=%COMMANDS% build-tools&goto shift
 
-IF "%1" NEQ "" set COMMANDS=%COMMANDS% %1&goto shift
+IF "%1" NEQ "" goto error
 
 if "%CONFIG%" NEQ "" set OPTIONS=%OPTIONS% -D:build.config=%CONFIG%
-if "%TARGET%" NEQ "" set OPTIONS=%OPTIONS% -D:runtime.config=%TARGET%
+if "%RUNTIME%" NEQ "" set OPTIONS=%OPTIONS% -D:runtime.config=%RUNTIME%
 
 if "%COMMANDS%" EQU "" set COMMANDS=build
 
 %NANT% %OPTIONS% %CLEAN% %COMMANDS%
+
+goto done
+
+: error
+
+echo Invalid option: $1
+echo.
+echo Use BUILD /help for more information.
+echo.
 
 goto done
 
@@ -64,10 +73,18 @@ echo.
 echo   debug          Builds debug configuration (default)
 echo   release        Builds release configuration
 echo.
-echo   net-4.0        Targets .NET 4.0 (future)
-echo   net-2.0        Targets .NET 2.0 (default)
-echo   net-1.1        Targets .NET 1.1
-echo   net-1.0        Targets .NET 1.0
+echo   net-4.0        Builds using .NET 4.0 framework (future)
+echo   net-3.5        Builds using .NET 3.5 framework (default)
+echo   net-2.0        Builds using .NET 2.0 framework
+echo   net-1.1        Builds using .NET 1.1 framework
+echo   net-1.0        Builds using .NET 1.0 framework
+echo   mono-4.0       Builds using Mono 4.0 profile (future)
+echo   mono-3.5       Builds using Mono 3.5 profile (default)
+echo   mono-2.0       Builds using Mono 2.0 profile
+echo   mono-1.0       Builds using Mono 1.0 profile
+echo.
+echo   net            Builds using default .NET version
+echo   mono           Builds using default Mono profile
 echo.
 echo   clean          Cleans the output directory before building
 echo.
@@ -79,10 +96,14 @@ echo   gui-test       Runs tests for a build using the NUnit gui
 echo.
 echo   ?, /h, /help   Displays this help message
 echo.
-echo In addition, any valid target in the NAnt script may
-echo be supplied as an argument. This requires some degree
-echo of familiarity with the script, in order to avoid
-echo use of incompatible options.
-echo.   
+echo Notes:
+echo.
+echo   1. The default .NET or Mono version to be used is selected
+echo      automatically by the NAnt script from those installed.
+echo.
+echo   2. When building under a framework version of 3.5 or higher,
+echo      the 2.0 framework is targeted for NUnit itself. Tests use
+echo      the specified higher level framework.
+echo.
 
 : done
