@@ -30,7 +30,9 @@ namespace NUnit.Core
             this.tearDownMethods = 
                 Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
 
+#if NET_2_0 || NET_3_5
             this.actions = ActionsHelper.GetActionsFromTypeAttributes(this.FixtureType);
+#endif
         }
 
         protected override void DoOneTimeSetUp(TestResult suiteResult)

@@ -43,6 +43,7 @@ namespace NUnit.Core
 		/// </summary>
 		protected MethodInfo[] tearDownMethods;
 
+#if NET_2_0 || NET_3_5
         /// <summary>
         /// The actions
         /// </summary>
@@ -52,6 +53,7 @@ namespace NUnit.Core
         /// The parent suite's actions
         /// </summary>
 	    protected object[] suiteActions;
+#endif
 
         /// <summary>
         /// The ExpectedExceptionProcessor for this test, if any
@@ -229,13 +231,17 @@ namespace NUnit.Core
                 {
                     this.setUpMethods = suite.GetSetUpMethods();
                     this.tearDownMethods = suite.GetTearDownMethods();
+#if NET_2_0 || NET_3_5
                     this.suiteActions = suite.GetTestActions();
+#endif
                 }
             }
 
             try
             {
+#if NET_2_0 || NET_3_5
                 this.actions = ActionsHelper.GetActionsFromAttributes(method);
+#endif
 
                 // Temporary... to allow for tests that directly execute a test case);
                 if (Fixture == null && !method.IsStatic)
@@ -315,7 +321,9 @@ namespace NUnit.Core
 			try
 			{
                 RunSetUp();
+#if NET_2_0 || NET_3_5
 			    RunBeforeActions(testResult);
+#endif
 
 				RunTestCase( testResult );
 			}
@@ -330,7 +338,9 @@ namespace NUnit.Core
 			}
 			finally 
 			{
+#if NET_2_0 || NET_3_5
 			    RunAfterActions(testResult);
+#endif
 				RunTearDown( testResult );
 
 				DateTime stop = DateTime.Now;
@@ -368,6 +378,7 @@ namespace NUnit.Core
 
 		#region Invoke Methods by Reflection, Recording Errors
 
+#if NET_2_0 || NET_3_5
         private void RunBeforeActions(TestResult testResult)
         {
             object[][] targetActions = new object[][] { this.suiteActions, this.actions };
@@ -389,7 +400,7 @@ namespace NUnit.Core
                 testResult.Error(ex, FailureSite.TearDown);
             }
         }
-
+#endif
 
 	    private void RunSetUp()
         {

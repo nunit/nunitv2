@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿#if NET_2_0 || NET_3_5
+using NUnit.Framework;
 using NUnit.TestData;
 using NUnit.TestData.ActionAttributeTests;
 
@@ -97,3 +98,4 @@ namespace NUnit.Core.Tests
         }
     }
 }
+#endif

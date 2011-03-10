@@ -1,4 +1,11 @@
-﻿using System;
+﻿// ****************************************************************
+// Copyright 2011, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org
+// ****************************************************************
+
+#if NET_2_0 || NET_3_5
+using System;
 using System.Reflection;
 
 namespace NUnit.Framework
@@ -23,3 +30,4 @@ namespace NUnit.Framework
         void AfterTestCase(object fixture, MethodInfo method);
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET_2_0 || NET_3_5
+using System;
 using System.Collections.Specialized;
 using NUnit.Framework;
 using System.Diagnostics;
@@ -111,3 +112,4 @@ namespace NUnit.TestData.ActionAttributeTests
         }
     }
 }
+#endif

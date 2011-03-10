@@ -21,7 +21,9 @@ namespace NUnit.Core
         /// <param name="path">The path.</param>
         public TestAssembly(Assembly assembly, string path) : base(path)
         {
+#if NET_2_0 || NET_3_5
             this.actions = ActionsHelper.GetActionsFromAttributes(assembly);
+#endif
         }
 
         /// <summary>

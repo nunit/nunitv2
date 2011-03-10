@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET_2_0 || NET_3_5
+using System;
 using System.Reflection;
 using NUnit.Framework;
 
@@ -104,3 +105,4 @@ namespace NUnit.TestData
         }
     }
 }
+#endif
