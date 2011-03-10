@@ -40,10 +40,13 @@
 
   <property name="build.debug" value="true"
             unless="${property::exists('build.debug')}" />
-  <property name="build.config" value="Debug"
-            if="${build.debug}" />
-  <property name="build.config" value="Release"
-            unless="${build.debug}" />
+
+  <if test="${not property::exists('build.config')}">
+    <property name="build.config" value="Debug"
+              if="${build.debug}" />
+    <property name="build.config" value="Release"
+              unless="${build.debug}" />
+  </if>
 
 
   <target name="clean" description="Remove files created by build">

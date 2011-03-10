@@ -10,12 +10,17 @@ set CONFIG=
 set RUNTIME=
 set CLEAN=
 set COMMANDS=
+set FLAG=
 goto start
 
 :shift
 shift /1
 
 :start
+
+IF "%1" EQU "" goto execute
+
+IF "%FLAG%" NEQ "" set COMMANDS=%COMMANDS% %1&goto shift
 
 IF /I "%1" EQU "?"	goto usage
 IF /I "%1" EQU "/h"	goto usage
@@ -38,11 +43,20 @@ IF /I "%1" EQU "mono-2.0" set RUNTIME=mono-2.0&goto shift
 IF /I "%1" EQU "mono-3.5" set RUNTIME=mono-3.5&goto shift
 IF /I "%1" EQU "mono-4.0" set RUNTIME=mono-4.0&goto shift
 
-if "%1" EQU "clean" set CLEAN=clean&goto shift
-IF "%1" EQU "samples" set COMMANDS=%COMMANDS% build-samples&goto shift
-IF "%1" EQU "tools" set COMMANDS=%COMMANDS% build-tools&goto shift
+if /I "%1" EQU "clean" set CLEAN=clean&goto shift
+IF /I "%1" EQU "samples" set COMMANDS=%COMMANDS% build-samples&goto shift
+IF /I "%1" EQU "tools" set COMMANDS=%COMMANDS% build-tools&goto shift
 
-IF "%1" NEQ "" goto error
+IF "%1" EQU "--" set FLAG=1&goto shift
+
+echo Invalid option: %1
+echo.
+echo Use BUILD /help for more information.
+echo.
+
+goto done
+
+:execute
 
 if "%CONFIG%" NEQ "" set OPTIONS=%OPTIONS% -D:build.config=%CONFIG%
 if "%RUNTIME%" NEQ "" set OPTIONS=%OPTIONS% -D:runtime.config=%RUNTIME%
@@ -53,20 +67,11 @@ if "%COMMANDS%" EQU "" set COMMANDS=build
 
 goto done
 
-: error
-
-echo Invalid option: $1
-echo.
-echo Use BUILD /help for more information.
-echo.
-
-goto done
-
 : usage
 
 echo Builds and tests NUnit for various targets
 echo.
-echo usage: BUILD [option [...] ]
+echo usage: BUILD [option [...] ] [ -- nantoptions ]
 echo.
 echo Options may be any of the following, in any order...
 echo.
@@ -104,6 +109,9 @@ echo.
 echo   2. When building under a framework version of 3.5 or higher,
 echo      the 2.0 framework is targeted for NUnit itself. Tests use
 echo      the specified higher level framework.
+echo.
+echo   3. Any arguments following '--' on the command line are passed
+echo      directly to the NAnt script.
 echo.
 
 : done

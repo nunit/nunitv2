@@ -2,15 +2,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-    <FeatureRef Id="PNUnitRunner">
-
-      <ComponentRef Id="pnunit_agent"/>
-      <ComponentRef Id="pnunit_launcher"/>
-      <ComponentRef Id="pnunit_framework"/>
-      <ComponentRef Id="log4net"/>
-
-    </FeatureRef>
-  
     <DirectoryRef Id="bin" FileSource="bin">
          
       <Component Id="pnunit_agent" DiskId="1" Guid="CB4CF43B-1D4B-40a7-859B-8B48802B3C07">

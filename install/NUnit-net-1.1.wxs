@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
 
   <Product UpgradeCode="EE7297AC-EF4E-4415-8621-0066AA2D57D4"
-           Name="NUnit $(var.NominalVersion)"
+           Name="NUnit $(var.NominalVersion) (.NET 1.1)"
 	   Id="82C4AF77-5FA7-4132-B464-062F398B2970"
            Version="$(var.ProductVersion)"
            Manufacturer="nunit.org"
@@ -110,26 +110,117 @@
     <!-- **********      Define the NUnit feature tree          ********** -->
     <!-- ***************************************************************** -->
 
-    <!-- Base features are defined in base.wxs -->
     <Feature Id="BaseFeature" ConfigurableDirectory="INSTALLDIR"
          Level="1" Title="NUnit $(var.NominalVersion)" Display='expand'
          Description="Installs the NUnit console runner for .NET 1.1 and supporting assemblies required to write and run tests.">
 
-      <!-- Defined in pnunit.wxs -->
+      <!-- Defined in base.wxs -->
+      <ComponentRef Id="C__LICENSE"/>
+      <ComponentRef Id="C__LOGO"/>
+      <ComponentRef Id="C__FIT_LICENSE"/>
+      <ComponentRef Id="InstallationRegistryEntry"/>
+      <ComponentRef Id="nunit.framework"/>
+      <ComponentRef Id="nunit.mocks"/>
+      <ComponentRef Id="AssemblyReferenceFolder"/>
+      <ComponentRef Id="nunit.core"/>
+      <ComponentRef Id="nunit.core.interfaces"/>
+      <ComponentRef Id="nunit.util"/>
+      <ComponentRef Id="AddinsFolder"/>
+      <ComponentRef Id="nunit_console"/>
+      <ComponentRef Id="console.dll"/>
+      <ComponentRef Id="nunit_agent"/>
+
       <Feature Id="PNUnitRunner" Level="10" Title='PNUnit Runner' Display='expand'
-                 Description="Installs the PNUnit runner for parallel distributed tests."/>
+                 Description="Installs the PNUnit runner for parallel distributed tests.">
 
-      <!-- Defined in tests.wxs -->
+        <!-- Defined in pnunit.wxs -->
+        <ComponentRef Id="pnunit_agent"/>
+        <ComponentRef Id="pnunit_launcher"/>
+        <ComponentRef Id="pnunit_framework"/>
+        <ComponentRef Id="log4net"/>
+
+      </Feature>
+
       <Feature Id="TestsFeature" Level="10" Title='Unit Tests' Display='expand'
-				         Description='Installs the unit tests for NUnit itself' />
+				         Description='Installs the unit tests for NUnit itself' >
 
-      <!-- Defined in doc.wxs -->
+        <!-- Defined in tests.wxs -->
+        <ComponentRef Id="NUnitTestProject" />
+        <ComponentRef Id="framework_copy_for_tests" />
+        <ComponentRef Id="base_tests" />
+        <ComponentRef Id="fit_tests" />
+        <ComponentRef Id="fit_lib" />
+
+      </Feature>
+
       <Feature Id="DocumentationFeature" Level="10" Title='Documentation' Display='expand'
-          Description="Installs the NUnit documentation."/>
+          Description="Installs the NUnit documentation.">
+
+        <!-- Defined in doc.wxs -->
+        <ComponentRef Id="HtmlDocs" />
+        <ComponentRef Id="DocFiles" />
+        <ComponentRef Id="DocImages" />
+
+      </Feature>
 
       <!-- Defined in samples.wxs -->
       <Feature Id="SamplesFeature" Level="1" Title='Samples' Display='collapse'
-               Description='Installs sample code showing the use of NUnit.' />
+               Description='Installs sample code showing the use of NUnit.' >
+
+        <ComponentRef Id="C__SamplesCommon" />
+        <ComponentRef Id="C__SampleShortcuts" />
+
+        <Feature Id="CSharpSamples" Level="1" Title='C# Samples' Display='expand'
+               Description='Installs C# samples.' >
+
+          <ComponentRef Id="C__CSharp_Samples" />
+          <ComponentRef Id="C__CSharp_Failures" />
+          <ComponentRef Id="C__CSharp_Money" />
+          <ComponentRef Id="C__CSharp_Syntax" />
+
+          <!-- Core Extensibility Samples -->
+          <ComponentRef Id="C__CoreExtensibility" />
+          <ComponentRef Id="C__MinimalAddin" />
+          <ComponentRef Id="C__SampleSuiteExtension" />
+          <ComponentRef Id="C__SampleSuiteExtension_Tests" />
+          <ComponentRef Id="C__SampleFixtureExtension" />
+          <ComponentRef Id="C__SampleFixtureExtension_Tests" />
+
+        </Feature>
+
+        <Feature Id="VBSamples" Level="1" Title='Visual Basic Samples' Display='expand'
+               Description='Installs Visual Basic samples.' >
+
+          <ComponentRef Id="C__VB_Samples" />
+          <ComponentRef Id="C__VB_Failures" />
+          <ComponentRef Id="C__VB_Money" />
+          <ComponentRef Id="C__VB_Syntax" />
+
+        </Feature>
+
+        <Feature Id="JSharpSamples" Level="1" Title='J# Samples' Display='expand'
+               Description='Installs J# samples.' >
+
+          <ComponentRef Id="C__JSharp_Samples" />
+          <ComponentRef Id="C__JSharp_Failures" />
+
+        </Feature>
+
+        <Feature Id="CPPSamples" Level="1" Title='C++ Samples' Display='expand'
+               Description='Installs C++ samples.' >
+
+          <!-- Managed C++ Samples -->
+          <ComponentRef Id="C__CPP_Managed_Samples" />
+          <ComponentRef Id="C__CPP_Managed_Failures" />
+
+          <!-- C++/CLI Samples -->
+          <ComponentRef Id="C__CPP_CLI_Samples" />
+          <ComponentRef Id="C__CPP_CLI_Failures" />
+          <ComponentRef Id="C__CPP_CLI_Syntax" />
+
+        </Feature>
+
+      </Feature>
 
     </Feature>
 
@@ -143,6 +234,8 @@
     <!--<UIRef Id="WixUI_Mondo" />-->
     <UIRef Id="WixUI_FeatureTree" />
     <UIRef Id="WixUI_ErrorProgressText" />
+
+    <Icon Id="nunit_icon.exe" SourceFile="Logo.ico" />
 
   </Product>
 </Wix>

@@ -2,13 +2,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-    <FeatureRef Id="BaseFeature">
-
-      <ComponentRef Id="nunit_console_x86"/>
-      <ComponentRef Id="nunit_agent_x86"/>
-
-    </FeatureRef>
-
     <DirectoryRef Id="bin" FileSource="bin">
 
       <Component Id="nunit_console_x86" DiskId="1" Guid="1243DDA4-E8A0-422d-BD0C-14F1D3EDCFCA">

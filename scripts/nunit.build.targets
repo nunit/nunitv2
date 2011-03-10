@@ -90,7 +90,7 @@
 <!-- ***************************************************************** -->
 
   <!-- Build NUnit for default runtime version and config -->
-  <target name="build" depends="make-build-dir,gen-assembly-info"
+  <target name="build" depends="build-init"
     description="Build NUnit for default runtime version and config">
 
     <echo message="*"/>
@@ -114,9 +114,14 @@
     </nant>
 
     <!-- Build GUI if runtime is 2.0 or greater -->
-    <call target="build-gui" if="${build.gui}" />
+    <call target="build-gui" if="${runtime.version >= '2.0'}" />
 
     <!-- Copy test project for this runtime framework -->
+    <property name="runtime.testproj" value="NUnitTests.v2.nunit"
+      if="${runtime.version >= '2.0'}"/>
+    <property name="runtime.testproj" value="NUnitTests.v1.nunit"
+      unless="${runtime.version >= '2.0'}"/>
+
     <copy file="${project.base.dir}/${runtime.testproj}"
         tofile="${current.build.dir}/NUnitTests.nunit">
       <filterchain>
@@ -140,7 +145,7 @@
   <!-- Build the Gui -->
   <target name="build-gui">
 
-    <fail unless="${build.gui}" 
+    <fail unless="${runtime.version >= '2.0'}" 
       message="Runtime 2.0 or greater is required to build the NUnit GUI" />
 
     <nant target="build">
@@ -268,8 +273,6 @@
   <target name="test-all-under-each"
       description="Build all runtimes and test the builds under each runtime.">
 
-    <call target="set-release-build-config"/>
-
     <foreach item="String" delim="," 
         property="framework" in="${installed.frameworks}">
 
@@ -388,6 +391,21 @@
       description="Build tools used in building NUnit">
 
     <nant target="build" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ******              Targets used internally              ******** -->
+<!-- ***************************************************************** -->
+
+  <target name="build-init" depends="make-build-dir,gen-assembly-info">
+
+    <property name="build.debug" value="${build.config == 'debug'}"/>
+
+    <property name="build.defines" value="DEBUG,TRACE,${runtime.defines}"
+        dynamic="true" if="${build.config == 'debug'}"/>
+    <property name="build.defines" value="TRACE,${runtime.defines}"
+        dynamic="true" unless="${build.config == 'debug'}"/>
 
   </target>
 

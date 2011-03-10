@@ -59,15 +59,12 @@
 <!-- ***            Package Binaries From Current Build            *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package-build" depends="set-build-dir"
+  <target name="package-build" depends="set-build-dir, set-package-name"
       description="Create a zip of the current build (not a full installation)">
 
-    <property name="zip.file.name" 
-      value="${package.name}-${runtime.config}${build.suffix}"/>
-
     <zip ziplevel="9"
-        zipfile="${project.package.dir}/${zip.file.name}.zip">
-      <fileset basedir="${current.build.dir}" prefix="${zip.file.name}">
+        zipfile="${project.package.dir}/${package.name}.zip">
+      <fileset basedir="${current.build.dir}" prefix="${package.base.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -79,11 +76,11 @@
 <!-- ***      or the default package if none is selected           *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package" depends="build-install-image"
+  <target name="package" depends="build-install-image,set-package-name"
       description="Create a package using the current or default config">
 
     <call target="create-zip"/>
-    <call target="create-msi" if="${create.msi}"/>
+    <call target="create-msi"/>
 
   </target>
 
@@ -92,32 +89,39 @@
 <!-- ***************************************************************** -->
 
   <target name="package-zip" 
-    depends="build-install-image,create-zip"
+    depends="build-install-image,set-package-name,create-zip"
     description="Create zip binary distribution package"/>
 
 <!-- ***************************************************************** -->
 <!-- ***                   Package as an msi                       *** -->
 <!-- ***************************************************************** -->
 
-  <target name="package-msi" depends="build-install-image,create-msi" 
+  <target name="package-msi" 
+    depends="build-install-image,set-package-name,create-msi" 
     description="Build standard msi file and deploy it to the package dir"/>
 
 <!-- ***************************************************************** -->
 <!-- ***                     Install the msi                       *** -->
 <!-- ***************************************************************** -->
 
-  <target name="install-msi" description="Install msi file on system" >
+  <target name="install-msi" depends="set-package-name"
+      description="Install msi file on system" >
+
       <exec program="msiexec" workingdir="${project.package.dir}"
-        commandline="/i ${package.name}-${runtime.config}${build.suffix}.msi /passive" />
+        commandline="/i ${package.name}.msi /passive" />
+
   </target>
 
 <!-- ***************************************************************** -->
 <!-- ***                   Uninstall the msi                       *** -->
 <!-- ***************************************************************** -->
 
-  <target name="remove-msi" description="Uninstall an msi" >
-      <exec program="msiexec" workingdir="${project.package.dir}"
-        commandline="/x ${package.name}-${runtime.config}${build.suffix}.msi /passive" /> 
+  <target name="remove-msi" depends="set-package-name"
+    description="Uninstall an msi" >
+
+        <exec program="msiexec" workingdir="${project.package.dir}"
+          commandline="/x ${package.name}.msi /passive" /> 
+
   </target>
 
 <!-- ***************************************************************** -->
@@ -126,17 +130,12 @@
 
   <!-- Create zip from existing install image -->
   <target name="create-zip">
-    <!-- Create the zip file -->
-    <property name="zip.file.name" 
-      value="${package.name}-${runtime.config}${build.suffix}"
-      unless="${runtime.config==default.package.config}"/>
-    <property name="zip.file.name" 
-      value="${package.name}${build.suffix}"
-      if="${runtime.config==default.package.config}"/>
+
+    <!--<call target="set-package-name"/>-->
 
     <zip ziplevel="9"
-        zipfile="${project.package.dir}/${zip.file.name}.zip">
-      <fileset basedir="${package.working.dir}" prefix="${package.name}">
+        zipfile="${project.package.dir}/${package.name}.zip">
+      <fileset basedir="${package.working.dir}" prefix="${package.base.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -150,7 +149,6 @@
   <target name="create-msi">
   
     <fail message="MSI can only be built on the Win32 platform" unless="${platform::is-windows()}"/>
-    <fail message="MSI can only be built for a Win32 runtime" unless="${build.win32}"/>
 
     <property name="wix.dir"
       value="${project.tools.dir}/wix"/>
@@ -159,15 +157,7 @@
     <property name="install.dir"
       value="${project.base.dir}/install"/>
 
-    <property name="build.suffix" value=""
-      unless="${property::exists('build.suffix')}" />
-    <property name="msi.file.name"
-      value="${package.name}-${runtime.config}${build.suffix}.msi"
-      unless="${runtime.config==default.package.config}"/>
-    <property name="msi.file.name"
-      value="${package.name}${build.suffix}.msi"
-      if="${runtime.config==default.package.config}"/>
-
+    <!--<call target="set-package-name"/>-->
 
     <candle out="${work.dir}/" exedir="${wix.dir}">
       <defines>
@@ -190,7 +180,7 @@
     </candle>
 
     <light exedir="${wix.dir}"
-      out="${project.package.dir}/${msi.file.name}" 
+      out="${project.package.dir}/${package.name}.msi" 
       locfile="${wix.dir}/WixUI_en-us.wxl">
       <sources>
         <include name="${work.dir}/NUnit.wixobj" if="${runtime.version >= '2.0'}"/>
@@ -224,8 +214,8 @@
 
     <!-- Create the zip file -->
     <zip  ziplevel="9"
-        zipfile="${project.package.dir}/${package.name}-src.zip">
-      <fileset basedir="${package.working.dir}" prefix="${package.name}">
+        zipfile="${project.package.dir}/${package.base.name}-src.zip">
+      <fileset basedir="${package.working.dir}" prefix="${package.base.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -242,8 +232,8 @@
 
     <!-- Create the zip file -->
     <zip ziplevel="9"
-        zipfile="${project.package.dir}/${package.name}-docs.zip">
-      <fileset basedir="${package.working.dir}" prefix="${package.name}">
+        zipfile="${project.package.dir}/${package.base.name}-docs.zip">
+      <fileset basedir="${package.working.dir}" prefix="${package.base.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -300,8 +290,8 @@
     </if>
 
     <zip  ziplevel="9"
-        zipfile="${project.package.dir}/${package.name}-resources.zip">
-      <fileset basedir="${package.working.dir}" prefix="${package.name}">
+        zipfile="${project.package.dir}/${package.base.name}-resources.zip">
+      <fileset basedir="${package.working.dir}" prefix="${package.base.name}">
         <include name="**"/>
       </fileset>
     </zip>
@@ -311,6 +301,16 @@
 <!-- ***************************************************************** -->
 <!-- ***            Helper targets used for packaging              *** -->
 <!-- ***************************************************************** -->
+
+  <target name="set-package-name">
+
+    <property name="package.name" value="${package.base.name}"/>
+    <property name="package.name" value="${package.name}-${runtime.config}"
+      unless="${runtime.config == default.package.config}"/>
+    <property name="package.name" value="${package.name}-dbg"
+      if="${build.config == 'debug'}"/>
+
+  </target>
 
 <!-- ***************************************************************** -->
 <!-- ***            Build install image for a package              *** -->

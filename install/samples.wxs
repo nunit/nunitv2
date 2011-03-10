@@ -1,63 +1,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-    <FeatureRef Id="SamplesFeature">
-
-      <ComponentRef Id="C__SamplesCommon" />
-      <ComponentRef Id="C__SampleShortcuts" />
-
-      <Feature Id="CSharpSamples" Level="1" Title='C# Samples' Display='expand'
-             Description='Installs C# samples.' >
-
-        <ComponentRef Id="C__CSharp_Samples" />
-        <ComponentRef Id="C__CSharp_Failures" />
-        <ComponentRef Id="C__CSharp_Money" />
-        <ComponentRef Id="C__CSharp_Syntax" />
-
-        <!-- Core Extensibility Samples -->
-        <ComponentRef Id="C__CoreExtensibility" />
-        <ComponentRef Id="C__MinimalAddin" />
-        <ComponentRef Id="C__SampleSuiteExtension" />
-        <ComponentRef Id="C__SampleSuiteExtension_Tests" />
-        <ComponentRef Id="C__SampleFixtureExtension" />
-        <ComponentRef Id="C__SampleFixtureExtension_Tests" />
-
-      </Feature>
-
-      <Feature Id="VBSamples" Level="1" Title='Visual Basic Samples' Display='expand'
-             Description='Installs Visual Basic samples.' >
-
-        <ComponentRef Id="C__VB_Samples" />
-        <ComponentRef Id="C__VB_Failures" />
-        <ComponentRef Id="C__VB_Money" />
-        <ComponentRef Id="C__VB_Syntax" />
-
-      </Feature>
-
-      <Feature Id="JSharpSamples" Level="1" Title='J# Samples' Display='expand'
-             Description='Installs J# samples.' >
-
-        <ComponentRef Id="C__JSharp_Samples" />
-        <ComponentRef Id="C__JSharp_Failures" />
-
-      </Feature>
-
-      <Feature Id="CPPSamples" Level="1" Title='C++ Samples' Display='expand'
-             Description='Installs C++ samples.' >
-
-        <!-- Managed C++ Samples -->
-        <ComponentRef Id="C__CPP_Managed_Samples" />
-        <ComponentRef Id="C__CPP_Managed_Failures" />
-
-        <!-- C++/CLI Samples -->
-        <ComponentRef Id="C__CPP_CLI_Samples" />
-        <ComponentRef Id="C__CPP_CLI_Failures" />
-        <ComponentRef Id="C__CPP_CLI_Syntax" />
-
-      </Feature>
-
-    </FeatureRef>
-
     <!-- Menu Shortcuts to samples -->
     <DirectoryRef Id="samples" FileSource="$(var.InstallImage)\samples">
 	

@@ -2,16 +2,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
   
-    <FeatureRef Id="TestsFeature">
-
-      <ComponentRef Id="NUnitTestProject" />
-      <ComponentRef Id="framework_copy_for_tests" />
-      <ComponentRef Id="base_tests" />
-      <ComponentRef Id="fit_tests" />
-      <ComponentRef Id="fit_lib" />
-
-    </FeatureRef>
-	
     <DirectoryRef Id="bin" FileSource="bin">
 
       <Component Id="NUnitTestProject" DiskId="1" Guid="6670EEC9-2B3C-4c1f-A91C-BD0EDA0E8B12">

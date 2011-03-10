@@ -31,7 +31,7 @@
   <property name="package.configuration" value=""/>
   
   <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
-  <property name="package.name" 
+  <property name="package.base.name" 
       value="${project.name}-${package.version}"/>
 
   <!-- Frameworks supported by this build script. The first
@@ -39,13 +39,13 @@
          The first .NET and Mono frameworks found are the
          respective net and mono defaults. -->
   <property name="supported.frameworks" 
-    value="net-2.0,net-3.5,net-4.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
+    value="net-3.5,net-2.0,net-4.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
 
   <!-- Packages we normally create -->
-  <property name="standard.packages" value="net-2.0,net-1.1" />
+  <property name="standard.packages" value="net-3.5,net-1.1" />
 
   <!-- Our standard package for general distribution -->
-  <property name="default.package.config" value="net-2.0" />
+  <property name="default.package.config" value="net-3.5" />
 
   <!-- Options for runing the NUnit tests -->
   <property name="nunit.options" value=""/>
@@ -80,7 +80,7 @@
 
   <!-- Set paths to various package directories -->
   <property name="package.working.dir" 
-    value="${path::combine(project.package.dir,package.name)}"/>
+    value="${path::combine(project.package.dir,package.base.name)}"/>
   <property name="package.bin.dir" 
     value="${path::combine(package.working.dir,'bin')}"/>
   <property name="package.doc.dir" 
@@ -101,7 +101,6 @@
     value="${path::combine(package.working.dir,'install')}"/>
 
   <!-- Default build configuration -->
-  <property name="build.config" value="debug"/>
   <property name="build.defines" value=""/>
 
   <!-- sdk-exists causes an error if the framework is not installed! -->
@@ -132,228 +131,127 @@
 
   <call target="set-${default.runtime}-runtime-config" />
 
-  <call target="set-debug-build-config" />
-
   <call target="set-default-package-config" />
 
 </target>
-
-<!-- ***************************************************************** -->
-<!-- ********* Targets for setting the build configuration *********** -->
-<!-- ***************************************************************** -->
-
-  <target name="set-build-config" description="Set the build config">
-    <call target="set-${build.config}-build-config"/>
-  </target>
-
-  <target name="set-debug-build-config">
-    <property name="build.config" value="debug"/>
-    <property name="build.debug" value="true"/>
-    <property name="build.defines" value="DEBUG,TRACE,${runtime.defines}"
-        dynamic="true"/>
-    <property name="build.suffix" value="-dbg"/>
-  </target>
-	
-  <target name="set-release-build-config">
-    <property name="build.config" value="release"/>
-    <property name="build.debug" value="false"/>
-    <property name="build.defines" value="TRACE,${runtime.defines}"
-	dynamic="true"/>
-    <property name="build.suffix" value=""/>
-  </target>
 
 <!-- ***************************************************************** -->
 <!-- ***    Targets for setting the runtime configuration          *** -->
 <!-- ***************************************************************** -->
 
   <target name="set-runtime-config">   
+
+    <property name="runtime.config" value="${default.runtime}"
+      unless="${property::exists('runtime.config')}"/>
+
+    <call target="check-sdk-exists"/>
+
     <call target="set-${runtime.config}-runtime-config"/>
+
+    <property name="nant.settings.currentframework" value="${runtime.config}"/>
+
   </target>
   
   <target name="set-default-dot-net-runtime-config">
+
     <fail unless="${property::exists( 'default.net.runtime' )}"
       message="No versions of the .NET SDK were found"/>
 
     <call target="set-${default.net.runtime}-runtime-config" />
+
   </target>
 
   <target name="set-default-mono-runtime-config">
+
     <fail unless="${property::exists( 'default.mono.runtime' )}"
       message="No versions of the Mono runtime were found"/>
 
     <call target="set-${default.mono.runtime}-runtime-config" />
+
   </target>
 
   <target name="set-net-1.0-runtime-config">
-    <fail unless="${framework::exists('net-1.0')}"
-      message="The .NET 1.0 runtime is not installed"/>
-    <fail unless="${framework::sdk-exists('net-1.0')}"
-      message="The .NET 1.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.0"/>
     <property name="target.version" value="1.0"/>
-    <property name="runtime.config" value="net-1.0"/>
     <property name="runtime.defines" value="MSNET,NET_1_0"/>
-    <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
-    <property name="build.mono" value="false"/>
-    <property name="build.win32" value="true"/>
-    <property name="build.x86" value="false"/>
-    <property name="build.gui" value="false"/>
-    <property name="nant.settings.currentframework" 
-      value="net-1.0"/>
     <property name="supported.test.platforms" 
       value="net-1.0,net-1.1,net-2.0,mono-1.0,mono-2.0"/>
+
   </target>
 	
   <target name="set-net-1.1-runtime-config">
-    <fail unless="${framework::exists('net-1.1')}"
-      message="The .NET 1.1 runtime is not installed"/>
-    <fail unless="${framework::sdk-exists('net-1.1')}"
-      message="The .NET 1.1 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.1"/>
     <property name="target.version" value="1.1"/>
-    <property name="runtime.config" value="net-1.1"/>
     <property name="runtime.defines" value="MSNET,NET_1_1"/>
-    <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
-    <property name="build.mono" value="false"/>
-    <property name="build.win32" value="true"/>
-    <property name="build.x86" value="false"/>
-    <property name="build.gui" value="false"/>
-    <property name="nant.settings.currentframework" 
-      value="net-1.1"/>
     <property name="supported.test.platforms"
       value="net-1.0,net-1.1,net-2.0,mono-1.0,mono-2.0"/>
+
   </target>
 	
   <target name="set-net-2.0-runtime-config">
-    <fail unless="${framework::exists('net-2.0')}"
-      message="The .NET 2.0 runtime is not installed"/>
-    <fail unless="${framework::sdk-exists('net-2.0')}"
-      message="The .NET 2.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="2.0"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.config" value="net-2.0"/>
     <property name="runtime.defines" value="MSNET,NET_2_0"/>
-    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
-    <property name="build.mono" value="false"/>
-    <property name="build.win32" value="true"/>
-    <property name="build.x86" value="true"/>
-    <property name="build.gui" value="true"/>
-    <property name="nant.settings.currentframework" 
-      value="net-2.0"/>
     <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
+
   </target>
    
 <!--     
   <target name="set-net-3.0-runtime-config">
-    <fail unless="${framework::exists('net-3.0')}"
-      message="The .NET 3.0 runtime is not installed"/>
-    <fail unless="${framework::sdk-exists('net-3.0')}"
-      message="The .NET 3.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="3.0"/>
-    <property name="runtime.config" value="net-3.0"/>
     <property name="runtime.defines" value="MSNET,NET_3_0"/>
-    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
-    <property name="build.mono" value="false"/>
-    <property name="build.win32" value="true"/>
-    <property name="build.x86" value="true"/>
-    <property name="build.gui" value="true"/>
-    <property name="nant.settings.currentframework" 
-      value="net-3.0"/>
     <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
+
   </target>
 -->
 	
   <target name="set-net-3.5-runtime-config">
-    <fail unless="${framework::exists('net-3.5')}"
-      message="The .NET 3.5 runtime is not installed"/>
-    <fail unless="${framework::sdk-exists('net-3.5')}"
-      message="The .NET 3.5 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="3.5"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.config" value="net-3.5"/>
     <property name="runtime.defines" value="MSNET,NET_2_0,CS_3_0"/>
-    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
-    <property name="build.mono" value="false"/>
-    <property name="build.win32" value="true"/>
-    <property name="build.x86" value="true"/>
-    <property name="build.gui" value="true"/>
-    <property name="nant.settings.currentframework" 
-      value="net-3.5"/>
     <property name="supported.test.platforms" value="net-3.5,mono-3.5"/>
+
   </target>
  	
   <target name="set-net-4.0-runtime-config">
-    <fail unless="${framework::exists('net-4.0')}"
-      message="The .NET 4.0 runtime is not installed"/>
-    <fail unless="${framework::sdk-exists('net-4.0')}"
-      message="The .NET 4.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="4.0"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.config" value="net-4.0"/>
     <property name="runtime.defines" value="MSNET,NET_2_0,CS_3_0"/>
-    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
-    <property name="build.mono" value="false"/>
-    <property name="build.win32" value="true"/>
-    <property name="build.x86" value="true"/>
-    <property name="build.gui" value="true"/>
-    <property name="nant.settings.currentframework" 
-      value="net-4.0"/>
     <property name="supported.test.platforms" value="net-4.0"/>
+
   </target>
  	
   <target name="set-mono-1.0-runtime-config">
-    <fail unless="${framework::exists('mono-1.0')}"
-      message="The Mono 1.0 runtime is not installed"/>
-    <fail unless="${framework::sdk-exists('mono-1.0')}"
-      message="The Mono 1.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="1.0"/>
     <property name="target.version" value="1.0"/>
-    <property name="runtime.config" value="mono-1.0"/>
     <property name="runtime.defines" value="MONO,NET_1_1"/>
-    <property name="runtime.testproj" value="NUnitTests.v1.nunit"/>
-    <property name="build.mono" value="true"/>
-    <property name="build.win32" value="false"/>
-    <property name="build.x86" value="false"/>
-    <property name="build.gui" value="false"/>
-    <property name="nant.settings.currentframework" 
-      value="mono-1.0"/>
     <property name="supported.test.platforms"
       value="mono-1.0,mono-2.0,net-1.0,net-1.1,net-2.0"/>
+
   </target>
 
   <target name="set-mono-2.0-runtime-config">
-    <fail unless="${framework::exists('mono-2.0')}"
-      message="The Mono 2.0 runtime is not installed"/>
-    <fail unless="${framework::sdk-exists('mono-2.0')}"
-      message="The Mono 2.0 SDK is not configured or not installed"/>
 
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="2.0"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.config" value="mono-2.0"/>
     <property name="runtime.defines" value="MONO,NET_2_0"/>
-    <property name="build.mono" value="true"/>
-    <property name="runtime.testproj" value="NUnitTests.v2.nunit"/>
-    <property name="build.win32" value="false"/>
-    <property name="build.x86" value="true"/>
-    <property name="build.gui" value="true"/>
-    <property name="nant.settings.currentframework" 
-      value="mono-2.0"/>
     <property name="supported.test.platforms" value="mono-2.0,net-2.0"/>
+
   </target>
 
 <!-- ***************************************************************** -->
@@ -367,24 +265,44 @@
   <target name="set-default-package-config">
     <call target="set-${default.package.config}-package-config"/>
   </target>
-  
+
+  <target name="set-net-3.5-package-config">
+    <property name="package.config" value="net-3.5"/>
+  </target>
+
   <target name="set-net-2.0-package-config">
     <property name="package.config" value="net-2.0"/>
-    <property name="create.msi" value="true"/>
   </target>
 
   <target name="set-net-1.1-package-config">
     <property name="package.config" value="net-1.1"/>
-    <property name="create.msi" value="true"/>
   </target>
 
 <!-- ***************************************************************** -->
 <!-- **************** Internally used targets ************************ -->
 <!-- ***************************************************************** -->
 
+  <!-- Check that current runtime is installed -->
+  <target name="check-runtime-exists">
+
+    <fail unless="${framework::exists(runtime.config)}"
+      message="The ${runtime.config} runtime is not installed"/>
+
+  </target>
+
+  <!-- Check that current runtime sdk is installed -->
+  <target name="check-sdk-exists" depends="check-runtime-exists">
+
+    <fail unless="${framework::sdk-exists(runtime.config)}"
+      message="The ${runtime.config} SDK is not configured or not installed"/>
+
+  </target>
+
   <!-- Set up the build directory -->
-  <target name="set-build-dir"
-    depends="set-build-config,set-runtime-config">
+  <target name="set-build-dir" depends="set-runtime-config">
+
+    <property name="build.config" value="debug" 
+      unless="${property::exists('build.config')}"/>
 
     <property name="runtime.platform.dir"
       value="${path::combine(project.build.dir,runtime.platform)}"/>
@@ -461,7 +379,6 @@
     <echo>Current Build Info</echo>
     <echo>  Config:    ${build.config}</echo>
     <echo>  Runtime:   ${runtime.config}</echo>
-    <echo>  Target Version: ${target.config}</echo>
     <echo>  Build Dir: ${current.build.dir}</echo>
     <echo>  Defines:   ${build.defines}</echo>
     <echo></echo>
@@ -469,7 +386,7 @@
     <echo>  Supported: ${supported.test.platforms}</echo>
     <echo></echo>
     <echo>Packaging</echo>
-    <echo>  Name:      ${package.name}</echo>
+    <echo>  Base Name: ${package.base.name}</echo>
     <echo>  Version:   ${package.version}</echo>
     <echo>  Work Dir:  ${package.working.dir}</echo>
     <echo>   Bin:      ${package.bin.dir}</echo>
