@@ -39,10 +39,13 @@
          The first .NET and Mono frameworks found are the
          respective net and mono defaults. -->
   <property name="supported.frameworks" 
-    value="net-3.5,net-2.0,net-4.0,net-1.1,net-1.0,mono-2.0,mono-1.0"/>
+    value="net-3.5,net-2.0,net-4.0,net-1.1,net-1.0,mono-3.5,mono-2.0,mono-1.0"/>
 
   <!-- Packages we normally create -->
-  <property name="standard.packages" value="net-3.5,net-1.1" />
+  <property name="standard.packages" value="net-3.5,net-1.1" 
+      if="${platform::is-windows()}"/>
+  <property name="standard.packages" value="mono-3.5,mono-1.0"
+      unless="${platform::is-windows()}"/>
 
   <!-- Our standard package for general distribution -->
   <property name="default.package.config" value="net-3.5" />
@@ -60,9 +63,9 @@
 
   <!-- Other directories are derived from base dir -->
   <property name="project.build.dir" 
-    value="${path::combine(project.base.dir,'build')}"/>
+    value="${path::combine(project.base.dir,'builds')}"/>
   <property name="project.package.dir" 
-    value="${path::combine(project.base.dir,'package')}"/>
+    value="${path::combine(project.base.dir,'packages')}"/>
   <property name="project.src.dir"
     value="${path::combine(project.base.dir, 'src')}"/>
   <property name="project.doc.dir"
@@ -100,7 +103,6 @@
   <property name="package.install.dir"
     value="${path::combine(package.working.dir,'install')}"/>
 
-  <!-- Default build configuration -->
   <property name="build.defines" value=""/>
 
   <!-- sdk-exists causes an error if the framework is not installed! -->
@@ -202,17 +204,6 @@
 
   </target>
    
-<!--     
-  <target name="set-net-3.0-runtime-config">
-
-    <property name="runtime.platform" value="net"/>
-    <property name="runtime.version" value="3.0"/>
-    <property name="runtime.defines" value="MSNET,NET_3_0"/>
-    <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
-
-  </target>
--->
-	
   <target name="set-net-3.5-runtime-config">
 
     <property name="runtime.platform" value="net"/>
@@ -251,6 +242,16 @@
     <property name="target.version" value="2.0"/>
     <property name="runtime.defines" value="MONO,NET_2_0"/>
     <property name="supported.test.platforms" value="mono-2.0,net-2.0"/>
+
+  </target>
+
+  <target name="set-mono-3.5-runtime-config">
+
+    <property name="runtime.platform" value="mono"/>
+    <property name="runtime.version" value="3.5"/>
+    <property name="target.version" value="2.0"/>
+    <property name="runtime.defines" value="MONO,NET_2_0,CS_3_0"/>
+    <property name="supported.test.platforms" value="mono-3.5,net-3.5,mono-2.0,net-2.0"/>
 
   </target>
 

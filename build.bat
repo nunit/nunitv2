@@ -10,7 +10,7 @@ set CONFIG=
 set RUNTIME=
 set CLEAN=
 set COMMANDS=
-set FLAG=
+set PASSTHRU=
 goto start
 
 :shift
@@ -20,7 +20,7 @@ shift /1
 
 IF "%1" EQU "" goto execute
 
-IF "%FLAG%" NEQ "" set COMMANDS=%COMMANDS% %1&goto shift
+IF "%PASSTHRU%" EQU "TRUE" set COMMANDS=%COMMANDS% %1&goto shift
 
 IF /I "%1" EQU "?"	goto usage
 IF /I "%1" EQU "/h"	goto usage
@@ -44,12 +44,13 @@ IF /I "%1" EQU "mono-3.5" set RUNTIME=mono-3.5&goto shift
 IF /I "%1" EQU "mono-4.0" set RUNTIME=mono-4.0&goto shift
 
 if /I "%1" EQU "clean" set CLEAN=clean&goto shift
+if /I "%1" EQU "clean-all" set CLEAN=clean-all&goto shift
 IF /I "%1" EQU "samples" set COMMANDS=%COMMANDS% build-samples&goto shift
 IF /I "%1" EQU "tools" set COMMANDS=%COMMANDS% build-tools&goto shift
 IF /I "%1" EQU "test" set COMMANDS=%COMMANDS% test&goto shift
 IF /I "%1" EQU "gui-test" set COMMANDS=%COMMANDS% gui-test&goto shift
 
-IF "%1" EQU "--" set FLAG=1&goto shift
+IF "%1" EQU "--" set PASSTHRU=TRUE&goto shift
 
 echo Invalid option: %1
 echo.
@@ -94,6 +95,7 @@ echo   net            Builds using default .NET version
 echo   mono           Builds using default Mono profile
 echo.
 echo   clean          Cleans the output directory before building
+echo   clean-all      Removes output directories for all runtimes
 echo.
 echo   samples        Builds the NUnit samples
 echo   tools          Builds the NUnit tools

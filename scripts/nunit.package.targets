@@ -80,7 +80,7 @@
       description="Create a package using the current or default config">
 
     <call target="create-zip"/>
-    <call target="create-msi"/>
+    <call target="create-msi" if="${platform::is-windows()}"/>
 
   </target>
 

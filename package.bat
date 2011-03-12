@@ -9,7 +9,7 @@ set OPTIONS=-f:scripts/nunit.package.targets
 set CONFIG=
 set RUNTIME=
 set COMMANDS=
-set FLAG=
+set PASSTHRU=
 goto start
 
 :shift
@@ -19,7 +19,7 @@ shift /1
 
 IF "%1" EQU "" goto execute
 
-IF "%FLAG%" NEQ "" set COMMANDS=%COMMANDS% %1&goto shift
+IF "%PASSTHRU%" NEQ "" set COMMANDS=%COMMANDS% %1&goto shift
 
 IF /I "%1" EQU "?"	goto usage
 IF /I "%1" EQU "/h"	goto usage
@@ -47,7 +47,7 @@ IF /I "%1" EQU "src"	set COMMANDS=%COMMANDS% package-src&goto shift
 IF /I "%1" EQU "zip"	set COMMANDS=%COMMANDS% package-zip&goto shift
 IF /I "%1" EQU "msi"	set COMMANDS=%COMMANDS% package-msi&goto shift
 
-IF "%1" EQU "--" set FLAG=1&goto shift
+IF "%1" EQU "--" set PASSTHRU=1&goto shift
 
 echo Invalid option: %1
 echo.
@@ -76,7 +76,7 @@ echo.
 echo Options may be any of the following, in any order...
 echo.
 echo   debug          Builds debug packages (default)
-echo   release        Builds packages for release
+echo   release        Builds release packages
 echo.
 echo   net-4.0        Builds package using .NET 4.0 build (future)
 echo   net-3.5        Builds package using .NET 3.5 build (default)
@@ -92,7 +92,7 @@ echo   src, source    Builds the source package
 echo   docs           Builds the documentation package
 echo   zip            Builds a binary package in zipped form
 echo   msi            Builds a windows installer (msi) package
-echo   all            
+echo   all            Builds source, documentation, 3.5 and 1.1 packages
 echo.
 echo   ?, /h, /help   Displays this help message
 echo.
