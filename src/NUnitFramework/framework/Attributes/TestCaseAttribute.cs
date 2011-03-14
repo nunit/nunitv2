@@ -27,6 +27,7 @@ namespace NUnit.Framework
         private string testName;
         private bool isIgnored;
         private string ignoreReason;
+        private string category;
 
         /// <summary>
         /// Construct a TestCaseAttribute with a list of arguments.
@@ -87,6 +88,24 @@ namespace NUnit.Framework
         {
             get { return result; }
             set { result = value; }
+        }
+
+        /// <summary>
+        /// Gets a list of categories associated with this test;
+        /// </summary>
+        public IList Categories
+        {
+            get { return category == null ? null : category.Split(','); }
+        }
+
+        /// <summary>
+        /// Gets or sets the category associated with this test.
+        /// May be a single category or a comma-separated list.
+        /// </summary>
+        public string Category
+        {
+            get { return category; }
+            set { category = value; }
         }
 
         /// <summary>
