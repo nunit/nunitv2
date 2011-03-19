@@ -103,14 +103,19 @@ namespace NUnit.Util
 
 		#region Public Methods - Called by Clients
 
+        /// <summary>
+        /// Returns true if NUnit support for the runtime specified 
+        /// is installed, independent of whether the runtime itself
+        /// is installed on the system.
+        /// 
+        /// In the current implementation, only .NET 1.x requires
+        /// special handling, since all higher runtimes are 
+        /// supported normally.
+        /// </summary>
+        /// <param name="version">The desired runtime version</param>
+        /// <returns>True if NUnit support is installed</returns>
         public bool IsRuntimeVersionSupported(Version version)
         {
-            if (version.Major == 1)
-            {
-                if (!Services.UserSettings.GetSetting("Options.TestLoader.Net-1.1.Support", false))
-                    return false;
-            }
-
             return GetNUnitBinDirectory(version) != null;
         }
 
@@ -277,58 +282,51 @@ namespace NUnit.Util
         /// </summary>
         private static string GetNUnitBinDirectory(Version v)
         {
+            // Get current bin directory
             string dir = NUnitConfiguration.NUnitBinDirectory;
 
+            // Return current directory if current and requested
+            // versions are both >= 2 or both 1
             if ((Environment.Version.Major >= 2) == (v.Major >= 2))
                 return dir;
 
-            string[] v1Strings = new string[] { "1.0", "1.1" };
-            string[] v2Strings = new string[] { "2.0", "3.0", "3.5", "4.0" };
-
-            string[] search;
-            string[] replace;
-
-            if (Environment.Version.Major == 1)
+            // Check whether special support for version 1 is installed
+            if (v.Major == 1)
             {
-                search = v1Strings;
-                replace = v2Strings;
-            }
-            else
-            {
-                search = v2Strings;
-                replace = v1Strings;
-            }
-
-            // Look for current value in path so it can be replaced
-            string current = null;
-            foreach (string s in search)
-                if (dir.IndexOf(s) >= 0)
-                {
-                    current = s;
-                    break;
-                }
-
-            // Try substitution first, since this helps in development
-            if (current != null)
-            {
-                // First try exact replacement
-                string altDir = dir.Replace(current, v.ToString(2));
+                string altDir = Path.Combine(dir, "net-1.1");
                 if (Directory.Exists(altDir))
                     return altDir;
 
-                // Now try all the alternatives
-                foreach (string target in replace)
+                // The following is only applicable to the dev environment,
+                // which uses parallel build directories. We try to substitute
+                // one version number for another in the path.
+                string[] search = new string[] { "2.0", "3.0", "3.5", "4.0" };
+                string[] replace = v.Minor == 0
+                    ? new string[] { "1.0", "1.1" }
+                    : new string[] { "1.1", "1.0" };
+
+                // Look for current value in path so it can be replaced
+                string current = null;
+                foreach (string s in search)
+                    if (dir.IndexOf(s) >= 0)
+                    {
+                        current = s;
+                        break;
+                    }
+
+                // Try the substitution
+                if (current != null)
                 {
-                    altDir = dir.Replace(current, target);
-                    if (Directory.Exists(altDir))
-                        return altDir;
+                    foreach (string target in replace)
+                    {
+                        altDir = dir.Replace(current, target);
+                        if (Directory.Exists(altDir))
+                            return altDir;
+                    }
                 }
             }
 
-            // Nothing was found - use setting for .NET 1.1 if present
-            return v.Major == 1
-                ? (string)Services.UserSettings.GetSetting("Options.TestLoader.Net-1.1.BinDirectory")
-                : null;
+            return null;
         }
 
         private static string GetTestAgentExePath(Version v)

@@ -252,8 +252,8 @@
     <!-- **********  Define our GUI using standard WiX UI       ********** -->
     <!-- ***************************************************************** -->
 
-    <!--<UIRef Id="WixUI_Mondo" />-->
-    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_Mondo" />
+    <!--<UIRef Id="WixUI_FeatureTree" />-->
     <UIRef Id="WixUI_ErrorProgressText" />
 
     <Icon Id="nunit_icon.exe" SourceFile="Logo.ico" />

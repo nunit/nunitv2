@@ -164,17 +164,17 @@
         <define name="ProductVersion" value="${package.version}" />
         <define name="NominalVersion" value="${nominal.version}" />
         <define name="TargetRuntime" value="${runtime.version}" />
-        <define name="InstallImage" value="package\NUnit-${package.version}" />
+        <define name="InstallImage" value="packages\NUnit-${package.version}" />
       </defines>
       <sources basedir="${install.dir}">
         <include name="NUnit.wxs" if="${runtime.version >= '2.0'}"/>
         <include name="NUnit-net-1.1.wxs" unless="${runtime.version >= '2.0'}"/>
         <include name="base.wxs" />
-        <include name="base_x86.wxs" if="${runtime.version >= '2.0'}"/>
-        <include name="doc.wxs" />
         <include name="tests.wxs" />
-        <include name="samples.wxs" />
         <include name="pnunit.wxs" />
+        <include name="base_x86.wxs" if="${runtime.version >= '2.0'}"/>
+        <include name="doc.wxs"  if="${runtime.version >= '2.0'}"/>
+        <include name="samples.wxs"  if="${runtime.version >= '2.0'}"/>
         <include name="nunit-gui.wxs" if="${runtime.version >= '2.0'}"/>
       </sources>
     </candle>
@@ -186,11 +186,11 @@
         <include name="${work.dir}/NUnit.wixobj" if="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/NUnit-net-1.1.wixobj" unless="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/base.wixobj" />
-        <include name="${work.dir}/base_x86.wixobj" if="${runtime.version >= '2.0'}"/>
-        <include name="${work.dir}/doc.wixobj" />
-        <include name="${work.dir}/samples.wixobj" />
         <include name="${work.dir}/tests.wixobj" />
         <include name="${work.dir}/pnunit.wixobj" />
+        <include name="${work.dir}/base_x86.wixobj" if="${runtime.version >= '2.0'}"/>
+        <include name="${work.dir}/doc.wixobj"  if="${runtime.version >= '2.0'}"/>
+        <include name="${work.dir}/samples.wixobj"  if="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/nunit-gui.wixobj" if="${runtime.version >= '2.0'}"/>
         <include name="${wix.dir}/wixui.wixlib" />
       </sources>

@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
 
   <Product UpgradeCode="EE7297AC-EF4E-4415-8621-0066AA2D57D4"
-           Name="NUnit $(var.NominalVersion) (.NET 1.1)"
+           Name="NUnit $(var.NominalVersion) (.NET 1.1 Support)"
 	   Id="82C4AF77-5FA7-4132-B464-062F398B2970"
            Version="$(var.ProductVersion)"
            Manufacturer="nunit.org"
@@ -64,28 +64,19 @@
       <Directory Id='ProgramFilesFolder' Name='PFiles'>
 
         <!-- Target locations for NUnit Files -->
-        <Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.NominalVersion) (.NET 1.1)">
+        <Directory Id='INSTALLDIR' Name='NUnit' LongName="NUnit $(var.NominalVersion)">
 
-          <Directory Id='bin' Name='bin'>
+          <Directory Id='parent' Name='bin'>
 
-            <Directory Id='lib' Name='lib' />
-            <Directory Id='addins' Name='addins' />
-            <Directory Id='tests' Name='tests' />
-            <Directory Id='framework' Name='FRAMEWK' LongName='framework' />
+            <Directory Id='bin' Name='net-1.1'>
 
-          </Directory>
+              <Directory Id='lib' Name='lib' />
+              <Directory Id='addins' Name='addins' />
+              <Directory Id='tests' Name='tests' />
+              <Directory Id='framework' Name='FRAMEWK' LongName='framework' />
 
-          <Directory Id='doc' Name='doc'>
-            <Directory Id='files' Name='files' />
-            <Directory Id='img' Name='img' />
-          </Directory>
+            </Directory>
 
-          <Directory Id='samples' Name='samples'>
-            <Directory Id='csharp' Name='csharp' />
-            <Directory Id='jsharp' Name='jsharp' />
-            <Directory Id='vb' Name='vb' />
-            <Directory Id='cpp' Name='cpp' />
-            <Directory Id='extensibility' Name='EXTENSIB' LongName='Extensibility' />
           </Directory>
 
         </Directory>
@@ -153,75 +144,6 @@
 
       </Feature>
 
-      <Feature Id="DocumentationFeature" Level="10" Title='Documentation' Display='expand'
-          Description="Installs the NUnit documentation.">
-
-        <!-- Defined in doc.wxs -->
-        <ComponentRef Id="HtmlDocs" />
-        <ComponentRef Id="DocFiles" />
-        <ComponentRef Id="DocImages" />
-
-      </Feature>
-
-      <!-- Defined in samples.wxs -->
-      <Feature Id="SamplesFeature" Level="1" Title='Samples' Display='collapse'
-               Description='Installs sample code showing the use of NUnit.' >
-
-        <ComponentRef Id="C__SamplesCommon" />
-        <ComponentRef Id="C__SampleShortcuts" />
-
-        <Feature Id="CSharpSamples" Level="1" Title='C# Samples' Display='expand'
-               Description='Installs C# samples.' >
-
-          <ComponentRef Id="C__CSharp_Samples" />
-          <ComponentRef Id="C__CSharp_Failures" />
-          <ComponentRef Id="C__CSharp_Money" />
-          <ComponentRef Id="C__CSharp_Syntax" />
-
-          <!-- Core Extensibility Samples -->
-          <ComponentRef Id="C__CoreExtensibility" />
-          <ComponentRef Id="C__MinimalAddin" />
-          <ComponentRef Id="C__SampleSuiteExtension" />
-          <ComponentRef Id="C__SampleSuiteExtension_Tests" />
-          <ComponentRef Id="C__SampleFixtureExtension" />
-          <ComponentRef Id="C__SampleFixtureExtension_Tests" />
-
-        </Feature>
-
-        <Feature Id="VBSamples" Level="1" Title='Visual Basic Samples' Display='expand'
-               Description='Installs Visual Basic samples.' >
-
-          <ComponentRef Id="C__VB_Samples" />
-          <ComponentRef Id="C__VB_Failures" />
-          <ComponentRef Id="C__VB_Money" />
-          <ComponentRef Id="C__VB_Syntax" />
-
-        </Feature>
-
-        <Feature Id="JSharpSamples" Level="1" Title='J# Samples' Display='expand'
-               Description='Installs J# samples.' >
-
-          <ComponentRef Id="C__JSharp_Samples" />
-          <ComponentRef Id="C__JSharp_Failures" />
-
-        </Feature>
-
-        <Feature Id="CPPSamples" Level="1" Title='C++ Samples' Display='expand'
-               Description='Installs C++ samples.' >
-
-          <!-- Managed C++ Samples -->
-          <ComponentRef Id="C__CPP_Managed_Samples" />
-          <ComponentRef Id="C__CPP_Managed_Failures" />
-
-          <!-- C++/CLI Samples -->
-          <ComponentRef Id="C__CPP_CLI_Samples" />
-          <ComponentRef Id="C__CPP_CLI_Failures" />
-          <ComponentRef Id="C__CPP_CLI_Syntax" />
-
-        </Feature>
-
-      </Feature>
-
     </Feature>
 
     <!-- The NUnit files are all in a single cab file that is embedded in the MSI -->
@@ -231,8 +153,8 @@
     <!-- **********  Define our GUI using standard WiX UI       ********** -->
     <!-- ***************************************************************** -->
 
-    <!--<UIRef Id="WixUI_Mondo" />-->
-    <UIRef Id="WixUI_FeatureTree" />
+    <UIRef Id="WixUI_Mondo" />
+    <!--<UIRef Id="WixUI_FeatureTree" />-->
     <UIRef Id="WixUI_ErrorProgressText" />
 
     <Icon Id="nunit_icon.exe" SourceFile="Logo.ico" />

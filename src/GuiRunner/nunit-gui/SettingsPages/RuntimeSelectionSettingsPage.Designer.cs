@@ -31,9 +31,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.runtimeSelectionCheckBox = new System.Windows.Forms.CheckBox();
-            this.net11BinDirectoryTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.net11SupportCheckBox = new System.Windows.Forms.CheckBox();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.SuspendLayout();
             // 
             // label3
@@ -57,46 +55,19 @@
             // runtimeSelectionCheckBox
             // 
             this.runtimeSelectionCheckBox.AutoSize = true;
+            this.helpProvider1.SetHelpString(this.runtimeSelectionCheckBox, "If checked and no specific runtime is requested, NUnit examines each assembly and" +
+                    " attempts to load it using the runtime version for which it was built. If not ch" +
+                    "ecked, the current runtime is used.");
             this.runtimeSelectionCheckBox.Location = new System.Drawing.Point(35, 33);
             this.runtimeSelectionCheckBox.Name = "runtimeSelectionCheckBox";
-            this.runtimeSelectionCheckBox.Size = new System.Drawing.Size(337, 17);
+            this.helpProvider1.SetShowHelp(this.runtimeSelectionCheckBox, true);
+            this.runtimeSelectionCheckBox.Size = new System.Drawing.Size(372, 17);
             this.runtimeSelectionCheckBox.TabIndex = 15;
-            this.runtimeSelectionCheckBox.Text = "Select runtime version based on target framework of test assembly";
+            this.runtimeSelectionCheckBox.Text = "Select default runtime version based on target framework of test assembly";
             this.runtimeSelectionCheckBox.UseVisualStyleBackColor = true;
-            this.runtimeSelectionCheckBox.CheckedChanged += new System.EventHandler(this.runtimeSelectionCheckBox_CheckedChanged);
-            // 
-            // net11BinDirectoryTextBox
-            // 
-            this.net11BinDirectoryTextBox.Location = new System.Drawing.Point(52, 115);
-            this.net11BinDirectoryTextBox.Name = "net11BinDirectoryTextBox";
-            this.net11BinDirectoryTextBox.Size = new System.Drawing.Size(335, 20);
-            this.net11BinDirectoryTextBox.TabIndex = 16;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(49, 99);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(155, 13);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "Path to .NET 1.x NUnit binaries";
-            // 
-            // net11SupportCheckBox
-            // 
-            this.net11SupportCheckBox.AutoSize = true;
-            this.net11SupportCheckBox.Location = new System.Drawing.Point(35, 69);
-            this.net11SupportCheckBox.Name = "net11SupportCheckBox";
-            this.net11SupportCheckBox.Size = new System.Drawing.Size(169, 17);
-            this.net11SupportCheckBox.TabIndex = 18;
-            this.net11SupportCheckBox.Text = "Enable .NET 1.0 / 1.1 support";
-            this.net11SupportCheckBox.UseVisualStyleBackColor = true;
-            this.net11SupportCheckBox.CheckedChanged += new System.EventHandler(this.net11SupportCheckBox_CheckedChanged);
             // 
             // RuntimeSelectionSettingsPage
             // 
-            this.Controls.Add(this.net11SupportCheckBox);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.net11BinDirectoryTextBox);
             this.Controls.Add(this.runtimeSelectionCheckBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox3);
@@ -111,8 +82,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox runtimeSelectionCheckBox;
-        private System.Windows.Forms.TextBox net11BinDirectoryTextBox;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.CheckBox net11SupportCheckBox;
+        private System.Windows.Forms.HelpProvider helpProvider1;
     }
 }
