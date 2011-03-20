@@ -33,11 +33,15 @@ namespace NUnit.ConsoleRunner
 
 		public int Execute( ConsoleOptions options )
 		{
+            string workDir = options.work;
+            if (workDir == null || workDir == string.Empty)
+                workDir = Environment.CurrentDirectory;
+
 			TextWriter outWriter = Console.Out;
 			bool redirectOutput = options.output != null && options.output != string.Empty;
 			if ( redirectOutput )
 			{
-				StreamWriter outStreamWriter = new StreamWriter( options.output );
+				StreamWriter outStreamWriter = new StreamWriter( Path.Combine(workDir, options.output) );
 				outStreamWriter.AutoFlush = true;
 				outWriter = outStreamWriter;
 			}
@@ -46,7 +50,7 @@ namespace NUnit.ConsoleRunner
 			bool redirectError = options.err != null && options.err != string.Empty;
 			if ( redirectError )
 			{
-				StreamWriter errorStreamWriter = new StreamWriter( options.err );
+				StreamWriter errorStreamWriter = new StreamWriter( Path.Combine(workDir, options.err) );
 				errorStreamWriter.AutoFlush = true;
 				errorWriter = errorStreamWriter;
 			}
@@ -161,7 +165,7 @@ namespace NUnit.ConsoleRunner
                     string xmlResultFile = options.xml == null || options.xml == string.Empty
                         ? "TestResult.xml" : options.xml;
 
-                    using (StreamWriter writer = new StreamWriter(xmlResultFile))
+                    using (StreamWriter writer = new StreamWriter(Path.Combine(workDir, xmlResultFile)))
                     {
                         writer.Write(xmlOutput);
                     }

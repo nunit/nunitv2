@@ -34,6 +34,9 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "File to receive test error output")]
 		public string err;
 
+        [Option(Description = "Work directory for output files")]
+        public string work;
+
 		[Option(Description = "Label each test in stdOut")]
 		public bool labels = false;
 
