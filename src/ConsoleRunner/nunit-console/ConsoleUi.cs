@@ -159,15 +159,18 @@ namespace NUnit.ConsoleRunner
                             WriteErrorsAndFailuresReport(result);
                         if (summary.TestsNotRun > 0)
                             WriteNotRunReport(result);
-                    }
 
-                    // Write xml output here
-                    string xmlResultFile = options.xml == null || options.xml == string.Empty
-                        ? "TestResult.xml" : options.xml;
+                        if (!options.noxml)
+                        {
+                            // Write xml output here
+                            string xmlResultFile = options.xml == null || options.xml == string.Empty
+                                ? "TestResult.xml" : options.xml;
 
-                    using (StreamWriter writer = new StreamWriter(Path.Combine(workDir, xmlResultFile)))
-                    {
-                        writer.Write(xmlOutput);
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(workDir, xmlResultFile)))
+                            {
+                                writer.Write(xmlOutput);
+                            }
+                        }
                     }
 
                     returnCode = summary.ErrorsAndFailures;

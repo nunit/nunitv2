@@ -28,6 +28,9 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Display XML to the console (Deprecated)")]
 		public bool xmlConsole;
 
+        [Option(Description = "Suppress XML output")]
+        public bool noxml;
+
 		[Option(Short="out", Description = "File to receive test output")]
 		public string output;
 
