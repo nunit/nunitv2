@@ -25,7 +25,9 @@ namespace NUnit.Gui
 
 	public class NUnitForm : System.Windows.Forms.Form
 	{
-		#region Instance variables
+        static Logger log = InternalTrace.GetLogger(typeof(NUnitForm));
+        
+        #region Instance variables
 
 		// Handlers for our recentFiles and recentProjects
 		private RecentFileMenuHandler recentProjectsMenuHandler;
@@ -1779,7 +1781,16 @@ the version under which NUnit is currently running ({0}) or trying to load a 64-
                 "Passed: {0}   Failed: {1}   Errors: {2}   Inconclusive: {3}   Invalid: {4}   Ignored: {5}   Skipped: {6}   Time: {7}",
                 summary.Passed, summary.Failures, summary.Errors, summary.Inconclusive, summary.NotRunnable, summary.Ignored, summary.Skipped, summary.Time);
 
-			EnableRunCommand( true );
+            try
+            {
+                TestLoader.SaveLastResult("TestResult.xml");
+            }
+            catch (Exception ex)
+            {
+                log.Warning("Unable to save TestResult.xml\n{0}", ex.ToString());
+            }
+
+            EnableRunCommand(true);
 
             if (e.Result.ResultState == ResultState.Failure ||
                 e.Result.ResultState == ResultState.Error ||

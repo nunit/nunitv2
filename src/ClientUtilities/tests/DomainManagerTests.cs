@@ -72,9 +72,9 @@ namespace NUnit.Util.Tests
         }
 
         /// <summary>
-        /// Take a valid Linux path and make a valid windows path out of it
+        /// Take a valid Linux filePath and make a valid windows filePath out of it
         /// if we are on Windows. Change slashes to backslashes and, if the
-        /// path starts with a slash, add C: in front of it.
+        /// filePath starts with a slash, add C: in front of it.
         /// </summary>
         private static string TestPath(string path)
         {

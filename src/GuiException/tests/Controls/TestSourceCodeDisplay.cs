@@ -98,9 +98,9 @@ namespace NUnit.UiException.Tests.Controls
             // handle selection changed event when there
             // is a non null selected item
 
-            using (new TestResource("Basic.cs"))
+            using (TestResource resource = new TestResource("Basic.cs"))
             {
-                item = new ErrorItem("Basic.cs", 2);
+                item = new ErrorItem(resource.Path, 2);
                 Assert.That(item.ReadFile(), Is.Not.Null);
 
                 _mockStack.SelectedItem.Returns(item);

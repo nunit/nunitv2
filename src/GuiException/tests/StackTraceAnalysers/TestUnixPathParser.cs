@@ -38,7 +38,7 @@ namespace NUnit.UiException.Tests.StackTraceAnalyzers
             res = AcceptValue(_parser, "à get_Text() dans /home/ihottier/TraceItem.cs.cs.cs.cs:ligne 43");
             Assert.That(res.Path, Is.EqualTo("/home/ihottier/TraceItem.cs.cs.cs.cs"));
 
-            // check it supports white space in path
+            // check it supports white space in filePath
             res = AcceptValue(_parser, "à get_Text() dans /home/ihottier/my Document1/my document2 containing space/file.cs:line 1");
             Assert.That(res.Path, Is.EqualTo("/home/ihottier/my Document1/my document2 containing space/file.cs"));
 
@@ -77,15 +77,15 @@ namespace NUnit.UiException.Tests.StackTraceAnalyzers
         [Test]
         public void Test_Inability_To_Parse_Non_Unix_Like_Path_Values()
         {
-            // check it fails to parse Windows like path values
+            // check it fails to parse Windows like filePath values
             RejectValue(_parser, "à get_Text() dans C:\\Users\\ihottier\\Work\\file1:line1");
 
-            // check it fails to parse ill-formed Unix path values
+            // check it fails to parse ill-formed Unix filePath values
             RejectValue(_parser, "à get_Text() dans /:line1");
             RejectValue(_parser, "à get_Text() dans / :line1");
             RejectValue(_parser, "à get_Text() dans home/file1:line1");
 
-            // check it fails to parse missing path value
+            // check it fails to parse missing filePath value
             RejectValue(_parser, "à get_Text()");
 
             return;

@@ -149,9 +149,9 @@ namespace NUnit.UiException.Tests
         {
             ErrorItem item;
 
-            using (new TestResource("HelloWorld.txt"))
+            using (TestResource resource = new TestResource("HelloWorld.txt"))
             {
-                item = new ErrorItem("HelloWorld.txt", 1);
+                item = new ErrorItem(resource.Path, 1);
 
                 Assert.That(item.ReadFile(), Is.Not.Null);
                 Assert.That(item.ReadFile(), Is.EqualTo("Hello world!"));

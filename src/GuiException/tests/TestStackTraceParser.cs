@@ -195,7 +195,7 @@ namespace NUnit.UiException.Tests
             // NUnit.UiException.Tests ability to not depend of one file system
             //
 
-            // here, an hypothetic stack containing UNIX and Windows like path values...
+            // here, an hypothetic stack containing UNIX and Windows like filePath values...
            
             _parser.Parse(
                 "at Test.TestStackTraceParser.Test_Parse() in /home/ihottier/work/stacktrace/test/TestStackTraceParser.cs:line 36\r\n" +

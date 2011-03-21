@@ -40,7 +40,7 @@ namespace NUnit.UiException.Tests.StackTraceAnalyzers
             res = AcceptValue(_parser, "à main(int argc, const char **argv) dans C:\\file1:line1");
             Assert.That(res.Function, Is.EqualTo("main(int argc, const char **argv)"));
 
-            // check it doesn't rely upon path or line information
+            // check it doesn't rely upon filePath or line information
             //res = AcceptValue(_parser, "get_Text()");
             //Assert.That(res.Function, Is.EqualTo("get_Text()"));
 

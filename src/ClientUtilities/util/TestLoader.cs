@@ -202,17 +202,7 @@ namespace NUnit.Util
 		{
 			this.testResult = testResult;
 
-			try
-			{
-				this.SaveLastResult( 
-					Path.Combine( Path.GetDirectoryName( this.TestFileName ), "TestResult.xml" ) );
-				events.FireRunFinished( testResult );
-			}
-			catch( Exception ex )
-			{
-				this.lastException = ex;
-				events.FireRunFinished( ex );
-			}
+            events.FireRunFinished(testResult);
 		}
 
 		public void RunFinished(Exception exception)

@@ -19,13 +19,13 @@ namespace NUnit.Framework.Tests
 
         #region TestDirectory Utility Class
 
-        public TestDirectory(string directoryName) : this(directoryName, true) { }
+        public TestDirectory(string dirName) : this(dirName, true) { }
 
-        public TestDirectory(string directoryName, bool CreateSubDirectory)
+        public TestDirectory(string dirName, bool CreateSubDirectory)
         {
-            this.directoryName = Path.Combine(Environment.CurrentDirectory, directoryName);
+            this.directoryName = Path.Combine(Path.GetTempPath(), dirName);
 
-            directoryInformation = Directory.CreateDirectory(directoryName);
+            directoryInformation = Directory.CreateDirectory(this.directoryName);
 
             if (CreateSubDirectory)
             {

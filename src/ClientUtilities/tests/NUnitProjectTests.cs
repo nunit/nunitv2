@@ -15,7 +15,7 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class NUnitProjectTests
 	{
-		static readonly string xmlfile = "test.nunit";
+		static readonly string xmlfile = Path.Combine(Path.GetTempPath(), "test.nunit");
         static readonly string mockDll = NUnit.Tests.Assemblies.MockAssembly.AssemblyPath;
 
 		private NUnitProject project;
@@ -262,13 +262,15 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void SaveAndLoadConfigsWithAssemblies()
 		{
+            string tempPath = Path.GetTempPath();
+
 			ProjectConfig config1 = new ProjectConfig( "Debug" );
-			config1.Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly1.dll" ) );
-			config1.Assemblies.Add( Path.GetFullPath( @"bin\debug\assembly2.dll" ) );
+            config1.Assemblies.Add(Path.Combine(tempPath, @"bin\debug\assembly1.dll"));
+            config1.Assemblies.Add(Path.Combine(tempPath, @"bin\debug\assembly2.dll"));
 
 			ProjectConfig config2 = new ProjectConfig( "Release" );
-			config2.Assemblies.Add( Path.GetFullPath( @"bin\release\assembly1.dll" ) );
-			config2.Assemblies.Add( Path.GetFullPath( @"bin\release\assembly2.dll" ) );
+            config2.Assemblies.Add(Path.Combine(tempPath, @"bin\release\assembly1.dll"));
+            config2.Assemblies.Add(Path.Combine(tempPath, @"bin\release\assembly2.dll"));
 
 			project.Configs.Add( config1 );
 			project.Configs.Add( config2 );
@@ -282,13 +284,13 @@ namespace NUnit.Util.Tests
 
 			config1 = project2.Configs["Debug"];
 			Assert.AreEqual( 2, config1.Assemblies.Count );
-			Assert.AreEqual( Path.GetFullPath( @"bin\debug\assembly1.dll" ), config1.Assemblies[0] );
-			Assert.AreEqual( Path.GetFullPath( @"bin\debug\assembly2.dll" ), config1.Assemblies[1] );
+            Assert.AreEqual(Path.Combine(tempPath, @"bin\debug\assembly1.dll"), config1.Assemblies[0]);
+            Assert.AreEqual(Path.Combine(tempPath, @"bin\debug\assembly2.dll"), config1.Assemblies[1]);
 
 			config2 = project2.Configs["Release"];
 			Assert.AreEqual( 2, config2.Assemblies.Count );
-			Assert.AreEqual( Path.GetFullPath( @"bin\release\assembly1.dll" ), config2.Assemblies[0] );
-			Assert.AreEqual( Path.GetFullPath( @"bin\release\assembly2.dll" ), config2.Assemblies[1] );
+            Assert.AreEqual(Path.Combine(tempPath, @"bin\release\assembly1.dll"), config2.Assemblies[0]);
+            Assert.AreEqual(Path.Combine(tempPath, @"bin\release\assembly2.dll"), config2.Assemblies[1]);
 		}
 	}
 }

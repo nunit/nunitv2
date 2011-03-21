@@ -110,15 +110,15 @@ namespace NUnit.Util.Tests
             Assert.AreEqual(string.Empty,
                 PathUtils.RelativePath(@"C:\", @"C:\"));
 
-            // First path consisting just of a root:
+            // First filePath consisting just of a root:
             Assert.AreEqual(@"folder1\folder2", PathUtils.RelativePath(
                 @"C:\", @"C:\folder1\folder2"));
             
-            // Trailing directory separator in first path shall be ignored:
+            // Trailing directory separator in first filePath shall be ignored:
             Assert.AreEqual(@"folder2\folder3", PathUtils.RelativePath(
                 @"c:\folder1\", @"c:\folder1\folder2\folder3"));
             
-            // Case-insensitive behaviour, preserving 2nd path directories in result:
+            // Case-insensitive behaviour, preserving 2nd filePath directories in result:
             Assert.AreEqual(@"Folder2\Folder3", PathUtils.RelativePath(
                 @"C:\folder1", @"c:\folder1\Folder2\Folder3"));
             Assert.AreEqual(@"..\Folder2\folder3", PathUtils.RelativePath(
@@ -216,11 +216,11 @@ namespace NUnit.Util.Tests
             Assert.AreEqual(string.Empty,
                 PathUtils.RelativePath("/", "/"));
             
-            // First path consisting just of a root:
+            // First filePath consisting just of a root:
             Assert.AreEqual("folder1/folder2", PathUtils.RelativePath(
                 "/", "/folder1/folder2"));
             
-            // Trailing directory separator in first path shall be ignored:
+            // Trailing directory separator in first filePath shall be ignored:
             Assert.AreEqual("folder2/folder3", PathUtils.RelativePath(
                 "/folder1/", "/folder1/folder2/folder3"));
             

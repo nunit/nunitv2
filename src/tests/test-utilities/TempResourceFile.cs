@@ -13,22 +13,29 @@ namespace NUnit.TestUtilities
 	{
 		string path;
 
-		public TempResourceFile(Type type, string name) : this(type, name, name) {}
+		public TempResourceFile(Type type, string name) : this(type, name, null) {}
 
-		public TempResourceFile(Type type, string name, string path)
+		public TempResourceFile(Type type, string name, string filePath)
 		{
-			this.path = path;
-			Stream stream = type.Assembly.GetManifestResourceStream(type, name);
+            if (filePath == null)
+                filePath = name;
+
+            if (!System.IO.Path.IsPathRooted(filePath))
+                filePath = System.IO.Path.Combine(System.IO.Path.GetTempPath(), filePath);
+
+            this.path = filePath;
+
+            Stream stream = type.Assembly.GetManifestResourceStream(type, name);
 			byte[] buffer = new byte[(int)stream.Length];
 			stream.Read(buffer, 0, buffer.Length);
 
-			string dir = System.IO.Path.GetDirectoryName(path);
+			string dir = System.IO.Path.GetDirectoryName(this.path);
 			if(dir != null && dir.Length != 0)
 			{
 				Directory.CreateDirectory(dir);
 			}
 
-			using(FileStream fileStream = new FileStream(path, FileMode.Create))
+			using(FileStream fileStream = new FileStream(this.path, FileMode.Create))
 			{
 				fileStream.Write(buffer, 0, buffer.Length);
 			}

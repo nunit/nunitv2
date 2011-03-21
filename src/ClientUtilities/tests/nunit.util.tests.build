@@ -39,6 +39,7 @@
         <include name="VisualStudioConverterTests.cs"/>
         <include name="VSProjectTests.cs"/>
         <include name="XmlResultWriterTest.cs"/>
+    <include name="resources/TestResource.cs"/>
   </patternset>
 
   <patternset id="resource-files">
