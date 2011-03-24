@@ -39,6 +39,7 @@
     <include name="SettingsPages/AssemblyReloadSettingsPage.resx"/>
     <include name="SettingsPages/GuiSettingsPage.resx"/>
     <include name="SettingsPages/InternalTraceSettingsPage.resx"/>
+    <include name="SettingsPages/RuntimeSelectionSettingsPage.resx"/>
     <include name="SettingsPages/TestLoaderSettingsPage.resx"/>
     <include name="SettingsPages/TestResultSettingsPage.resx"/>
     <include name="SettingsPages/TreeSettingsPage.resx"/>

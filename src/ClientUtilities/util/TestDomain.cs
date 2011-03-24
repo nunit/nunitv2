@@ -68,7 +68,11 @@ namespace NUnit.Util
 				if ( this.TestRunner == null )
 					this.TestRunner = this.agent.CreateRunner( this.ID );
 
-                log.Info("Loading tests in AppDomain, see {0}.log", domain.FriendlyName);
+                log.Info(
+                    "Loading tests in AppDomain, see {0}_{1}.log", 
+                    domain.FriendlyName, 
+                    Process.GetCurrentProcess().Id);
+
 				return TestRunner.Load( package );
 			}
 			catch

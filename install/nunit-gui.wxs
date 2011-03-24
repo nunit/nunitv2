@@ -14,11 +14,6 @@
         <File Id="nunit.config" Name="NUNIT.CFG" LongName="nunit.exe.config" />
       </Component>
       		
-      <Component Id="nunit_x86" DiskId="1" Guid="3D07B159-305C-4fa9-979B-2B50C439E024">
-        <File Id="nunit_x86.exe" Name="NUNITX86.EXE" LongName="nunit-x86.exe" />
-        <File Id="nunit_x86.config" Name="NUNITX86.CFG" LongName="nunit-x86.exe.config" />
-      </Component>
-
       <Component Id="DllFileAssociation" Guid="51496B17-0252-4adf-9850-1E0841E5A51B">
 
         <Registry Id="R__OpenDllWith" Root="HKCR" Key=".dll\OpenWithList\nunit.exe"/>

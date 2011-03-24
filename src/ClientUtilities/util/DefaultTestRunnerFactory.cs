@@ -16,6 +16,7 @@ namespace NUnit.Util
     /// </summary>
     public class DefaultTestRunnerFactory : InProcessTestRunnerFactory, ITestRunnerFactory
     {
+#if NET_2_0
         private RuntimeFrameworkSelector selector = new RuntimeFrameworkSelector();        
         
         /// <summary>
@@ -76,7 +77,6 @@ namespace NUnit.Util
                     processModel = ProcessModel.Separate;
             return processModel;
         }
+#endif
     }
-
-
 }

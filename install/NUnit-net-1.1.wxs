@@ -108,7 +108,6 @@
       <!-- Defined in base.wxs -->
       <ComponentRef Id="C__LICENSE"/>
       <ComponentRef Id="C__LOGO"/>
-      <ComponentRef Id="C__FIT_LICENSE"/>
       <ComponentRef Id="InstallationRegistryEntry"/>
       <ComponentRef Id="nunit.framework"/>
       <ComponentRef Id="nunit.mocks"/>
@@ -139,8 +138,6 @@
         <ComponentRef Id="NUnitTestProject" />
         <ComponentRef Id="framework_copy_for_tests" />
         <ComponentRef Id="base_tests" />
-        <ComponentRef Id="fit_tests" />
-        <ComponentRef Id="fit_lib" />
 
       </Feature>
 

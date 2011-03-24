@@ -113,6 +113,11 @@
       <buildfiles refid="project.buildfiles"/>
     </nant>
 
+    <!-- Build Extra targets if runtime is 2.0 or greater -->
+    <nant target="build" if="${runtime.version >= '2.0'}" >
+      <buildfiles refid="extra.buildfiles"/>
+    </nant>
+
     <!-- Build GUI if runtime is 2.0 or greater -->
     <call target="build-gui" if="${runtime.version >= '2.0'}" />
 
@@ -440,8 +445,6 @@
     <include name="tests/nonamespace-assembly/nonamespace-assembly.build" />
     <include name="tests/test-assembly/test-assembly.build" />
     <include name="tests/test-utilities/test-utilities.build" />
-    <include name="tests/loadtest-assembly/loadtest-assembly.build" />
-    <include name="tests/timing-tests/timing-tests.build" />
 
     <!-- NUnit Base Tests -->
     <include name="NUnitFramework/tests/nunit.framework.tests.build" />
@@ -455,12 +458,20 @@
     <!-- PNUnit Tests -->
     <include name="PNUnit/tests/pnunit.tests.build"/>
 
+  </fileset>
+
+  <fileset id="extra.buildfiles" basedir="${project.src.dir}">
+
+    <!-- Timing Tests -->
+    <include name="tests/loadtest-assembly/loadtest-assembly.build" />
+    <include name="tests/timing-tests/timing-tests.build" />
+
     <!-- FIT Tests -->
     <include name="NUnitFixtures/fixtures/nunit.fixtures.build" />
     <include name="NUnitFixtures/tests/nunit.fixtures.tests.build" />
 
   </fileset>
-
+  
   <fileset id="gui.buildfiles" basedir="${project.src.dir}">
 
     <!-- Gui Runner -->
