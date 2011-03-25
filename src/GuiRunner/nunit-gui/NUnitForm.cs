@@ -869,7 +869,7 @@ namespace NUnit.Gui
                 foreach (RuntimeFramework framework in frameworks)
                 {
                     MenuItem item = new MenuItem(framework.DisplayName);
-                    item.Checked = current.Matches(framework);
+                    item.Checked = current.Supports(framework);
                     item.Tag = framework;
                     item.Click += new EventHandler(runtimeFrameworkMenuItem_Click);
                     item.Enabled = Services.TestAgency.IsRuntimeVersionSupported(framework.ClrVersion);

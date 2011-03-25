@@ -13,7 +13,7 @@ using NUnit.Core.Filters;
 
 namespace NUnit.Core.Tests
 {
-	[TestFixture]
+    [TestFixture, Platform("Net-3.5,Mono-3.5")]
 	public class TestRunnerThreadTests
 	{
 		private TestRunner mockRunner;

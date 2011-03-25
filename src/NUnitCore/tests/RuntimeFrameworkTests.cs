@@ -39,7 +39,7 @@ namespace NUnit.Core.Tests
             foreach (RuntimeFramework framework in available)
             {
                 Console.WriteLine("Available: {0}", framework.DisplayName);
-                foundCurrent |= RuntimeFramework.CurrentFramework.Matches(framework);
+                foundCurrent |= RuntimeFramework.CurrentFramework.Supports(framework);
             }
             Assert.That(foundCurrent, "CurrentFramework not listed");
         }
@@ -71,10 +71,22 @@ namespace NUnit.Core.Tests
         [TestCaseSource("matchData")]
         public bool CanMatchRuntimes(RuntimeFramework f1, RuntimeFramework f2)
         {
-            return f1.Matches(f2);
+            return f1.Supports(f2);
         }
 
         internal static TestCaseData[] matchData = new TestCaseData[] {
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Net, new Version(3,5)), 
+                new RuntimeFramework(RuntimeType.Net, new Version(2,0))) 
+                .Returns(true),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Net, new Version(2,0)), 
+                new RuntimeFramework(RuntimeType.Net, new Version(3,5))) 
+                .Returns(false),
+            new TestCaseData(
+                new RuntimeFramework(RuntimeType.Net, new Version(3,5)), 
+                new RuntimeFramework(RuntimeType.Net, new Version(3,5))) 
+                .Returns(true),
             new TestCaseData(
                 new RuntimeFramework(RuntimeType.Net, new Version(2,0)), 
                 new RuntimeFramework(RuntimeType.Net, new Version(2,0))) 
@@ -89,10 +101,6 @@ namespace NUnit.Core.Tests
                 .Returns(true),
             new TestCaseData(
                 new RuntimeFramework(RuntimeType.Net, new Version(2,0,50727)), 
-                new RuntimeFramework(RuntimeType.Net, new Version(2,0))) 
-                .Returns(true),
-            new TestCaseData(
-                new RuntimeFramework(RuntimeType.Net, new Version(3,5)), 
                 new RuntimeFramework(RuntimeType.Net, new Version(2,0))) 
                 .Returns(true),
             new TestCaseData(
