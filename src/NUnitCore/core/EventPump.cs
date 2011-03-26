@@ -28,36 +28,47 @@ namespace NUnit.Core
 	/// </summary>
 	public class EventPump : IDisposable
 	{
-        static Logger log = InternalTrace.GetLogger(typeof(EventPump));
+        private static Logger log = InternalTrace.GetLogger(typeof(EventPump));
 
 		#region Instance Variables
+
+        /// <summary>
+        /// The handle on which a thread enqueuing an event with <see cref="Event.IsSynchronous"/> == <c>true</c>
+        /// waits, until the EventPump has sent the event to its listeners.
+        /// </summary>
+        private readonly AutoResetEvent synchronousEventSent = new AutoResetEvent(false);
+
 		/// <summary>
 		/// The downstream listener to which we send events
 		/// </summary>
-		EventListener eventListener;
+		private EventListener eventListener;
 		
 		/// <summary>
 		/// The queue that holds our events
 		/// </summary>
-		EventQueue events;
+		private EventQueue events;
 		
 		/// <summary>
 		/// Thread to do the pumping
 		/// </summary>
-		Thread pumpThread;
+		private Thread pumpThread;
 
 		/// <summary>
 		/// The current state of the eventpump
 		/// </summary>
-		EventPumpState pumpState = EventPumpState.Stopped;
+		private volatile EventPumpState pumpState = EventPumpState.Stopped;
 
 		/// <summary>
 		/// If true, stop after sending RunFinished
 		/// </summary>
 		private bool autostop;
+
+        private string name;
+
 		#endregion
 
 		#region Constructor
+
 		/// <summary>
 		/// Constructor
 		/// </summary>
@@ -68,39 +79,77 @@ namespace NUnit.Core
 		{
 			this.eventListener = eventListener;
 			this.events = events;
-			this.autostop = autostop;
+            this.events.SetWaitHandleForSynchronizedEvents(this.synchronousEventSent);
+            this.autostop = autostop;
 		}
+
 		#endregion
 
 		#region Properties
+
 		/// <summary>
-		/// The current state of the pump
+		/// Gets or sets the current state of the pump
 		/// </summary>
+        /// <remarks>
+        /// On <c>volatile</c> and <see cref="Thread.MemoryBarrier"/>, see
+        /// "http://www.albahari.com/threading/part4.aspx".
+        /// </remarks>
 		public EventPumpState PumpState
 		{
-			get { return pumpState; }
+		    get
+		    {
+                Thread.MemoryBarrier();
+		        return pumpState;
+		    }
+
+		    set
+		    {
+		        this.pumpState = value;
+                Thread.MemoryBarrier();
+		    }
 		}
+
+        /// <summary>
+        /// Gets or sets the name of this EventPump
+        /// (used only internally and for testing).
+        /// </summary>
+	    public string Name
+	    {
+	        get
+	        {
+	            return this.name;
+	        }
+	        set
+	        {
+	            this.name = value;
+	        }
+	    }
+
 		#endregion
 
 		#region Public Methods
+
 		/// <summary>
-		/// Dispose stops the pump
+		/// Disposes and stops the pump.
+		/// Disposes the used WaitHandle, too.
 		/// </summary>
 		public void Dispose()
 		{
 			Stop();
-		}
+            ((IDisposable)this.synchronousEventSent).Dispose();
+        }
 
 		/// <summary>
 		/// Start the pump
 		/// </summary>
 		public void Start()
 		{
-			if ( pumpState == EventPumpState.Stopped )  // Ignore if already started
+			if ( this.PumpState == EventPumpState.Stopped )  // Ignore if already started
 			{
 				this.pumpThread = new Thread( new ThreadStart( PumpThreadProc ) );
-				this.pumpThread.Name = "EventPumpThread";
-                pumpState = EventPumpState.Pumping;
+                this.pumpThread.Name = "EventPumpThread" + this.Name;
+                this.pumpThread.Priority = ThreadPriority.Highest;
+                this.PumpState = EventPumpState.Pumping;
                 this.pumpThread.Start();
 			}
 		}
@@ -110,19 +159,18 @@ namespace NUnit.Core
 		/// </summary>
 		public void Stop()
 		{
-			if ( pumpState == EventPumpState.Pumping ) // Ignore extra calls
+			if ( this.PumpState == EventPumpState.Pumping ) // Ignore extra calls
 			{
-				lock( events )
-				{
-					pumpState = EventPumpState.Stopping;
-					Monitor.Pulse( events ); // In case thread is waiting
-				}
-				this.pumpThread.Join();
+                this.PumpState = EventPumpState.Stopping;
+                this.events.Stop();
+                this.pumpThread.Join();
 			}
 		}
+
 		#endregion
 
 		#region PumpThreadProc
+
 		/// <summary>
 		/// Our thread proc for removing items from the event
 		/// queue and sending them on. Note that this would
@@ -132,23 +180,30 @@ namespace NUnit.Core
 		private void PumpThreadProc()
 		{
 			EventListener hostListeners = CoreExtensions.Host.Listeners;
-			Monitor.Enter( events );
             try
             {
-                while (this.events.Count > 0 || pumpState == EventPumpState.Pumping)
+                while (true)
                 {
-                    while (this.events.Count > 0)
+                    Event e = this.events.Dequeue( this.PumpState == EventPumpState.Pumping );
+                    if ( e == null )
+                        break;
+                    try
                     {
-                        Event e = this.events.Dequeue();
                         e.Send(this.eventListener);
 						e.Send(hostListeners);
-                        if (autostop && e is RunFinishedEvent)
-                            pumpState = EventPumpState.Stopping;
                     }
-                    // Will be pulsed if there are any events added
-                    // or if it's time to stop the pump.
-                    if ( pumpState != EventPumpState.Stopping )
-                        Monitor.Wait(events);
+                    catch (Exception ex)
+                    {
+                        log.Error( "Exception in event handler", ex );
+                    }
+                    finally
+                    {
+                        if ( e.IsSynchronous )
+                            this.synchronousEventSent.Set();
+                    }
+
+                    if ( this.autostop && e is RunFinishedEvent )
+                        this.PumpState = EventPumpState.Stopping;
                 }
             }
             catch (Exception ex)
@@ -157,9 +212,8 @@ namespace NUnit.Core
             }
 			finally
 			{
-				Monitor.Exit( events );
-                pumpState = EventPumpState.Stopped;
-				//pumpThread = null;
+                this.PumpState = EventPumpState.Stopped;
+                //pumpThread = null;
 			}
 		}
 		#endregion
