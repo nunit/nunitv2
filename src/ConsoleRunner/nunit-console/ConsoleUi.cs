@@ -87,7 +87,7 @@ namespace NUnit.ConsoleRunner
 				if ( options.run != null && options.run != string.Empty )
 				{
 					Console.WriteLine( "Selected test(s): " + options.run );
-					testFilter = new SimpleNameFilter( options.run );
+					testFilter = new SimpleNameFilter( TestNameParser.Parse(options.run) );
 				}
 
 				if ( options.include != null && options.include != string.Empty )

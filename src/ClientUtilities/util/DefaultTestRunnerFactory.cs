@@ -51,7 +51,7 @@ namespace NUnit.Util
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if (processModel == ProcessModel.Default)
-                if (!targetFramework.Matches(currentFramework))
+                if (!currentFramework.Supports(targetFramework))
                     processModel = ProcessModel.Separate;
 
             switch (processModel)
@@ -73,7 +73,7 @@ namespace NUnit.Util
 
             ProcessModel processModel = (ProcessModel)package.GetSetting("ProcessModel", ProcessModel.Default);
             if (processModel == ProcessModel.Default)
-                if (!targetFramework.Matches(currentFramework))
+                if (!currentFramework.Supports(targetFramework))
                     processModel = ProcessModel.Separate;
             return processModel;
         }

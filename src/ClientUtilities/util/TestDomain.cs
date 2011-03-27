@@ -115,5 +115,16 @@ namespace NUnit.Util
             base.BeginRun(listener, filter);
         }
         #endregion
+
+        #region IDisposable Members
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            Unload();
+        }
+
+        #endregion
     }
 }

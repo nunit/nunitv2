@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace NUnit.UiException.Tests.Controls
 {
-    [TestFixture]
+    [TestFixture, Platform("Net-3.5,Mono-3.5")]
     public class TestErrorBrowser
     {
         private TestingErrorBrowser _errorBrowser;

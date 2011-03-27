@@ -85,21 +85,21 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void InvalidFixture()
 		{
-			int resultCode = executeConsole( new string[] { MockAssembly.AssemblyPath, "-fixture:NUnit.Tests.BogusTest", "-noxml" });
+			int resultCode = executeConsole( new string[] { MockAssembly.AssemblyPath, "-fixture:NUnit.Tests.BogusTest", "-noxml", "-trace:Off" });
 			Assert.AreEqual(ConsoleUi.FIXTURE_NOT_FOUND, resultCode);
 		}
 
 		[Test]
 		public void AssemblyNotFound()
 		{
-            int resultCode = executeConsole(new string[] { "badassembly.dll", "-noxml" });
+            int resultCode = executeConsole(new string[] { "badassembly.dll", "-noxml", "-trace:Off" });
             Assert.AreEqual(ConsoleUi.FILE_NOT_FOUND, resultCode);
         }
 
         [Test]
         public void OneOfTwoAssembliesNotFound()
         {
-            int resultCode = executeConsole(new string[] { GetType().Module.Name, "badassembly.dll", "-noxml" });
+            int resultCode = executeConsole(new string[] { GetType().Module.Name, "badassembly.dll", "-noxml", "-trace:Off" });
             Assert.AreEqual(ConsoleUi.FILE_NOT_FOUND, resultCode);
         }
 
@@ -133,56 +133,57 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void CanRunWithoutTestDomain()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-process:single", "-noxml"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-process:single", "-noxml", "-trace:Off"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithSingleTestDomain()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-process:single", "-noxml"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-process:single", "-noxml", "-trace:Off"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithMultipleTestDomains()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-process:single", "-noxml"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-process:single", "-noxml", "-trace:Off"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithoutTestDomain_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-nothread", "-process:single", "-noxml"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-nothread", "-process:single", "-noxml", "-trace:Off"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithSingleTestDomain_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-nothread", "-process:single", "-noxml"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-nothread", "-process:single", "-noxml", "-trace:Off"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithMultipleTestDomains_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-nothread", "-process:single", "-noxml"));
+            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-nothread", "-process:single", "-noxml", "-trace:Off"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		private int runFixture( Type type )
 		{
-            return executeConsole(new string[] { AssemblyHelper.GetAssemblyPath(type), "-process:single", "-fixture:" + type.FullName, "-noxml" });
+            return executeConsole(new string[] { AssemblyHelper.GetAssemblyPath(type), "-process:single", "-fixture:" + type.FullName, "-noxml", "-trace:Off" });
 		}
 
 		private int runFixture( Type type, params string[] arguments )
 		{
-			string[] args = new string[arguments.Length+3];
+			string[] args = new string[arguments.Length+4];
 			int n = 0;
 			args[n++] = AssemblyHelper.GetAssemblyPath(type);
             args[n++] = "-process:single";
+            args[n++] = "-trace:Off";
 			args[n++] = "-fixture:" + type.FullName;
 			foreach( string arg in arguments )
 				args[n++] = arg;

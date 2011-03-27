@@ -2,11 +2,12 @@
 <project name="NUnit-Console" default="build">
 
   <patternset id="source-files">
-        <include name="AssemblyInfo.cs"/>
-        <include name="ConsoleOptions.cs"/>
-        <include name="ConsoleUi.cs"/>
-        <include name="EventCollector.cs"/>
-        <include name="Runner.cs"/>
+    <include name="AssemblyInfo.cs"/>
+    <include name="ConsoleOptions.cs"/>
+    <include name="ConsoleUi.cs"/>
+    <include name="EventCollector.cs"/>
+    <include name="Runner.cs"/>
+    <include name="TestNameParser.cs"/>
   </patternset>
 
   <target name="build">

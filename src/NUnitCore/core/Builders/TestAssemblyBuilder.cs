@@ -149,13 +149,7 @@ namespace NUnit.Core.Builders
                     testAssembly.Add(fixture);
                 }
 			}
-
-			if ( fixtures.Count == 0 )
-			{
-				testAssembly.RunState = RunState.NotRunnable;
-				testAssembly.IgnoreReason = "Has no TestFixtures";
-			}
-			
+	
             NUnitFramework.ApplyCommonAttributes( assembly, testAssembly );
 
             testAssembly.Properties["_PID"] = System.Diagnostics.Process.GetCurrentProcess().Id;

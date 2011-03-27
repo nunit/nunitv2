@@ -39,7 +39,7 @@ namespace NUnit.Core.Tests
 			CheckPlatforms(
 				new PlatformHelper( OSPlatform.CurrentPlatform, runtimeFramework ),
 				expectedPlatforms,
-				PlatformHelper.RuntimePlatforms + ",NET-1.0,NET-1.1,NET-2.0,MONO-1.0,MONO-2.0" );
+				PlatformHelper.RuntimePlatforms + ",NET-1.0,NET-1.1,NET-2.0,NET-3.0,NET-3.5,NET-4.0,MONO-1.0,MONO-2.0,MONO-3.0,MONO-3.5,MONO-4.0" );
 		}
 
 		private void CheckPlatforms( PlatformHelper helper, 
@@ -214,13 +214,30 @@ namespace NUnit.Core.Tests
 				"NET,NET-1.1" );
 		}
 
-		[Test]
-		public void DetectNet20()
-		{
-			CheckRuntimePlatforms(
-				new RuntimeFramework( RuntimeType.Net, new Version( 2, 0, 40607, 0 ) ),
-				"Net,Net-2.0" );
-		}
+        [Test]
+        public void DetectNet20()
+        {
+            CheckRuntimePlatforms(
+                new RuntimeFramework(RuntimeType.Net, new Version(2, 0, 40607, 0)),
+                "Net,Net-2.0");
+        }
+
+        [Test]
+        public void DetectNet30()
+        {
+            CheckRuntimePlatforms(
+                new RuntimeFramework(RuntimeType.Net, new Version(3, 0)),
+                "Net,Net-2.0,Net-3.0");
+        }
+
+        [Test]
+        public void DetectNet35()
+        {
+            CheckRuntimePlatforms(
+                new RuntimeFramework(RuntimeType.Net, new Version(3, 5)),
+                "Net,Net-2.0,Net-3.0,Net-3.5");
+        }
+
         [Test]
         public void DetectNet40()
         {
@@ -253,15 +270,39 @@ namespace NUnit.Core.Tests
 				"Mono,Mono-1.0" );
 		}
 
-		[Test]
-		public void DetectMono20()
-		{
-			CheckRuntimePlatforms(
-				new RuntimeFramework( RuntimeType.Mono, new Version( 2, 0, 40607, 0 ) ),
-				"Mono,Mono-2.0" );
-		}
+        [Test]
+        public void DetectMono20()
+        {
+            CheckRuntimePlatforms(
+                new RuntimeFramework(RuntimeType.Mono, new Version(2, 0, 40607, 0)),
+                "Mono,Mono-2.0");
+        }
 
-		[Test]
+        [Test]
+        public void DetectMono30()
+        {
+            CheckRuntimePlatforms(
+                new RuntimeFramework(RuntimeType.Mono, new Version(3, 0)),
+                "Mono,Mono-2.0,Mono-3.0");
+        }
+
+        [Test]
+        public void DetectMono35()
+        {
+            CheckRuntimePlatforms(
+                new RuntimeFramework(RuntimeType.Mono, new Version(3, 5)),
+                "Mono,Mono-2.0,Mono-3.0,Mono-3.5");
+        }
+
+        [Test]
+        public void DetectMono40()
+        {
+            CheckRuntimePlatforms(
+                new RuntimeFramework(RuntimeType.Mono, new Version(4, 0, 30319)),
+                "Mono,Mono-4.0");
+        }
+
+        [Test]
 		public void DetectExactVersion()
 		{
 			Assert.IsTrue( winXPHelper.IsPlatformSupported( "net-1.1.4322" ) );

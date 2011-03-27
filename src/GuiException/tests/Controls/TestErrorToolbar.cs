@@ -13,7 +13,7 @@ using System.Drawing;
 
 namespace NUnit.UiException.Tests.Controls
 {
-    [TestFixture]
+    [TestFixture, Platform("Net-3.5,Mono-3.5")]
     public class TestErrorToolbar
     {
         private ErrorToolbar _emptyToolbar;

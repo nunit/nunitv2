@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -115,6 +115,7 @@
     <Compile Include="CommandLineTests.cs" />
     <Compile Include="CommandLineTests_MultipleAssemblies.cs" />
     <Compile Include="ConsoleRunnerTest.cs" />
+    <Compile Include="TestNameParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nunit-console.tests.build" />
