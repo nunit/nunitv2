@@ -57,18 +57,31 @@ namespace NUnit.ConsoleRunner
 
             TestPackage package = MakeTestPackage(options);
 
-            Console.WriteLine("ProcessModel: {0}    DomainUsage: {1}", 
-                package.Settings.Contains("ProcessModel")
-                    ? package.Settings["ProcessModel"]
-                    : "Default", 
-                package.Settings.Contains("DomainUsage")
-                    ? package.Settings["DomainUsage"]
-                    : "Default");
+            ProcessModel processModel = package.Settings.Contains("ProcessModel")
+                ? (ProcessModel)package.Settings["ProcessModel"]
+                : ProcessModel.Default;
 
-            Console.WriteLine("Execution Runtime: {0}", 
-                package.Settings.Contains("RuntimeFramework")
-                    ? package.Settings["RuntimeFramework"]
-                    : "Default");
+            DomainUsage domainUsage = package.Settings.Contains("DomainUsage")
+                ? (DomainUsage)package.Settings["DomainUsage"]
+                : DomainUsage.Default;
+
+            RuntimeFramework framework = package.Settings.Contains("RuntimeFramework")
+                ? (RuntimeFramework)package.Settings["RuntimeFramework"]
+                : RuntimeFramework.CurrentFramework;
+
+#if NET_2_0
+            Console.WriteLine("ProcessModel: {0}    DomainUsage: {1}", processModel, domainUsage);
+
+            Console.WriteLine("Execution Runtime: {0}", framework);
+#else
+            Console.WriteLine("DomainUsage: {0}", domainUsage);
+
+            if (processModel != ProcessModel.Default && processModel != ProcessModel.Single)
+                Console.WriteLine("Warning: Ignoring project setting 'processModel={0}'", processModel);
+
+            if (!RuntimeFramework.CurrentFramework.Supports(framework))
+                Console.WriteLine("Warning: Ignoring project setting 'runtimeFramework={0}'", framework);
+#endif
 
             using (TestRunner testRunner = new DefaultTestRunnerFactory().MakeTestRunner(package))
 			{
@@ -226,14 +239,16 @@ namespace NUnit.ConsoleRunner
 				domainUsage = DomainUsage.Multiple;
 			}
 
+#if NET_2_0
+            if (options.framework != null)
+                framework = RuntimeFramework.Parse(options.framework);
+
             if (options.process != ProcessModel.Default)
                 processModel = options.process;
+#endif
 
 			if (options.domain != DomainUsage.Default)
 				domainUsage = options.domain;
-
-            if (options.framework != null)
-                framework = RuntimeFramework.Parse(options.framework);
 
 			package.TestName = options.fixture;
             
