@@ -19,12 +19,25 @@
              SummaryCodepage="1252" />
 
     <!-- ***************************************************************** -->
+    <!-- **********       Define Install Conditions             ********** -->
+    <!-- ***************************************************************** -->
+
+    <Condition Message="NUnit requires .NET 2.0, .NET 4.0 or Mono to be installed as a prerequisite.">
+      FRAMEWORK20 OR FRAMEWORK40 OR MONODIRECTORY
+    </Condition>
+
+    <!-- ***************************************************************** -->
     <!-- **********  Define Properties used in the install      ********** -->
     <!-- ***************************************************************** -->
 
     <Property Id="FRAMEWORK20">
       <RegistrySearch Id='Framework20Registry' Type='raw' Root='HKLM'
                       Key='Software\Microsoft\.NETFramework\policy\v2.0' Name='50727' />
+    </Property>
+
+    <Property Id="FRAMEWORK40">
+      <RegistrySearch Id='Framework40Registry' Type='raw' Root='HKLM'
+                      Key='Software\Microsoft\.NETFramework\policy\v4.0' Name='30319' />
     </Property>
 
     <Property Id="MONODEFAULTCLR">
