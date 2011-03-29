@@ -32,6 +32,8 @@ namespace NUnit.UiKit
 		private string key;
 		private string title;
 
+        private MessageDisplay messageDisplay;
+
 		// Constructor used by the Windows.Forms Designer
 		public SettingsPage()
 		{
@@ -49,6 +51,7 @@ namespace NUnit.UiKit
 			this.title = key;
 			int dot = key.LastIndexOf( '.' );
 			if ( dot >= 0 ) title = key.Substring(dot+1);
+            this.messageDisplay = new MessageDisplay("NUnit Settings");
 		}
 
 		/// <summary> 
@@ -67,6 +70,7 @@ namespace NUnit.UiKit
 		}
 
 		#region Properties
+
 		public string Key
 		{
 			get { return key; }
@@ -86,6 +90,12 @@ namespace NUnit.UiKit
 		{
 			get { return false; }
 		}
+
+        public IMessageDisplay MessageDisplay
+        {
+            get { return messageDisplay; }
+        }
+
 		#endregion
 
 		#region Public Methods

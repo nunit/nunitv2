@@ -10,14 +10,18 @@
     <include name="ExceptionDetailsForm.cs"/>
     <include name="GuiOptions.cs"/>
     <include name="NUnitForm.cs"/>
+    <include name="NUnitPresenter.cs"></include>
     <include name="OptionsDialog.cs"/>
     <include name="ProjectEditor.cs"/>
+    <include name="RecentFileMenuHandler.cs"/>
     <include name="TestAssemblyInfoForm.cs"/>
     <include name="SettingsPages/AdvancedLoaderSettingsPage.cs"/>
     <include name="SettingsPages/AssemblyReloadSettingsPage.cs"/>
     <include name="SettingsPages/GuiSettingsPage.cs"/>
     <include name="SettingsPages/InternalTraceSettingsPage.cs"/>
     <include name="SettingsPages/InternalTraceSettingsPage.Designer.cs"/>
+    <include name="SettingsPages/ProjectEditorSettingsPage.cs"/>
+    <include name="SettingsPages/ProjectEditorSettingsPage.Designer.cs"/>
     <include name="SettingsPages/RuntimeSelectionSettingsPage.cs"/>
     <include name="SettingsPages/RuntimeSelectionSettingsPage.Designer.cs"/>
     <include name="SettingsPages/TestLoaderSettingsPage.cs"/>
@@ -39,6 +43,7 @@
     <include name="SettingsPages/AssemblyReloadSettingsPage.resx"/>
     <include name="SettingsPages/GuiSettingsPage.resx"/>
     <include name="SettingsPages/InternalTraceSettingsPage.resx"/>
+    <include name="SettingsPages/ProjectEditorSettingsPage.resx"/>
     <include name="SettingsPages/RuntimeSelectionSettingsPage.resx"/>
     <include name="SettingsPages/TestLoaderSettingsPage.resx"/>
     <include name="SettingsPages/TestResultSettingsPage.resx"/>

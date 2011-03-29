@@ -8,7 +8,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using NUnit.Core.Extensibility;
-#if NET_2_0
+#if CLR_2_0
 using System.Collections.Generic;
 #endif
 
@@ -23,7 +23,7 @@ namespace NUnit.Core.Builders
             IEnumerator[] enumerators = new IEnumerator[Sources.Length];
             int index = -1;
 
-#if NET_2_0
+#if CLR_2_0
             List<ParameterSet> testCases = new List<ParameterSet>();
 #else
 			ArrayList testCases = new ArrayList();

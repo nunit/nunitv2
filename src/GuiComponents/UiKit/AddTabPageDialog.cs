@@ -14,7 +14,7 @@ namespace NUnit.UiKit
 	/// <summary>
 	/// Summary description for NewTabPageDialog.
 	/// </summary>
-	public class AddTabPageDialog : System.Windows.Forms.Form
+    public class AddTabPageDialog : NUnitFormBase
 	{
 		private TextDisplayTabSettings tabSettings;
 
@@ -128,7 +128,7 @@ namespace NUnit.UiKit
 		{
 			if ( Title == string.Empty )
 			{
-				UserMessage.Display( "No title entered", "Error" );
+                MessageDisplay.Error("No title entered");
 				return;
 			}
 

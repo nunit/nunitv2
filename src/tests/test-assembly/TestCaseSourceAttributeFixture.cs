@@ -64,7 +64,7 @@ namespace NUnit.TestData
         {
             get
             {
-#if NET_2_0
+#if CLR_2_0
                 yield return new TestCaseData("a", "a");
                 yield return new TestCaseData("b", "b");
 #endif

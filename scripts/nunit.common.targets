@@ -199,7 +199,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="2.0"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.defines" value="MSNET,NET_2_0"/>
+    <property name="runtime.defines" value="MSNET,CLR_2_0,NET_2_0"/>
     <property name="supported.test.platforms" value="net-2.0,mono-2.0"/>
 
   </target>
@@ -209,7 +209,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="3.5"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.defines" value="MSNET,NET_2_0,CS_3_0"/>
+    <property name="runtime.defines" value="MSNET,CLR_2_0,NET_3_5,CS_3_0"/>
     <property name="supported.test.platforms" value="net-3.5,mono-3.5"/>
 
   </target>
@@ -219,7 +219,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="4.0"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.defines" value="MSNET,NET_2_0,CS_3_0"/>
+    <property name="runtime.defines" value="MSNET,NET_4_0,CS_3_0"/>
     <property name="supported.test.platforms" value="net-4.0"/>
 
   </target>
@@ -240,7 +240,7 @@
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="2.0"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.defines" value="MONO,NET_2_0"/>
+    <property name="runtime.defines" value="MONO,CLR_2_0,NET_2_0"/>
     <property name="supported.test.platforms" value="mono-2.0,net-2.0"/>
 
   </target>
@@ -250,7 +250,7 @@
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="3.5"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.defines" value="MONO,NET_2_0,CS_3_0"/>
+    <property name="runtime.defines" value="MONO,CLR_2_0,NET_3_5,CS_3_0"/>
     <property name="supported.test.platforms" value="mono-3.5,net-3.5,mono-2.0,net-2.0"/>
 
   </target>

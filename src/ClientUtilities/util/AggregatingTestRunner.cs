@@ -434,7 +434,7 @@ namespace NUnit.Util
     #endregion
 
     #region MultipleTestProcessRunner
-#if NET_2_0
+#if CLR_2_0
     public class MultipleTestProcessRunner : AggregatingTestRunner
     {
         #region Constructors

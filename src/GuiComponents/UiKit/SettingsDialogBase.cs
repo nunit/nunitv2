@@ -15,7 +15,7 @@ namespace NUnit.UiKit
 	/// <summary>
 	/// Summary description for OptionsDialogBase.
 	/// </summary>
-	public class SettingsDialogBase : System.Windows.Forms.Form
+    public class SettingsDialogBase : NUnitFormBase
 	{
 		#region Instance Fields
 		protected System.Windows.Forms.Button cancelButton;
@@ -113,10 +113,12 @@ namespace NUnit.UiKit
 		#endregion
 
 		#region Properties
+
 		public SettingsPageCollection SettingsPages
 		{
 			get { return pageList; }
 		}
+
 		#endregion
 
 		#region Public Methods
@@ -139,10 +141,8 @@ namespace NUnit.UiKit
 		{
 			if ( Services.TestLoader.IsTestLoaded && this.HasChangesRequiringReload )
 			{
-				DialogResult answer = UserMessage.Ask( 
-					"Some changes will only take effect when you reload the test project. Do you want to reload now?",
-					"NUnit Options",
-					MessageBoxButtons.YesNo );
+                DialogResult answer = MessageDisplay.Ask( 
+					"Some changes will only take effect when you reload the test project. Do you want to reload now?");
 				
 				if ( answer == DialogResult.Yes )
 					this.reloadProjectOnClose = true;

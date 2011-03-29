@@ -44,9 +44,9 @@ namespace NUnit.Framework.Syntax
 			inheritedSyntax = Helper().GreaterThan(0).And.LessThan(10).After(1000);
 			builderSyntax = Builder().GreaterThan(0).And.LessThan(10).After(1000);
 		}
-	}
+    }
 
-#if NET_2_0
+#if CLR_2_0
     public abstract class AfterSyntaxTests
     {
         protected bool flag;

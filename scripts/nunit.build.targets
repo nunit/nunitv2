@@ -103,8 +103,8 @@
     <!-- Copy lib files to current lib dir -->
     <copy todir="${current.lib.dir}" flatten="true">
       <fileset basedir="${project.lib.dir}">
-        <include name="*.dll"/>
-        <include name="NSubstitute.1.0.0.0/NSubstitute.dll" if="${runtime.version >= '3.5'}"/>
+        <include name="*"/>
+        <include name="3.5/*" if="${runtime.version >= '3.5'}"/>
       </fileset>
     </copy>
 
@@ -479,12 +479,18 @@
     <include name="GuiComponents/UiKit/nunit.uikit.build" />
     <include name="GuiRunner/nunit-gui/nunit-gui.build" />
     <include name="GuiRunner/nunit-gui-exe/nunit-gui.exe.build" />
-
+    
     <!-- GUI Tests -->
     <include name="GuiException/tests/nunit.uiexception.tests.build" />
     <include name="GuiComponents/tests/nunit.uikit.tests.build" />
     <include name="GuiRunner/tests/nunit-gui.tests.build" />
 
+    <!-- Project Editor -->
+    <include name="ProjectEditor/editor/nunit-editor.build" />
+
+    <!-- Project Editor Tests -->
+    <include name="ProjectEditor/tests/nunit-editor.tests.build" />
+    
   </fileset>
 
   <!-- BuildFiles for Samples -->

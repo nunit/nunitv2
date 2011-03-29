@@ -156,6 +156,8 @@
         <ComponentRef Id="MenuShortcut_NUnit" />
         <ComponentRef Id="MenuShortcut_2.0" />
         <ComponentRef Id="MenuShortcut_Mono_2.0" />
+        <ComponentRef Id="nunit_editor.exe" />
+        <ComponentRef Id="EditorMenuShortcut" />
 
       </Feature>
 

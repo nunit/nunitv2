@@ -46,9 +46,9 @@ namespace NUnit.Framework.Syntax
 		}
 
 		public CompilerResults CompileCode( string code )
-		{
-#if NET_2_0
-			return provider.CompileAssemblyFromSource( options, code );
+        {
+#if CLR_2_0
+            return provider.CompileAssemblyFromSource( options, code );
 #else
             return compiler.CompileAssemblyFromSource(options, code);
 #endif

@@ -80,7 +80,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region RecentFilesService
-#if NET_2_0
+#if CLR_2_0
 		private static RecentFiles recentFiles;
 		public static RecentFiles RecentFiles
 		{
@@ -96,7 +96,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region TestLoader
-#if NET_2_0
+#if CLR_2_0
 		private static TestLoader loader;
 		public static TestLoader TestLoader
 		{

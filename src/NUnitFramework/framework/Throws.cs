@@ -106,7 +106,7 @@ namespace NUnit.Framework
             return Exception.TypeOf(expectedType);
         }
         
-#if NET_2_0
+#if CLR_2_0
         /// <summary>
         /// Creates a constraint specifying the exact type of exception expected
         /// </summary>
@@ -128,7 +128,7 @@ namespace NUnit.Framework
             return Exception.InstanceOf(expectedType);
         }
         
-#if NET_2_0
+#if CLR_2_0
         /// <summary>
         /// Creates a constraint specifying the type of exception expected
         /// </summary>

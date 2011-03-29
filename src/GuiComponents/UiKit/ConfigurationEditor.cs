@@ -18,7 +18,7 @@ namespace NUnit.UiKit
 	/// ConfigurationEditor form is designed for adding, deleting
 	/// and renaming configurations from a project.
 	/// </summary>
-	public class ConfigurationEditor : System.Windows.Forms.Form
+    public class ConfigurationEditor : NUnitFormBase
 	{
 		#region Instance Variables
 
@@ -191,8 +191,8 @@ namespace NUnit.UiKit
 			if ( project.Configs.Count == 1 )
 			{
 				string msg = "Removing the last configuration will make the project unloadable until you add another configuration.\r\rAre you sure you want to remove the configuration?";
-				
-				if( UserMessage.Ask( msg, "Remove Configuration" ) == DialogResult.No )
+
+                if (MessageDisplay.Ask(msg) == DialogResult.No)
 					return;
 			}
 

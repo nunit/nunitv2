@@ -29,7 +29,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLR_2_0,NET_2_0,CS_3_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -141,11 +141,12 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AssemblyListTests.cs" />
+    <Compile Include="AssemblyWatcherTests.cs" />
     <Compile Include="CategoryManagerTest.cs" />
     <Compile Include="CategoryParseTests.cs" />
     <Compile Include="DomainManagerTests.cs" />
     <Compile Include="EventDispatcherTests.cs" />
-    <Compile Include="FileWatcherTest.cs" />
+    <Compile Include="FileWatcherTests.cs" />
     <Compile Include="MemorySettingsStorageTests.cs" />
     <Compile Include="MockAssemblyWatcher.cs" />
     <Compile Include="NUnitProjectLoad.cs" />
