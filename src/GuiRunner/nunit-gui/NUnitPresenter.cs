@@ -457,6 +457,21 @@ namespace NUnit.Gui
         {
             NUnitProject project = loader.TestProject;
 
+            string editorPath = GetProjectEditorPath();
+            if (!File.Exists(editorPath))
+            {
+                string NL = Environment.NewLine;
+                string message =
+                    "Unable to locate the specified Project Editor:" + NL + NL + editorPath + NL + NL +
+                    (Services.UserSettings.GetSetting("Options.ProjectEditor.EditorPath") == null
+                        ? "Verify that nunit.editor.exe is properly installed in the NUnit bin directory."
+                        : "Verify that you have set the path to the editor correctly.");
+
+                Form.MessageDisplay.Error(message);
+
+                return;
+            }
+
             if (!NUnitProject.IsNUnitProjectFile(project.ProjectPath))
             {
                 if (Form.MessageDisplay.Display(
@@ -490,10 +505,6 @@ namespace NUnit.Gui
             {
                 Process p = new Process();
 
-                string editorPath = (string)Services.UserSettings.GetSetting("Options.ProjectEditor.EditorPath");
-                if (editorPath == null)
-                    editorPath = Path.Combine(NUnitConfiguration.NUnitBinDirectory, "nunit-editor.exe");
-
                 p.StartInfo.FileName = editorPath;
                 p.StartInfo.Arguments = project.ProjectPath;
                 p.Start();
@@ -518,6 +529,15 @@ namespace NUnit.Gui
         {
             return !File.Exists(path) ||
                 (File.GetAttributes(path) & FileAttributes.ReadOnly) == 0;
+        }
+
+        private static string GetProjectEditorPath()
+        {
+            string editorPath = (string)Services.UserSettings.GetSetting("Options.ProjectEditor.EditorPath");
+            if (editorPath == null)
+                editorPath = Path.Combine(NUnitConfiguration.NUnitBinDirectory, "nunit-editor.exe");
+
+            return editorPath;
         }
 
         #endregion
