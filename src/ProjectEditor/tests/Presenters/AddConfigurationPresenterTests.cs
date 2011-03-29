@@ -4,7 +4,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_3_5
+#if NET_3_5 || MONO_3_5
 using System;
 using System.IO;
 using NSubstitute;
@@ -12,6 +12,7 @@ using NUnit.Framework;
 
 namespace NUnit.ProjectEditor.Tests.Presenters
 {
+    [TestFixture, Platform("Net-3.5,Mono-3.5")]
     public class AddConfigurationPresenterTests
     {
         IProjectModel model;
