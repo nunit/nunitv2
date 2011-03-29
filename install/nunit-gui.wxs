@@ -46,7 +46,6 @@
       </Component>
 
       <Component Id="MenuShortcut_NUnit" DiskId="1" Guid="55FE94D3-743A-4733-BF01-B296240931C1">
-        <Condition>FRAMEWORK20 = "50727-50727"</Condition>
         <Shortcut Id="MenuShortcut_NUnit" Name="NUnit" 
                   Target="[!nunit.exe]" Advertise="no" Directory="NUnitMenu" 
                   Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
@@ -54,7 +53,7 @@
       </Component>
       		
       <Component Id="MenuShortcut_2.0" DiskId="1" Guid="A771FB75-2488-4f2c-BA22-1F4C85D64AC7">
-        <Condition>FRAMEWORK20 = "50727-50727"</Condition>
+        <Condition>FRAMEWORK20</Condition>
         <Shortcut Id="MenuShortcut_2.0" Name="SNUNIT20" LongName="NUnit (.NET 2.0)" 
                   Target="[!nunit.exe]" Advertise="no" Directory="RunUnderMenu" 
                   Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
@@ -66,6 +65,17 @@
         <Shortcut Id="MenuShortcut_Mono_2.0" Name="SNUNITMO" LongName="NUnit (Mono 2.0 Profile)" 
                   Target="[MONODIRECTORY]bin\mono.exe" Arguments="nunit.exe"  Advertise="no"
                   Directory="RunUnderMenu" Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
+                  WorkingDirectory="bin" />
+      </Component>
+
+      <Component Id="nunit_editor.exe" DiskId="1" Guid="D7F9C147-552D-46a6-9F87-40AA6C04D24A">
+        <File Id="nunit_editor.exe" Name="NEDITOR.EXE" LongName="nunit-editor.exe" />
+      </Component>
+
+      <Component Id="EditorMenuShortcut" DiskId="1" Guid="6B7BE73A-EE72-43f3-8401-2531A90056A9">
+        <Shortcut Id="EditorMenuShortcut" Name="Editor" LongName="Project Editor"
+                  Target="[!nunit_editor.exe]" Advertise="no" Directory="NUnitMenu"
+                  Icon="nunit_icon.exe" IconIndex="0" Show="normal" 
                   WorkingDirectory="bin" />
       </Component>
     		     				
@@ -99,6 +109,7 @@
         <File Id="nunit.uikit.tests" Name="TESTUIKI.DLL" LongName="nunit.uikit.tests.dll" />
         <File Id="nunit.uiexception.tests.dll" Name="UIXCPTST.DLL" LongName="nunit.uiexception.tests.dll" />
         <File Id="gui.tests" Name="GUITESTS.DLL" LongName="nunit-gui.tests.dll" />
+        <File Id="nunit_editor_tests" Name="EDITESTS.DLL" LongName="nunit-editor.tests.dll" />
       </Component>
 
     </DirectoryRef>
