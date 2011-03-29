@@ -2,6 +2,8 @@
 <project name="TestAssembly" default="build" basedir=".">
 
   <patternset id="source-files">
+    <include name="ActionAttributeExceptionFixture.cs"/>
+    <include name="ActionAttributeFixture.cs"/>
     <include name="AttributeDescriptionTests.cs"/>
     <include name="AttributeInheritance.cs"/>
     <include name="CategoryAttributeTests.cs"/>

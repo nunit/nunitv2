@@ -28,11 +28,17 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Display XML to the console (Deprecated)")]
 		public bool xmlConsole;
 
+        [Option(Description = "Suppress XML output")]
+        public bool noxml;
+
 		[Option(Short="out", Description = "File to receive test output")]
 		public string output;
 
 		[Option(Description = "File to receive test error output")]
 		public string err;
+
+        [Option(Description = "Work directory for output files")]
+        public string work;
 
 		[Option(Description = "Label each test in stdOut")]
 		public bool labels = false;
@@ -46,14 +52,16 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "List of categories to exclude")]
 		public string exclude;
 
+#if NET_2_0
+        [Option(Description = "Framework version to be used for tests")]
+        public string framework;
+
 		[Option(Description = "Process model for tests: Single, Separate, Multiple")]
 		public ProcessModel process;
+#endif
 
 		[Option(Description = "AppDomain Usage for tests: None, Single, Multiple")]
 		public DomainUsage domain;
-
-        [Option(Description = "Framework version to be used for tests")]
-        public string framework;
 
 		[Option(Description = "Disable shadow copy when running in separate domain")]
 		public bool noshadow;

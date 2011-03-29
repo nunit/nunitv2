@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+
+  <Fragment>
+
+    <DirectoryRef Id="bin" FileSource="bin">
+
+      <Component Id="nunit_console_x86" DiskId="1" Guid="1243DDA4-E8A0-422d-BD0C-14F1D3EDCFCA">
+        <File Id="console_x86.exe" Name="CONSOL86.EXE" LongName="nunit-console-x86.exe" />
+        <File Id="console_x86.config" Name="CONSOL86.CFG" LongName="nunit-console-x86.exe.config" />
+      </Component>
+                
+      <Component Id="nunit_agent_x86" DiskId="1" Guid="D2417C51-E283-4d75-BD4D-E47D9A7E64CD">
+        <File Id="nunit_agent_x86.exe" Name="AGENTX86.EXE" LongName="nunit-agent-x86.exe" />
+        <File Id="nunit_agent_x86.config" Name="AGENTX86.CFG" LongName="nunit-agent-x86.exe.config" />
+      </Component>
+          	  
+      <Component Id="nunit_x86" DiskId="1" Guid="3D07B159-305C-4fa9-979B-2B50C439E024">
+        <File Id="nunit_x86.exe" Name="NUNITX86.EXE" LongName="nunit-x86.exe" />
+        <File Id="nunit_x86.config" Name="NUNITX86.CFG" LongName="nunit-x86.exe.config" />
+      </Component>
+
+    </DirectoryRef>
+
+  </Fragment>
+
+</Wix>

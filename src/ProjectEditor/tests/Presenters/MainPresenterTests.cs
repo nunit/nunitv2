@@ -76,9 +76,9 @@ namespace NUnit.ProjectEditor.Tests.Presenters
         [Test]
         public void CloseProject_AfterOpeningGoodProject_IsEnabled()
         {
-            using (new TempFile(GOOD_PROJECT))
+            using (TempFile file = new TempFile(GOOD_PROJECT))
             {
-                view.DialogManager.GetFileOpenPath("", "", "").ReturnsForAnyArgs(GOOD_PROJECT);
+                view.DialogManager.GetFileOpenPath("", "", "").ReturnsForAnyArgs(file.Path);
                 view.OpenProjectCommand.Execute += Raise.Event<CommandDelegate>();
 
                 Assert.True(view.CloseProjectCommand.Enabled);
@@ -109,9 +109,9 @@ namespace NUnit.ProjectEditor.Tests.Presenters
         [Test]
         public void OpenProject_WhenClickedAndProjectIsValid_OpensProject()
         {
-            using (new TempFile(GOOD_PROJECT))
+            using (TempFile file = new TempFile(GOOD_PROJECT))
             {
-                view.DialogManager.GetFileOpenPath("Open", "", "").ReturnsForAnyArgs(GOOD_PROJECT);
+                view.DialogManager.GetFileOpenPath("Open", "", "").ReturnsForAnyArgs(file.Path);
                 view.OpenProjectCommand.Execute += Raise.Event<CommandDelegate>();
 
                 Assert.NotNull(doc.XmlText);
@@ -123,9 +123,9 @@ namespace NUnit.ProjectEditor.Tests.Presenters
         [Test]
         public void OpenProject_WhenClickedAndProjectXmlIsNotValid_OpensProject()
         {
-            using (new TempFile(BAD_PROJECT))
+            using (TempFile file = new TempFile(BAD_PROJECT))
             {
-                view.DialogManager.GetFileOpenPath("Open", "", "").ReturnsForAnyArgs(BAD_PROJECT);
+                view.DialogManager.GetFileOpenPath("Open", "", "").ReturnsForAnyArgs(file.Path);
                 view.OpenProjectCommand.Execute += Raise.Event<CommandDelegate>();
 
                 Assert.NotNull(doc.XmlText);
@@ -165,9 +165,9 @@ namespace NUnit.ProjectEditor.Tests.Presenters
         [Test]
         public void SaveProject_AfterOpeningGoodProject_IsEnabled()
         {
-            using (new TempFile(GOOD_PROJECT))
+            using (TempFile file = new TempFile(GOOD_PROJECT))
             {
-                view.DialogManager.GetFileOpenPath("", "", "").ReturnsForAnyArgs(GOOD_PROJECT);
+                view.DialogManager.GetFileOpenPath("", "", "").ReturnsForAnyArgs(file.Path);
                 view.OpenProjectCommand.Execute += Raise.Event<CommandDelegate>();
 
                 Assert.True(view.SaveProjectCommand.Enabled);
@@ -191,9 +191,9 @@ namespace NUnit.ProjectEditor.Tests.Presenters
         [Test]
         public void SaveProjectAs_AfterOpeningGoodProject_IsEnabled()
         {
-            using (new TempFile(GOOD_PROJECT))
+            using (TempFile file = new TempFile(GOOD_PROJECT))
             {
-                view.DialogManager.GetFileOpenPath("", "", "").ReturnsForAnyArgs(GOOD_PROJECT);
+                view.DialogManager.GetFileOpenPath("", "", "").ReturnsForAnyArgs(file.Path);
                 view.OpenProjectCommand.Execute += Raise.Event<CommandDelegate>();
 
                 Assert.True(view.SaveProjectAsCommand.Enabled);

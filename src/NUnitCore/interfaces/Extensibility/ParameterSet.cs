@@ -298,9 +298,9 @@ namespace NUnit.Core.Extensibility
             if (!gotCategories)
             {
                 IList categories = GetParm(source, PropertyNames.Categories) as IList;
-                if (categories != null && props[CATEGORIES] == null)
+                if (categories != null)
                     foreach (string cat in categories)
-                        categories.Add(cat);
+                        parms.Categories.Add(cat);
             }
 
             return parms;

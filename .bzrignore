@@ -17,10 +17,10 @@ solutions/*/NUnitCore/tests/*
 solutions/*/NUnitFramework/tests/*
 solutions/*/NUnitFramework/framework/*
 solutions/*/tests/loadtest-assembly/*
-build
+builds
 *.db
 *.VisualState.xml
-package
+packages
 GeneratedAssemblyInfo.cs
 debug
 release
@@ -29,3 +29,4 @@ Release
 *.pidb
 *.resources
 *.userprefs
+_ReSharper*

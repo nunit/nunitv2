@@ -55,6 +55,11 @@ namespace NUnit.Core
         #endregion
 
         #region Other Framework Types
+
+        public static readonly string TestSuiteActionInterface = "NUnit.Framework.ITestSuiteAction, nunit.framework";
+        public static readonly string TestCaseActionInterface = "NUnit.Framework.ITestCaseAction, nunit.framework";
+        public static readonly string TestActionInterface = "NUnit.Framework.ITestAction, nunit.framework";
+
         public static readonly string AssertException = "NUnit.Framework.AssertionException";
         public static readonly string IgnoreException = "NUnit.Framework.IgnoreException";
         public static readonly string InconclusiveException = "NUnit.Framework.InconclusiveException";

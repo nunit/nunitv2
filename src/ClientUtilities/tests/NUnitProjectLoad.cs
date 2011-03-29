@@ -15,7 +15,7 @@ namespace NUnit.Util.Tests
 	[TestFixture]
 	public class NUnitProjectLoad
 	{
-		static readonly string xmlfile = "test.nunit";
+		static readonly string xmlfile = Path.Combine(Path.GetTempPath(), "test.nunit");
         static readonly string mockDll = NUnit.Tests.Assemblies.MockAssembly.AssemblyPath;
 
 		private ProjectService projectService;
@@ -68,15 +68,17 @@ namespace NUnit.Util.Tests
 			LoadProject( NUnitProjectXml.NormalProject );
 			Assert.AreEqual( 2, project.Configs.Count );
 
+            string tempPath = Path.GetTempPath();
+
 			ProjectConfig config1 = project.Configs["Debug"];
 			Assert.AreEqual( 2, config1.Assemblies.Count );
-			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" ), config1.Assemblies[0] );
-			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" ), config1.Assemblies[1] );
+			Assert.AreEqual( Path.Combine(tempPath, @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly1.dll" ), config1.Assemblies[0] );
+			Assert.AreEqual( Path.Combine(tempPath, @"bin" + Path.DirectorySeparatorChar + "debug" + Path.DirectorySeparatorChar + "assembly2.dll" ), config1.Assemblies[1] );
 
 			ProjectConfig config2 = project.Configs["Release"];
 			Assert.AreEqual( 2, config2.Assemblies.Count );
-			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly1.dll" ), config2.Assemblies[0] );
-			Assert.AreEqual( Path.GetFullPath( @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly2.dll" ), config2.Assemblies[1] );
+			Assert.AreEqual( Path.Combine(tempPath, @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly1.dll" ), config2.Assemblies[0] );
+			Assert.AreEqual( Path.Combine(tempPath, @"bin" + Path.DirectorySeparatorChar + "release" + Path.DirectorySeparatorChar + "assembly2.dll" ), config2.Assemblies[1] );
 		}
 
 		[Test]

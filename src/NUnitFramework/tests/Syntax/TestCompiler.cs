@@ -6,6 +6,7 @@
 
 using System;
 using System.CodeDom.Compiler;
+using System.IO;
 
 namespace NUnit.Framework.Syntax
 {
@@ -35,7 +36,7 @@ namespace NUnit.Framework.Syntax
 				options.OutputAssembly = outputName;
 
 			options.IncludeDebugInformation = false;
-			options.TempFiles = new TempFileCollection( ".", false );
+			options.TempFiles = new TempFileCollection( Path.GetTempPath(), false );
 			options.GenerateInMemory = false;
 		}
 

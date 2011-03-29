@@ -15,7 +15,7 @@ namespace NUnit.Core.Tests
 	[TestFixture]
 	public class SerializationBug
 	{
-		private static readonly string fileName = "perobj.tst";
+		private static readonly string fileName = Path.GetTempFileName();
 
 		[Serializable] 
 		public class Perob 

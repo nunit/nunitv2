@@ -11,17 +11,17 @@ using System.Net.Sockets;
 
 namespace NUnit.Framework.Tests
 {
-	public class TestFile : IDisposable
+    #region Nested TestFile Utility Class
+    public class TestFile : IDisposable
 	{
 		private bool _disposedValue = false;
 		private string _resourceName;
 		private string _fileName;
 
-		#region Nested TestFile Utility Class
 		public TestFile(string fileName, string resourceName)
 		{
 			_resourceName = "NUnit.Framework.Tests.data." + resourceName;
-			_fileName = fileName;
+            _fileName = Path.Combine(Path.GetTempPath(), fileName);
 
 			Assembly a = Assembly.GetExecutingAssembly();
 			using (Stream s = a.GetManifestResourceStream(_resourceName))
@@ -40,6 +40,11 @@ namespace NUnit.Framework.Tests
 				}
 			}
 		}
+
+        public string FileName
+        {
+            get { return _fileName; }
+        }
 
 		protected virtual void Dispose(bool disposing)
 		{
@@ -66,10 +71,10 @@ namespace NUnit.Framework.Tests
 		}
 
 		#endregion
-	}
-	#endregion
+    }
+    #endregion
 
-	/// <summary>
+    /// <summary>
 	/// Summary description for FileAssertTests.
 	/// </summary>
 	[TestFixture]
@@ -99,9 +104,9 @@ namespace NUnit.Framework.Tests
             using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
             using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage1.jpg"))
             {
-                using (FileStream expected = File.OpenRead("Test1.jpg"))
+                using (FileStream expected = File.OpenRead(tf1.FileName))
                 {
-                    using (FileStream actual = File.OpenRead("Test2.jpg"))
+                    using (FileStream actual = File.OpenRead(tf2.FileName))
                     {
                         FileAssert.AreEqual(expected, actual);
                     }
@@ -116,9 +121,9 @@ namespace NUnit.Framework.Tests
             using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
             using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage1.jpg"))
             {
-                using (FileStream expected = File.OpenRead("Test1.jpg"))
+                using (FileStream expected = File.OpenRead(tf1.FileName))
                 {
-                    using (FileStream actual = File.OpenWrite("Test2.jpg"))
+                    using (FileStream actual = File.OpenWrite(tf2.FileName))
                     {
                         FileAssert.AreEqual(expected, actual);
                     }
@@ -132,7 +137,7 @@ namespace NUnit.Framework.Tests
         {
             using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
             {
-                using (FileStream expected = File.OpenRead("Test1.jpg"))
+                using (FileStream expected = File.OpenRead(tf1.FileName))
                 {
                     using (FakeStream actual = new FakeStream())
                     {
@@ -156,7 +161,7 @@ namespace NUnit.Framework.Tests
             using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
             using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage1.jpg"))
 			{
-				FileAssert.AreEqual( "Test1.jpg", "Test2.jpg", "Failed using file names" );
+				FileAssert.AreEqual( tf1.FileName, tf2.FileName, "Failed using file names" );
 			}
 		}
 
@@ -165,7 +170,7 @@ namespace NUnit.Framework.Tests
 		{
             using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
-				FileAssert.AreEqual( "Test1.jpg", "Test1.jpg" );
+				FileAssert.AreEqual( tf1.FileName, tf1.FileName );
 			}
 		}
 
@@ -175,8 +180,8 @@ namespace NUnit.Framework.Tests
 			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
 			using(TestFile tf2 = new TestFile("Test2.jpg","TestImage1.jpg"))
 			{
-				FileInfo expected = new FileInfo( "Test1.jpg" );
-				FileInfo actual = new FileInfo( "Test2.jpg" );
+				FileInfo expected = new FileInfo( tf1.FileName );
+				FileInfo actual = new FileInfo( tf2.FileName );
 				FileAssert.AreEqual( expected, actual );
 				FileAssert.AreEqual( expected, actual );
 			}
@@ -189,7 +194,7 @@ namespace NUnit.Framework.Tests
 			{
 				using(TestFile tf2 = new TestFile("Test2.txt","TestText1.txt"))
 				{
-					FileAssert.AreEqual( "Test1.txt", "Test2.txt" );
+					FileAssert.AreEqual( tf1.FileName, tf2.FileName );
 				}
 			}
 		}
@@ -201,7 +206,7 @@ namespace NUnit.Framework.Tests
 		{
             using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
-				using(FileStream expected = File.OpenRead("Test1.jpg"))
+				using(FileStream expected = File.OpenRead(tf1.FileName))
 				{
 					expectedMessage = 
 						"  Expected: <System.IO.FileStream>" + Environment.NewLine +
@@ -220,14 +225,14 @@ namespace NUnit.Framework.Tests
 			{
                 using (TestFile tf2 = new TestFile(actualFile, "TestImage2.jpg"))
 				{
-					using(FileStream expected = File.OpenRead(expectedFile))
+					using(FileStream expected = File.OpenRead(tf1.FileName))
 					{
-						using(FileStream actual = File.OpenRead(actualFile))
+						using(FileStream actual = File.OpenRead(tf2.FileName))
 						{
 							expectedMessage =
 								string.Format("  Expected Stream length {0} but was {1}." + Environment.NewLine,
-									new FileInfo(expectedFile).Length, new FileInfo(actualFile).Length);
-							FileAssert.AreEqual( expected, actual);
+									new FileInfo(tf1.FileName).Length, new FileInfo(tf2.FileName).Length);
+							FileAssert.AreEqual( tf1.FileName, tf2.FileName);
 						}
 					}
 				}
@@ -241,8 +246,8 @@ namespace NUnit.Framework.Tests
 			{
                 using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage2.jpg"))
 				{
-					FileInfo expected = new FileInfo( "Test1.jpg" );
-					FileInfo actual = new FileInfo( "Test2.jpg" );
+					FileInfo expected = new FileInfo( tf1.FileName );
+					FileInfo actual = new FileInfo( tf2.FileName );
 					expectedMessage =
 						string.Format("  Expected Stream length {0} but was {1}." + Environment.NewLine,
 							expected.Length, actual.Length);
@@ -263,8 +268,8 @@ namespace NUnit.Framework.Tests
 				{
 					expectedMessage =
 						string.Format("  Expected Stream length {0} but was {1}." + Environment.NewLine,
-							new FileInfo(expected).Length, new FileInfo(actual).Length);
-					FileAssert.AreEqual( expected, actual );
+							new FileInfo(tf1.FileName).Length, new FileInfo(tf2.FileName).Length);
+					FileAssert.AreEqual( tf1.FileName, tf2.FileName );
 				}
 			}
 		}
@@ -279,7 +284,7 @@ namespace NUnit.Framework.Tests
 			{
                 using (TestFile tf2 = new TestFile("Test2.txt", "TestText2.txt"))
 				{
-					FileAssert.AreEqual( "Test1.txt", "Test2.txt" );
+					FileAssert.AreEqual( tf1.FileName, tf2.FileName );
 				}
 			}
 		}
@@ -295,7 +300,7 @@ namespace NUnit.Framework.Tests
 		{
             using (TestFile tf1 = new TestFile("Test1.jpg", "TestImage1.jpg"))
 			{
-				using(FileStream expected = File.OpenRead("Test1.jpg"))
+				using(FileStream expected = File.OpenRead(tf1.FileName))
 				{
 					FileAssert.AreNotEqual( expected, null );
 				}
@@ -309,9 +314,9 @@ namespace NUnit.Framework.Tests
 			{
                 using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage2.jpg"))
 				{
-					using(FileStream expected = File.OpenRead("Test1.jpg"))
+					using(FileStream expected = File.OpenRead(tf1.FileName))
 					{
-						using(FileStream actual = File.OpenRead("Test2.jpg"))
+						using(FileStream actual = File.OpenRead(tf2.FileName))
 						{
 							FileAssert.AreNotEqual( expected, actual);
 						}
@@ -327,7 +332,7 @@ namespace NUnit.Framework.Tests
 			{
                 using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage2.jpg"))
 				{
-					FileAssert.AreNotEqual( "Test1.jpg", "Test2.jpg" );
+					FileAssert.AreNotEqual( tf1.FileName, tf2.FileName );
 				}
 			}
 		}
@@ -339,8 +344,8 @@ namespace NUnit.Framework.Tests
 			{
                 using (TestFile tf2 = new TestFile("Test2.jpg", "TestImage2.jpg"))
 				{
-					FileInfo expected = new FileInfo( "Test1.jpg" );
-					FileInfo actual = new FileInfo( "Test2.jpg" );
+					FileInfo expected = new FileInfo( tf1.FileName );
+					FileInfo actual = new FileInfo( tf2.FileName );
 					FileAssert.AreNotEqual( expected, actual );
 				}
 			}
@@ -353,7 +358,7 @@ namespace NUnit.Framework.Tests
 			{
                 using (TestFile tf2 = new TestFile("Test2.txt", "TestText2.txt"))
 				{
-					FileAssert.AreNotEqual( "Test1.txt", "Test2.txt" );
+					FileAssert.AreNotEqual( tf1.FileName, tf2.FileName );
 				}
 			}
 		}
@@ -376,8 +381,8 @@ namespace NUnit.Framework.Tests
 		{
 			using(TestFile tf1 = new TestFile("Test1.jpg","TestImage1.jpg"))
 			using(TestFile tf2 = new TestFile("Test2.jpg","TestImage1.jpg"))
-			using(FileStream expected = File.OpenRead("Test1.jpg"))
-			using(FileStream actual = File.OpenRead("Test2.jpg"))
+			using(FileStream expected = File.OpenRead(tf1.FileName))
+			using(FileStream actual = File.OpenRead(tf2.FileName))
 			{
 				expectedMessage = 
 					"  Expected: not <System.IO.FileStream>" + Environment.NewLine +
@@ -393,8 +398,8 @@ namespace NUnit.Framework.Tests
 			{
 				using(TestFile tf2 = new TestFile("Test2.jpg","TestImage1.jpg"))
 				{
-					FileInfo expected = new FileInfo( "Test1.jpg" );
-					FileInfo actual = new FileInfo( "Test2.jpg" );
+					FileInfo expected = new FileInfo( tf1.FileName );
+					FileInfo actual = new FileInfo( tf2.FileName );
 					expectedMessage = 
 						"  Expected: not <System.IO.FileStream>" + Environment.NewLine +
 						"  But was:  <System.IO.FileStream>" + Environment.NewLine;
@@ -411,7 +416,7 @@ namespace NUnit.Framework.Tests
 				expectedMessage = 
 					"  Expected: not <System.IO.FileStream>" + Environment.NewLine +
 					"  But was:  <System.IO.FileStream>" + Environment.NewLine;
-				FileAssert.AreNotEqual( "Test1.jpg", "Test1.jpg" );
+				FileAssert.AreNotEqual( tf1.FileName, tf1.FileName );
 			}
 		}
 
@@ -425,7 +430,7 @@ namespace NUnit.Framework.Tests
 					expectedMessage = 
 						"  Expected: not <System.IO.FileStream>" + Environment.NewLine +
 						"  But was:  <System.IO.FileStream>" + Environment.NewLine;
-					FileAssert.AreNotEqual( "Test1.txt", "Test2.txt" );
+					FileAssert.AreNotEqual( tf1.FileName, tf2.FileName );
 				}
 			}
 		}

@@ -98,6 +98,7 @@
     <Compile Include="ConsoleUi.cs" />
     <Compile Include="EventCollector.cs" />
     <Compile Include="Runner.cs" />
+    <Compile Include="TestNameParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nunit-console.build" />

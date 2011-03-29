@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A65042E1-D8BC-48DD-8DE1-F0991F07EA77}"
 	ProjectSection(SolutionItems) = preProject
-		nunit.build = nunit.build
-		nunit.build.include = nunit.build.include
 		src\nunit.snk = src\nunit.snk
 		NUnitTests.config = NUnitTests.config
 	EndProjectSection
@@ -104,6 +102,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-editor", "src\ProjectEditor\editor\nunit-editor.csproj", "{ED57DCEC-3C16-4A90-BD3C-4D5BE5AD70FB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nunit-editor.tests", "src\ProjectEditor\tests\nunit-editor.tests.csproj", "{A9E1C1E9-AE97-4510-AD94-EAFADE425FBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{A785FC02-6044-4864-BE24-4593CAD23A97}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\nunit.build.targets = scripts\nunit.build.targets
+		scripts\nunit.common.targets = scripts\nunit.common.targets
+		scripts\nunit.package.targets = scripts\nunit.package.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -256,6 +261,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{A785FC02-6044-4864-BE24-4593CAD23A97} = {A65042E1-D8BC-48DD-8DE1-F0991F07EA77}
 		{3FF340D5-D3B4-4DF0-BAF1-98B3C00B6148} = {77D10207-CB02-4C3A-8734-5A5173E3C506}
 		{AAD27267-DE1F-4F61-A1FB-D1680A5B8001} = {77D10207-CB02-4C3A-8734-5A5173E3C506}
 		{AAB186A4-FA3D-404D-AD78-7EB5BB861655} = {77D10207-CB02-4C3A-8734-5A5173E3C506}

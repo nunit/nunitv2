@@ -68,7 +68,11 @@ namespace NUnit.Util
 				if ( this.TestRunner == null )
 					this.TestRunner = this.agent.CreateRunner( this.ID );
 
-                log.Info("Loading tests in AppDomain, see {0}.log", domain.FriendlyName);
+                log.Info(
+                    "Loading tests in AppDomain, see {0}_{1}.log", 
+                    domain.FriendlyName, 
+                    Process.GetCurrentProcess().Id);
+
 				return TestRunner.Load( package );
 			}
 			catch
@@ -110,6 +114,17 @@ namespace NUnit.Util
             log.Info("BeginRun in AppDomain {0}", domain.FriendlyName);
             base.BeginRun(listener, filter);
         }
+        #endregion
+
+        #region IDisposable Members
+
+        public override void Dispose()
+        {
+            base.Dispose();
+
+            Unload();
+        }
+
         #endregion
     }
 }

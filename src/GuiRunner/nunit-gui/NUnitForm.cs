@@ -25,7 +25,9 @@ namespace NUnit.Gui
 
 	public class NUnitForm : NUnitFormBase
 	{
-		#region Instance variables
+        static Logger log = InternalTrace.GetLogger(typeof(NUnitForm));
+        
+        #region Instance variables
 
 		// Handlers for our recentFiles and recentProjects
 		private RecentFileMenuHandler recentProjectsMenuHandler;
@@ -883,10 +885,10 @@ namespace NUnit.Gui
                 foreach (RuntimeFramework framework in frameworks)
                 {
                     MenuItem item = new MenuItem(framework.DisplayName);
-                    item.Checked = current.Matches(framework);
+                    item.Checked = current.Supports(framework);
                     item.Tag = framework;
                     item.Click += new EventHandler(runtimeFrameworkMenuItem_Click);
-                    item.Enabled = NUnitConfiguration.GetNUnitBinDirectory(framework.ClrVersion) != null;
+                    item.Enabled = Services.TestAgency.IsRuntimeVersionSupported(framework.ClrVersion);
                     runtimeMenuItem.MenuItems.Add(item);
                 }
             }
@@ -1788,7 +1790,16 @@ the version under which NUnit is currently running ({0}) or trying to load a 64-
                 "Passed: {0}   Failed: {1}   Errors: {2}   Inconclusive: {3}   Invalid: {4}   Ignored: {5}   Skipped: {6}   Time: {7}",
                 summary.Passed, summary.Failures, summary.Errors, summary.Inconclusive, summary.NotRunnable, summary.Ignored, summary.Skipped, summary.Time);
 
-			EnableRunCommand( true );
+            try
+            {
+                TestLoader.SaveLastResult("TestResult.xml");
+            }
+            catch (Exception ex)
+            {
+                log.Warning("Unable to save TestResult.xml\n{0}", ex.ToString());
+            }
+
+            EnableRunCommand(true);
 
             if (e.Result.ResultState == ResultState.Failure ||
                 e.Result.ResultState == ResultState.Error ||

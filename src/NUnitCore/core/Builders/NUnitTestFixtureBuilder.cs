@@ -99,10 +99,13 @@ namespace NUnit.Core.Builders
         private Test BuildSingleFixture(Type type, Attribute attr)
         {
             object[] arguments = null;
+            IList categories = null;
 
             if (attr != null)
             {
                 arguments = (object[])Reflect.GetPropertyValue(attr, "Arguments");
+
+                categories = Reflect.GetPropertyValue(attr, "Categories") as IList;
 #if CLR_2_0
                 if (type.ContainsGenericParameters)
                 {
@@ -120,6 +123,10 @@ namespace NUnit.Core.Builders
             CheckTestFixtureIsValid(fixture);
 
             NUnitFramework.ApplyCommonAttributes(type, fixture);
+
+            if (categories != null)
+                foreach (string category in categories)
+                    fixture.Categories.Add(category);
 
             if (fixture.RunState == RunState.Runnable && attr != null)
             {

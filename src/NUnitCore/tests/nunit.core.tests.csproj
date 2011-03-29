@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -75,10 +75,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NSubstitute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\lib\NSubstitute.1.0.0.0\NSubstitute.dll</HintPath>
-    </Reference>
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
@@ -128,11 +124,17 @@
       <Project>{435428F8-5995-4CE4-8022-93D595A8CC0F}</Project>
       <Private>False</Private>
     </ProjectReference>
+    <Reference Include="NSubstitute, Version=1.0.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\lib\NSubstitute.1.0.0.0\NSubstitute.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionAttributeExceptionTests.cs" />
+    <Compile Include="ActionAttributeTests.cs" />
     <Compile Include="AllTests.cs" />
     <Compile Include="AssemblyHelperTests.cs" />
     <Compile Include="AssemblyReaderTests.cs" />

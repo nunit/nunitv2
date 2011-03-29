@@ -20,35 +20,45 @@ namespace NUnit.Core.Filters
 		/// Construct an empty SimpleNameFilter
 		/// </summary>
         public SimpleNameFilter() { }
-        
+
         /// <summary>
         /// Construct a SimpleNameFilter for a single name
         /// </summary>
-        /// <param name="namesToAdd">The name the filter will recognize. Separate multiple names with commas.</param>
-		public SimpleNameFilter( string namesToAdd )
+        /// <param name="name">The name the filter will recognize.</param>
+        public SimpleNameFilter(string name)
         {
-            Add(namesToAdd);
+            names.Add(name);
         }
 
-		/// <summary>
-		/// Add a name to a SimpleNameFilter
-		/// </summary>
-        /// <param name="namesToAdd">The name to be added. Separate multiple names with commas.</param>
-        public void Add(string namesToAdd)
-		{
-            foreach (string name in namesToAdd.Split(','))
-		    {
-                if (IsNotNullOrEmptyTrimmed(name))
-                    names.Add(name.Trim());
-		    }
-		}
-
-        private bool IsNotNullOrEmptyTrimmed(string s)
+        /// <summary>
+        /// Construct a SimpleNameFilter for an array of names
+        /// </summary>
+        /// <param names="nameToAdd">The names the filter will recognize.</param>
+        public SimpleNameFilter(string[] namesToAdd)
         {
-            return s != null && s.Trim() != string.Empty;
+            this.names.AddRange(namesToAdd);
         }
 
-		/// <summary>
+        /// <summary>
+        /// Add a name to a SimpleNameFilter
+        /// </summary>
+        /// <param name="name">The name to be added.</param>
+        public void Add(string name)
+        {
+            names.Add(name);
+        }
+
+        /// <summary>
+        /// Add an array of names to a SimpleNameFilter
+        /// </summary>
+        /// <param name="namesToAdd">The name to be added.</param>
+        public void Add(string[] namesToAdd)
+        {
+            foreach (string name in namesToAdd)
+                names.Add(name);
+        }
+
+        /// <summary>
 		/// Check whether the filter matches a test
 		/// </summary>
 		/// <param name="test">The test to be matched</param>

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
 
-  <Product UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A"
+  <Product 
+           UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A"
            Name="NUnit $(var.NominalVersion)"
-	   Id="EB9F3081-878A-424b-B14E-7596F95C896A"
+	   Id="321FC471-2945-4d25-8D04-10B6A7AE5F15"
            Version="$(var.ProductVersion)"
            Manufacturer="nunit.org"
            Language="1033">
@@ -18,22 +19,25 @@
              SummaryCodepage="1252" />
 
     <!-- ***************************************************************** -->
-    <!-- **********  Define Properties used in the install      ********** -->
+    <!-- **********       Define Install Conditions             ********** -->
     <!-- ***************************************************************** -->
 
-    <Property Id="FRAMEWORK10">
-      <RegistrySearch Id='Framework10Registry' Type='raw' Root='HKLM'
-                      Key='Software\Microsoft\.NETFramework\policy\v1.0' Name='3705' />
-    </Property>
+    <Condition Message="NUnit requires .NET 2.0, .NET 4.0 or Mono to be installed as a prerequisite.">
+      FRAMEWORK20 OR FRAMEWORK40 OR MONODIRECTORY
+    </Condition>
 
-    <Property Id="FRAMEWORK11">
-      <RegistrySearch Id='Framework11Registry' Type='raw' Root='HKLM'
-                      Key='Software\Microsoft\.NETFramework\policy\v1.1' Name='4322' />
-    </Property>
+    <!-- ***************************************************************** -->
+    <!-- **********  Define Properties used in the install      ********** -->
+    <!-- ***************************************************************** -->
 
     <Property Id="FRAMEWORK20">
       <RegistrySearch Id='Framework20Registry' Type='raw' Root='HKLM'
                       Key='Software\Microsoft\.NETFramework\policy\v2.0' Name='50727' />
+    </Property>
+
+    <Property Id="FRAMEWORK40">
+      <RegistrySearch Id='Framework40Registry' Type='raw' Root='HKLM'
+                      Key='Software\Microsoft\.NETFramework\policy\v4.0' Name='30319' />
     </Property>
 
     <Property Id="MONODEFAULTCLR">
@@ -73,19 +77,10 @@
 
           <Directory Id='bin' Name='bin'>
 
-            <Directory Id='net_1.1' Name='net-1.1'>
-              <Directory Id='lib_1.1' Name='lib' />
-              <Directory Id='addins_1.1' Name='addins' />
-              <Directory Id='tests_1.1' Name='tests' />
-              <Directory Id='framework_1.1' Name='FRAMEWK' LongName='framework' />
-            </Directory>
-
-            <Directory Id='net_2.0' Name='net-2.0'>
-              <Directory Id='lib_2.0' Name='lib' />
-              <Directory Id='addins_2.0' Name='addins' />
-              <Directory Id='tests_2.0' Name='tests' />
-              <Directory Id='framework_2.0' Name='FRAMEWK' LongName='framework' />
-            </Directory>
+            <Directory Id='lib' Name='lib' />
+            <Directory Id='addins' Name='addins' />
+            <Directory Id='tests' Name='tests' />
+            <Directory Id='framework' Name='FRAMEWK' LongName='framework' />
 
           </Directory>
 
@@ -124,100 +119,146 @@
     <!-- **********      Define the NUnit feature tree          ********** -->
     <!-- ***************************************************************** -->
 
-    <Feature Id="TopLevelFeature" ConfigurableDirectory="INSTALLDIR"
-		         Level="1" Title="NUnit $(var.NominalVersion)" Display='expand'
-		         Description="Installs NUnit with all selected components">
+    <Feature Id="BaseFeature" ConfigurableDirectory="INSTALLDIR"
+         Level="1" Title="NUnit $(var.NominalVersion)" Display='expand'
+         Description="Installs the NUnit console runner and supporting assemblies required to write and run tests.">
 
-      <!-- Defined below -->
-      <ComponentRef Id="C__LICENSE" />
-      <ComponentRef Id="C__FIT_LICENSE" />
-      <ComponentRef Id="C__LOGO" />
+      <!-- Defined in base.wxs -->
+      <ComponentRef Id="C__LICENSE"/>
+      <ComponentRef Id="C__LOGO"/>
       <ComponentRef Id="InstallationRegistryEntry"/>
+      <ComponentRef Id="nunit.framework"/>
+      <ComponentRef Id="nunit.mocks"/>
+      <ComponentRef Id="AssemblyReferenceFolder"/>
+      <ComponentRef Id="nunit.core"/>
+      <ComponentRef Id="nunit.core.interfaces"/>
+      <ComponentRef Id="nunit.util"/>
+      <ComponentRef Id="AddinsFolder"/>
+      <ComponentRef Id="nunit_console"/>
+      <ComponentRef Id="console.dll"/>
+      <ComponentRef Id="nunit_agent"/>
 
-      <Feature Id="Net_2.0_BaseFeature" Title="Base Level Support" Level="0" Display="collapse"
-			         Description="NUnit assemblies required to write and run tests under .NET 2.0.">
-        <Condition Level="1">FRAMEWORK20 = "50727-50727" OR MONODIRECTORY</Condition>
+      <!-- Defined in base_x86.wxs -->
+      <ComponentRef Id="nunit_console_x86"/>
+      <ComponentRef Id="nunit_agent_x86"/>
 
-        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-        <ComponentGroupRef Id="Net_2.0_ConsoleRunnerGroup" />
+      <Feature Id="GuiRunner" Level="1" Title='Gui Runner' Display='expand'
+				         Description="Installs the NUnit GUI runner.">
 
-      </Feature>
-
-      <Feature Id="Net_2.0_GuiRunner" Level="1" Title='Gui Runner' Display='expand'
-				         Description="Installs NUnit Windows GUI runner for .NET 2.0">
-
-        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-        <ComponentGroupRef Id="Net_2.0_GuiRunnerGroup"/>
-
-      </Feature>
-
-      <Feature Id="Net_2.0_PNunitRunner" Level="10" Title='PNUnit Runner' Display='expand'
-               Description="Installs the PNUnit runner for parallel distributed tests">
-
-        <ComponentGroupRef Id="Net_2.0_FrameworkGroup"/>
-        <ComponentGroupRef Id="Net_2.0_CoreGroup"/>
-        <ComponentGroupRef Id="pnunit_2.0"/>
-
-      </Feature>
-
-      <Feature Id="Net_2.0_TestsFeature" Level="10" Title='Unit Tests' Display='expand'
-				         Description='Unit tests for NUnit under .NET 1.1'>
-
-        <ComponentGroupRef Id="Net_2.0_TestsGroup" />
+        <!-- Defined in nunit-gui.wxs -->
+        <ComponentRef Id="nunit.exe" />
+        <ComponentRef Id="nunit_x86" />
+        <ComponentRef Id="nunit_gui_runner" />
+        <ComponentRef Id="nunit.uikit" />
+        <ComponentRef Id="nunit.uiexception.dll" />
+        <ComponentRef Id="DllFileAssociation" />
+        <ComponentRef Id="NUnitProjectFileAssociation" />
+        <ComponentRef Id="MenuShortcut_NUnit" />
+        <ComponentRef Id="MenuShortcut_2.0" />
+        <ComponentRef Id="MenuShortcut_Mono_2.0" />
 
       </Feature>
 
-      <Feature Id="Net_1.1_BaseFeature" Level="10" Title=".NET 1.1 Support" Display="collapse"
-			         Description="NUnit assemblies required to write and run tests under .NET 1.1.">
-        <!--<Condition Level="1">FRAMEWORK10 = "3321-3705" OR FRAMEWORK11 = "3706-4322" OR MONODIRECTORY</Condition>-->
+      <!-- Defined in pnunit.wxs -->
+      <Feature Id="PNunitRunner" Level="10" Title='PNUnit Runner' Display='expand'
+               Description="Installs the PNUnit runner for parallel distributed tests.">
 
-        <Feature Id="Net_1.1_Framework"	Level="10" Title="Framework Assemblies" Display="expand"
-				         Description = "Assemblies referenced by user tests">
+        <!-- Defined in pnunit.wxs -->
+        <ComponentRef Id="pnunit_agent"/>
+        <ComponentRef Id="pnunit_launcher"/>
+        <ComponentRef Id="pnunit_framework"/>
+        <ComponentRef Id="log4net"/>
 
-          <ComponentGroupRef Id="Net_1.1_FrameworkGroup" />
+      </Feature>
 
-        </Feature>
+      <Feature Id="TestsFeature" Level="10" Title='Unit Tests' Display='expand'
+				         Description='Installs the unit tests for NUnit itself.'>
 
-        <Feature Id="Net_1.1_ConsoleRunner" Level="10" Title="Console Runner" Display="expand"
-				         Description="Installs NUnit console runner for .NET 1.1">
+        <!-- Defined in tests.wxs -->
+        <ComponentRef Id="NUnitTestProject" />
+        <ComponentRef Id="framework_copy_for_tests" />
+        <ComponentRef Id="base_tests" />
 
-          <ComponentGroupRef Id="Net_1.1_FrameworkGroup"/>
-          <ComponentGroupRef Id="Net_1.1_CoreGroup"/>
-          <ComponentGroupRef Id="Net_1.1_ConsoleRunnerGroup" />
+        <!-- Defined in fit-tests.wxs -->
+        <ComponentRef Id="C__FIT_LICENSE"/>
+        <ComponentRef Id="fit_tests" />
+        <ComponentRef Id="fit_lib" />
+        <ComponentRef Id="fit_fixture_tests" />
 
-        </Feature>
+        <!-- Defined in nunit-gui.wxs -->
+        <ComponentRef Id="gui_tests" />
 
-        <Feature Id="Net_1.1_PNUnitRunner" Level="10" Title='PNUnit Runner' Display='expand'
-                 Description="Installs the PNUnit runner for parallel distributed tests">
-
-          <ComponentGroupRef Id="pnunit_1.1"/>
-
-        </Feature>
-
-        <Feature Id="Net_1.1_TestsFeature" Level="10" Title='Unit Tests' Display='expand'
-				         Description='Unit tests for NUnit under .NET 1.1' >
-
-          <ComponentGroupRef Id="Net_1.1_TestsGroup" />
-
-        </Feature>
+        <!-- Defined in timing-tests.wxs -->
+        <ComponentRef Id="timing_tests" />
 
       </Feature>
 
       <Feature Id="DocumentationFeature" Level="1" Title='Documentation' Display='expand'
-			         Description="HTML documentation for NUNit">
+          Description="Installs the NUnit documentation.">
 
-        <ComponentGroupRef Id="DocumentationComponents"/>
+        <!-- Defined in doc.wxs -->
+        <ComponentRef Id="HtmlDocs" />
+        <ComponentRef Id="DocFiles" />
+        <ComponentRef Id="DocImages" />
 
       </Feature>
 
-
       <!-- Defined in samples.wxs -->
-      <Feature Id="SamplesFeature" Level="1" Title='Samples' Display='expand'
-               Description='Sample code showing the use of NUnit' >
+      <Feature Id="SamplesFeature" Level="1" Title='Samples' Display='collapse'
+               Description='Installs sample code showing the use of NUnit.' >
 
-        <ComponentGroupRef Id="SampleComponents"/>
+        <ComponentRef Id="C__SamplesCommon" />
+        <ComponentRef Id="C__SampleShortcuts" />
+
+        <Feature Id="CSharpSamples" Level="1" Title='C# Samples' Display='expand'
+               Description='Installs C# samples.' >
+
+          <ComponentRef Id="C__CSharp_Samples" />
+          <ComponentRef Id="C__CSharp_Failures" />
+          <ComponentRef Id="C__CSharp_Money" />
+          <ComponentRef Id="C__CSharp_Syntax" />
+
+          <!-- Core Extensibility Samples -->
+          <ComponentRef Id="C__CoreExtensibility" />
+          <ComponentRef Id="C__MinimalAddin" />
+          <ComponentRef Id="C__SampleSuiteExtension" />
+          <ComponentRef Id="C__SampleSuiteExtension_Tests" />
+          <ComponentRef Id="C__SampleFixtureExtension" />
+          <ComponentRef Id="C__SampleFixtureExtension_Tests" />
+
+        </Feature>
+
+        <Feature Id="VBSamples" Level="1" Title='Visual Basic Samples' Display='expand'
+               Description='Installs Visual Basic samples.' >
+
+          <ComponentRef Id="C__VB_Samples" />
+          <ComponentRef Id="C__VB_Failures" />
+          <ComponentRef Id="C__VB_Money" />
+          <ComponentRef Id="C__VB_Syntax" />
+
+        </Feature>
+
+        <Feature Id="JSharpSamples" Level="1" Title='J# Samples' Display='expand'
+               Description='Installs J# samples.' >
+
+          <ComponentRef Id="C__JSharp_Samples" />
+          <ComponentRef Id="C__JSharp_Failures" />
+
+        </Feature>
+
+        <Feature Id="CPPSamples" Level="1" Title='C++ Samples' Display='expand'
+               Description='Installs C++ samples.' >
+
+          <!-- Managed C++ Samples -->
+          <ComponentRef Id="C__CPP_Managed_Samples" />
+          <ComponentRef Id="C__CPP_Managed_Failures" />
+
+          <!-- C++/CLI Samples -->
+          <ComponentRef Id="C__CPP_CLI_Samples" />
+          <ComponentRef Id="C__CPP_CLI_Failures" />
+          <ComponentRef Id="C__CPP_CLI_Syntax" />
+
+        </Feature>
 
       </Feature>
 
@@ -234,39 +275,7 @@
     <!--<UIRef Id="WixUI_FeatureTree" />-->
     <UIRef Id="WixUI_ErrorProgressText" />
 
-    <!-- ***************************************************************** -->
-    <!-- **********       Define Top-level Components           ********** -->
-    <!-- ***************************************************************** -->
-
-    <DirectoryRef Id="INSTALLDIR">
-
-      <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
-        <File Id="_LOGO" Name="Logo.ico" Source="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
-        <RemoveFile Id="RemoveThumbnails" Name="*" On="uninstall" />
-      </Component>
-
-      <Component Id="C__LICENSE" Guid="7D03AE6B-15A7-16E0-0D21-D65708B2FA79">
-        <File Id="_LICENSE" Name="license.txt" Source="license.txt" Vital="yes" KeyPath="yes" DiskId="1" />
-      </Component>
-
-      <Component Id="C__FIT_LICENSE" Guid="6C47563D-CDCD-4a65-BD89-A37F3A3C681D">
-        <File Id="fit_license.txt" Name="FITLICNS.TXT" LongName="fit-license.txt"
-              Source="fit-license.txt" Vital="yes" KeyPath="yes" DiskId="1" />
-      </Component>
-
-      <Component Id="InstallationRegistryEntry" Guid="FD139082-C1B1-46be-AA70-BA970EBDF397">
-
-        <Registry Id="R__INSTALLDIR" Root="HKMU"
-                  Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)"
-                  Name="InstallDir" Action="write" Type="string" Value="[INSTALLDIR]" />
-
-        <Registry Id="R__ProductVersion" Root="HKMU"
-                  Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)"
-                  Name="ProductVersion" Action="write" Type="string" Value="[ProductVersion]" />
-
-      </Component>
-
-    </DirectoryRef>
-
+    <Icon Id="nunit_icon.exe" SourceFile="Logo.ico" />
+	
   </Product>
 </Wix>

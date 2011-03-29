@@ -75,6 +75,9 @@
         <include name="Exceptions/IgnoreException.cs"/>
         <include name="Exceptions/InconclusiveException.cs"/>
         <include name="Exceptions/SuccessException.cs"/>
+        <include name="Interfaces/ITestAction.cs" />
+        <include name="Interfaces/ITestSuiteAction.cs" />
+        <include name="Interfaces/ITestCaseAction.cs" />
         <include name="AssemblyInfo.cs"/>
         <include name="Assert.cs"/>
         <include name="AssertionHelper.cs"/>

@@ -115,6 +115,7 @@
     <Compile Include="CommandLineTests.cs" />
     <Compile Include="CommandLineTests_MultipleAssemblies.cs" />
     <Compile Include="ConsoleRunnerTest.cs" />
+    <Compile Include="TestNameParserTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nunit-console.tests.build" />

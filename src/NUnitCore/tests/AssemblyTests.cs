@@ -65,8 +65,7 @@ namespace NUnit.Core.Tests
 			TestSuiteBuilder builder = new TestSuiteBuilder();
 			Test suite = builder.Build( new TestPackage( noTestFixturesDll ) );
             Assert.IsNotNull(suite, "Unable to load " + noTestFixturesDll);
-            Assert.AreEqual(RunState.NotRunnable, suite.RunState);
-			Assert.AreEqual( suite.IgnoreReason, "Has no TestFixtures" );
+            Assert.AreEqual(RunState.Runnable, suite.RunState);
 			Assert.AreEqual( 0, suite.Tests.Count );
 		}
 

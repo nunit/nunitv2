@@ -9,14 +9,14 @@ using System.IO;
 using System.Collections;
 using NUnit.Framework;
 using NUnit.TestUtilities;
+using NUnit.Util.Tests.resources;
 
 namespace NUnit.Util.Tests
 {
 	[TestFixture]
 	public class VSProjectTests
 	{
-		private string invalidFile = "invalid.csproj";
-		private string resourceDir = "resources";
+		private string invalidFile = Path.Combine(Path.GetTempPath(), "invalid.csproj");
 
 		private void WriteInvalidFile( string text )
 		{
@@ -58,7 +58,8 @@ namespace NUnit.Util.Tests
 		private void AssertCanLoadProject( string resourceName )
 		{
 			string fileName = Path.GetFileNameWithoutExtension( resourceName );
-			using( TempResourceFile file = new TempResourceFile( this.GetType(), resourceDir + "." + resourceName, resourceName ) )
+
+            using (TestResource file = new TestResource(resourceName))
 			{
 				VSProject project = new VSProject( file.Path );
 				Assert.AreEqual( fileName, project.Name );
@@ -125,14 +126,16 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void LoadCppProjectWithMacros()
 		{
-			using ( TempResourceFile file = new TempResourceFile(this.GetType(), "resources.CPPLibrary.vcproj", "CPPLibrary.vcproj" ))
+            using (TestResource file = new TestResource("CPPLibrary.vcproj"))
 			{
 				VSProject project = new VSProject(file.Path);
 				Assert.AreEqual( "CPPLibrary", project.Name );
 				Assert.AreEqual( Path.GetFullPath(file.Path), project.ProjectPath);
-				Assert.AreEqual( Path.GetFullPath( @"debug\cpplibrary.dll" ).ToLower(), 
+				Assert.AreEqual( 
+                    Path.Combine(Path.GetTempPath(), @"debug\cpplibrary.dll" ).ToLower(), 
 					project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower());
-				Assert.AreEqual( Path.GetFullPath( @"release\cpplibrary.dll" ).ToLower(), 
+				Assert.AreEqual( 
+                    Path.Combine(Path.GetTempPath(), @"release\cpplibrary.dll" ).ToLower(), 
 					project.Configs["Release|Win32"].Assemblies[0].ToString().ToLower());
 			}
 		}
@@ -140,14 +143,16 @@ namespace NUnit.Util.Tests
         [Test]
         public void GenerateCorrectExtensionsFromVCProjectVS2005()     
 		{
-            using (TempResourceFile file = new TempResourceFile(this.GetType(), "resources.cpp-default-library_VS2005.vcproj", "cpp-default-library_VS2005.vcproj"))           
+            using (TestResource file = new TestResource("cpp-default-library_VS2005.vcproj"))           
 			{
                 VSProject project = new VSProject(file.Path);
                 Assert.AreEqual("cpp-default-library_VS2005", project.Name);
                 Assert.AreEqual(Path.GetFullPath(file.Path), project.ProjectPath);
-                Assert.AreEqual(Path.GetFullPath( TestPath( @"debug/cpp-default-library_VS2005.dll" ) ).ToLower(),
+                Assert.AreEqual(
+                    Path.Combine(Path.GetTempPath(), TestPath( @"debug/cpp-default-library_VS2005.dll" ) ).ToLower(),
                     project.Configs["Debug|Win32"].Assemblies[0].ToString().ToLower());
-                Assert.AreEqual(Path.GetFullPath( TestPath( @"release/cpp-default-library_VS2005.dll" ) ).ToLower(),
+                Assert.AreEqual(
+                    Path.Combine(Path.GetTempPath(), TestPath( @"release/cpp-default-library_VS2005.dll" ) ).ToLower(),
                     project.Configs["Release|Win32"].Assemblies[0].ToString().ToLower());
             }
         }
@@ -168,35 +173,35 @@ namespace NUnit.Util.Tests
 		public void InvalidXmlFormat()
 		{
 			WriteInvalidFile( "<VisualStudioProject><junk></VisualStudioProject>" );
-			new VSProject( @"." + System.IO.Path.DirectorySeparatorChar + "invalid.csproj" );
+			new VSProject( Path.Combine(Path.GetTempPath(), "invalid.csproj" ));
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void InvalidProjectFormat()
 		{
 			WriteInvalidFile( "<VisualStudioProject><junk></junk></VisualStudioProject>" );
-			new VSProject( @"." + System.IO.Path.DirectorySeparatorChar  + "invalid.csproj" );
+			new VSProject( Path.Combine(Path.GetTempPath(), "invalid.csproj" ));
 		}
 
 		[Test, ExpectedException( typeof( ArgumentException ) )]
 		public void MissingAttributes()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings></Settings></Build></CSharp></VisualStudioProject>" );
-			new VSProject( @"." + System.IO.Path.DirectorySeparatorChar + "invalid.csproj" );
+			new VSProject( Path.Combine(Path.GetTempPath(), "invalid.csproj" ));
 		}
 
 		[Test]
 		public void NoConfigurations()
 		{
 			WriteInvalidFile( "<VisualStudioProject><CSharp><Build><Settings AssemblyName=\"invalid\" OutputType=\"Library\"></Settings></Build></CSharp></VisualStudioProject>" );
-			VSProject project = new VSProject( @"." + System.IO.Path.DirectorySeparatorChar  + "invalid.csproj" );
+			VSProject project = new VSProject( Path.Combine(Path.GetTempPath(),"invalid.csproj" ));
 			Assert.AreEqual( 0, project.Configs.Count );
 		}
 
 		/// <summary>
-		/// Take a valid Linux path and make a valid windows path out of it
+		/// Take a valid Linux filePath and make a valid windows filePath out of it
 		/// if we are on Windows. Change slashes to backslashes and, if the
-		/// path starts with a slash, add C: in front of it.
+		/// filePath starts with a slash, add C: in front of it.
 		/// </summary>
 		private string TestPath(string path)
 		{
