@@ -1,4 +1,4 @@
-﻿#if CLR_2_0
+﻿#if CLR_2_0 || CLR_4_0
 using NUnit.Framework;
 using NUnit.TestData;
 using NUnit.TestData.ActionAttributeTests;

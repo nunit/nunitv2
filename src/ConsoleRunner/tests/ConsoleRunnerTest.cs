@@ -193,7 +193,7 @@ namespace NUnit.ConsoleRunner.Tests
         private int executeConsole( params string[] arguments )
 		{
             int n = 0;
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             string[] args = new string[arguments.Length + 2];
             args[n++] = "-process:single";
 #else

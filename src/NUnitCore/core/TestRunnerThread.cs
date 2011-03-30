@@ -78,7 +78,7 @@ namespace NUnit.Core
 			thread.Name = "TestRunnerThread";
             thread.Priority = NUnitConfiguration.ThreadPriority;
             if (NUnitConfiguration.ApartmentState != ApartmentState.Unknown)
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
                 thread.SetApartmentState(NUnitConfiguration.ApartmentState);
 #else
                 thread.ApartmentState = NUnitConfiguration.ApartmentState;

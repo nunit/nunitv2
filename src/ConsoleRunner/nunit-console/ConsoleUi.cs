@@ -69,7 +69,7 @@ namespace NUnit.ConsoleRunner
                 ? (RuntimeFramework)package.Settings["RuntimeFramework"]
                 : RuntimeFramework.CurrentFramework;
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             Console.WriteLine("ProcessModel: {0}    DomainUsage: {1}", processModel, domainUsage);
 
             Console.WriteLine("Execution Runtime: {0}", framework);
@@ -239,7 +239,7 @@ namespace NUnit.ConsoleRunner
 				domainUsage = DomainUsage.Multiple;
 			}
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             if (options.framework != null)
                 framework = RuntimeFramework.Parse(options.framework);
 

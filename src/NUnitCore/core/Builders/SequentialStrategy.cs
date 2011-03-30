@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections;
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
 using System.Reflection;
@@ -20,7 +20,7 @@ namespace NUnit.Core.Builders
 
         public override IEnumerable GetTestCases()
         {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             List<ParameterSet> testCases = new List<ParameterSet>();
 #else
             ArrayList testCases = new ArrayList();

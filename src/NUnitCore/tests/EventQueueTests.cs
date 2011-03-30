@@ -614,7 +614,7 @@ namespace NUnit.Core.Tests
             }
             #endregion
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             private static void WriteTrace(string message, params object[] args)
             {
                 Trace.TraceInformation(message, args);

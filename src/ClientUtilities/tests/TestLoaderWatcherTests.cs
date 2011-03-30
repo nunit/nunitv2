@@ -108,7 +108,7 @@ namespace NUnit.Util.Tests
 	internal class MockAssemblyWatcher2 : IAssemblyWatcher
 	{
 		public bool IsWatching;
-#if CLR_2_0 || CLR_4_0
+#if CLR_2_0 || CLR_4_0 || CLR_4_0
         public System.Collections.Generic.IList<string> AssembliesToWatch;
 #else
 		public System.Collections.IList AssembliesToWatch;

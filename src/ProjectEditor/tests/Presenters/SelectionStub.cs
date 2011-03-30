@@ -4,7 +4,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_3_5
+#if NET_3_5 || NET_4_0
 using System;
 using System.Collections.Generic;
 using NUnit.ProjectEditor.ViewElements;

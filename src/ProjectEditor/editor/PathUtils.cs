@@ -213,7 +213,7 @@ namespace NUnit.ProjectEditor
         {
             char[] separators = new char[] { PathUtils.DirectorySeparatorChar, PathUtils.AltDirectorySeparatorChar };
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             return path.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 #else
             string[] trialSplit = path.Split(separators);
@@ -238,7 +238,7 @@ namespace NUnit.ProjectEditor
 
         private static bool PathsEqual(string path1, string path2)
         {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             if (PathUtils.IsWindows())
                 return path1.Equals(path2, StringComparison.InvariantCultureIgnoreCase);
             else

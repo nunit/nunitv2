@@ -369,7 +369,7 @@ namespace NUnit.Framework
         #endregion
 
         #region ref Object
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Apply a constraint to a referenced value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure.
@@ -592,7 +592,7 @@ namespace NUnit.Framework
         #endregion
 
         #region Throws<T>
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Verifies that a delegate throws a particular exception when called.
         /// </summary>
@@ -700,7 +700,7 @@ namespace NUnit.Framework
         #endregion
 
         #region Catch<T>
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Verifies that a delegate throws an exception of a certain Type
         /// or one derived from it when called and returns it.
@@ -1114,7 +1114,7 @@ namespace NUnit.Framework
             Assert.That(aDouble, Is.NaN ,null, null);
         }
         
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Verifies that the double that is passed in is an <code>NaN</code> value.
         /// If the object is not <code>NaN</code> then an <see cref="AssertionException"/>
@@ -1397,7 +1397,7 @@ namespace NUnit.Framework
         
         #region IsAssignableFrom<T>
         
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
         /// </summary>
@@ -1473,7 +1473,7 @@ namespace NUnit.Framework
         
         #region IsNotAssignableFrom<T>
         
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Asserts that an object may not be assigned a  value of a given Type.
         /// </summary>
@@ -1585,7 +1585,7 @@ namespace NUnit.Framework
         
         #region IsInstanceOf<T>
         
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Asserts that an object is an instance of a given type.
         /// </summary>
@@ -1697,7 +1697,7 @@ namespace NUnit.Framework
         
         #region IsNotInstanceOf<T>
         
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Asserts that an object is not an instance of a given type.
         /// </summary>
@@ -1974,7 +1974,7 @@ namespace NUnit.Framework
             AssertDoublesAreEqual(expected, actual, delta ,null, null);
         }
         
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Verifies that two doubles are equal considering a delta. If the
         /// expected value is infinity then the delta value is ignored. If 

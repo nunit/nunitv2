@@ -3,7 +3,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_3_5
+#if NET_3_5 || NET_4_0
 using NSubstitute;
 using NUnit.Framework;
 using System.Drawing;
@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace NUnit.UiException.Tests.Controls
 {
-    [TestFixture, Platform("Net-3.5,Mono-3.5")]
+    [TestFixture, Platform("Net-3.5,Mono-3.5,Net-4.0")]
     public class TestCodeBox
     {
         private TestingCodeBox _box;

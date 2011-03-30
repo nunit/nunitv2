@@ -121,7 +121,7 @@ namespace NUnit.Util
 			// TODO: Try to eliminate this test. Currently, running on
 			// Linux with the permission set specified causes an
             // unexplained crash when unloading the domain.
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
 			{
             	PermissionSet permissionSet = new PermissionSet( PermissionState.Unrestricted );	

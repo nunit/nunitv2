@@ -16,7 +16,7 @@ namespace NUnit.Util
     /// </summary>
     public class DefaultTestRunnerFactory : InProcessTestRunnerFactory, ITestRunnerFactory
     {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         private RuntimeFrameworkSelector selector = new RuntimeFrameworkSelector();        
         
         /// <summary>

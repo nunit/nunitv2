@@ -121,7 +121,7 @@ namespace PNUnit.Agent
 					props,clientProvider,serverProvider);
     
 				log.InfoFormat("Registering channel on port {0}", mConfig.Port);
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
                 ChannelServices.RegisterChannel(chan, false);
 #else
 				ChannelServices.RegisterChannel(chan);

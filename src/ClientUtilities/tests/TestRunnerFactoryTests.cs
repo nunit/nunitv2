@@ -26,7 +26,7 @@ namespace NUnit.Util.Tests
             Assert.That( factory.MakeTestRunner(package), Is.TypeOf(typeof(TestDomain)));
         }
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void DifferentRuntimeUsesProcessRunner()
         {

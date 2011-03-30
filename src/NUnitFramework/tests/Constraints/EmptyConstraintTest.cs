@@ -25,7 +25,7 @@ namespace NUnit.Framework.Constraints
             string.Empty,
             new object[0],
             new ArrayList(),
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             new System.Collections.Generic.List<int>()
 #endif  
         };

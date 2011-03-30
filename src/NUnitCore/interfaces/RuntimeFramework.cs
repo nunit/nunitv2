@@ -482,7 +482,7 @@ namespace NUnit.Core
             }
         }
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         private class FrameworkCollection : System.Collections.Generic.List<RuntimeFramework> { }
 #else
         private class FrameworkCollection : ArrayList 

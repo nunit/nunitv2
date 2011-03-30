@@ -21,7 +21,7 @@ namespace NUnit.Core
         /// <param name="path">The path.</param>
         public TestAssembly(Assembly assembly, string path) : base(path)
         {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             this.actions = ActionsHelper.GetActionsFromAttributes(assembly);
 #endif
         }

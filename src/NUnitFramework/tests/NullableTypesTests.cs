@@ -7,7 +7,7 @@ using System;
 
 namespace NUnit.Framework.Tests
 {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
 #if !MONO
     [TestFixture, Category("Generics")]
     public class NullableTypesTests

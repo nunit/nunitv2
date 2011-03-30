@@ -96,7 +96,7 @@ namespace NUnit.Util
 					try
 					{
 						channel = CreateTcpChannel( name, port, limit );
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
                         ChannelServices.RegisterChannel( channel, false );
 #else
 						ChannelServices.RegisterChannel( channel );

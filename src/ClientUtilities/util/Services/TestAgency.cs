@@ -334,7 +334,7 @@ namespace NUnit.Util
             string binDir = GetNUnitBinDirectory(v);
             if (binDir == null) return null;
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             Assembly a = System.Reflection.Assembly.GetEntryAssembly();
             string agentName = v.Major > 1 && a != null && a.GetName().ProcessorArchitecture == ProcessorArchitecture.X86
                 ? "nunit-agent-x86.exe"

@@ -15,10 +15,10 @@ namespace NUnit.Fixtures
 	public class TestCompiler
 	{
         Microsoft.CSharp.CSharpCodeProvider provider;
-#if !CLR_2_0
+#if CLR_1_0 || CLR_1_1
 		ICodeCompiler compiler;
 #endif
-		CompilerParameters options;
+        CompilerParameters options;
 
 		public TestCompiler() : this( null, null ) { }
 
@@ -27,10 +27,10 @@ namespace NUnit.Fixtures
 		public TestCompiler( string[] assemblyNames, string outputName )
 		{
 			this.provider = new Microsoft.CSharp.CSharpCodeProvider();
-#if !CLR_2_0
+#if CLR_1_0 || CLR_1_1
 			this.compiler = provider.CreateCompiler();
 #endif
-			this.options = new CompilerParameters();
+            this.options = new CompilerParameters();
 
 			if ( assemblyNames != null && assemblyNames.Length > 0 )
 				options.ReferencedAssemblies.AddRange( assemblyNames );
@@ -49,7 +49,7 @@ namespace NUnit.Fixtures
 
 		public CompilerResults CompileCode( string code )
         {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             return provider.CompileAssemblyFromSource( options, code );
 #else
             return compiler.CompileAssemblyFromSource(options, code);

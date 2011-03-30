@@ -22,7 +22,7 @@ namespace NUnit.Framework.Constraints
         [TestCase("\n\r", "\\n\\r")]
         [TestCase("This is a\rtest message", "This is a\\rtest message")]
         [TestCase("", "")]
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         [TestCase(null, null)]
 #endif
         [TestCase("\t", "\\t")]

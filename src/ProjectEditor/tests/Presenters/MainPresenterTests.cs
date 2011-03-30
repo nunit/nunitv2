@@ -4,7 +4,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_3_5
+#if NET_3_5 || NET_4_0
 using System;
 using NSubstitute;
 using NUnit.Framework;
@@ -12,7 +12,7 @@ using NUnit.TestUtilities;
 
 namespace NUnit.ProjectEditor.Tests.Presenters
 {
-    [TestFixture, Platform("Net-3.5,Mono-3.5")]
+    [TestFixture, Platform("Net-3.5,Mono-3.5,Net-4.0")]
     public class MainPresenterTests
     {
         // TODO: Embed project resources

@@ -129,7 +129,7 @@ namespace PNUnit.Launcher
 			TcpChannel chan = new TcpChannel(
 				props,clientProvider,serverProvider);
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             ChannelServices.RegisterChannel(chan, false);
 #else
 			ChannelServices.RegisterChannel(chan);

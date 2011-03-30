@@ -29,7 +29,7 @@ namespace NUnit.Core
 		/// <returns></returns>
         public static RemoteTestRunner CreateInstance(AppDomain targetDomain, int ID)
         {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             System.Runtime.Remoting.ObjectHandle oh = Activator.CreateInstance(
                 targetDomain,
 #else

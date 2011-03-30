@@ -90,7 +90,7 @@ namespace NUnit.Util
 
 		public static bool IsProjectFile( string path )
         {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             if (path.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
 #else
 			if ( path.IndexOfAny( Path.InvalidPathChars ) >= 0 )

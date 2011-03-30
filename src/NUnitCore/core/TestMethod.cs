@@ -43,7 +43,7 @@ namespace NUnit.Core
 		/// </summary>
 		protected MethodInfo[] tearDownMethods;
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// The actions
         /// </summary>
@@ -231,7 +231,7 @@ namespace NUnit.Core
                 {
                     this.setUpMethods = suite.GetSetUpMethods();
                     this.tearDownMethods = suite.GetTearDownMethods();
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
                     this.suiteActions = suite.GetTestActions();
 #endif
                 }
@@ -239,7 +239,7 @@ namespace NUnit.Core
 
             try
             {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
                 this.actions = ActionsHelper.GetActionsFromAttributes(method);
 #endif
 
@@ -321,7 +321,7 @@ namespace NUnit.Core
 			try
 			{
                 RunSetUp();
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
 			    RunBeforeActions(testResult);
 #endif
 
@@ -338,7 +338,7 @@ namespace NUnit.Core
 			}
 			finally 
 			{
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
 			    RunAfterActions(testResult);
 #endif
 				RunTearDown( testResult );
@@ -378,7 +378,7 @@ namespace NUnit.Core
 
 		#region Invoke Methods by Reflection, Recording Errors
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         private void RunBeforeActions(TestResult testResult)
         {
             object[][] targetActions = new object[][] { this.suiteActions, this.actions };

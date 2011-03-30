@@ -52,7 +52,7 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "List of categories to exclude")]
 		public string exclude;
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         [Option(Description = "Framework version to be used for tests")]
         public string framework;
 

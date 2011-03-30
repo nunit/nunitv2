@@ -17,7 +17,7 @@ namespace NUnit.Util
 	/// </summary>
 	public class XmlResultTransform
     {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         private XslCompiledTransform xslTransform = new XslCompiledTransform();
 #else
         private XslTransform xslTransform = new XslTransform();

@@ -66,7 +66,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(1, StaticSetUpAndTearDownFixture.tearDownCount);
         }
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public static void StaticClassSetUpAndTearDownAreCalled()
         {

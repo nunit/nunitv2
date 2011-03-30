@@ -54,7 +54,7 @@ namespace NUnit.Core.Tests
         }
     }
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
     [TestFixture("A", null)]
     [TestFixture(null, "A")]
     [TestFixture(null, null)]
@@ -95,7 +95,7 @@ namespace NUnit.Core.Tests
             Assert.That(x * y, Is.EqualTo(answer));
         }
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         IEnumerable GenerateData()
         {
             for(int i = 1; i <= answer; i++)

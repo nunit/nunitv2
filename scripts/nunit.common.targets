@@ -177,7 +177,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.0"/>
     <property name="target.version" value="1.0"/>
-    <property name="runtime.defines" value="MSNET,NET_1_0"/>
+    <property name="runtime.defines" value="MSNET,CLR_1_0,NET_1_0"/>
     <property name="supported.test.platforms" 
       value="net-1.0,net-1.1,net-2.0,mono-1.0,mono-2.0"/>
 
@@ -188,7 +188,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="1.1"/>
     <property name="target.version" value="1.1"/>
-    <property name="runtime.defines" value="MSNET,NET_1_1"/>
+    <property name="runtime.defines" value="MSNET,CLR_1_1,NET_1_1"/>
     <property name="supported.test.platforms"
       value="net-1.0,net-1.1,net-2.0,mono-1.0,mono-2.0"/>
 
@@ -219,7 +219,7 @@
     <property name="runtime.platform" value="net"/>
     <property name="runtime.version" value="4.0"/>
     <property name="target.version" value="2.0"/>
-    <property name="runtime.defines" value="MSNET,NET_4_0,CS_3_0"/>
+    <property name="runtime.defines" value="MSNET,CLR_4_0,NET_4_0,CS_4_0"/>
     <property name="supported.test.platforms" value="net-4.0"/>
 
   </target>

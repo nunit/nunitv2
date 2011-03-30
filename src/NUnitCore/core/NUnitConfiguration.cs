@@ -60,7 +60,7 @@ namespace NUnit.Core
 
         private static NameValueCollection GetConfigSection( string name )
         {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
             return (NameValueCollection)System.Configuration.ConfigurationManager.GetSection(name);
 #else
 			return (NameValueCollection)System.Configuration.ConfigurationSettings.GetConfig(name);
@@ -261,7 +261,7 @@ namespace NUnit.Core
         {
             get
             {
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
                 string helpUrl = ConfigurationManager.AppSettings["helpUrl"];
 #else
                 string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];

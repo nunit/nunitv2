@@ -128,7 +128,7 @@ namespace NUnit.Core.Tests
             TestAssert.IsRunnable(typeof(MultipleFixtureTearDownAttributes));
         }
 
-#if CLR_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void ConstructFromStaticTypeWithoutTestFixtureAttribute()
         {
