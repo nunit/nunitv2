@@ -1,4 +1,4 @@
-﻿#if NET_2_0 || NET_3_5
+﻿#if CLR_2_0
 using NUnit.Framework;
 using NUnit.TestData;
 using NUnit.TestData.ActionAttributeTests;

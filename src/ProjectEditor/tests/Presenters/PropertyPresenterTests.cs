@@ -4,7 +4,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_3_5 || MONO_3_5
+#if NET_3_5
 using System;
 using System.IO;
 using System.Reflection;

@@ -31,7 +31,7 @@ namespace NUnit.Util
 		/// </summary>
 		/// <param name="delayInMs">The delay in ms.</param>
 		/// <param name="assemblies">The assemblies.</param>
-#if CLR_2_0 || NET_4_0
+#if CLR_2_0 || CLR_4_0
         void Setup(int delayInMs, System.Collections.Generic.IList<string> assemblies);
 #else
         void Setup(int delayInMs, System.Collections.IList assemblies);

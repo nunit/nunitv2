@@ -48,7 +48,7 @@ namespace NUnit.Core
         /// </summary>
         protected MethodInfo[] tearDownMethods;
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
         /// <summary>
         /// The actions for this suite
         /// </summary>
@@ -195,7 +195,7 @@ namespace NUnit.Core
             return tearDownMethods;
         }
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
         internal virtual object[] GetTestActions()
         {
             ArrayList allActions = new ArrayList();
@@ -297,7 +297,7 @@ namespace NUnit.Core
 			TestResult suiteResult = new TestResult(this);
 			
             DoOneTimeSetUp(suiteResult);
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
             DoOneTimeBeforeTestSuiteActions(suiteResult);
 #endif
 
@@ -325,7 +325,7 @@ namespace NUnit.Core
                     }
                     finally
                     {
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
                         DoOneTimeAfterTestSuiteActions(suiteResult);
 #endif
                         DoOneTimeTearDown(suiteResult);
@@ -376,7 +376,7 @@ namespace NUnit.Core
             }
         }
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
         protected virtual void DoOneTimeBeforeTestSuiteActions(TestResult suiteResult)
         {
             try
@@ -453,7 +453,7 @@ namespace NUnit.Core
             }
         }
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
         protected virtual void DoOneTimeAfterTestSuiteActions(TestResult suiteResult)
         {
             try

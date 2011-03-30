@@ -63,7 +63,7 @@ namespace NUnit.Core
                 }
             }
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
             this.actions = ActionsHelper.GetActionsFromAttributes(this.method);
 #endif
 
@@ -82,7 +82,7 @@ namespace NUnit.Core
 			this.Fixture = null;
 			this.setUpMethods = null;
 			this.tearDownMethods = null;
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
             this.actions = null;
 #endif
 

@@ -29,7 +29,7 @@ namespace NUnit.Core
 			this.fixtureSetUpMethods = Reflect.GetMethodsWithAttribute( type, NUnitFramework.SetUpAttribute, true );
 			this.fixtureTearDownMethods = Reflect.GetMethodsWithAttribute( type, NUnitFramework.TearDownAttribute, true );
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
 		    this.actions = ActionsHelper.GetActionsFromTypeAttributes(type);
 #endif
 		}

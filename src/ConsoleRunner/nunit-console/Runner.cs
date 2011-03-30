@@ -113,9 +113,9 @@ namespace NUnit.ConsoleRunner
 			Assembly executingAssembly = Assembly.GetExecutingAssembly();
 			string versionText = executingAssembly.GetName().Version.ToString();
 
-#if NET_1_0
+#if CLR_1_0
             string productName = "NUnit-Console (.NET 1.0)";
-#elif NET_1_1
+#elif CLR_1_1
             string productName = "NUnit-Console (.NET 1.1)";
 #else
             string productName = "NUnit-Console";

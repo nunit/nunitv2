@@ -40,7 +40,7 @@ namespace NUnit.Util
 			Setup(delay, new string[] {assemblyFileName});
 		}
 
-#if CLR_2_0 || NET_4_0
+#if CLR_2_0 || CLR_4_0
 		public void Setup(int delay, System.Collections.Generic.IList<string> assemblies)
 #else
         public void Setup(int delay, System.Collections.IList assemblies)

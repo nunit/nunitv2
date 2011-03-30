@@ -4,7 +4,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
 using System;
 using System.Reflection;
 

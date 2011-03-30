@@ -30,7 +30,7 @@ namespace NUnit.Core
             this.tearDownMethods = 
                 Reflect.GetMethodsWithAttribute(this.FixtureType, NUnitFramework.TearDownAttribute, true);
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0
             this.actions = ActionsHelper.GetActionsFromTypeAttributes(this.FixtureType);
 #endif
         }

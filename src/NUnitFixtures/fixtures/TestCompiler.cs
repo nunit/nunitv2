@@ -15,7 +15,7 @@ namespace NUnit.Fixtures
 	public class TestCompiler
 	{
         Microsoft.CSharp.CSharpCodeProvider provider;
-#if !NET_2_0
+#if !CLR_2_0
 		ICodeCompiler compiler;
 #endif
 		CompilerParameters options;
@@ -27,7 +27,7 @@ namespace NUnit.Fixtures
 		public TestCompiler( string[] assemblyNames, string outputName )
 		{
 			this.provider = new Microsoft.CSharp.CSharpCodeProvider();
-#if !NET_2_0
+#if !CLR_2_0
 			this.compiler = provider.CreateCompiler();
 #endif
 			this.options = new CompilerParameters();
