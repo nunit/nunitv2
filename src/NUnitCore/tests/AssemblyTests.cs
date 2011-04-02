@@ -88,4 +88,17 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual("54321",ConfigurationSettings.AppSettings["test.setting"]);
 		}
 	}
+
+    [TestFixture]
+    public class Bug
+    {
+        [Test]
+        public void Test() { }
+
+        [TestFixtureTearDown]
+        public void TearDown()
+        {
+            throw new AbandonedMutexException();
+        }
+    }
 }
