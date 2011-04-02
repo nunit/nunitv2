@@ -168,7 +168,7 @@ namespace NUnit.ConsoleRunner
                     else
                     {
                         WriteSummaryReport(summary);
-                        if (summary.ErrorsAndFailures > 0)
+                        if (summary.ErrorsAndFailures > 0 || result.IsError || result.IsFailure)
                             WriteErrorsAndFailuresReport(result);
                         if (summary.TestsNotRun > 0)
                             WriteNotRunReport(result);
@@ -305,8 +305,9 @@ namespace NUnit.ConsoleRunner
             {
                 if (result.HasResults)
                 {
-                    if ( (result.IsFailure || result.IsError) && result.FailureSite == FailureSite.SetUp)
-                        WriteSingleResult(result);
+                    if (result.IsFailure || result.IsError)
+                        if (result.FailureSite == FailureSite.SetUp || result.FailureSite == FailureSite.TearDown)
+                            WriteSingleResult(result);
 
                     foreach (TestResult childResult in result.Results)
                         WriteErrorsAndFailures(childResult);
