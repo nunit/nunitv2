@@ -78,10 +78,19 @@
     description="Generate code for the fluent constraint builder interface">
 
     <exec program="GenSyntax.exe"
-      managed="true"
+      managed="auto"
       basedir="${project.tools.dir}/bin"
-      workingdir="${project.src.dir}/NUnitFramework/framework"
-      commandline="SyntaxElements.txt"/>
+      workingdir="${project.src.dir}/NUnitFramework/framework">
+
+      <arg value="-syntax:SyntaxElements.txt"/>
+      <arg value="Is.cs"/>
+      <arg value="Has.cs"/>
+      <arg value="Throws.cs"/>
+      <arg value="Constraints/ConstraintFactory.cs"/>
+      <arg value="Constraints/ConstraintExpression.cs"/>
+      <arg value="Assert.cs"/>
+
+    </exec>
 
   </target>
 
@@ -395,7 +404,7 @@
   <target name="build-tools"
       description="Build tools used in building NUnit">
 
-    <nant target="build" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
+    <nant target="build" buildfile="tools/src/CodeGeneration/CodeGeneration.build"/>
 
   </target>
 

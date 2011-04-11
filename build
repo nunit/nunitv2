@@ -50,7 +50,7 @@ do
       commands="$commands build-$arg"
       ;;
 
-    test|gui-test)
+    test|gui-test|gen-syntax)
       commands="$commands $arg"
       ;;
 

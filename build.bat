@@ -49,6 +49,7 @@ IF /I "%1" EQU "samples" set COMMANDS=%COMMANDS% build-samples&goto shift
 IF /I "%1" EQU "tools" set COMMANDS=%COMMANDS% build-tools&goto shift
 IF /I "%1" EQU "test" set COMMANDS=%COMMANDS% test&goto shift
 IF /I "%1" EQU "gui-test" set COMMANDS=%COMMANDS% gui-test&goto shift
+IF /I "%1" EQU "gen-syntax" set COMMANDS=%COMMANDS% gen-syntax&goto shift
 
 IF "%1" EQU "--" set PASSTHRU=TRUE&goto shift
 
