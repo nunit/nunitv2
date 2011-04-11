@@ -16,12 +16,10 @@ namespace NUnit.Framework.Constraints
     /// RangeConstraint tests whethe two values are within a 
     /// specified range.
     /// </summary>
-    public class RangeConstraint : Constraint
+    public class RangeConstraint : ComparisonConstraint
     {
         private IComparable from;
         private IComparable to;
-
-        private ComparisonAdapter comparer = ComparisonAdapter.Default;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RangeConstraint"/> class.
@@ -59,34 +57,5 @@ namespace NUnit.Framework.Constraints
 
             writer.Write("in range ({0},{1})", from, to);
         }
-
-        /// <summary>
-        /// Modifies the constraint to use an IComparer and returns self.
-        /// </summary>
-        public RangeConstraint Using(IComparer comparer)
-        {
-            this.comparer = ComparisonAdapter.For(comparer);
-            return this;
-        }
-
-#if CLR_2_0 || CLR_4_0
-        /// <summary>
-        /// Modifies the constraint to use an IComparer&lt;T&gt; and returns self.
-        /// </summary>
-        public RangeConstraint Using<T>(IComparer<T> comparer)
-        {
-            this.comparer = ComparisonAdapter.For(comparer);
-            return this;
-        }
-
-        /// <summary>
-        /// Modifies the constraint to use a Comparison&lt;T&gt; and returns self.
-        /// </summary>
-        public RangeConstraint Using<T>(Comparison<T> comparer)
-        {
-            this.comparer = ComparisonAdapter.For(comparer);
-            return this;
-        }
-#endif
     }
 }

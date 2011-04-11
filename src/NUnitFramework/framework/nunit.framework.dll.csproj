@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -127,7 +127,11 @@
     <Compile Include="Constraints\EqualConstraint.cs" />
     <Compile Include="Constraints\EqualityAdapter.cs" />
     <Compile Include="Constraints\FloatingPointNumerics.cs" />
+    <Compile Include="Constraints\GreaterThanConstraint.cs" />
+    <Compile Include="Constraints\GreaterThanOrEqualConstraint.cs" />
     <Compile Include="Constraints\IResolveConstraint.cs" />
+    <Compile Include="Constraints\LessThanConstraint.cs" />
+    <Compile Include="Constraints\LessThanOrEqualConstraint.cs" />
     <Compile Include="Constraints\MessageWriter.cs" />
     <Compile Include="Constraints\MsgUtils.cs" />
     <Compile Include="Constraints\Numerics.cs" />
