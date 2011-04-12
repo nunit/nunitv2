@@ -30,6 +30,11 @@
 #   the stanza. All methods generated from a stanza use
 #   the same comment. 
 #
+# Prefix 'Cond:' may appear once in each stanza and
+#   gives an expression that will be used with #if to include
+#   or exclude code from the entire stanza from the build.
+#   For example: 'Cond: !NETCF'
+#
 # Prefix 'Type:' may appear once in each stanza and indicates
 #   the return type of the methods defined in the stanza. If
 #   it is not specified, all methods default to 'void'.
@@ -48,7 +53,7 @@
 #   and generates the necessary get {...} sequence in the 
 #   latter case. Note that only getters are generated. If
 #   the method signature uses generics, the entire definition
-#   is enclosed in an #if NET_2_0 ... #endif sequence.
+#   is enclosed in an #if CLR_2_0 || CLR_4_0 ... #endif sequence.
 #
 #   If the class name in a method signature is 'Assert' the
 #   code generator creates multiple overloads of the method,
@@ -65,17 +70,6 @@
 # of use of each prefix.
 #
 #
-#
-# Define default classes to be generated:
-#
-Default: Is
-Default: Has
-Default: Text
-Default: Throws
-Default: ConstraintFactory=Constraints/ConstraintFactory.cs
-Default: ConstraintExpression=Constraints/ConstraintExpression.cs
-Default: Assert
-%
 #
 # Prefix Operators
 #
@@ -490,13 +484,14 @@ Gen3: Is.SamePathOrUnder(string expected)=>new SamePathOrUnderConstraint(expecte
 /// Returns a constraint that tests whether the actual value falls 
 /// within a specified range.
 /// </summary>
+Cond: !CLR_2_0 && !CLR_4_0
 Gen3: Is.InRange(IComparable from, IComparable to)=>new RangeConstraint(from, to)
 %
 /// <summary>
 /// Returns a constraint that tests whether the actual value falls 
 /// within a specified range.
 /// </summary>
-#Gen3: Is.InRange<T>(T from, T to) where T : IComparable=>new RangeConstraint<T>(from, to)
+Gen3: Is.InRange<T>(T from, T to) where T : IComparable<T>=>new RangeConstraint<T>(from, to)
 %
 #
 # Asserts

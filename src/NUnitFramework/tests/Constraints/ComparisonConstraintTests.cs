@@ -251,12 +251,20 @@ namespace NUnit.Framework.Constraints
     [TestFixture]
     public class RangeConstraintTest : ConstraintTestBaseWithArgumentException
     {
+#if CLR_2_0 || CLR_4_0
+        RangeConstraint<int> rangeConstraint;
+#else
         RangeConstraint rangeConstraint;
+#endif
 
         [SetUp]
         public void SetUp()
         {
+#if CLR_2_0 || CLR_4_0
+            theConstraint = rangeConstraint = new RangeConstraint<int>(5, 42);
+#else
             theConstraint = rangeConstraint = new RangeConstraint(5, 42);
+#endif
             expectedDescription = "in range (5,42)";
             stringRepresentation = "<range 5 42>";
         }

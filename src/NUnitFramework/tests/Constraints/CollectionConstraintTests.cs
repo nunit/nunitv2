@@ -6,10 +6,12 @@
 
 using System;
 using System.Collections;
+using NUnit.Framework.Tests;
+
 #if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
+using RangeConstraint = NUnit.Framework.Constraints.RangeConstraint<int>;
 #endif
-using NUnit.Framework.Tests;
 
 namespace NUnit.Framework.Constraints
 {
