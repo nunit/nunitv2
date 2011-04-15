@@ -68,7 +68,11 @@
 
     <mkdir dir="${build.dir}"/>
 
+    <property name="nunit.framework"
+      value="${build.dir}/nunit.framework.dll"/>
+
     <csc target="library"
+        if="${file::exists(nunit.framework)}"
         output="${build.dir}/CodeGenerationTests.dll"
         debug="${debug}" 
         define="${defines}">
@@ -80,10 +84,18 @@
       </sources>
       <references>
         <include name="${build.dir}/CodeGenLib.dll"/>
-        <include name="nunit.framework.dll"/>
+        <include name="${build.dir}/nunit.framework.dll"/>
         <include name="../../../builds/net/2.0/release/NUnit.Framework.dll"/>
       </references>
     </csc>
+
+    <echo unless="${file::exists(nunit.framework)}">Skipping build of CodeGenerationTests.dll because
+no copy of nunit.framework.dll is available.
+
+To build the tests, place a copy of nunit.framework.dll
+in the tools/bin directory. If the framework cannot be
+built successfully, you may be able to use a copy from
+a recent release of NUnit.</echo>
 
   </target>
 
