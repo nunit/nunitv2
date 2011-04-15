@@ -22,7 +22,9 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Compares two objects, returning true if they are equal
         /// </summary>
-        public abstract bool ObjectsEqual(object x, object y);
+        public abstract bool AreEqual(object x, object y);
+
+#if CLR_2_0 || CLR_4_0
 
         /// <summary>
         /// Returns an EqualityAdapter that wraps an IComparer.
@@ -32,7 +34,6 @@ namespace NUnit.Framework.Constraints
             return new ComparisonAdapterAdapter(ComparisonAdapter.For(comparer));
         }
 
-#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Returns an EqualityAdapter that wraps an IEqualityComparer.
         /// </summary>
@@ -54,7 +55,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public static EqualityAdapter For<T>(IComparer<T> comparer)
         {
-            return new ComparisonAdapterAdapter( ComparisonAdapter.For(comparer) );
+            return new ComparisonAdapterAdapter(ComparisonAdapter.For(comparer));
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public static EqualityAdapter For<T>(Comparison<T> comparer)
         {
-            return new ComparisonAdapterAdapter( ComparisonAdapter.For(comparer) );
+            return new ComparisonAdapterAdapter(ComparisonAdapter.For(comparer));
         }
 
         class EqualityComparerAdapter : EqualityAdapter
@@ -74,7 +75,7 @@ namespace NUnit.Framework.Constraints
                 this.comparer = comparer;
             }
 
-            public override bool ObjectsEqual(object x, object y)
+            public override bool AreEqual(object x, object y)
             {
                 return comparer.Equals(x, y);
             }
@@ -89,7 +90,7 @@ namespace NUnit.Framework.Constraints
                 this.comparer = comparer;
             }
 
-            public override bool ObjectsEqual(object x, object y)
+            public override bool AreEqual(object x, object y)
             {
                 if (!typeof(T).IsAssignableFrom(x.GetType()))
                     throw new ArgumentException("Cannot compare " + x.ToString());
@@ -111,10 +112,26 @@ namespace NUnit.Framework.Constraints
                 this.comparer = comparer;
             }
 
-            public override bool ObjectsEqual(object x, object y)
+            public override bool AreEqual(object x, object y)
             {
                 return comparer.Compare(x, y) == 0;
             }
         }
     }
+
+#if CLR_2_0 || CLR_4_0
+    /// <summary>
+    /// EqualityAdapter class handles all equality comparisons
+    /// that use an IEqualityComparer, IEqualityComparer&lt;T&gt;
+    /// or a ComparisonAdapter.
+    /// </summary>
+    public abstract class EqualityAdapter<T> : EqualityAdapter, INUnitEqualityComparer<T>
+    {
+        /// <summary>
+        /// Compares two objects, returning true if they are equal
+        /// </summary>
+        public abstract bool AreEqual(T x, T y, ref Tolerance tolerance);
+
+    }
+#endif
 }

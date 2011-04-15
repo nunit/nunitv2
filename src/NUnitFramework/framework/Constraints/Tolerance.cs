@@ -58,12 +58,23 @@ namespace NUnit.Framework.Constraints
             "A numeric tolerance is required";
 
         /// <summary>
-        /// Returns an empty Tolerance object, equivalent to 
-        /// specifying an exact match.
+        /// Returns an empty Tolerance object, equivalent to
+        /// specifying no tolerance. In most cases, it results
+        /// in an exact match but for floats and doubles a
+        /// default tolerance may be used.
         /// </summary>
         public static Tolerance Empty
         {
             get { return new Tolerance(0, ToleranceMode.None); }
+        }
+
+        /// <summary>
+        /// Returns a zero Tolerance object, equivalent to 
+        /// specifying an exact match.
+        /// </summary>
+        public static Tolerance Zero
+        {
+            get { return new Tolerance(0, ToleranceMode.Linear); }
         }
 
         /// <summary>
@@ -74,7 +85,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Constructs a tolerance given an amount and ToleranceMode
         /// </summary>
-        private Tolerance(object amount, ToleranceMode mode)
+        public Tolerance(object amount, ToleranceMode mode)
         {
             this.amount = amount;
             this.mode = mode;

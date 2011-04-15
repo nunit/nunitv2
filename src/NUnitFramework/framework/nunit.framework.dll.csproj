@@ -159,6 +159,7 @@
     <Compile Include="FileAssert.cs" />
     <Compile Include="GlobalSettings.cs" />
     <Compile Include="Has.cs" />
+    <Compile Include="Interfaces\INUnitEqualityComparer.cs" />
     <Compile Include="Interfaces\ITestAction.cs" />
     <Compile Include="IExpectException.cs" />
     <Compile Include="Is.cs" />

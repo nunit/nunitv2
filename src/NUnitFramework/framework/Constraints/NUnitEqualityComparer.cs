@@ -17,7 +17,7 @@ namespace NUnit.Framework.Constraints
     /// NUnitEqualityComparer encapsulates NUnit's handling of
     /// equality tests between objects.
     /// </summary>
-    public class NUnitEqualityComparer
+    public class NUnitEqualityComparer : INUnitEqualityComparer
     {
         #region Static and Instance Fields
         /// <summary>
@@ -30,12 +30,6 @@ namespace NUnit.Framework.Constraints
         /// those of different dimensions to be compared
         /// </summary>
         private bool compareAsCollection;
-
-        /// <summary>
-        /// If non-zero, equality comparisons within the specified 
-        /// tolerance will succeed.
-        /// </summary>
-        private Tolerance tolerance = Tolerance.Empty;
 
         /// <summary>
         /// Comparison object used in comparisons for some constraints.
@@ -88,16 +82,6 @@ namespace NUnit.Framework.Constraints
         }
 
         /// <summary>
-        /// Gets and sets a tolerance used to compare objects of 
-        /// certin types.
-        /// </summary>
-        public Tolerance Tolerance
-        {
-            get { return tolerance; }
-            set { tolerance = value; }
-        }
-
-        /// <summary>
         /// Gets the list of failure points for the last Match performed.
         /// </summary>
         public IList FailurePoints
@@ -107,10 +91,11 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Public Methods
+
         /// <summary>
-        /// Compares two objects for equality.
+        /// Compares two objects for equality within a tolerance.
         /// </summary>
-        public bool ObjectsEqual(object x, object y)
+        public bool AreEqual(object x, object y, ref Tolerance tolerance)
         {
             this.failurePoints = new ArrayList();
 
@@ -127,19 +112,19 @@ namespace NUnit.Framework.Constraints
             Type yType = y.GetType();
 
             if (xType.IsArray && yType.IsArray && !compareAsCollection)
-                return ArraysEqual((Array)x, (Array)y);
+                return ArraysEqual((Array)x, (Array)y, ref tolerance);
 
             if (x is IDictionary && y is IDictionary)
-                return DictionariesEqual((IDictionary)x, (IDictionary)y);
+                return DictionariesEqual((IDictionary)x, (IDictionary)y, ref tolerance);
 
             if (x is ICollection && y is ICollection)
-                return CollectionsEqual((ICollection)x, (ICollection)y);
+                return CollectionsEqual((ICollection)x, (ICollection)y, ref tolerance);
 
             if (x is IEnumerable && y is IEnumerable && !(x is string && y is string))
-                return EnumerablesEqual((IEnumerable)x, (IEnumerable)y);
+                return EnumerablesEqual((IEnumerable)x, (IEnumerable)y, ref tolerance);
 
             if (externalComparer != null)
-                return externalComparer.ObjectsEqual(x, y);
+                return externalComparer.AreEqual(x, y);
 
             if (x is string && y is string)
                 return StringsEqual((string)x, (string)y);
@@ -172,7 +157,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Helper method to compare two arrays
         /// </summary>
-        private bool ArraysEqual(Array x, Array y)
+        private bool ArraysEqual(Array x, Array y, ref Tolerance tolerance)
         {
             int rank = x.Rank;
 
@@ -183,10 +168,10 @@ namespace NUnit.Framework.Constraints
                 if (x.GetLength(r) != y.GetLength(r))
                     return false;
 
-            return CollectionsEqual((ICollection)x, (ICollection)y);
+            return CollectionsEqual((ICollection)x, (ICollection)y, ref tolerance);
         }
 
-        private bool DictionariesEqual(IDictionary x, IDictionary y)
+        private bool DictionariesEqual(IDictionary x, IDictionary y, ref Tolerance tolerance)
         {
             if (x.Count != y.Count)
                 return false;
@@ -196,13 +181,13 @@ namespace NUnit.Framework.Constraints
                 return false;
 
             foreach (object key in x.Keys)
-                if (!ObjectsEqual(x[key], y[key]))
+                if (!AreEqual(x[key], y[key], ref tolerance))
                     return false;
 
             return true;
         }
 
-        private bool CollectionsEqual(ICollection x, ICollection y)
+        private bool CollectionsEqual(ICollection x, ICollection y, ref Tolerance tolerance)
         {
             IEnumerator expectedEnum = x.GetEnumerator();
             IEnumerator actualEnum = y.GetEnumerator();
@@ -210,7 +195,7 @@ namespace NUnit.Framework.Constraints
             int count;
             for (count = 0; expectedEnum.MoveNext() && actualEnum.MoveNext(); count++)
             {
-                if (!ObjectsEqual(expectedEnum.Current, actualEnum.Current))
+                if (!AreEqual(expectedEnum.Current, actualEnum.Current, ref tolerance))
                     break;
             }
 
@@ -229,7 +214,7 @@ namespace NUnit.Framework.Constraints
             return s1.Equals(s2);
         }
 
-        private bool EnumerablesEqual(IEnumerable x, IEnumerable y)
+        private bool EnumerablesEqual(IEnumerable x, IEnumerable y, ref Tolerance tolerance)
         {
             IEnumerator expectedEnum = x.GetEnumerator();
             IEnumerator actualEnum = y.GetEnumerator();
@@ -244,7 +229,7 @@ namespace NUnit.Framework.Constraints
                     return true;
 
                 if (expectedHasData != actualHasData ||
-                    !ObjectsEqual(expectedEnum.Current, actualEnum.Current))
+                    !AreEqual(expectedEnum.Current, actualEnum.Current, ref tolerance))
                 {
                     failurePoints.Insert(0, count);
                     return false;

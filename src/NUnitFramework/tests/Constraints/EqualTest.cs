@@ -559,8 +559,9 @@ namespace NUnit.Framework.Constraints
 		{
 			object[] array = new object[1];
 			array[0] = array;
+            Tolerance tolerance = Tolerance.Zero;
 			NUnitEqualityComparer comparer = new NUnitEqualityComparer();
-			Assert.True(comparer.ObjectsEqual(array, array));
+            Assert.True(comparer.AreEqual(array, array, ref tolerance));
 		}
 	}
 }
