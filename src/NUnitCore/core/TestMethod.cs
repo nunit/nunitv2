@@ -273,7 +273,6 @@ namespace NUnit.Core
             {
                 Fixture = null;
 
-                CallContext.FreeNamedDataSlot("NUnit.Framework.TestContext");
                 TestExecutionContext.Restore();
             }
 		}
@@ -472,40 +471,5 @@ namespace NUnit.Core
             testResult.SetResult(NUnitFramework.GetResultState(exception), exception, failureSite);
 		}
 		#endregion
-
-        #region Inner Classes
-        public class ContextDictionary : Hashtable
-        {
-            internal TestExecutionContext _ec;
-
-            public override object this[object key]
-            {
-                get
-                {
-                    // Get Result values dynamically, since
-                    // they may change as execution proceeds
-                    switch (key as string)
-                    {
-                        case "Test.Name":
-                            return _ec.CurrentTest.TestName.Name;
-                        case "Test.FullName":
-                            return _ec.CurrentTest.TestName.FullName;
-                        case "Test.Properties":
-                            return _ec.CurrentTest.Properties;
-                        case "Result.State":
-                            return (int)_ec.CurrentResult.ResultState;
-                        case "TestDirectory":
-                            return AssemblyHelper.GetDirectoryName(_ec.CurrentTest.FixtureType.Assembly);
-                        default:
-                            return base[key];
-                    }
-                }
-                set
-                {
-                    base[key] = value;
-                }
-            }
-        }
-        #endregion
     }
 }

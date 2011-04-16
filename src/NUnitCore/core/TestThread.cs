@@ -37,7 +37,7 @@ namespace NUnit.Core
 
         protected ITestFilter filter;
 		
-		protected TestMethod.ContextDictionary contextDictionary;
+		protected ContextDictionary contextDictionary;
 
         /// <summary>
         /// Unexpected exception thrown by test thread
@@ -91,7 +91,7 @@ namespace NUnit.Core
             this.thrownException = null;
             this.listener = listener;
             this.filter = filter;
-			this.contextDictionary = (TestMethod.ContextDictionary)CallContext.GetData("NUnit.Framework.TestContext");
+			this.contextDictionary = (ContextDictionary)CallContext.GetData("NUnit.Framework.TestContext");
 
             log.Debug("Starting test in separate thread");
             thread.Start();

@@ -135,6 +135,7 @@
     <Compile Include="Builders\TestCaseParameterProvider.cs" />
     <Compile Include="Builders\TestCaseSourceProvider.cs" />
     <Compile Include="Builders\ValueSourceProvider.cs" />
+    <Compile Include="ContextDictionary.cs" />
     <Compile Include="CoreExtensions.cs" />
     <Compile Include="CultureDetector.cs" />
     <Compile Include="DirectorySwapper.cs" />
