@@ -24,8 +24,6 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         public abstract bool AreEqual(object x, object y);
 
-#if CLR_2_0 || CLR_4_0
-
         /// <summary>
         /// Returns an EqualityAdapter that wraps an IComparer.
         /// </summary>
@@ -34,6 +32,7 @@ namespace NUnit.Framework.Constraints
             return new ComparisonAdapterAdapter(ComparisonAdapter.For(comparer));
         }
 
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Returns an EqualityAdapter that wraps an IEqualityComparer.
         /// </summary>
