@@ -52,8 +52,12 @@
         <include name="Constraints/EqualConstraint.cs"/>
         <include name="Constraints/EqualityAdapter.cs"/>
         <include name="Constraints/FloatingPointNumerics.cs"/>
-        <include name="Constraints/IResolveConstraint.cs"/>
-        <include name="Constraints/MessageWriter.cs"/>
+    <include name="Constraints/GreaterThanConstraint.cs"/>
+    <include name="Constraints/GreaterThanOrEqualConstraint.cs"/>
+    <include name="Constraints/IResolveConstraint.cs"/>
+    <include name="Constraints/LessThanConstraint.cs"/>
+    <include name="Constraints/LessThanOrEqualConstraint.cs"/>
+    <include name="Constraints/MessageWriter.cs"/>
         <include name="Constraints/MsgUtils.cs"/>
         <include name="Constraints/Numerics.cs"/>
         <include name="Constraints/NUnitComparer.cs"/>
@@ -75,6 +79,7 @@
         <include name="Exceptions/IgnoreException.cs"/>
         <include name="Exceptions/InconclusiveException.cs"/>
         <include name="Exceptions/SuccessException.cs"/>
+    <include name="Interfaces/INUnitEqualityComparer.cs"/>
         <include name="Interfaces/ITestAction.cs" />
         <include name="Interfaces/ITestSuiteAction.cs" />
         <include name="Interfaces/ITestCaseAction.cs" />

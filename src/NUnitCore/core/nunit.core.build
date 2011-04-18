@@ -8,6 +8,7 @@
     <include name="AssemblyHelper.cs"/>
     <include name="AssemblyReader.cs"/>
     <include name="AssemblyResolver.cs"/>
+    <include name="ContextDictionary.cs"/>
     <include name="CoreExtensions.cs"/>
     <include name="CultureDetector.cs"/>
     <include name="DirectorySwapper.cs"/>
