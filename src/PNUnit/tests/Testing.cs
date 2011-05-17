@@ -18,10 +18,10 @@ namespace TestLibraries
 		}
 
 
-		[Test]
+		[Test, Explicit("PNUnit Test")]
 		public void Server()
 		{
-			PNUnitServices.Get().InitBarrier("BARRIER");
+			PNUnitServices.Get().InitBarrier("BARRIER", 1);
 			PNUnitServices.Get().WriteLine("Server started");
 
 			Thread.Sleep(10000);
@@ -30,11 +30,11 @@ namespace TestLibraries
 			Assert.IsTrue(false, "The test failed");        
 		}
 
-		[Test]
+		[Test, Explicit("PNUnit Test")]
 		public void Client()
 		{   
 			PNUnitServices.Get().WriteLine("The client should wait until the server starts");
-			PNUnitServices.Get().InitBarrier("BARRIER");                
+			PNUnitServices.Get().InitBarrier("BARRIER", 1);                
 			
 			PNUnitServices.Get().EnterBarrier("BARRIER");
 
