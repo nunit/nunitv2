@@ -229,7 +229,7 @@
     <property name="runtime.platform" value="mono"/>
     <property name="runtime.version" value="1.0"/>
     <property name="target.version" value="1.0"/>
-    <property name="runtime.defines" value="MONO,NET_1_1"/>
+    <property name="runtime.defines" value="MONO,CLR_1_1,NET_1_1"/>
     <property name="supported.test.platforms"
       value="mono-1.0,mono-2.0,net-1.0,net-1.1,net-2.0"/>
 

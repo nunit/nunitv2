@@ -101,10 +101,21 @@ namespace NUnit.Core
                     int major = Environment.Version.Major;
                     int minor = Environment.Version.Minor;
 
-                    if (isMono && major == 1)
-                        minor = 0;
-
-                    if (major == 2)
+                    if (isMono)
+					{
+						switch (major)
+						{
+						case 1:
+                        	minor = 0;
+							break;
+						case 2:
+							major = 3;
+							minor = 5;
+							break;
+						}
+					}
+					else /* It's windows */
+					if (major == 2)
                     {
                         RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\.NETFramework");
                         if (key != null)

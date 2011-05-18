@@ -12,7 +12,7 @@
     <csc target="library"
         output="${current.framework.dir}/pnunit.framework.dll"
         debug="${build.debug}" 
-        define="${build.defines};NUNIT_2_5">
+        define="${build.defines}">
       <sources basedir=".">
         <patternset refid="source-files"/>
       </sources>
