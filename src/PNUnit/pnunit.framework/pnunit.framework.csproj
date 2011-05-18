@@ -99,6 +99,9 @@
       <Name>nunit.framework.dll</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="pnunit.framework.build" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>
