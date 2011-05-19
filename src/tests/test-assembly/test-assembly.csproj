@@ -98,6 +98,10 @@
       <Name>nunit.framework.dll</Name>
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\PNUnit\pnunit.framework\pnunit.framework.csproj">
+      <Project>{5261ABA1-98E6-4603-A4F0-59CAC307AC68}</Project>
+      <Name>pnunit.framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\nonamespace-assembly\nonamespace-assembly.csproj">
       <Project>{5110F0D2-8E50-46F8-9E17-7C8EBFECCA9D}</Project>
       <Name>nonamespace-assembly</Name>

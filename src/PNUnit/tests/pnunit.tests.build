@@ -5,6 +5,7 @@
         <include name="AssemblyInfo.cs"/>
         <include name="Cmp.cs"/>
         <include name="Testing.cs"/>
+    <include name="ParallelExamples.cs"/>
   </patternset>
 
   <target name="build">
@@ -20,6 +21,13 @@
         <include name="${current.framework.dir}/pnunit.framework.dll"/>
       </references>
     </csc>
+
+    <copy todir="${current.build.dir}">
+      <fileset>
+        <include name="*.conf"/>
+        <include name="runpnunit.bat"/>
+      </fileset>
+    </copy>
   </target>
 
   <target name="package">
@@ -28,6 +36,8 @@
         <patternset refid="source-files"/>
         <include name="pnunit.tests.csproj"/>
         <include name="pnunit.tests.build"/>
+        <include name="*.conf"/>
+        <include name="runpnunit.bat"/>
       </fileset>
     </copy>
   </target>

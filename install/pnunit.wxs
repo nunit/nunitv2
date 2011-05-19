@@ -21,6 +21,7 @@
       <Component Id="pnunit_tests" DiskId="1" Guid="9A5B261D-43A1-475c-A4F0-721759E12A4F">
         <File Id="pnunit_tests" Name="PNUTESTS.DLL" LongName="pnunit.tests.dll" />
         <File Id="runpnunit_bat" Name="RUNPNU.BAT" LongName="runpnunit.bat" />
+        <File Id="pnunit.framework.pnunit.copy" Name="PNUFRMWK.DLL" LongName="pnunit.framework.dll" />
         <File Id="nunit.framework.pnunit.copy" Name="FRAMEWRK.DLL" LongName="nunit.framework.dll" />
       </Component>
 
