@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.Data;
+using System.Linq;
 
 namespace NUnit.Framework.Tests
 {
@@ -166,6 +167,7 @@ namespace NUnit.Framework.Tests
                 "  Expected: \"z\"" + Environment.NewLine +
                 "  But was:  \"a\"" + Environment.NewLine +
                 "  -----------^" + Environment.NewLine;
+
 			CollectionAssert.AreEqual(set1,set2,new TestComparer());
 		}
 
@@ -210,12 +212,50 @@ namespace NUnit.Framework.Tests
             yield return 2;
             yield return 3;
         }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void AreEqual_UsingIterator_Fails()
+        {
+            int[] array = new int[] { 1, 3, 5 };
+
+            expectedMessage =
+                "  Expected is <System.Int32[3]>, actual is <NUnit.Framework.Tests.CollectionAssertTest+<CountToThree>d__0>" + Environment.NewLine +
+                "  Values differ at index [1]" + Environment.NewLine +
+                "  Expected: 3" + Environment.NewLine +
+                "  But was:  2" + Environment.NewLine;
+
+            CollectionAssert.AreEqual(array, CountToThree());
+        }
 #endif
-		#endregion
 
-		#region AreEquivalent
+#if NET_3_5 || CLR_4_0
+        [Test]
+        public void AreEqual_UsingLinqQuery()
+        {
+            int[] array = new int[] { 1, 2, 3 };
 
-		[Test]
+            CollectionAssert.AreEqual(array, array.Select((item) => item));
+        }
+
+        [Test, ExpectedException(typeof(AssertionException))]
+        public void AreEqual_UsingLinqQuery_Fails()
+        {
+            int[] array = new int[] { 1, 2, 3 };
+
+            expectedMessage =
+                "  Expected is <System.Int32[3]>, actual is <System.Linq.Enumerable+WhereSelectArrayIterator`2[System.Int32,System.Int32]>" + Environment.NewLine +
+                "  Values differ at index [0]" + Environment.NewLine +
+                "  Expected: 1" + Environment.NewLine +
+                "  But was:  2" + Environment.NewLine;
+
+            CollectionAssert.AreEqual(array, array.Select((item) => item * 2));
+        }
+#endif
+        #endregion
+
+        #region AreEquivalent
+
+        [Test]
 		public void Equivalent()
 		{
 			ICollection set1 = new ICollectionAdapter( "x", "y", "z" );

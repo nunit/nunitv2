@@ -88,6 +88,7 @@ namespace NUnit.Framework.Constraints
         {
             get { return failurePoints; }
         }
+
         #endregion
 
         #region Public Methods
@@ -117,8 +118,8 @@ namespace NUnit.Framework.Constraints
             if (x is IDictionary && y is IDictionary)
                 return DictionariesEqual((IDictionary)x, (IDictionary)y, ref tolerance);
 
-            if (x is ICollection && y is ICollection)
-                return CollectionsEqual((ICollection)x, (ICollection)y, ref tolerance);
+            //if (x is ICollection && y is ICollection)
+            //    return CollectionsEqual((ICollection)x, (ICollection)y, ref tolerance);
 
             if (x is IEnumerable && y is IEnumerable && !(x is string && y is string))
                 return EnumerablesEqual((IEnumerable)x, (IEnumerable)y, ref tolerance);
@@ -168,7 +169,7 @@ namespace NUnit.Framework.Constraints
                 if (x.GetLength(r) != y.GetLength(r))
                     return false;
 
-            return CollectionsEqual((ICollection)x, (ICollection)y, ref tolerance);
+            return EnumerablesEqual((IEnumerable)x, (IEnumerable)y, ref tolerance);
         }
 
         private bool DictionariesEqual(IDictionary x, IDictionary y, ref Tolerance tolerance)
@@ -193,17 +194,29 @@ namespace NUnit.Framework.Constraints
             IEnumerator actualEnum = y.GetEnumerator();
 
             int count;
-            for (count = 0; expectedEnum.MoveNext() && actualEnum.MoveNext(); count++)
+            for (count = 0; ; count++)
             {
-                if (!AreEqual(expectedEnum.Current, actualEnum.Current, ref tolerance))
-                    break;
+                bool expectedHasData = expectedEnum.MoveNext();
+                bool actualHasData = actualEnum.MoveNext();
+
+                if (!expectedHasData && !actualHasData)
+                    return true;
+
+                if (expectedHasData != actualHasData ||
+                    !AreEqual(expectedEnum.Current, actualEnum.Current, ref tolerance))
+                {
+                    FailurePoint fp = new FailurePoint();
+                    fp.Position = count;
+                    fp.ExpectedHasData = expectedHasData;
+                    if (expectedHasData)
+                        fp.ExpectedValue = expectedEnum.Current;
+                    fp.ActualHasData = actualHasData;
+                    if (actualHasData)
+                        fp.ActualValue = actualEnum.Current;
+                    failurePoints.Insert(0, fp);
+                    return false;
+                }
             }
-
-            if (count == x.Count && count == y.Count)
-                return true;
-
-            failurePoints.Insert(0, count);
-            return false;
         }
 
         private bool StringsEqual(string x, string y)
@@ -219,8 +232,8 @@ namespace NUnit.Framework.Constraints
             IEnumerator expectedEnum = x.GetEnumerator();
             IEnumerator actualEnum = y.GetEnumerator();
 
-            int count = 0;
-            for (; ; )
+            int count;
+            for (count = 0; ; count++)
             {
                 bool expectedHasData = expectedEnum.MoveNext();
                 bool actualHasData = actualEnum.MoveNext();
@@ -231,7 +244,15 @@ namespace NUnit.Framework.Constraints
                 if (expectedHasData != actualHasData ||
                     !AreEqual(expectedEnum.Current, actualEnum.Current, ref tolerance))
                 {
-                    failurePoints.Insert(0, count);
+                    FailurePoint fp = new FailurePoint();
+                    fp.Position = count;
+                    fp.ExpectedHasData = expectedHasData;
+                    if (expectedHasData)
+                            fp.ExpectedValue = expectedEnum.Current;
+                    fp.ActualHasData = actualHasData;
+                    if (actualHasData)
+                        fp.ActualValue = actualEnum.Current;
+                    failurePoints.Insert(0, fp);
                     return false;
                 }
             }
@@ -310,6 +331,19 @@ namespace NUnit.Framework.Constraints
 
             return true;
         }
+        #endregion
+
+        #region Nested FailurePoint Class
+
+        public class FailurePoint
+        {
+            public int Position;
+            public object ExpectedValue;
+            public object ActualValue;
+            public bool ExpectedHasData;
+            public bool ActualHasData;
+        }
+
         #endregion
     }
 }
