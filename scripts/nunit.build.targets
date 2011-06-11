@@ -122,11 +122,6 @@
       <buildfiles refid="project.buildfiles"/>
     </nant>
 
-    <!-- Build Extra targets if runtime is 2.0 or greater -->
-    <nant target="build" if="${runtime.version >= '2.0'}" >
-      <buildfiles refid="extra.buildfiles"/>
-    </nant>
-
     <!-- Build GUI if runtime is 2.0 or greater -->
     <call target="build-gui" if="${runtime.version >= '2.0'}" />
 
@@ -441,7 +436,6 @@
     <include name="ConsoleRunner/nunit-console-exe/nunit-console.exe.build" />
 
     <!-- Test Server -->
-    <include name="NUnitTestServer/nunit-server-exe/nunit-server.exe.build" />
     <include name="NUnitTestServer/nunit-agent-exe/nunit-agent.exe.build" />
 
     <!-- PNUnit -->
@@ -469,18 +463,6 @@
 
   </fileset>
 
-  <fileset id="extra.buildfiles" basedir="${project.src.dir}">
-
-    <!-- Timing Tests -->
-    <include name="tests/loadtest-assembly/loadtest-assembly.build" />
-    <include name="tests/timing-tests/timing-tests.build" />
-
-    <!-- FIT Tests -->
-    <include name="NUnitFixtures/fixtures/nunit.fixtures.build" />
-    <include name="NUnitFixtures/tests/nunit.fixtures.tests.build" />
-
-  </fileset>
-  
   <fileset id="gui.buildfiles" basedir="${project.src.dir}">
 
     <!-- Gui Runner -->

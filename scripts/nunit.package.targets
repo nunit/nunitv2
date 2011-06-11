@@ -535,7 +535,6 @@
     <include name="ConsoleRunner/nunit-console-exe/nunit-console.exe.build" />
 
     <!-- Test Server -->
-    <include name="NUnitTestServer/nunit-server-exe/nunit-server.exe.build" />
     <include name="NUnitTestServer/nunit-agent-exe/nunit-agent.exe.build" />
 
     <!-- PNUnit -->
@@ -548,8 +547,6 @@
     <include name="tests/nonamespace-assembly/nonamespace-assembly.build" />
     <include name="tests/test-assembly/test-assembly.build" />
     <include name="tests/test-utilities/test-utilities.build" />
-    <include name="tests/loadtest-assembly/loadtest-assembly.build" />
-    <include name="tests/timing-tests/timing-tests.build" />
 
     <!-- NUnit Base Tests -->
     <include name="NUnitFramework/tests/nunit.framework.tests.build" />
@@ -562,10 +559,6 @@
 
     <!-- PNUnit Tests -->
     <include name="PNUnit/tests/pnunit.tests.build"/>
-
-    <!-- FIT Tests -->
-    <include name="NUnitFixtures/fixtures/nunit.fixtures.build" />
-    <include name="NUnitFixtures/tests/nunit.fixtures.tests.build" />
 
   </fileset>
 

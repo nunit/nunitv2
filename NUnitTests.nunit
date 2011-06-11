@@ -10,7 +10,6 @@
     <assembly path="bin\Debug\tests\nunit.uiexception.tests.dll" />
     <assembly path="bin\Debug\tests\nunit-gui.tests.dll" />
     <assembly path="bin\Debug\tests\nunit-editor.tests.dll" />
-    <assembly path="bin\Debug\tests\nunit.fixtures.tests.dll" />
   </Config>
   <Config name="Release" binpath="bin/Release/lib;bin/Release/tests;bin/Release/framework">
     <assembly path="bin\Release\tests\nunit.framework.tests.dll" />
@@ -22,6 +21,5 @@
     <assembly path="bin\Release\tests\nunit.uiexception.tests.dll" />
     <assembly path="bin\Release\tests\nunit-gui.tests.dll" />
     <assembly path="bin\Release\tests\nunit-editor.tests.dll" />
-    <assembly path="bin\Release\tests\nunit.fixtures.tests.dll" />
   </Config>
 </NUnitProject>
