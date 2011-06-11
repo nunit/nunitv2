@@ -73,26 +73,6 @@
 
   </target>
 
-  <!-- Generate code for the fluent constraint builder interface -->
-  <target name="gen-syntax" 
-    description="Generate code for the fluent constraint builder interface">
-
-    <exec program="GenSyntax.exe"
-      managed="auto"
-      basedir="${project.tools.dir}/bin"
-      workingdir="${project.src.dir}/NUnitFramework/framework">
-
-      <arg value="-syntax:SyntaxElements.txt"/>
-      <arg value="Is.cs"/>
-      <arg value="Has.cs"/>
-      <arg value="Throws.cs"/>
-      <arg value="Constraints/ConstraintFactory.cs"/>
-      <arg value="Constraints/ConstraintExpression.cs"/>
-      <arg value="Assert.cs"/>
-
-    </exec>
-
-  </target>
 
 <!-- ***************************************************************** -->
 <!-- ***              Targets that perform builds                  *** -->
@@ -378,28 +358,6 @@
     <nant target="build">
       <buildfiles refid="sample.buildfiles" />
     </nant>
-
-  </target>
-
-<!-- ***************************************************************** -->
-<!-- ***    Targets for building custom tools used in the build    *** -->
-<!-- ***                                                           *** -->
-<!-- ***    NOTE: Tools are not built automatically. If you are    *** -->
-<!-- ***    building from source and don't have binaries for       *** -->
-<!-- ***    NUnit-specific tools, you can run this target.         *** -->
-<!-- ***************************************************************** -->
-
-  <target name="clean-tools"
-      description="Remove binaries of tools used to build NUnit (DANGEROUS!)">
-
-    <nant target="clean" buildfile="tools/src/GenSyntax/GenSyntax.build"/>
-
-  </target>
-
-  <target name="build-tools"
-      description="Build tools used in building NUnit">
-
-    <nant target="build" buildfile="tools/src/CodeGeneration/CodeGeneration.build"/>
 
   </target>
 

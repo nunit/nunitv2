@@ -212,7 +212,6 @@
     <call target="copy-docs"/>
     <call target="copy-samples"/>
     <call target="copy-src"/>
-    <call target="copy-tools" />
 
     <copy file="license.txt" todir="${package.working.dir}" />
 
@@ -334,11 +333,7 @@
   <target name="copy-top-level-files">
 
     <copy file="license.txt" todir="${package.working.dir}" />
-    <copy file="${project.tools.dir}/fit/license.txt"
-          tofile="${package.working.dir}/fit-license.txt" />
     <copy file="${project.src.dir}/GuiRunner/nunit-gui/Logo.ico"
-          todir="${package.working.dir}" />
-    <copy file="NUnitFitTests.html"
           todir="${package.working.dir}" />
 
   </target>
@@ -479,32 +474,6 @@
     <nant target="package" inheritrefs="true">
       <buildfiles refid="gui.buildfiles" />
     </nant>
-
-  </target>
-
-<!-- ***************************************************************** -->
-<!-- ***               Copy the tools for a package                *** -->
-<!-- ***************************************************************** -->
-
-  <target name="copy-tools">
-
-    <mkdir dir="${package.tools.dir}" />
-
-    <copy todir="${package.tools.dir}">
-      <fileset basedir="${project.tools.dir}">
-        <include name="fit/fit.dll"/>
-        <include name="fit/runFile.exe"/>
-        <include name="fit/runFile.exe.config"/>
-        <include name="fit/license.txt"/>
-        <include name="bin/GenSyntax.exe"/>
-        <include name="src/Gensyntax/GenSyntax.build"/>
-        <include name="src/Gensyntax/GenSyntax.csproj"/>
-        <include name="src/Gensyntax/GenSyntax.sln"/>
-        <include name="src/Gensyntax/App.ico"/>
-        <include name="src/GenSyntax/*.cs"/>
-        <include name="src/Gensyntax/Templates/*.cs"/>
-      </fileset>
-    </copy>
 
   </target>
 

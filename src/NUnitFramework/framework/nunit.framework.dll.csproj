@@ -29,7 +29,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;CLR_2_0,NET_2_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLR_2_0</DefineConstants>
     <DocumentationFile>..\..\..\bin\Debug\framework\nunit.framework.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
@@ -46,7 +46,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;CLR_2_0,NET_2_0</DefineConstants>
+    <DefineConstants>TRACE;CLR_2_0</DefineConstants>
     <DocumentationFile>..\..\..\bin\Release\framework\nunit.framework.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
     <NoWarn>1699</NoWarn>
@@ -172,14 +172,6 @@
     <Compile Include="Randomizer.cs" />
     <Compile Include="SpecialValue.cs" />
     <Compile Include="StringAssert.cs" />
-    <Content Include="Templates\Assert.template.cs" />
-    <Content Include="Templates\ConstraintExpression.template.cs" />
-    <Content Include="Templates\ConstraintFactory.template.cs" />
-    <Content Include="Templates\Default.template.cs" />
-    <Content Include="Templates\Has.template.cs" />
-    <Content Include="Templates\Is.template.cs" />
-    <Content Include="Templates\Text.template.cs" />
-    <Content Include="Templates\Throws.template.cs" />
     <Compile Include="TestCaseData.cs" />
     <Compile Include="TestContext.cs" />
     <Compile Include="TestState.cs" />
@@ -187,9 +179,6 @@
     <Compile Include="Text.cs" />
     <Compile Include="TextMessageWriter.cs" />
     <Compile Include="Throws.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="SyntaxElements.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="nunit.framework.build" />
