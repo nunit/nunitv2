@@ -122,12 +122,12 @@ namespace NUnit.Util.Tests
 		{
 			AssertCanLoadProject( "HebrewFileProblem.csproj" );
 		}
-		
-//		[Test]
-//		public void LoadProjectWithMissingOutputPath()
-//		{
-//			AssertCanLoadProject("MissingOutputPath.csproj");
-//		}
+
+        [Test]
+        public void LoadProjectWithMissingOutputPath()
+        {
+            AssertCanLoadProject("MissingOutputPath.csproj");
+        }
 
 		[Test]
 		public void LoadCppProjectWithMacros()

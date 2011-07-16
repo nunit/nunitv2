@@ -7,8 +7,8 @@
     <ProjectGuid>{6BF38215-C9D9-418D-9D81-4DECBA679223}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestOP</RootNamespace>
-    <AssemblyName>TestOP</AssemblyName>
+    <RootNamespace>MissingOutputPath</RootNamespace>
+    <AssemblyName>MissingOutputPath</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
 	<OutputPath>bin\Common\</OutputPath>
