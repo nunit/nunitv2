@@ -213,18 +213,15 @@ namespace NUnit.Framework.Tests
             yield return 3;
         }
 
-        [Test, ExpectedException(typeof(AssertionException))]
+        [Test]
         public void AreEqual_UsingIterator_Fails()
         {
             int[] array = new int[] { 1, 3, 5 };
 
-            expectedMessage =
-                "  Expected is <System.Int32[3]>, actual is <NUnit.Framework.Tests.CollectionAssertTest+<CountToThree>d__0>" + Environment.NewLine +
-                "  Values differ at index [1]" + Environment.NewLine +
-                "  Expected: 3" + Environment.NewLine +
-                "  But was:  2" + Environment.NewLine;
-
-            CollectionAssert.AreEqual(array, CountToThree());
+			Assert.That(
+            	delegate { CollectionAssert.AreEqual(array, CountToThree()); },
+			    Throws.TypeOf<AssertionException>()
+					.With.Message.EndsWith("Expected: 3" + Environment.NewLine + "  But was:  2" + Environment.NewLine));
         }
 #endif
 
@@ -237,18 +234,15 @@ namespace NUnit.Framework.Tests
             CollectionAssert.AreEqual(array, array.Select((item) => item));
         }
 
-        [Test, ExpectedException(typeof(AssertionException))]
+        [Test]
         public void AreEqual_UsingLinqQuery_Fails()
         {
             int[] array = new int[] { 1, 2, 3 };
 
-            expectedMessage =
-                "  Expected is <System.Int32[3]>, actual is <System.Linq.Enumerable+WhereSelectArrayIterator`2[System.Int32,System.Int32]>" + Environment.NewLine +
-                "  Values differ at index [0]" + Environment.NewLine +
-                "  Expected: 1" + Environment.NewLine +
-                "  But was:  2" + Environment.NewLine;
-
-            CollectionAssert.AreEqual(array, array.Select((item) => item * 2));
+			Assert.That(
+				delegate { CollectionAssert.AreEqual(array, array.Select((item) => item * 2)); },
+				Throws.TypeOf<AssertionException>()
+					.With.Message.EndsWith("Expected: 1" + Environment.NewLine + "  But was:  2" + Environment.NewLine));
         }
 #endif
         #endregion
