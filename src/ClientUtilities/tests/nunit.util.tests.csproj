@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -127,6 +127,7 @@
     <EmbeddedResource Include="resources\vb-sample_VS2005.vbproj" />
     <EmbeddedResource Include="resources\WebApplication1.sln" />
     <EmbeddedResource Include="resources\XNAWindowsProject.csproj" />
+    <EmbeddedResource Include="resources\MissingOutputPath.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\cpp-default-library_VS2005.vcproj" />
