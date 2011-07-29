@@ -90,11 +90,12 @@ namespace NUnit.ConsoleRunner.Tests
 			TestBooleanOption( "nothread" );
 			TestStringOption( "fixture" );
 			TestStringOption( "config" );
-			TestStringOption( "xml" );
+            TestStringOption( "result");
+			TestStringOption( "result", "xml" );
 			TestStringOption( "output" );
 			TestStringOption( "output", "out" );
 			TestStringOption( "err" );
-            TestStringOption("include");
+            TestStringOption( "include");
 			TestStringOption( "exclude" );
 			TestEnumOption( "domain" );
             TestEnumOption("trace");
@@ -151,7 +152,7 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:results.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-			Assert.AreEqual("results.xml", options.xml);
+			Assert.AreEqual("results.xml", options.result);
 		}
 
 		[Test]
@@ -160,7 +161,7 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:C:/nunit/tests/bin/Debug/console-test.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
+			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.result);
 		}
 
 		[Test]
@@ -169,7 +170,7 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml=C:/nunit/tests/bin/Debug/console-test.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
+			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.result);
 		}
 
 		[Test]

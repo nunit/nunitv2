@@ -173,11 +173,11 @@ namespace NUnit.ConsoleRunner
                         if (summary.TestsNotRun > 0)
                             WriteNotRunReport(result);
 
-                        if (!options.noxml)
+                        if (!options.noresult)
                         {
                             // Write xml output here
-                            string xmlResultFile = options.xml == null || options.xml == string.Empty
-                                ? "TestResult.xml" : options.xml;
+                            string xmlResultFile = options.result == null || options.result == string.Empty
+                                ? "TestResult.xml" : options.result;
 
                             using (StreamWriter writer = new StreamWriter(Path.Combine(workDir, xmlResultFile)))
                             {

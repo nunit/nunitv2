@@ -22,14 +22,14 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Project configuration (e.g.: Debug) to load")]
 		public string config;
 
-		[Option(Description = "Name of XML output file (Default: TestResult.xml)")]
-		public string xml;
+		[Option(Short="xml", Description = "Name of XML result file (Default: TestResult.xml)")]
+		public string result;
 
 		[Option(Description = "Display XML to the console (Deprecated)")]
 		public bool xmlConsole;
 
-        [Option(Description = "Suppress XML output")]
-        public bool noxml;
+        [Option(Short="noxml", Description = "Suppress XML result output")]
+        public bool noresult;
 
 		[Option(Short="out", Description = "File to receive test output")]
 		public string output;
