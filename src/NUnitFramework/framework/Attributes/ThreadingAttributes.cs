@@ -10,7 +10,7 @@ using System.Threading;
 namespace NUnit.Framework
 {
     /// <summary>
-    /// WUsed on a method, marks the test with a timeout value in milliseconds. 
+    /// Used on a method, marks the test with a timeout value in milliseconds. 
     /// The test will be run in a separate thread and is cancelled if the timeout 
     /// is exceeded. Used on a method or assembly, sets the default timeout 
     /// for all contained test methods.
