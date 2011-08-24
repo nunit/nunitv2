@@ -97,11 +97,30 @@ namespace NUnit.ConsoleRunner
 				EventCollector collector = new EventCollector( options, outWriter, errorWriter );
 
 				TestFilter testFilter = TestFilter.Empty;
+                SimpleNameFilter nameFilter = new SimpleNameFilter();
+
 				if ( options.run != null && options.run != string.Empty )
 				{
 					Console.WriteLine( "Selected test(s): " + options.run );
-					testFilter = new SimpleNameFilter( TestNameParser.Parse(options.run) );
+                    foreach (string name in TestNameParser.Parse(options.run))
+                        nameFilter.Add(name);
+                    testFilter = nameFilter;
 				}
+
+                if (options.runlist != null && options.runlist != string.Empty)
+                {
+                    Console.WriteLine("Run list: " + options.runlist);
+                    using (StreamReader rdr = new StreamReader(options.runlist))
+                    {
+                        while (!rdr.EndOfStream)
+                        {
+                            string line = rdr.ReadLine();
+                            if (line[0] != '#')
+                                nameFilter.Add(line);
+                        }
+                    }
+                    testFilter = nameFilter;
+                }
 
 				if ( options.include != null && options.include != string.Empty )
 				{

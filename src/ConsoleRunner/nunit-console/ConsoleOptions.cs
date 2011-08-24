@@ -19,6 +19,9 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Name of the test case(s), fixture(s) or namespace(s) to run")]
 		public string run;
 
+        [Option(Description = "Name of a file containing a list of the tests to run")]
+        public string runlist;
+
 		[Option(Description = "Project configuration (e.g.: Debug) to load")]
 		public string config;
 
