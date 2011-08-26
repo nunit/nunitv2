@@ -172,14 +172,20 @@ namespace NUnit.Core.Tests
         public void MethodDefinedSite_BeforeSuite_BeforeSomeTestCase1()
         {
             int testCase = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1");
-            Assert.IsTrue(testCase > ActionAttributeFixture.Results.IndexOf("Method.BeforeTestSuite-ActionAttributeFixture"));
+            int index = ActionAttributeFixture.Results.IndexOf("Method.BeforeTestSuite-ActionAttributeFixture-SomeTest");
+            
+            Assert.IsTrue(index >= 0);
+            Assert.IsTrue(testCase > index);
         }
 
         [Test]
         public void MethodDefinedSite_AfterSuite_BeforeSomeTestCase2()
         {
             int testCase = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2");
-            Assert.IsTrue(testCase < ActionAttributeFixture.Results.IndexOf("Method.AfterTestSuite-ActionAttributeFixture"));
+            int index = ActionAttributeFixture.Results.IndexOf("Method.AfterTestSuite-ActionAttributeFixture-SomeTest");
+
+            Assert.IsTrue(index >= 0);
+            Assert.IsTrue(testCase < index);
         }
 
         [Test]

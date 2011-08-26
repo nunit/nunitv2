@@ -83,7 +83,7 @@ namespace NUnit.Core
         public static void ExecuteActions(ActionLevel level, ActionPhase phase, IEnumerable actions, object fixture, MethodInfo method)
         {
             if (actions == null)
-                throw new ArgumentNullException("actions");
+                return;
 
             Type actionType = GetActionType(level);
             MethodInfo actionMethod = GetActionMethod(actionType, level, phase);
@@ -94,11 +94,8 @@ namespace NUnit.Core
             {
                 if (action == null)
                     continue;
-                
-                if(level == ActionLevel.Suite)
-                    Reflect.InvokeMethod(actionMethod, action, fixture);
-                else
-                    Reflect.InvokeMethod(actionMethod, action, fixture, method);
+
+                Reflect.InvokeMethod(actionMethod, action, fixture, method);
             }
         }
 
@@ -153,13 +150,13 @@ namespace NUnit.Core
         }
     }
 
-    internal enum ActionLevel
+    public enum ActionLevel
     {
         Suite,
         Test
     }
 
-    internal enum ActionPhase
+    public enum ActionPhase
     {
         Before,
         After

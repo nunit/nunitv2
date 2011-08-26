@@ -56,13 +56,13 @@ namespace NUnit.TestData
             ThrowAfterCaseException = false;
         }
 
-        public void BeforeTestSuite(object fixture)
+        public void BeforeTestSuite(object fixture, MethodInfo method)
         {
             if (ThrowBeforeSuiteException)
                 throw new InvalidOperationException("Failure in BeforeTestSuite.");
         }
 
-        public void AfterTestSuite(object fixture)
+        public void AfterTestSuite(object fixture, MethodInfo method)
         {
             if (ThrowAfterSuiteException)
                 throw new InvalidOperationException("Failure in AfterTestSuite.");

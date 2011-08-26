@@ -377,13 +377,17 @@ namespace NUnit.Core
         }
 
 #if CLR_2_0 || CLR_4_0
+
+        protected virtual void ExecuteActions(ActionLevel level, ActionPhase phase)
+        {
+            ActionsHelper.ExecuteActions(level, phase, this.actions, this.Fixture, null);
+        }
+
         protected virtual void DoOneTimeBeforeTestSuiteActions(TestResult suiteResult)
         {
             try
             {
-                if (this.actions != null)
-                    ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.Before, this.actions, this.Fixture, null);
-
+                ExecuteActions(ActionLevel.Suite, ActionPhase.Before);
                 TestExecutionContext.CurrentContext.Update();
             }
             catch (Exception ex)
@@ -458,8 +462,7 @@ namespace NUnit.Core
         {
             try
             {
-                if (this.actions != null)
-                    ActionsHelper.ExecuteActions(ActionLevel.Suite, ActionPhase.After, this.actions, this.Fixture, null);
+                ExecuteActions(ActionLevel.Suite, ActionPhase.After);
             }
             catch (Exception ex)
             {

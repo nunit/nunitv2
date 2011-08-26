@@ -378,18 +378,23 @@ namespace NUnit.Core
 		#region Invoke Methods by Reflection, Recording Errors
 
 #if CLR_2_0 || CLR_4_0
-        private void RunBeforeActions(TestResult testResult)
+
+        protected virtual void ExecuteActions(ActionLevel level, ActionPhase phase)
         {
             object[][] targetActions = new object[][] { this.suiteActions, this.actions };
-            ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.Before, targetActions, this.Fixture, this.Method);
+            ActionsHelper.ExecuteActions(level, phase, targetActions, this.Fixture, this.Method);
+        }
+
+        private void RunBeforeActions(TestResult testResult)
+        {
+            ExecuteActions(ActionLevel.Test, ActionPhase.Before);
         }
 
         private void RunAfterActions(TestResult testResult)
         {
             try
             {
-                object[][] targetActions = new object[][] { this.suiteActions, this.actions };
-                ActionsHelper.ExecuteActions(ActionLevel.Test, ActionPhase.After, targetActions, this.Fixture, this.Method);
+                ExecuteActions(ActionLevel.Test, ActionPhase.After);
             }
             catch (Exception ex)
             {

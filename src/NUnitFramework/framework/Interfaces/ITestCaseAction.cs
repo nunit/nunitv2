@@ -18,15 +18,15 @@ namespace NUnit.Framework
         /// <summary>
         /// Executed before each test case is run
         /// </summary>
-        /// <param name="fixture">The fixture the test is part of</param>
-        /// <param name="method">The method that implements the test case</param>
+        /// <param name="fixture">The fixture the test is part of, if available.</param>
+        /// <param name="method">The method that implements the test case, if available.</param>
         void BeforeTestCase(object fixture, MethodInfo method);
 
         /// <summary>
         /// Executed after each test case is run
         /// </summary>
-        /// <param name="fixture">The fixture the test is part of</param>
-        /// <param name="method">The method that implements the test case</param>
+        /// <param name="fixture">The fixture the test is part of, if available.</param>
+        /// <param name="method">The method that implements the test case, if available.</param>
         void AfterTestCase(object fixture, MethodInfo method);
     }
 }

@@ -106,5 +106,15 @@ namespace NUnit.Core
         protected override void DoOneTimeTearDown(TestResult suiteResult)
         {
         }
+
+        #if CLR_2_0 || CLR_4_0
+
+        protected override void ExecuteActions(ActionLevel level, ActionPhase phase)
+        {
+            ActionsHelper.ExecuteActions(level, phase, this.actions, this.Fixture, method);
+        }
+
+        #endif
+
     }
 }

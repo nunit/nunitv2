@@ -75,14 +75,14 @@ namespace NUnit.TestData.ActionAttributeTests
             _Prefix = prefix;
         }
 
-        void ITestSuiteAction.BeforeTestSuite(object fixture)
+        void ITestSuiteAction.BeforeTestSuite(object fixture, MethodInfo method)
         {
-            AddResult(fixture, null);
+            AddResult(fixture, method);
         }
 
-        void ITestSuiteAction.AfterTestSuite(object fixture)
+        void ITestSuiteAction.AfterTestSuite(object fixture, MethodInfo method)
         {
-            AddResult(fixture, null);
+            AddResult(fixture, method);
         }
 
         void ITestCaseAction.BeforeTestCase(object fixture, MethodInfo method)

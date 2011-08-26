@@ -6,6 +6,7 @@
 
 #if CLR_2_0 || CLR_4_0
 using System;
+using System.Reflection;
 
 namespace NUnit.Framework
 {
@@ -17,14 +18,16 @@ namespace NUnit.Framework
         /// <summary>
         /// Executed before each suite is run
         /// </summary>
-        /// <param name="fixture">The fixture that defines the test suite</param>
-        void BeforeTestSuite(object fixture);
+        /// <param name="fixture">The fixture that defines the test suite, if available.</param>
+        /// <param name="method">The method that defines the test suite, if available.</param>
+        void BeforeTestSuite(object fixture, MethodInfo method);
 
         /// <summary>
         /// Executed after each suite is run
         /// </summary>
-        /// <param name="fixture">The fixture that defines the test suite</param>
-        void AfterTestSuite(object fixture);
+        /// <param name="fixture">The fixture that defines the test suite, if available.</param>
+        /// <param name="method">The method that defines the test suite, if available.</param>
+        void AfterTestSuite(object fixture, MethodInfo method);
     }
 }
 #endif
