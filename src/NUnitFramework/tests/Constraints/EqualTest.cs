@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
 
@@ -120,7 +120,7 @@ namespace NUnit.Framework.Constraints
 
         #region Dictionary Tests
         // TODO: Move these to a separate fixture
-#if CS_3_0
+#if CS_3_0 || CS_4_0
         [Test]
         public void CanMatchHashtables_SameOrder()
         {
@@ -142,7 +142,7 @@ namespace NUnit.Framework.Constraints
                             new Hashtable { { 0, 0 }, { 2, 2 }, { 1, 1 } });
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void CanMatchDictionaries_SameOrder()
         {
@@ -181,12 +181,12 @@ namespace NUnit.Framework.Constraints
           Assert.That(value, new EqualConstraint(20000000000000000.0).Within(1).Ulps);
         }
 
-        [ExpectedException(typeof(AssertionException))]
+        [ExpectedException(typeof(AssertionException), ExpectedMessage = "+/- 1 Ulps", MatchType = MessageMatch.Contains)]
         [TestCase(20000000000000008.0)]
         [TestCase(19999999999999992.0)]
         public void FailsOnDoublesOutsideOfUlpTolerance(object value)
         {
-          Assert.That(value, new EqualConstraint(20000000000000000.0).Within(1).Ulps);
+            Assert.That(value, new EqualConstraint(20000000000000000.0).Within(1).Ulps);
         }
 
         [TestCase(19999998.0f)]
@@ -196,7 +196,7 @@ namespace NUnit.Framework.Constraints
           Assert.That(value, new EqualConstraint(20000000.0f).Within(1).Ulps);
         }
 
-        [ExpectedException(typeof(AssertionException))]
+        [ExpectedException(typeof(AssertionException), ExpectedMessage = "+/- 1 Ulps", MatchType = MessageMatch.Contains)]
         [TestCase(19999996.0f)]
         [TestCase(20000004.0f)]
         public void FailsOnSinglesOutsideOfUlpTolerance(object value)
@@ -212,7 +212,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(value, new EqualConstraint(10000.0).Within(10.0).Percent);
         }
 
-        [ExpectedException(typeof(AssertionException))]
+        [ExpectedException(typeof(AssertionException), ExpectedMessage = "+/- 10.0d Percent", MatchType = MessageMatch.Contains)]
         [TestCase(8500.0)]
         [TestCase(11500.0)]
         public void FailsOnDoublesOutsideOfRelativeTolerance(object value)
@@ -228,7 +228,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(value, new EqualConstraint(10000.0f).Within(10.0f).Percent);
         }
 
-        [ExpectedException(typeof(AssertionException))]
+        [ExpectedException(typeof(AssertionException), ExpectedMessage = "+/- 10.0f Percent", MatchType = MessageMatch.Contains)]
         [TestCase(8500.0f)]
         [TestCase(11500.0f)]
         public void FailsOnSinglesOutsideOfRelativeTolerance(object value)
@@ -332,7 +332,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void UsesProvidedEqualityComparer()
         {
@@ -419,7 +419,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if CS_3_0
+#if CS_3_0 || CS_4_0
         [Test]
         public void UsesProvidedLambda_IntArgs()
         {
@@ -532,7 +532,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void TestPropertyWithPrivateSetter()
         {
@@ -559,8 +559,9 @@ namespace NUnit.Framework.Constraints
 		{
 			object[] array = new object[1];
 			array[0] = array;
+            Tolerance tolerance = Tolerance.Zero;
 			NUnitEqualityComparer comparer = new NUnitEqualityComparer();
-			Assert.True(comparer.ObjectsEqual(array, array));
+            Assert.True(comparer.AreEqual(array, array, ref tolerance));
 		}
 	}
 }

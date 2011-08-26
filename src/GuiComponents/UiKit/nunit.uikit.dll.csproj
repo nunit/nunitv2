@@ -29,7 +29,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLR_2_0,NET_2_0,CS_3_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -47,7 +47,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;CLR_2_0,NET_2_0,CS_3_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <FileAlignment>4096</FileAlignment>
@@ -125,16 +125,19 @@
     </Compile>
     <Compile Include="GuiAttachedConsole.cs" />
     <Compile Include="GuiTestEventDispatcher.cs" />
+    <Compile Include="IMessageDisplay.cs" />
     <Compile Include="LongRunningOperationDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="NotRunTree.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="NUnitFormBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RecentFileMenuHandler.cs" />
     <Compile Include="RenameConfigurationDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,7 +162,6 @@
     <Compile Include="TabbedSettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestLoaderUI.cs" />
     <Compile Include="TestPropertiesDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -188,7 +190,7 @@
     <Compile Include="TreeBasedSettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UserMessage.cs" />
+    <Compile Include="MessageDisplay.cs" />
     <Compile Include="VisualState.cs" />
     <Compile Include="WaitCursor.cs" />
   </ItemGroup>
@@ -283,10 +285,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TreeBasedSettingsDialog.resx">
       <DependentUpon>TreeBasedSettingsDialog.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserMessage.resx">
-      <DependentUpon>UserMessage.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="pinned.gif" />

@@ -80,6 +80,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region RecentFilesService
+#if CLR_2_0 || CLR_4_0
 		private static RecentFiles recentFiles;
 		public static RecentFiles RecentFiles
 		{
@@ -91,9 +92,11 @@ namespace NUnit.Util
 				return recentFiles;
 			}
 		}
+#endif
 		#endregion
 
 		#region TestLoader
+#if CLR_2_0 || CLR_4_0
 		private static TestLoader loader;
 		public static TestLoader TestLoader
 		{
@@ -105,6 +108,7 @@ namespace NUnit.Util
 				return loader;
 			}
 		}
+#endif
 		#endregion
 
 		#region TestAgency

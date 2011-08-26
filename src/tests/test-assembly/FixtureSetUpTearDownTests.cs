@@ -168,7 +168,7 @@ namespace NUnit.TestData.FixtureSetUpTearDown
         }
     }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
     [TestFixture]
     public static class StaticClassSetUpAndTearDownFixture
     {

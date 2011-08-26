@@ -126,7 +126,7 @@ namespace NUnit.Core.Tests
 		[SetUp]
 		public void CreateTempFileName()
 		{
-			tempFile = "temp" + Guid.NewGuid().ToString() + ".xml";
+            tempFile = Path.GetTempFileName();
 			schemaFile = new TempResourceFile( GetType(), "Results.xsd");
 		}
 

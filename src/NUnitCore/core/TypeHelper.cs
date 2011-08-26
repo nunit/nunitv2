@@ -15,7 +15,7 @@ namespace NUnit.Core
     {
         public static string GetDisplayName(Type type)
         {
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             if (type.IsGenericParameter)
                 return type.Name;
 
@@ -160,7 +160,7 @@ namespace NUnit.Core
                     type == typeof(sbyte);
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         public static Type MakeGenericType(Type type, Type[] typeArgs)
         {
             // TODO: Add error handling

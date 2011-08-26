@@ -14,10 +14,12 @@
         <include name="FolderBrowser.cs"/>
         <include name="GuiAttachedConsole.cs"/>
         <include name="GuiTestEventDispatcher.cs"/>
-        <include name="LongRunningOperationDisplay.cs"/>
-        <include name="NotRunTree.cs"/>
+    <include name="IMessageDisplay.cs"/>
+    <include name="LongRunningOperationDisplay.cs"/>
+    <include name="MessageDisplay.cs"/>
+    <include name="NotRunTree.cs"/>
+    <include name="NUnitFormBase.cs"/>
         <include name="ProgressBar.cs"/>
-        <include name="RecentFileMenuHandler.cs"/>
         <include name="RenameConfigurationDialog.cs"/>
         <include name="ResultTabs.cs"/>
         <include name="SettingsDialogBase.cs"/>

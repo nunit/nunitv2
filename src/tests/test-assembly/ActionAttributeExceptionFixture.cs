@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if CLR_2_0 || CLR_4_0
+using System;
 using System.Reflection;
 using NUnit.Framework;
 
@@ -104,3 +105,4 @@ namespace NUnit.TestData
         }
     }
 }
+#endif

@@ -3,7 +3,7 @@
 
   <patternset id="source-files">
         <include name="FormTester.cs"/>
-        <include name="MockTestEventSource.cs"/>
+        <include name="MockTestEventSource.cs" if="${runtime.version >= '2.0'}"/>
         <include name="TempResourceFile.cs"/>
         <include name="TestAssert.cs"/>
         <include name="TestBuilder.cs"/>

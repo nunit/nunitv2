@@ -2,43 +2,45 @@
 <project name="NUnit.Util.Tests" default="build">
 
   <patternset id="source-files">
-        <include name="AssemblyListTests.cs"/>
-        <include name="CategoryParseTests.cs"/>
-        <include name="CategoryManagerTest.cs"/>
-        <include name="DomainManagerTests.cs"/>
-        <include name="EventDispatcherTests.cs"/>
-        <include name="FileWatcherTest.cs"/>
-        <include name="MemorySettingsStorageTests.cs"/>
-        <include name="MockAssemblyWatcher.cs"/>
-        <include name="NUnitProjectLoad.cs"/>
-        <include name="NUnitProjectSave.cs"/>
-        <include name="NUnitProjectTests.cs"/>
-        <include name="NUnitProjectXml.cs"/>
-        <include name="NUnitRegistryTests.cs"/>
-        <include name="PathUtilTests.cs"/>
-        <include name="ProcessRunnerTests.cs"/>
-        <include name="ProjectConfigTests.cs"/>
-        <include name="RecentFileEntryTests.cs"/>
-        <include name="RecentFilesTests.cs"/>
-        <include name="RegistrySettingsStorageTests.cs"/>
-        <include name="RemoteTestResultTest.cs"/>
-        <include name="RuntimeFrameworkSelectorTests.cs"/>
-        <include name="ServerUtilityTests.cs"/>
-        <include name="ServiceManagerSetUpFixture.cs"/>
-        <include name="SettingsGroupTests.cs"/>
-        <include name="SummaryResultFixture.cs"/>
-        <include name="TestAgencyTests.cs"/>
-        <include name="TestAgentTests.cs"/>
-        <include name="TestDomainFixture.cs"/>
-        <include name="TestDomainTests_Multiple.cs"/>
-        <include name="TestEventCatcher.cs"/>
-        <include name="TestLoaderWatcherTests.cs"/>
-        <include name="TestLoaderAssemblyTests.cs"/>
-        <include name="TestRunnerFactoryTests.cs"/>
-        <include name="TestServerTests.cs"/>
-        <include name="VisualStudioConverterTests.cs"/>
-        <include name="VSProjectTests.cs"/>
-        <include name="XmlResultWriterTest.cs"/>
+    <include name="AssemblyListTests.cs"/>
+    <include name="AssemblyWatcherTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="CategoryParseTests.cs"/>
+    <include name="CategoryManagerTest.cs"/>
+    <include name="DomainManagerTests.cs"/>
+    <include name="EventDispatcherTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="FileWatcherTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="MemorySettingsStorageTests.cs"/>
+    <include name="MockAssemblyWatcher.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="NUnitProjectLoad.cs"/>
+    <include name="NUnitProjectSave.cs"/>
+    <include name="NUnitProjectTests.cs"/>
+    <include name="NUnitProjectXml.cs"/>
+    <include name="NUnitRegistryTests.cs"/>
+    <include name="PathUtilTests.cs"/>
+    <include name="ProcessRunnerTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="ProjectConfigTests.cs"/>
+    <include name="RecentFileEntryTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="RecentFilesTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="RegistrySettingsStorageTests.cs"/>
+    <include name="RemoteTestResultTest.cs"/>
+    <include name="RuntimeFrameworkSelectorTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="ServerUtilityTests.cs"/>
+    <include name="ServiceManagerSetUpFixture.cs"/>
+    <include name="SettingsGroupTests.cs"/>
+    <include name="SummaryResultFixture.cs"/>
+    <include name="TestAgencyTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="TestAgentTests.cs"/>
+    <include name="TestDomainFixture.cs"/>
+    <include name="TestDomainTests_Multiple.cs"/>
+    <include name="TestEventCatcher.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="TestLoaderWatcherTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="TestLoaderAssemblyTests.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="TestRunnerFactoryTests.cs"/>
+    <include name="TestServerTests.cs"/>
+    <include name="VisualStudioConverterTests.cs"/>
+    <include name="resources/TestResource.cs"/>
+    <include name="VSProjectTests.cs"/>
+    <include name="XmlResultWriterTest.cs"/>
   </patternset>
 
   <patternset id="resource-files">

@@ -22,14 +22,14 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\..\bin\Debug\tests\</OutputPath>
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_2_0;CLR_2_0;CS_3_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -46,7 +46,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;NET_2_0</DefineConstants>
+    <DefineConstants>TRACE;NET_2_0;CLR_2_0;CS_3_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <FileAlignment>4096</FileAlignment>
@@ -127,6 +127,7 @@
     <EmbeddedResource Include="resources\vb-sample_VS2005.vbproj" />
     <EmbeddedResource Include="resources\WebApplication1.sln" />
     <EmbeddedResource Include="resources\XNAWindowsProject.csproj" />
+    <EmbeddedResource Include="resources\MissingOutputPath.csproj" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="resources\cpp-default-library_VS2005.vcproj" />
@@ -141,11 +142,12 @@
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AssemblyListTests.cs" />
+    <Compile Include="AssemblyWatcherTests.cs" />
     <Compile Include="CategoryManagerTest.cs" />
     <Compile Include="CategoryParseTests.cs" />
     <Compile Include="DomainManagerTests.cs" />
     <Compile Include="EventDispatcherTests.cs" />
-    <Compile Include="FileWatcherTest.cs" />
+    <Compile Include="FileWatcherTests.cs" />
     <Compile Include="MemorySettingsStorageTests.cs" />
     <Compile Include="MockAssemblyWatcher.cs" />
     <Compile Include="NUnitProjectLoad.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="RecentFilesTests.cs" />
     <Compile Include="RegistrySettingsStorageTests.cs" />
     <Compile Include="RemoteTestResultTest.cs" />
+    <Compile Include="resources\TestResource.cs" />
     <Compile Include="RuntimeFrameworkSelectorTests.cs" />
     <Compile Include="ServerUtilityTests.cs" />
     <Compile Include="ServiceManagerSetUpFixture.cs" />

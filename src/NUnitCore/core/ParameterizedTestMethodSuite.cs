@@ -63,7 +63,9 @@ namespace NUnit.Core
                 }
             }
 
+#if CLR_2_0 || CLR_4_0
             this.actions = ActionsHelper.GetActionsFromAttributes(this.method);
+#endif
 
             // DYNAMIC: Get the parameters, and add the methods here.
             
@@ -80,7 +82,9 @@ namespace NUnit.Core
 			this.Fixture = null;
 			this.setUpMethods = null;
 			this.tearDownMethods = null;
+#if CLR_2_0 || CLR_4_0
             this.actions = null;
+#endif
 
             return result;
         }

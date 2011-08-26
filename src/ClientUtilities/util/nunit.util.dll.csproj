@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -29,7 +29,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;NET_2_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET_2_0;CLR_2_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
@@ -47,7 +47,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;NET_2_0</DefineConstants>
+    <DefineConstants>TRACE;NET_2_0;CLR_2_0</DefineConstants>
     <DocumentationFile>
     </DocumentationFile>
     <FileAlignment>4096</FileAlignment>
@@ -94,7 +94,8 @@
     <Compile Include="AggregatingTestRunner.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AssemblyList.cs" />
-    <Compile Include="AssemblyWatcher.cs" />
+    <Compile Include="AssemblyWatcher.cs">
+    </Compile>
     <Compile Include="CategoryExpression.cs" />
     <Compile Include="CategoryManager.cs" />
     <Compile Include="CommandLineOptions.cs" />
@@ -102,6 +103,8 @@
     <Compile Include="DefaultTestRunnerFactory.cs" />
     <Compile Include="Extensibility\IProjectConverter.cs" />
     <Compile Include="Extensibility\ProjectConverterCollection.cs" />
+    <Compile Include="FileWatcher.cs">
+    </Compile>
     <Compile Include="IAssemblyWatcher.cs" />
     <Compile Include="InProcessTestRunnerFactory.cs" />
     <Compile Include="Interfaces\IRuntimeFrameworkSelector.cs" />

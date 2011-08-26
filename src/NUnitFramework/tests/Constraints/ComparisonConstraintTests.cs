@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
 
@@ -36,7 +36,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void UsesProvidedComparerOfT()
         {
@@ -75,7 +75,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if CS_3_0
+#if CS_3_0 || CS_4_0
         [Test]
         public void UsesProvidedLambda()
         {
@@ -115,7 +115,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(actual, Is.GreaterThan(expected));
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void CanCompareIComparablesOfT()
         {
@@ -155,7 +155,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(actual, Is.GreaterThanOrEqualTo(expected));
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void CanCompareIComparablesOfT()
         {
@@ -195,7 +195,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(actual, Is.LessThan(expected));
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void CanCompareIComparablesOfT()
         {
@@ -235,7 +235,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(actual, Is.LessThanOrEqualTo(expected));
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void CanCompareIComparablesOfT()
         {
@@ -251,12 +251,20 @@ namespace NUnit.Framework.Constraints
     [TestFixture]
     public class RangeConstraintTest : ConstraintTestBaseWithArgumentException
     {
+#if CLR_2_0 || CLR_4_0
+        RangeConstraint<int> rangeConstraint;
+#else
         RangeConstraint rangeConstraint;
+#endif
 
         [SetUp]
         public void SetUp()
         {
+#if CLR_2_0 || CLR_4_0
+            theConstraint = rangeConstraint = new RangeConstraint<int>(5, 42);
+#else
             theConstraint = rangeConstraint = new RangeConstraint(5, 42);
+#endif
             expectedDescription = "in range (5,42)";
             stringRepresentation = "<range 5 42>";
         }
@@ -288,7 +296,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void UsesProvidedComparerOfT()
         {
@@ -327,7 +335,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if CS_3_0
+#if CS_3_0 || CS_4_0
         [Test]
         public void UsesProvidedLambda()
         {
@@ -359,7 +367,7 @@ namespace NUnit.Framework.Constraints
         }
     }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
     class ClassWithIComparableOfT : IComparable<ClassWithIComparableOfT>
     {
         private int val;

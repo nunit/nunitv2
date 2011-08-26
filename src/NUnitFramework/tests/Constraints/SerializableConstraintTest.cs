@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
 
@@ -45,8 +45,8 @@ namespace NUnit.Framework.Constraints
 
         internal object[] SuccessData = new object[] { 1, "a", new ArrayList() };
 
-#if NET_2_0
-		internal object[] FailureData = new object[] { new Dictionary<string, string>(), new InternalClass(), new InternalWithSerializableAttributeClass() };
+#if CLR_2_0 || CLR_4_0
+        internal object[] FailureData = new object[] { new Dictionary<string, string>(), new InternalClass(), new InternalWithSerializableAttributeClass() };
         internal string[] ActualValues = new string[] { "<Dictionary`2>", "<InternalClass>", "<InternalWithSerializableAttributeClass>" };
 #else
 		internal object[] FailureData = new object[] { new InternalClass(), new InternalWithSerializableAttributeClass() };

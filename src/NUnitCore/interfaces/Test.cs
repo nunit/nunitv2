@@ -75,7 +75,7 @@ namespace NUnit.Core
         /// </summary>
         protected ApartmentState GetCurrentApartment()
         {
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             return Thread.CurrentThread.GetApartmentState();
 #else
             return Thread.CurrentThread.ApartmentState;

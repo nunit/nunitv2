@@ -1,7 +1,7 @@
 // ****************************************************************
-// This is free software licensed under the NUnit license. You
-// may obtain a copy of the license as well as information regarding
-// copyright ownership at http://nunit.org.
+// Copyright 2011, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
 using System;
@@ -46,11 +46,17 @@ namespace NUnit.Gui
                 attachedConsole = new GuiAttachedConsole();
             }
 
-            if (!guiOptions.Validate() || guiOptions.help)
+            if (guiOptions.help)
             {
-                string message = guiOptions.GetHelpText();
-                UserMessage.DisplayFailure(message, "Help Syntax");
-                log.Error("Command line error: " + message);
+                MessageDisplay.Display(guiOptions.GetHelpText());
+                return 0;
+            }
+
+            if (!guiOptions.Validate())
+            {
+                string message = "Error in command line";
+                MessageDisplay.Error(message + Environment.NewLine + Environment.NewLine + guiOptions.GetHelpText());
+                log.Error(message);
                 return 2;
             }
 
@@ -90,8 +96,8 @@ namespace NUnit.Gui
             }
             catch (Exception ex)
             {
-                UserMessage.DisplayFatalError(ex, null, "Unable to Initialize Services");
-                log.Error("Unable to initialize services", ex);
+                MessageDisplay.FatalError("Service initialization failed.", ex);
+                log.Error("Service initialization failed", ex);
                 return 2;
             }
 
@@ -134,6 +140,11 @@ namespace NUnit.Gui
             InternalTrace.Close();
 
             return 0;
+        }
+
+        private static IMessageDisplay MessageDisplay
+        {
+            get { return new MessageDisplay("NUnit"); }
         }
     }
 }

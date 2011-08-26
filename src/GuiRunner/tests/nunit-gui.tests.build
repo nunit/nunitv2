@@ -4,7 +4,7 @@
   <patternset id="source-files">
         <include name="CommandLineTests.cs"/>
         <include name="ExceptionDetailsFormTests.cs"/>
-        <include name="ProjectEditorTests.cs"/>
+    <include name="RecentFileMenuHandlerTests.cs"/>
   </patternset>
 
   <target name="build">

@@ -49,7 +49,7 @@ namespace NUnit.TestData.TestFixtureData
         public void SomeTest() { }
     }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
     public static class StaticFixtureWithoutTestFixtureAttribute
     {
         [Test]
@@ -335,9 +335,9 @@ namespace NUnit.TestData.TestFixtureData
 	{
 		[TestFixtureTearDown]
 		public void Teardown(int j) { }
-	}
+    }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
     [TestFixture(typeof(int))]
     [TestFixture(typeof(string))]
     public class GenericFixtureWithProperArgsProvided<T>

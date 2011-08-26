@@ -64,13 +64,17 @@ namespace NUnit.Core
 		public RuntimeFramework( RuntimeType runtime, Version version)
 		{
 			this.runtime = runtime;
-            this.frameworkVersion = version;
+            this.frameworkVersion = this.clrVersion = version;
 
-            this.clrVersion = version;
-            if (frameworkVersion.Major == 3)
+            if (version.Major == 3)
                 this.clrVersion = new Version(2, 0);
             else if (runtime == RuntimeType.Mono && version.Major == 1)
-                this.clrVersion = new Version(1, 1);
+            {
+                if (version.Minor == 0)
+                    this.clrVersion = new Version(1, 1);
+                else if (version.Minor == 1)
+                    this.frameworkVersion = new Version(1, 0);
+            }
 
             this.displayName = GetDefaultDisplayName(runtime, version);
         }
@@ -97,8 +101,41 @@ namespace NUnit.Core
                     int major = Environment.Version.Major;
                     int minor = Environment.Version.Minor;
 
-                    if (isMono && major == 1)
-                        minor = 0;
+                    if (isMono)
+					{
+						switch (major)
+						{
+						case 1:
+                        	minor = 0;
+							break;
+						case 2:
+							major = 3;
+							minor = 5;
+							break;
+						}
+					}
+					else /* It's windows */
+					if (major == 2)
+                    {
+                        RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\.NETFramework");
+                        if (key != null)
+                        {
+                            string installRoot = key.GetValue("InstallRoot") as string;
+                            if (installRoot != null)
+                            {
+                                if (Directory.Exists(Path.Combine(installRoot, "v3.5")))
+                                {
+                                    major = 3;
+                                    minor = 5;
+                                }
+                                else if (Directory.Exists(Path.Combine(installRoot, "v3.0")))
+                                {
+                                    major = 3;
+                                    minor = 0;
+                                }
+                            }
+                        }
+                    }
 
                     currentFramework = new RuntimeFramework(runtime, new Version(major, minor));
                     currentFramework.clrVersion = Environment.Version;
@@ -150,7 +187,7 @@ namespace NUnit.Core
             get
             {
                 foreach (RuntimeFramework framework in AvailableFrameworks)
-                    if (this.Matches(framework))
+                    if (this.Supports(framework))
                         return true;
 
                 return false;
@@ -254,7 +291,7 @@ namespace NUnit.Core
             if (target.ClrVersion.Build < 0)
             {
                 foreach (RuntimeFramework framework in AvailableFrameworks)
-                    if (framework.Matches(target) && 
+                    if (framework.Supports(target) && 
                         framework.ClrVersion.Build > result.ClrVersion.Build)
                     {
                         result = framework;
@@ -285,32 +322,34 @@ namespace NUnit.Core
 		}
 
         /// <summary>
-        /// Returns true if this framework "matches" the one supplied
-        /// as an argument. Two frameworks match if their runtime types 
-        /// are the same or either one is RuntimeType.Any and all specified 
-        /// components of the CLR version are equal. Negative (i.e. unspecified) 
-        /// version components are ignored.
+        /// Returns true if this framework's supports executing under the 
+        /// requested target framework. The target is supported if
+        /// 
+        /// 1. The runtime types are the same or either one is RuntimeType.Any
+        /// 
+        /// 2. All specified (non-negative) components of the CLR version are equal. 
+        /// 
+        /// 3. The major and minor components of the current framework version are
+        ///    greater than or equal to the corresponding target components.
+        ///    
+        /// The last provision allows tests requiring .NET 2.0 to run under the
+        /// 3.0 and 3.5 platforms as well.
         /// </summary>
-        /// <param name="other">The RuntimeFramework to be matched.</param>
+        /// <param name="target">The RuntimeFramework to be matched.</param>
         /// <returns>True on match, otherwise false</returns>
-        public bool Matches(RuntimeFramework other)
+        public bool Supports(RuntimeFramework target)
         {
             if (this.Runtime != RuntimeType.Any
-                && other.Runtime != RuntimeType.Any
-                && this.Runtime != other.Runtime)
+                && target.Runtime != RuntimeType.Any
+                && this.Runtime != target.Runtime)
                 return false;
 
-            if (this.AllowAnyVersion || other.AllowAnyVersion)
+            if (this.AllowAnyVersion || target.AllowAnyVersion)
                 return true;
 
-            return this.ClrVersion.Major == other.ClrVersion.Major
-                && this.ClrVersion.Minor == other.ClrVersion.Minor
-                && (   this.ClrVersion.Build < 0 
-                    || other.ClrVersion.Build < 0 
-                    || this.ClrVersion.Build == other.ClrVersion.Build ) 
-                && (   this.ClrVersion.Revision < 0
-                    || other.ClrVersion.Revision < 0
-                    || this.ClrVersion.Revision == other.ClrVersion.Revision );
+            return VersionsMatch(this.ClrVersion, target.ClrVersion)
+                && this.FrameworkVersion.Major >= target.FrameworkVersion.Major
+                && this.FrameworkVersion.Minor >= target.FrameworkVersion.Minor;
         }
 
         #endregion
@@ -334,6 +373,14 @@ namespace NUnit.Core
                 return "v" + version.ToString();
             else
                 return runtime.ToString() + " " + version.ToString();
+        }
+
+        private static bool VersionsMatch(Version v1, Version v2)
+        {
+            return v1.Major == v2.Major &&
+                   v1.Minor == v2.Minor &&
+                  (v1.Build < 0 || v2.Build < 0 || v1.Build == v2.Build) &&
+                  (v1.Revision < 0 || v2.Revision < 0 || v1.Revision == v2.Revision);
         }
 
         private static void AppendMonoFrameworks(FrameworkCollection frameworks)
@@ -446,7 +493,7 @@ namespace NUnit.Core
             }
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         private class FrameworkCollection : System.Collections.Generic.List<RuntimeFramework> { }
 #else
         private class FrameworkCollection : ArrayList 

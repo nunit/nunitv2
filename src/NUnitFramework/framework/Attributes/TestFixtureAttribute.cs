@@ -7,6 +7,7 @@
 namespace NUnit.Framework
 {
 	using System;
+    using System.Collections;
 
 	/// <example>
 	/// [TestFixture]
@@ -21,8 +22,9 @@ namespace NUnit.Framework
         private object[] arguments;
         private bool isIgnored;
         private string ignoreReason;
+        private string category;
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         private Type[] typeArgs;
         private bool argsSeparated;
 #endif
@@ -59,13 +61,31 @@ namespace NUnit.Framework
 		}
 
         /// <summary>
+        /// Gets and sets the category for this fixture.
+        /// May be a comma-separated list of categories.
+        /// </summary>
+        public string Category
+        {
+            get { return category; }
+            set { category = value; }
+        }
+
+        /// <summary>
+        /// Gets a list of categories for this fixture
+        /// </summary>
+        public IList Categories
+        {
+            get { return category == null ? null : category.Split(','); }
+        }
+
+        /// <summary>
         /// The arguments originally provided to the attribute
         /// </summary>
         public object[] Arguments
         {
-            get 
+            get
             {
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
                 if (!argsSeparated)
                     SeparateArgs();
 #endif
@@ -97,7 +117,7 @@ namespace NUnit.Framework
             }
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Get or set the type arguments. If not set
         /// explicitly, any leading arguments that are

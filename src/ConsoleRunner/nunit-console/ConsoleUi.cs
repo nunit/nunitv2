@@ -33,11 +33,15 @@ namespace NUnit.ConsoleRunner
 
 		public int Execute( ConsoleOptions options )
 		{
+            string workDir = options.work;
+            if (workDir == null || workDir == string.Empty)
+                workDir = Environment.CurrentDirectory;
+
 			TextWriter outWriter = Console.Out;
 			bool redirectOutput = options.output != null && options.output != string.Empty;
 			if ( redirectOutput )
 			{
-				StreamWriter outStreamWriter = new StreamWriter( options.output );
+				StreamWriter outStreamWriter = new StreamWriter( Path.Combine(workDir, options.output) );
 				outStreamWriter.AutoFlush = true;
 				outWriter = outStreamWriter;
 			}
@@ -46,25 +50,38 @@ namespace NUnit.ConsoleRunner
 			bool redirectError = options.err != null && options.err != string.Empty;
 			if ( redirectError )
 			{
-				StreamWriter errorStreamWriter = new StreamWriter( options.err );
+				StreamWriter errorStreamWriter = new StreamWriter( Path.Combine(workDir, options.err) );
 				errorStreamWriter.AutoFlush = true;
 				errorWriter = errorStreamWriter;
 			}
 
             TestPackage package = MakeTestPackage(options);
 
-            Console.WriteLine("ProcessModel: {0}    DomainUsage: {1}", 
-                package.Settings.Contains("ProcessModel")
-                    ? package.Settings["ProcessModel"]
-                    : "Default", 
-                package.Settings.Contains("DomainUsage")
-                    ? package.Settings["DomainUsage"]
-                    : "Default");
+            ProcessModel processModel = package.Settings.Contains("ProcessModel")
+                ? (ProcessModel)package.Settings["ProcessModel"]
+                : ProcessModel.Default;
 
-            Console.WriteLine("Execution Runtime: {0}", 
-                package.Settings.Contains("RuntimeFramework")
-                    ? package.Settings["RuntimeFramework"]
-                    : "Default");
+            DomainUsage domainUsage = package.Settings.Contains("DomainUsage")
+                ? (DomainUsage)package.Settings["DomainUsage"]
+                : DomainUsage.Default;
+
+            RuntimeFramework framework = package.Settings.Contains("RuntimeFramework")
+                ? (RuntimeFramework)package.Settings["RuntimeFramework"]
+                : RuntimeFramework.CurrentFramework;
+
+#if CLR_2_0 || CLR_4_0
+            Console.WriteLine("ProcessModel: {0}    DomainUsage: {1}", processModel, domainUsage);
+
+            Console.WriteLine("Execution Runtime: {0}", framework);
+#else
+            Console.WriteLine("DomainUsage: {0}", domainUsage);
+
+            if (processModel != ProcessModel.Default && processModel != ProcessModel.Single)
+                Console.WriteLine("Warning: Ignoring project setting 'processModel={0}'", processModel);
+
+            if (!RuntimeFramework.CurrentFramework.Supports(framework))
+                Console.WriteLine("Warning: Ignoring project setting 'runtimeFramework={0}'", framework);
+#endif
 
             using (TestRunner testRunner = new DefaultTestRunnerFactory().MakeTestRunner(package))
 			{
@@ -80,11 +97,30 @@ namespace NUnit.ConsoleRunner
 				EventCollector collector = new EventCollector( options, outWriter, errorWriter );
 
 				TestFilter testFilter = TestFilter.Empty;
+                SimpleNameFilter nameFilter = new SimpleNameFilter();
+
 				if ( options.run != null && options.run != string.Empty )
 				{
 					Console.WriteLine( "Selected test(s): " + options.run );
-					testFilter = new SimpleNameFilter( options.run );
+                    foreach (string name in TestNameParser.Parse(options.run))
+                        nameFilter.Add(name);
+                    testFilter = nameFilter;
 				}
+
+                if (options.runlist != null && options.runlist != string.Empty)
+                {
+                    Console.WriteLine("Run list: " + options.runlist);
+                    using (StreamReader rdr = new StreamReader(options.runlist))
+                    {
+                        while (!rdr.EndOfStream)
+                        {
+                            string line = rdr.ReadLine();
+                            if (line[0] != '#')
+                                nameFilter.Add(line);
+                        }
+                    }
+                    testFilter = nameFilter;
+                }
 
 				if ( options.include != null && options.include != string.Empty )
 				{
@@ -151,19 +187,22 @@ namespace NUnit.ConsoleRunner
                     else
                     {
                         WriteSummaryReport(summary);
-                        if (summary.ErrorsAndFailures > 0)
+                        if (summary.ErrorsAndFailures > 0 || result.IsError || result.IsFailure)
                             WriteErrorsAndFailuresReport(result);
                         if (summary.TestsNotRun > 0)
                             WriteNotRunReport(result);
-                    }
 
-                    // Write xml output here
-                    string xmlResultFile = options.xml == null || options.xml == string.Empty
-                        ? "TestResult.xml" : options.xml;
+                        if (!options.noresult)
+                        {
+                            // Write xml output here
+                            string xmlResultFile = options.result == null || options.result == string.Empty
+                                ? "TestResult.xml" : options.result;
 
-                    using (StreamWriter writer = new StreamWriter(xmlResultFile))
-                    {
-                        writer.Write(xmlOutput);
+                            using (StreamWriter writer = new StreamWriter(Path.Combine(workDir, xmlResultFile)))
+                            {
+                                writer.Write(xmlOutput);
+                            }
+                        }
                     }
 
                     returnCode = summary.ErrorsAndFailures;
@@ -219,14 +258,16 @@ namespace NUnit.ConsoleRunner
 				domainUsage = DomainUsage.Multiple;
 			}
 
+#if CLR_2_0 || CLR_4_0
+            if (options.framework != null)
+                framework = RuntimeFramework.Parse(options.framework);
+
             if (options.process != ProcessModel.Default)
                 processModel = options.process;
+#endif
 
 			if (options.domain != DomainUsage.Default)
 				domainUsage = options.domain;
-
-            if (options.framework != null)
-                framework = RuntimeFramework.Parse(options.framework);
 
 			package.TestName = options.fixture;
             
@@ -283,8 +324,9 @@ namespace NUnit.ConsoleRunner
             {
                 if (result.HasResults)
                 {
-                    if ( (result.IsFailure || result.IsError) && result.FailureSite == FailureSite.SetUp)
-                        WriteSingleResult(result);
+                    if (result.IsFailure || result.IsError)
+                        if (result.FailureSite == FailureSite.SetUp || result.FailureSite == FailureSite.TearDown)
+                            WriteSingleResult(result);
 
                     foreach (TestResult childResult in result.Results)
                         WriteErrorsAndFailures(childResult);

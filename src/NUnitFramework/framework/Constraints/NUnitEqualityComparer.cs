@@ -7,7 +7,7 @@
 using System;
 using System.IO;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
 
@@ -17,7 +17,7 @@ namespace NUnit.Framework.Constraints
     /// NUnitEqualityComparer encapsulates NUnit's handling of
     /// equality tests between objects.
     /// </summary>
-    public class NUnitEqualityComparer
+    public class NUnitEqualityComparer : INUnitEqualityComparer
     {
         #region Static and Instance Fields
         /// <summary>
@@ -30,12 +30,6 @@ namespace NUnit.Framework.Constraints
         /// those of different dimensions to be compared
         /// </summary>
         private bool compareAsCollection;
-
-        /// <summary>
-        /// If non-zero, equality comparisons within the specified 
-        /// tolerance will succeed.
-        /// </summary>
-        private Tolerance tolerance = Tolerance.Empty;
 
         /// <summary>
         /// Comparison object used in comparisons for some constraints.
@@ -88,29 +82,21 @@ namespace NUnit.Framework.Constraints
         }
 
         /// <summary>
-        /// Gets and sets a tolerance used to compare objects of 
-        /// certin types.
-        /// </summary>
-        public Tolerance Tolerance
-        {
-            get { return tolerance; }
-            set { tolerance = value; }
-        }
-
-        /// <summary>
         /// Gets the list of failure points for the last Match performed.
         /// </summary>
         public IList FailurePoints
         {
             get { return failurePoints; }
         }
+
         #endregion
 
         #region Public Methods
+
         /// <summary>
-        /// Compares two objects for equality.
+        /// Compares two objects for equality within a tolerance.
         /// </summary>
-        public bool ObjectsEqual(object x, object y)
+        public bool AreEqual(object x, object y, ref Tolerance tolerance)
         {
             this.failurePoints = new ArrayList();
 
@@ -127,19 +113,19 @@ namespace NUnit.Framework.Constraints
             Type yType = y.GetType();
 
             if (xType.IsArray && yType.IsArray && !compareAsCollection)
-                return ArraysEqual((Array)x, (Array)y);
+                return ArraysEqual((Array)x, (Array)y, ref tolerance);
 
             if (x is IDictionary && y is IDictionary)
-                return DictionariesEqual((IDictionary)x, (IDictionary)y);
+                return DictionariesEqual((IDictionary)x, (IDictionary)y, ref tolerance);
 
-            if (x is ICollection && y is ICollection)
-                return CollectionsEqual((ICollection)x, (ICollection)y);
+            //if (x is ICollection && y is ICollection)
+            //    return CollectionsEqual((ICollection)x, (ICollection)y, ref tolerance);
 
             if (x is IEnumerable && y is IEnumerable && !(x is string && y is string))
-                return EnumerablesEqual((IEnumerable)x, (IEnumerable)y);
+                return EnumerablesEqual((IEnumerable)x, (IEnumerable)y, ref tolerance);
 
             if (externalComparer != null)
-                return externalComparer.ObjectsEqual(x, y);
+                return externalComparer.AreEqual(x, y);
 
             if (x is string && y is string)
                 return StringsEqual((string)x, (string)y);
@@ -172,7 +158,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Helper method to compare two arrays
         /// </summary>
-        private bool ArraysEqual(Array x, Array y)
+        private bool ArraysEqual(Array x, Array y, ref Tolerance tolerance)
         {
             int rank = x.Rank;
 
@@ -183,10 +169,10 @@ namespace NUnit.Framework.Constraints
                 if (x.GetLength(r) != y.GetLength(r))
                     return false;
 
-            return CollectionsEqual((ICollection)x, (ICollection)y);
+            return EnumerablesEqual((IEnumerable)x, (IEnumerable)y, ref tolerance);
         }
 
-        private bool DictionariesEqual(IDictionary x, IDictionary y)
+        private bool DictionariesEqual(IDictionary x, IDictionary y, ref Tolerance tolerance)
         {
             if (x.Count != y.Count)
                 return false;
@@ -196,29 +182,41 @@ namespace NUnit.Framework.Constraints
                 return false;
 
             foreach (object key in x.Keys)
-                if (!ObjectsEqual(x[key], y[key]))
+                if (!AreEqual(x[key], y[key], ref tolerance))
                     return false;
 
             return true;
         }
 
-        private bool CollectionsEqual(ICollection x, ICollection y)
+        private bool CollectionsEqual(ICollection x, ICollection y, ref Tolerance tolerance)
         {
             IEnumerator expectedEnum = x.GetEnumerator();
             IEnumerator actualEnum = y.GetEnumerator();
 
             int count;
-            for (count = 0; expectedEnum.MoveNext() && actualEnum.MoveNext(); count++)
+            for (count = 0; ; count++)
             {
-                if (!ObjectsEqual(expectedEnum.Current, actualEnum.Current))
-                    break;
+                bool expectedHasData = expectedEnum.MoveNext();
+                bool actualHasData = actualEnum.MoveNext();
+
+                if (!expectedHasData && !actualHasData)
+                    return true;
+
+                if (expectedHasData != actualHasData ||
+                    !AreEqual(expectedEnum.Current, actualEnum.Current, ref tolerance))
+                {
+                    FailurePoint fp = new FailurePoint();
+                    fp.Position = count;
+                    fp.ExpectedHasData = expectedHasData;
+                    if (expectedHasData)
+                        fp.ExpectedValue = expectedEnum.Current;
+                    fp.ActualHasData = actualHasData;
+                    if (actualHasData)
+                        fp.ActualValue = actualEnum.Current;
+                    failurePoints.Insert(0, fp);
+                    return false;
+                }
             }
-
-            if (count == x.Count && count == y.Count)
-                return true;
-
-            failurePoints.Insert(0, count);
-            return false;
         }
 
         private bool StringsEqual(string x, string y)
@@ -229,13 +227,13 @@ namespace NUnit.Framework.Constraints
             return s1.Equals(s2);
         }
 
-        private bool EnumerablesEqual(IEnumerable x, IEnumerable y)
+        private bool EnumerablesEqual(IEnumerable x, IEnumerable y, ref Tolerance tolerance)
         {
             IEnumerator expectedEnum = x.GetEnumerator();
             IEnumerator actualEnum = y.GetEnumerator();
 
-            int count = 0;
-            for (; ; )
+            int count;
+            for (count = 0; ; count++)
             {
                 bool expectedHasData = expectedEnum.MoveNext();
                 bool actualHasData = actualEnum.MoveNext();
@@ -244,9 +242,17 @@ namespace NUnit.Framework.Constraints
                     return true;
 
                 if (expectedHasData != actualHasData ||
-                    !ObjectsEqual(expectedEnum.Current, actualEnum.Current))
+                    !AreEqual(expectedEnum.Current, actualEnum.Current, ref tolerance))
                 {
-                    failurePoints.Insert(0, count);
+                    FailurePoint fp = new FailurePoint();
+                    fp.Position = count;
+                    fp.ExpectedHasData = expectedHasData;
+                    if (expectedHasData)
+                            fp.ExpectedValue = expectedEnum.Current;
+                    fp.ActualHasData = actualHasData;
+                    if (actualHasData)
+                        fp.ActualValue = actualEnum.Current;
+                    failurePoints.Insert(0, fp);
                     return false;
                 }
             }
@@ -325,6 +331,19 @@ namespace NUnit.Framework.Constraints
 
             return true;
         }
+        #endregion
+
+        #region Nested FailurePoint Class
+
+        public class FailurePoint
+        {
+            public int Position;
+            public object ExpectedValue;
+            public object ActualValue;
+            public bool ExpectedHasData;
+            public bool ActualHasData;
+        }
+
         #endregion
     }
 }

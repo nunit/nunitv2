@@ -25,8 +25,8 @@ namespace NUnit.Util
 		public SettingsService(bool writeable)
 		{
             this.writeable = writeable;
-#if NET_2_0
-			string settingsFile = System.Configuration.ConfigurationManager.AppSettings["settingsFile"];
+#if CLR_2_0 || CLR_4_0
+            string settingsFile = System.Configuration.ConfigurationManager.AppSettings["settingsFile"];
 #else
 			string settingsFile = System.Configuration.ConfigurationSettings.AppSettings["settingsFile"];
 #endif

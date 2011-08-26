@@ -15,8 +15,8 @@ namespace NUnit.Tests
 		/// Constant definitions for the mock-assembly dll.
 		/// </summary>
 		public class MockAssembly
-		{
-#if NET_2_0
+        {
+#if CLR_2_0 || CLR_4_0
             public static int Classes = 9;
 #else
             public static int Classes = 8;
@@ -237,9 +237,9 @@ namespace NUnit.Tests
 	
 	[TestFixture]
 	public class FixtureWithTestCases
-	{
-#if NET_2_0
-		public static readonly int Tests = 4;
+    {
+#if CLR_2_0 || CLR_4_0
+        public static readonly int Tests = 4;
 		public static readonly int Suites = 3;
 #else
 		public static readonly int Tests = 2;
@@ -251,10 +251,10 @@ namespace NUnit.Tests
 		public int MethodWithParameters(int x, int y)
 		{
 			return x+y;
-		}
+        }
 
-#if NET_2_0
-		[TestCase(2, 4)]
+#if CLR_2_0 || CLR_4_0
+        [TestCase(2, 4)]
 		[TestCase(9.2, 11.7)]
 		public void GenericMethod<T>(T x, T y)
 		{
@@ -279,18 +279,18 @@ namespace NUnit.Tests
 	}
 	
 	public class GenericFixtureConstants
-	{
-#if NET_2_0
-		public static readonly int Tests = 4;
+    {
+#if CLR_2_0 || CLR_4_0
+        public static readonly int Tests = 4;
 		public static readonly int Suites = 3;
 #else
         public static readonly int Tests = 0;
         public static readonly int Suites = 0;
 #endif
-	}
-		
-#if NET_2_0
-	[TestFixture(5)]
+    }
+
+#if CLR_2_0 || CLR_4_0
+    [TestFixture(5)]
 	[TestFixture(11.5)]
 	public class GenericFixture<T>
 	{

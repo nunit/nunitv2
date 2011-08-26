@@ -1,2 +1,3 @@
 #!/bin/sh
-exec /usr/bin/cli ./tools/nant-0.90/bin/NAnt.exe "$@"
+exec mono tools/nant-0.90/bin/NAnt.exe $@
+

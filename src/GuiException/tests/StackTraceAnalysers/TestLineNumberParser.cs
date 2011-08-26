@@ -38,7 +38,7 @@ namespace NUnit.UiException.Tests.StackTraceAnalyzers
             Assert.That(res.Line, Is.EqualTo(42));
 
             // parser doesn't rely on the existence of
-            // a method name or path value
+            // a method name or filePath value
             res = AcceptValue(_parser, ":43");
             Assert.That(res.Line, Is.EqualTo(43));
 

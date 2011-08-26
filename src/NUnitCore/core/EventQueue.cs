@@ -5,6 +5,8 @@
 // ****************************************************************
 using System;
 using System.Collections;
+using System.Globalization;
+using System.Runtime.Serialization;
 using System.Threading;
 
 namespace NUnit.Core
@@ -21,6 +23,32 @@ namespace NUnit.Core
 	public abstract class Event
 	{
 		abstract public void Send( EventListener listener );
+
+        /// <summary>
+        /// Gets a value indicating whether this event is delivered synchronously by the NUnit <see cref="EventPump"/>.
+        /// <para>
+        /// If <c>true</c>, and if <see cref="EventQueue.SetWaitHandleForSynchronizedEvents"/> has been used to 
+        /// set a WaitHandle, <see cref="EventQueue.Enqueue"/> blocks its calling thread until the <see cref="EventPump"/>
+        /// thread has delivered the event and sets the WaitHandle.
+        /// </para>
+        /// </summary>
+	    public virtual bool IsSynchronous
+	    {
+	        get
+	        {
+	            return false;
+	        }
+	    }
+
+        protected static Exception WrapUnserializableException(Exception ex)
+        {
+            string message = string.Format(
+                CultureInfo.InvariantCulture,
+                "(failed to serialize original Exception - original Exception follows){0}{1}",
+                Environment.NewLine,
+                ex);
+            return new Exception(message);
+        }
 	}
 
 	public class RunStartedEvent : Event
@@ -32,6 +60,14 @@ namespace NUnit.Core
 		{
 			this.name = name;
 			this.testCount = testCount;
+		}
+
+        public override bool IsSynchronous
+        {
+            get
+            {
+                return true;
+            }
 		}
 
 		public override void Send( EventListener listener )
@@ -58,7 +94,17 @@ namespace NUnit.Core
 		public override void Send( EventListener listener )
 		{
 			if ( this.exception != null )
-				listener.RunFinished( this.exception );
+            {
+                try
+                {
+					listener.RunFinished( this.exception );
+                }
+                catch (SerializationException)
+                {
+                    Exception wrapped = WrapUnserializableException(this.exception);
+                    listener.RunFinished(wrapped);
+                }
+            }
 			else
 				listener.RunFinished( this.result );
 		}
@@ -73,6 +119,14 @@ namespace NUnit.Core
 			this.testName = testName;
 		}
 
+        public override bool IsSynchronous
+        {
+            get
+            {
+                return true;
+            }
+        }
+        
 		public override void Send( EventListener listener )
 		{
 			listener.TestStarted( this.testName );
@@ -103,6 +157,14 @@ namespace NUnit.Core
 			this.suiteName = suiteName;
 		}
 
+        public override bool IsSynchronous
+        {
+            get
+            {
+                return true;
+            }
+        }
+        
 		public override void Send( EventListener listener )
 		{
 			listener.SuiteStarted( this.suiteName );
@@ -135,7 +197,15 @@ namespace NUnit.Core
 
 		public override void Send( EventListener listener )
 		{
-			listener.UnhandledException( this.exception );
+            try
+            {
+				listener.UnhandledException( this.exception );
+            }
+            catch (SerializationException)
+            {
+                Exception wrapped = WrapUnserializableException(this.exception);
+                listener.UnhandledException(wrapped);
+            }
 		}
 	}
 
@@ -162,34 +232,119 @@ namespace NUnit.Core
 	/// </summary>
 	public class EventQueue
 	{
-		private Queue queue = new Queue();
+		private readonly Queue queue = new Queue();
+	    private readonly object syncRoot;
+        private bool stopped;
+
+        /// <summary>
+        /// WaitHandle for synchronous event delivery in <see cref="Enqueue"/>.
+        /// <para>
+        /// Having just one handle for the whole <see cref="EventQueue"/> implies that 
+        /// there may be only one producer (the test thread) for synchronous events.
+        /// If there can be multiple producers for synchronous events, one would have
+        /// to introduce one WaitHandle per event.
+        /// </para>
+        /// </summary>
+        private AutoResetEvent synchronousEventSent;
 
 		public int Count
 		{
 			get 
 			{
-				lock( this )
+				lock( this.syncRoot )
 				{
 					return this.queue.Count; 
 				}
 			}
 		}
 
+        public EventQueue()
+        {
+            this.syncRoot = queue.SyncRoot;
+        }
+
+        /// <summary>
+        /// Sets a handle on which to wait, when <see cref="Enqueue"/> is called
+        /// for an <see cref="Event"/> with <see cref="Event.IsSynchronous"/> == true.
+        /// </summary>
+        /// <param name="synchronousEventWaitHandle">
+        /// The wait handle on which to wait, when <see cref="Enqueue"/> is called
+        /// for an <see cref="Event"/> with <see cref="Event.IsSynchronous"/> == true.
+        /// <para>The caller is responsible for disposing this wait handle.</para>
+        /// </param>
+        public void SetWaitHandleForSynchronizedEvents( AutoResetEvent synchronousEventWaitHandle )
+        {
+            this.synchronousEventSent = synchronousEventWaitHandle;
+        }
+
 		public void Enqueue( Event e )
 		{
-			lock( this )
+			lock( this.syncRoot )
 			{
 				this.queue.Enqueue( e );
-				Monitor.Pulse( this );
+				Monitor.Pulse( this.syncRoot );
 			}
+
+            if ( this.synchronousEventSent != null && e.IsSynchronous )
+            {
+                this.synchronousEventSent.WaitOne();
+            }
+            else
+            {
+                Thread.Sleep( 0 ); // give EventPump thread a chance to process the event
+            }
 		}
 
-		public Event Dequeue()
+        /// <summary>
+        /// Removes the first element from the queue and returns it (or <c>null</c>).
+        /// </summary>
+        /// <param name="blockWhenEmpty">
+        /// If <c>true</c> and the queue is empty, the calling thread is blocked until
+        /// either an element is enqueued, or <see cref="Stop"/> is called.
+        /// </param>
+        /// <returns>
+        /// <list type="bullet">
+        ///   <item>
+        ///     <term>If the queue not empty</term>
+        ///     <description>the first element.</description>
+        ///   </item>
+        ///   <item>
+        ///     <term>otherwise, if <paramref name="blockWhenEmpty"/>==<c>false</c> 
+        ///       or <see cref="Stop"/> has been called</term>
+        ///     <description><c>null</c>.</description>
+        ///   </item>
+        /// </list>
+        /// </returns>
+		public Event Dequeue( bool blockWhenEmpty )
 		{
-			lock( this )
+			lock( this.syncRoot )
 			{
+                while ( this.queue.Count == 0 )
+                {
+                    if ( blockWhenEmpty && !this.stopped )
+                    {
+                        Monitor.Wait( this.syncRoot );
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
 				return (Event)this.queue.Dequeue();
 			}
 		}
+
+        public void Stop()
+        {
+            lock( this.syncRoot )
+            {
+                if ( !this.stopped )
+                {
+                    this.stopped = true;
+                    Monitor.Pulse( this.syncRoot );
+                }
+            }
+        }
 	}
 }

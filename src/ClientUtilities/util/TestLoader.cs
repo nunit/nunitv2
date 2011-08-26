@@ -1,5 +1,5 @@
 // ****************************************************************
-// Copyright 2002-2008, Charlie Poole
+// Copyright 2002-2011, Charlie Poole
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
@@ -202,17 +202,7 @@ namespace NUnit.Util
 		{
 			this.testResult = testResult;
 
-			try
-			{
-				this.SaveLastResult( 
-					Path.Combine( Path.GetDirectoryName( this.TestFileName ), "TestResult.xml" ) );
-				events.FireRunFinished( testResult );
-			}
-			catch( Exception ex )
-			{
-				this.lastException = ex;
-				events.FireRunFinished( ex );
-			}
+            events.FireRunFinished(testResult);
 		}
 
 		public void RunFinished(Exception exception)

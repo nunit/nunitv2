@@ -89,8 +89,8 @@ namespace NUnit.Util
 		#region Static Methods
 
 		public static bool IsProjectFile( string path )
-		{
-#if NET_2_0
+        {
+#if CLR_2_0 || CLR_4_0
             if (path.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
 #else
 			if ( path.IndexOfAny( Path.InvalidPathChars ) >= 0 )
@@ -267,24 +267,45 @@ namespace NUnit.Util
 			else
 				assemblyName = assemblyName + ".dll";
 
+            string commonOutputPath = null;
+
 			foreach (XmlElement configNode in nodes)
 			{
                 if (configNode.Name != "PropertyGroup")
                     continue;
 
+                string configurationName = null;
 				XmlAttribute conditionAttribute = configNode.Attributes["Condition"];
-				if (conditionAttribute == null) continue;
-
-				string condition = conditionAttribute.Value;
-				int start = condition.IndexOf( "==" );
-				if ( start < 0 ) continue;
-
-				string configurationName = condition.Substring( start + 2 ).Trim(new char[] {' ', '\'' } );
-				if ( configurationName.EndsWith( "|AnyCPU" ) )
-					configurationName = configurationName.Substring( 0, configurationName.Length - 7 );
+                if (conditionAttribute != null)
+                {
+                    string condition = conditionAttribute.Value;
+                    if (condition.IndexOf("$(Configuration)") >= 0)
+                    {
+                        int start = condition.IndexOf("==");
+                        if (start >= 0)
+                        {
+                            configurationName = condition.Substring(start + 2).Trim(new char[] { ' ', '\'' });
+                            if (configurationName.EndsWith("|AnyCPU"))
+                                configurationName = configurationName.Substring(0, configurationName.Length - 7);
+                        }
+                    }
+                }
 
 				XmlElement outputPathElement = (XmlElement)configNode.SelectSingleNode("msbuild:OutputPath", namespaceManager);
-				string outputPath = outputPathElement.InnerText;
+                string outputPath = null;
+				if (outputPathElement != null)
+                    outputPath = outputPathElement.InnerText;
+
+                if (configurationName == null)
+                {
+                    commonOutputPath = outputPath;
+                    continue;
+                }
+
+                if (outputPath == null)
+                    outputPath = commonOutputPath;
+
+                if (outputPath == null) continue;
 
 				string outputDirectory = Path.Combine(projectDirectory, outputPath);
 				string assemblyPath = Path.Combine(outputDirectory, assemblyName);

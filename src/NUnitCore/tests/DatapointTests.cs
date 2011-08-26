@@ -1,5 +1,5 @@
 ﻿using System;
-#if NET_2_0 || NET_3_5
+#if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
 using NUnit.Framework;
@@ -43,8 +43,8 @@ namespace NUnit.Core.Tests
             RunTestOnFixture(typeof(SquareRootTest_Method_ArrayOfDouble));
         }
 
-#if NET_2_0 || NET_3_5 
-#if CS_3_0
+#if CLR_2_0 || CLR_4_0 
+#if CS_3_0 || CS_4_0
         [Test]
         public void WorksOnIEnumerableOfT()
         {

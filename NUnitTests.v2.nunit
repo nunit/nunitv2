@@ -9,6 +9,6 @@
     <assembly path="tests/nunit.uiexception.tests.dll" />
     <assembly path="tests/nunit.uikit.tests.dll" />
     <assembly path="tests/nunit-gui.tests.dll" />
-    <assembly path="tests/nunit.fixtures.tests.dll" />
+    <assembly path="tests/nunit-editor.tests.dll" />
   </Config>
 </NUnitProject>

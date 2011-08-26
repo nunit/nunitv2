@@ -6,7 +6,7 @@
 using System;
 using System.Text;
 using System.Reflection;
-#if NET_3_5
+#if NET_3_5 || NET_4_0
 using NSubstitute;
 #endif
 using NUnit.Framework;
@@ -123,8 +123,8 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("mock0mock1mock3cmock3bmock3amock5bmock5amock8mock9", sb.ToString());
         }
 
-#if NET_3_5
-		[Test]
+#if NET_3_5 || NET_4_0
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0")]
 		public void CanAddDecorator()
 		{
             ITestDecorator mockDecorator = Substitute.For<ITestDecorator>();
@@ -138,7 +138,7 @@ namespace NUnit.Core.Tests
             mockDecorator.Received().Decorate(null, null);
 		}
 
-	    [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0")]
 		public void CanAddSuiteBuilder()
 		{
             ISuiteBuilder mockBuilder = Substitute.For<ISuiteBuilder>();
@@ -152,7 +152,7 @@ namespace NUnit.Core.Tests
             mockBuilder.Received().BuildFrom(null);
 		}
 
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0")]
         public void CanAddTestCaseBuilder()
         {
             ITestCaseBuilder mockBuilder = Substitute.For<ITestCaseBuilder>();
@@ -166,7 +166,7 @@ namespace NUnit.Core.Tests
             mockBuilder.Received().BuildFrom(null);
         }
 
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0")]
         public void CanAddTestCaseBuilder2()
         {
             ITestCaseBuilder2 mockBuilder = Substitute.For<ITestCaseBuilder2>();
@@ -180,7 +180,7 @@ namespace NUnit.Core.Tests
             mockBuilder.Received().BuildFrom(null, null);
         }
 
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0")]
 		public void CanAddEventListener()
 		{
             EventListener mockListener = Substitute.For<EventListener>();

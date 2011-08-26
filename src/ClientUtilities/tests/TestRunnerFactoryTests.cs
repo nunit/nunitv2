@@ -26,6 +26,7 @@ namespace NUnit.Util.Tests
             Assert.That( factory.MakeTestRunner(package), Is.TypeOf(typeof(TestDomain)));
         }
 
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void DifferentRuntimeUsesProcessRunner()
         {
@@ -42,5 +43,6 @@ namespace NUnit.Util.Tests
             package.Settings["RuntimeFramework"] = new RuntimeFramework(currentFramework.Runtime, new Version(major,0));
             Assert.That(factory.MakeTestRunner(package), Is.TypeOf(typeof(ProcessRunner)));
         }
+#endif
     }
 }

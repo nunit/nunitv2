@@ -113,14 +113,20 @@ namespace NUnit.ConsoleRunner
 			Assembly executingAssembly = Assembly.GetExecutingAssembly();
 			string versionText = executingAssembly.GetName().Version.ToString();
 
-			string productName = "NUnit";
-			string copyrightText = "Copyright (C) 2002-2009 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved.";
+#if CLR_1_0
+            string productName = "NUnit-Console (.NET 1.0)";
+#elif CLR_1_1
+            string productName = "NUnit-Console (.NET 1.1)";
+#else
+            string productName = "NUnit-Console";
+#endif
+            string copyrightText = "Copyright (C) 2002-2011 Charlie Poole.\r\nCopyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.\r\nCopyright (C) 2000-2002 Philip Craig.\r\nAll Rights Reserved.";
 
-			object[] objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
-			if ( objectAttrs.Length > 0 )
-				productName = ((AssemblyProductAttribute)objectAttrs[0]).Product;
+            //object[] objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
+            //if ( objectAttrs.Length > 0 )
+            //    productName = ((AssemblyProductAttribute)objectAttrs[0]).Product;
 
-			objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+			object[] objectAttrs = executingAssembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
 			if ( objectAttrs.Length > 0 )
 				copyrightText = ((AssemblyCopyrightAttribute)objectAttrs[0]).Copyright;
 

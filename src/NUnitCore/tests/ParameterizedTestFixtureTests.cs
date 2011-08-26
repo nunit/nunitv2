@@ -54,7 +54,7 @@ namespace NUnit.Core.Tests
         }
     }
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0 || CLR_4_0
     [TestFixture("A", null)]
     [TestFixture(null, "A")]
     [TestFixture(null, null)]
@@ -95,7 +95,7 @@ namespace NUnit.Core.Tests
             Assert.That(x * y, Is.EqualTo(answer));
         }
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0 || CLR_4_0
         IEnumerable GenerateData()
         {
             for(int i = 1; i <= answer; i++)
@@ -179,6 +179,23 @@ namespace NUnit.Core.Tests
             Test testcase = (Test)method.Tests[0];
             Assert.That(testcase.TestName.Name, Is.EqualTo("MethodWithParams(10,20)"));
             Assert.That(testcase.TestName.FullName, Is.EqualTo(instance.TestName.FullName + ".MethodWithParams(10,20)"));
+        }
+    }
+
+    public class ParameterizedTestFixtureTests
+    {
+        [Test]
+        public void CanSpecifyCategory()
+        {
+            Test fixture = TestBuilder.MakeFixture(typeof(NUnit.TestData.TestFixtureWithSingleCategory));
+            Assert.AreEqual(new string[] { "XYZ" }, fixture.Categories);
+        }
+
+        [Test]
+        public void CanSpecifyMultipleCategories()
+        {
+            Test fixture = TestBuilder.MakeFixture(typeof(NUnit.TestData.TestFixtureWithMultipleCategories));
+            Assert.AreEqual(new string[] { "X", "Y", "Z" }, fixture.Categories);
         }
     }
 }

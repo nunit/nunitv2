@@ -37,7 +37,7 @@ namespace NUnit.Core
 
         protected ITestFilter filter;
 		
-		protected TestMethod.ContextDictionary contextDictionary;
+		protected ContextDictionary contextDictionary;
 
         /// <summary>
         /// Unexpected exception thrown by test thread
@@ -63,7 +63,7 @@ namespace NUnit.Core
         #region Properties
         public ApartmentState ApartmentState
         {
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             get { return thread.GetApartmentState(); }
             set { thread.SetApartmentState(value); }
 #else
@@ -91,7 +91,7 @@ namespace NUnit.Core
             this.thrownException = null;
             this.listener = listener;
             this.filter = filter;
-			this.contextDictionary = (TestMethod.ContextDictionary)CallContext.GetData("NUnit.Framework.TestContext");
+			this.contextDictionary = (ContextDictionary)CallContext.GetData("NUnit.Framework.TestContext");
 
             log.Debug("Starting test in separate thread");
             thread.Start();

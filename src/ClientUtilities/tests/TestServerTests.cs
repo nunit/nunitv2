@@ -31,15 +31,15 @@ namespace NUnit.Util.Tests
     //        DirectoryInfo cwd = new DirectoryInfo( Environment.CurrentDirectory );
     //        if( cwd.Parent.Name == "bin" )
     //        {
-    //            string path = cwd.Parent.Parent.Parent.Parent.FullName;
-    //            path = Path.Combine( path, "NUnitTestServer" );
-    //            path = Path.Combine( path, "nunit-server-exe" );
-    //            path = Path.Combine( path, "bin" );
-    //            path = Path.Combine( path, cwd.Name );
-    //            path = Path.Combine( path, "nunit-server.exe" );
-    //            if( File.Exists( path ) )
+    //            string filePath = cwd.Parent.Parent.Parent.Parent.FullName;
+    //            filePath = Path.Combine( filePath, "NUnitTestServer" );
+    //            filePath = Path.Combine( filePath, "nunit-server-exe" );
+    //            filePath = Path.Combine( filePath, "bin" );
+    //            filePath = Path.Combine( filePath, cwd.Name );
+    //            filePath = Path.Combine( filePath, "nunit-server.exe" );
+    //            if( File.Exists( filePath ) )
     //            {
-    //                serverPath = path;
+    //                serverPath = filePath;
     //                return;
     //            }
     //        }

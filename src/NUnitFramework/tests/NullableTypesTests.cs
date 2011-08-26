@@ -7,7 +7,8 @@ using System;
 
 namespace NUnit.Framework.Tests
 {
-#if NET_2_0 && !MONO
+#if CLR_2_0 || CLR_4_0
+#if !MONO
     [TestFixture, Category("Generics")]
     public class NullableTypesTests
     {
@@ -23,6 +24,7 @@ namespace NUnit.Framework.Tests
             Assert.That(five, Is.Not.Null);
         }
 
+#if false
         [Test]
         public void CanCompareNullableInts()
         {
@@ -47,7 +49,7 @@ namespace NUnit.Framework.Tests
             //Assert.That(3, Is.LessThan(five));
             //Assert.That(5, Is.LessThanOrEqualTo(five));
         }
-
+		
         [Test]
         public void CanCompareNullableDoubles()
         {
@@ -72,6 +74,7 @@ namespace NUnit.Framework.Tests
             //Assert.That(3.0, Is.LessThan(five));
             //Assert.That(5.0, Is.LessThanOrEqualTo(five));
         }
+#endif
 
         [Test]
         public void CanTestForNaN()
@@ -81,6 +84,7 @@ namespace NUnit.Framework.Tests
             Assert.That(anNaN, Is.NaN);
         }
 
+#if false
         [Test]
         public void CanCompareNullableDecimals()
         {
@@ -105,7 +109,8 @@ namespace NUnit.Framework.Tests
             //Assert.That(3m, Is.LessThan(five));
             //Assert.That(5m, Is.LessThanOrEqualTo(five));
         }
-
+#endif
+		
         [Test]
         public void CanCompareWithTolerance()
         {
@@ -187,6 +192,7 @@ namespace NUnit.Framework.Tests
             Assert.That(int5, Is.EqualTo(5m));
             Assert.That(double5, Is.EqualTo(5m));
 
+#if false
             Assert.Greater(int5, 3.0);
             Assert.Greater(int5, 3m);
             Assert.Greater(double5, 3);
@@ -207,7 +213,7 @@ namespace NUnit.Framework.Tests
             Assert.Less(3m, double5);
             Assert.Less(3, decimal5);
             Assert.Less(3.0, decimal5);
-
+#endif
             //Assert.That(3.0, Is.LessThan(int5));
             //Assert.That(3m, Is.LessThan(int5));
             //Assert.That(3, Is.LessThan(double5));
@@ -242,5 +248,6 @@ namespace NUnit.Framework.Tests
             Assert.AreEqual(struct2, two);
         }
     }
+#endif
 #endif
 }

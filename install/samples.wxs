@@ -1,61 +1,23 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-	<ComponentGroup Id="SampleComponents">
-		<ComponentRef Id="C__SamplesCommon" />
-		<ComponentRef Id="C__SampleShortcuts" />
-
-		<!-- C# Samples -->
-		<ComponentRef Id="C__CSharp_Samples" />
-		<ComponentRef Id="C__CSharp_Failures" />
-		<ComponentRef Id="C__CSharp_Money" />
-		<ComponentRef Id="C__CSharp_Syntax" />
+    <!-- Menu Shortcuts to samples -->
+    <DirectoryRef Id="samples" FileSource="$(var.InstallImage)\samples">
 	
-		<!-- J# Samples -->
-		<ComponentRef Id="C__JSharp_Samples" />
-		<ComponentRef Id="C__JSharp_Failures" />
-
-		<!-- Managed C++ Samples -->
-		<ComponentRef Id="C__CPP_Managed_Samples" />
-		<ComponentRef Id="C__CPP_Managed_Failures" />
-
-		<!-- C++/CLI Samples -->
-		<ComponentRef Id="C__CPP_CLI_Samples" />
-		<ComponentRef Id="C__CPP_CLI_Failures" />
-		<ComponentRef Id="C__CPP_CLI_Syntax" />
-
-		<!-- VB Sample -->
-		<ComponentRef Id="C__VB_Samples" />
-		<ComponentRef Id="C__VB_Failures" />
-		<ComponentRef Id="C__VB_Money" />
-	    <ComponentRef Id="C__VB_Syntax" />
+      <Component Id="C__SampleShortcuts" DiskId="1" Guid="CCDAEC65-EED0-4794-89D0-363EB1AC3CC9">
+        <Shortcut Id="S__csharp" Target="[csharp]" Directory="SamplesMenu" Name="SCSHARP" LongName="C#" Show="normal" />
+        <Shortcut Id="S__jsharp" Target="[jsharp]" Directory="SamplesMenu" Name="SJSHARP" LongName="J#" Show="normal" />
+        <Shortcut Id="S__cpp" Target="[cpp]" Directory="SamplesMenu" Name="SCPP" LongName="C++" Show="normal" />
+        <Shortcut Id="S__vb" Target="[vb]" Directory="SamplesMenu" Name="SVB" LongName="VB" Show="normal" />
+        <Shortcut Id="S__extensibility" Target="[extensibility]" Directory="SamplesMenu" Name="SEXTENSI"             LongName="Extensibility" Show="normal" />
+      </Component>
 		
-		<!-- Core Extensibility Samples -->
-		<ComponentRef Id="C__CoreExtensibility" />
-		<ComponentRef Id="C__MinimalAddin" />
-		<ComponentRef Id="C__SampleSuiteExtension" />
-		<ComponentRef Id="C__SampleSuiteExtension_Tests" />
-		<ComponentRef Id="C__SampleFixtureExtension" />
-		<ComponentRef Id="C__SampleFixtureExtension_Tests" />
-	</ComponentGroup>
+      <Component Id="C__SamplesCommon" DiskId="1" Guid="9FBE1436-920F-450b-9E7E-D85473E727B4">
+        <File Id="ReadMe.txt" Name="ReadMe.txt" />
+        <File Id="samples.common" Name="SAMPLES.CMN" LongName="samples.common" />
+      </Component>
 		
-	<!-- Menu Shortcuts to samples -->
-	<DirectoryRef Id="samples" FileSource="$(var.InstallImage)\samples">
-	
-        <Component Id="C__SampleShortcuts" DiskId="1" Guid="CCDAEC65-EED0-4794-89D0-363EB1AC3CC9">
-          <Shortcut Id="S__csharp" Target="[csharp]" Directory="SamplesMenu" Name="SCSHARP" LongName="C#" Show="normal" />
-          <Shortcut Id="S__jsharp" Target="[jsharp]" Directory="SamplesMenu" Name="SJSHARP" LongName="J#" Show="normal" />
-          <Shortcut Id="S__cpp" Target="[cpp]" Directory="SamplesMenu" Name="SCPP" LongName="C++" Show="normal" />
-          <Shortcut Id="S__vb" Target="[vb]" Directory="SamplesMenu" Name="SVB" LongName="VB" Show="normal" />
-          <Shortcut Id="S__extensibility" Target="[extensibility]" Directory="SamplesMenu" Name="SEXTENSI" LongName="Extensibility" Show="normal" />
-	</Component>
-		
-	<Component Id="C__SamplesCommon" DiskId="1" Guid="9FBE1436-920F-450b-9E7E-D85473E727B4">
-	  <File Id="ReadMe.txt" Name="ReadMe.txt" />
-	  <File Id="samples.common" Name="SAMPLES.CMN" LongName="samples.common" />
-	</Component>
-		
-	</DirectoryRef>
+    </DirectoryRef>
 
     <!-- C# Samples -->	
     <DirectoryRef Id="csharp" FileSource="$(var.InstallImage)\samples\csharp">

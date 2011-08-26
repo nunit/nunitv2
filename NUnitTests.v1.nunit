@@ -6,6 +6,5 @@
     <assembly path="tests/nunit.util.tests.dll" />
     <assembly path="tests/nunit.mocks.tests.dll" />
     <assembly path="tests/nunit-console.tests.dll" />
-    <assembly path="tests/nunit.fixtures.tests.dll" />
   </Config>
 </NUnitProject>

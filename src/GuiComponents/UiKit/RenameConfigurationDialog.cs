@@ -19,7 +19,7 @@ namespace NUnit.UiKit
     /// validates the name. The caller is responsible for
     /// actually renaming the cofiguration.
     /// </summary>
-	public class RenameConfigurationDialog : System.Windows.Forms.Form
+    public class RenameConfigurationDialog : NUnitFormBase
 	{
 		#region Instance Variables
 
@@ -141,7 +141,7 @@ namespace NUnit.UiKit
 			get{ return configurationName; }
 			set{ configurationName = value; }
 		}
-		
+
 		private void ConfigurationNameDialog_Load(object sender, System.EventArgs e)
 		{
 			if ( configurationName != null )
@@ -156,7 +156,7 @@ namespace NUnit.UiKit
 			configurationName = configurationNameTextBox.Text;		
 			if ( project.Configs.Contains( configurationName ) )
 				// TODO: Need general error message display
-				UserMessage.DisplayFailure( "A configuration with that name already exists", "Configuration Name Error" );
+                MessageDisplay.Error("A configuration with that name already exists");
 			else
 			{
 				DialogResult = DialogResult.OK;

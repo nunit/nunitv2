@@ -6,16 +6,17 @@
 
 using System;
 using System.CodeDom.Compiler;
+using System.IO;
 
 namespace NUnit.Framework.Syntax
 {
     class TestCompiler
     {
         Microsoft.CSharp.CSharpCodeProvider provider;
-#if !NET_2_0
+#if CLR_1_0 || CLR_1_1
 		ICodeCompiler compiler;
 #endif
-		CompilerParameters options;
+        CompilerParameters options;
 
 		public TestCompiler() : this( null, null ) { }
 
@@ -24,10 +25,10 @@ namespace NUnit.Framework.Syntax
 		public TestCompiler( string[] assemblyNames, string outputName )
 		{
 			this.provider = new Microsoft.CSharp.CSharpCodeProvider();
-#if !NET_2_0
+#if CLR_1_0 || CLR_1_1
 			this.compiler = provider.CreateCompiler();
 #endif
-			this.options = new CompilerParameters();
+            this.options = new CompilerParameters();
 
 			if ( assemblyNames != null && assemblyNames.Length > 0 )
 				options.ReferencedAssemblies.AddRange( assemblyNames );
@@ -35,7 +36,7 @@ namespace NUnit.Framework.Syntax
 				options.OutputAssembly = outputName;
 
 			options.IncludeDebugInformation = false;
-			options.TempFiles = new TempFileCollection( ".", false );
+			options.TempFiles = new TempFileCollection( Path.GetTempPath(), false );
 			options.GenerateInMemory = false;
 		}
 
@@ -45,9 +46,9 @@ namespace NUnit.Framework.Syntax
 		}
 
 		public CompilerResults CompileCode( string code )
-		{
-#if NET_2_0
-			return provider.CompileAssemblyFromSource( options, code );
+        {
+#if CLR_2_0 || CLR_4_0
+            return provider.CompileAssemblyFromSource( options, code );
 #else
             return compiler.CompileAssemblyFromSource(options, code);
 #endif

@@ -7,7 +7,7 @@
 using System;
 using System.IO;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
 
@@ -24,6 +24,8 @@ namespace NUnit.Framework.Constraints
         #region Static and Instance Fields
 
 		private readonly object expected;
+
+        private Tolerance tolerance = Tolerance.Empty;
 
         /// <summary>
         /// If true, strings in error messages will be clipped
@@ -114,10 +116,10 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public EqualConstraint Within(object amount)
         {
-            if (!comparer.Tolerance.IsEmpty)
+            if (!tolerance.IsEmpty)
                 throw new InvalidOperationException("Within modifier may appear only once in a constraint expression");
 
-            comparer.Tolerance = new Tolerance(amount);
+            tolerance = new Tolerance(amount);
             return this;
         }
 
@@ -139,7 +141,7 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                comparer.Tolerance = comparer.Tolerance.Ulps;
+                tolerance = tolerance.Ulps;
                 return this;
             }
         }
@@ -154,7 +156,7 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                comparer.Tolerance = comparer.Tolerance.Percent;
+                tolerance = tolerance.Percent;
                 return this;
             }
         }
@@ -167,7 +169,7 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                comparer.Tolerance = comparer.Tolerance.Days;
+                tolerance = tolerance.Days;
                 return this;
             }
         }
@@ -180,7 +182,7 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                comparer.Tolerance = comparer.Tolerance.Hours;
+                tolerance = tolerance.Hours;
                 return this;
             }
         }
@@ -193,7 +195,7 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                comparer.Tolerance = comparer.Tolerance.Minutes;
+                tolerance = tolerance.Minutes;
                 return this;
             }
         }
@@ -206,7 +208,7 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                comparer.Tolerance = comparer.Tolerance.Seconds;
+                tolerance = tolerance.Seconds;
                 return this;
             }
         }
@@ -219,7 +221,7 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                comparer.Tolerance = comparer.Tolerance.Milliseconds;
+                tolerance = tolerance.Milliseconds;
                 return this;
             }
         }
@@ -232,7 +234,7 @@ namespace NUnit.Framework.Constraints
         {
             get
             {
-                comparer.Tolerance = comparer.Tolerance.Ticks;
+                tolerance = tolerance.Ticks;
                 return this;
             }
         }
@@ -259,7 +261,7 @@ namespace NUnit.Framework.Constraints
             return this;
         }
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Flag the constraint to use the supplied IComparer object.
         /// </summary>
@@ -316,7 +318,7 @@ namespace NUnit.Framework.Constraints
         {
             this.actual = actual;
 
-            return comparer.ObjectsEqual(expected, actual);
+            return comparer.AreEqual(expected, actual, ref tolerance);
         }
 
         /// <summary>
@@ -338,10 +340,12 @@ namespace NUnit.Framework.Constraints
         {
 			writer.WriteExpectedValue( expected );
 
-            if (comparer.Tolerance != null && !comparer.Tolerance.IsEmpty)
+            if (tolerance != null && !tolerance.IsEmpty)
 			{
 				writer.WriteConnector("+/-");
-                writer.WriteExpectedValue(comparer.Tolerance.Value);
+                writer.WriteExpectedValue(tolerance.Value);
+                if (tolerance.Mode != ToleranceMode.Linear)
+                    writer.Write(" {0}", tolerance.Mode);
 			}
 
 			if ( comparer.IgnoreCase )
@@ -354,10 +358,12 @@ namespace NUnit.Framework.Constraints
                 DisplayStringDifferences(writer, (string)expected, (string)actual);
             else if (expected is ICollection && actual is ICollection)
                 DisplayCollectionDifferences(writer, (ICollection)expected, (ICollection)actual, depth);
-			else if (expected is Stream && actual is Stream)
+            else if (expected is IEnumerable && actual is IEnumerable)
+                DisplayEnumerableDifferences(writer, (IEnumerable)expected, (IEnumerable)actual, depth);
+            else if (expected is Stream && actual is Stream)
 				DisplayStreamDifferences(writer, (Stream)expected, (Stream)actual, depth);
-            else if (comparer.Tolerance != null)
-                writer.DisplayDifferences(expected, actual, comparer.Tolerance);
+            else if (tolerance != null)
+                writer.DisplayDifferences(expected, actual, tolerance);
             else
                 writer.DisplayDifferences(expected, actual);
         }
@@ -394,56 +400,57 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Display the failure information for two collections that did not match.
         /// </summary>
-		/// <param name="writer">The MessageWriter on which to display</param>
-		/// <param name="expected">The expected collection.</param>
+        /// <param name="writer">The MessageWriter on which to display</param>
+        /// <param name="expected">The expected collection.</param>
         /// <param name="actual">The actual collection</param>
         /// <param name="depth">The depth of this failure in a set of nested collections</param>
         private void DisplayCollectionDifferences(MessageWriter writer, ICollection expected, ICollection actual, int depth)
         {
-            int failurePoint = comparer.FailurePoints.Count > depth ? (int)comparer.FailurePoints[depth] : -1;
+            DisplayTypesAndSizes(writer, expected, actual, depth);
 
-            DisplayCollectionTypesAndSizes(writer, expected, actual, depth);
-
-            if (failurePoint >= 0)
+            if (comparer.FailurePoints.Count > depth)
             {
+                NUnitEqualityComparer.FailurePoint failurePoint = (NUnitEqualityComparer.FailurePoint)comparer.FailurePoints[depth];
+
                 DisplayFailurePoint(writer, expected, actual, failurePoint, depth);
-				if (failurePoint < expected.Count && failurePoint < actual.Count)
-					DisplayDifferences(
-						writer,
-						GetValueFromCollection(expected, failurePoint),
-						GetValueFromCollection(actual, failurePoint),
-						++depth);
-				else if (expected.Count < actual.Count)
-				{
-					writer.Write( "  Extra:    " );
-					writer.WriteCollectionElements( actual, failurePoint, 3 );
-				}
-				else
-				{
-					writer.Write( "  Missing:  " );
-					writer.WriteCollectionElements( expected, failurePoint, 3 );
-				}
+
+                if (failurePoint.ExpectedHasData && failurePoint.ActualHasData)
+                    DisplayDifferences(
+                        writer,
+                        failurePoint.ExpectedValue,
+                        failurePoint.ActualValue,
+                        ++depth);
+                else if (failurePoint.ActualHasData)
+                {
+                    writer.Write("  Extra:    ");
+                    writer.WriteCollectionElements(actual, failurePoint.Position, 3);
+                }
+                else
+                {
+                    writer.Write("  Missing:  ");
+                    writer.WriteCollectionElements(expected, failurePoint.Position, 3);
+                }
             }
         }
 
         /// <summary>
         /// Displays a single line showing the types and sizes of the expected
-        /// and actual collections or arrays. If both are identical, the value is 
-        /// only shown once.
+        /// and actual enumerations, collections or arrays. If both are identical, 
+        /// the value is only shown once.
         /// </summary>
-		/// <param name="writer">The MessageWriter on which to display</param>
-		/// <param name="expected">The expected collection or array</param>
+        /// <param name="writer">The MessageWriter on which to display</param>
+        /// <param name="expected">The expected collection or array</param>
         /// <param name="actual">The actual collection or array</param>
-		/// <param name="indent">The indentation level for the message line</param>
-		private void DisplayCollectionTypesAndSizes(MessageWriter writer, ICollection expected, ICollection actual, int indent)
+        /// <param name="indent">The indentation level for the message line</param>
+        private void DisplayTypesAndSizes(MessageWriter writer, IEnumerable expected, IEnumerable actual, int indent)
         {
             string sExpected = MsgUtils.GetTypeRepresentation(expected);
-            if (!(expected is Array))
-                sExpected += string.Format(" with {0} elements", expected.Count);
+            if (expected is ICollection && !(expected is Array))
+                sExpected += string.Format(" with {0} elements", ((ICollection)expected).Count);
 
             string sActual = MsgUtils.GetTypeRepresentation(actual);
-            if (!(actual is Array))
-                sActual += string.Format(" with {0} elements", actual.Count);
+            if (actual is ICollection && !(actual is Array))
+                sActual += string.Format(" with {0} elements", ((ICollection)actual).Count);
 
             if (sExpected == sActual)
                 writer.WriteMessageLine(indent, CollectionType_1, sExpected);
@@ -456,12 +463,12 @@ namespace NUnit.Framework.Constraints
         /// arrays at which the comparison failed. If the arrays have different
         /// structures or dimensions, both values are shown.
         /// </summary>
-		/// <param name="writer">The MessageWriter on which to display</param>
-		/// <param name="expected">The expected array</param>
+        /// <param name="writer">The MessageWriter on which to display</param>
+        /// <param name="expected">The expected array</param>
         /// <param name="actual">The actual array</param>
         /// <param name="failurePoint">Index of the failure point in the underlying collections</param>
-		/// <param name="indent">The indentation level for the message line</param>
-		private void DisplayFailurePoint(MessageWriter writer, ICollection expected, ICollection actual, int failurePoint, int indent)
+        /// <param name="indent">The indentation level for the message line</param>
+        private void DisplayFailurePoint(MessageWriter writer, IEnumerable expected, IEnumerable actual, NUnitEqualityComparer.FailurePoint failurePoint, int indent)
         {
             Array expectedArray = expected as Array;
             Array actualArray = actual as Array;
@@ -476,14 +483,14 @@ namespace NUnit.Framework.Constraints
                     if (expectedArray.GetLength(r) != actualArray.GetLength(r))
                         useOneIndex = false;
 
-            int[] expectedIndices = MsgUtils.GetArrayIndicesFromCollectionIndex(expected, failurePoint);
+            int[] expectedIndices = MsgUtils.GetArrayIndicesFromCollectionIndex(expected, failurePoint.Position);
             if (useOneIndex)
             {
                 writer.WriteMessageLine(indent, ValuesDiffer_1, MsgUtils.GetArrayIndicesAsString(expectedIndices));
             }
             else
             {
-                int[] actualIndices = MsgUtils.GetArrayIndicesFromCollectionIndex(actual, failurePoint);
+                int[] actualIndices = MsgUtils.GetArrayIndicesFromCollectionIndex(actual, failurePoint.Position);
                 writer.WriteMessageLine(indent, ValuesDiffer_2,
                     MsgUtils.GetArrayIndicesAsString(expectedIndices), MsgUtils.GetArrayIndicesAsString(actualIndices));
             }
@@ -505,6 +512,45 @@ namespace NUnit.Framework.Constraints
 
             return null;
         }
+        #endregion
+
+        #region DisplayEnumerableDifferences
+        /// <summary>
+        /// Display the failure information for two IEnumerables that did not match.
+        /// </summary>
+        /// <param name="writer">The MessageWriter on which to display</param>
+        /// <param name="expected">The expected enumeration.</param>
+        /// <param name="actual">The actual enumeration</param>
+        /// <param name="depth">The depth of this failure in a set of nested collections</param>
+        private void DisplayEnumerableDifferences(MessageWriter writer, IEnumerable expected, IEnumerable actual, int depth)
+        {
+            DisplayTypesAndSizes(writer, expected, actual, depth);
+
+            if (comparer.FailurePoints.Count > depth)
+            {
+                NUnitEqualityComparer.FailurePoint failurePoint = (NUnitEqualityComparer.FailurePoint)comparer.FailurePoints[depth];
+
+                DisplayFailurePoint(writer, expected, actual, failurePoint, depth);
+
+                if (failurePoint.ExpectedHasData && failurePoint.ActualHasData)
+                    DisplayDifferences(
+                        writer,
+                        failurePoint.ExpectedValue,
+                        failurePoint.ActualValue,
+                        ++depth);
+                //else if (failurePoint.ActualHasData)
+                //{
+                //    writer.Write("  Extra:    ");
+                //    writer.WriteCollectionElements(actual, failurePoint.Position, 3);
+                //}
+                //else
+                //{
+                //    writer.Write("  Missing:  ");
+                //    writer.WriteCollectionElements(expected, failurePoint.Position, 3);
+                //}
+            }
+        }
+
         #endregion
     }
 }

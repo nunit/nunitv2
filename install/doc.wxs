@@ -1,12 +1,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
   <Fragment>
 
-	<ComponentGroup Id="DocumentationComponents">  
-		<ComponentRef Id="HtmlDocs" />
-		<ComponentRef Id="DocFiles" />
-		<ComponentRef Id="DocImages" />
-	</ComponentGroup>
-	
     <DirectoryRef Id="doc" FileSource="doc">
     
       <Component Id="HtmlDocs" DiskId="1" Guid="6d9faf90-1ff2-11db-a98b-0800200c9a66">

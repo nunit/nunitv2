@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
 
@@ -16,12 +16,56 @@ namespace NUnit.Framework.Constraints
     /// RangeConstraint tests whethe two values are within a 
     /// specified range.
     /// </summary>
-    public class RangeConstraint : Constraint
+#if CLR_2_0 || CLR_4_0
+    public class RangeConstraint<T> : ComparisonConstraint where T : IComparable<T>
+    {
+        private T from;
+        private T to;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:RangeConstraint"/> class.
+        /// </summary>
+        /// <param name="from">From.</param>
+        /// <param name="to">To.</param>
+        public RangeConstraint(T from, T to)
+            : base(from, to)
+        {
+            this.from = from;
+            this.to = to;
+            this.comparer = ComparisonAdapter.For(new NUnitComparer<T>());
+        }
+
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+
+            if (from == null || to == null || actual == null)
+                throw new ArgumentException("Cannot compare using a null reference", "expected");
+
+            return comparer.Compare(from, actual) <= 0 &&
+                   comparer.Compare(to, actual) >= 0;
+        }
+
+        /// <summary>
+        /// Write the constraint description to a MessageWriter
+        /// </summary>
+        /// <param name="writer">The writer on which the description is displayed</param>
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+
+            writer.Write("in range ({0},{1})", from, to);
+        }
+    }
+#else
+    public class RangeConstraint : ComparisonConstraint
     {
         private IComparable from;
         private IComparable to;
-
-        private ComparisonAdapter comparer = ComparisonAdapter.Default;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RangeConstraint"/> class.
@@ -59,34 +103,6 @@ namespace NUnit.Framework.Constraints
 
             writer.Write("in range ({0},{1})", from, to);
         }
-
-        /// <summary>
-        /// Modifies the constraint to use an IComparer and returns self.
-        /// </summary>
-        public RangeConstraint Using(IComparer comparer)
-        {
-            this.comparer = ComparisonAdapter.For(comparer);
-            return this;
-        }
-
-#if NET_2_0
-        /// <summary>
-        /// Modifies the constraint to use an IComparer&lt;T&gt; and returns self.
-        /// </summary>
-        public RangeConstraint Using<T>(IComparer<T> comparer)
-        {
-            this.comparer = ComparisonAdapter.For(comparer);
-            return this;
-        }
-
-        /// <summary>
-        /// Modifies the constraint to use a Comparison&lt;T&gt; and returns self.
-        /// </summary>
-        public RangeConstraint Using<T>(Comparison<T> comparer)
-        {
-            this.comparer = ComparisonAdapter.For(comparer);
-            return this;
-        }
-#endif
     }
+#endif
 }

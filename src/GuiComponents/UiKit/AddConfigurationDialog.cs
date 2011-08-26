@@ -1,7 +1,7 @@
 // ****************************************************************
-// This is free software licensed under the NUnit license. You
-// may obtain a copy of the license as well as information regarding
-// copyright ownership at http://nunit.org.
+// Copyright 2011, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
 using System;
@@ -22,7 +22,7 @@ namespace NUnit.UiKit
     /// A DialogResult of DialogResult.OK indicates that the
     /// configuration was added successfully.
     /// </summary>
-	public class AddConfigurationDialog : System.Windows.Forms.Form
+    public class AddConfigurationDialog : NUnitFormBase
 	{
 		#region Instance variables
 
@@ -196,14 +196,13 @@ namespace NUnit.UiKit
 
 			if ( configurationName == string.Empty )
 			{
-				UserMessage.Display( "No configuration name provided", "Configuration Name Error" );
+                MessageDisplay.Error("No configuration name provided");
 				return;
 			}
 
 			if ( project.Configs.Contains( configurationName ) )
 			{
-				// TODO: Need general error message display
-				UserMessage.Display( "A configuration with that name already exists", "Configuration Name Error" );
+                MessageDisplay.Error("A configuration with that name already exists");
 				return;
 			}
 

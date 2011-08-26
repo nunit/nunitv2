@@ -79,7 +79,7 @@ namespace NUnit.Core.Tests
             return (sbyte)(x + y);
         }
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0 || CLR_4_0
         [TestCase(Result = null)]
         public object ExpectedResultCanBeNull()
         {
@@ -122,7 +122,7 @@ namespace NUnit.Core.Tests
         }
 
 
-#if NET_2_0 || NET_3_5
+#if CLR_2_0 || CLR_4_0
         [TestCase(null, null)]
         public void CanPassNullAsArgument(object a, string b)
         {
@@ -195,6 +195,22 @@ namespace NUnit.Core.Tests
                 typeof(TestCaseAttributeFixture), "MethodHasTestNameSpecified").Tests[0];
             Assert.AreEqual("XYZ", test.TestName.Name);
             Assert.AreEqual("NUnit.TestData.TestCaseAttributeFixture.XYZ", test.TestName.FullName);
+        }
+
+        [Test]
+        public void CanSpecifyCategory()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseAttributeFixture), "MethodHasSingleCategory").Tests[0];
+            Assert.AreEqual(new string[] { "XYZ" }, test.Categories);
+        }
+
+        [Test]
+        public void CanSpecifyMultipleCategories()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseAttributeFixture), "MethodHasMultipleCategories").Tests[0];
+            Assert.AreEqual(new string[] { "X", "Y", "Z" }, test.Categories);
         }
 
         [Test]

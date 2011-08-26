@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2003/01/wi">
+  <Fragment>
+
+    <DirectoryRef Id="INSTALLDIR">
+
+      <Component Id="C__LOGO" Guid="99080421-75CC-4DFC-0987-AA16B7E68659">
+        <File Id="_LOGO" Name="Logo.ico" Source="Logo.ico" Vital="yes" KeyPath="yes" DiskId="1" />
+        <RemoveFile Id="RemoveThumbnails" Name="*" On="uninstall" />
+      </Component>
+
+      <Component Id="C__LICENSE" Guid="7D03AE6B-15A7-16E0-0D21-D65708B2FA79">
+        <File Id="_LICENSE" Name="license.txt" Source="license.txt" Vital="yes" KeyPath="yes" DiskId="1" />
+      </Component>
+
+      <Component Id="InstallationRegistryEntry" Guid="FD139082-C1B1-46be-AA70-BA970EBDF397">
+
+        <Registry Id="R__INSTALLDIR" Root="HKMU"
+                  Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)"
+                  Name="InstallDir" Action="write" Type="string" Value="[INSTALLDIR]" />
+
+        <Registry Id="R__ProductVersion" Root="HKMU"
+                  Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)"
+                  Name="ProductVersion" Action="write" Type="string" Value="[ProductVersion]" />
+
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="bin" FileSource="bin">
+
+      <Component Id="nunit_console" DiskId="1" Guid="678873A1-D670-455c-B44A-C5C7FC16B4EF">
+        <File Id="console.exe" Name="CONSOLE.EXE" LongName="nunit-console.exe" />
+        <File Id="console.config" Name="CONSOLE.CFG" LongName="nunit-console.exe.config" />
+      </Component>
+      
+      <Component Id="nunit_agent" DiskId="1" Guid="E0819EB1-2DCE-4648-81CB-0C101ECB0109">
+        <File Id="nunit_agent.exe" Name="AGENT.EXE" LongName="nunit-agent.exe" />
+        <File Id="nunit_agent.config" Name="AGENT.CFG" LongName="nunit-agent.exe.config" />
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="lib" FileSource="bin\lib">
+
+      <Component Id="nunit.core" DiskId="1" Guid="4AA0CB6E-27FE-4e9b-B496-E3D7F2AAAC05">
+        <File Id="nunit.core.dll" Name="CORE.DLL" LongName="nunit.core.dll" />
+      </Component>
+      
+      <Component Id="nunit.core.interfaces" DiskId="1" Guid="A2739889-9EF7-4770-8015-A04D2CFF1A36">
+        <File Id="nunit.core.interfaces.dll" Name="IFACES.DLL" LongName="nunit.core.interfaces.dll" />
+      </Component>
+      
+      <Component Id="nunit.util" DiskId="1" Guid="78E58FF1-C407-4f23-A989-74C289915D2C">
+        <File Id="nunit.util.dll" Name="UTIL.DLL" LongName="nunit.util.dll" />
+      </Component>
+      
+      <Component Id="console.dll" DiskId="1" Guid="50CB13FF-AC66-4de9-8BCE-0AAB3E96DE70">
+        <File Id="console.dll.dll" Name="CONSOLE.DLL" LongName="nunit-console-runner.dll" />
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="addins">
+    	
+      <Component Id="AddinsFolder" DiskId="1" Guid="5DBAEF2B-DF1A-4582-9036-1261B3421EE8">
+        <CreateFolder />
+        <RemoveFile Id="RemoveAddins" Name="*.*" On="uninstall" />
+        <RemoveFolder Id="RemoveAddinFolder" On="uninstall"/>
+      </Component>
+    		
+    </DirectoryRef>
+    	
+    <DirectoryRef Id="framework" FileSource="bin\framework">
+
+      <Component Id="nunit.framework" DiskId="1" Guid="5654EFF0-F41F-44f4-A13F-33A0D11709EA">
+        <File Id="nunit.framework.dll" Name="FRAMEWRK.DLL" LongName="nunit.framework.dll" />
+        <File Id="nunit.framework.xml" Name="FRAMEWRK.XML" LongName="nunit.framework.xml" />
+      </Component>
+
+      <Component Id="nunit.mocks" DiskId="1" Guid="890C81D4-6423-4863-9EA0-C62DB88AF5BB">
+        <File Id="nunit.mocks.dll" Name="MOCKS.DLL" LongName="nunit.mocks.dll" />
+      </Component>
+
+      <Component Id="AssemblyReferenceFolder" DiskId="1" Guid="65AB502C-FC28-4c85-AF32-15384D5050FF">
+        <Registry Id="R__Assemblies" Root="HKMU"
+                  Key="Software\Microsoft\.NETFramework\v2.0.50727\AssemblyFoldersEx\NUnit [ProductVersion]"
+                  Action="createKeyAndRemoveKeyOnUninstall">
+
+          <Registry Id="R__Assemblies_Default" Action="write" Type="string" Value="[framework]" />
+        </Registry>
+      </Component>
+
+    </DirectoryRef>
+  	
+  </Fragment>
+</Wix>

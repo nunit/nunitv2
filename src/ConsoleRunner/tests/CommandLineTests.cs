@@ -28,12 +28,15 @@ namespace NUnit.ConsoleRunner.Tests
 			Assert.AreEqual( Path.DirectorySeparatorChar != '/', options.AllowForwardSlash );
 		}
 
-		private void TestBooleanOption( string fieldName )
-		{
-			TestBooleanOption( fieldName, fieldName );
-		}
-
-		private void TestBooleanOption( string fieldName, string option )
+		[TestCase( "nologo", "nologo")]
+		[TestCase( "help", "help" )]
+		[TestCase( "help", "?" )]
+		[TestCase( "wait", "wait" )]
+		[TestCase( "xmlConsole", "xmlConsole")]
+		[TestCase( "labels", "labels")]
+		[TestCase( "noshadow", "noshadow" )]
+		[TestCase( "nothread", "nothread" )]
+		public void BooleanOptionAreRecognized( string fieldName, string option )
 		{
 			FieldInfo field = typeof(ConsoleOptions).GetField( fieldName );
 			Assert.IsNotNull( field, "Field '{0}' not found", fieldName );
@@ -49,12 +52,18 @@ namespace NUnit.ConsoleRunner.Tests
 			Assert.AreEqual( true, (bool)field.GetValue( options ), "Didn't recognize /" + option );
 		}
 
-		private void TestStringOption( string fieldName )
-		{
-			TestStringOption( fieldName, fieldName );
-		}
-
-		private void TestStringOption( string fieldName, string option )
+		[TestCase( "fixture", "fixture" )]
+		[TestCase( "config", "config")]
+        [TestCase( "result", "result")]
+		[TestCase( "result", "xml" )]
+		[TestCase( "output", "output" )]
+		[TestCase( "output", "out" )]
+		[TestCase( "err", "err" )]
+        [TestCase( "include", "include" )]
+		[TestCase( "exclude", "exclude" )]
+        [TestCase("run", "run")]
+        [TestCase("runlist", "runlist")]
+		public void StringOptionsAreRecognized( string fieldName, string option )
 		{
 			FieldInfo field = typeof(ConsoleOptions).GetField( fieldName );
 			Assert.IsNotNull( field, "Field {0} not found", fieldName );
@@ -70,35 +79,14 @@ namespace NUnit.ConsoleRunner.Tests
 			Assert.AreEqual( "text", (string)field.GetValue( options ), "Didn't recognize /" + option );
 		}
 
-		private void TestEnumOption( string fieldName )
+        [TestCase("domain")]
+        [TestCase("trace")]
+		public void EnumOptionsAreRecognized( string fieldName )
 		{
 			FieldInfo field = typeof(ConsoleOptions).GetField( fieldName );
 			Assert.IsNotNull( field, "Field {0} not found", fieldName );
 			Assert.IsTrue( field.FieldType.IsEnum, "Field {0} is not an enum", fieldName );
 		}
-
-		[Test]
-		public void OptionsAreRecognized()
-		{
-			TestBooleanOption( "nologo" );
-			TestBooleanOption( "help" );
-			TestBooleanOption( "help", "?" );
-			TestBooleanOption( "wait" );
-			TestBooleanOption( "xmlConsole" );
-			TestBooleanOption( "labels" );
-			TestBooleanOption( "noshadow" );
-			TestBooleanOption( "nothread" );
-			TestStringOption( "fixture" );
-			TestStringOption( "config" );
-			TestStringOption( "xml" );
-			TestStringOption( "output" );
-			TestStringOption( "output", "out" );
-			TestStringOption( "err" );
-            TestStringOption("include");
-			TestStringOption( "exclude" );
-			TestEnumOption( "domain" );
-            TestEnumOption("trace");
-        }
 
 		[Test]
 		public void AssemblyName()
@@ -151,7 +139,7 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:results.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-			Assert.AreEqual("results.xml", options.xml);
+			Assert.AreEqual("results.xml", options.result);
 		}
 
 		[Test]
@@ -160,7 +148,7 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml:C:/nunit/tests/bin/Debug/console-test.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
+			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.result);
 		}
 
 		[Test]
@@ -169,7 +157,7 @@ namespace NUnit.ConsoleRunner.Tests
 			ConsoleOptions options = new ConsoleOptions( "tests.dll", "-xml=C:/nunit/tests/bin/Debug/console-test.xml" );
 			Assert.IsTrue(options.ParameterCount == 1, "assembly should be set");
 			Assert.AreEqual("tests.dll", options.Parameters[0]);
-			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.xml);
+			Assert.AreEqual("C:/nunit/tests/bin/Debug/console-test.xml", options.result);
 		}
 
 		[Test]

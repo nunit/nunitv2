@@ -17,7 +17,7 @@ namespace NUnit.Framework.Tests
             Exception ex = Assert.Catch(new TestDelegate(TestDelegates.ThrowsArgumentException));
             Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             ex = Assert.Catch(TestDelegates.ThrowsArgumentException);
             Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
 #endif
@@ -29,7 +29,7 @@ namespace NUnit.Framework.Tests
             Exception ex = Assert.Catch(typeof(ArgumentException), new TestDelegate(TestDelegates.ThrowsArgumentException));
             Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             ex = Assert.Catch<ArgumentException>(new TestDelegate(TestDelegates.ThrowsArgumentException));
             Assert.That(ex, Is.TypeOf(typeof(ArgumentException)));
 #endif
@@ -41,7 +41,7 @@ namespace NUnit.Framework.Tests
             Exception ex = Assert.Catch(typeof(ApplicationException), new TestDelegate(TestDelegates.ThrowsDerivedApplicationException));
             Assert.That(ex, Is.TypeOf(typeof(TestDelegates.DerivedApplicationException)));
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             ex = Assert.Catch<ApplicationException>(TestDelegates.ThrowsDerivedApplicationException);
             Assert.That(ex, Is.TypeOf(typeof(TestDelegates.DerivedApplicationException)));
 #endif
@@ -49,8 +49,8 @@ namespace NUnit.Framework.Tests
 
         [Test]
 		public void CorrectExceptionThrown()
-		{
-#if NET_2_0
+        {
+#if CLR_2_0 || CLR_4_0
             Assert.Throws(typeof(ArgumentException), TestDelegates.ThrowsArgumentException);
             Assert.Throws(typeof(ArgumentException),
                 delegate { throw new ArgumentException(); });
@@ -80,7 +80,7 @@ namespace NUnit.Framework.Tests
             Assert.That(ex.Message, StartsWith("myMessage"));
             Assert.That(ex.ParamName, Is.EqualTo("myParam"));
 
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             ex = Assert.Throws<ArgumentException>(
                 delegate { throw new ArgumentException("myMessage", "myParam"); }) as ArgumentException;
 
@@ -109,7 +109,7 @@ namespace NUnit.Framework.Tests
 			expectedMessage =
 				"  Expected: <System.ArgumentException>" + Environment.NewLine +
 				"  But was:  null" + Environment.NewLine;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             Assert.Throws<ArgumentException>(TestDelegates.ThrowsNothing);
 #else
 			Assert.Throws( typeof(ArgumentException),
@@ -123,7 +123,7 @@ namespace NUnit.Framework.Tests
             expectedMessage =
                 "  Expected: <System.ArgumentException>" + Environment.NewLine +
                 "  But was:  <System.ApplicationException>" + Environment.NewLine;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             Assert.Throws<ArgumentException>(TestDelegates.ThrowsApplicationException);
 #else
 			Assert.Throws( typeof(ArgumentException),
@@ -137,7 +137,7 @@ namespace NUnit.Framework.Tests
             expectedMessage =
                 "  Expected: <System.ArgumentException>" + Environment.NewLine +
                 "  But was:  <System.Exception>" + Environment.NewLine;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             Assert.Throws<ArgumentException>(TestDelegates.ThrowsSystemException);
 #else
             Assert.Throws( typeof(ArgumentException),
@@ -151,7 +151,7 @@ namespace NUnit.Framework.Tests
             expectedMessage =
                 "  Expected: <System.Exception>" + Environment.NewLine +
                 "  But was:  <System.ArgumentException>" + Environment.NewLine;
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             Assert.Throws<Exception>(TestDelegates.ThrowsArgumentException);
 #else
             Assert.Throws( typeof(Exception),
@@ -162,7 +162,7 @@ namespace NUnit.Framework.Tests
         [Test]
         public void DoesNotThrowSuceeds()
         {
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             Assert.DoesNotThrow(TestDelegates.ThrowsNothing);
 #else
             Assert.DoesNotThrow( new TestDelegate( TestDelegates.ThrowsNothing ) );
@@ -174,7 +174,7 @@ namespace NUnit.Framework.Tests
         [Test, ExpectedException(typeof(AssertionException))]
         public void DoesNotThrowFails()
         {
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             Assert.DoesNotThrow(TestDelegates.ThrowsArgumentException);
 #else
             Assert.DoesNotThrow( new TestDelegate( TestDelegates.ThrowsArgumentException ) );

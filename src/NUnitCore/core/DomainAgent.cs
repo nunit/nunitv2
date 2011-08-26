@@ -26,7 +26,7 @@ namespace NUnit.Core
         /// <returns>A proxy for the DomainAgent in the other domain</returns>
         static public DomainAgent CreateInstance(AppDomain targetDomain)
         {
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             System.Runtime.Remoting.ObjectHandle oh = Activator.CreateInstance(
                 targetDomain,
 #else
@@ -108,7 +108,7 @@ namespace NUnit.Core
         /// <returns>A proxy for the DomainAgent in the other domain</returns>
         static public DomainInitializer CreateInstance(AppDomain targetDomain)
         {
-#if NET_2_0
+#if CLR_2_0 || CLR_4_0
             System.Runtime.Remoting.ObjectHandle oh = Activator.CreateInstanceFrom(
                 targetDomain,
 #else

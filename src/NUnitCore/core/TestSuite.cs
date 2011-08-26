@@ -48,10 +48,12 @@ namespace NUnit.Core
         /// </summary>
         protected MethodInfo[] tearDownMethods;
 
+#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// The actions for this suite
         /// </summary>
 	    protected object[] actions;
+#endif
 
         /// <summary>
         /// Set to true to suppress sorting this suite's contents
@@ -193,6 +195,7 @@ namespace NUnit.Core
             return tearDownMethods;
         }
 
+#if CLR_2_0 || CLR_4_0
         internal virtual object[] GetTestActions()
         {
             ArrayList allActions = new ArrayList();
@@ -210,6 +213,8 @@ namespace NUnit.Core
 
             return allActions.ToArray();
         }
+#endif
+
         #endregion
 
 		#region Test Overrides
@@ -292,7 +297,9 @@ namespace NUnit.Core
 			TestResult suiteResult = new TestResult(this);
 			
             DoOneTimeSetUp(suiteResult);
+#if CLR_2_0 || CLR_4_0
             DoOneTimeBeforeTestSuiteActions(suiteResult);
+#endif
 
             if (this.Properties["_SETCULTURE"] != null)
                 TestExecutionContext.CurrentContext.CurrentCulture =
@@ -318,7 +325,9 @@ namespace NUnit.Core
                     }
                     finally
                     {
+#if CLR_2_0 || CLR_4_0
                         DoOneTimeAfterTestSuiteActions(suiteResult);
+#endif
                         DoOneTimeTearDown(suiteResult);
                     }
                     break;
@@ -367,6 +376,7 @@ namespace NUnit.Core
             }
         }
 
+#if CLR_2_0 || CLR_4_0
         protected virtual void DoOneTimeBeforeTestSuiteActions(TestResult suiteResult)
         {
             try
@@ -396,6 +406,7 @@ namespace NUnit.Core
                     suiteResult.Error(ex, FailureSite.SetUp);
             }
         }
+#endif
 
 		protected virtual void CreateUserFixture()
 		{
@@ -442,6 +453,7 @@ namespace NUnit.Core
             }
         }
 
+#if CLR_2_0 || CLR_4_0
         protected virtual void DoOneTimeAfterTestSuiteActions(TestResult suiteResult)
         {
             try
@@ -461,6 +473,7 @@ namespace NUnit.Core
                 suiteResult.Failure(ex.Message, ex.StackTrace, FailureSite.TearDown);
             }
         }
+#endif
 
         protected virtual bool IsAssertException(Exception ex)
         {

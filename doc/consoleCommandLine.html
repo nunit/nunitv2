@@ -27,7 +27,7 @@
 <h2>NUnit-Console Command Line Options</h2>
 <p>The console interface has a few additional options compared to the forms 
 	interface. The command line must always specify one or more file names. The 
-	console interface always creates an XML representation of the test results. 
+	console interface normally creates an XML representation of the test results. 
 	This file by default is called TestResult.xml and is placed in the working 
 	directory.</p>
 <p><b>Note:</b> By default the nunit-console program is not added to your path. You 
@@ -36,7 +36,9 @@
     a forward slash or a hyphen. Under Linux, a hyphen must be used. Options that
 	take values may use an equal sign, a colon or a space to separate the option 
 	from its value.</p>
-<h4>Specifying an Assembly</h4>
+
+<h3>Specifying an Assembly</h3>
+
 <p>The console program must always have an assembly or project specified. To run 
 the tests contained in the nunit.tests.dll use the following command:</p>
 <pre class="programtext">        nunit-console nunit.tests.dll</pre>
@@ -47,7 +49,8 @@ the tests contained in the nunit.tests.dll use the following command:</p>
 <p>To run the same tests through an NUnit test project you have defined, use:</p>
 	<pre class="programtext">        nunit-console nunit.tests.nunit</pre>
 
-<h4>Specifying an Assembly and a Test to be Run</h4>
+<h3>Specifying an Assembly and a Test to be Run</h3>
+
 <p>You may specify a test to be run by providing the full name of the test along
 with the containing assembly. For example to run NUnit.Tests.AssertionTests
 in the nunit.tests assembly use the following command:
@@ -65,7 +68,7 @@ including situations involving SetUpFixtures, which are not run if the class
 in question is not loaded. You should use <b>/run</b> in lieu of <b>/fixture</b>
 in most cases.
 
-<h4>Specifying an Assembly and a Fixture to be Loaded</h4>
+<h3>Specifying an Assembly and a Fixture to be Loaded</h3>
 <p>When specifying a fixture, you must give the full name of the test fixture 
 	along with the containing assembly. For example, to load the 
 	NUnit.Tests.AssertionTests in the nunit.tests.dll assembly use the following 
@@ -78,13 +81,13 @@ in most cases.
 <p>This option is provided for backward compatibility. In most cases, you will
 be better served by using the <b>/run</b> option.
 	
-<h4>Specifying the .NET Framework Version</h4>
+<h3>Specifying the .NET Framework Version</h3>
 
 <p>Most applications are written to run under a specific version of the CLR.
 A few are designed to operate correctly under multiple versions. In either case,
 it is important to be able to specify the CLR version to be used for testing.</p>
 
-<p>Prior to version 2.5, it was necessary to run the console program itself using
+<p>Prior to NUnit 2.5, it was necessary to run the console program itself using
 the CLR version under which you wanted to run tests. This was done either by 
 editing the nunit-console.exe.config file or by setting the COMPLUS_Version
 environment variable before running the program.
@@ -103,7 +106,9 @@ but a simpler method is available.
 	build of the nunit-console. Beginning with version 2.5.3, all versions of .NET 
 	through 4.0 as well	as Mono profiles 1.0, 2.0 and 3.5 are supported.
 
-<h4>Specifying Test Categories to Include or Exclude</h4>
+<p><b>Note:</b> This option is not available using the .NET 1.1 build of nunit-console.</p>
+
+<h3>Specifying Test Categories to Include or Exclude</h3>
 <p>NUnit provides CategoryAttribute for use in marking tests as belonging to 
 	one or more categories. Categories may be included or excluded in a test run 
 	using the <b>/include</b> and <b>/exclude</b> options. The following command 
@@ -159,7 +164,8 @@ the shell you are using.
 	selection works, review the documentation for both the 
 	<a href="category.html">Category Attribute</a> and the 
 	<a href="explicit.html">Explicit Attribute</a>.</p>
-<h4>Redirecting Output</h4>
+
+<h3>Redirecting Output</h3>
 <p>Output created by the test, which is normally shown on the console, may be 
     redirected to a file. The following command redirects standard output to the 
 	file TestResult.txt:
@@ -176,21 +182,23 @@ the shell you are using.
 	shell you are using. This option exists for the purpose of separating test
 	output from other output, such as the NUnit summary report.
 
-<h4>Labeling Test Output</h4>
+<h3>Labeling Test Output</h3>
 <p>The output from each test normally follows right after that of the preceding 
 	test. You may use the <b>/labels</b> option to cause an identifying label to be 
 	displayed at the start of each test case.</p>
-<h4>Specifying the XML file name</h4>
-<p>As stated above, the console program always creates an XML representation of the 
+
+<h3>Specifying the XML file name</h3>
+<p>As stated above, the console program normally creates an XML representation of the 
 	test results. To change the name of the output file to 
 	&quot;console-test.xml&quot; use the following command line option:
-	<pre class="programtext">        nunit-console /xml:console-test.xml nunit.tests.dll</pre>
+<pre class="programtext">        nunit-console /xml:console-test.xml nunit.tests.dll</pre>
 </p>
+<p>The XML output may be entirely eliminated by use of the <b>/noxml</b> option.
 <p><b>Note:</b> For additional information see the XML schema for the test results. 
 	This file is in the same directory as the executable and is called
 	<a href="files/Results.xsd">Results.xsd</a>. 
 
-<h4>Specifying which Configuration to run</h4>
+<h3>Specifying which Configuration to run</h3>
 <p>When running tests from a Visual Studio or NUnit project, the first 
 	configuration found will be loaded by default. Usually this is Debug. The 
 	configuration loaded may be controlled by using the <b>/config</b> switch. The 
@@ -199,7 +207,8 @@ the shell you are using.
 	<pre class="programtext">        nunit-console nunit.tests.csproj /config:Release</pre>
 </p>
 <p><b>Note:</b> This option has no effect when loading an assembly directly.</p>
-<h4>Specifying Multiple Assemblies</h4>
+
+<h3>Specifying Multiple Assemblies</h3>
 <p>You may run tests from multiple assemblies in one run using the console 
 	interface even if you have not defined an NUnit test project file. The 
 	following command would run a suite of tests contained in assembly1.dll, 
@@ -217,7 +226,8 @@ the shell you are using.
 	option, when used with multiple assemblies, will run tests matching the 
 	fixture name in all the assemblies. In earlier versions, only the first
 	test found was executed.</p>
-<h4>Controlling the Use of Processes</h4>
+
+<h3>Controlling the Use of Processes</h3>
 <p>The <b>/process</b> option controls how NUnit loads tests in processes. The
    following values are recognized.
    <dl style="margin-left: 2em">
@@ -229,7 +239,9 @@ the shell you are using.
    <dd>A separate process is created for each test assembly, whether specified
    on the command line or listed in an NUnit project file.
    </dl>
-<h4>Controlling the Use of AppDomains</h4>
+<p><b>Note:</b> This option is not available using the .NET 1.1 build of nunit-console.</p>
+
+<h3>Controlling the Use of AppDomains</h3>
 <p>The <b>/domain</b> option controls of the creation of AppDomains for running tests.
     The following values are recognized:</p>
 	<dl style="margin-left: 2em">
@@ -244,7 +256,7 @@ the shell you are using.
 <p>The default is to use multiple domains if multiple assemblies are listed on 
 	the command line. Otherwise a single domain is used.</p>
 	
-<h4>Specifying a Default Timeout Value</h4>
+<h3>Specifying a Default Timeout Value</h3>
 <p>The <b>/timeout</b> option takes an int value representing the default timeout
 to be used for test cases in this run. If any test exceeds the timeout value,
 it is cancelled and reported as an error. The default value may be overridden
@@ -253,7 +265,7 @@ for selected tests by use of <b>TimeoutAttribute</b>.
 <p><b>Note:</b> If you do not use this option, no timeout is set and tests
 may run for any amount of time.
 
-<h4>Other Options</h4>
+<h3>Other Options</h3>
 <p>The <b>/trace</b> option allows you to control the amount of information that NUnit
 	writes to its internal trace log. Valid values are Off, Error, Warning,Info
 	and Debug. The default is Off.
@@ -274,7 +286,7 @@ may run for any amount of time.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.5.9</a></li>
+<li><a href="index.html">NUnit 2.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="assertions.html">Assertions</a></li>
@@ -288,6 +300,7 @@ may run for any amount of time.
 </ul>
 <li><a href="nunit-gui.html">Gui&nbsp;Runner</a></li>
 <li><a href="pnunit.html">PNUnit&nbsp;Runner</a></li>
+<li><a href="nunit-agent.html">NUnit&nbsp;Agent</a></li>
 <li><a href="runtimeSelection.html">Runtime&nbsp;Selection</a></li>
 <li><a href="assemblyIsolation.html">Assembly&nbsp;Isolation</a></li>
 <li><a href="configFiles.html">Configuration&nbsp;Files</a></li>

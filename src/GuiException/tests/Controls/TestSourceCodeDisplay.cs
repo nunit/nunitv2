@@ -3,7 +3,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_3_5
+#if NET_3_5 || NET_4_0
 using NSubstitute;
 using NUnit.Framework;
 using NUnit.UiException.Controls;
@@ -14,7 +14,7 @@ using System.Drawing;
 
 namespace NUnit.UiException.Tests.Controls
 {
-    [TestFixture]
+    [TestFixture, Platform("Net-3.5,Mono-3.5,Net-4.0")]
     public class TestSourceCodeDisplay
     {
         private TestingCode _code;
@@ -98,9 +98,9 @@ namespace NUnit.UiException.Tests.Controls
             // handle selection changed event when there
             // is a non null selected item
 
-            using (new TestResource("Basic.cs"))
+            using (TestResource resource = new TestResource("Basic.cs"))
             {
-                item = new ErrorItem("Basic.cs", 2);
+                item = new ErrorItem(resource.Path, 2);
                 Assert.That(item.ReadFile(), Is.Not.Null);
 
                 _mockStack.SelectedItem.Returns(item);
