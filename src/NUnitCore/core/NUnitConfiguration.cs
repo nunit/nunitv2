@@ -148,6 +148,28 @@ namespace NUnit.Core
         }
         #endregion
 
+        #region NUnitDocDirectory
+        private static string nunitDocDirectory;
+        private static string NUnitDocDirectory
+        {
+            get
+            {
+                if (nunitDocDirectory == null)
+                {
+                    string dir = Path.GetDirectoryName(NUnitBinDirectory);
+                    nunitDocDirectory = Path.Combine(dir, "doc");
+                    if (!Directory.Exists(nunitDocDirectory))
+                    {
+                        dir = Path.GetDirectoryName(dir);
+                        nunitDocDirectory = Path.Combine(dir, "doc");
+                    }
+                }
+
+                return nunitDocDirectory;
+            }
+        }
+        #endregion
+
         #region AddinDirectory
         private static string addinDirectory;
         public static string AddinDirectory
@@ -271,20 +293,26 @@ namespace NUnit.Core
                 {
                     helpUrl = "http://nunit.org";
                     string dir = Path.GetDirectoryName(NUnitBinDirectory);
-                    if ( dir != null )
+                    string docDir = null;
+
+                    while (dir != null)
                     {
+                        docDir = Path.Combine(dir, "doc");
+                        if (Directory.Exists(docDir))
+                            break;
                         dir = Path.GetDirectoryName(dir);
-                        if ( dir != null )
+                    }
+
+                    if (docDir != null)
+                    {
+                        string localPath = Path.Combine(docDir, "index.html");
+                        if (File.Exists(localPath))
                         {
-                            string localPath = Path.Combine(dir, @"doc/index.html");
-                            if (File.Exists(localPath))
-                            {
-                                UriBuilder uri = new UriBuilder();
-                                uri.Scheme = "file";
-                                uri.Host = "localhost";
-                                uri.Path = localPath;
-                                helpUrl = uri.ToString();
-                            }
+                            UriBuilder uri = new UriBuilder();
+                            uri.Scheme = "file";
+                            uri.Host = "localhost";
+                            uri.Path = localPath;
+                            helpUrl = uri.ToString();
                         }
                     }
                 }
