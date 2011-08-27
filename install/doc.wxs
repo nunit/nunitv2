@@ -7,6 +7,7 @@
         <File Id="nunit.css" Name="nunit.css" />
         <File Id="codeFuncs.js" Name="CODEFNCS.JS" LongName="codeFuncs.js" />
         <File Id="favicon.ico" Name="favicon.ico" />
+        <File Id="actionAttributes.html" Name="ACTNATTR.HTM" LongName="actionAttributes.html" />
         <File Id="addinsDialog.html" Name="ADDINDLG.HTM" LongName="addinsDialog.html" />
         <File Id="assemblyIsolation.html" Name="ASMISLTN.HTM" LongName="assemblyIsolation.html" />
         <File Id="assertions.html" Name="ASSERT_1.HTM" LongName="assertions.html" />
