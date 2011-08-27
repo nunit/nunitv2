@@ -126,7 +126,9 @@ to how the <b>TestFixtureSetUp</b> and <b>TestFixtureTearDown</b> attributes wor
 executing the test case, and then execute the <b>AfterTestCase</b> method after the test case has finished 
 executing. This is similar to how the SetUp and TearDown attributes work.
 
-<h3>Example</h3>
+<h3>Examples</h3>
+
+<p>The examples that follow all use the following sample Action Attribute:
 
 <div class="code" style="width: 44em"><pre>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class |
@@ -170,9 +172,237 @@ public class ConsoleActionAttribute : Attribute, ITestSuiteAction, ITestCaseActi
 </pre></div>
 
 <p>Note that the above Action Attribute implements both ITestSuiteAction and ITestCaseAction.
-   This is permitted, but will probably not be the normal case. The attribute takes a single 
+   This is permitted, but will probably not be the normal case. It is done here so we can
+   reuse the attribute in multiple examples. The attribute takes a single 
    constructor argument, a message, that will be used to write output to the console. All of
    the Before and After methods write output via the WriteToConsole method.
+
+<h3>Method Attached Actions</h3>
+
+<h4>Example 1 (applied to simple test method):</h4>
+
+<div class="code"><pre>
+[TestFixture]
+public class ActionAttributeSampleTests
+{
+    [Test][ConsoleAction("Hello")]
+    public void SimpleTest()
+    {
+        Console.WriteLine("Test ran.");
+    }
+}
+</pre></div>
+
+<h5>Console Output:</h5>
+<pre>
+  Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  Test ran.
+  After Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+</pre>
+
+<h4>Example 2 (applied action twice to test method):</h4>
+
+<div class="code"><pre>
+[TestFixture]
+public class ActionAttributeSampleTests
+{
+    [Test] [ConsoleAction("Hello")]
+    [ConsoleAction("Greetings")]
+    public void SimpleTest()
+    {
+        Console.WriteLine("Test run.");
+    }
+}
+</pre></div>
+
+<h5>Console Output:</h5>
+<pre>
+  Before Case: Greetings, from ActionAttributeSampleTests.SimpleTest.
+  Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  Test run.
+  After Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  After Case: Greetings, from ActionAttributeSampleTests.SimpleTest.
+</pre>
+
+<h5>Remarks</h5>
+You are permitted to apply the same attribute multiple times. Note
+that the order in which attributes are applied is indeterminate, although
+it will generally be stable for a single release of .NET.
+
+<h4>Example 3 (applied to a test method with test cases):</h4>
+
+<div class="code"><pre>
+[TestFixture]
+public class ActionAttributeSampleTests
+{
+    [Test] [ConsoleAction("Hello")]
+    [TestCase("02")]
+    [TestCase("01")]
+    public void SimpleTest(string number)
+    {
+        Console.WriteLine("Test run {0}.", number);
+    }
+}
+</pre></div>
+
+<h5>Console Output:</h5>
+<pre>
+  Before Suite: Hello, from ActionAttributeSampleTests.SimpleTest.
+  Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  Test run 01.
+  After Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  Test run 02.
+  After Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  After Suite: Hello, from ActionAttributeSampleTests.SimpleTest.
+</pre>
+
+<h5>Remarks</h5>
+When one or more [TestCase] attributes are applied to a method, NUnit treats the method as a test suite.  
+You'll notice that BeforeTestSuite was run once before both of the test cases, and AfterTestSuite 
+was run once after both of the test cases.  BeforeTestCase and AfterTestCase is run for each test case.
+Note that the order in which test cases are executed is indeterminate.
+
+<h3>Type Attached Actions</h3>
+
+<h4>Example 1:</h4>
+
+<div class="code"><pre>
+[TestFixture] [ConsoleAction("Hello")]
+public class ActionAttributeSampleTests
+{
+    [Test]
+    public void SimpleTestOne()
+    {
+        Console.WriteLine("Test One.");
+    }
+    
+    [Test]
+    public void SimpleTestTwo()
+    {
+        Console.WriteLine("Test Two.");
+    }
+}
+</pre></div>
+
+<h5>Console Output:</h5>
+<pre>
+  Before Suite: Hello, from ActionAttributeSampleTests.{no method}.
+  Before Case: Hello, from ActionAttributeSampleTests.SimpleTestOne.
+  Test ran.
+  After Case: Hello, from ActionAttributeSampleTests.SimpleTestOne.
+  Before Case: Hello, from ActionAttributeSampleTests.SimpleTestTwo.
+  Test ran.
+  After Case: Hello, from ActionAttributeSampleTests.SimpleTestTwo.
+  After Suite: Hello, from ActionAttributeSampleTests.{no method}.
+</pre>
+
+<h5>Remarks</h5>
+In this case, the class is the test suite. BeforeTestSuite and AfterTestSuite are run only once for this class.  BeforeTestCase and AfterTestCase are run for each test.
+
+<h4>Example 2 (attached to interface):</h4>
+
+<div class="code"><pre>
+[ConsoleAction("Hello")]
+public interface IHaveAnAction
+{
+}
+
+[TestFixture]
+public class ActionAttributeSampleTests : IHaveAnAction
+{
+    [Test] 
+    public void SimpleTest()
+    {
+        Console.WriteLine("Test run.");
+    }
+}
+</pre></div>
+
+<h5>Console Output:</h5>
+<pre>
+  Before Suite: Hello, from ActionAttributeSampleTests.{no method}.
+  Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  Test run.
+  After Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  After Suite: Hello, from ActionAttributeSampleTests.{no method}.
+</pre>
+
+<h5>Remarks</h5>
+Action attributes can be applied to an interface.  If a class marked with [TestFixture] implements an interface that has an action attribute applied to the interface, the class inherits the action attribute from the interface.  It behaves as if you applied the action attribute to the class itself.
+
+<h4>Example 3 (action attribute is applied to interface and attribute uses interface to provide data to tests):</h4>
+
+<div class="code" style="width: 42em"><pre>
+[AttributeUsage(AttributeTargets.Interface)]
+public class InterfaceAwareActionAttribute : Attribute, ITestCaseAction
+{
+    private readonly string _Message;
+    public InterfaceAwareActionAttribute(string message) { _Message = message; }
+
+    public void BeforeTestCase(object fixture, MethodInfo method)
+    {
+        IHaveAnAction obj = fixture as IHaveAnAction;
+        if(obj != null)
+            obj.Message = _Message;
+    }
+
+    public void AfterTestCase(object fixture, MethodInfo method) { }
+}
+
+[InterfaceAwareAction("Hello")]
+public interface IHaveAnAction { string Message { get; set; } }
+
+[TestFixture]
+public class ActionAttributeSampleTests : IHaveAnAction
+{
+    [Test] 
+    public void SimpleTest()
+    {
+        Console.WriteLine("{0}, World!", Message);
+    }
+
+    public string Message { get; set; }
+}
+</pre></div>
+
+<h5>Console Output:</h5>
+<pre>
+  Hello, World!
+</pre>
+
+<h5>Remarks</h5>
+Here we see a new action attribute, [InterfaceAwareAction].  This attribute uses the fixture argument passed into BeforeTestCase and casts it to an interface, IHaveAnAction.  If the fixture implements the IHaveAnAction interface, the attribute sets the Message property to the string passed into the constructor of the attribute.  Since the attribute is applied to the interface, any class that implements this interface gets it's Message property set to the string provided to the constructor of the attribute.  This is useful when the action attribute provides some data or service to the tests.
+
+<h3>Assembly Attached Action</h3>
+
+<h4>Example 1:</h4>
+
+<div class="code"><pre>
+[assembly: ConsoleAction("Hello")]
+
+[TestFixture]
+public class ActionAttributeSampleTests
+{
+    [Test] 
+    public void SimpleTest()
+    {
+        Console.WriteLine("Test run.");
+    }
+}
+</pre></div>
+
+<h5>Console Output:</h5>
+<pre>
+  Before Suite: Hello, from {no fixture}.{no method}.
+  Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  Test run.
+  After Case: Hello, from ActionAttributeSampleTests.SimpleTest.
+  After Suite: Hello, from {no fixture}.{no method}.
+</pre>
+
+<h5>Remarks</h5>
+The [ConsoleAction] attribute in this example is applied to the entire assembly.  NUnit treats an assembly as a test suite (in fact, a suite of suites).  Since the [ConsoleAction] attribute implements both ITestSuiteAction and ITestCaseAction, NUnit will run BeforeTestSuite once before any tests are run in the assembly, and AfterTestSuite after all tests are run in the assembly.  Additionally, BeforeTestCase and AfterTestCase will be run for every test case in the assembly.  It is unlikely that action attributes are applied to assemblies often.  However, it is useful to build action attributes that ensure state gets cleaned up before and after each tests to prevent individual tests from affecting the outcome of other test.  For example, if you have any static or cached data or services, an action attribute can be used to clean them up for each test.
 
 </div>
 
