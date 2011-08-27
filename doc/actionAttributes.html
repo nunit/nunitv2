@@ -1,0 +1,212 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - ActionAttributes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <a href="http://www.nunit.org">NUnit</a>
+    <a class="active" href="index.html">Documentation</a>
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>Action Attributes (NUnit 2.6)</h2>
+
+<h4>Note: This is an experimental feature in the NUnit 2.6 Beta release and may change in the final release.</h4>
+
+<p><b>Action Attributes</b> are a feature of NUnit designed to better enable composability of test logic. Often 
+when writing unit tests we have logic that we want to run upon certain events in the test cycle (e.g. SetUp, 
+TearDown, FixtureSetUp, FixtureTearDown, etc.). NUnit has had the ability to execute code upon these events by 
+decorating fixture classes and methods with the appropriate NUnit- provided attributes. <b>Action Attributes</b>
+allow the user to create custom attributes to encapsulate specific actions for use before or after any test
+is run.
+
+<h3>The Problem of Composability</h3>
+
+<p>Suppose we have some tests in multiple fixtures that need the same in-memory test database to be created and 
+destroyed on each test run. We could create a base fixture class and derive each fixture that depends on the test 
+from that class. Alternatively, we could create a <b>SetUpFixture</b> class at the level of a common namespace
+shared by each fixture. 
+
+<p>This works fine, until we need some other reusable functionality, say the ability to configure or reset a 
+ServiceLocator. We could put that functionality in the base fixture class or setup fixture, but now we're mixing 
+two different responsibilities into the base class. In the case of a setup fixture, this only works if all classes
+requiring both features are located in a common namespace. In some cases we may *not* want the test database, but 
+we do want ServiceLocator configuration; and sometimes we want the opposite. Still other times we'll want both
+ - so we'd have to make the base class configurable.
+
+<p>If we now discover a third piece of functionality we need to reuse, like configuring the Thread's CurrentPrincipal 
+in arbitrary ways, the complexity of the solution very quickly. We've violated the Single Responsibility Principle 
+and are suffering for it. What we really want is the ability to separate the different pieces of resuable test logic 
+and compose them together as our tests need them.
+
+<h3>Resolving the Problem</h3>
+
+<p><b>Action Attributes</b> get us out of our bind. Consider this example:
+
+<div class="code"><pre>
+[TestFixture, ResetServiceLocator]
+public class MyTests
+{
+ [Test, CreateTestDatabase]
+ public void Test1() { /* ... */ }
+
+ [Test, CreateTestDatabase, AsAdministratorPrincipal]
+ public void Test2() { /* ... */ }
+
+ [Test, CreateTestDatabase, AsNamedPrincipal("charlie.poole")]
+ public void Test3() { /* ... */ }
+
+ [Test, AsGuestPrincipal]
+ public void Test4() { /* ... */ }
+}
+</pre></div> 
+
+<p>Here we have used attributes to identify five different actions
+that we want to compose together in different ways for different tests:
+<ul>
+  <li>ResetServiceLocator
+  <li>CreateTestDatabase
+  <li>AsAdministratorPrincipal
+  <li>AsNamedPrincipal
+  <li>AsGuestPrincipal
+</ul>
+We can reuse these actions in other test fixtures, simply by decorating
+them with the appropriate attributes.without having to inherit from a base class.
+We can even develop and distribute a library of common test actions.
+
+<h3>Implementing an Action Attribute</h3>
+
+<p>Any attribute can be an action attribute. To create an action attribute, create a class that inherits 
+from <b>System.Attribute</b> and implement either ITestSuiteAction or ITestCaseAction. Each interface has 
+a Before and After method that must be implemented.
+
+<div class="code"><pre>
+    public interface ITestAction
+    {
+    }
+
+    public interface ITestSuiteAction : ITestAction
+    {
+        void BeforeTestSuite(object fixture, MethodInfo method);
+
+        void AfterTestSuite(object fixture, MethodInfo method);
+    }
+
+    public interface ITestCaseAction : ITestAction
+    {
+        void BeforeTestCase(object fixture, MethodInfo method);
+
+        void AfterTestCase(object fixture, MethodInfo method);
+    }
+</pre></div>
+
+<p>When an attribute that implements <b>ITestSuiteAction</b> is applied to either a class or a parameterized 
+method, NUnit will execute the attribute's <b>BeforeTestSuite</b> method prior to executing the test suite
+and then execute the <b>AfterTestSuite</b> method after the test suite has finished executing. This is similar 
+to how the <b>TestFixtureSetUp</b> and <b>TestFixtureTearDown</b> attributes work.
+
+<p>Likewise, when an attribute that implements <b>ITestCaseAction</b> is applied to either a class or method 
+(that represents a test case), NUnit will execute the attribute's <b>BeforeTestCase</b> method prior to 
+executing the test case, and then execute the <b>AfterTestCase</b> method after the test case has finished 
+executing. This is similar to how the SetUp and TearDown attributes work.
+
+<h3>Example</h3>
+
+<div class="code" style="width: 44em"><pre>
+[AttributeUsage(AttributeTargets.Method | AttributeTargets.Class |
+                AttributeTargets.Interface | AttributeTargets.Assembly,
+                AllowMultiple = true)]
+public class ConsoleActionAttribute : Attribute, ITestSuiteAction, ITestCaseAction
+{
+    private string _Message;
+
+    public ConsoleActionAttribute(string message) { _Message = message; }
+
+    public void BeforeTestSuite(object fixture, MethodInfo method)
+    {
+        WriteToConsole("Before Suite", fixture, method);
+    }
+
+    public void AfterTestSuite(object fixture, MethodInfo method)
+    {
+        WriteToConsole("After Suite", fixture, method);
+    }
+
+    public void BeforeTestCase(object fixture, MethodInfo method)
+    {
+        WriteToConsole("Before Case", fixture, method);
+    }
+
+    public void AfterTestCase(object fixture, MethodInfo method)
+    {
+        WriteToConsole("After Case", fixture, method);
+    }
+
+    private void WriteToConsole(string eventMessage, object fixture, MethodInfo method)
+    {
+        Console.WriteLine("{0}: {1}, from {2}.{3}.",
+            eventMessage,
+            _Message,
+            fixture != null ? fixture.GetType().Name : "{no fixture}",
+            method != null ? method.Name : "{no method}");
+    }
+}
+</pre></div>
+
+<p>Note that the above Action Attribute implements both ITestSuiteAction and ITestCaseAction.
+   This is permitted, but will probably not be the normal case. The attribute takes a single 
+   constructor argument, a message, that will be used to write output to the console. All of
+   the Before and After methods write output via the WriteToConsole method.
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="index.html">NUnit 2.6</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<ul>
+<li><a href="customConstraints.html">Custom&nbsp;Constraints</a></li>
+<li id="current"><a href="actionAttributes.html">Action&nbsp;Attributes</a></li>
+<li><a href="nunitAddins.html">NUnit&nbsp;Addins</a></li>
+<li><a href="extensionTips.html">Tips&nbsp;for&nbsp;Extenders</a></li>
+</ul>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<div id="footer">
+  Copyright &copy; 2010 Charlie Poole. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+
+</body>
+</html>
