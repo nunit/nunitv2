@@ -12,14 +12,14 @@ namespace NUnit.ProjectEditor.Tests.Model
     [TestFixture]
     public class ProjectModelLoadtests
     {
-        static readonly string xmlfile = "MyProject.nunit";
-
         private ProjectDocument doc;
         private ProjectModel project;
+        private string xmlfile;
 
         [SetUp]
         public void SetUp()
         {
+            xmlfile = Path.ChangeExtension(Path.GetTempFileName(), ".nunit");
             doc = new ProjectDocument(xmlfile);
             project = new ProjectModel(doc);
         }
