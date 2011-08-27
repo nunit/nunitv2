@@ -31,6 +31,14 @@
       </Component>
           
     </DirectoryRef>
+
+    <DirectoryRef Id="lib" FileSource="bin\lib">
+
+      <Component Id="NSubstitute" DiskId="1" Guid="7F5AABB5-9139-4DAE-9D22-7BC552E93A28">
+        <File Id="NSubstitute.dll" Name="NSUBST.DLL" LongName="NSubstitute.dll" />
+      </Component>
+
+    </DirectoryRef>
 	
   </Fragment>
 </Wix>
