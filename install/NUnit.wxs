@@ -180,6 +180,8 @@
         <ComponentRef Id="NUnitTestProject" />
         <ComponentRef Id="framework_copy_for_tests" />
         <ComponentRef Id="base_tests" />
+
+        <!-- Defined in NSubstitute.wxs -->
         <ComponentRef Id="NSubstitute" />
 
         <!-- Defined in pnunit.wxs -->
