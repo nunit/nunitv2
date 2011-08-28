@@ -14,10 +14,9 @@ namespace NUnit.ProjectEditor.Tests.Model
     [TestFixture]
     public class ProjectCreationTests
     {
-        static readonly string xmlfile = "test.nunit";
-
         private ProjectDocument doc;
         private ProjectModel project;
+        private string xmlfile;
 
         private bool gotChangeNotice;
 
@@ -30,6 +29,8 @@ namespace NUnit.ProjectEditor.Tests.Model
 
             doc.ProjectChanged += OnProjectChange;
             gotChangeNotice = false;
+
+            xmlfile = Path.ChangeExtension(Path.GetTempFileName(), ".nunit");
         }
 
         [TearDown]
@@ -101,7 +102,7 @@ namespace NUnit.ProjectEditor.Tests.Model
         {
             doc.Save(xmlfile);
             Assert.AreEqual(Path.GetFullPath(xmlfile), doc.ProjectPath);
-            Assert.AreEqual("test", doc.Name);
+            Assert.AreEqual(Path.GetFileNameWithoutExtension(xmlfile), doc.Name);
         }
 
         [Test]

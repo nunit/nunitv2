@@ -181,20 +181,14 @@
         <ComponentRef Id="framework_copy_for_tests" />
         <ComponentRef Id="base_tests" />
 
+        <!-- Defined in NSubstitute.wxs -->
+        <ComponentRef Id="NSubstitute" />
+
         <!-- Defined in pnunit.wxs -->
         <ComponentRef Id="pnunit_tests"/>
 
-        <!-- Defined in fit-tests.wxs -->
-        <ComponentRef Id="C__FIT_LICENSE"/>
-        <ComponentRef Id="fit_tests" />
-        <ComponentRef Id="fit_lib" />
-        <ComponentRef Id="fit_fixture_tests" />
-
         <!-- Defined in nunit-gui.wxs -->
         <ComponentRef Id="gui_tests" />
-
-        <!-- Defined in timing-tests.wxs -->
-        <ComponentRef Id="timing_tests" />
 
       </Feature>
 

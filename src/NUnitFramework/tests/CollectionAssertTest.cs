@@ -6,8 +6,9 @@
 
 using System;
 using System.Collections;
-using System.Data;
+#if NET_3_5 || NET_4_0
 using System.Linq;
+#endif
 
 namespace NUnit.Framework.Tests
 {

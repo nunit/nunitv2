@@ -176,8 +176,7 @@
         <include name="doc.wxs"  if="${runtime.version >= '2.0'}"/>
         <include name="samples.wxs"  if="${runtime.version >= '2.0'}"/>
         <include name="nunit-gui.wxs" if="${runtime.version >= '2.0'}"/>
-        <include name="fit-tests.wxs"  if="${runtime.version >= '2.0'}"/>
-        <include name="timing-tests.wxs"  if="${runtime.version >= '2.0'}"/>
+        <include name="NSubstitute.wxs" if="${runtime.version >= '2.0'}"/>
       </sources>
     </candle>
 
@@ -194,8 +193,7 @@
         <include name="${work.dir}/doc.wixobj"  if="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/samples.wixobj"  if="${runtime.version >= '2.0'}"/>
         <include name="${work.dir}/nunit-gui.wixobj" if="${runtime.version >= '2.0'}"/>
-        <include name="${work.dir}/fit-tests.wixobj"  if="${runtime.version >= '2.0'}"/>
-        <include name="${work.dir}/timing-tests.wixobj"  if="${runtime.version >= '2.0'}"/>
+        <include name="${work.dir}/NSubstitute.wixobj" if="${runtime.version >= '2.0'}"/>
         <include name="${wix.dir}/wixui.wixlib" />
       </sources>
     </light>

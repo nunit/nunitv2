@@ -22,6 +22,10 @@ namespace NUnit.ProjectEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+#if DEBUG
+            //MessageBox.Show("Attach to editor if desired", "Debug ProjectEditor?");
+#endif
+
             // Set up main editor triad
             ProjectDocument doc = new ProjectDocument();
             MainForm view = new MainForm();

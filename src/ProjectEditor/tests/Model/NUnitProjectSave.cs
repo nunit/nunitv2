@@ -15,10 +15,9 @@ namespace NUnit.ProjectEditor.Tests.Model
 	[TestFixture]
 	public class NUnitProjectSave
 	{
-		static readonly string xmlfile = "test.nunit";
-
         private ProjectDocument doc;
         private ProjectModel project;
+        private string xmlfile;
 
 		[SetUp]
 		public void SetUp()
@@ -26,6 +25,7 @@ namespace NUnit.ProjectEditor.Tests.Model
             doc = new ProjectDocument();
             project = new ProjectModel(doc);
             doc.CreateNewProject();
+            xmlfile = Path.ChangeExtension(Path.GetTempFileName(), ".nunit");
 		}
 
 		[TearDown]

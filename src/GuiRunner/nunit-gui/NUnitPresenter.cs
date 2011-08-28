@@ -505,8 +505,8 @@ namespace NUnit.Gui
             {
                 Process p = new Process();
 
-                p.StartInfo.FileName = editorPath;
-                p.StartInfo.Arguments = project.ProjectPath;
+                p.StartInfo.FileName = Quoted(editorPath);
+                p.StartInfo.Arguments = Quoted(project.ProjectPath);
                 p.Start();
             }
         }
@@ -538,6 +538,11 @@ namespace NUnit.Gui
                 editorPath = Path.Combine(NUnitConfiguration.NUnitBinDirectory, "nunit-editor.exe");
 
             return editorPath;
+        }
+
+        private static string Quoted(string s)
+        {
+            return "\"" + s + "\"";
         }
 
         #endregion

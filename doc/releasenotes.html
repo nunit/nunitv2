@@ -5,6 +5,7 @@
 <title>NUnit - ReleaseNotes</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
 <link rel="stylesheet" type="text/css" href="nunit.css">
 <link rel="shortcut icon" href="favicon.ico">
 </head>
@@ -38,7 +39,7 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
-<h3>NUnit 2.6 Snapshot - Version 2.6.0.11089 - March  30, 2011</h3>
+<h3>NUnit 2.6 Beta 1 - Version 2.6.0.11239 - August 27, 2011</h3>
 
 <h4>General</h4>
 
@@ -46,13 +47,15 @@ dt { font-weight: bold }
 <li>NUnit is now built using .NET 3.5. All NUnit assemblies and most tests
     target .NET 2.0 but the full set of tests requires 3.5 to execute.
 <li>The build script now supports building from source under .NET 4.0.
+    The script selects either .NET 3.5 or .NET 4.0 to perform the build,
+    depending on what is available.
 <li>NAnt 0.91 alpha2 release is now used for building on Windows. The 0.90
     release is still used on Linux.
 <li>Support for .NET 1.0 / 1.1 is no longer included in the main distribution
     for NUnit but is distributed as a separate package.
 <li>NUnit Mocks is now deprecated. All classes are now marked as obsolete.
-<li>NUnit now uses NSubstitute for its own tests. A copy of the NSubstitute
-    dll is included in the distribution.
+<li>NUnit now uses the NSubstitute mock framework its own tests. A copy of the 
+    NSubstitute dll is included in the distribution.
 </ul>
 
 <h4>Framework</h4>
@@ -65,7 +68,7 @@ dt { font-weight: bold }
     It enables the test developer to build smaller reusable actions and to 
     compose them in unique ways for each suite, test, or test case.
     <p>
-    <p><b>Note:</b> In the snapshot release, this feature is incomplete
+    <p><b>Note:</b> In the beta release, this feature is incomplete
     and documentation is not yet included. For more information, see
     http:/wiki/doku.php?id=dev:specs:action_attributes.
 <li>New arguments "Net-3.0", "Net-3.5", "Mono-3.0" and "Mono-3.5" are now
@@ -73,6 +76,9 @@ dt { font-weight: bold }
     use the 2.0 runtime, the semantics of their use is slightly different
     from other key words. The "3.5" arguments also include "3.0" and "2.0"
     and the "3.0" arguments include "2.0" in their interpretation.
+<li><b>TestFixtureAttribute</b> now accepts a <b>Category</b> named parameter,
+    allowing individual fixture instances to be included in or excluded from
+    a test run.
 </ul>
 
 <h4>Console</h4>
@@ -83,10 +89,16 @@ dt { font-weight: bold }
     tests execute under same runtime as the console runner itself. If this
     functionality is needed when running tests under .NET 1.1, use the standard 
     console runner to execute the tests in a separate process.
-<li>A new <b>-noxml</b> allows supressing of the xml output.
-<li>A new <b>-work</b> option is used to specify the directory to be used for the 
+<li>The <b>-xml</b> option is being replaced with <b>-result</b> in preparation
+    for the next release of NUnit, which will have several types of XML output.
+    In this release, the <b>-xml</b> option is still recognized as well.
+<li>A new option <b>-noresult</b> allows supressing the xml result output entirely.
+<li>A new option <b>-work</b> is used to specify the directory to be used for the 
     output of a test run. This directory is used as  the base for any relative paths 
-    specified with the <b>-output</b>, <b>-err</b> or <b>-xml</b> options.
+    specified with the <b>-output</b>, <b>-err</b> or <b>-result</b> options.
+<li>A new option <b>-runlist</b> allows the user to specify a file that contains
+    the names of the tests to be executed rather than listing them directly on
+    the command line.
 </ul>
 
 <h4>Gui</h4>
@@ -99,14 +111,35 @@ dt { font-weight: bold }
     and an xml view, which allows simple editing of the .nunit file.
 </ul>
 
+<h4>PNUnit</h4>
+
+<ul>
+<li>The <b>PNUnit</b> code has been updated using the latest build from the developers
+    at Codice Software and additional examples are provided in the source.
+</ul>
+
 <h4>Bug Fixes</h4>
 
 <ul>
-<li>726313 	Failure in Assembly level Action attribute causes crash
+<li>691129 	Add Category parameter to TestFixture
 <li>692180 	Script should allow building for net-2.0 under 3.5 or 4.0
+<li>701331 	TestFixture attributes on base classes are not ignored
 <li>702734 	Separate packaging of NUnit for .NET 1.1 and 2.0
+<li>711330 	Test-free assembly given failure icon in tree display
+<li>712444 	nunit-console /run don't execute parameterized test-cases (with commas in test-case name)
+<li>725718 	Documented overloads of Has.Property do not exist
+<li>726313 	Failure in Assembly level Action attribute causes crash
+<li>728500 	TestDomain should unload the test AppDomain
 <li>735851 	Add detection of 3.0, 3.5 and 4.0 frameworks to PlatformAttribute
+<li>736062 	Deadlock when EventListener performs a Trace call + EventPump synchronisation
 <li>739039 	Add noxml option to console runner
+<li>741402 	Error running .NET 1.1 console tests
+<li>746247 	Add AllowPartiallyTrustedCallersAttribute to nunit.framework assembly
+<li>747581 	Failure in TestFixtureTearDown not reported in console runner
+<li>756843 	Failing assertion does not show non-linear tolerance mode
+<li>787106 	EqualConstraint provides inadequate failure information for IEnumerables
+<li>806198 	nunit console crashes when opening certain projects with common output path
+<li>828739 	Run NUnit tests listed in a file
 </ul>
 
 <h3>Earlier Releases</h3>

@@ -112,11 +112,14 @@ namespace NUnit.ConsoleRunner
                     Console.WriteLine("Run list: " + options.runlist);
                     using (StreamReader rdr = new StreamReader(options.runlist))
                     {
-                        while (!rdr.EndOfStream)
+                        // NOTE: We can't use rdr.EndOfStream because it's
+                        // not present in .NET 1.x.
+                        string line = rdr.ReadLine();
+                        while (line != null)
                         {
-                            string line = rdr.ReadLine();
                             if (line[0] != '#')
                                 nameFilter.Add(line);
+                            line = rdr.ReadLine();
                         }
                     }
                     testFilter = nameFilter;
