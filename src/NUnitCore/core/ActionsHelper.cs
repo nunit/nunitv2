@@ -21,12 +21,20 @@ namespace NUnit.Core
             _ActionInterfaceType = Type.GetType(NUnitFramework.TestActionInterface);
             _ActionTypes = new Hashtable();
 
-            _ActionTypes.Add(ActionLevel.Suite, Type.GetType(NUnitFramework.TestSuiteActionInterface));
-            _ActionTypes.Add(ActionLevel.Test, Type.GetType(NUnitFramework.TestCaseActionInterface));
+            Type suiteActionInterface = Type.GetType(NUnitFramework.TestSuiteActionInterface);
+            if(suiteActionInterface != null)
+                _ActionTypes.Add(ActionLevel.Suite, suiteActionInterface);
+
+            Type caseActionInterface = Type.GetType(NUnitFramework.TestCaseActionInterface);
+            if(caseActionInterface != null)
+                _ActionTypes.Add(ActionLevel.Test, caseActionInterface);
         }
 
         public static object[] GetActionsFromTypeAttributes(Type type)
         {
+            if(type == null)
+                return new object[0];
+
             if(type == typeof(object))
                 return new object[0];
 
@@ -64,6 +72,9 @@ namespace NUnit.Core
 
         public static object[] GetActionsFromAttributes(ICustomAttributeProvider attributeProvider)
         {
+            if(attributeProvider == null || _ActionInterfaceType == null)
+                return new object[0];
+
             ArrayList resultList = new ArrayList();
 
             object[] attributes = attributeProvider.GetCustomAttributes(false);
