@@ -97,6 +97,9 @@ namespace NUnit.Core
                 return;
 
             Type actionType = GetActionType(level);
+            if(actionType == null)
+                return;
+
             MethodInfo actionMethod = GetActionMethod(actionType, level, phase);
 
             object[] filteredActions = GetFilteredAndSortedActions(actions, phase, actionType);
