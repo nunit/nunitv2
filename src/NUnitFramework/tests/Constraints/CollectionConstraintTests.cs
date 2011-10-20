@@ -350,6 +350,52 @@ namespace NUnit.Framework.Constraints
                 .Using<string>( (x,y)=>String.Compare(x,y,true) )
                 .Matches(set2));
         }
+
+        [Test]
+        public void WorksWithHashSets()
+        {
+            var hash1 = new HashSet<string>(new string[] { "presto", "abracadabra", "hocuspocus" });
+            var hash2 = new HashSet<string>(new string[] { "abracadabra", "presto", "hocuspocus" });
+
+            Assert.That(new CollectionEquivalentConstraint(hash1).Matches(hash2));
+        }
+
+        [Test]
+        public void WorksWithHashSetAndArray()
+        {
+            var hash = new HashSet<string>(new string[] { "presto", "abracadabra", "hocuspocus" });
+            var array = new string[] { "abracadabra", "presto", "hocuspocus" };
+
+            var constraint = new CollectionEquivalentConstraint(hash);
+            Assert.That(constraint.Matches(array));
+        }
+
+        [Test]
+        public void WorksWithArrayAndHashSet()
+        {
+            var hash = new HashSet<string>(new string[] { "presto", "abracadabra", "hocuspocus" });
+            var array = new string[] { "abracadabra", "presto", "hocuspocus" };
+
+            var constraint = new CollectionEquivalentConstraint(array);
+            Assert.That(constraint.Matches(hash));
+        }
+
+        [Test]
+        public void FailureMessageWithHashSetAndArray()
+        {
+            var hash = new HashSet<string>(new string[] { "presto", "abracadabra", "hocuspocus" });
+            var array = new string[] { "abracadabra", "presto", "hocusfocus" };
+
+            var constraint = new CollectionEquivalentConstraint(hash);
+            Assert.False(constraint.Matches(array));
+
+            TextMessageWriter writer = new TextMessageWriter();
+            constraint.WriteMessageTo(writer);
+            Assert.That(writer.ToString(), Is.EqualTo(
+                "  Expected: equivalent to < \"presto\", \"abracadabra\", \"hocuspocus\" >" + Environment.NewLine +
+                "  But was:  < \"abracadabra\", \"presto\", \"hocusfocus\" >" + Environment.NewLine));
+            Console.WriteLine(writer.ToString());
+        }
 #endif
     }
     #endregion
