@@ -223,4 +223,69 @@ namespace NUnit.Framework.Constraints
 		}
 	}
 	#endregion
+
+    #region OneItemConstraint
+    /// <summary>
+    /// NoItemConstraint applies another constraint to each
+    /// item in a collection, failing if any of them succeeds.
+    /// </summary>
+    public class ExactCountConstraint : PrefixConstraint
+    {
+        private int expectedCount;
+
+        /// <summary>
+        /// Construct a SomeItemsConstraint on top of an existing constraint
+        /// </summary>
+        /// <param name="itemConstraint"></param>
+        public ExactCountConstraint(int expectedCount, Constraint itemConstraint)
+            : base(itemConstraint)
+        {
+            this.DisplayName = "one";
+            this.expectedCount = expectedCount;
+        }
+
+        /// <summary>
+        /// Apply the item constraint to each item in the collection,
+        /// failing if any item fails.
+        /// </summary>
+        /// <param name="actual"></param>
+        /// <returns></returns>
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+
+            if (!(actual is IEnumerable))
+                throw new ArgumentException("The actual value must be an IEnumerable", "actual");
+
+            int count = 0;
+            foreach (object item in (IEnumerable)actual)
+                if (baseConstraint.Matches(item))
+                    count++;
+
+            return count == expectedCount;
+        }
+
+        /// <summary>
+        /// Write a description of this constraint to a MessageWriter
+        /// </summary>
+        /// <param name="writer"></param>
+        public override void WriteDescriptionTo(MessageWriter writer)
+        {
+            switch(expectedCount)
+            {
+                case 0:
+                    writer.WritePredicate("no item");
+                    break;
+                case 1:
+                    writer.WritePredicate("exactly one item");
+                    break;
+                default:
+                    writer.WritePredicate("exactly " + expectedCount.ToString() + " items");
+                    break;
+            }
+
+            baseConstraint.WriteDescriptionTo(writer);
+        }
+    }
+    #endregion
 }
