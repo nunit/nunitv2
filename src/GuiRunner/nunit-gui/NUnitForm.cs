@@ -131,6 +131,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem toolsMenuSeparator1;
 		private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
         private MenuItem runtimeMenuItem;
+        private MenuItem openLogDirectoryMenuItem;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -243,6 +244,7 @@ namespace NUnit.Gui
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.testTree = new NUnit.UiKit.TestTree();
             this.leftPanel = new System.Windows.Forms.Panel();
+            this.openLogDirectoryMenuItem = new System.Windows.Forms.MenuItem();
             this.rightPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.leftPanel.SuspendLayout();
@@ -595,6 +597,7 @@ namespace NUnit.Gui
             this.assemblyDetailsMenuItem,
             this.saveXmlResultsMenuItem,
             this.exceptionDetailsMenuItem,
+            this.openLogDirectoryMenuItem,
             this.toolsMenuSeparator1,
             this.settingsMenuItem,
             this.toolsMenuSeparator2,
@@ -622,23 +625,23 @@ namespace NUnit.Gui
             // 
             // toolsMenuSeparator1
             // 
-            this.toolsMenuSeparator1.Index = 3;
+            this.toolsMenuSeparator1.Index = 4;
             this.toolsMenuSeparator1.Text = "-";
             // 
             // settingsMenuItem
             // 
-            this.settingsMenuItem.Index = 4;
+            this.settingsMenuItem.Index = 5;
             this.settingsMenuItem.Text = "&Settings...";
             this.settingsMenuItem.Click += new System.EventHandler(this.settingsMenuItem_Click);
             // 
             // toolsMenuSeparator2
             // 
-            this.toolsMenuSeparator2.Index = 5;
+            this.toolsMenuSeparator2.Index = 6;
             this.toolsMenuSeparator2.Text = "-";
             // 
             // addinInfoMenuItem
             // 
-            this.addinInfoMenuItem.Index = 6;
+            this.addinInfoMenuItem.Index = 7;
             this.addinInfoMenuItem.Text = "Addins...";
             this.addinInfoMenuItem.Click += new System.EventHandler(this.addinInfoMenuItem_Click);
             // 
@@ -786,6 +789,12 @@ namespace NUnit.Gui
             this.leftPanel.Name = "leftPanel";
             this.leftPanel.Size = new System.Drawing.Size(240, 407);
             this.leftPanel.TabIndex = 4;
+            // 
+            // openLogDirectoryMenuItem
+            // 
+            this.openLogDirectoryMenuItem.Index = 3;
+            this.openLogDirectoryMenuItem.Text = "Open &Log Directory...";
+            this.openLogDirectoryMenuItem.Click += new System.EventHandler(this.openLogDirectoryMenuItem_Click);
             // 
             // NUnitForm
             // 
@@ -1280,6 +1289,14 @@ namespace NUnit.Gui
 			AddinDialog dlg = new AddinDialog();
 			dlg.ShowDialog();
 		}
+
+        private void openLogDirectoryMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!Directory.Exists(NUnitConfiguration.LogDirectory))
+                Directory.CreateDirectory(NUnitConfiguration.LogDirectory);
+
+            System.Diagnostics.Process.Start(NUnitConfiguration.LogDirectory);
+        }
 
 		#endregion
 

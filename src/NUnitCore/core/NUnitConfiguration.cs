@@ -269,11 +269,27 @@ namespace NUnit.Core
                 if (applicationDirectory == null)
                 {
                     applicationDirectory = Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                         "NUnit");
                 }
 
                 return applicationDirectory;
+            }
+        }
+        #endregion
+
+        #region LogDirectory
+        private static string logDirectory;
+        public static string LogDirectory
+        {
+            get
+            {
+                if (logDirectory == null)
+                {
+                    logDirectory = Path.Combine(ApplicationDirectory, "logs");
+                }
+
+                return logDirectory;
             }
         }
         #endregion
