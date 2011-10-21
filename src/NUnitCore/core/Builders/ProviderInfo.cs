@@ -15,8 +15,9 @@ namespace NUnit.Core.Builders
         private Type providerType;
         private string providerName;
         private object[] providerArgs;
+        private string category;
 
-        public ProviderReference(Type providerType, string providerName)
+        public ProviderReference(Type providerType, string providerName, string category)
         {
             if (providerType == null)
                 throw new ArgumentNullException("providerType");
@@ -25,10 +26,11 @@ namespace NUnit.Core.Builders
 
             this.providerType = providerType;
             this.providerName = providerName;
+            this.category = category;
         }
 
-        public ProviderReference(Type providerType, object[] args, string providerName)
-            : this(providerType, providerName)
+        public ProviderReference(Type providerType, object[] args, string providerName, string category)
+            : this(providerType, providerName, category)
         {
             this.providerArgs = args;
         }
@@ -36,6 +38,11 @@ namespace NUnit.Core.Builders
         public string Name
         {
             get { return this.providerName; }
+        }
+
+        public string Category
+        {
+            get { return this.category; }
         }
 
         public IEnumerable GetInstance()

@@ -70,8 +70,54 @@ namespace NUnit.Core.Builders
 
             foreach (ProviderReference info in GetSourcesFor(method, parentSuite))
             {
-                foreach (object o in info.GetInstance())
-                    parameterList.Add(o);
+                foreach (object source in info.GetInstance())
+                {
+                    ParameterSet parms;
+
+                    if (source == null)
+                    {
+                        parms = new ParameterSet();
+                        parms.Arguments = new object[] { null };
+                    }
+                    else
+                        parms = source as ParameterSet;
+
+                    if (parms == null)
+                    {
+                        if (source.GetType().GetInterface("NUnit.Framework.ITestCaseData") != null)
+                            parms = ParameterSet.FromDataSource(source);
+                        else
+                        {
+                            parms = new ParameterSet();
+
+                            ParameterInfo[] parameters = method.GetParameters();
+                            Type sourceType = source.GetType();
+
+                            if (parameters.Length == 1 && parameters[0].ParameterType.IsAssignableFrom(sourceType))
+                                parms.Arguments = new object[] { source };
+                            else if (source is object[])
+                                parms.Arguments = (object[])source;
+                            else if (source is Array)
+                            {
+                                Array array = (Array)source;
+                                if (array.Rank == 1)
+                                {
+                                    parms.Arguments = new object[array.Length];
+                                    for (int i = 0; i < array.Length; i++)
+                                        parms.Arguments[i] = (object)array.GetValue(i);
+                                }
+                            }
+                            else
+                                parms.Arguments = new object[] { source };
+                        }
+                    }
+
+                    if (info.Category != null)
+                        foreach (string cat in info.Category.Split(new char[] { ',' }))
+                            parms.Categories.Add(cat);
+
+                    parameterList.Add(parms);
+                }
             }
 
             return parameterList;
@@ -88,17 +134,18 @@ namespace NUnit.Core.Builders
             {
                 Type sourceType = Reflect.GetPropertyValue(sourceAttr, SourceTypeProperty) as Type;
                 string sourceName = Reflect.GetPropertyValue(sourceAttr, SourceNameProperty) as string;
+                string category = Reflect.GetPropertyValue(sourceAttr, "Category") as string;
 
                 if (sourceType == null)
                 {
                     if (parentSuite != null)
-                        sources.Add(new ProviderReference(parentSuite.FixtureType, parentSuite.arguments, sourceName));
+                        sources.Add(new ProviderReference(parentSuite.FixtureType, parentSuite.arguments, sourceName, category));
                     else
-                        sources.Add(new ProviderReference(method.ReflectedType, sourceName));
+                        sources.Add(new ProviderReference(method.ReflectedType, sourceName, category));
                 }
                 else
                 {
-                    sources.Add(new ProviderReference(sourceType, sourceName));
+                    sources.Add(new ProviderReference(sourceType, sourceName, category));
                 }
 
             }

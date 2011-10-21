@@ -95,11 +95,11 @@ namespace NUnit.Core.Builders
                 string sourceName = Reflect.GetPropertyValue(sourceAttr, SourceNameProperty) as string;
 
                 if (sourceType != null)
-                    sources.Add(new ProviderReference(sourceType, sourceName));
+                    sources.Add(new ProviderReference(sourceType, sourceName, null));
                 else if (parentSuite != null)
-                    sources.Add(new ProviderReference(parentSuite.FixtureType, parentSuite.arguments, sourceName));
+                    sources.Add(new ProviderReference(parentSuite.FixtureType, parentSuite.arguments, sourceName, null));
                 else
-                    sources.Add(new ProviderReference(parameter.Member.ReflectedType, sourceName));
+                    sources.Add(new ProviderReference(parameter.Member.ReflectedType, sourceName, null));
             }
             return sources;
         }

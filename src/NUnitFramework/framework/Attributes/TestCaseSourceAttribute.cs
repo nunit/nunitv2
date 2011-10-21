@@ -17,6 +17,7 @@ namespace NUnit.Framework
     {
         private readonly string sourceName;
         private readonly Type sourceType;
+        private string category;
 
         /// <summary>
         /// Construct with the name of the factory - for use with languages
@@ -54,6 +55,16 @@ namespace NUnit.Framework
         public Type SourceType
         {
             get { return sourceType;  }
+        }
+
+        /// <summary>
+        /// Gets or sets the category associated with this test.
+        /// May be a single category or a comma-separated list.
+        /// </summary>
+        public string Category
+        {
+            get { return category; }
+            set { category = value; }
         }
     }
 }
