@@ -9,6 +9,8 @@ using System.IO;
 using System.Collections;
 #if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
+using System.Reflection;
+
 #endif
 
 namespace NUnit.Framework.Constraints
@@ -150,9 +152,50 @@ namespace NUnit.Framework.Constraints
                     return ((TimeSpan)x - (TimeSpan)y).Duration() <= amount;
             }
 
+			#if CLR_2_0 || CLR_4_0
+        	Type genericArgument;
+        	if(XImplementsIEquatableOfY(x, y))
+        	{
+        		return InvokeIEquatableOfYOnX(x, y);
+        	}
+			#endif
+
             return x.Equals(y);
         }
-        #endregion
+
+    	private static bool XImplementsIEquatableOfY(object x, object y)
+    	{
+    		Type[] equatableArguments = GetEquatableGenericArguments(x);
+
+    		foreach (var xEquatableArgument in equatableArguments)
+    			if (xEquatableArgument.Equals(y.GetType()))
+    				return true;
+
+    		return false;
+    	}
+
+    	private static bool InvokeIEquatableOfYOnX(object x, object y)
+    	{
+    		MethodInfo equals = typeof (IEquatable<>).MakeGenericType(y.GetType()).GetMethod("Equals");
+
+    		return (bool) equals.Invoke(x, new object[] {y});
+    	}
+
+    	private static Type[] GetEquatableGenericArguments(object instance)
+    	{
+    		return Array.ConvertAll(Array.FindAll(instance.GetType().GetInterfaces(), 
+									delegate(Type @interface)
+									{
+                                  		return @interface.IsGenericType && 
+                                  			   @interface.GetGenericTypeDefinition().Equals(typeof(IEquatable<>));
+									}), 
+    		                        delegate(Type iEquatableInterface)
+    		                        {
+    		                        	return iEquatableInterface.GetGenericArguments()[0];
+    		                        });
+    	}
+
+    	#endregion
 
         #region Helper Methods
         /// <summary>
