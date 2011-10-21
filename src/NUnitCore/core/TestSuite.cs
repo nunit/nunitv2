@@ -571,7 +571,7 @@ namespace NUnit.Core
                 listener.SuiteStarted(test.TestName);
                 TestResult result = new TestResult( new TestInfo(test) );
 				result.SetResult( resultState, ignoreReason, null );
-                MarkTestsNotRun(test.Tests, resultState, ignoreReason, suiteResult, listener, filter);
+                MarkTestsNotRun(test.Tests, resultState, ignoreReason, result, listener, filter);
                 suiteResult.AddResult(result);
                 listener.SuiteFinished(result);
             }
@@ -605,7 +605,7 @@ namespace NUnit.Core
                     : string.Format( "Parent SetUp failed in {0}", this.FixtureType.Name );
 
 				result.Failure(msg, null, FailureSite.Parent);
-                MarkTestsFailed(test.Tests, suiteResult, listener, filter);
+                MarkTestsFailed(test.Tests, result, listener, filter);
                 suiteResult.AddResult(result);
                 listener.SuiteFinished(result);
             }
