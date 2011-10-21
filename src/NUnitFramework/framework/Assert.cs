@@ -406,49 +406,49 @@ namespace NUnit.Framework
             }
         }
 #else
-        /// <summary>
-        /// Apply a constraint to a referenced boolean, succeeding if the constraint
-        /// is satisfied and throwing an assertion exception on failure.
-        /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
-        /// <param name="actual">The actual value to test</param>
-        static public void That(ref bool actual, IResolveConstraint constraint)
-        {
-            Assert.That(ref actual, constraint.Resolve(), null, null);
-        }
-
-        /// <summary>
-        /// Apply a constraint to a referenced value, succeeding if the constraint
-        /// is satisfied and throwing an assertion exception on failure.
-        /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
-        /// <param name="actual">The actual value to test</param>
-        /// <param name="message">The message that will be displayed on failure</param>
-        static public void That(ref bool actual, IResolveConstraint constraint, string message)
-        {
-            Assert.That(ref actual, constraint.Resolve(), message, null);
-        }
-
-        /// <summary>
-        /// Apply a constraint to a referenced value, succeeding if the constraint
-        /// is satisfied and throwing an assertion exception on failure.
-        /// </summary>
-        /// <param name="constraint">A Constraint to be applied</param>
-        /// <param name="actual">The actual value to test</param>
-        /// <param name="message">The message that will be displayed on failure</param>
-        /// <param name="args">Arguments to be used in formatting the message</param>
-        static public void That(ref bool actual, IResolveConstraint expression, string message, params object[] args)
-        {
-            Constraint constraint = expression.Resolve();
-
-            Assert.IncrementAssertCount();
-            if (!constraint.Matches(ref actual))
+            /// <summary>
+            /// Apply a constraint to a referenced boolean, succeeding if the constraint
+            /// is satisfied and throwing an assertion exception on failure.
+            /// </summary>
+            /// <param name="constraint">A Constraint to be applied</param>
+            /// <param name="actual">The actual value to test</param>
+            static public void That(ref bool actual, IResolveConstraint constraint)
             {
-                MessageWriter writer = new TextMessageWriter(message, args);
-                constraint.WriteMessageTo(writer);
-                throw new AssertionException(writer.ToString());
+                Assert.That(ref actual, constraint.Resolve(), null, null);
             }
-        }
+
+            /// <summary>
+            /// Apply a constraint to a referenced value, succeeding if the constraint
+            /// is satisfied and throwing an assertion exception on failure.
+            /// </summary>
+            /// <param name="constraint">A Constraint to be applied</param>
+            /// <param name="actual">The actual value to test</param>
+            /// <param name="message">The message that will be displayed on failure</param>
+            static public void That(ref bool actual, IResolveConstraint constraint, string message)
+            {
+                Assert.That(ref actual, constraint.Resolve(), message, null);
+            }
+
+            /// <summary>
+            /// Apply a constraint to a referenced value, succeeding if the constraint
+            /// is satisfied and throwing an assertion exception on failure.
+            /// </summary>
+            /// <param name="constraint">A Constraint to be applied</param>
+            /// <param name="actual">The actual value to test</param>
+            /// <param name="message">The message that will be displayed on failure</param>
+            /// <param name="args">Arguments to be used in formatting the message</param>
+            static public void That(ref bool actual, IResolveConstraint expression, string message, params object[] args)
+            {
+                Constraint constraint = expression.Resolve();
+
+                Assert.IncrementAssertCount();
+                if (!constraint.Matches(ref actual))
+                {
+                    MessageWriter writer = new TextMessageWriter(message, args);
+                    constraint.WriteMessageTo(writer);
+                    throw new AssertionException(writer.ToString());
+                }
+            }
 #endif
         #endregion
 
@@ -517,7 +517,7 @@ namespace NUnit.Framework
             {
                 code();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 caughtException = ex;
             }
@@ -688,7 +688,7 @@ namespace NUnit.Framework
         public static Exception Catch(Type expectedExceptionType, TestDelegate code)
         {
             return Throws(new InstanceOfTypeConstraint(expectedExceptionType), code);
-        }       
+        }
         #endregion
 
         #region Catch<T>
@@ -787,7 +787,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void True(bool condition, string message, params object[] args)
         {
-            Assert.That(condition, Is.True ,message, args);
+            Assert.That(condition, Is.True, message, args);
         }
         /// <summary>
         /// Asserts that a condition is true. If the condition is false the method throws
@@ -797,7 +797,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void True(bool condition, string message)
         {
-            Assert.That(condition, Is.True ,message, null);
+            Assert.That(condition, Is.True, message, null);
         }
         /// <summary>
         /// Asserts that a condition is true. If the condition is false the method throws
@@ -806,7 +806,7 @@ namespace NUnit.Framework
         /// <param name="condition">The evaluated condition</param>
         public static void True(bool condition)
         {
-            Assert.That(condition, Is.True ,null, null);
+            Assert.That(condition, Is.True, null, null);
         }
 
         /// <summary>
@@ -818,7 +818,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsTrue(bool condition, string message, params object[] args)
         {
-            Assert.That(condition, Is.True ,message, args);
+            Assert.That(condition, Is.True, message, args);
         }
         /// <summary>
         /// Asserts that a condition is true. If the condition is false the method throws
@@ -828,7 +828,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsTrue(bool condition, string message)
         {
-            Assert.That(condition, Is.True ,message, null);
+            Assert.That(condition, Is.True, message, null);
         }
         /// <summary>
         /// Asserts that a condition is true. If the condition is false the method throws
@@ -837,7 +837,7 @@ namespace NUnit.Framework
         /// <param name="condition">The evaluated condition</param>
         public static void IsTrue(bool condition)
         {
-            Assert.That(condition, Is.True ,null, null);
+            Assert.That(condition, Is.True, null, null);
         }
 
         #endregion
@@ -853,7 +853,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void False(bool condition, string message, params object[] args)
         {
-            Assert.That(condition, Is.False ,message, args);
+            Assert.That(condition, Is.False, message, args);
         }
         /// <summary>
         /// Asserts that a condition is false. If the condition is true the method throws
@@ -863,7 +863,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void False(bool condition, string message)
         {
-            Assert.That(condition, Is.False ,message, null);
+            Assert.That(condition, Is.False, message, null);
         }
         /// <summary>
         /// Asserts that a condition is false. If the condition is true the method throws
@@ -872,7 +872,7 @@ namespace NUnit.Framework
         /// <param name="condition">The evaluated condition</param>
         public static void False(bool condition)
         {
-            Assert.That(condition, Is.False ,null, null);
+            Assert.That(condition, Is.False, null, null);
         }
 
         /// <summary>
@@ -884,7 +884,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsFalse(bool condition, string message, params object[] args)
         {
-            Assert.That(condition, Is.False ,message, args);
+            Assert.That(condition, Is.False, message, args);
         }
         /// <summary>
         /// Asserts that a condition is false. If the condition is true the method throws
@@ -894,7 +894,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsFalse(bool condition, string message)
         {
-            Assert.That(condition, Is.False ,message, null);
+            Assert.That(condition, Is.False, message, null);
         }
         /// <summary>
         /// Asserts that a condition is false. If the condition is true the method throws
@@ -903,7 +903,7 @@ namespace NUnit.Framework
         /// <param name="condition">The evaluated condition</param>
         public static void IsFalse(bool condition)
         {
-            Assert.That(condition, Is.False ,null, null);
+            Assert.That(condition, Is.False, null, null);
         }
 
         #endregion
@@ -920,7 +920,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void NotNull(object anObject, string message, params object[] args)
         {
-            Assert.That(anObject, Is.Not.Null ,message, args);
+            Assert.That(anObject, Is.Not.Null, message, args);
         }
         /// <summary>
         /// Verifies that the object that is passed in is not equal to <code>null</code>
@@ -931,7 +931,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void NotNull(object anObject, string message)
         {
-            Assert.That(anObject, Is.Not.Null ,message, null);
+            Assert.That(anObject, Is.Not.Null, message, null);
         }
         /// <summary>
         /// Verifies that the object that is passed in is not equal to <code>null</code>
@@ -941,7 +941,7 @@ namespace NUnit.Framework
         /// <param name="anObject">The object that is to be tested</param>
         public static void NotNull(object anObject)
         {
-            Assert.That(anObject, Is.Not.Null ,null, null);
+            Assert.That(anObject, Is.Not.Null, null, null);
         }
 
         /// <summary>
@@ -954,7 +954,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNotNull(object anObject, string message, params object[] args)
         {
-            Assert.That(anObject, Is.Not.Null ,message, args);
+            Assert.That(anObject, Is.Not.Null, message, args);
         }
         /// <summary>
         /// Verifies that the object that is passed in is not equal to <code>null</code>
@@ -965,7 +965,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNotNull(object anObject, string message)
         {
-            Assert.That(anObject, Is.Not.Null ,message, null);
+            Assert.That(anObject, Is.Not.Null, message, null);
         }
         /// <summary>
         /// Verifies that the object that is passed in is not equal to <code>null</code>
@@ -975,7 +975,7 @@ namespace NUnit.Framework
         /// <param name="anObject">The object that is to be tested</param>
         public static void IsNotNull(object anObject)
         {
-            Assert.That(anObject, Is.Not.Null ,null, null);
+            Assert.That(anObject, Is.Not.Null, null, null);
         }
 
         #endregion
@@ -992,7 +992,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Null(object anObject, string message, params object[] args)
         {
-            Assert.That(anObject, Is.Null ,message, args);
+            Assert.That(anObject, Is.Null, message, args);
         }
         /// <summary>
         /// Verifies that the object that is passed in is equal to <code>null</code>
@@ -1003,7 +1003,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Null(object anObject, string message)
         {
-            Assert.That(anObject, Is.Null ,message, null);
+            Assert.That(anObject, Is.Null, message, null);
         }
         /// <summary>
         /// Verifies that the object that is passed in is equal to <code>null</code>
@@ -1013,7 +1013,7 @@ namespace NUnit.Framework
         /// <param name="anObject">The object that is to be tested</param>
         public static void Null(object anObject)
         {
-            Assert.That(anObject, Is.Null ,null, null);
+            Assert.That(anObject, Is.Null, null, null);
         }
 
         /// <summary>
@@ -1026,7 +1026,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNull(object anObject, string message, params object[] args)
         {
-            Assert.That(anObject, Is.Null ,message, args);
+            Assert.That(anObject, Is.Null, message, args);
         }
         /// <summary>
         /// Verifies that the object that is passed in is equal to <code>null</code>
@@ -1037,7 +1037,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNull(object anObject, string message)
         {
-            Assert.That(anObject, Is.Null ,message, null);
+            Assert.That(anObject, Is.Null, message, null);
         }
         /// <summary>
         /// Verifies that the object that is passed in is equal to <code>null</code>
@@ -1047,7 +1047,7 @@ namespace NUnit.Framework
         /// <param name="anObject">The object that is to be tested</param>
         public static void IsNull(object anObject)
         {
-            Assert.That(anObject, Is.Null ,null, null);
+            Assert.That(anObject, Is.Null, null, null);
         }
 
         #endregion
@@ -1064,7 +1064,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNaN(double aDouble, string message, params object[] args)
         {
-            Assert.That(aDouble, Is.NaN ,message, args);
+            Assert.That(aDouble, Is.NaN, message, args);
         }
         /// <summary>
         /// Verifies that the double that is passed in is an <code>NaN</code> value.
@@ -1075,7 +1075,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNaN(double aDouble, string message)
         {
-            Assert.That(aDouble, Is.NaN ,message, null);
+            Assert.That(aDouble, Is.NaN, message, null);
         }
         /// <summary>
         /// Verifies that the double that is passed in is an <code>NaN</code> value.
@@ -1085,7 +1085,7 @@ namespace NUnit.Framework
         /// <param name="aDouble">The value that is to be tested</param>
         public static void IsNaN(double aDouble)
         {
-            Assert.That(aDouble, Is.NaN ,null, null);
+            Assert.That(aDouble, Is.NaN, null, null);
         }
 
 #if CLR_2_0 || CLR_4_0
@@ -1099,7 +1099,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNaN(double? aDouble, string message, params object[] args)
         {
-            Assert.That(aDouble, Is.NaN ,message, args);
+            Assert.That(aDouble, Is.NaN, message, args);
         }
         /// <summary>
         /// Verifies that the double that is passed in is an <code>NaN</code> value.
@@ -1110,7 +1110,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNaN(double? aDouble, string message)
         {
-            Assert.That(aDouble, Is.NaN ,message, null);
+            Assert.That(aDouble, Is.NaN, message, null);
         }
         /// <summary>
         /// Verifies that the double that is passed in is an <code>NaN</code> value.
@@ -1120,7 +1120,7 @@ namespace NUnit.Framework
         /// <param name="aDouble">The value that is to be tested</param>
         public static void IsNaN(double? aDouble)
         {
-            Assert.That(aDouble, Is.NaN ,null, null);
+            Assert.That(aDouble, Is.NaN, null, null);
         }
 #endif
 
@@ -1136,7 +1136,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsEmpty(string aString, string message, params object[] args)
         {
-            Assert.That(aString, new EmptyStringConstraint() ,message, args);
+            Assert.That(aString, new EmptyStringConstraint(), message, args);
         }
         /// <summary>
         /// Assert that a string is empty - that is equal to string.Empty
@@ -1145,7 +1145,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsEmpty(string aString, string message)
         {
-            Assert.That(aString, new EmptyStringConstraint() ,message, null);
+            Assert.That(aString, new EmptyStringConstraint(), message, null);
         }
         /// <summary>
         /// Assert that a string is empty - that is equal to string.Empty
@@ -1153,7 +1153,7 @@ namespace NUnit.Framework
         /// <param name="aString">The string to be tested</param>
         public static void IsEmpty(string aString)
         {
-            Assert.That(aString, new EmptyStringConstraint() ,null, null);
+            Assert.That(aString, new EmptyStringConstraint(), null, null);
         }
 
         #endregion
@@ -1166,26 +1166,26 @@ namespace NUnit.Framework
         /// <param name="collection">An array, list or other collection implementing ICollection</param>
         /// <param name="message">The message to display in case of failure</param>
         /// <param name="args">Array of objects to be used in formatting the message</param>
-        public static void IsEmpty(ICollection collection, string message, params object[] args)
+        public static void IsEmpty(IEnumerable collection, string message, params object[] args)
         {
-            Assert.That(collection, new EmptyCollectionConstraint() ,message, args);
+            Assert.That(collection, new EmptyCollectionConstraint(), message, args);
         }
         /// <summary>
         /// Assert that an array, list or other collection is empty
         /// </summary>
         /// <param name="collection">An array, list or other collection implementing ICollection</param>
         /// <param name="message">The message to display in case of failure</param>
-        public static void IsEmpty(ICollection collection, string message)
+        public static void IsEmpty(IEnumerable collection, string message)
         {
-            Assert.That(collection, new EmptyCollectionConstraint() ,message, null);
+            Assert.That(collection, new EmptyCollectionConstraint(), message, null);
         }
         /// <summary>
         /// Assert that an array, list or other collection is empty
         /// </summary>
         /// <param name="collection">An array, list or other collection implementing ICollection</param>
-        public static void IsEmpty(ICollection collection)
+        public static void IsEmpty(IEnumerable collection)
         {
-            Assert.That(collection, new EmptyCollectionConstraint() ,null, null);
+            Assert.That(collection, new EmptyCollectionConstraint(), null, null);
         }
 
         #endregion
@@ -1200,7 +1200,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNotEmpty(string aString, string message, params object[] args)
         {
-            Assert.That(aString, Is.Not.Empty ,message, args);
+            Assert.That(aString, Is.Not.Empty, message, args);
         }
         /// <summary>
         /// Assert that a string is not empty - that is not equal to string.Empty
@@ -1209,7 +1209,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNotEmpty(string aString, string message)
         {
-            Assert.That(aString, Is.Not.Empty ,message, null);
+            Assert.That(aString, Is.Not.Empty, message, null);
         }
         /// <summary>
         /// Assert that a string is not empty - that is not equal to string.Empty
@@ -1217,7 +1217,7 @@ namespace NUnit.Framework
         /// <param name="aString">The string to be tested</param>
         public static void IsNotEmpty(string aString)
         {
-            Assert.That(aString, Is.Not.Empty ,null, null);
+            Assert.That(aString, Is.Not.Empty, null, null);
         }
 
         #endregion
@@ -1230,26 +1230,26 @@ namespace NUnit.Framework
         /// <param name="collection">An array, list or other collection implementing ICollection</param>
         /// <param name="message">The message to display in case of failure</param>
         /// <param name="args">Array of objects to be used in formatting the message</param>
-        public static void IsNotEmpty(ICollection collection, string message, params object[] args)
+        public static void IsNotEmpty(IEnumerable collection, string message, params object[] args)
         {
-            Assert.That(collection, Is.Not.Empty ,message, args);
+            Assert.That(collection, Is.Not.Empty, message, args);
         }
         /// <summary>
         /// Assert that an array, list or other collection is not empty
         /// </summary>
         /// <param name="collection">An array, list or other collection implementing ICollection</param>
         /// <param name="message">The message to display in case of failure</param>
-        public static void IsNotEmpty(ICollection collection, string message)
+        public static void IsNotEmpty(IEnumerable collection, string message)
         {
-            Assert.That(collection, Is.Not.Empty ,message, null);
+            Assert.That(collection, Is.Not.Empty, message, null);
         }
         /// <summary>
         /// Assert that an array, list or other collection is not empty
         /// </summary>
         /// <param name="collection">An array, list or other collection implementing ICollection</param>
-        public static void IsNotEmpty(ICollection collection)
+        public static void IsNotEmpty(IEnumerable collection)
         {
-            Assert.That(collection, Is.Not.Empty ,null, null);
+            Assert.That(collection, Is.Not.Empty, null, null);
         }
 
         #endregion
@@ -1264,7 +1264,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNullOrEmpty(string aString, string message, params object[] args)
         {
-            Assert.That(aString, new NullOrEmptyStringConstraint() ,message, args);
+            Assert.That(aString, new NullOrEmptyStringConstraint(), message, args);
         }
         /// <summary>
         /// Assert that a string is either null or equal to string.Empty
@@ -1273,7 +1273,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNullOrEmpty(string aString, string message)
         {
-            Assert.That(aString, new NullOrEmptyStringConstraint() ,message, null);
+            Assert.That(aString, new NullOrEmptyStringConstraint(), message, null);
         }
         /// <summary>
         /// Assert that a string is either null or equal to string.Empty
@@ -1281,7 +1281,7 @@ namespace NUnit.Framework
         /// <param name="aString">The string to be tested</param>
         public static void IsNullOrEmpty(string aString)
         {
-            Assert.That(aString, new NullOrEmptyStringConstraint() ,null, null);
+            Assert.That(aString, new NullOrEmptyStringConstraint(), null, null);
         }
 
         #endregion
@@ -1296,7 +1296,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNotNullOrEmpty(string aString, string message, params object[] args)
         {
-            Assert.That(aString, new NotConstraint( new NullOrEmptyStringConstraint()) ,message, args);
+            Assert.That(aString, new NotConstraint(new NullOrEmptyStringConstraint()), message, args);
         }
         /// <summary>
         /// Assert that a string is not null or empty
@@ -1305,7 +1305,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNotNullOrEmpty(string aString, string message)
         {
-            Assert.That(aString, new NotConstraint( new NullOrEmptyStringConstraint()) ,message, null);
+            Assert.That(aString, new NotConstraint(new NullOrEmptyStringConstraint()), message, null);
         }
         /// <summary>
         /// Assert that a string is not null or empty
@@ -1313,7 +1313,7 @@ namespace NUnit.Framework
         /// <param name="aString">The string to be tested</param>
         public static void IsNotNullOrEmpty(string aString)
         {
-            Assert.That(aString, new NotConstraint( new NullOrEmptyStringConstraint()) ,null, null);
+            Assert.That(aString, new NotConstraint(new NullOrEmptyStringConstraint()), null, null);
         }
 
         #endregion
@@ -1329,7 +1329,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsAssignableFrom(Type expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.AssignableFrom(expected) ,message, args);
+            Assert.That(actual, Is.AssignableFrom(expected), message, args);
         }
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
@@ -1339,7 +1339,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsAssignableFrom(Type expected, object actual, string message)
         {
-            Assert.That(actual, Is.AssignableFrom(expected) ,message, null);
+            Assert.That(actual, Is.AssignableFrom(expected), message, null);
         }
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
@@ -1348,7 +1348,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object under examination</param>
         public static void IsAssignableFrom(Type expected, object actual)
         {
-            Assert.That(actual, Is.AssignableFrom(expected) ,null, null);
+            Assert.That(actual, Is.AssignableFrom(expected), null, null);
         }
 
         #endregion
@@ -1365,7 +1365,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsAssignableFrom<T>(object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.AssignableFrom(typeof(T)) ,message, args);
+            Assert.That(actual, Is.AssignableFrom(typeof(T)), message, args);
         }
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
@@ -1375,7 +1375,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsAssignableFrom<T>(object actual, string message)
         {
-            Assert.That(actual, Is.AssignableFrom(typeof(T)) ,message, null);
+            Assert.That(actual, Is.AssignableFrom(typeof(T)), message, null);
         }
         /// <summary>
         /// Asserts that an object may be assigned a  value of a given Type.
@@ -1384,7 +1384,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object under examination</param>
         public static void IsAssignableFrom<T>(object actual)
         {
-            Assert.That(actual, Is.AssignableFrom(typeof(T)) ,null, null);
+            Assert.That(actual, Is.AssignableFrom(typeof(T)), null, null);
         }
 #endif
 
@@ -1401,7 +1401,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNotAssignableFrom(Type expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.AssignableFrom(expected) ,message, args);
+            Assert.That(actual, Is.Not.AssignableFrom(expected), message, args);
         }
         /// <summary>
         /// Asserts that an object may not be assigned a  value of a given Type.
@@ -1411,7 +1411,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNotAssignableFrom(Type expected, object actual, string message)
         {
-            Assert.That(actual, Is.Not.AssignableFrom(expected) ,message, null);
+            Assert.That(actual, Is.Not.AssignableFrom(expected), message, null);
         }
         /// <summary>
         /// Asserts that an object may not be assigned a  value of a given Type.
@@ -1420,7 +1420,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object under examination</param>
         public static void IsNotAssignableFrom(Type expected, object actual)
         {
-            Assert.That(actual, Is.Not.AssignableFrom(expected) ,null, null);
+            Assert.That(actual, Is.Not.AssignableFrom(expected), null, null);
         }
 
         #endregion
@@ -1437,7 +1437,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNotAssignableFrom<T>(object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.AssignableFrom(typeof(T)) ,message, args);
+            Assert.That(actual, Is.Not.AssignableFrom(typeof(T)), message, args);
         }
         /// <summary>
         /// Asserts that an object may not be assigned a  value of a given Type.
@@ -1447,7 +1447,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNotAssignableFrom<T>(object actual, string message)
         {
-            Assert.That(actual, Is.Not.AssignableFrom(typeof(T)) ,message, null);
+            Assert.That(actual, Is.Not.AssignableFrom(typeof(T)), message, null);
         }
         /// <summary>
         /// Asserts that an object may not be assigned a  value of a given Type.
@@ -1456,7 +1456,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object under examination</param>
         public static void IsNotAssignableFrom<T>(object actual)
         {
-            Assert.That(actual, Is.Not.AssignableFrom(typeof(T)) ,null, null);
+            Assert.That(actual, Is.Not.AssignableFrom(typeof(T)), null, null);
         }
 #endif
 
@@ -1473,7 +1473,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsInstanceOf(Type expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.InstanceOf(expected) ,message, args);
+            Assert.That(actual, Is.InstanceOf(expected), message, args);
         }
         /// <summary>
         /// Asserts that an object is an instance of a given type.
@@ -1483,7 +1483,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsInstanceOf(Type expected, object actual, string message)
         {
-            Assert.That(actual, Is.InstanceOf(expected) ,message, null);
+            Assert.That(actual, Is.InstanceOf(expected), message, null);
         }
         /// <summary>
         /// Asserts that an object is an instance of a given type.
@@ -1492,7 +1492,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object being examined</param>
         public static void IsInstanceOf(Type expected, object actual)
         {
-            Assert.That(actual, Is.InstanceOf(expected) ,null, null);
+            Assert.That(actual, Is.InstanceOf(expected), null, null);
         }
 
         /// <summary>
@@ -1505,7 +1505,7 @@ namespace NUnit.Framework
         [Obsolete]
         public static void IsInstanceOfType(Type expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.InstanceOf(expected) ,message, args);
+            Assert.That(actual, Is.InstanceOf(expected), message, args);
         }
         /// <summary>
         /// Asserts that an object is an instance of a given type.
@@ -1516,7 +1516,7 @@ namespace NUnit.Framework
         [Obsolete]
         public static void IsInstanceOfType(Type expected, object actual, string message)
         {
-            Assert.That(actual, Is.InstanceOf(expected) ,message, null);
+            Assert.That(actual, Is.InstanceOf(expected), message, null);
         }
         /// <summary>
         /// Asserts that an object is an instance of a given type.
@@ -1526,7 +1526,7 @@ namespace NUnit.Framework
         [Obsolete]
         public static void IsInstanceOfType(Type expected, object actual)
         {
-            Assert.That(actual, Is.InstanceOf(expected) ,null, null);
+            Assert.That(actual, Is.InstanceOf(expected), null, null);
         }
 
         #endregion
@@ -1543,7 +1543,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsInstanceOf<T>(object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.InstanceOf(typeof(T)) ,message, args);
+            Assert.That(actual, Is.InstanceOf(typeof(T)), message, args);
         }
         /// <summary>
         /// Asserts that an object is an instance of a given type.
@@ -1553,7 +1553,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsInstanceOf<T>(object actual, string message)
         {
-            Assert.That(actual, Is.InstanceOf(typeof(T)) ,message, null);
+            Assert.That(actual, Is.InstanceOf(typeof(T)), message, null);
         }
         /// <summary>
         /// Asserts that an object is an instance of a given type.
@@ -1562,7 +1562,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object being examined</param>
         public static void IsInstanceOf<T>(object actual)
         {
-            Assert.That(actual, Is.InstanceOf(typeof(T)) ,null, null);
+            Assert.That(actual, Is.InstanceOf(typeof(T)), null, null);
         }
 #endif
 
@@ -1579,7 +1579,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNotInstanceOf(Type expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.InstanceOf(expected) ,message, args);
+            Assert.That(actual, Is.Not.InstanceOf(expected), message, args);
         }
         /// <summary>
         /// Asserts that an object is not an instance of a given type.
@@ -1589,7 +1589,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNotInstanceOf(Type expected, object actual, string message)
         {
-            Assert.That(actual, Is.Not.InstanceOf(expected) ,message, null);
+            Assert.That(actual, Is.Not.InstanceOf(expected), message, null);
         }
         /// <summary>
         /// Asserts that an object is not an instance of a given type.
@@ -1598,7 +1598,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object being examined</param>
         public static void IsNotInstanceOf(Type expected, object actual)
         {
-            Assert.That(actual, Is.Not.InstanceOf(expected) ,null, null);
+            Assert.That(actual, Is.Not.InstanceOf(expected), null, null);
         }
 
         /// <summary>
@@ -1611,7 +1611,7 @@ namespace NUnit.Framework
         [Obsolete]
         public static void IsNotInstanceOfType(Type expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.InstanceOf(expected) ,message, args);
+            Assert.That(actual, Is.Not.InstanceOf(expected), message, args);
         }
         /// <summary>
         /// Asserts that an object is not an instance of a given type.
@@ -1622,7 +1622,7 @@ namespace NUnit.Framework
         [Obsolete]
         public static void IsNotInstanceOfType(Type expected, object actual, string message)
         {
-            Assert.That(actual, Is.Not.InstanceOf(expected) ,message, null);
+            Assert.That(actual, Is.Not.InstanceOf(expected), message, null);
         }
         /// <summary>
         /// Asserts that an object is not an instance of a given type.
@@ -1632,7 +1632,7 @@ namespace NUnit.Framework
         [Obsolete]
         public static void IsNotInstanceOfType(Type expected, object actual)
         {
-            Assert.That(actual, Is.Not.InstanceOf(expected) ,null, null);
+            Assert.That(actual, Is.Not.InstanceOf(expected), null, null);
         }
 
         #endregion
@@ -1649,7 +1649,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void IsNotInstanceOf<T>(object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,message, args);
+            Assert.That(actual, Is.Not.InstanceOf(typeof(T)), message, args);
         }
         /// <summary>
         /// Asserts that an object is not an instance of a given type.
@@ -1659,7 +1659,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void IsNotInstanceOf<T>(object actual, string message)
         {
-            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,message, null);
+            Assert.That(actual, Is.Not.InstanceOf(typeof(T)), message, null);
         }
         /// <summary>
         /// Asserts that an object is not an instance of a given type.
@@ -1668,7 +1668,7 @@ namespace NUnit.Framework
         /// <param name="actual">The object being examined</param>
         public static void IsNotInstanceOf<T>(object actual)
         {
-            Assert.That(actual, Is.Not.InstanceOf(typeof(T)) ,null, null);
+            Assert.That(actual, Is.Not.InstanceOf(typeof(T)), null, null);
         }
 #endif
 
@@ -1686,7 +1686,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreEqual(int expected, int actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1697,7 +1697,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreEqual(int expected, int actual, string message)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1707,7 +1707,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreEqual(int expected, int actual)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -1720,7 +1720,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreEqual(long expected, long actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1731,7 +1731,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreEqual(long expected, long actual, string message)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1741,7 +1741,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreEqual(long expected, long actual)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -1755,7 +1755,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreEqual(uint expected, uint actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1767,7 +1767,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreEqual(uint expected, uint actual, string message)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1778,7 +1778,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreEqual(uint expected, uint actual)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -1792,7 +1792,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreEqual(ulong expected, ulong actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1804,7 +1804,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreEqual(ulong expected, ulong actual, string message)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1815,7 +1815,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreEqual(ulong expected, ulong actual)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -1828,7 +1828,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreEqual(decimal expected, decimal actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1839,7 +1839,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreEqual(decimal expected, decimal actual, string message)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are equal. If they are not, then an 
@@ -1849,7 +1849,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreEqual(decimal expected, decimal actual)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.EqualTo(expected), null, null);
         }
 
         #endregion
@@ -1870,7 +1870,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreEqual(double expected, double actual, double delta, string message, params object[] args)
         {
-            AssertDoublesAreEqual(expected, actual, delta ,message, args);
+            AssertDoublesAreEqual(expected, actual, delta, message, args);
         }
         /// <summary>
         /// Verifies that two doubles are equal considering a delta. If the
@@ -1885,7 +1885,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreEqual(double expected, double actual, double delta, string message)
         {
-            AssertDoublesAreEqual(expected, actual, delta ,message, null);
+            AssertDoublesAreEqual(expected, actual, delta, message, null);
         }
         /// <summary>
         /// Verifies that two doubles are equal considering a delta. If the
@@ -1899,7 +1899,7 @@ namespace NUnit.Framework
         /// the expected and the actual</param>
         public static void AreEqual(double expected, double actual, double delta)
         {
-            AssertDoublesAreEqual(expected, actual, delta ,null, null);
+            AssertDoublesAreEqual(expected, actual, delta, null, null);
         }
 
 #if CLR_2_0 || CLR_4_0
@@ -1917,7 +1917,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreEqual(double expected, double? actual, double delta, string message, params object[] args)
         {
-            AssertDoublesAreEqual(expected, (double)actual, delta ,message, args);
+            AssertDoublesAreEqual(expected, (double)actual, delta, message, args);
         }
         /// <summary>
         /// Verifies that two doubles are equal considering a delta. If the
@@ -1932,7 +1932,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreEqual(double expected, double? actual, double delta, string message)
         {
-            AssertDoublesAreEqual(expected, (double)actual, delta ,message, null);
+            AssertDoublesAreEqual(expected, (double)actual, delta, message, null);
         }
         /// <summary>
         /// Verifies that two doubles are equal considering a delta. If the
@@ -1946,7 +1946,7 @@ namespace NUnit.Framework
         /// the expected and the actual</param>
         public static void AreEqual(double expected, double? actual, double delta)
         {
-            AssertDoublesAreEqual(expected, (double)actual, delta ,null, null);
+            AssertDoublesAreEqual(expected, (double)actual, delta, null, null);
         }
 #endif
 
@@ -1966,7 +1966,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreEqual(object expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two objects are equal.  Two objects are considered
@@ -1979,7 +1979,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreEqual(object expected, object actual, string message)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two objects are equal.  Two objects are considered
@@ -1991,7 +1991,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreEqual(object expected, object actual)
         {
-            Assert.That(actual, Is.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.EqualTo(expected), null, null);
         }
 
         #endregion
@@ -2008,7 +2008,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreNotEqual(int expected, int actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2019,7 +2019,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreNotEqual(int expected, int actual, string message)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2029,7 +2029,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreNotEqual(int expected, int actual)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -2042,7 +2042,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreNotEqual(long expected, long actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2053,7 +2053,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreNotEqual(long expected, long actual, string message)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2063,7 +2063,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreNotEqual(long expected, long actual)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -2077,7 +2077,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreNotEqual(uint expected, uint actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2089,7 +2089,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreNotEqual(uint expected, uint actual, string message)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2100,7 +2100,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreNotEqual(uint expected, uint actual)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -2114,7 +2114,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreNotEqual(ulong expected, ulong actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2126,7 +2126,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreNotEqual(ulong expected, ulong actual, string message)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2137,7 +2137,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void AreNotEqual(ulong expected, ulong actual)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -2150,7 +2150,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreNotEqual(decimal expected, decimal actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2161,7 +2161,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreNotEqual(decimal expected, decimal actual, string message)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2171,7 +2171,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreNotEqual(decimal expected, decimal actual)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -2184,7 +2184,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreNotEqual(float expected, float actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2195,7 +2195,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreNotEqual(float expected, float actual, string message)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2205,7 +2205,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreNotEqual(float expected, float actual)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), null, null);
         }
 
         /// <summary>
@@ -2218,7 +2218,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreNotEqual(double expected, double actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2229,7 +2229,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreNotEqual(double expected, double actual, string message)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two values are not equal. If they are equal, then an 
@@ -2239,7 +2239,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreNotEqual(double expected, double actual)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), null, null);
         }
 
         #endregion
@@ -2258,7 +2258,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreNotEqual(object expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, args);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, args);
         }
         /// <summary>
         /// Verifies that two objects are not equal.  Two objects are considered
@@ -2271,7 +2271,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreNotEqual(object expected, object actual, string message)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,message, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), message, null);
         }
         /// <summary>
         /// Verifies that two objects are not equal.  Two objects are considered
@@ -2283,7 +2283,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual value</param>
         public static void AreNotEqual(object expected, object actual)
         {
-            Assert.That(actual, Is.Not.EqualTo(expected) ,null, null);
+            Assert.That(actual, Is.Not.EqualTo(expected), null, null);
         }
 
         #endregion
@@ -2300,7 +2300,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreSame(object expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.SameAs(expected) ,message, args);
+            Assert.That(actual, Is.SameAs(expected), message, args);
         }
         /// <summary>
         /// Asserts that two objects refer to the same object. If they
@@ -2311,7 +2311,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreSame(object expected, object actual, string message)
         {
-            Assert.That(actual, Is.SameAs(expected) ,message, null);
+            Assert.That(actual, Is.SameAs(expected), message, null);
         }
         /// <summary>
         /// Asserts that two objects refer to the same object. If they
@@ -2321,7 +2321,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual object</param>
         public static void AreSame(object expected, object actual)
         {
-            Assert.That(actual, Is.SameAs(expected) ,null, null);
+            Assert.That(actual, Is.SameAs(expected), null, null);
         }
 
         #endregion
@@ -2338,7 +2338,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void AreNotSame(object expected, object actual, string message, params object[] args)
         {
-            Assert.That(actual, Is.Not.SameAs(expected) ,message, args);
+            Assert.That(actual, Is.Not.SameAs(expected), message, args);
         }
         /// <summary>
         /// Asserts that two objects do not refer to the same object. If they
@@ -2349,7 +2349,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void AreNotSame(object expected, object actual, string message)
         {
-            Assert.That(actual, Is.Not.SameAs(expected) ,message, null);
+            Assert.That(actual, Is.Not.SameAs(expected), message, null);
         }
         /// <summary>
         /// Asserts that two objects do not refer to the same object. If they
@@ -2359,7 +2359,7 @@ namespace NUnit.Framework
         /// <param name="actual">The actual object</param>
         public static void AreNotSame(object expected, object actual)
         {
-            Assert.That(actual, Is.Not.SameAs(expected) ,null, null);
+            Assert.That(actual, Is.Not.SameAs(expected), null, null);
         }
 
         #endregion
@@ -2377,7 +2377,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Greater(int arg1, int arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2389,7 +2389,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Greater(int arg1, int arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2400,7 +2400,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void Greater(int arg1, int arg2)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2415,7 +2415,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Greater(uint arg1, uint arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2428,7 +2428,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Greater(uint arg1, uint arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2440,7 +2440,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Greater(uint arg1, uint arg2)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2454,7 +2454,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Greater(long arg1, long arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2466,7 +2466,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Greater(long arg1, long arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2477,7 +2477,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void Greater(long arg1, long arg2)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2492,7 +2492,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Greater(ulong arg1, ulong arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2505,7 +2505,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Greater(ulong arg1, ulong arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2517,7 +2517,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Greater(ulong arg1, ulong arg2)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2531,7 +2531,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Greater(decimal arg1, decimal arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2543,7 +2543,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Greater(decimal arg1, decimal arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2554,7 +2554,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void Greater(decimal arg1, decimal arg2)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2568,7 +2568,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Greater(double arg1, double arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2580,7 +2580,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Greater(double arg1, double arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2591,7 +2591,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void Greater(double arg1, double arg2)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2605,7 +2605,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Greater(float arg1, float arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2617,7 +2617,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Greater(float arg1, float arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2628,7 +2628,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void Greater(float arg1, float arg2)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2642,7 +2642,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Greater(IComparable arg1, IComparable arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2654,7 +2654,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Greater(IComparable arg1, IComparable arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than the second
@@ -2665,7 +2665,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void Greater(IComparable arg1, IComparable arg2)
         {
-            Assert.That(arg1, Is.GreaterThan(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThan(arg2), null, null);
         }
 
         #endregion
@@ -2683,7 +2683,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Less(int arg1, int arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2695,7 +2695,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Less(int arg1, int arg2, string message)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2706,7 +2706,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void Less(int arg1, int arg2)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2721,7 +2721,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Less(uint arg1, uint arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2734,7 +2734,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Less(uint arg1, uint arg2, string message)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2746,7 +2746,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Less(uint arg1, uint arg2)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2760,7 +2760,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Less(long arg1, long arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2772,7 +2772,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Less(long arg1, long arg2, string message)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2783,7 +2783,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void Less(long arg1, long arg2)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2798,7 +2798,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Less(ulong arg1, ulong arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2811,7 +2811,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Less(ulong arg1, ulong arg2, string message)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2823,7 +2823,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void Less(ulong arg1, ulong arg2)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2837,7 +2837,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Less(decimal arg1, decimal arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2849,7 +2849,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Less(decimal arg1, decimal arg2, string message)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2860,7 +2860,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void Less(decimal arg1, decimal arg2)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2874,7 +2874,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Less(double arg1, double arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2886,7 +2886,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Less(double arg1, double arg2, string message)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2897,7 +2897,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void Less(double arg1, double arg2)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2911,7 +2911,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Less(float arg1, float arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2923,7 +2923,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Less(float arg1, float arg2, string message)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2934,7 +2934,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void Less(float arg1, float arg2)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThan(arg2), null, null);
         }
 
         /// <summary>
@@ -2948,7 +2948,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Less(IComparable arg1, IComparable arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThan(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2960,7 +2960,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Less(IComparable arg1, IComparable arg2, string message)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThan(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than the second
@@ -2971,7 +2971,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void Less(IComparable arg1, IComparable arg2)
         {
-            Assert.That(arg1, Is.LessThan(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThan(arg2), null, null);
         }
 
         #endregion
@@ -2989,7 +2989,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void GreaterOrEqual(int arg1, int arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3001,7 +3001,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void GreaterOrEqual(int arg1, int arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3012,7 +3012,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void GreaterOrEqual(int arg1, int arg2)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3027,7 +3027,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void GreaterOrEqual(uint arg1, uint arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3040,7 +3040,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void GreaterOrEqual(uint arg1, uint arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3052,7 +3052,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void GreaterOrEqual(uint arg1, uint arg2)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3066,7 +3066,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void GreaterOrEqual(long arg1, long arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3078,7 +3078,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void GreaterOrEqual(long arg1, long arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3089,7 +3089,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void GreaterOrEqual(long arg1, long arg2)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3104,7 +3104,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void GreaterOrEqual(ulong arg1, ulong arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3117,7 +3117,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void GreaterOrEqual(ulong arg1, ulong arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3129,7 +3129,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void GreaterOrEqual(ulong arg1, ulong arg2)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3143,7 +3143,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void GreaterOrEqual(decimal arg1, decimal arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3155,7 +3155,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void GreaterOrEqual(decimal arg1, decimal arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3166,7 +3166,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void GreaterOrEqual(decimal arg1, decimal arg2)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3180,7 +3180,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void GreaterOrEqual(double arg1, double arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3192,7 +3192,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void GreaterOrEqual(double arg1, double arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3203,7 +3203,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void GreaterOrEqual(double arg1, double arg2)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3217,7 +3217,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void GreaterOrEqual(float arg1, float arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3229,7 +3229,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void GreaterOrEqual(float arg1, float arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3240,7 +3240,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void GreaterOrEqual(float arg1, float arg2)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3254,7 +3254,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void GreaterOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3266,7 +3266,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void GreaterOrEqual(IComparable arg1, IComparable arg2, string message)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is greater than or equal tothe second
@@ -3277,7 +3277,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be less</param>
         public static void GreaterOrEqual(IComparable arg1, IComparable arg2)
         {
-            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.GreaterThanOrEqualTo(arg2), null, null);
         }
 
         #endregion
@@ -3295,7 +3295,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void LessOrEqual(int arg1, int arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3307,7 +3307,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void LessOrEqual(int arg1, int arg2, string message)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3318,7 +3318,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void LessOrEqual(int arg1, int arg2)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3333,7 +3333,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void LessOrEqual(uint arg1, uint arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3346,7 +3346,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void LessOrEqual(uint arg1, uint arg2, string message)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3358,7 +3358,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void LessOrEqual(uint arg1, uint arg2)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3372,7 +3372,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void LessOrEqual(long arg1, long arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3384,7 +3384,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void LessOrEqual(long arg1, long arg2, string message)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3395,7 +3395,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void LessOrEqual(long arg1, long arg2)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3410,7 +3410,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void LessOrEqual(ulong arg1, ulong arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3423,7 +3423,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void LessOrEqual(ulong arg1, ulong arg2, string message)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3435,7 +3435,7 @@ namespace NUnit.Framework
         [CLSCompliant(false)]
         public static void LessOrEqual(ulong arg1, ulong arg2)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3449,7 +3449,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void LessOrEqual(decimal arg1, decimal arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3461,7 +3461,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void LessOrEqual(decimal arg1, decimal arg2, string message)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3472,7 +3472,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void LessOrEqual(decimal arg1, decimal arg2)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3486,7 +3486,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void LessOrEqual(double arg1, double arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3498,7 +3498,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void LessOrEqual(double arg1, double arg2, string message)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3509,7 +3509,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void LessOrEqual(double arg1, double arg2)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3523,7 +3523,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void LessOrEqual(float arg1, float arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3535,7 +3535,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void LessOrEqual(float arg1, float arg2, string message)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3546,7 +3546,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void LessOrEqual(float arg1, float arg2)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), null, null);
         }
 
         /// <summary>
@@ -3560,7 +3560,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void LessOrEqual(IComparable arg1, IComparable arg2, string message, params object[] args)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, args);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, args);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3572,7 +3572,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void LessOrEqual(IComparable arg1, IComparable arg2, string message)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,message, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), message, null);
         }
         /// <summary>
         /// Verifies that the first value is less than or equal to the second
@@ -3583,7 +3583,7 @@ namespace NUnit.Framework
         /// <param name="arg2">The second value, expected to be greater</param>
         public static void LessOrEqual(IComparable arg1, IComparable arg2)
         {
-            Assert.That(arg1, Is.LessThanOrEqualTo(arg2) ,null, null);
+            Assert.That(arg1, Is.LessThanOrEqualTo(arg2), null, null);
         }
 
         #endregion
@@ -3599,7 +3599,7 @@ namespace NUnit.Framework
         /// <param name="args">Array of objects to be used in formatting the message</param>
         public static void Contains(object expected, ICollection actual, string message, params object[] args)
         {
-            Assert.That(actual, new CollectionContainsConstraint(expected) ,message, args);
+            Assert.That(actual, new CollectionContainsConstraint(expected), message, args);
         }
         /// <summary>
         /// Asserts that an object is contained in a list.
@@ -3609,7 +3609,7 @@ namespace NUnit.Framework
         /// <param name="message">The message to display in case of failure</param>
         public static void Contains(object expected, ICollection actual, string message)
         {
-            Assert.That(actual, new CollectionContainsConstraint(expected) ,message, null);
+            Assert.That(actual, new CollectionContainsConstraint(expected), message, null);
         }
         /// <summary>
         /// Asserts that an object is contained in a list.
@@ -3618,7 +3618,7 @@ namespace NUnit.Framework
         /// <param name="actual">The list to be examined</param>
         public static void Contains(object expected, ICollection actual)
         {
-            Assert.That(actual, new CollectionContainsConstraint(expected) ,null, null);
+            Assert.That(actual, new CollectionContainsConstraint(expected), null, null);
         }
 
         #endregion
