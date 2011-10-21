@@ -60,7 +60,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.Button stopButton;
 		public System.Windows.Forms.Label suiteName;
 		public NUnit.UiKit.TestProgressBar progressBar;
-		private System.Windows.Forms.Label runCount;
+		private CP.Windows.Forms.ExpandingLabel runCount;
 
 		public NUnit.UiKit.ResultTabs resultTabs;
 
@@ -224,6 +224,7 @@ namespace NUnit.Gui
             this.assemblyDetailsMenuItem = new System.Windows.Forms.MenuItem();
             this.saveXmlResultsMenuItem = new System.Windows.Forms.MenuItem();
             this.exceptionDetailsMenuItem = new System.Windows.Forms.MenuItem();
+            this.openLogDirectoryMenuItem = new System.Windows.Forms.MenuItem();
             this.toolsMenuSeparator1 = new System.Windows.Forms.MenuItem();
             this.settingsMenuItem = new System.Windows.Forms.MenuItem();
             this.toolsMenuSeparator2 = new System.Windows.Forms.MenuItem();
@@ -235,7 +236,7 @@ namespace NUnit.Gui
             this.treeSplitter = new System.Windows.Forms.Splitter();
             this.rightPanel = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.runCount = new System.Windows.Forms.Label();
+            this.runCount = new CP.Windows.Forms.ExpandingLabel();
             this.stopButton = new System.Windows.Forms.Button();
             this.runButton = new System.Windows.Forms.Button();
             this.suiteName = new System.Windows.Forms.Label();
@@ -244,7 +245,6 @@ namespace NUnit.Gui
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.testTree = new NUnit.UiKit.TestTree();
             this.leftPanel = new System.Windows.Forms.Panel();
-            this.openLogDirectoryMenuItem = new System.Windows.Forms.MenuItem();
             this.rightPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.leftPanel.SuspendLayout();
@@ -623,6 +623,12 @@ namespace NUnit.Gui
             this.exceptionDetailsMenuItem.Text = "&Exception Details...";
             this.exceptionDetailsMenuItem.Click += new System.EventHandler(this.exceptionDetailsMenuItem_Click);
             // 
+            // openLogDirectoryMenuItem
+            // 
+            this.openLogDirectoryMenuItem.Index = 3;
+            this.openLogDirectoryMenuItem.Text = "Open &Log Directory...";
+            this.openLogDirectoryMenuItem.Click += new System.EventHandler(this.openLogDirectoryMenuItem_Click);
+            // 
             // toolsMenuSeparator1
             // 
             this.toolsMenuSeparator1.Index = 4;
@@ -710,11 +716,12 @@ namespace NUnit.Gui
             // 
             this.runCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.runCount.AutoEllipsis = true;
             this.runCount.Location = new System.Drawing.Point(8, 96);
             this.runCount.Name = "runCount";
-            this.runCount.Size = new System.Drawing.Size(480, 16);
+            this.runCount.Size = new System.Drawing.Size(480, 13);
             this.runCount.TabIndex = 5;
-            this.runCount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.runCount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // stopButton
             // 
@@ -789,12 +796,6 @@ namespace NUnit.Gui
             this.leftPanel.Name = "leftPanel";
             this.leftPanel.Size = new System.Drawing.Size(240, 407);
             this.leftPanel.TabIndex = 4;
-            // 
-            // openLogDirectoryMenuItem
-            // 
-            this.openLogDirectoryMenuItem.Index = 3;
-            this.openLogDirectoryMenuItem.Text = "Open &Log Directory...";
-            this.openLogDirectoryMenuItem.Click += new System.EventHandler(this.openLogDirectoryMenuItem_Click);
             // 
             // NUnitForm
             // 
