@@ -140,5 +140,11 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(currentPrincipal, Thread.CurrentPrincipal, "Principal was not restored");
             Assert.AreEqual(currentPrincipal, TestExecutionContext.CurrentContext.CurrentPrincipal, "Principal not in final context");
         }
+
+        [Test, Explicit("Run this test manually with PrincipalPolicy set to WindowsPrincipal in the advanced loader settings")]
+        public void CanSetPrincipalPolicy()
+        {
+            Assert.That(Thread.CurrentPrincipal is WindowsPrincipal);
+        }
     }
 }
