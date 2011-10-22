@@ -537,6 +537,36 @@ namespace NUnit.Framework.Tests
 
             Assert.AreEqual(dir1, dir2);
         }
-    }
-}
 
+		[Test]
+		public void IEquatableSuccess_OldSyntax()
+		{
+			IntEquatable a = new IntEquatable(1);
+
+			Assert.AreEqual(1, a);
+		}
+
+		[Test]
+		public void IEquatableSuccess_ConstraintSyntax()
+		{
+			IntEquatable a = new IntEquatable(1);
+
+			Assert.That(a, Is.EqualTo(1));
+		}
+    }
+
+	public class IntEquatable : IEquatable<int>
+	{
+		private int i;
+
+		public IntEquatable(int i)
+		{
+			this.i = i;
+		}
+
+		public bool Equals(int other)
+		{
+			return i.Equals(other);
+		}
+	}
+}

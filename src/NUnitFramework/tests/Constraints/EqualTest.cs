@@ -586,9 +586,10 @@ namespace NUnit.Framework.Constraints
 		[Test]
 		public void IEquatableDifferentTypesSuccess()
 		{
-			Int32IEquatable x = new Int32IEquatable(1);
-			int y = 1;
+			int x = 1;
+			Int32IEquatable y = new Int32IEquatable(1);
 
+			// y.Equals(x) is what gets actually called
 			Assert.IsTrue(comparer.AreEqual(x, y, ref tolerance));
 		}
 

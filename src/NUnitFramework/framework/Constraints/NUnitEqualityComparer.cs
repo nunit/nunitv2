@@ -153,46 +153,43 @@ namespace NUnit.Framework.Constraints
             }
 
 			#if CLR_2_0 || CLR_4_0
-        	Type genericArgument;
-        	if(XImplementsIEquatableOfY(x, y))
-        	{
-        		return InvokeIEquatableOfYOnX(x, y);
-        	}
+        	if (FirstImplementsIEquatableOfSecond(yType, xType))
+        		return InvokeFirstIEquatableEqualsSecond(y, x);
 			#endif
 
             return x.Equals(y);
         }
 
-    	private static bool XImplementsIEquatableOfY(object x, object y)
+    	private static bool FirstImplementsIEquatableOfSecond(Type first, Type second)
     	{
-    		Type[] equatableArguments = GetEquatableGenericArguments(x);
+    		Type[] equatableArguments = GetEquatableGenericArguments(first);
 
     		foreach (var xEquatableArgument in equatableArguments)
-    			if (xEquatableArgument.Equals(y.GetType()))
+    			if (xEquatableArgument.Equals(second))
     				return true;
 
     		return false;
     	}
 
-    	private static bool InvokeIEquatableOfYOnX(object x, object y)
+    	private static Type[] GetEquatableGenericArguments(Type type)
     	{
-    		MethodInfo equals = typeof (IEquatable<>).MakeGenericType(y.GetType()).GetMethod("Equals");
-
-    		return (bool) equals.Invoke(x, new object[] {y});
+    		return Array.ConvertAll(Array.FindAll(type.GetInterfaces(),
+                                    delegate(Type @interface)
+                                    {
+                                  	    return @interface.IsGenericType &&
+                                  	           @interface.GetGenericTypeDefinition().Equals(typeof (IEquatable<>));
+                                    }),
+								    delegate(Type iEquatableInterface)
+								    {
+								  	    return iEquatableInterface.GetGenericArguments()[0];
+								    });
     	}
 
-    	private static Type[] GetEquatableGenericArguments(object instance)
+    	private static bool InvokeFirstIEquatableEqualsSecond(object first, object second)
     	{
-    		return Array.ConvertAll(Array.FindAll(instance.GetType().GetInterfaces(), 
-									delegate(Type @interface)
-									{
-                                  		return @interface.IsGenericType && 
-                                  			   @interface.GetGenericTypeDefinition().Equals(typeof(IEquatable<>));
-									}), 
-    		                        delegate(Type iEquatableInterface)
-    		                        {
-    		                        	return iEquatableInterface.GetGenericArguments()[0];
-    		                        });
+    		MethodInfo equals = typeof (IEquatable<>).MakeGenericType(second.GetType()).GetMethod("Equals");
+
+    		return (bool) equals.Invoke(first, new object[] {second});
     	}
 
     	#endregion
