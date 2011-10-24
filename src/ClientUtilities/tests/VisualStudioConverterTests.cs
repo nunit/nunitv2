@@ -17,6 +17,8 @@ namespace NUnit.Util.Tests
 	public class VisualStudioConverterTests
 	{
 		private VisualStudioConverter converter;
+        static readonly bool useSolutionConfigs = 
+            Services.UserSettings.GetSetting("Options.TestLoader.VisualStudio.UseSolutionConfigs", true);
 		
 		private void AssertCanLoadVsProject( string resourceName )
 		{
@@ -79,11 +81,20 @@ namespace NUnit.Util.Tests
 			using(TestResource file = new TestResource("samples.sln"))
 			{
 				NUnitProject project = converter.ConvertFrom( file.Path );
-				Assert.AreEqual( 4, project.Configs.Count );
-				Assert.AreEqual( 3, project.Configs["Debug"].Assemblies.Count );
-				Assert.AreEqual( 3, project.Configs["Release"].Assemblies.Count );
-				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
-				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
+                if (useSolutionConfigs)
+                {
+                    Assert.AreEqual(2, project.Configs.Count);
+                    Assert.AreEqual(4, project.Configs["Debug"].Assemblies.Count);
+                    Assert.AreEqual(4, project.Configs["Release"].Assemblies.Count);
+                }
+                else
+                {
+                    Assert.AreEqual(4, project.Configs.Count);
+                    Assert.AreEqual(3, project.Configs["Debug"].Assemblies.Count);
+                    Assert.AreEqual(3, project.Configs["Release"].Assemblies.Count);
+                    Assert.AreEqual(1, project.Configs["Debug|Win32"].Assemblies.Count);
+                    Assert.AreEqual(1, project.Configs["Release|Win32"].Assemblies.Count);
+                }
 				Assert.IsTrue( project.IsLoadable, "Not loadable" );
 				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 			}
@@ -99,11 +110,20 @@ namespace NUnit.Util.Tests
             using (TestResource file = new TestResource("samples_VS2005.sln"))
 			{
 				NUnitProject project = converter.ConvertFrom( file.Path );
-				Assert.AreEqual( 4, project.Configs.Count );
-				Assert.AreEqual( 3, project.Configs["Debug"].Assemblies.Count );
-				Assert.AreEqual( 3, project.Configs["Release"].Assemblies.Count );
-				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
-				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
+                if (useSolutionConfigs)
+                {
+                    Assert.AreEqual(2, project.Configs.Count);
+                    Assert.AreEqual(4, project.Configs["Debug"].Assemblies.Count);
+                    Assert.AreEqual(4, project.Configs["Release"].Assemblies.Count);
+                }
+                else
+                {
+                    Assert.AreEqual(4, project.Configs.Count);
+                    Assert.AreEqual(3, project.Configs["Debug"].Assemblies.Count);
+                    Assert.AreEqual(3, project.Configs["Release"].Assemblies.Count);
+                    Assert.AreEqual(1, project.Configs["Debug|Win32"].Assemblies.Count);
+                    Assert.AreEqual(1, project.Configs["Release|Win32"].Assemblies.Count);
+                }
 				Assert.IsTrue( project.IsLoadable, "Not loadable" );
 				Assert.IsFalse( project.IsDirty, "Project should not be dirty" );
 			}
@@ -130,11 +150,20 @@ namespace NUnit.Util.Tests
             using (TestResource file = new TestResource("Solution1.sln")) 
 			{
 				NUnitProject project = converter.ConvertFrom( file.Path );
-				Assert.AreEqual( 4, project.Configs.Count );
-				Assert.AreEqual( 1, project.Configs["Debug"].Assemblies.Count );
-				Assert.AreEqual( 1, project.Configs["Release"].Assemblies.Count );
-				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
-				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
+                if (useSolutionConfigs)
+                {
+                    Assert.AreEqual(2, project.Configs.Count);
+                    Assert.AreEqual(2, project.Configs["Debug"].Assemblies.Count);
+                    Assert.AreEqual(2, project.Configs["Release"].Assemblies.Count);
+                }
+                else
+                {
+                    Assert.AreEqual(4, project.Configs.Count);
+                    Assert.AreEqual(1, project.Configs["Debug"].Assemblies.Count);
+                    Assert.AreEqual(1, project.Configs["Release"].Assemblies.Count);
+                    Assert.AreEqual(1, project.Configs["Debug|Win32"].Assemblies.Count);
+                    Assert.AreEqual(1, project.Configs["Release|Win32"].Assemblies.Count);
+                }
 			}
 		}
 
@@ -145,9 +174,26 @@ namespace NUnit.Util.Tests
 			{
 				NUnitProject project = converter.ConvertFrom( file.Path );
 				Assert.AreEqual( 2, project.Configs.Count );
-				Assert.AreEqual( 1, project.Configs["Debug|Win32"].Assemblies.Count );
-				Assert.AreEqual( 1, project.Configs["Release|Win32"].Assemblies.Count );
-			}
+                Assert.AreEqual(1, project.Configs["Debug|Win32"].Assemblies.Count);
+                Assert.AreEqual(1, project.Configs["Release|Win32"].Assemblies.Count);
+            }
 		}
+
+        [Test]
+        public void FromSolutionWithDisabledProject()
+        {
+            using (new TestResource("DisabledProject.csproj", @"DisabledProject\DisabledProject.csproj"))
+            using (new TestResource("DebugOnly.csproj", @"DebugOnly\DebugOnly.csproj"))
+            using (TestResource file = new TestResource("DisabledProject.sln"))
+            {
+                NUnitProject project = converter.ConvertFrom(file.Path);
+                Assert.AreEqual(2, project.Configs.Count);
+                Assert.AreEqual(2, project.Configs["Release"].Assemblies.Count, "Release should have 2 assemblies");
+                if (useSolutionConfigs)
+                    Assert.AreEqual(1, project.Configs["Debug"].Assemblies.Count, "Debug should have 1 assembly");
+                else
+                    Assert.AreEqual(2, project.Configs["Debug"].Assemblies.Count, "Debug should have 2 assemblies");
+            }
+        }
 	}
 }

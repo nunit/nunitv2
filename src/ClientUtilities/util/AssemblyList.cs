@@ -54,7 +54,18 @@ namespace NUnit.Util
 			}
 		}
 
-		protected override void OnRemoveComplete(int index, object value)
+        public bool Contains(string assemblyPath)
+        {
+            for (int index = 0; index < this.Count; index++)
+            {
+                if (this[index] == assemblyPath)
+                    return true;
+            }
+
+            return false;
+        }
+
+        protected override void OnRemoveComplete(int index, object value)
 		{
 			FireChangedEvent();
 		}
