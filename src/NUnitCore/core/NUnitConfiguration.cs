@@ -299,37 +299,29 @@ namespace NUnit.Core
         {
             get
             {
-#if CLR_2_0 || CLR_4_0
-                string helpUrl = ConfigurationManager.AppSettings["helpUrl"];
-#else
-                string helpUrl = ConfigurationSettings.AppSettings["helpUrl"];
-#endif
+                string helpUrl = "http://nunit.org";
 
-                if (helpUrl == null)
+                string dir = Path.GetDirectoryName(NUnitBinDirectory);
+                string docDir = null;
+
+                while (dir != null)
                 {
-                    helpUrl = "http://nunit.org";
-                    string dir = Path.GetDirectoryName(NUnitBinDirectory);
-                    string docDir = null;
+                    docDir = Path.Combine(dir, "doc");
+                    if (Directory.Exists(docDir))
+                        break;
+                    dir = Path.GetDirectoryName(dir);
+                }
 
-                    while (dir != null)
+                if (docDir != null)
+                {
+                    string localPath = Path.Combine(docDir, "index.html");
+                    if (File.Exists(localPath))
                     {
-                        docDir = Path.Combine(dir, "doc");
-                        if (Directory.Exists(docDir))
-                            break;
-                        dir = Path.GetDirectoryName(dir);
-                    }
-
-                    if (docDir != null)
-                    {
-                        string localPath = Path.Combine(docDir, "index.html");
-                        if (File.Exists(localPath))
-                        {
-                            UriBuilder uri = new UriBuilder();
-                            uri.Scheme = "file";
-                            uri.Host = "localhost";
-                            uri.Path = localPath;
-                            helpUrl = uri.ToString();
-                        }
+                        UriBuilder uri = new UriBuilder();
+                        uri.Scheme = "file";
+                        uri.Host = "localhost";
+                        uri.Path = localPath;
+                        helpUrl = uri.ToString();
                     }
                 }
 
