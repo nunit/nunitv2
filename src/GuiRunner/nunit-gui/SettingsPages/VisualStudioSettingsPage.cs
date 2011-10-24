@@ -17,6 +17,9 @@ namespace NUnit.Gui.SettingsPages
 		private System.Windows.Forms.GroupBox groupBox1;
 		private System.Windows.Forms.CheckBox visualStudioSupportCheckBox;
 		private System.Windows.Forms.HelpProvider helpProvider1;
+        private CheckBox useSolutionConfigsCheckBox;
+        private Label label2;
+        private Label label3;
 		private System.ComponentModel.IContainer components = null;
 
 		public VisualStudioSettingsPage(string key) : base(key)
@@ -49,48 +52,85 @@ namespace NUnit.Gui.SettingsPages
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label1 = new System.Windows.Forms.Label();
-			this.groupBox1 = new System.Windows.Forms.GroupBox();
-			this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
-			this.helpProvider1 = new System.Windows.Forms.HelpProvider();
-			this.SuspendLayout();
-			// 
-			// label1
-			// 
-			this.label1.Location = new System.Drawing.Point(0, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(112, 16);
-			this.label1.TabIndex = 9;
-			this.label1.Text = "Visual Studio";
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-				| System.Windows.Forms.AnchorStyles.Right)));
-			this.groupBox1.Location = new System.Drawing.Point(80, 0);
-			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(376, 8);
-			this.groupBox1.TabIndex = 8;
-			this.groupBox1.TabStop = false;
-			// 
-			// visualStudioSupportCheckBox
-			// 
-			this.helpProvider1.SetHelpString(this.visualStudioSupportCheckBox, "If checked, Visual Studio projects and solutions may be opened or added to existi" +
-				"ng test projects.");
-			this.visualStudioSupportCheckBox.Location = new System.Drawing.Point(24, 24);
-			this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
-			this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, true);
-			this.visualStudioSupportCheckBox.Size = new System.Drawing.Size(224, 25);
-			this.visualStudioSupportCheckBox.TabIndex = 30;
-			this.visualStudioSupportCheckBox.Text = "Enable Visual Studio Support";
-			// 
-			// VisualStudioSettingsPage
-			// 
-			this.Controls.Add(this.visualStudioSupportCheckBox);
-			this.Controls.Add(this.groupBox1);
-			this.Controls.Add(this.label1);
-			this.Name = "VisualStudioSettingsPage";
-			this.ResumeLayout(false);
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.useSolutionConfigsCheckBox = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 16);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Visual Studio";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Location = new System.Drawing.Point(80, 0);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(376, 8);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            // 
+            // visualStudioSupportCheckBox
+            // 
+            this.helpProvider1.SetHelpString(this.visualStudioSupportCheckBox, "If checked, Visual Studio projects and solutions may be opened or added to existi" +
+                    "ng test projects.");
+            this.visualStudioSupportCheckBox.Location = new System.Drawing.Point(24, 24);
+            this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
+            this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, true);
+            this.visualStudioSupportCheckBox.Size = new System.Drawing.Size(224, 25);
+            this.visualStudioSupportCheckBox.TabIndex = 30;
+            this.visualStudioSupportCheckBox.Text = "Enable Visual Studio Support";
+            this.visualStudioSupportCheckBox.CheckedChanged += new System.EventHandler(this.visualStudioSupportCheckBox_CheckedChanged);
+            // 
+            // useSolutionConfigsCheckBox
+            // 
+            this.useSolutionConfigsCheckBox.AutoSize = true;
+            this.useSolutionConfigsCheckBox.Location = new System.Drawing.Point(44, 60);
+            this.useSolutionConfigsCheckBox.Name = "useSolutionConfigsCheckBox";
+            this.useSolutionConfigsCheckBox.Size = new System.Drawing.Size(255, 17);
+            this.useSolutionConfigsCheckBox.TabIndex = 31;
+            this.useSolutionConfigsCheckBox.Text = "Use solution configs when opening VS solutions.";
+            this.useSolutionConfigsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(78, 89);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(356, 40);
+            this.label2.TabIndex = 33;
+            this.label2.Text = "If this setting should normally be checked. If it is unchecked, solution configs " +
+                "are ignored and all project configs are included in the NUnit project, as was do" +
+                "ne in versions of NUnit prior to 2.6.";
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(39, 89);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(45, 40);
+            this.label3.TabIndex = 32;
+            this.label3.Text = "Note:";
+            // 
+            // VisualStudioSettingsPage
+            // 
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.useSolutionConfigsCheckBox);
+            this.Controls.Add(this.visualStudioSupportCheckBox);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.label1);
+            this.Name = "VisualStudioSettingsPage";
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 		#endregion
@@ -98,13 +138,20 @@ namespace NUnit.Gui.SettingsPages
 		public override void LoadSettings()
 		{
 			visualStudioSupportCheckBox.Checked = settings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
+            useSolutionConfigsCheckBox.Enabled = visualStudioSupportCheckBox.Checked;
+            useSolutionConfigsCheckBox.Checked = settings.GetSetting("Options.TestLoader.VisualStudio.UseSolutionConfigs", true);
 		}
 
 		public override void ApplySettings()
 		{
 			settings.SaveSetting( "Options.TestLoader.VisualStudioSupport", visualStudioSupportCheckBox.Checked );
+            settings.SaveSetting("Options.TestLoader.VisualStudio.UseSolutionConfigs", useSolutionConfigsCheckBox.Checked);
 		}
 
+        private void visualStudioSupportCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            useSolutionConfigsCheckBox.Enabled = visualStudioSupportCheckBox.Checked;
+        }
 
 	}
 }
