@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections;
 #if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
+using System.Reflection;
 #endif
 
 namespace NUnit.Framework.Constraints
@@ -150,9 +151,51 @@ namespace NUnit.Framework.Constraints
                     return ((TimeSpan)x - (TimeSpan)y).Duration() <= amount;
             }
 
+#if CLR_2_0 || CLR_4_0
+            if (FirstImplementsIEquatableOfSecond(xType, yType))
+                return InvokeFirstIEquatableEqualsSecond(x, y);
+            else if (FirstImplementsIEquatableOfSecond(yType, xType))
+                return InvokeFirstIEquatableEqualsSecond(y, x);
+#endif
+
             return x.Equals(y);
         }
-        #endregion
+
+#if CLR_2_0 || CLR_4_0
+    	private static bool FirstImplementsIEquatableOfSecond(Type first, Type second)
+    	{
+    		Type[] equatableArguments = GetEquatableGenericArguments(first);
+
+    		foreach (var xEquatableArgument in equatableArguments)
+    			if (xEquatableArgument.Equals(second))
+    				return true;
+
+    		return false;
+    	}
+
+    	private static Type[] GetEquatableGenericArguments(Type type)
+    	{
+    		return Array.ConvertAll(Array.FindAll(type.GetInterfaces(),
+                                    delegate(Type @interface)
+                                    {
+                                  	    return @interface.IsGenericType &&
+                                  	           @interface.GetGenericTypeDefinition().Equals(typeof (IEquatable<>));
+                                    }),
+								    delegate(Type iEquatableInterface)
+								    {
+								  	    return iEquatableInterface.GetGenericArguments()[0];
+								    });
+    	}
+
+    	private static bool InvokeFirstIEquatableEqualsSecond(object first, object second)
+    	{
+    		MethodInfo equals = typeof (IEquatable<>).MakeGenericType(second.GetType()).GetMethod("Equals");
+
+    		return (bool) equals.Invoke(first, new object[] {second});
+    	}
+#endif
+
+    	#endregion
 
         #region Helper Methods
         /// <summary>
