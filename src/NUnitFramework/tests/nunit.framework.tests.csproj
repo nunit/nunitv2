@@ -102,11 +102,13 @@
     <Compile Include="Constraints\ComparisonConstraintTests.cs" />
     <Compile Include="Constraints\ConstraintTestBase.cs" />
     <Compile Include="Constraints\EmptyConstraintTest.cs" />
+    <Compile Include="Constraints\EqualConstraintTests.cs" />
     <Compile Include="Constraints\EqualTest.cs" />
     <Compile Include="Constraints\FloatingPointNumericsTest.cs" />
     <Compile Include="Constraints\MsgUtilTests.cs" />
     <Compile Include="Constraints\NotTest.cs" />
     <Compile Include="Constraints\NumericsTest.cs" />
+    <Compile Include="Constraints\NUnitEqualityComparerTests.cs" />
     <Compile Include="Constraints\OrTest.cs" />
     <Compile Include="Constraints\PathConstraintTests.cs" />
     <Compile Include="Constraints\PropertyTests.cs" />
