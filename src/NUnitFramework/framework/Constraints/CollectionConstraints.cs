@@ -116,7 +116,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using(IComparer comparer)
         {
-            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
             return this;
         }
 
@@ -128,7 +128,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using<T>(IComparer<T> comparer)
         {
-            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
             return this;
         }
 
@@ -139,7 +139,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using<T>(Comparison<T> comparer)
         {
-            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
             return this;
         }
 
@@ -150,7 +150,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using(IEqualityComparer comparer)
         {
-            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
             return this;
         }
 
@@ -161,7 +161,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using<T>(IEqualityComparer<T> comparer)
         {
-            this.comparer.ExternalComparer = EqualityAdapter.For(comparer);
+            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
             return this;
         }
 #endif

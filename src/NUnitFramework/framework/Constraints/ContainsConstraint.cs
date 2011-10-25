@@ -46,7 +46,7 @@ namespace NUnit.Framework.Constraints
                         CollectionContainsConstraint constraint = new CollectionContainsConstraint(expected);
 						
 						if (this.adapter != null)
-							constraint.comparer.ExternalComparer = adapter;
+							constraint.comparer.ExternalComparers.Add(adapter);
 							
 						this.realConstraint = constraint;
 					}

@@ -33,9 +33,9 @@ namespace NUnit.Framework.Constraints
         private bool compareAsCollection;
 
         /// <summary>
-        /// Comparison object used in comparisons for some constraints.
+        /// Comparison objects used in comparisons for some constraints.
         /// </summary>
-        private EqualityAdapter externalComparer;
+        private ArrayList externalComparers = new ArrayList();
 
         private ArrayList failurePoints;
 
@@ -76,10 +76,9 @@ namespace NUnit.Framework.Constraints
         /// test for equality. It is applied to members of
         /// collections, in place of NUnit's own logic.
         /// </summary>
-        public EqualityAdapter ExternalComparer
+        public IList ExternalComparers
         {
-            get { return externalComparer; }
-            set { externalComparer = value; }
+            get { return externalComparers; }
         }
 
         /// <summary>
@@ -122,11 +121,12 @@ namespace NUnit.Framework.Constraints
             //if (x is ICollection && y is ICollection)
             //    return CollectionsEqual((ICollection)x, (ICollection)y, ref tolerance);
 
-            if (x is IEnumerable && y is IEnumerable && !(x is string && y is string))
-                return EnumerablesEqual((IEnumerable)x, (IEnumerable)y, ref tolerance);
-
+            EqualityAdapter externalComparer = GetExternalComparer(x, y);
             if (externalComparer != null)
                 return externalComparer.AreEqual(x, y);
+
+            if (x is IEnumerable && y is IEnumerable && !(x is string && y is string))
+                return EnumerablesEqual((IEnumerable)x, (IEnumerable)y, ref tolerance);
 
             if (x is string && y is string)
                 return StringsEqual((string)x, (string)y);
@@ -198,6 +198,16 @@ namespace NUnit.Framework.Constraints
     	#endregion
 
         #region Helper Methods
+
+        private EqualityAdapter GetExternalComparer(object x, object y)
+        {
+            foreach (EqualityAdapter adapter in externalComparers)
+                if (adapter.CanCompare(x, y))
+                    return adapter;
+
+            return null;
+        }
+
         /// <summary>
         /// Helper method to compare two arrays
         /// </summary>
