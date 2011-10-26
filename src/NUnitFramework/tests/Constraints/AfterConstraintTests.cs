@@ -14,6 +14,8 @@ namespace NUnit.Framework.Constraints
 	{
 		private static bool value;
 
+        //public AfterConstraintTest(int x) { }
+
 		[SetUp]
 		public void SetUp()
 		{

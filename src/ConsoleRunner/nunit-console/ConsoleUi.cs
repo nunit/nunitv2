@@ -127,9 +127,10 @@ namespace NUnit.ConsoleRunner
 
 				if ( options.include != null && options.include != string.Empty )
 				{
-					Console.WriteLine( "Included categories: " + options.include );
 					TestFilter includeFilter = new CategoryExpression( options.include ).Filter;
-					if ( testFilter.IsEmpty )
+                    Console.WriteLine("Included categories: " + includeFilter.ToString());
+
+                    if (testFilter.IsEmpty)
 						testFilter = includeFilter;
 					else
 						testFilter = new AndFilter( testFilter, includeFilter );
@@ -137,8 +138,9 @@ namespace NUnit.ConsoleRunner
 
 				if ( options.exclude != null && options.exclude != string.Empty )
 				{
-					Console.WriteLine( "Excluded categories: " + options.exclude );
 					TestFilter excludeFilter = new NotFilter( new CategoryExpression( options.exclude ).Filter );
+                    Console.WriteLine("Excluded categories: " + excludeFilter.ToString());
+
 					if ( testFilter.IsEmpty )
 						testFilter = excludeFilter;
 					else if ( testFilter is AndFilter )

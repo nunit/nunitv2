@@ -5,6 +5,7 @@
 // ****************************************************************
 using System;
 using System.Collections;
+using System.Text;
 
 namespace NUnit.Core.Filters
 {
@@ -78,5 +79,20 @@ namespace NUnit.Core.Filters
 
 			return false;
 		}
-	}
+
+        /// <summary>
+        /// Return the string representation of an or filter
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < filters.Count; i++)
+            {
+                if (i > 0) sb.Append(" or ");
+                sb.Append(filters[i]);
+            }
+            return sb.ToString();
+        }
+    }
 }

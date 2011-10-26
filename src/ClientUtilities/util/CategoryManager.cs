@@ -19,18 +19,12 @@ namespace NUnit.Util
 			categories[name] = name;
 		}
 
-		public void Add(IList list) 
-		{
-			foreach(string name in list) 
-			{
-				Add(name);
-			}
-		}
-
 		public void AddCategories( ITest test )
 		{
-			if ( test.Categories != null )
-				Add( test.Categories );
+            if (test.Categories != null)
+                foreach (string name in test.Categories)
+                    if (NUnitFramework.IsValidCategoryName(name))
+                        Add(name);
 		}
 
 		public void AddAllCategories( ITest test )

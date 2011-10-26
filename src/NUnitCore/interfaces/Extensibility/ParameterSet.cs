@@ -56,14 +56,14 @@ namespace NUnit.Core.Extensibility
             set { runState = value; }
         }
 
-        /// <summary>
-        /// The reason for not running the test case
-        /// represented by this ParameterSet
-        /// </summary>
-        public string NotRunReason
-        {
-            get { return (string) Properties[IGNOREREASON]; }
-        }
+        ///// <summary>
+        ///// The reason for not running the test case
+        ///// represented by this ParameterSet
+        ///// </summary>
+        //public string NotRunReason
+        //{
+        //    get { return (string) Properties[IGNOREREASON]; }
+        //}
 
         /// <summary>
         /// Holds any exception thrown by the parameter provider
@@ -241,6 +241,7 @@ namespace NUnit.Core.Extensibility
         {
             this.runState = RunState.NotRunnable;
             this.providerException = exception;
+            this.ignoreReason = exception.Message;
         }
 
         /// <summary>

@@ -231,7 +231,7 @@ namespace NUnit.Core
                             string categoryName = (string)Reflect.GetPropertyValue(attribute, PropertyNames.CategoryName);
                             test.Categories.Add(categoryName);
 
-                            if (categoryName.IndexOfAny(new char[] { ',', '!', '+', '-' }) >= 0)
+                            if (!IsValidCategoryName(categoryName))
                             {
                                 test.RunState = RunState.NotRunnable;
                                 test.IgnoreReason = "Category name must not contain ',', '!', '+' or '-'";
@@ -437,6 +437,18 @@ namespace NUnit.Core
                         else
                             return ResultState.Error;
         }
+        #endregion
+
+        #region IsValidCategoryName
+
+        /// <summary>
+        /// Returns true if the category name is valid
+        /// </summary>
+        public static bool IsValidCategoryName(string name)
+        {
+            return name.IndexOfAny(new char[] { ',', '!', '+', '-' }) < 0;
+        }
+
         #endregion
     }
 }

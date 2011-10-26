@@ -73,6 +73,11 @@ namespace NUnit.Core.Filters
 			}
 
 			return false;
-		}	
+		}
+
+        public override string ToString()
+        {
+            return "not " + baseFilter.ToString();
+        }
 	}
 }

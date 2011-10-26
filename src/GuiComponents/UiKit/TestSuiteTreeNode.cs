@@ -149,34 +149,46 @@ namespace NUnit.UiKit
 		/// <returns>Image index for this node</returns>
 		private int CalcImageIndex()
 		{
-			if ( this.result == null )
-				return InitIndex;
-			
-			switch( this.result.ResultState )
-			{
-                case ResultState.Inconclusive:
-			        return InconclusiveIndex;
-                case ResultState.Skipped:
-					return SkippedIndex;
-                case ResultState.NotRunnable:
-                case ResultState.Failure:
-                case ResultState.Error:
-                case ResultState.Cancelled:
-			        return FailureIndex;
-				case ResultState.Ignored:
-					return IgnoredIndex;
-				case ResultState.Success:
-					int index = SuccessIndex;
-					foreach( TestSuiteTreeNode node in this.Nodes )
-					{
-						if ( node.ImageIndex == FailureIndex )
-							return FailureIndex;
-						if ( node.ImageIndex == IgnoredIndex )
-							index = IgnoredIndex;
-					}
-					return index;
-                default:
-			        return InitIndex;
+            if (this.result == null)
+            {
+                switch (this.test.RunState)
+                {
+                    case RunState.Ignored:
+                        return IgnoredIndex;
+                    case RunState.NotRunnable:
+                        return FailureIndex;
+                    default:
+                        return InitIndex;
+                }
+            }
+            else
+            {
+                switch (this.result.ResultState)
+                {
+                    case ResultState.Inconclusive:
+                        return InconclusiveIndex;
+                    case ResultState.Skipped:
+                        return SkippedIndex;
+                    case ResultState.NotRunnable:
+                    case ResultState.Failure:
+                    case ResultState.Error:
+                    case ResultState.Cancelled:
+                        return FailureIndex;
+                    case ResultState.Ignored:
+                        return IgnoredIndex;
+                    case ResultState.Success:
+                        int index = SuccessIndex;
+                        foreach (TestSuiteTreeNode node in this.Nodes)
+                        {
+                            if (node.ImageIndex == FailureIndex)
+                                return FailureIndex;
+                            if (node.ImageIndex == IgnoredIndex)
+                                index = IgnoredIndex;
+                        }
+                        return index;
+                    default:
+                        return InitIndex;
+                }
             }
 		}
 
