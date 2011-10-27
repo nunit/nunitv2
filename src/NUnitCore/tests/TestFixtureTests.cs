@@ -51,11 +51,39 @@ namespace NUnit.Core.Tests
 		}
 
         [Test]
-        public void ConstructFromTypeWithoutTestFixtureAttribute()
+        public void ConstructFromTypeWithoutTestFixtureAttributeContainingTest()
         {
-            TestSuite fixture = TestBuilder.MakeFixture(typeof(FixtureWithoutTestFixtureAttribute));
-            Assert.AreEqual("FixtureWithoutTestFixtureAttribute", fixture.TestName.Name);
-            Assert.AreEqual("NUnit.TestData.TestFixtureData.FixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
+            TestSuite fixture = TestBuilder.MakeFixture(typeof(FixtureWithoutTestFixtureAttributeContainingTest));
+            Assert.NotNull(fixture, "Unable to construct fixture");
+            Assert.AreEqual("FixtureWithoutTestFixtureAttributeContainingTest", fixture.TestName.Name);
+            Assert.AreEqual("NUnit.TestData.TestFixtureData.FixtureWithoutTestFixtureAttributeContainingTest", fixture.TestName.FullName);
+        }
+
+        [Test]
+        public void ConstructFromTypeWithoutTestFixtureAttributeContainingTestCase()
+        {
+            TestSuite fixture = TestBuilder.MakeFixture(typeof(FixtureWithoutTestFixtureAttributeContainingTestCase));
+            Assert.NotNull(fixture, "Unable to construct fixture");
+            Assert.AreEqual("FixtureWithoutTestFixtureAttributeContainingTestCase", fixture.TestName.Name);
+            Assert.AreEqual("NUnit.TestData.TestFixtureData.FixtureWithoutTestFixtureAttributeContainingTestCase", fixture.TestName.FullName);
+        }
+
+        [Test]
+        public void ConstructFromTypeWithoutTestFixtureAttributeContainingTestCaseSource()
+        {
+            TestSuite fixture = TestBuilder.MakeFixture(typeof(FixtureWithoutTestFixtureAttributeContainingTestCaseSource));
+            Assert.NotNull(fixture, "Unable to construct fixture");
+            Assert.AreEqual("FixtureWithoutTestFixtureAttributeContainingTestCaseSource", fixture.TestName.Name);
+            Assert.AreEqual("NUnit.TestData.TestFixtureData.FixtureWithoutTestFixtureAttributeContainingTestCaseSource", fixture.TestName.FullName);
+        }
+
+        [Test]
+        public void ConstructFromTypeWithoutTestFixtureAttributeContainingTheory()
+        {
+            TestSuite fixture = TestBuilder.MakeFixture(typeof(FixtureWithoutTestFixtureAttributeContainingTheory));
+            Assert.NotNull(fixture, "Unable to construct fixture");
+            Assert.AreEqual("FixtureWithoutTestFixtureAttributeContainingTheory", fixture.TestName.Name);
+            Assert.AreEqual("NUnit.TestData.TestFixtureData.FixtureWithoutTestFixtureAttributeContainingTheory", fixture.TestName.FullName);
         }
 
         [Test]
@@ -133,6 +161,7 @@ namespace NUnit.Core.Tests
         public void ConstructFromStaticTypeWithoutTestFixtureAttribute()
         {
             TestSuite fixture = TestBuilder.MakeFixture(typeof(StaticFixtureWithoutTestFixtureAttribute));
+            Assert.NotNull(fixture, "Unable to construct fixture");
             Assert.AreEqual("StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.Name);
             Assert.AreEqual("NUnit.TestData.TestFixtureData.StaticFixtureWithoutTestFixtureAttribute", fixture.TestName.FullName);
         }

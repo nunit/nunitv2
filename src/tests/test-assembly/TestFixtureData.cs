@@ -43,10 +43,28 @@ namespace NUnit.TestData.TestFixtureData
 		{}
 	}
 
-    public class FixtureWithoutTestFixtureAttribute
+    public class FixtureWithoutTestFixtureAttributeContainingTest
     {
         [Test]
         public void SomeTest() { }
+    }
+
+    public class FixtureWithoutTestFixtureAttributeContainingTestCase
+    {
+        [TestCase(42)]
+        public void SomeTest(int x) { }
+    }
+
+    public class FixtureWithoutTestFixtureAttributeContainingTestCaseSource
+    {
+        [TestCaseSource("data")]
+        public void SomeTest(int x) { }
+    }
+
+    public class FixtureWithoutTestFixtureAttributeContainingTheory
+    {
+        [Theory]
+        public void SomeTest(int x) { }
     }
 
 #if CLR_2_0 || CLR_4_0
