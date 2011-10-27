@@ -16,12 +16,12 @@ namespace NUnit.Framework.Tests
 
         public static void ThrowsApplicationException()
         {
-            throw new ApplicationException();
+            throw new ApplicationException("my message");
         }
 
         public static void ThrowsSystemException()
         {
-            throw new Exception();
+            throw new Exception("my message");
         }
 
         public static void ThrowsNothing()
