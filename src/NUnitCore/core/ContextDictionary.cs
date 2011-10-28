@@ -31,6 +31,10 @@ namespace NUnit.Core
                         return (int)_ec.CurrentResult.ResultState;
                     case "TestDirectory":
                         return AssemblyHelper.GetDirectoryName(_ec.CurrentTest.FixtureType.Assembly);
+                    case "WorkDirectory":
+                        return _ec.TestPackage.Settings.Contains("WorkDirectory")
+                            ? _ec.TestPackage.Settings["WorkDirectory"]
+                            : Environment.CurrentDirectory;
                     default:
                         return base[key];
                 }

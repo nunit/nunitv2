@@ -724,6 +724,9 @@ namespace NUnit.Util
             if (processModel != ProcessModel.Multiple && domainUsage == DomainUsage.Multiple
                     && !package.Settings.Contains("DomainUsage"))
                 package.Settings["DomainUsage"] = domainUsage;
+
+            if (!package.Settings.Contains("WorkDirectory"))
+                package.Settings["WorkDirectory"] = Environment.CurrentDirectory;
 			
             return package;
 		}

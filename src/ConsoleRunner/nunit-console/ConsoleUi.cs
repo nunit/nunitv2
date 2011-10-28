@@ -27,15 +27,23 @@ namespace NUnit.ConsoleRunner
 		public static readonly int FIXTURE_NOT_FOUND = -3;
 		public static readonly int UNEXPECTED_ERROR = -100;
 
+        private string workDir;
+
 		public ConsoleUi()
 		{
 		}
 
 		public int Execute( ConsoleOptions options )
 		{
-            string workDir = options.work;
+            this.workDir = options.work;
             if (workDir == null || workDir == string.Empty)
                 workDir = Environment.CurrentDirectory;
+            else
+            {
+                workDir = Path.GetFullPath(workDir);
+                if (!Directory.Exists(workDir))
+                    Directory.CreateDirectory(workDir);
+            }
 
 			TextWriter outWriter = Console.Out;
 			bool redirectOutput = options.output != null && options.output != string.Empty;
@@ -225,7 +233,7 @@ namespace NUnit.ConsoleRunner
 
 		#region Helper Methods
         // TODO: See if this can be unified with the Gui's MakeTestPackage
-        private static TestPackage MakeTestPackage( ConsoleOptions options )
+        private TestPackage MakeTestPackage( ConsoleOptions options )
         {
 			TestPackage package;
 			DomainUsage domainUsage = DomainUsage.Default;
@@ -292,6 +300,7 @@ namespace NUnit.ConsoleRunner
             package.Settings["ShadowCopyFiles"] = !options.noshadow;
 			package.Settings["UseThreadedRunner"] = !options.nothread;
             package.Settings["DefaultTimeout"] = options.timeout;
+            package.Settings["WorkDirectory"] = this.workDir;
 
             return package;
 		}

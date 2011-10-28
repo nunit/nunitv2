@@ -39,6 +39,14 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
+        public void TestCanAccessWorkDirectory()
+        {
+            string workDirectory = TestContext.CurrentContext.WorkDirectory;
+            Assert.NotNull(workDirectory);
+            Assert.That(Directory.Exists(workDirectory), string.Format("Directory {0} does not exist", workDirectory));
+        }
+
+        [Test]
         public void TestCanAccessTestState_PassingTest()
         {
             TestStateRecordingFixture fixture = new TestStateRecordingFixture();

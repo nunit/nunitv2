@@ -112,6 +112,7 @@ namespace NUnit.Core
 			if ( test == null ) return false;
 
 			test.SetRunnerID( this.runnerID, true );
+            TestExecutionContext.CurrentContext.TestPackage = package;
 			return true;
 		}
 

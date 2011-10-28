@@ -81,13 +81,25 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// Gets the current directory for this TestContext
+        /// Gets the directory containing the current test assembly.
         /// </summary>
         public string TestDirectory
         {
             get
             {
                 return (string)_context["TestDirectory"];
+            }
+        }
+
+        /// <summary>
+        /// Gets the directory to be used for outputing files created
+        /// by this test run.
+        /// </summary>
+        public string WorkDirectory
+        {
+            get
+            {
+                return (string)_context["WorkDirectory"];
             }
         }
 

@@ -29,10 +29,12 @@ namespace NUnit.Core
 	public class TestExecutionContext
 	{
 		#region Static Fields
+
 		/// <summary>
 		/// The current context, head of the list of saved contexts.
 		/// </summary>
         private static TestExecutionContext current = new TestExecutionContext();
+
         #endregion
 
         #region Instance Fields
@@ -100,6 +102,11 @@ namespace NUnit.Core
         private TestResult currentResult;
 
         /// <summary>
+        /// The TestPackage being executed
+        /// </summary>
+        private TestPackage testPackage;
+
+        /// <summary>
         /// Link to a prior saved context
         /// </summary>
         public TestExecutionContext prior;
@@ -145,6 +152,7 @@ namespace NUnit.Core
 
             this.currentTest = other.currentTest;
             this.currentResult = other.currentResult;
+            this.testPackage = other.testPackage;
 
             this.currentDirectory = Environment.CurrentDirectory;
             this.currentCulture = CultureInfo.CurrentCulture;
@@ -336,7 +344,7 @@ namespace NUnit.Core
         }
 
         /// <summary>
-        /// Gets or sets the test case timeout vaue
+        /// Gets or sets the test case timeout value
         /// </summary>
         public int TestCaseTimeout
         {
@@ -360,6 +368,15 @@ namespace NUnit.Core
         {
             get { return currentResult; }
             set { currentResult = value; }
+        }
+
+        /// <summary>
+        /// Gets the test package currently being run
+        /// </summary>
+        public TestPackage TestPackage
+        {
+            get { return testPackage; }
+            set { testPackage = value; }
         }
 
         #endregion
