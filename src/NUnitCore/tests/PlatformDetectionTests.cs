@@ -218,7 +218,7 @@ namespace NUnit.Core.Tests
         public void DetectNet20()
         {
             CheckRuntimePlatforms(
-                new RuntimeFramework(RuntimeType.Net, new Version(2, 0, 40607, 0)),
+                new RuntimeFramework(RuntimeType.Net, new Version(2, 0, 50727, 0)),
                 "Net,Net-2.0");
         }
 
@@ -242,7 +242,7 @@ namespace NUnit.Core.Tests
         public void DetectNet40()
         {
             CheckRuntimePlatforms(
-                new RuntimeFramework(RuntimeType.Net, new Version(4, 0, 20506, 0)),
+                new RuntimeFramework(RuntimeType.Net, new Version(4, 0, 30319, 0)),
                 "Net,Net-4.0");
         }
 
@@ -274,7 +274,7 @@ namespace NUnit.Core.Tests
         public void DetectMono20()
         {
             CheckRuntimePlatforms(
-                new RuntimeFramework(RuntimeType.Mono, new Version(2, 0, 40607, 0)),
+                new RuntimeFramework(RuntimeType.Mono, new Version(2, 0, 50727, 0)),
                 "Mono,Mono-2.0");
         }
 

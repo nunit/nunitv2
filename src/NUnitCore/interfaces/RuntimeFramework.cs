@@ -47,6 +47,12 @@ namespace NUnit.Core
 
         private static RuntimeFramework currentFramework;
         private static RuntimeFramework[] availableFrameworks;
+        private static Version[] knownVersions = new Version[] {
+            new Version(1, 0, 3705),
+            new Version(1, 1, 4322),
+            new Version(2, 0, 50727),
+            new Version(4, 0, 30319)
+        };
       
         private RuntimeType runtime;
         private Version frameworkVersion;
@@ -63,20 +69,50 @@ namespace NUnit.Core
 		/// <param name="version">The version of the framework</param>
 		public RuntimeFramework( RuntimeType runtime, Version version)
 		{
-			this.runtime = runtime;
-            this.frameworkVersion = this.clrVersion = version;
+            this.runtime = runtime;
+
+            if (version.Build < 0)
+                InitFromFrameworkVersion(version);
+            else
+                InitFromClrVersion(version);
+
 
             if (version.Major == 3)
-                this.clrVersion = new Version(2, 0);
-            else if (runtime == RuntimeType.Mono && version.Major == 1)
-            {
-                if (version.Minor == 0)
-                    this.clrVersion = new Version(1, 1);
-                else if (version.Minor == 1)
-                    this.frameworkVersion = new Version(1, 0);
-            }
+                this.clrVersion = new Version(2, 0, 50727);
+            //else if (runtime == RuntimeType.Mono && version.Major == 1)
+            //{
+            //    if (version.Minor == 0)
+            //        this.clrVersion = new Version(1, 1);
+            //    else if (version.Minor == 1)
+            //        this.frameworkVersion = new Version(1, 0);
+            //}
 
             this.displayName = GetDefaultDisplayName(runtime, version);
+        }
+
+        private void InitFromFrameworkVersion(Version version)
+        {
+            this.frameworkVersion = this.clrVersion = version;
+            foreach (Version v in knownVersions)
+                if (v.Major == version.Major && v.Minor == version.Minor)
+                {
+                    this.clrVersion = v;
+                    break;
+                }
+
+            if (this.runtime == RuntimeType.Mono && version.Major == 1)
+            {
+                this.frameworkVersion = new Version(1, 0);
+                this.clrVersion = new Version(1, 1, 4322);
+            }
+        }
+
+        private void InitFromClrVersion(Version version)
+        {
+            this.frameworkVersion = new Version(version.Major, version.Minor);
+            this.clrVersion = version;
+            if (runtime == RuntimeType.Mono && version.Major == 1)
+                this.frameworkVersion = new Version(1, 0);
         }
 
         #endregion
