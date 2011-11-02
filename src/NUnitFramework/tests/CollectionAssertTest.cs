@@ -227,7 +227,7 @@ namespace NUnit.Framework.Tests
 #endif
 
 #if NET_3_5 || CLR_4_0
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0,Mono-4.0")]
         public void AreEqual_UsingLinqQuery()
         {
             int[] array = new int[] { 1, 2, 3 };
@@ -235,7 +235,7 @@ namespace NUnit.Framework.Tests
             CollectionAssert.AreEqual(array, array.Select((item) => item));
         }
 
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0,Mono-4.0")]
         public void AreEqual_UsingLinqQuery_Fails()
         {
             int[] array = new int[] { 1, 2, 3 };

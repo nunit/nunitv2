@@ -406,7 +406,7 @@ namespace NUnit.Framework.Constraints
                 .Matches(set2));
         }
 
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0,Mono-4.0")]
         public void WorksWithHashSets()
         {
             var hash1 = new HashSet<string>(new string[] { "presto", "abracadabra", "hocuspocus" });
@@ -415,7 +415,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(new CollectionEquivalentConstraint(hash1).Matches(hash2));
         }
 
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0,Mono-4.0")]
         public void WorksWithHashSetAndArray()
         {
             var hash = new HashSet<string>(new string[] { "presto", "abracadabra", "hocuspocus" });
@@ -425,7 +425,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(constraint.Matches(array));
         }
 
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0,Mono-4.0")]
         public void WorksWithArrayAndHashSet()
         {
             var hash = new HashSet<string>(new string[] { "presto", "abracadabra", "hocuspocus" });
@@ -435,7 +435,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(constraint.Matches(hash));
         }
 
-        [Test]
+        [Test, Platform("Net-3.5,Mono-3.5,Net-4.0,Mono-4.0")]
         public void FailureMessageWithHashSetAndArray()
         {
             var hash = new HashSet<string>(new string[] { "presto", "abracadabra", "hocuspocus" });
