@@ -24,7 +24,9 @@
       </references>
     </csc>
 
-    <copy file="Ship.config"
+    <copy file="App.config" if="${runtime.version >= '2.0'}"
+      tofile="${current.build.dir}/nunit-agent.exe.config"/>
+    <copy file="App.v1.config" unless="${runtime.version >= '2.0'}"
       tofile="${current.build.dir}/nunit-agent.exe.config"/>
 
     <csc target="winexe" 
@@ -44,7 +46,7 @@
       </references>
     </csc>
 
-    <copy file="Ship.config" if="${runtime.version >= '2.0'}"
+    <copy file="App.config" if="${runtime.version >= '2.0'}"
       tofile="${current.build.dir}/nunit-agent-x86.exe.config"/>
 
   </target>
@@ -54,7 +56,7 @@
       <fileset>
         <patternset refid="source-files" />
         <include name="App.config" />
-        <include name="Ship.config"/>
+        <include name="App.v1.config" />
         <include name="nunit-agent.exe.csproj"/>
         <include name="nunit-agent.exe.build"/>
       </fileset>
