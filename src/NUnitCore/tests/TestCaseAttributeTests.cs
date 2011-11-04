@@ -263,16 +263,37 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void CanIgnoreIndividualTestCase()
+        public void CanIgnoreIndividualTestCases()
         {
             Test test = TestBuilder.MakeTestCase(
                 typeof(TestCaseAttributeFixture), "MethodWithIgnoredTestCases");
-            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
 
-            ResultSummarizer summary = new ResultSummarizer(result);
-            Assert.AreEqual(3, summary.ResultCount);
-            Assert.AreEqual(2, summary.Ignored);
-            Assert.That(result.Results, Has.Some.Message.EqualTo("Don't Run Me!"));
+            Test testCase = TestFinder.Find("MethodWithIgnoredTestCases(1)", test, false);
+            Assert.That(testCase.RunState, Is.EqualTo(RunState.Runnable));
+
+            testCase = TestFinder.Find("MethodWithIgnoredTestCases(2)", test, false);
+            Assert.That(testCase.RunState, Is.EqualTo(RunState.Ignored));
+
+            testCase = TestFinder.Find("MethodWithIgnoredTestCases(3)", test, false);
+            Assert.That(testCase.RunState, Is.EqualTo(RunState.Ignored));
+            Assert.That(testCase.IgnoreReason, Is.EqualTo("Don't Run Me!"));
+        }
+
+        [Test]
+        public void CanMarkIndividualTestCasesExplicit()
+        {
+            Test test = TestBuilder.MakeTestCase(
+                typeof(TestCaseAttributeFixture), "MethodWithExplicitTestCases");
+
+            Test testCase = TestFinder.Find("MethodWithExplicitTestCases(1)", test, false);
+            Assert.That(testCase.RunState, Is.EqualTo(RunState.Runnable));
+
+            testCase = TestFinder.Find("MethodWithExplicitTestCases(2)", test, false);
+            Assert.That(testCase.RunState, Is.EqualTo(RunState.Explicit));
+
+            testCase = TestFinder.Find("MethodWithExplicitTestCases(3)", test, false);
+            Assert.That(testCase.RunState, Is.EqualTo(RunState.Explicit));
+            Assert.That(testCase.IgnoreReason, Is.EqualTo("Connection failing"));
         }
     }
 }

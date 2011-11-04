@@ -94,7 +94,7 @@
     </ProjectReference>
     <ProjectReference Include="..\pnunit.framework\pnunit.framework.csproj">
       <Project>{5261ABA1-98E6-4603-A4F0-59CAC307AC68}</Project>
-      <Name>pnunit.framework2008</Name>
+      <Name>pnunit.framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -26,7 +26,8 @@ namespace NUnit.Framework
         private string description;
         private string testName;
         private bool isIgnored;
-        private string ignoreReason;
+        private bool isExplicit;
+        private string reason;
         private string category;
 
         /// <summary>
@@ -194,16 +195,35 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// Gets the ignore reason.
+        /// Gets or sets the explicit status of the test
+        /// </summary>
+        public bool Explicit
+        {
+            get { return isExplicit; }
+            set { isExplicit = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the reason for not running the test
+        /// </summary>
+        public string Reason
+        {
+            get { return reason; }
+            set { reason = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the reason for not running the test.
+        /// Set has the side effect of marking the test as ignored.
         /// </summary>
         /// <value>The ignore reason.</value>
         public string IgnoreReason
         {
-            get { return ignoreReason; }
+            get { return reason; }
             set 
             { 
-                ignoreReason = value;
-                isIgnored = ignoreReason != null && ignoreReason != string.Empty;
+                reason = value;
+                isIgnored = reason != null && reason != string.Empty;
             }
         }
     }

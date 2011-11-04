@@ -59,6 +59,12 @@ namespace NUnit.Framework
         bool Ignored { get; }
 
         /// <summary>
+        /// Gets a value indicating whether this <see cref="ITestCaseData"/> is explicit.
+        /// </summary>
+        /// <value><c>true</c> if explicit; otherwise, <c>false</c>.</value>
+        bool Explicit { get; }
+
+        /// <summary>
         /// Gets the ignore reason.
         /// </summary>
         /// <value>The ignore reason.</value>

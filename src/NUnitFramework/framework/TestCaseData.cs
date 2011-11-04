@@ -70,6 +70,11 @@ namespace NUnit.Framework
         bool isIgnored;
 
         /// <summary>
+        /// If true, indicates that the test case is marked explicit
+        /// </summary>
+        bool isExplicit;
+
+        /// <summary>
         /// The reason for ignoring a test case
         /// </summary>
         string ignoreReason;
@@ -179,6 +184,15 @@ namespace NUnit.Framework
         }
 
         /// <summary>
+        /// Gets a value indicating whether this <see cref="ITestCaseData"/> is explicit.
+        /// </summary>
+        /// <value><c>true</c> if explicit; otherwise, <c>false</c>.</value>
+        public bool Explicit
+        {
+            get { return isExplicit; }
+        }
+
+        /// <summary>
         /// Gets the ignore reason.
         /// </summary>
         /// <value>The ignore reason.</value>
@@ -186,6 +200,7 @@ namespace NUnit.Framework
         {
             get { return ignoreReason; }
         }
+
         #endregion
 
         #region Additional Public Properties
@@ -343,6 +358,29 @@ namespace NUnit.Framework
             ignoreReason = reason;
             return this;
         }
+
+        /// <summary>
+        /// Marks this TestCase as Explicit
+        /// </summary>
+        /// <returns></returns>
+        public TestCaseData MakeExplicit()
+        {
+            isExplicit = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Marks this TestCase as Explicit, specifying the reason.
+        /// </summary>
+        /// <param name="reason">The reason.</param>
+        /// <returns></returns>
+        public TestCaseData MakeExplicit(string reason)
+        {
+            isExplicit = true;
+            ignoreReason = reason;
+            return this;
+        }
+
         #endregion
     }
 }

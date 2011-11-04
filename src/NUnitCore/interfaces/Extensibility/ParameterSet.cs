@@ -37,6 +37,7 @@ namespace NUnit.Core.Extensibility
         private string testName;
         private string ignoreReason;
         private bool isIgnored;
+        private bool isExplicit;
         private bool hasExpectedResult;
 
         /// <summary>
@@ -194,6 +195,16 @@ namespace NUnit.Core.Extensibility
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="ParameterSet"/> is explicit.
+        /// </summary>
+        /// <value><c>true</c> if explicit; otherwise, <c>false</c>.</value>
+        public bool Explicit
+        {
+            get { return isExplicit; }
+            set { isExplicit = value; }
+        }
+
+        /// <summary>
         /// Gets or sets the ignore reason.
         /// </summary>
         /// <value>The ignore reason.</value>
@@ -280,9 +291,13 @@ namespace NUnit.Core.Extensibility
             parms.TestName = GetParm(source, PropertyNames.TestName) as string;
 
             object objIgnore = GetParm(source, PropertyNames.Ignored);
-            if ( objIgnore != null )
+            if (objIgnore != null)
                 parms.Ignored = (bool)objIgnore;
             parms.IgnoreReason = GetParm(source, PropertyNames.IgnoreReason) as string;
+
+            object objExplicit = GetParm(source, PropertyNames.Explicit);
+            if (objExplicit != null)
+                parms.Explicit = (bool)objExplicit;
 
             // Some sources may also implement Properties and/or Categories
             bool gotCategories = false;

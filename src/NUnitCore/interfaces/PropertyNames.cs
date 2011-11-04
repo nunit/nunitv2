@@ -37,6 +37,8 @@ namespace NUnit.Core
         public static readonly string Arguments = "Arguments";
         /// <summary>Indicates test case is ignored</summary>
         public static readonly string Ignored = "Ignored";
+        /// <summary>Indicates test case is explicit</summary>
+        public static readonly string Explicit = "Explicit";
         /// <summary>The reason a test case is ignored</summary>
         public static readonly string IgnoreReason = "IgnoreReason";
         /// <summary>Properties of the test</summary>

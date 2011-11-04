@@ -48,6 +48,11 @@ namespace NUnit.TestData
         {
         }
 
+        [TestCaseSource("explicit_source")]
+        public void MethodWithExplicitTestCases(int num)
+        {
+        }
+
         private static IEnumerable ignored_source
         {
             get
@@ -56,6 +61,18 @@ namespace NUnit.TestData
                     new TestCaseData(1),
                     new TestCaseData(2).Ignore(),
                     new TestCaseData(3).Ignore("Don't Run Me!")
+                };
+            }
+        }
+
+        private static IEnumerable explicit_source
+        {
+            get
+            {
+                return new object[] {
+                    new TestCaseData(1),
+                    new TestCaseData(2).MakeExplicit(),
+                    new TestCaseData(3).MakeExplicit("Connection failing")
                 };
             }
         }
