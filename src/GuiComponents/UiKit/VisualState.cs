@@ -103,6 +103,7 @@ namespace NUnit.UiKit
 		#endregion
 
 		#region Instance Methods
+
 		public void Save( string fileName )
 		{
 			using ( StreamWriter writer = new StreamWriter( fileName ) )
@@ -116,6 +117,48 @@ namespace NUnit.UiKit
 			XmlSerializer serializer = new XmlSerializer( GetType() );
 			serializer.Serialize( writer, this );
 		}
+
+        public void Restore(TestSuiteTreeView treeView)
+        {
+            treeView.CheckBoxes = this.ShowCheckBoxes;
+
+            foreach (VisualTreeNode visualNode in this.Nodes)
+            {
+                TestSuiteTreeNode treeNode = treeView[visualNode.UniqueName];
+                if (treeNode != null)
+                {
+                    if (treeNode.IsExpanded != visualNode.Expanded)
+                        treeNode.Toggle();
+
+                    treeNode.Checked = visualNode.Checked;
+                }
+            }
+
+            if (this.SelectedNode != null)
+            {
+                TestSuiteTreeNode treeNode = treeView[this.SelectedNode];
+                if (treeNode != null)
+                    treeView.SelectedNode = treeNode;
+            }
+
+            if (this.TopNode != null)
+            {
+                TestSuiteTreeNode treeNode = treeView[this.TopNode];
+                if (treeNode != null)
+                    treeView.TopNode = treeNode;
+            }
+
+            if (this.SelectedCategories != null)
+            {
+                TestFilter filter = new CategoryFilter(this.SelectedCategories.Split(new char[] { ',' }));
+                if (this.ExcludeCategories)
+                    filter = new NotFilter(filter);
+                treeView.CategoryFilter = filter;
+            }
+
+            treeView.Select();
+        }
+
 		#endregion
 	}
 

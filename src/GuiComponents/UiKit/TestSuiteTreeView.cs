@@ -244,7 +244,8 @@ namespace NUnit.UiKit
                         {
                             suppressEvents = true;
                             visualState.ShowCheckBoxes = this.CheckBoxes;
-                            RestoreVisualState( visualState );
+                            //RestoreVisualState( visualState );
+                            visualState.Restore(this);
                         }
                         finally
                         {
@@ -378,11 +379,7 @@ namespace NUnit.UiKit
 		{
 			TestNode test = e.Test as TestNode;
 			if ( test != null )
-			{
 				Invoke( new LoadHandler( Reload ), new object[]{ test } );
-				if ( Services.UserSettings.GetSetting( "Options.TestLoader.ClearResultsOnReload", false ) )
-					ClearAllResults();
-			}
 		}
 
 		private void OnTestUnloaded( object sender, TestEventArgs e)
@@ -828,32 +825,15 @@ namespace NUnit.UiKit
 		/// <param name="test">Test suite to be loaded</param>
 		public void Reload( TestNode test )
 		{
-            bool reloadOK = false;
-            try
-            {
-                string selectedName = ((TestSuiteTreeNode)SelectedNode).Test.TestName.FullName;
+            TestResult result = ((TestSuiteTreeNode)Nodes[0]).Result;
+            VisualState visualState = new VisualState(this);
 
-                UpdateNode((TestSuiteTreeNode)Nodes[0], test, new ArrayList());
+            Load(test);
 
-                TreeNode selectedNode = this.FindNodeByName(selectedName);
-                if (selectedNode != null)
-                {
-                    SelectedNode = selectedNode;
-                    selectedNode.EnsureVisible();
-                }
+            visualState.Restore(this);
 
-                reloadOK = true;
-            }
-            catch (TreeStructureChangedException)
-            {
-            }
-
-            // The tree has changed, probably due to settings
-            // changes, so just load it cleanly.
-            if ( !reloadOK )
-                Load(test);
-
-            this.Focus();
+            if (result != null && !Services.UserSettings.GetSetting("Options.TestLoader.ClearResultsOnReload", false))
+                RestoreResults(result);
 		}
 
 		/// <summary>
@@ -1111,171 +1091,6 @@ namespace NUnit.UiKit
 		}
 
 		/// <summary>
-		/// Helper routine that compares a node with a test
-		/// </summary>
-		/// <param name="node">Node to compare</param>
-		/// <param name="test">Test to compare</param>
-		/// <returns>True if the test has the same name</returns>
-		private bool Match( TestSuiteTreeNode node, TestNode test )
-		{
-			return node.Test.TestName.FullName == test.TestName.FullName;
-		}
-
-		/// <summary>
-		/// A node has been matched with a test, so update it
-		/// and then process child nodes and tests recursively.
-		/// If a child was added or removed, then this node
-		/// will expand itself.
-		/// </summary>
-		/// <param name="node">Node to be updated</param>
-		/// <param name="test">Test to plug into node</param>
-		/// <returns>True if a child node was added or deleted</returns>
-		private bool UpdateNode( TestSuiteTreeNode node, TestNode test, IList deletedNodes )
-		{
-			if ( node.Test.TestName.FullName != test.TestName.FullName )
-				throw( new TreeStructureChangedException( 
-					string.Format( "Attempting to update {0} with {1}", node.Test.TestName.FullName, test.TestName.FullName ) ) );
-
-			treeMap.Remove( node.Test.TestName.UniqueName );
-			node.Test = test;
-			treeMap.Add( test.TestName.UniqueName, node );
-			
-			if ( !test.IsSuite )
-				return false;
-
-			bool showChildren = UpdateNodes( node.Nodes, test.Tests, deletedNodes );
-
-			if ( showChildren ) node.Expand();
-
-			return showChildren;
-		}
-
-		/// <summary>
-		/// Match a set of nodes against a set of tests.
-		/// Remove nodes that are no longer represented
-		/// in the tests. Update any nodes that match.
-		/// Add new nodes for new tests.
-		/// </summary>
-		/// <param name="nodes">List of nodes to be matched</param>
-		/// <param name="tests">List of tests to be matched</param>
-        /// <param name="deletedNodes">List of nodes previously removed,
-        /// in case they show up lower in the tree.</param>
-		/// <returns>True if the parent should expand to show that something was added or deleted</returns>
-		private bool UpdateNodes( IList nodes, IList tests, IList deletedNodes )
-		{
-			// For NUnit 2.4 and the original release of 2.5, the newly
-            // reloaded tests were guaranteed to be in the same order as 
-            // the originally loaded tests, so we simply merged the two
-            // lists. Beginning with NUnit 2.5.1, this is no longer 
-            // guaranteed - parameterized tests may be re-ordered within 
-            // their containing suite. Therefore, we no longer rely on 
-            // ordering of tests within a suite.
-
-			bool showChanges = false;
-
-            // We use two passes to keep the code as simple as possible
-            //
-			// Pass1: delete nodes that are not in the list of tests.
-            // Some of these nodes may reappear lower in the tree,
-            // if we are switching from fixture display to tree display,
-            // so we save them for checking later.
-			int nodeIndex = nodes.Count;
-			while( --nodeIndex >= 0 )
-			{
-				TestSuiteTreeNode node = (TestSuiteTreeNode)nodes[nodeIndex];
-				if ( !IsTestInList( node.Test, tests ) )
-				{
-					log.Debug( "Deleting " + node.Test.TestName.Name );
-                    deletedNodes.Add(node);
-					RemoveNode( node );
-					showChanges = true;
-				}
-			}
-
-			// Pass2: All nodes in the node list are also
-			// in the tests, so we can merge in changes
-			// and add any new nodes.
-			nodeIndex = 0;
-			foreach( TestNode test in tests )
-			{
-				TestSuiteTreeNode node = nodeIndex < nodes.Count ? (TestSuiteTreeNode)nodes[nodeIndex] : null;
-
-				if ( node != null && node.Test.TestName.FullName == test.TestName.FullName )
-					UpdateNode( node, test, deletedNodes );
-				else
-				{
-                    TestSuiteTreeNode newNode = null;
-                    for (int i = nodeIndex + 1; i < nodes.Count; i++)
-                    {
-                        TestSuiteTreeNode tryNode = (TestSuiteTreeNode)nodes[i];
-                        if (tryNode.Test.TestName.FullName == test.TestName.FullName)
-                        {
-                            // Exchange the two nodes
-                            nodes.Remove(tryNode);
-                            if (node != null) nodes.Remove(node);
-
-                            nodes.Insert(nodeIndex, tryNode);
-                            if ( node != null )nodes.Insert(i, node);
-
-                            UpdateNode(tryNode, test, deletedNodes);
-                            newNode = tryNode;
-                            break;
-                        }
-                    }
-
-                    // Create a new node or use a deleted node
-                    if (newNode == null)
-                    {
-                        // Check previously deleted nodes
-                        foreach (TestSuiteTreeNode deletedNode in deletedNodes)
-                            if (deletedNode.Test.TestName.FullName == test.TestName.FullName)
-                            {
-                                newNode = deletedNode;
-                                deletedNodes.Remove(deletedNode);
-                                break;
-                            }
-
-                        // If not found, it's completely new
-                        if (newNode == null)
-                            newNode = new TestSuiteTreeNode(test);
-
-                        AddToMap(newNode);
-                        nodes.Insert(nodeIndex, newNode);
-
-                        if (test.IsSuite)
-                        {
-                            if (UpdateNodes(newNode.Nodes, test.Tests, deletedNodes))
-                                newNode.Expand();
-                            //foreach( TestNode childTest in test.Tests )
-                            //    AddTreeNodes(newNode.Nodes, childTest, false);
-                        }
-
-                        showChanges = true;
-                    }
-                }
-
-				nodeIndex++;
-			}
-
-			return showChanges;
-		}
-
-		/// <summary>
-		/// Helper returns true if the test provided as the first argument
-        /// is found in the list of tests provided as the second argument
-		/// </summary>
-		/// <param name="node">Test to examine</param>
-		/// <param name="tests">List of tests to match against</param>
-		private bool IsTestInList( ITest test, IList tests )
-		{
-			foreach ( ITest candidate in tests )
-				if( candidate.TestName.FullName == test.TestName.FullName )
-					return true;
-
-			return false;
-		}
-
-		/// <summary>
 		/// Delegate for use in invoking the tree loader
 		/// from the watcher thread.
 		/// </summary>
@@ -1343,28 +1158,14 @@ namespace NUnit.UiKit
 			SelectedNode.EnsureVisible();
 		}
 
-        /// <summary>
-        /// Try to set the TopNode of the tree. The TopNode setter
-        /// is only supported in .Net 2.0 and higher, so we must
-        /// use reflection. If it's not available we simply
-        /// make the node visible.
-        /// </summary>
-        /// <param name="node"></param>
-        public void TryToSetTopNode(TreeNode node)
-        {
-            MethodInfo setMethod = null;
-            PropertyInfo property = this.GetType().GetProperty("TopNode");
-            if (property != null)
-                setMethod = property.GetSetMethod();
-            if (setMethod != null)
-                setMethod.Invoke(this, new object[] { node });
-            else
-                node.EnsureVisible();
-        }
-
 		private TestSuiteTreeNode FindNode( ITest test )
 		{
-			return treeMap[test.TestName.UniqueName] as TestSuiteTreeNode;
+			TestSuiteTreeNode node = treeMap[test.TestName.UniqueName] as TestSuiteTreeNode;
+
+            if (node == null)
+                node = FindNodeByName(test.TestName.FullName);
+
+            return node;
 		}
 
         private TestSuiteTreeNode FindNodeByName( string fullName )
@@ -1387,66 +1188,41 @@ namespace NUnit.UiKit
                 string fileName = VisualState.GetVisualStateFileName(loader.TestFileName);
                 if (File.Exists(fileName))
                 {
-                    RestoreVisualState(VisualState.LoadFrom(fileName));
+                    VisualState.LoadFrom(fileName).Restore(this);
                 }
             }
         }
 
-        private void RestoreVisualState( VisualState visualState )
+        private void RestoreResults(TestResult result)
         {
-            this.CheckBoxes = visualState.ShowCheckBoxes;
+            if (result.HasResults)
+                foreach (TestResult childResult in result.Results)
+                    RestoreResults(childResult);
 
-            foreach (VisualTreeNode visualNode in visualState.Nodes)
-            {
-                TestSuiteTreeNode treeNode = this[visualNode.UniqueName];
-                if (treeNode != null)
-                {
-                    if (treeNode.IsExpanded != visualNode.Expanded)
-                        treeNode.Toggle();
+            SetTestResult(result);
+        }
 
-                    treeNode.Checked = visualNode.Checked;
-                }
-            }
-
-            if (visualState.SelectedNode != null)
-            {
-                TestSuiteTreeNode treeNode = this[visualState.SelectedNode];
-                if (treeNode != null)
-                    this.SelectedNode = treeNode;
-            }
-
-            if (visualState.TopNode != null)
-            {
-                TestSuiteTreeNode treeNode = this[visualState.TopNode];
-                if (treeNode != null)
-                    TryToSetTopNode(treeNode);
-            }
-
-            if (visualState.SelectedCategories != null)
-            {
-                TestFilter filter = new CategoryFilter(visualState.SelectedCategories.Split(new char[] { ',' }));
-                if (visualState.ExcludeCategories)
-                    filter = new NotFilter(filter);
-                this.CategoryFilter = filter;
-            }
-
-            this.Select();
-		}
 		#endregion
-
 	}
 
 	#region Helper Classes
-	internal class ClearCheckedNodesVisitor : TestSuiteTreeNodeVisitor
+
+    #region ClearCheckedNodesVisitor
+
+    internal class ClearCheckedNodesVisitor : TestSuiteTreeNodeVisitor
 	{
 		public override void Visit(TestSuiteTreeNode node)
 		{
 			node.Checked = false;
 		}
 
-	}
+    }
 
-	internal class CheckFailedNodesVisitor : TestSuiteTreeNodeVisitor 
+    #endregion
+
+    #region CheckFailedNodesVisitor
+
+    internal class CheckFailedNodesVisitor : TestSuiteTreeNodeVisitor 
 	{
 		public override void Visit(TestSuiteTreeNode node)
 		{
@@ -1461,17 +1237,15 @@ namespace NUnit.UiKit
 				node.Checked = false;
 		
 		}
-	}
+    }
 
-	internal class FailedTestsFilterVisitor : TestSuiteTreeNodeVisitor
+    #endregion
+
+    #region FailedTestsFilterVisitor
+
+    internal class FailedTestsFilterVisitor : TestSuiteTreeNodeVisitor
 	{
-		NUnit.Core.Filters.NameFilter filter = new NameFilter();
 		ArrayList tests = new ArrayList();
-
-		public TestFilter Filter
-		{
-			get { return filter; }
-		}
 
 		public ITest[] Tests
 		{
@@ -1485,12 +1259,15 @@ namespace NUnit.UiKit
                      node.Result.ResultState == ResultState.Error) )
 			{
 				tests.Add(node.Test);
-				filter.Add(node.Test.TestName);
 			}
 		}
-	}
+    }
 
-	public class TestFilterVisitor : TestSuiteTreeNodeVisitor
+    #endregion
+
+    #region TestFilterVisitor
+
+    public class TestFilterVisitor : TestSuiteTreeNodeVisitor
 	{
 		private ITestFilter filter;
 
@@ -1503,9 +1280,13 @@ namespace NUnit.UiKit
 		{
 			node.Included = filter.Pass( node.Test );
 		}
-	}
+    }
 
-	internal class CheckedTestFinder
+    #endregion
+
+    #region CheckedTestFinder
+
+    internal class CheckedTestFinder
 	{
 		[Flags]
 		public enum SelectionFlags
@@ -1578,7 +1359,10 @@ namespace NUnit.UiKit
 			foreach( TestSuiteTreeNode node in nodes )
 				FindCheckedNodes( node, topLevel );
 		}
-	}
-	#endregion
+    }
+
+    #endregion
+
+    #endregion
 }
 

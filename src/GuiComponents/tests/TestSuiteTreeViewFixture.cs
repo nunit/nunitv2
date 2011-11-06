@@ -61,7 +61,6 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void BuildTreeView()
 		{
-            //treeView.Load( new TestNode( suite ) );
 			Assert.IsNotNull( treeView.Nodes[0] );
 			Assert.AreEqual( MockAssembly.Nodes, treeView.GetNodeCount( true ) );
 			Assert.AreEqual( testsDll, treeView.Nodes[0].Text );	
@@ -148,8 +147,6 @@ namespace NUnit.UiKit.Tests
 		[Test]
 		public void SetTestResult()
 		{
-            //treeView.Load( new TestNode( suite ) );
-			
 			TestSuite fixture = (TestSuite)findTest( "MockTestFixture", suite );		
 			TestResult result = new TestResult( new TestInfo( fixture ) );
 			treeView.SetTestResult( result );
@@ -181,8 +178,6 @@ namespace NUnit.UiKit.Tests
         [Test]
 		public void ProcessChecks()
 		{
-            //treeView.Load( new TestNode( suite ) );
-
 			Assert.AreEqual(0, treeView.CheckedTests.Length);
 			Assert.IsFalse(Checked(treeView.Nodes));
 
