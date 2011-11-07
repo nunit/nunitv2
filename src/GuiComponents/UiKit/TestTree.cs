@@ -584,9 +584,14 @@ namespace NUnit.UiKit
 		#endregion
 
 
-		public void RunAllTests()
+        public void RunAllTests()
+        {
+            RunAllTests(true);
+        }
+
+		public void RunAllTests(bool ignoreTests)
 		{
-			tests.RunAllTests();
+			tests.RunAllTests(ignoreTests);
 		}
 
 		public void RunSelectedTests()

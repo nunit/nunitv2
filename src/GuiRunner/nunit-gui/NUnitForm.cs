@@ -1393,10 +1393,10 @@ namespace NUnit.Gui
 						try
 						{
 							Services.UserSettings.SaveSetting("Options.TestLoader.ReloadOnRun", false);
-							if ( guiOptions.runselected )
-								testTree.RunSelectedTests();
-							else
-								TestLoader.RunTests();
+                            if (guiOptions.runselected)
+                                testTree.RunSelectedTests();
+                            else
+                                testTree.RunAllTests(false);
 						}
 						finally
 						{

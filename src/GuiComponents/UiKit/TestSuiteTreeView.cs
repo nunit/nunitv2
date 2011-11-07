@@ -950,10 +950,15 @@ namespace NUnit.UiKit
 
 		#region Running Tests
 
-		public void RunAllTests()
+        public void RunAllTests()
+        {
+            RunAllTests(true);
+        }
+
+		public void RunAllTests(bool ignoreCategories)
 		{
 			runCommandEnabled = false;
-			RunTests( new ITest[] { ((TestSuiteTreeNode)Nodes[0]).Test }, true );
+			RunTests( new ITest[] { ((TestSuiteTreeNode)Nodes[0]).Test }, ignoreCategories );
 		}
 
 		public void RunSelectedTests()
