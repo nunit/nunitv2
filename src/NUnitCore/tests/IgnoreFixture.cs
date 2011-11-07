@@ -73,9 +73,7 @@ namespace NUnit.Core.Tests
 		{
 			TestSuite testFixture = TestBuilder.MakeFixture( typeof( IgnoreInSetUpFixture ) );
             TestResult fixtureResult = testFixture.Run(NullListener.NULL, TestFilter.Empty);
-
-			Assert.IsTrue( fixtureResult.Executed, "Fixture should have been executed" );
-			
+		
 			foreach( TestResult testResult in fixtureResult.Results )
 				Assert.IsFalse( testResult.Executed, "Test case should not have been executed" );
 		}
