@@ -25,7 +25,9 @@ namespace NUnit.Gui.SettingsPages
 
         public override void ApplySettings()
         {
-           settings.SaveSetting("Options.InternalTraceLevel", (InternalTraceLevel)traceLevelComboBox.SelectedIndex);
+            InternalTraceLevel level = (InternalTraceLevel)traceLevelComboBox.SelectedIndex;
+            settings.SaveSetting("Options.InternalTraceLevel", level);
+            InternalTrace.Level = level;
         }
     }
 }
