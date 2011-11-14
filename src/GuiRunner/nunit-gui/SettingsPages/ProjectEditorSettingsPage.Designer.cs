@@ -41,9 +41,9 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Location = new System.Drawing.Point(85, 8);
+            this.groupBox1.Location = new System.Drawing.Point(112, 10);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(360, 10);
+            this.groupBox1.Size = new System.Drawing.Size(333, 8);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 

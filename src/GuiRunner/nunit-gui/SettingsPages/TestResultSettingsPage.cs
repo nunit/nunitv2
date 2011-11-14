@@ -69,62 +69,67 @@ namespace NUnit.Gui.SettingsPages
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Location = new System.Drawing.Point(80, 0);
+            this.groupBox1.Location = new System.Drawing.Point(149, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(376, 8);
+            this.groupBox1.Size = new System.Drawing.Size(307, 8);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             // 
             // label1
             // 
+            this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 16);
+            this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Errors Tab";
             // 
             // errorsTabCheckBox
             // 
+            this.errorsTabCheckBox.AutoSize = true;
             this.errorsTabCheckBox.Checked = true;
             this.errorsTabCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.helpProvider1.SetHelpString(this.errorsTabCheckBox, "If checked, the Errors and Failures Tab will be displayed in the Gui");
             this.errorsTabCheckBox.Location = new System.Drawing.Point(32, 24);
             this.errorsTabCheckBox.Name = "errorsTabCheckBox";
             this.helpProvider1.SetShowHelp(this.errorsTabCheckBox, true);
-            this.errorsTabCheckBox.Size = new System.Drawing.Size(304, 24);
+            this.errorsTabCheckBox.Size = new System.Drawing.Size(172, 17);
             this.errorsTabCheckBox.TabIndex = 10;
             this.errorsTabCheckBox.Text = "Display Errors and Failures Tab";
             // 
             // failureToolTips
             // 
+            this.failureToolTips.AutoSize = true;
             this.helpProvider1.SetHelpString(this.failureToolTips, "If checked, a tooltip will be displayed when hovering over an error that does not" +
                     " fit the display.");
             this.failureToolTips.Location = new System.Drawing.Point(48, 56);
             this.failureToolTips.Name = "failureToolTips";
             this.helpProvider1.SetShowHelp(this.failureToolTips, true);
-            this.failureToolTips.Size = new System.Drawing.Size(202, 19);
+            this.failureToolTips.Size = new System.Drawing.Size(137, 17);
             this.failureToolTips.TabIndex = 11;
             this.failureToolTips.Text = "Enable Failure ToolTips";
             // 
             // enableWordWrap
             // 
+            this.enableWordWrap.AutoSize = true;
             this.helpProvider1.SetHelpString(this.enableWordWrap, "If checked, error messages will be word wrapped to subsequent display lines.");
             this.enableWordWrap.Location = new System.Drawing.Point(48, 88);
             this.enableWordWrap.Name = "enableWordWrap";
             this.helpProvider1.SetShowHelp(this.enableWordWrap, true);
-            this.enableWordWrap.Size = new System.Drawing.Size(248, 19);
+            this.enableWordWrap.Size = new System.Drawing.Size(117, 17);
             this.enableWordWrap.TabIndex = 12;
             this.enableWordWrap.Text = "Enable Word Wrap";
             // 
             // notRunTabCheckBox
             // 
+            this.notRunTabCheckBox.AutoSize = true;
             this.notRunTabCheckBox.Checked = true;
             this.notRunTabCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.helpProvider1.SetHelpString(this.notRunTabCheckBox, "If checked, the Tests Not Run Tab will be displayed in the Gui.");
             this.notRunTabCheckBox.Location = new System.Drawing.Point(32, 152);
             this.notRunTabCheckBox.Name = "notRunTabCheckBox";
             this.helpProvider1.SetShowHelp(this.notRunTabCheckBox, true);
-            this.notRunTabCheckBox.Size = new System.Drawing.Size(264, 25);
+            this.notRunTabCheckBox.Size = new System.Drawing.Size(154, 17);
             this.notRunTabCheckBox.TabIndex = 13;
             this.notRunTabCheckBox.Text = "Display Tests Not Run Tab";
             // 
@@ -132,17 +137,18 @@ namespace NUnit.Gui.SettingsPages
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Location = new System.Drawing.Point(88, 128);
+            this.groupBox2.Location = new System.Drawing.Point(149, 128);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(368, 8);
+            this.groupBox2.Size = new System.Drawing.Size(307, 8);
             this.groupBox2.TabIndex = 14;
             this.groupBox2.TabStop = false;
             // 
             // label2
             // 
+            this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 128);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(88, 16);
+            this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 15;
             this.label2.Text = "Not Run Tab";
             // 
@@ -158,6 +164,7 @@ namespace NUnit.Gui.SettingsPages
             this.Controls.Add(this.label1);
             this.Name = "TestResultSettingsPage";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
 		}
 		#endregion

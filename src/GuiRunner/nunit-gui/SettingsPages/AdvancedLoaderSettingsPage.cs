@@ -17,17 +17,17 @@ namespace NUnit.Gui.SettingsPages
 	{
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.CheckBox enableShadowCopyCheckBox;
-		private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox enableShadowCopyCheckBox;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.HelpProvider helpProvider1;
         private Label label4;
         private TextBox shadowCopyPathTextBox;
         private CheckBox principalPolicyCheckBox;
-        private ComboBox principalPolicyComboBox;
         private Label label7;
         private Label label6;
         private GroupBox groupBox1;
+        private ListBox principalPolicyListBox;
+        private Label label1;
 		private System.ComponentModel.IContainer components = null;
 
 		public AdvancedLoaderSettingsPage( string key ) : base( key )
@@ -64,23 +64,24 @@ namespace NUnit.Gui.SettingsPages
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.enableShadowCopyCheckBox = new System.Windows.Forms.CheckBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.shadowCopyPathTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.principalPolicyCheckBox = new System.Windows.Forms.CheckBox();
-            this.principalPolicyComboBox = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.principalPolicyListBox = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label3
             // 
+            this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(8, 8);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 16);
+            this.label3.Size = new System.Drawing.Size(73, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "Shadow Copy";
             // 
@@ -88,39 +89,32 @@ namespace NUnit.Gui.SettingsPages
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Location = new System.Drawing.Point(104, 8);
+            this.groupBox3.Location = new System.Drawing.Point(139, 8);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(344, 8);
+            this.groupBox3.Size = new System.Drawing.Size(309, 8);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             // 
             // enableShadowCopyCheckBox
             // 
+            this.enableShadowCopyCheckBox.AutoSize = true;
             this.helpProvider1.SetHelpString(this.enableShadowCopyCheckBox, resources.GetString("enableShadowCopyCheckBox.HelpString"));
             this.enableShadowCopyCheckBox.Location = new System.Drawing.Point(24, 32);
             this.enableShadowCopyCheckBox.Name = "enableShadowCopyCheckBox";
             this.helpProvider1.SetShowHelp(this.enableShadowCopyCheckBox, true);
-            this.enableShadowCopyCheckBox.Size = new System.Drawing.Size(280, 22);
+            this.enableShadowCopyCheckBox.Size = new System.Drawing.Size(128, 17);
             this.enableShadowCopyCheckBox.TabIndex = 2;
             this.enableShadowCopyCheckBox.Text = "Enable Shadow Copy";
             this.enableShadowCopyCheckBox.CheckedChanged += new System.EventHandler(this.enableShadowCopyCheckBox_CheckedChanged);
             // 
-            // label1
-            // 
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(24, 113);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 40);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Warning:";
-            // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(96, 113);
+            this.label2.Location = new System.Drawing.Point(139, 101);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(357, 40);
+            this.label2.Size = new System.Drawing.Size(260, 59);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Shadow copy settings should normally not be changed.";
+            this.label2.Text = "Shadow copy should normally be enabled. If it is disabled, the NUnit Gui may not " +
+                "function correctly.";
             // 
             // shadowCopyPathTextBox
             // 
@@ -143,7 +137,7 @@ namespace NUnit.Gui.SettingsPages
             // principalPolicyCheckBox
             // 
             this.principalPolicyCheckBox.AutoSize = true;
-            this.principalPolicyCheckBox.Location = new System.Drawing.Point(24, 191);
+            this.principalPolicyCheckBox.Location = new System.Drawing.Point(24, 199);
             this.principalPolicyCheckBox.Name = "principalPolicyCheckBox";
             this.principalPolicyCheckBox.Size = new System.Drawing.Size(214, 17);
             this.principalPolicyCheckBox.TabIndex = 9;
@@ -151,32 +145,21 @@ namespace NUnit.Gui.SettingsPages
             this.principalPolicyCheckBox.UseVisualStyleBackColor = true;
             this.principalPolicyCheckBox.CheckedChanged += new System.EventHandler(this.principalPolicyCheckBox_CheckedChanged);
             // 
-            // principalPolicyComboBox
-            // 
-            this.principalPolicyComboBox.FormattingEnabled = true;
-            this.principalPolicyComboBox.Items.AddRange(new object[] {
-            "UnauthenticatedPrincipal",
-            "NoPrincipal",
-            "WindowsPrincipal"});
-            this.principalPolicyComboBox.Location = new System.Drawing.Point(139, 214);
-            this.principalPolicyComboBox.Name = "principalPolicyComboBox";
-            this.principalPolicyComboBox.Size = new System.Drawing.Size(142, 21);
-            this.principalPolicyComboBox.TabIndex = 11;
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(42, 217);
+            this.label7.Location = new System.Drawing.Point(42, 225);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(81, 13);
+            this.label7.Size = new System.Drawing.Size(38, 13);
             this.label7.TabIndex = 10;
-            this.label7.Text = "Principal Policy:";
+            this.label7.Text = "Policy:";
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(8, 155);
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 163);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(88, 16);
+            this.label6.Size = new System.Drawing.Size(78, 13);
             this.label6.TabIndex = 7;
             this.label6.Text = "Principal Policy";
             // 
@@ -184,23 +167,44 @@ namespace NUnit.Gui.SettingsPages
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Location = new System.Drawing.Point(104, 155);
+            this.groupBox1.Location = new System.Drawing.Point(139, 163);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(344, 8);
+            this.groupBox1.Size = new System.Drawing.Size(309, 8);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             // 
+            // principalPolicyListBox
+            // 
+            this.principalPolicyListBox.FormattingEnabled = true;
+            this.principalPolicyListBox.Items.AddRange(new object[] {
+            "UnauthenticatedPrincipal",
+            "NoPrincipal",
+            "WindowsPrincipal"});
+            this.principalPolicyListBox.Location = new System.Drawing.Point(139, 225);
+            this.principalPolicyListBox.Name = "principalPolicyListBox";
+            this.principalPolicyListBox.Size = new System.Drawing.Size(241, 69);
+            this.principalPolicyListBox.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(42, 101);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Warning:";
+            // 
             // AdvancedLoaderSettingsPage
             // 
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.principalPolicyListBox);
             this.Controls.Add(this.principalPolicyCheckBox);
-            this.Controls.Add(this.principalPolicyComboBox);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.shadowCopyPathTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.enableShadowCopyCheckBox);
@@ -218,9 +222,9 @@ namespace NUnit.Gui.SettingsPages
 			enableShadowCopyCheckBox.Checked = settings.GetSetting( "Options.TestLoader.ShadowCopyFiles", true );
             shadowCopyPathTextBox.Text = settings.GetSetting("Options.TestLoader.ShadowCopyPath", "");
 
-            principalPolicyCheckBox.Checked = principalPolicyComboBox.Enabled =
+            principalPolicyCheckBox.Checked = principalPolicyListBox.Enabled =
                 settings.GetSetting( "Options.TestLoader.SetPrincipalPolicy", false );
-            principalPolicyComboBox.SelectedIndex = (int)(PrincipalPolicy)settings.GetSetting("Options.TestLoader.PrincipalPolicy", PrincipalPolicy.UnauthenticatedPrincipal);
+            principalPolicyListBox.SelectedIndex = (int)(PrincipalPolicy)settings.GetSetting("Options.TestLoader.PrincipalPolicy", PrincipalPolicy.UnauthenticatedPrincipal);
 		}
 
 		public override void ApplySettings()
@@ -235,7 +239,7 @@ namespace NUnit.Gui.SettingsPages
             settings.SaveSetting("Options.TestLoader.SetPrincipalPolicy", principalPolicyCheckBox.Checked);
 
             if (principalPolicyCheckBox.Checked)
-                settings.SaveSetting("Options.TestLoader.PrincipalPolicy", (PrincipalPolicy)principalPolicyComboBox.SelectedIndex);
+                settings.SaveSetting("Options.TestLoader.PrincipalPolicy", (PrincipalPolicy)principalPolicyListBox.SelectedIndex);
             else
                 settings.RemoveSetting("Options.TestLoader.PrincipalPolicy");
 		}
@@ -252,7 +256,7 @@ namespace NUnit.Gui.SettingsPages
                 return enableShadowCopyCheckBox.Checked != oldShadowCopyFiles
                     || shadowCopyPathTextBox.Text != oldShadowCopyPath
                     || principalPolicyCheckBox.Checked != oldSetPrincipalPolicy
-                    || principalPolicyComboBox.SelectedIndex != (int)oldPrincipalPolicy;
+                    || principalPolicyListBox.SelectedIndex != (int)oldPrincipalPolicy;
 
 			}
 		}
@@ -264,7 +268,7 @@ namespace NUnit.Gui.SettingsPages
 
         private void principalPolicyCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            principalPolicyComboBox.Enabled = principalPolicyCheckBox.Checked;
+            principalPolicyListBox.Enabled = principalPolicyCheckBox.Checked;
         }
 	}
 }

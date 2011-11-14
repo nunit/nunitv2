@@ -75,9 +75,10 @@ namespace NUnit.Gui.SettingsPages
             // 
             // label1
             // 
+            this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(8, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 16);
+            this.label1.Size = new System.Drawing.Size(60, 13);
             this.label1.TabIndex = 7;
             this.label1.Text = "Gui Display";
             // 
@@ -85,35 +86,36 @@ namespace NUnit.Gui.SettingsPages
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Location = new System.Drawing.Point(80, 0);
+            this.groupBox1.Location = new System.Drawing.Point(135, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(368, 8);
+            this.groupBox1.Size = new System.Drawing.Size(313, 8);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             // 
             // label2
             // 
+            this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(8, 96);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(96, 16);
+            this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 9;
             this.label2.Text = "Recent Files";
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox2.Location = new System.Drawing.Point(88, 96);
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Location = new System.Drawing.Point(135, 96);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(360, 8);
+            this.groupBox2.Size = new System.Drawing.Size(313, 8);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             // 
             // label3
             // 
+            this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(152, 120);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(96, 24);
+            this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 30;
             this.label3.Text = "files in menu";
             // 
@@ -123,47 +125,51 @@ namespace NUnit.Gui.SettingsPages
             this.recentFilesCountTextBox.Location = new System.Drawing.Point(96, 120);
             this.recentFilesCountTextBox.Name = "recentFilesCountTextBox";
             this.helpProvider1.SetShowHelp(this.recentFilesCountTextBox, true);
-            this.recentFilesCountTextBox.Size = new System.Drawing.Size(40, 22);
+            this.recentFilesCountTextBox.Size = new System.Drawing.Size(40, 20);
             this.recentFilesCountTextBox.TabIndex = 29;
             this.recentFilesCountTextBox.Validated += new System.EventHandler(this.recentFilesCountTextBox_Validated);
             this.recentFilesCountTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.recentFilesCountTextBox_Validating);
             // 
             // label4
             // 
+            this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(32, 120);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 16);
+            this.label4.Size = new System.Drawing.Size(23, 13);
             this.label4.TabIndex = 28;
             this.label4.Text = "List";
             // 
             // loadLastProjectCheckBox
             // 
+            this.loadLastProjectCheckBox.AutoSize = true;
             this.helpProvider1.SetHelpString(this.loadLastProjectCheckBox, "If checked, most recent project is loaded at startup.");
             this.loadLastProjectCheckBox.Location = new System.Drawing.Point(32, 198);
             this.loadLastProjectCheckBox.Name = "loadLastProjectCheckBox";
             this.helpProvider1.SetShowHelp(this.loadLastProjectCheckBox, true);
-            this.loadLastProjectCheckBox.Size = new System.Drawing.Size(311, 24);
+            this.loadLastProjectCheckBox.Size = new System.Drawing.Size(193, 17);
             this.loadLastProjectCheckBox.TabIndex = 31;
             this.loadLastProjectCheckBox.Text = "Load most recent project at startup.";
             // 
             // fullGuiRadioButton
             // 
+            this.fullGuiRadioButton.AutoSize = true;
             this.helpProvider1.SetHelpString(this.fullGuiRadioButton, "If selected, the full Gui is displayed, including the progress bar and output tab" +
                     "s.");
             this.fullGuiRadioButton.Location = new System.Drawing.Point(32, 24);
             this.fullGuiRadioButton.Name = "fullGuiRadioButton";
             this.helpProvider1.SetShowHelp(this.fullGuiRadioButton, true);
-            this.fullGuiRadioButton.Size = new System.Drawing.Size(328, 24);
+            this.fullGuiRadioButton.Size = new System.Drawing.Size(215, 17);
             this.fullGuiRadioButton.TabIndex = 32;
             this.fullGuiRadioButton.Text = "Full Gui with progress bar and result tabs";
             // 
             // miniGuiRadioButton
             // 
+            this.miniGuiRadioButton.AutoSize = true;
             this.helpProvider1.SetHelpString(this.miniGuiRadioButton, "If selected, the mini-Gui, consisting of only the tree of tests, is displayed.");
             this.miniGuiRadioButton.Location = new System.Drawing.Point(32, 56);
             this.miniGuiRadioButton.Name = "miniGuiRadioButton";
             this.helpProvider1.SetShowHelp(this.miniGuiRadioButton, true);
-            this.miniGuiRadioButton.Size = new System.Drawing.Size(320, 24);
+            this.miniGuiRadioButton.Size = new System.Drawing.Size(148, 17);
             this.miniGuiRadioButton.TabIndex = 33;
             this.miniGuiRadioButton.Text = "Mini Gui showing tree only";
             // 
@@ -172,7 +178,7 @@ namespace NUnit.Gui.SettingsPages
             this.checkFilesExistCheckBox.AutoSize = true;
             this.checkFilesExistCheckBox.Location = new System.Drawing.Point(32, 159);
             this.checkFilesExistCheckBox.Name = "checkFilesExistCheckBox";
-            this.checkFilesExistCheckBox.Size = new System.Drawing.Size(243, 21);
+            this.checkFilesExistCheckBox.Size = new System.Drawing.Size(185, 17);
             this.checkFilesExistCheckBox.TabIndex = 34;
             this.checkFilesExistCheckBox.Text = "Check that files exist before listing";
             this.checkFilesExistCheckBox.UseVisualStyleBackColor = true;

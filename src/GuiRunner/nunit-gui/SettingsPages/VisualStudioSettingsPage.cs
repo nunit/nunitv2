@@ -52,6 +52,7 @@ namespace NUnit.Gui.SettingsPages
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VisualStudioSettingsPage));
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.visualStudioSupportCheckBox = new System.Windows.Forms.CheckBox();
@@ -63,9 +64,10 @@ namespace NUnit.Gui.SettingsPages
             // 
             // label1
             // 
+            this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 16);
+            this.label1.Size = new System.Drawing.Size(68, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Visual Studio";
             // 
@@ -73,20 +75,21 @@ namespace NUnit.Gui.SettingsPages
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Location = new System.Drawing.Point(80, 0);
+            this.groupBox1.Location = new System.Drawing.Point(151, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(376, 8);
+            this.groupBox1.Size = new System.Drawing.Size(293, 8);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             // 
             // visualStudioSupportCheckBox
             // 
+            this.visualStudioSupportCheckBox.AutoSize = true;
             this.helpProvider1.SetHelpString(this.visualStudioSupportCheckBox, "If checked, Visual Studio projects and solutions may be opened or added to existi" +
                     "ng test projects.");
             this.visualStudioSupportCheckBox.Location = new System.Drawing.Point(24, 24);
             this.visualStudioSupportCheckBox.Name = "visualStudioSupportCheckBox";
             this.helpProvider1.SetShowHelp(this.visualStudioSupportCheckBox, true);
-            this.visualStudioSupportCheckBox.Size = new System.Drawing.Size(224, 25);
+            this.visualStudioSupportCheckBox.Size = new System.Drawing.Size(163, 17);
             this.visualStudioSupportCheckBox.TabIndex = 30;
             this.visualStudioSupportCheckBox.Text = "Enable Visual Studio Support";
             this.visualStudioSupportCheckBox.CheckedChanged += new System.EventHandler(this.visualStudioSupportCheckBox_CheckedChanged);
@@ -103,20 +106,18 @@ namespace NUnit.Gui.SettingsPages
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(78, 89);
+            this.label2.Location = new System.Drawing.Point(110, 89);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(356, 40);
+            this.label2.Size = new System.Drawing.Size(322, 124);
             this.label2.TabIndex = 33;
-            this.label2.Text = "If this setting should normally be checked. If it is unchecked, solution configs " +
-                "are ignored and all project configs are included in the NUnit project, as was do" +
-                "ne in versions of NUnit prior to 2.6.";
+            this.label2.Text = resources.GetString("label2.Text");
             // 
             // label3
             // 
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(39, 89);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(45, 40);
+            this.label3.Size = new System.Drawing.Size(33, 13);
             this.label3.TabIndex = 32;
             this.label3.Text = "Note:";
             // 
