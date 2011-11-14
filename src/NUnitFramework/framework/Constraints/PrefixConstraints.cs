@@ -224,17 +224,18 @@ namespace NUnit.Framework.Constraints
 	}
 	#endregion
 
-    #region OneItemConstraint
+    #region ExactCountConstraint
     /// <summary>
-    /// NoItemConstraint applies another constraint to each
-    /// item in a collection, failing if any of them succeeds.
+    /// ExactCoutConstraint applies another constraint to each
+    /// item in a collection, succeeding only if a specified
+    /// number of items succeed.
     /// </summary>
     public class ExactCountConstraint : PrefixConstraint
     {
         private int expectedCount;
 
         /// <summary>
-        /// Construct a SomeItemsConstraint on top of an existing constraint
+        /// Construct an ExactCountConstraint on top of an existing constraint
         /// </summary>
         /// <param name="itemConstraint"></param>
         public ExactCountConstraint(int expectedCount, Constraint itemConstraint)
@@ -246,7 +247,7 @@ namespace NUnit.Framework.Constraints
 
         /// <summary>
         /// Apply the item constraint to each item in the collection,
-        /// failing if any item fails.
+        /// succeeding only if the expected number of items pass.
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
