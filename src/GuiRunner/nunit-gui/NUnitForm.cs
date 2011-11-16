@@ -236,6 +236,7 @@ namespace NUnit.Gui
             this.treeSplitter = new System.Windows.Forms.Splitter();
             this.rightPanel = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.suiteName = new CP.Windows.Forms.ExpandingLabel();
             this.runCount = new CP.Windows.Forms.ExpandingLabel();
             this.stopButton = new System.Windows.Forms.Button();
             this.runButton = new System.Windows.Forms.Button();
@@ -244,7 +245,6 @@ namespace NUnit.Gui
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.testTree = new NUnit.UiKit.TestTree();
             this.leftPanel = new System.Windows.Forms.Panel();
-            this.suiteName = new CP.Windows.Forms.ExpandingLabel();
             this.rightPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.leftPanel.SuspendLayout();
@@ -712,6 +712,16 @@ namespace NUnit.Gui
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
+            // suiteName
+            // 
+            this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.suiteName.AutoEllipsis = true;
+            this.suiteName.Location = new System.Drawing.Point(145, 21);
+            this.suiteName.Name = "suiteName";
+            this.suiteName.Size = new System.Drawing.Size(343, 23);
+            this.suiteName.TabIndex = 1;
+            // 
             // runCount
             // 
             this.runCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -787,16 +797,6 @@ namespace NUnit.Gui
             this.leftPanel.Name = "leftPanel";
             this.leftPanel.Size = new System.Drawing.Size(240, 407);
             this.leftPanel.TabIndex = 4;
-            // 
-            // suiteName
-            // 
-            this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.suiteName.AutoEllipsis = true;
-            this.suiteName.Location = new System.Drawing.Point(145, 21);
-            this.suiteName.Name = "suiteName";
-            this.suiteName.Size = new System.Drawing.Size(343, 23);
-            this.suiteName.TabIndex = 1;
             // 
             // NUnitForm
             // 
