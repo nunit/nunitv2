@@ -57,8 +57,7 @@ namespace NUnit.Gui
 
 		public System.Windows.Forms.GroupBox groupBox1;
 		public System.Windows.Forms.Button runButton;
-		private System.Windows.Forms.Button stopButton;
-		public System.Windows.Forms.Label suiteName;
+        private System.Windows.Forms.Button stopButton;
 		public NUnit.UiKit.TestProgressBar progressBar;
 		private CP.Windows.Forms.ExpandingLabel runCount;
 
@@ -132,6 +131,7 @@ namespace NUnit.Gui
 		private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
         private MenuItem runtimeMenuItem;
         private MenuItem openLogDirectoryMenuItem;
+        private ExpandingLabel suiteName;
 		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
 		#endregion
@@ -239,12 +239,12 @@ namespace NUnit.Gui
             this.runCount = new CP.Windows.Forms.ExpandingLabel();
             this.stopButton = new System.Windows.Forms.Button();
             this.runButton = new System.Windows.Forms.Button();
-            this.suiteName = new System.Windows.Forms.Label();
             this.progressBar = new NUnit.UiKit.TestProgressBar();
             this.resultTabs = new NUnit.UiKit.ResultTabs();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.testTree = new NUnit.UiKit.TestTree();
             this.leftPanel = new System.Windows.Forms.Panel();
+            this.suiteName = new CP.Windows.Forms.ExpandingLabel();
             this.rightPanel.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.leftPanel.SuspendLayout();
@@ -700,10 +700,10 @@ namespace NUnit.Gui
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.suiteName);
             this.groupBox1.Controls.Add(this.runCount);
             this.groupBox1.Controls.Add(this.stopButton);
             this.groupBox1.Controls.Add(this.runButton);
-            this.groupBox1.Controls.Add(this.suiteName);
             this.groupBox1.Controls.Add(this.progressBar);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
@@ -717,38 +717,29 @@ namespace NUnit.Gui
             this.runCount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.runCount.AutoEllipsis = true;
-            this.runCount.Location = new System.Drawing.Point(8, 96);
+            this.runCount.Location = new System.Drawing.Point(8, 89);
             this.runCount.Name = "runCount";
-            this.runCount.Size = new System.Drawing.Size(480, 13);
+            this.runCount.Size = new System.Drawing.Size(480, 21);
             this.runCount.TabIndex = 5;
-            this.runCount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // stopButton
             // 
-            this.stopButton.Location = new System.Drawing.Point(96, 18);
+            this.stopButton.AutoSize = true;
+            this.stopButton.Location = new System.Drawing.Point(75, 16);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(96, 38);
+            this.stopButton.Size = new System.Drawing.Size(64, 31);
             this.stopButton.TabIndex = 4;
             this.stopButton.Text = "&Stop";
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // runButton
             // 
-            this.runButton.Location = new System.Drawing.Point(8, 18);
+            this.runButton.Location = new System.Drawing.Point(8, 16);
             this.runButton.Name = "runButton";
-            this.runButton.Size = new System.Drawing.Size(88, 38);
+            this.runButton.Size = new System.Drawing.Size(64, 31);
             this.runButton.TabIndex = 3;
             this.runButton.Text = "&Run";
             this.runButton.Click += new System.EventHandler(this.runButton_Click);
-            // 
-            // suiteName
-            // 
-            this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.suiteName.Location = new System.Drawing.Point(215, 23);
-            this.suiteName.Name = "suiteName";
-            this.suiteName.Size = new System.Drawing.Size(273, 29);
-            this.suiteName.TabIndex = 2;
             // 
             // progressBar
             // 
@@ -758,7 +749,7 @@ namespace NUnit.Gui
             this.progressBar.CausesValidation = false;
             this.progressBar.Enabled = false;
             this.progressBar.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.progressBar.Location = new System.Drawing.Point(8, 60);
+            this.progressBar.Location = new System.Drawing.Point(8, 54);
             this.progressBar.Maximum = 100;
             this.progressBar.Minimum = 0;
             this.progressBar.Name = "progressBar";
@@ -797,6 +788,16 @@ namespace NUnit.Gui
             this.leftPanel.Size = new System.Drawing.Size(240, 407);
             this.leftPanel.TabIndex = 4;
             // 
+            // suiteName
+            // 
+            this.suiteName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.suiteName.AutoEllipsis = true;
+            this.suiteName.Location = new System.Drawing.Point(145, 21);
+            this.suiteName.Name = "suiteName";
+            this.suiteName.Size = new System.Drawing.Size(343, 23);
+            this.suiteName.TabIndex = 1;
+            // 
             // NUnitForm
             // 
             this.ClientSize = new System.Drawing.Size(744, 431);
@@ -814,6 +815,7 @@ namespace NUnit.Gui
             this.Closing += new System.ComponentModel.CancelEventHandler(this.NUnitForm_Closing);
             this.rightPanel.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.leftPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
