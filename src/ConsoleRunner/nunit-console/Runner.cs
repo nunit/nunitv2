@@ -42,8 +42,16 @@ namespace NUnit.ConsoleRunner
 				options.Help();
 				return ConsoleUi.OK;
 			}
-			
-			if(options.NoArgs) 
+
+            if (options.cleanup)
+            {
+                log.Info("Performing cleanup of shadow copy cache");
+                DomainManager.DeleteShadowCopyPath();
+                Console.WriteLine("Shadow copy cache emptied");
+                return ConsoleUi.OK;
+            }
+
+            if (options.NoArgs) 
 			{
 				Console.Error.WriteLine("fatal error: no inputs specified");
 				options.Help();

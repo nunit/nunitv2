@@ -84,7 +84,10 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Do not display progress" )]
 		public bool nodots = false;
 
-		[Option(Short="?", Description = "Display help")]
+        [Option(Description = "Erase any leftover cache files and exit")]
+        public bool cleanup;
+
+        [Option(Short = "?", Description = "Display help")]
 		public bool help = false;
 
 		public ConsoleOptions( params string[] args ) : base( args ) {}
