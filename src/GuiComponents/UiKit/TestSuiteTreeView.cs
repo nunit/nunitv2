@@ -484,7 +484,8 @@ namespace NUnit.UiKit
 					runCommandEnabled = false;
 
 				MenuItem runMenuItem = new MenuItem( "&Run", new EventHandler( runMenuItem_Click ) );
-				runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled & targetNode.Included;
+				runMenuItem.DefaultItem = runMenuItem.Enabled = runCommandEnabled && targetNode.Included &&
+                    (targetNode.Test.RunState == RunState.Runnable || targetNode.Test.RunState == RunState.Explicit);
 		
 				this.ContextMenu.MenuItems.Add( runMenuItem );
 

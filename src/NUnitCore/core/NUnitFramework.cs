@@ -35,6 +35,8 @@ namespace NUnit.Core
 		public const string DescriptionAttribute = "NUnit.Framework.DescriptionAttribute";
         public const string RequiredAddinAttribute = "NUnit.Framework.RequiredAddinAttribute";
 
+        public static readonly Type IgnoreAttributeType = Type.GetType("NUnit.Framework.IgnoreAttribute, nunit.framework");
+
         // Attributes that apply only to Classes
         public const string TestFixtureAttribute = "NUnit.Framework.TestFixtureAttribute";
         public const string SetUpFixtureAttribute = "NUnit.Framework.SetUpFixtureAttribute";
@@ -252,7 +254,8 @@ namespace NUnit.Core
                                  test.IgnoreReason = GetIgnoreReason(attribute);
                              }
                          }
-                         else if ( Reflect.InheritsFrom( attributeType, IgnoreAttribute ) )
+                         //else if ( Reflect.InheritsFrom( attributeType, IgnoreAttribute ) )
+                        else if ( IgnoreAttributeType.IsInstanceOfType( attribute ) )
                          {
                              if (isValid)
                              {

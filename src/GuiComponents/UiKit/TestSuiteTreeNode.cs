@@ -137,7 +137,7 @@ namespace NUnit.UiKit
 		public void ClearResults()
 		{
 			this.result = null;
-			ImageIndex = SelectedImageIndex = InitIndex;
+			ImageIndex = SelectedImageIndex = CalcImageIndex();
 
 			foreach(TestSuiteTreeNode node in Nodes)
 				node.ClearResults();
