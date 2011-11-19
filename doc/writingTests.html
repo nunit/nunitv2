@@ -2,7 +2,7 @@
 <html>
 <!-- Standard Head Part -->
 <head>
-<title>NUnit - GetStarted</title>
+<title>NUnit - WritingTests</title>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <meta http-equiv="Content-Language" content="en-US">
 <meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
@@ -25,25 +25,20 @@
 
 <div id="content">
 
-<h2>Getting Started with NUnit</h2>
+<h2>Writing Tests</h2>
 
-<p>If you haven't already done so, go to our <a href="http://www.nunit.org/download.html">Download</a>	page, select a version of NUnit and download it. The 
-	<a href="installation.html">Installation</a> page 
-	contains instructions for installing on your system.</p>
+<p>NUnit tests may be written using any .NET language that supports attributes.
 
-<p>To get started using NUnit, read the <a href="quickStart.html">Quick Start</a>	page. This article demonstrates the development process with NUnit in the 
-	context of a C# banking application. Check the 
-	<a href="samples.html">Samples</a> page for additional examples, 
-	including some in VB.Net, J# and managed C++.</p>
+<p><a href="attributes.html">Attributes</a> are used to indicate
+   test classes and methods and to modify their behavior in various ways.
 
-<h3>Which Test Runner to use?</h3>
+<p>
+Notice: Use of undefined constant Assertions - assumed 'Assertions' in /home/charlie/WebsiteswritingTests.html on line 8
+<a href="assertions.html">Assertions</a> test an actual value
+   against one or more <a href="constraintModel.html">Constraints</a>   and result in either a successful test or a failure.
 
-<p>NUnit has two different ways to run your tests. The 
-	<a href="nunit-console.html">console runner</a>, nunit-console.exe, 
-	is the fastest to launch, but is not interactive. 
- 	The <a href="nunit-gui.html">gui runner</a>, 
-	nunit.exe, is a Windows Forms application that allows you to work 
-	selectively with your tests and provides graphical feedback.</p>
+<p>User code may acquire information about the test and it's environment by
+   use of the <a href="testContext.html">Test&nbsp;Context</a>.
 
 </div>
 
@@ -52,12 +47,14 @@
 <ul>
 <li><a href="index.html">NUnit 2.6</a></li>
 <ul>
-<li id="current"><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li id="current"><a href="writingTests.html">Writing&nbsp;Tests</a></li>
 <ul>
-<li><a href="quickStart.html">Quick&nbsp;Start</a></li>
-<li><a href="installation.html">Installation</a></li>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
+<li><a href="testContext.html">Test&nbsp;Context</a></li>
 </ul>
-<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
 <li><a href="runningTests.html">Running&nbsp;Tests</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>
 <li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>

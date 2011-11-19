@@ -31,6 +31,8 @@
 control some aspects of NUnit’s operation. Beginning with NUnit 2.4.4, a tree-based dialog
 replaced the older tabbed format.</p>
 
+<!-- Gui Settings - General -->
+
 <hr><h3>Gui Settings - General</h3><hr>
 
 <div class="screenshot-right">
@@ -59,6 +61,8 @@ long as the missing file is not actually selected.
 <p>If <b>Load most recent project at startup</b> is checked, the GUI will load the 
 last file opened unless it is run with a specific filename or with the 
 <code>/noload</code> parameter.</p>
+
+<!-- Gui Settings - Tree Display -->
 
 <hr style="clear: both"><h3>Gui Settings - Tree Display</h3><hr>
 
@@ -97,6 +101,8 @@ category selection.
 <p>If <b>Flat list of TestFixtures</b> is selected, tests will be
    shown as a sequential list of fixtures.
 
+<!-- Gui Settings - Test Results -->
+
 <hr style="clear: both"><h3>Gui Settings - Test Results</h3><hr>
 
 <div class="screenshot-right">
@@ -121,6 +127,8 @@ normally choose one or the other.</p>
 <p>Check <b>Display Tests Not Run Tab</b> to display the 
 <b>Tests Not Run</b> tab, which shows information about tests that were
 skipped or ignored.
+
+<!-- Gui Settings - Text Output -->
 
 <hr style="clear: both"><h3>Gui Settings - Text Output</h3><hr>
 
@@ -175,6 +183,23 @@ with the name of the test that produced it.</p>
 <p>Check <b>Suppress label if no output is displayed</b> to eliminate display
 of labels for tests that produce no output in the window.
 
+<!-- Gui Settings - Project Editor -->
+
+<hr style="clear: both"><h3>Gui Settings - Project Editor</h3><hr>
+
+<div class="screenshot-right">
+   <img src="img/projectEditorSettings.jpg"></div>
+
+<p>This page determines what editor is opened when you use the <b>Edit...</b>
+item on the <b>Project</b> menu. 
+
+<p>If you select <b>Use NUnit Project Editor</b>, the NUnit project editor is used. 
+
+<p>If you select <b>Use Program</b> and supply a valid executable path, the
+program you specify will be executed with the full path to the NUnit settings 
+file as it's single argument.
+
+<!-- Test Loader Settings - Assembly Isolation -->
 
 <hr style="clear: both"><h3>Test Loader Settings - Assembly Isolation</h3><hr>
 
@@ -214,6 +239,8 @@ a separate process is used for each test assembly.
    used, they will be merged across all assemblies. This option is only
    available when tests are run in the same appdomain.
 
+<!-- Test Loader Settings - Assembly Reload -->
+
 <hr style="clear: both"><h3>Test Loader Settings - Assembly Reload</h3><hr>
 
 <div class="screenshot-right">
@@ -229,7 +256,23 @@ an automatic reload is initiated. This item is disabled on Windows 98 or ME.</p>
 
 <p>If <b>Re-run last tests run</b> is checked, tests are re-run whenever a Reload
    takes place.</p>
-   
+ 
+<!-- Test Loader Settings - Runtime Selection -->
+
+<hr style="clear: both"><h3>Test Loader Settings - Runtime Selection</h3><hr>
+
+<div class="screenshot-right">
+   <img src="img/runtimeSelectionSettings.jpg"></div>
+
+<p>This page determines which runtime is used to load tests by default,
+   when no runtime has been specified by the user.
+
+<p>If <b>Select default runtime...</b> is checked, NUnit will examine each
+   test assembly and try to use the runtime for which it was built to load it.
+   If left unchecked, NUnit will use the current runtime to load the assembly.
+
+<!-- Test Loader Settings - Advanced -->
+
 <hr style="clear: both"><h3>Test Loader Settings - Advanced</h3><hr>
 
 <div class="screenshot-right">
@@ -246,6 +289,18 @@ files in the same directory as your assembly, you should be aware that there
 are alternatives. Consider using the Assembly.Codebase property rather than
 Assembly.Location.
 
+<h3>Principal Policy</h3>
+
+<p>Because NUnit access current thread's <b>Principal</b> before running tests,
+it is not possible to effectively call <b>SetPrincipalPolicy()</b> in a test or
+in the system being tested.
+
+<p>To remedy this problem, NUnit can call<b>SetPrincipalPolicy()</b> on your
+   behalf. If <b>Set Principal Policy...</b> is checked, NUnit will call it 
+   using the <b>PrincipalPolicy</b> type selected in the list when it sets up 
+   each test <b>AppDomain</b>
+
+<!-- IDE Support Settings - Visual Studio -->
 
 <hr style="clear: both"><h3>IDE Support Settings - Visual Studio</h3><hr>
 
@@ -257,6 +312,15 @@ Assembly.Location.
 <p>If <b>Enable Visual Studio Support</b> is checked, the user will be able to open Visual Studio projects
 and solutions and add Visual Studio projects to existing test projects.</p>
 
+<p>If <b>Use solution configs...</b> is checked, NUnit will make use of solution
+   configs when loading Visual Studio solutions. If it is unchecked, solution
+   configs are ignored and all project configs are included.
+
+<p>This setting is checked by default. Uncheck it if you want NUnit to load
+   solution files compatibly with version 2.5.
+
+<!-- Advanced Settings - Internal Trace -->
+
 <hr style="clear: both"><h3>Advanced Settings - Internal Trace</h3><hr>
 
 <div class="screenshot-right">
@@ -265,6 +329,9 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <h3>Internal Trace</h3>
 
 <p>The <b>Trace Level</b> dropdown controls the level of internal trace output.</p>
+
+<p><b>Log Directory</b> displays the path of the directory to which all internal
+   trace log files are saved.
 
 
 
@@ -277,9 +344,7 @@ and solutions and add Visual Studio projects to existing test projects.</p>
 <li><a href="index.html">NUnit 2.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="assertions.html">Assertions</a></li>
-<li><a href="constraintModel.html">Constraints</a></li>
-<li><a href="attributes.html">Attributes</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
 <li><a href="runningTests.html">Running&nbsp;Tests</a></li>
 <ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>

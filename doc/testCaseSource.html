@@ -59,6 +59,13 @@ to provide test cases. It has the following characteristics:
 	The rules for this are described in the next section.
 </ul>
 
+<p><b>TestCaseSourceAttribute</b> supports one named parameter:
+
+<dl>
+<dt><b>Category</b>
+<dd>Used to assign one or more categories to every test case returned from this source.
+</dl>
+
 <h3>Constructing Test Cases</h3>
 
 <p>In constructing tests, NUnit uses each item returned by
@@ -82,6 +89,11 @@ did not implement <b>ITestCaseData</b>.
   <dd>Specifies a the Type of an exception that should be thrown by this invocation
   <dt><b>ExpectedExceptionName</b>
   <dd>Specifies a the FullName of an exception that should be thrown by this invocation
+  <dt><b>Ignored</b>
+  <dd>If true, the test case is ignored.
+  <dt><b>IgnoreReason</b>
+  <dd>Specifies the reason for ignoring this test case. If set to a non-empty
+      string, then the test is ignored.
   <dt><b>Properties</b>
   <dd>An IDictionary of properties to be applied to the test case.
       Note that the values provided must be compatible with PropertiesAttribute.
@@ -92,11 +104,6 @@ did not implement <b>ITestCaseData</b>.
   <dt><b>TestName</b>
   <dd>Provides a name for the test. If not specified, a name is generated based on 
       the method name and the arguments provided
-  <dt><b>Ignored</b>
-  <dd>If true, the test case is ignored.
-  <dt><b>IgnoreReason</b>
-  <dd>Specifies the reason for ignoring this test case. If set to a non-empty
-      string, then the test is ignored.
   </dl>
 
 <p>
@@ -201,27 +208,31 @@ and methods, which may be appended to an instance in any order.
 
 <p>
 <dl>
+  <dt><b>.Ignore()</b>
+  <dd>Causes the test case to be ignored.
+  <dt><b>.Ignore(string)</b>
+  <dd>Causes the test case to be ignored with a reason specified.
+  <dt><b>.MakeExplicit()</b>
+  <dd>Causes the test case to be marked explicit.
+  <dt><b>.MakeExplicit(string)</b>
+  <dd>Causes the test case to be marked explicit and specifies the reason for doing so.
   <dt><b>.Returns</b>
   <dd>The expected result to be returned from the method, which must have
       a compatible return type.
   <dt><b>.SetCategory(string)</b>
   <dd>Applies a category to the test
-  <dt><b>.SetProperty(string, string)</b>
-  <dt><b>.SetProperty(string, int)</b>
-  <dt><b>.SetProperty(string, double)</b>
-  <dd>Applies a named property and value to the test
   <dt><b>.SetDescription(string)</b>
   <dd>Sets the description property of the test
   <dt><b>.SetName(string)</b>
   <dd>Provides a name for the test. If not specified, a name is generated based on 
       the method name and the arguments provided
+  <dt><b>.SetProperty(string, string)</b>
+  <dt><b>.SetProperty(string, int)</b>
+  <dt><b>.SetProperty(string, double)</b>
+  <dd>Applies a named property and value to the test
   <dt><b>.Throws(Type)</b>
   <dt><b>.Throws(string)</b>
   <dd>Specifies a the Type or FullName of an exception that should be thrown by this invocation
-  <dt><b>.Ignore()</b>
-  <dd>Causes the test case to be ignored.
-  <dt><b>.Ignore(string)</b>
-  <dd>Causes the test case to be ignored with a reason specified.
 </dl>
 
 <h3>Order of Execution</h3>
@@ -265,10 +276,12 @@ themselves.
 <li><a href="index.html">NUnit 2.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<ul>
 <li><a href="assertions.html">Assertions</a></li>
-<li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="attributes.html">Attributes</a></li>
 <ul>
+<li><a href="actionAttributes.html">Action&nbsp;Attributes</a></li>
 <li><a href="category.html">Category</a></li>
 <li><a href="combinatorial.html">Combinatorial</a></li>
 <li><a href="culture.html">Culture</a></li>
@@ -305,6 +318,9 @@ themselves.
 <li><a href="timeout.html">Timeout</a></li>
 <li><a href="values.html">Values</a></li>
 <li><a href="valueSource.html">ValueSource</a></li>
+</ul>
+<li><a href="constraintModel.html">Constraints</a></li>
+<li><a href="testContext.html">Test&nbsp;Context</a></li>
 </ul>
 <li><a href="runningTests.html">Running&nbsp;Tests</a></li>
 <li><a href="extensibility.html">Extensibility</a></li>

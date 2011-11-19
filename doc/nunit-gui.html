@@ -51,11 +51,19 @@
 <p>The symbols shown in the tree are actually files in the NUnit bin directory.
    These files are named Success.jpg, Failure.jpg and Ignored.jpg and may be
    modified or replaced by the user.</p>
+
+<p><b>Note:</b> Beginning with NUnit 2.6, tests marked with the <b>IgnoreAttribtute</b> are shown in yellow immediately upon loading. Similarly,
+non-runnable tests (e.g.: wrong argument type) are shown in red at load time.
    
 <h4>Progress Bar</h4>
 <p>The progress bar shows the progress of the test. It is colored according
 to the "worst" result obtained: red if there were any failures, yellow if
 some tests were ignored and green for success.
+
+<h4>Result Summary</h4>
+<p>At the end of the test run, a summary of the results is displayed immediately
+below the progress bar. If the result information does not fit in the space
+available, hovering over it shows the full information.
 
 <h4>Result Tabs</h4>
 <p>The tabs along the bottom of the display show the results of running
@@ -94,9 +102,7 @@ see the documentation for the
 <li><a href="index.html">NUnit 2.6</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
-<li><a href="assertions.html">Assertions</a></li>
-<li><a href="constraintModel.html">Constraints</a></li>
-<li><a href="attributes.html">Attributes</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
 <li><a href="runningTests.html">Running&nbsp;Tests</a></li>
 <ul>
 <li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
