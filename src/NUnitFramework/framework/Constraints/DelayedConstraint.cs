@@ -49,7 +49,19 @@ namespace NUnit.Framework.Constraints
         /// <returns>True for if the base constraint fails, false if it succeeds</returns>
         public override bool Matches(object actual)
         {
-            Thread.Sleep(delayInMilliseconds);
+            int remainingDelay = delayInMilliseconds;
+
+            while (pollingInterval > 0 && pollingInterval < remainingDelay)
+            {
+                remainingDelay -= pollingInterval;
+                Thread.Sleep(pollingInterval);
+                this.actual = actual;
+                if (baseConstraint.Matches(actual))
+                    return true;
+            }
+
+            if (remainingDelay > 0)
+                Thread.Sleep(remainingDelay);
             this.actual = actual;
             return baseConstraint.Matches(actual);
         }
