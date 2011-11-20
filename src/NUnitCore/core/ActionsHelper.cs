@@ -75,20 +75,7 @@ namespace NUnit.Core
             if(attributeProvider == null || _ActionInterfaceType == null)
                 return new object[0];
 
-            ArrayList resultList = new ArrayList();
-
-            object[] attributes = attributeProvider.GetCustomAttributes(false);
-
-            foreach (Attribute attribute in attributes)
-            {
-                if (_ActionInterfaceType.IsAssignableFrom(attribute.GetType()))
-                    resultList.Add(attribute);
-            }
-
-            object[] results = new object[resultList.Count];
-            resultList.CopyTo(results);
-
-            return results;
+            return attributeProvider.GetCustomAttributes(_ActionInterfaceType, false);
         }
 
         public static void ExecuteActions(ActionLevel level, ActionPhase phase, IEnumerable actions, object fixture, MethodInfo method)
