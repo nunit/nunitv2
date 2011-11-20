@@ -66,8 +66,15 @@ namespace NUnit.Framework.Constraints
     }
 
 #if CLR_2_0 || CLR_4_0
+    /// <summary>
+    /// Generic version of NUnitComparer
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class NUnitComparer<T> : IComparer<T>
     {
+        /// <summary>
+        /// Compare two objects of the same type
+        /// </summary>
         public int Compare(T x, T y)
         {
             if (x == null)

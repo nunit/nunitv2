@@ -160,7 +160,11 @@ namespace PNUnit.Agent
             if( File.Exists("agent.remoting.conf") )
             {
                 log.Info("Using agent.remoting.conf");
+#if CLR_2_0 || CLR_4_0
+                RemotingConfiguration.Configure("agent.remoting.conf", false);
+#else
                 RemotingConfiguration.Configure("agent.remoting.conf");
+#endif
                 return;
             }
 
@@ -183,7 +187,11 @@ namespace PNUnit.Agent
                     props, clientProvider, serverProvider);
 
                 log.InfoFormat("Registering channel on port {0}", port);
+#if CLR_2_0 || CLR_4_0
+                ChannelServices.RegisterChannel(chan, false);
+#else
                 ChannelServices.RegisterChannel(chan);
+#endif
             }
             catch (Exception e)
             {

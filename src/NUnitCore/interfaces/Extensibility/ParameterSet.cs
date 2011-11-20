@@ -20,7 +20,7 @@ namespace NUnit.Core.Extensibility
     {
         #region Constants
         private static readonly string DESCRIPTION = "_DESCRIPTION";
-        private static readonly string IGNOREREASON = "_IGNOREREASON";
+        //private static readonly string IGNOREREASON = "_IGNOREREASON";
         private static readonly string CATEGORIES = "_CATEGORIES";
         #endregion
 

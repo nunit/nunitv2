@@ -83,6 +83,9 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class ExceptionTypeConstraint : ExactTypeConstraint
     {
+        /// <summary>
+        /// Constructs an ExceptionTypeConstraint
+        /// </summary>
         public ExceptionTypeConstraint(Type type) : base(type) { }
 
         /// <summary>

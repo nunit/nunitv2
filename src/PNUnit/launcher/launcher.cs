@@ -337,7 +337,11 @@ namespace PNUnit.Launcher
             if( File.Exists("launcher.remoting.conf") )
             {
                 log.InfoFormat("Using launcher.remoting.conf");
+#if CLR_2_0 || CLR_4_0
+                RemotingConfiguration.Configure("launcher.remoting.conf", false);
+#else
                 RemotingConfiguration.Configure("launcher.remoting.conf");
+#endif
                 return;
             }
 
@@ -353,7 +357,11 @@ namespace PNUnit.Launcher
             TcpChannel chan = new TcpChannel(
                 props,clientProvider,serverProvider);
 
+#if CLR_2_0 || CLR_4_0
+            ChannelServices.RegisterChannel(chan, false);
+#else
             ChannelServices.RegisterChannel(chan);
+#endif
         }
 
 

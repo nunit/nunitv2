@@ -237,6 +237,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct an ExactCountConstraint on top of an existing constraint
         /// </summary>
+        /// <param name="expectedCount"></param>
         /// <param name="itemConstraint"></param>
         public ExactCountConstraint(int expectedCount, Constraint itemConstraint)
             : base(itemConstraint)

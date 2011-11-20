@@ -12,7 +12,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="x">The first object to compare</param>
         /// <param name="y">The second object to compare</param>
-        /// <param name="tolerance"The tolerance to use in the comparison></param>
+        /// <param name="tolerance">The tolerance to use in the comparison</param>
         /// <returns></returns>
         bool AreEqual(object x, object y, ref NUnit.Framework.Constraints.Tolerance tolerance);
     }
@@ -29,7 +29,7 @@ namespace NUnit.Framework
         /// </summary>
         /// <param name="x">The first object to compare</param>
         /// <param name="y">The second object to compare</param>
-        /// <param name="tolerance"The tolerance to use in the comparison></param>
+        /// <param name="tolerance">The tolerance to use in the comparison</param>
         /// <returns></returns>
         bool AreEqual(T x, T y, ref NUnit.Framework.Constraints.Tolerance tolerance);
     }
