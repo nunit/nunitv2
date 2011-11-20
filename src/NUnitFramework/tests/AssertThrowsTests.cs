@@ -122,8 +122,7 @@ namespace NUnit.Framework.Tests
         {
             expectedMessage =
                 "  Expected: <System.ArgumentException>" + Environment.NewLine +
-                "  But was:  <System.ApplicationException> (my message)" + Environment.NewLine +
-                "   at";
+                "  But was:  <System.ApplicationException> (my message)" + Environment.NewLine;
             matchType = MessageMatch.StartsWith;
 
 #if CLR_2_0 || CLR_4_0
@@ -139,8 +138,7 @@ namespace NUnit.Framework.Tests
         {
             expectedMessage =
                 "  Expected: <System.ArgumentException>" + Environment.NewLine +
-                "  But was:  <System.Exception> (my message)" + Environment.NewLine +
-                "   at";
+                "  But was:  <System.Exception> (my message)" + Environment.NewLine;
             matchType = MessageMatch.StartsWith;
 
 #if CLR_2_0 || CLR_4_0
@@ -157,8 +155,7 @@ namespace NUnit.Framework.Tests
             expectedMessage =
                 "  Expected: <System.Exception>" + Environment.NewLine +
                 "  But was:  <System.ArgumentException> (myMessage" + Environment.NewLine +
-                "Parameter name: myParam)" + Environment.NewLine +
-                "   at";
+                "Parameter name: myParam)" + Environment.NewLine;
             matchType = MessageMatch.StartsWith;
 
 #if CLR_2_0 || CLR_4_0
