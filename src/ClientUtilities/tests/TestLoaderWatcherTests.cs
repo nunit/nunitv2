@@ -36,7 +36,7 @@ namespace NUnit.Util.Tests
 		private void AssertWatcherIsPrepared()
 		{
 			Assert.IsTrue(mockWatcher.IsWatching);
-			CollectionAssert.AreEquivalent(new string[] { assembly }, mockWatcher.AssembliesToWatch);
+			Assert.SamePath(assembly, mockWatcher.AssembliesToWatch[0]);
 		}
 
 		[Test]

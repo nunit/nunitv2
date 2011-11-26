@@ -20,17 +20,38 @@ namespace NUnit.Core
 
         public static string GetAssemblyPath(Assembly assembly)
         {
-            string path = assembly.CodeBase;
-            Uri uri = new Uri(path);
-
-            // If it wasn't loaded locally, use the Location
-            if (!uri.IsFile)
+            string uri = assembly.CodeBase;
+            
+            if (IsFileUri(uri))
+                return GetAssemblyPathFromFileUri(uri);
+            else
                 return assembly.Location;
+        }
 
-            if (uri.IsUnc)
-                return path.Substring(Uri.UriSchemeFile.Length + 1);
+        #endregion
 
-            return uri.LocalPath;
+        #region
+
+        // Public for testing purposes
+        public static string GetAssemblyPathFromFileUri(string uri)
+        {
+            // Skip over the file://
+            int start = Uri.UriSchemeFile.Length + Uri.SchemeDelimiter.Length;
+
+            if (System.IO.Path.DirectorySeparatorChar == '\\')
+            {
+                // Handle Windows Drive specifications
+                if (uri[start] == '/' && uri[start + 2] == ':')
+                    ++start;
+            }
+            else
+            {
+                // Assume all Linux paths are absolute
+                if (uri[start] != '/')
+                    --start;
+            }
+
+            return uri.Substring(start);
         }
 
         #endregion
@@ -40,6 +61,15 @@ namespace NUnit.Core
         {
             return System.IO.Path.GetDirectoryName(GetAssemblyPath(assembly));
         }
+        #endregion
+
+        #region Helper Methods
+
+        private static bool IsFileUri(string uri)
+        {
+            return uri.ToLower().StartsWith(Uri.UriSchemeFile);
+        }
+
         #endregion
     }
 }

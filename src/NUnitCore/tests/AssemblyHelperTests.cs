@@ -22,5 +22,22 @@ namespace NUnit.Core.Tests
             Assert.That(Path.GetFileName(path), Is.EqualTo("nunit.core.tests.dll").IgnoreCase);
             Assert.That(File.Exists(path));
         }
+
+        [TestCase(@"file:///C:/path/to/assembly.dll", Result=@"C:/path/to/assembly.dll")]
+        [TestCase(@"file://C:/path/to/assembly.dll", Result=@"C:/path/to/assembly.dll")]
+        [TestCase(@"file://C:/my path/to my/assembly.dll", Result = @"C:/my path/to my/assembly.dll")]
+        [TestCase(@"file:///C:/dev/C#/assembly.dll", Result = @"C:/dev/C#/assembly.dll")]
+        [TestCase(@"file:///C:/dev/funnychars?:=/assembly.dll", Result = @"C:/dev/funnychars?:=/assembly.dll")]
+        [TestCase(@"file:///path/to/assembly.dll", Result = @"/path/to/assembly.dll")]
+        [TestCase(@"file://path/to/assembly.dll", Result = @"path/to/assembly.dll")]
+        [TestCase(@"file:///my path/to my/assembly.dll", Result = @"/my path/to my/assembly.dll")]
+        [TestCase(@"file://my path/to my/assembly.dll", Result = @"my path/to my/assembly.dll")]
+        [TestCase(@"file:///dev/C#/assembly.dll", Result = @"/dev/C#/assembly.dll")]
+        [TestCase(@"file:///dev/funnychars?:=/assembly.dll", Result = @"/dev/funnychars?:=/assembly.dll")]
+        //[TestCase(@"http://server/path/to/assembly.dll", Result="//server/path/to/assembly.dll")]
+        public string GetAssemblyPathFromFileUri(string uri)
+        {
+            return AssemblyHelper.GetAssemblyPathFromFileUri(uri);
+        }
     }
 }

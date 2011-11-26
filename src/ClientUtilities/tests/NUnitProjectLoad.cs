@@ -95,7 +95,7 @@ namespace NUnit.Util.Tests
 		{
 			NUnitProject project = projectService.WrapAssembly(mockDll);
 			Assert.AreEqual( "Default", project.ActiveConfigName );
-			Assert.AreEqual( mockDll, project.ActiveConfig.Assemblies[0] );
+			Assert.SamePath( mockDll, project.ActiveConfig.Assemblies[0] );
 			Assert.IsTrue( project.IsLoadable, "Not loadable" );
 			Assert.IsTrue( project.IsAssemblyWrapper, "Not wrapper" );
 			Assert.IsFalse( project.IsDirty, "Not dirty" );
