@@ -100,6 +100,7 @@
         <File Id="testcaseBuilders.html" Name="TBUILDRS.HTM" LongName="testcaseBuilders.html" />
         <File Id="testcaseProviders.html" Name="TCPRVDRS.HTM" LongName="testcaseProviders.html" />
         <File Id="testCaseSource.html" Name="TCSOURCE.HTM" LongName="testCaseSource.html" />
+        <File Id="testContext.html" Name="TESTCTXT.HTM" LongName="testContext.html" />
         <File Id="testDecorators.html" Name="DCORATRS.HTM" LongName="testDecorators.html" />
         <File Id="testFixture.html" Name="TESTFI_1.HTM" LongName="testFixture.html" />
         <File Id="testProperties.html" Name="TESTPR_1.HTM" LongName="testProperties.html" />
@@ -113,6 +114,7 @@
         <File Id="values.html" Name="VALUES.HTM" LongName="values.html" />
         <File Id="valueSource.html" Name="VALUESRC.HTM" LongName="valueSource.html" />
         <File Id="vsSupport.html" Name="VSSUPPRT.HTM" LongName="vsSupport.html" />
+        <File Id="writingTests.html" Name="WRTTESTS.HTM" LongName="writingTests.html" />
 	    <RemoveFile Id="RemoveThumbnails_Doc" Name="*" On="uninstall" />
       </Component>
     </DirectoryRef>
