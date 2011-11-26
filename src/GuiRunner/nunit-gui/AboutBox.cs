@@ -65,8 +65,7 @@ namespace NUnit.Gui
 
 			versionLabel.Text = versionText;
 			copyright.Text = copyrightText;
-			dotNetVersionLabel.Text = string.Format( "{0} ( {1} )", Environment.Version, 
-				NUnit.Core.RuntimeFramework.CurrentFramework.DisplayName );
+			dotNetVersionLabel.Text = NUnit.Core.RuntimeFramework.CurrentFramework.DisplayName;
 		}
 
 		/// <summary>
@@ -91,159 +90,159 @@ namespace NUnit.Gui
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.Resources.ResourceManager resources = new System.Resources.ResourceManager(typeof(AboutBox));
-			this.OkButton = new System.Windows.Forms.Button();
-			this.label1 = new System.Windows.Forms.Label();
-			this.versionLabel = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
-			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-			this.label4 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
-			this.label7 = new System.Windows.Forms.Label();
-			this.copyright = new System.Windows.Forms.Label();
-			this.clrTypeLabel = new System.Windows.Forms.Label();
-			this.dotNetVersionLabel = new System.Windows.Forms.Label();
-			this.SuspendLayout();
-			// 
-			// OkButton
-			// 
-			this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.OkButton.Location = new System.Drawing.Point(368, 304);
-			this.OkButton.Name = "OkButton";
-			this.OkButton.Size = new System.Drawing.Size(96, 29);
-			this.OkButton.TabIndex = 0;
-			this.OkButton.Text = "OK";
-			this.OkButton.Click += new System.EventHandler(this.button1_Click);
-			// 
-			// label1
-			// 
-			this.label1.Location = new System.Drawing.Point(31, 240);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(102, 15);
-			this.label1.TabIndex = 1;
-			this.label1.Text = "Version:";
-			// 
-			// versionLabel
-			// 
-			this.versionLabel.Location = new System.Drawing.Point(164, 240);
-			this.versionLabel.Name = "versionLabel";
-			this.versionLabel.Size = new System.Drawing.Size(156, 23);
-			this.versionLabel.TabIndex = 2;
-			this.versionLabel.Text = "label2";
-			// 
-			// label2
-			// 
-			this.label2.Location = new System.Drawing.Point(31, 144);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(102, 29);
-			this.label2.TabIndex = 3;
-			this.label2.Text = "Developers:";
-			// 
-			// label3
-			// 
-			this.label3.Location = new System.Drawing.Point(164, 144);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(287, 48);
-			this.label3.TabIndex = 4;
-			this.label3.Text = "James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip Craig, Ethan Smith," +
-				" Doug de la Torre, Charlie Poole";
-			// 
-			// linkLabel1
-			// 
-			this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 21);
-			this.linkLabel1.Location = new System.Drawing.Point(164, 112);
-			this.linkLabel1.Name = "linkLabel1";
-			this.linkLabel1.Size = new System.Drawing.Size(266, 16);
-			this.linkLabel1.TabIndex = 5;
-			this.linkLabel1.TabStop = true;
-			this.linkLabel1.Text = "http://www.nunit.org ";
-			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
-			// 
-			// label4
-			// 
-			this.label4.Location = new System.Drawing.Point(31, 112);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(102, 16);
-			this.label4.TabIndex = 6;
-			this.label4.Text = "Information:";
-			// 
-			// label5
-			// 
-			this.label5.Location = new System.Drawing.Point(31, 200);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(102, 29);
-			this.label5.TabIndex = 7;
-			this.label5.Text = "Thanks to:";
-			// 
-			// label6
-			// 
-			this.label6.Location = new System.Drawing.Point(164, 200);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(215, 29);
-			this.label6.TabIndex = 8;
-			this.label6.Text = "Kent Beck and Erich Gamma";
-			// 
-			// label7
-			// 
-			this.label7.Location = new System.Drawing.Point(31, 20);
-			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(102, 28);
-			this.label7.TabIndex = 9;
-			this.label7.Text = "Copyright:";
-			// 
-			// copyright
-			// 
-			this.copyright.Location = new System.Drawing.Point(164, 20);
-			this.copyright.Name = "copyright";
-			this.copyright.Size = new System.Drawing.Size(297, 84);
-			this.copyright.TabIndex = 10;
-			this.copyright.Text = "label8";
-			// 
-			// clrTypeLabel
-			// 
-			this.clrTypeLabel.Location = new System.Drawing.Point(31, 272);
-			this.clrTypeLabel.Name = "clrTypeLabel";
-			this.clrTypeLabel.Size = new System.Drawing.Size(102, 15);
-			this.clrTypeLabel.TabIndex = 11;
-			this.clrTypeLabel.Text = "CLR Version:";
-			// 
-			// dotNetVersionLabel
-			// 
-			this.dotNetVersionLabel.Location = new System.Drawing.Point(164, 272);
-			this.dotNetVersionLabel.Name = "dotNetVersionLabel";
-			this.dotNetVersionLabel.Size = new System.Drawing.Size(284, 23);
-			this.dotNetVersionLabel.TabIndex = 12;
-			this.dotNetVersionLabel.Text = "label9";
-			// 
-			// AboutBox
-			// 
-			this.AcceptButton = this.OkButton;
-			this.CancelButton = this.OkButton;
-			this.ClientSize = new System.Drawing.Size(490, 346);
-			this.Controls.Add(this.dotNetVersionLabel);
-			this.Controls.Add(this.clrTypeLabel);
-			this.Controls.Add(this.copyright);
-			this.Controls.Add(this.label7);
-			this.Controls.Add(this.label6);
-			this.Controls.Add(this.label5);
-			this.Controls.Add(this.label4);
-			this.Controls.Add(this.linkLabel1);
-			this.Controls.Add(this.label3);
-			this.Controls.Add(this.label2);
-			this.Controls.Add(this.versionLabel);
-			this.Controls.Add(this.label1);
-			this.Controls.Add(this.OkButton);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-			this.MaximizeBox = false;
-			this.MinimizeBox = false;
-			this.Name = "AboutBox";
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-			this.Text = "About NUnit";
-			this.ResumeLayout(false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutBox));
+            this.OkButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.copyright = new System.Windows.Forms.Label();
+            this.clrTypeLabel = new System.Windows.Forms.Label();
+            this.dotNetVersionLabel = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // OkButton
+            // 
+            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.OkButton.Location = new System.Drawing.Point(368, 304);
+            this.OkButton.Name = "OkButton";
+            this.OkButton.Size = new System.Drawing.Size(96, 29);
+            this.OkButton.TabIndex = 0;
+            this.OkButton.Text = "OK";
+            this.OkButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(31, 240);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(102, 23);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "NUnit Version:";
+            // 
+            // versionLabel
+            // 
+            this.versionLabel.Location = new System.Drawing.Point(164, 240);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(156, 23);
+            this.versionLabel.TabIndex = 2;
+            this.versionLabel.Text = "label2";
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(31, 144);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(102, 29);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Developers:";
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(164, 144);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(287, 48);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "James W. Newkirk, Michael C. Two, Alexei A. Vorontsov, Philip Craig, Ethan Smith," +
+                " Doug de la Torre, Charlie Poole";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.LinkArea = new System.Windows.Forms.LinkArea(0, 21);
+            this.linkLabel1.Location = new System.Drawing.Point(164, 112);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(266, 16);
+            this.linkLabel1.TabIndex = 5;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "http://www.nunit.org ";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label4
+            // 
+            this.label4.Location = new System.Drawing.Point(31, 112);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(102, 16);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Information:";
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(31, 200);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(102, 29);
+            this.label5.TabIndex = 7;
+            this.label5.Text = "Thanks to:";
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(164, 200);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(215, 29);
+            this.label6.TabIndex = 8;
+            this.label6.Text = "Kent Beck and Erich Gamma";
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(31, 20);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(102, 28);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Copyright:";
+            // 
+            // copyright
+            // 
+            this.copyright.Location = new System.Drawing.Point(164, 20);
+            this.copyright.Name = "copyright";
+            this.copyright.Size = new System.Drawing.Size(297, 84);
+            this.copyright.TabIndex = 10;
+            this.copyright.Text = "label8";
+            // 
+            // clrTypeLabel
+            // 
+            this.clrTypeLabel.Location = new System.Drawing.Point(31, 272);
+            this.clrTypeLabel.Name = "clrTypeLabel";
+            this.clrTypeLabel.Size = new System.Drawing.Size(127, 23);
+            this.clrTypeLabel.TabIndex = 11;
+            this.clrTypeLabel.Text = "Framework Version:";
+            // 
+            // dotNetVersionLabel
+            // 
+            this.dotNetVersionLabel.Location = new System.Drawing.Point(164, 272);
+            this.dotNetVersionLabel.Name = "dotNetVersionLabel";
+            this.dotNetVersionLabel.Size = new System.Drawing.Size(284, 23);
+            this.dotNetVersionLabel.TabIndex = 12;
+            this.dotNetVersionLabel.Text = "label9";
+            // 
+            // AboutBox
+            // 
+            this.AcceptButton = this.OkButton;
+            this.CancelButton = this.OkButton;
+            this.ClientSize = new System.Drawing.Size(490, 346);
+            this.Controls.Add(this.dotNetVersionLabel);
+            this.Controls.Add(this.clrTypeLabel);
+            this.Controls.Add(this.copyright);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.linkLabel1);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.versionLabel);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.OkButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "AboutBox";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "About NUnit";
+            this.ResumeLayout(false);
 
 		}
 		#endregion
@@ -257,6 +256,6 @@ namespace NUnit.Gui
 		{
 			System.Diagnostics.Process.Start("http://nunit.org");
 			linkLabel1.LinkVisited = true;
-		}
+        }
 	}
 }

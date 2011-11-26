@@ -69,9 +69,12 @@ namespace NUnit.Gui
             AppendBoldText(string.Format("{0} ( {1} )\r\n", moduleName, pid));
 
             TextBox.AppendText(string.Format(
-                "  CLR Version: {0} ( {1} )\r\n",
-                framework.ClrVersion.ToString(), 
+                "  Framework Version: {0}\r\n",
                 framework.DisplayName));
+
+            TextBox.AppendText(string.Format(
+                "  CLR Version: {0}\r\n",
+                framework.ClrVersion.ToString()));
         }
 
         private void AppendDomainInfo(TestAssemblyInfo info)

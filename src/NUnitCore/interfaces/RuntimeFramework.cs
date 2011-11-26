@@ -181,7 +181,8 @@ namespace NUnit.Core
                         MethodInfo getDisplayNameMethod = monoRuntimeType.GetMethod(
                             "GetDisplayName", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.ExactBinding);
                         if (getDisplayNameMethod != null)
-                            currentFramework.displayName = (string)getDisplayNameMethod.Invoke(null, new object[0]);
+                            currentFramework.displayName += string.Format(" ( {0} )",
+                                (string)getDisplayNameMethod.Invoke(null, new object[0]));
                     }
                 }
 
