@@ -546,6 +546,22 @@ namespace NUnit.Util
 			}
 		}
 
+        /// <summary>
+        /// Return true if the current project can be reloaded under
+        /// the specified CLR version.
+        /// </summary>
+        public bool CanReloadUnderRuntimeVersion(Version version)
+        {
+            if (!Services.TestAgency.IsRuntimeVersionSupported(version))
+                return false;
+
+            foreach (TestAssemblyInfo info in AssemblyInfo)
+                if (info.ImageRuntimeVersion > version)
+                    return false;
+
+            return true;
+        }
+
 		/// <summary>
 		/// Reload the current test on command
 		/// </summary>

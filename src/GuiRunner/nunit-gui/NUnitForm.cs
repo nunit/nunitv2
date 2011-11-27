@@ -900,7 +900,7 @@ namespace NUnit.Gui
                     item.Checked = current.Supports(framework);
                     item.Tag = framework;
                     item.Click += new EventHandler(runtimeFrameworkMenuItem_Click);
-                    item.Enabled = Services.TestAgency.IsRuntimeVersionSupported(framework.ClrVersion);
+                    item.Enabled = TestLoader.CanReloadUnderRuntimeVersion(framework.ClrVersion);
                     runtimeMenuItem.MenuItems.Add(item);
                 }
             }
