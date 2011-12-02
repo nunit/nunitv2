@@ -79,6 +79,30 @@ namespace NUnit.Framework
 
         #endregion
 
+        #region Positive
+
+        /// <summary>
+        /// Returns a constraint that tests for a positive value
+        /// </summary>
+        public static GreaterThanConstraint Positive
+        {
+            get { return new GreaterThanConstraint(0); }
+        }
+
+        #endregion
+
+        #region Negative
+
+        /// <summary>
+        /// Returns a constraint that tests for a negative value
+        /// </summary>
+        public static LessThanConstraint Negative
+        {
+            get { return new LessThanConstraint(0); }
+        }
+
+        #endregion
+
         #region NaN
 
         /// <summary>
