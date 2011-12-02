@@ -80,8 +80,15 @@ namespace NUnit.Framework.Constraints
 				remainingDelay -= pollingInterval;
 				Thread.Sleep(pollingInterval);
 				this.actual = del();
-				if (baseConstraint.Matches(actual))
-					return true;
+                try
+                {
+                    if (baseConstraint.Matches(actual))
+                        return true;
+                }
+                catch (Exception)
+                {
+                    // Ignore any exceptions when polling
+                }
 			}
 
 			if ( remainingDelay > 0 )
@@ -107,8 +114,15 @@ namespace NUnit.Framework.Constraints
                 remainingDelay -= pollingInterval;
                 Thread.Sleep(pollingInterval);
                 this.actual = actual;
-                if (baseConstraint.Matches(actual))
-                    return true;
+                try
+                {
+                    if (baseConstraint.Matches(actual))
+                        return true;
+                }
+                catch (Exception)
+                {
+                    // Ignore any exceptions when polling
+                }
             }
 
             if ( remainingDelay > 0 )
