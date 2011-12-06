@@ -49,6 +49,7 @@ GreaterThanConstraint(object expected)
 <h4>Syntax</h4>
 <div class="code"><pre>
 Is.GreaterThan(object expected)
+Is.Positive // Equivalent to Is.GreaterThan(0)
 </pre></div>
 
 <h4>Modifiers</h4>
@@ -63,6 +64,7 @@ Is.GreaterThan(object expected)
 Assert.That(7, Is.GreaterThan(3));
 Assert.That(myOwnObject, 
     Is.GreaterThan(theExpected).Using(myComparer));
+Assert.That(42, Is.Positive);
 </pre></div>
 
 <h3>GreaterThanOrEqualConstraint</h3>
@@ -111,6 +113,7 @@ LessThanConstraint(object expected)
 <h4>Syntax</h4>
 <div class="code"><pre>
 Is.LessThan(object expected)
+Is.Negative // Equivalent to Is.LessThan(0)
 </pre></div>
 
 <h4>Modifiers</h4>
@@ -125,6 +128,7 @@ Is.LessThan(object expected)
 Assert.That(3, Is.LessThan(7));
 Assert.That(myOwnObject, 
     Is.LessThan(theExpected).Using(myComparer));
+Assert.That(-5, Is.Negative);
 </pre></div>
 
 <h3>LessThanOrEqualConstraint</h3>

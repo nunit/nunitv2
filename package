@@ -1,7 +1,7 @@
 #!/bin/sh
 # PACKAGE - Packages NUnit
 
-NANT="tools/nant-0.90/bin/NAnt.exe"
+NANT="tools/nant-0.91/bin/NAnt.exe"
 options="-f:scripts/nunit.package.targets"
 config=""
 runtime=""

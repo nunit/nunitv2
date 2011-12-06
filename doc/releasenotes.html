@@ -39,6 +39,28 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.6 Beta 3 - Version 2.6.0.xxxxx - December 8, 2011</h3>
+
+<h4>Framework</h4>
+
+<ul>
+<li>The Constraint syntax now supports <b>Is.Positive</b>, which is interpreted
+as greater than zero, and <b>Is.Negative</b>, which is interpreted as less than zero.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>892844 	Not using Mono 4.0 profile under Windows
+<li>892845 	"Mono" is not clearly shown in About box or Test Assemblies dialog
+<li>892847 	Gui offers to load assemblies under a lower CLR version
+<li>893919 	DelayedConstraint fails polling properties on references which are initially null
+<li>893991 	When working directory contains # sign, it is truncated
+<li>898192 	Feature Request: Is.Negative, Is.Positive
+<li>898256 	IEnumerable<T> for Datapoints doesn't work
+<li>898850 	NUnit 2.6 beta 2 crashes on assemblies without tests
+</ul>
+
 <h3>NUnit 2.6 Beta 2 - Version 2.6.0.11324 - November 20, 2011</h3>
 
 <h4>General</h4>
