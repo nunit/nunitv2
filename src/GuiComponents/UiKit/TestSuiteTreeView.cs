@@ -1110,18 +1110,18 @@ namespace NUnit.UiKit
 		/// <param name="node">Node under which to collapse fixtures</param>
 		private void HideTestsUnderNode( TestSuiteTreeNode node )
 		{
-			bool expand = false;
-			foreach( TestSuiteTreeNode child in node.Nodes )
-				if ( child.Test.IsSuite )
-				{
-					expand = true;
-					HideTestsUnderNode( child );
-				}
+            if (node.Test.IsSuite)
+            {
+                if (node.Test.TestType == "TestFixture")
+                    node.Collapse();
+                else
+                {
+                    node.Expand();
 
-			if ( expand )
-				node.Expand();
-			else
-				node.Collapse();
+                    foreach (TestSuiteTreeNode child in node.Nodes)
+                        HideTestsUnderNode(child);
+                }
+            }
 		}
 
 		/// <summary>
