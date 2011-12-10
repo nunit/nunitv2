@@ -38,6 +38,9 @@ namespace NUnit.Framework.Constraints
 		{
 			this.actual = actual;
 
+            if (actual == null)
+                throw new ArgumentException("The actual value must be a non-null string, IEnumerable or DirectoryInfo", "actual");
+
 			return this.RealConstraint.Matches( actual );
 		}
 
