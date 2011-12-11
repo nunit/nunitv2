@@ -12,7 +12,7 @@ namespace NUnit.UiKit
 	using NUnit.Core;
 	using NUnit.Util;
 
-	/// <summary>
+    /// <summary>
 	/// Type safe TreeNode for use in the TestSuiteTreeView. 
 	/// NOTE: Hides some methods and properties of base class.
 	/// </summary>
@@ -34,6 +34,8 @@ namespace NUnit.UiKit
 		/// Private field used for inclusion by category
 		/// </summary>
 		private bool included = true;
+
+        private bool showInconclusiveResults = true;
 
 		/// <summary>
 		/// Image indices for various test states - the values 
@@ -119,6 +121,36 @@ namespace NUnit.UiKit
 				this.ForeColor = included ? SystemColors.WindowText : Color.LightBlue;
 			}
 		}
+
+        public bool ShowInconclusiveResults
+        {
+            get { return showInconclusiveResults; }
+            set
+            {
+                if (value != showInconclusiveResults)
+                {
+                    showInconclusiveResults = value;
+
+                    bool hasInconclusiveResults = false;
+                    foreach (TestResult result in Result.Results)
+                    {
+                        hasInconclusiveResults |= result.ResultState == ResultState.Inconclusive;
+                        if (hasInconclusiveResults)
+                            break;
+                    }
+
+                    if (hasInconclusiveResults)
+                    {
+                        Nodes.Clear();
+
+                        foreach (TestResult result in Result.Results)
+                            if (showInconclusiveResults || result.ResultState != ResultState.Inconclusive)
+                                Nodes.Add(new TestSuiteTreeNode(result));
+                    }
+                }
+            }
+        }
+
 		#endregion
 
 		#region Methods

@@ -532,6 +532,15 @@ namespace NUnit.UiKit
 			this.ContextMenu.MenuItems.Add( "Expand All", new EventHandler( expandAllMenuItem_Click ) );
 			this.ContextMenu.MenuItems.Add( "Collapse All", new EventHandler( collapseAllMenuItem_Click ) );
 			this.ContextMenu.MenuItems.Add( "-" );
+
+            if (targetNode.Result != null && targetNode.Test.TestType == "Theory")
+            {
+                if (targetNode.ShowInconclusiveResults)
+                    this.ContextMenu.MenuItems.Add("Hide Inconclusive Results", new EventHandler(hideInconclusiveMenuItem_Click));
+                else
+                    this.ContextMenu.MenuItems.Add("Show Inconclusive Results", new EventHandler(showInconclusiveMenuItem_Click));
+                this.ContextMenu.MenuItems.Add("-");
+            }
 			
 			MenuItem loadFixtureMenuItem = new MenuItem( "Load Fixture", new EventHandler( loadFixtureMenuItem_Click ) );
 			loadFixtureMenuItem.Enabled = targetNode.Test.IsSuite && targetNode != Nodes[0];
@@ -591,7 +600,29 @@ namespace NUnit.UiKit
 				this.SelectedNode = this.Nodes[0];	
 		}
 
-		/// <summary>
+        private void hideInconclusiveMenuItem_Click(object sender, System.EventArgs e)
+        {
+			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+            if (targetNode != null)
+            {
+                BeginUpdate();
+                targetNode.ShowInconclusiveResults = false;
+                EndUpdate();
+            }
+        }
+
+        private void showInconclusiveMenuItem_Click(object sender, System.EventArgs e)
+        {
+            TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+            if (targetNode != null)
+            {
+                BeginUpdate();
+                targetNode.ShowInconclusiveResults = true;
+                EndUpdate();
+            }
+        }
+
+        /// <summary>
 		/// When Run context menu item is clicked, run the test that
 		/// was selected when the right click was done.
 		/// </summary>
@@ -890,6 +921,9 @@ namespace NUnit.UiKit
 				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
 			
 			node.Result = result;
+
+            if (result.Test.TestType == "Theory")
+                node.ShowInconclusiveResults = false;
 
 			if ( DisplayTestProgress && node.IsVisible )
 			{
