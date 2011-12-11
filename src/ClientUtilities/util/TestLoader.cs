@@ -734,12 +734,19 @@ namespace NUnit.Util
             ProcessModel processModel = (ProcessModel)settings.GetSetting("Options.TestLoader.ProcessModel", ProcessModel.Default);
             DomainUsage domainUsage = (DomainUsage)settings.GetSetting("Options.TestLoader.DomainUsage", DomainUsage.Default);
 
-            if (processModel != ProcessModel.Default && !package.Settings.Contains("ProcessModel"))
+            if (processModel != ProcessModel.Default &&     // Ignore default setting
+                !package.Settings.Contains("ProcessModel")) // Ignore global setting if package has a setting
+            {
                 package.Settings["ProcessModel"] = processModel;
+            }
 
-            if (processModel != ProcessModel.Multiple && domainUsage == DomainUsage.Multiple
-                    && !package.Settings.Contains("DomainUsage"))
+            if (domainUsage != DomainUsage.Default &&       // Ignore default setting
+                (processModel != ProcessModel.Multiple ||
+                    domainUsage != DomainUsage.Multiple) && // Both process and domain may not be multiple
+                !package.Settings.Contains("DomainUsage"))  // Ignore global setting if package has a setting
+            {
                 package.Settings["DomainUsage"] = domainUsage;
+            }
 
             if (!package.Settings.Contains("WorkDirectory"))
                 package.Settings["WorkDirectory"] = Environment.CurrentDirectory;
