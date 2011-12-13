@@ -108,6 +108,8 @@ namespace NUnit.UiKit
 
 		private bool fixtureLoaded = false;
 
+        private bool showInconclusiveResults = false;
+
 		#endregion
 
 		#region Construction and Initialization
@@ -254,6 +256,11 @@ namespace NUnit.UiKit
                     }
                 }
             }
+        }
+
+        public bool ShowInconclusiveResults
+        {
+            get { return showInconclusiveResults; }
         }
 
 		/// <summary>
@@ -489,60 +496,26 @@ namespace NUnit.UiKit
 		
 				this.ContextMenu.MenuItems.Add( runMenuItem );
 
-				MenuItem runAllMenuItem = new MenuItem( "Run &All", new EventHandler( runAllMenuItem_Click ) );
-				runAllMenuItem.Enabled = runCommandEnabled;
-
-				this.ContextMenu.MenuItems.Add( runAllMenuItem );
-
-				MenuItem runFailedMenuItem = new MenuItem( "Run &Failed", new EventHandler( runFailedMenuItem_Click ) );
-                TestResult result = loader.TestResult;
-			    runFailedMenuItem.Enabled = runCommandEnabled && result != null &&
-			        (result.ResultState == ResultState.Failure || 
-                     result.ResultState == ResultState.Error);
-
-				this.ContextMenu.MenuItems.Add( runFailedMenuItem );
-
-				this.ContextMenu.MenuItems.Add( "-" );
+                this.ContextMenu.MenuItems.Add("-");
 			}
 
-			MenuItem showCheckBoxesMenuItem = new MenuItem( "Show CheckBoxes", new EventHandler( showCheckBoxesMenuItem_Click ) );
-			showCheckBoxesMenuItem.Checked = this.CheckBoxes;
-			this.ContextMenu.MenuItems.Add( showCheckBoxesMenuItem );
-			this.ContextMenu.MenuItems.Add( "-" );
-
-			if ( targetNode.Nodes.Count > 0 )
-			{
-				if ( targetNode.IsExpanded )
-				{
-					MenuItem collapseMenuItem = new MenuItem( 
-						"&Collapse", new EventHandler( collapseMenuItem_Click ) );
-					collapseMenuItem.DefaultItem = !runCommandEnabled;
-
-					this.ContextMenu.MenuItems.Add( collapseMenuItem );
-				}
-				else
-				{
-					MenuItem expandMenuItem = new MenuItem(
-						"&Expand", new EventHandler( expandMenuItem_Click ) );
-					expandMenuItem.DefaultItem = !runCommandEnabled;
-					this.ContextMenu.MenuItems.Add( expandMenuItem );
-				}
-			}
-
-			this.ContextMenu.MenuItems.Add( "Expand All", new EventHandler( expandAllMenuItem_Click ) );
-			this.ContextMenu.MenuItems.Add( "Collapse All", new EventHandler( collapseAllMenuItem_Click ) );
-			this.ContextMenu.MenuItems.Add( "-" );
-
-            if (targetNode.Result != null && targetNode.Test.TestType == "Theory")
+            TestSuiteTreeNode theoryNode = targetNode.GetTheoryNode();
+            if (theoryNode != null)
             {
-                if (targetNode.ShowInconclusiveResults)
-                    this.ContextMenu.MenuItems.Add("Hide Inconclusive Results", new EventHandler(hideInconclusiveMenuItem_Click));
-                else
-                    this.ContextMenu.MenuItems.Add("Show Inconclusive Results", new EventHandler(showInconclusiveMenuItem_Click));
+                MenuItem failedAssumptionsMenuItem = new MenuItem("Show Failed Assumptions", new EventHandler(failedAssumptionsMenuItem_Click));
+                failedAssumptionsMenuItem.Checked = theoryNode.ShowFailedAssumptions;
+                this.ContextMenu.MenuItems.Add(failedAssumptionsMenuItem);
+
                 this.ContextMenu.MenuItems.Add("-");
             }
-			
-			MenuItem loadFixtureMenuItem = new MenuItem( "Load Fixture", new EventHandler( loadFixtureMenuItem_Click ) );
+
+
+            MenuItem showCheckBoxesMenuItem = new MenuItem("Show CheckBoxes", new EventHandler(showCheckBoxesMenuItem_Click));
+            showCheckBoxesMenuItem.Checked = this.CheckBoxes;
+            this.ContextMenu.MenuItems.Add(showCheckBoxesMenuItem);
+            this.ContextMenu.MenuItems.Add("-");
+
+            MenuItem loadFixtureMenuItem = new MenuItem("Load Fixture", new EventHandler(loadFixtureMenuItem_Click));
 			loadFixtureMenuItem.Enabled = targetNode.Test.IsSuite && targetNode != Nodes[0];
 			this.ContextMenu.MenuItems.Add( loadFixtureMenuItem );
 
@@ -600,24 +573,17 @@ namespace NUnit.UiKit
 				this.SelectedNode = this.Nodes[0];	
 		}
 
-        private void hideInconclusiveMenuItem_Click(object sender, System.EventArgs e)
-        {
-			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
-            if (targetNode != null)
-            {
-                BeginUpdate();
-                targetNode.ShowInconclusiveResults = false;
-                EndUpdate();
-            }
-        }
-
-        private void showInconclusiveMenuItem_Click(object sender, System.EventArgs e)
+        private void failedAssumptionsMenuItem_Click(object sender, System.EventArgs e)
         {
             TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
-            if (targetNode != null)
+            TestSuiteTreeNode theoryNode = targetNode != null ? targetNode.GetTheoryNode() : null;
+            if (theoryNode != null)
             {
+                MenuItem item = (MenuItem)sender;
+
                 BeginUpdate();
-                targetNode.ShowInconclusiveResults = true;
+                item.Checked = !item.Checked;
+                theoryNode.ShowFailedAssumptions = item.Checked;
                 EndUpdate();
             }
         }
@@ -913,23 +879,24 @@ namespace NUnit.UiKit
 		/// <param name="result">The result of the test</param>
 		public void SetTestResult(TestResult result)
 		{
-			TestSuiteTreeNode node = this[result];	
-			if ( node == null )
-				throw new ArgumentException( "Test not found in tree: " + result.Test.TestName.UniqueName );
+			TestSuiteTreeNode node = this[result];
+            if (node == null)
+            {
+                Debug.WriteLine("Test not found in tree: " + result.Test.TestName.UniqueName);
+            }
+            else
+            {
+                node.Result = result;
 
-			if ( result.Test.TestName.FullName != node.Test.TestName.FullName )
-				throw( new ArgumentException("Attempting to set Result with a value that refers to a different test") );
-			
-			node.Result = result;
+                if (result.Test.TestType == "Theory")
+                    node.RepopulateTheoryNode();
 
-            if (result.Test.TestType == "Theory")
-                node.ShowInconclusiveResults = false;
-
-			if ( DisplayTestProgress && node.IsVisible )
-			{
-				Invalidate( node.Bounds );
-				Update();
-			}
+                if (DisplayTestProgress && node.IsVisible)
+                {
+                    Invalidate(node.Bounds);
+                    Update();
+                }
+            }
 		}
 
 		public void HideTests()
@@ -1266,7 +1233,7 @@ namespace NUnit.UiKit
 	{
 		public override void Visit(TestSuiteTreeNode node)
 		{
-			if (!node.Test.IsSuite && node.Result != null && 
+			if (!node.Test.IsSuite && node.HasResult && 
                 (node.Result.ResultState == ResultState.Failure || 
                  node.Result.ResultState == ResultState.Error) )
 			{
@@ -1294,7 +1261,7 @@ namespace NUnit.UiKit
 
 		public override void Visit(TestSuiteTreeNode node)
 		{
-			if (!node.Test.IsSuite && node.Result != null && 
+			if (!node.Test.IsSuite && node.HasResult && 
                     (node.Result.ResultState == ResultState.Failure || 
                      node.Result.ResultState == ResultState.Error) )
 			{

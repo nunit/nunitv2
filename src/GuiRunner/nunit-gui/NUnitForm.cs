@@ -555,7 +555,7 @@ namespace NUnit.Gui
             this.runFailedMenuItem,
             this.testMenuSeparator,
             this.stopRunMenuItem});
-            this.testMenu.Text = "&Test";
+            this.testMenu.Text = "&Tests";
             // 
             // runAllMenuItem
             // 

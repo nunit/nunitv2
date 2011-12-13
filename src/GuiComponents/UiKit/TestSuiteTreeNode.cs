@@ -35,7 +35,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private bool included = true;
 
-        private bool showInconclusiveResults = true;
+        private bool showFailedAssumptions = false;
 
 		/// <summary>
 		/// Image indices for various test states - the values 
@@ -96,6 +96,14 @@ namespace NUnit.UiKit
 			}
 		}
 
+        /// <summary>
+        /// Return true if the node has a result, otherwise false.
+        /// </summary>
+        public bool HasResult
+        {
+            get { return this.result != null; }
+        }
+
 		public string TestType
 		{
 			get { return test.TestType; }
@@ -122,32 +130,36 @@ namespace NUnit.UiKit
 			}
 		}
 
-        public bool ShowInconclusiveResults
+        public bool ShowFailedAssumptions
         {
-            get { return showInconclusiveResults; }
+            get { return showFailedAssumptions; }
             set
             {
-                if (value != showInconclusiveResults)
+                if (value != showFailedAssumptions)
                 {
-                    showInconclusiveResults = value;
+                    showFailedAssumptions = value;
 
-                    bool hasInconclusiveResults = false;
+                    if (HasInconclusiveResults)
+                        RepopulateTheoryNode();
+                }
+            }
+        }
+
+        public bool HasInconclusiveResults
+        {
+            get
+            {
+                bool hasInconclusiveResults = false;
+                if (Result != null)
+                {
                     foreach (TestResult result in Result.Results)
                     {
                         hasInconclusiveResults |= result.ResultState == ResultState.Inconclusive;
                         if (hasInconclusiveResults)
                             break;
                     }
-
-                    if (hasInconclusiveResults)
-                    {
-                        Nodes.Clear();
-
-                        foreach (TestResult result in Result.Results)
-                            if (showInconclusiveResults || result.ResultState != ResultState.Inconclusive)
-                                Nodes.Add(new TestSuiteTreeNode(result));
-                    }
                 }
+                return hasInconclusiveResults;
             }
         }
 
@@ -175,7 +187,44 @@ namespace NUnit.UiKit
 				node.ClearResults();
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Gets the Theory node associated with the current
+        /// node. If the current node is a Theory, then the
+        /// current node is returned. Otherwise, if the current
+        /// node is a test case under a theory node, then that
+        /// node is returned. Otherwise, null is returned.
+        /// </summary>
+        /// <returns></returns>
+        public TestSuiteTreeNode GetTheoryNode()
+        {
+            if (this.Test.TestType == "Theory")
+                return this;
+
+            TestSuiteTreeNode parent = this.Parent as TestSuiteTreeNode;
+            if (parent.Test.TestType == "Theory")
+                return parent;
+
+            return null;
+        }
+
+        /// <summary>
+        /// Regenerate the test cases under a theory, respecting
+        /// the current setting for ShowFailedAssumptions
+        /// </summary>
+        public void RepopulateTheoryNode()
+        {
+            // Ignore if it's not a theory or if it has not been run yet
+            if (this.Test.TestType == "Theory" && this.HasResult)
+            {
+                Nodes.Clear();
+
+                foreach (TestResult result in Result.Results)
+                    if (showFailedAssumptions || result.ResultState != ResultState.Inconclusive)
+                        Nodes.Add(new TestSuiteTreeNode(result));
+            }
+        }
+
+        /// <summary>
 		/// Calculate the image index based on the node contents
 		/// </summary>
 		/// <returns>Image index for this node</returns>
