@@ -456,6 +456,32 @@ namespace NUnit.Framework.Constraints
                 return obj.Count.GetHashCode();
             }
         }
+
+        [Test]
+        public void UsesProvidedArrayComparer()
+        {
+            var array1 = new int[] { 2, 3 };
+            var array2 = new int[] { 3, 4 };
+
+            var list11 = new List<int[]>() { array1 };
+            var list22 = new List<int[]>() { array2 };
+            var comparer = new IntArrayEqualComparer();
+
+            Assert.That(list11, new CollectionEquivalentConstraint(list22).Using(comparer));
+        }
+
+        public class IntArrayEqualComparer : IEqualityComparer<int[]>
+        {
+            public bool Equals(int[] x, int[] y)
+            {
+                return x.Length == y.Length;
+            }
+
+            public int GetHashCode(int[] obj)
+            {
+                return obj.Length.GetHashCode();
+            }
+        }
 #endif
 #endif
     }
