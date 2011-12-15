@@ -201,7 +201,7 @@ namespace NUnit.UiKit
                 return this;
 
             TestSuiteTreeNode parent = this.Parent as TestSuiteTreeNode;
-            if (parent.Test.TestType == "Theory")
+            if (parent != null && parent.Test.TestType == "Theory")
                 return parent;
 
             return null;

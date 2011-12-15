@@ -919,6 +919,7 @@ namespace NUnit.UiKit
 				Form owner = this.FindForm();
 				propertiesDialog = new TestPropertiesDialog( node );
 				propertiesDialog.Owner = owner;
+                propertiesDialog.Font = owner.Font;
 				propertiesDialog.StartPosition = FormStartPosition.Manual;
 				propertiesDialog.Left = Math.Max(0, owner.Left + ( owner.Width - propertiesDialog.Width ) / 2);
 				propertiesDialog.Top = Math.Max(0, owner.Top + ( owner.Height - propertiesDialog.Height ) / 2);
