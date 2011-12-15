@@ -30,7 +30,14 @@ namespace NUnit.Framework
         /// <summary>
         /// Gets the expected result
         /// </summary>
-        object Result { get; }
+        object ExpectedResult { get; }
+
+        /// <summary>
+        /// Indicates whether a result has been specified.
+        /// This is necessary because the result may be
+        /// null, so it's value cannot be checked.
+        /// </summary>
+        bool HasExpectedResult { get; }
 
         /// <summary>
         ///  Gets the expected exception Type

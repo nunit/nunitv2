@@ -30,6 +30,12 @@ namespace NUnit.TestData
         }
 
         [TestCaseSource("source")]
+        public string MethodThrowsNoExceptionButReturnsResult(int x, int y, int z)
+        {
+            return "HELLO";
+        }
+
+        [TestCaseSource("source")]
         public void MethodCallsIgnore(int x, int y, int z)
         {
             Assert.Ignore("Ignore this");

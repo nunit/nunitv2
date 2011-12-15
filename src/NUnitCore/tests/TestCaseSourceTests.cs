@@ -135,8 +135,8 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(q, n / d);
         }
 
-        [Test, TestCaseSource(typeof(DivideDataProviderWithReturnValue), "TestCases")]
-        public int SourceMayBeInAnotherClassWithReturn(int n, int d)
+        [Test, TestCaseSource(typeof(DivideDataProviderWithExpectedResult), "TestCases")]
+        public int SourceMayBeInAnotherClassWithExpectedResult(int n, int d)
         {
             return n / d;
         }
@@ -171,6 +171,16 @@ namespace NUnit.Core.Tests
         {
             Test test = (Test)TestBuilder.MakeTestCase(
                 typeof(TestCaseSourceAttributeFixture), "MethodThrowsNoException").Tests[0];
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.AreEqual(ResultState.Failure, result.ResultState);
+            Assert.AreEqual("System.ArgumentNullException was expected", result.Message);
+        }
+
+        [Test]
+        public void CanSpecifyExpectedException_NoneThrown_ExpectedResultReturned()
+        {
+            Test test = (Test)TestBuilder.MakeTestCase(
+                typeof(TestCaseSourceAttributeFixture), "MethodThrowsNoExceptionButReturnsResult").Tests[0];
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
             Assert.AreEqual(ResultState.Failure, result.ResultState);
             Assert.AreEqual("System.ArgumentNullException was expected", result.Message);
@@ -320,13 +330,14 @@ namespace NUnit.Core.Tests
             }
         }
 
-        public class DivideDataProviderWithReturnValue
+        public class DivideDataProviderWithExpectedResult
         {
             public static IEnumerable TestCases
             {
                 get
                 {
                     return new object[] {
+                        new TestCaseData(12, 0).Throws(typeof(System.DivideByZeroException)),
                         new TestCaseData(12, 3).Returns(5).Throws(typeof(AssertionException)).SetName("TC1"),
                         new TestCaseData(12, 2).Returns(6).SetName("TC2"),
                         new TestCaseData(12, 4).Returns(3).SetName("TC3")

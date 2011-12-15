@@ -36,7 +36,12 @@ namespace NUnit.Framework
         /// <summary>
         /// The expected result to be returned
         /// </summary>
-        private object result;
+        private object expectedResult;
+
+        /// <summary>
+        /// Set to true if this has an expected result
+        /// </summary>
+        private bool hasExpectedResult;
 
         /// <summary>
         ///  The expected exception Type
@@ -137,9 +142,17 @@ namespace NUnit.Framework
         /// <summary>
         /// Gets the expected result
         /// </summary>
-        public object Result
+        public object ExpectedResult
         {
-            get { return result; }
+            get { return expectedResult; }
+        }
+
+        /// <summary>
+        /// Returns true if the result has been set
+        /// </summary>
+        public bool HasExpectedResult
+        {
+            get { return hasExpectedResult; }
         }
 
         /// <summary>
@@ -241,7 +254,8 @@ namespace NUnit.Framework
         /// <returns>A modified TestCaseData</returns>
         public TestCaseData Returns(object result)
         {
-            this.result = result;
+            this.expectedResult = result;
+            this.hasExpectedResult = true;
             return this;
         }
 

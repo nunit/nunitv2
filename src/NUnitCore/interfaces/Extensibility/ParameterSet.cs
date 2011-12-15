@@ -19,12 +19,15 @@ namespace NUnit.Core.Extensibility
     public class ParameterSet : NUnit.Framework.ITestCaseData
     {
         #region Constants
+
         private static readonly string DESCRIPTION = "_DESCRIPTION";
         //private static readonly string IGNOREREASON = "_IGNOREREASON";
         private static readonly string CATEGORIES = "_CATEGORIES";
+
         #endregion
 
         #region Instance Fields
+
         private RunState runState;
         private Exception providerException;
         private object[] arguments;
@@ -33,7 +36,7 @@ namespace NUnit.Core.Extensibility
         private string expectedExceptionName;
         private string expectedMessage;
         private string matchType;
-        private object result;
+        private object expectedResult;
         private string testName;
         private string ignoreReason;
         private bool isIgnored;
@@ -45,6 +48,7 @@ namespace NUnit.Core.Extensibility
         /// to tests without requiring the class to change.
         /// </summary>
         private IDictionary properties;
+
         #endregion
 
         #region Properties
@@ -139,12 +143,12 @@ namespace NUnit.Core.Extensibility
         /// The expected result of the test, which
         /// must match the method return type.
         /// </summary>
-        public object Result
+        public object ExpectedResult
         {
-            get { return result; }
+            get { return expectedResult; }
             set 
             { 
-                result = value;
+                expectedResult = value;
                 hasExpectedResult = true;
             }
         }
@@ -266,6 +270,7 @@ namespace NUnit.Core.Extensibility
         #endregion
 
         #region Static Methods
+
         /// <summary>
         /// Constructs a ParameterSet from another object, accessing properties 
         /// by reflection. The object must expose at least an Arguments property
@@ -277,22 +282,30 @@ namespace NUnit.Core.Extensibility
             ParameterSet parms = new ParameterSet();
 
             parms.Arguments = GetParm(source, PropertyNames.Arguments) as object[];
+
             parms.ExpectedException = GetParm(source, PropertyNames.ExpectedException) as Type;
             if (parms.ExpectedException != null)
                 parms.ExpectedExceptionName = parms.ExpectedException.FullName;
             else
                 parms.ExpectedExceptionName = GetParm(source, PropertyNames.ExpectedExceptionName) as string;
+
             parms.ExpectedMessage = GetParm(source, PropertyNames.ExpectedMessage) as string;
             object matchEnum = GetParm(source, PropertyNames.MatchType);
             if ( matchEnum != null )
                 parms.MatchType = matchEnum.ToString();
-            parms.Result = GetParm(source, PropertyNames.Result);
+
+            object hasResult = GetParm(source, PropertyNames.HasExpectedResult);
+            if (hasResult != null && (bool)hasResult)
+                parms.ExpectedResult = GetParm(source, PropertyNames.ExpectedResult);
+
             parms.Description = GetParm(source, PropertyNames.Description) as string;
+
             parms.TestName = GetParm(source, PropertyNames.TestName) as string;
 
             object objIgnore = GetParm(source, PropertyNames.Ignored);
             if (objIgnore != null)
                 parms.Ignored = (bool)objIgnore;
+
             parms.IgnoreReason = GetParm(source, PropertyNames.IgnoreReason) as string;
 
             object objExplicit = GetParm(source, PropertyNames.Explicit);

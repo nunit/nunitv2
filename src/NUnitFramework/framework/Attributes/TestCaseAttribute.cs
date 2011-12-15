@@ -17,8 +17,11 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited=false)]
     public class TestCaseAttribute : Attribute, ITestCaseData
     {
+        #region Instance Variables
+
         private object[] arguments;
-        private object result;
+        private object expectedResult;
+        private bool hasExpectedResult;
         private Type expectedExceptionType;
         private string expectedExceptionName;
         private string expectedMessage;
@@ -29,6 +32,10 @@ namespace NUnit.Framework
         private bool isExplicit;
         private string reason;
         private string category;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Construct a TestCaseAttribute with a list of arguments.
@@ -73,6 +80,10 @@ namespace NUnit.Framework
             this.arguments = new object[] { arg1, arg2, arg3 };
         }
 
+        #endregion
+
+        #region Properties
+
         /// <summary>
         /// Gets the list of arguments to a test case
         /// </summary>
@@ -87,8 +98,26 @@ namespace NUnit.Framework
         /// <value>The result.</value>
         public object Result
         {
-            get { return result; }
-            set { result = value; }
+            get { return expectedResult; }
+            set
+            {
+                expectedResult = value;
+                hasExpectedResult = true;
+            }
+        }
+
+        /// <summary>
+        /// Gets the expected result.
+        /// </summary>
+        /// <value>The result.</value>
+        public object ExpectedResult
+        {
+            get { return expectedResult; }
+        }
+
+        public bool HasExpectedResult
+        {
+            get { return hasExpectedResult; }
         }
 
         /// <summary>
@@ -226,5 +255,7 @@ namespace NUnit.Framework
                 isIgnored = reason != null && reason != string.Empty;
             }
         }
+
+        #endregion
     }
 }
