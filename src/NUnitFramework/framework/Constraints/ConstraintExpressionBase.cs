@@ -11,17 +11,14 @@ namespace NUnit.Framework.Constraints
 {
     /// <summary>
     /// ConstraintExpressionBase is the abstract base class for the 
-    /// generated ConstraintExpression class, which represents a 
+    /// ConstraintExpression class, which represents a 
     /// compound constraint in the process of being constructed 
     /// from a series of syntactic elements.
     /// 
-    /// NOTE: ConstraintExpressionBase is aware of some of its
-    /// derived classes, which is an apparent violation of 
-    /// encapsulation. Ideally, these classes would be a 
-    /// single class, but they must be separated in order to
-    /// allow parts to be generated under .NET 1.x and to
-    /// provide proper user feedback in syntactically 
-    /// aware IDEs.
+    /// NOTE: ConstraintExpressionBase is separate because the
+    /// ConstraintExpression class was generated in earlier
+    /// versions of NUnit. The two classes may be combined
+    /// in a future version.
     /// </summary>
     public abstract class ConstraintExpressionBase
     {
