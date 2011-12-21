@@ -960,8 +960,11 @@ namespace NUnit.UiKit
 
 		public void RunAllTests(bool ignoreCategories)
 		{
-			runCommandEnabled = false;
-			RunTests( new ITest[] { ((TestSuiteTreeNode)Nodes[0]).Test }, ignoreCategories );
+            if (Nodes.Count > 0)
+            {
+                runCommandEnabled = false;
+                RunTests(new ITest[] { ((TestSuiteTreeNode)Nodes[0]).Test }, ignoreCategories);
+            }
 		}
 
 		public void RunSelectedTests()
@@ -978,12 +981,15 @@ namespace NUnit.UiKit
 
 		private void RunTests( ITest[] tests, bool ignoreCategories )
 		{
-			runningTests = tests;
+            if (tests != null && tests.Length > 0)
+            {
+                runningTests = tests;
 
-			if ( ignoreCategories )
-				loader.RunTests( MakeNameFilter( tests ) );
-			else
-				loader.RunTests( MakeFilter( tests ) );
+                if (ignoreCategories)
+                    loader.RunTests(MakeNameFilter(tests));
+                else
+                    loader.RunTests(MakeFilter(tests));
+            }
 		}
 
 		private TestFilter MakeFilter( ITest[] tests )

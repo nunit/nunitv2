@@ -653,7 +653,7 @@ namespace NUnit.Util
 		/// <param name="filter">The filter to be used</param>
 		public void RunTests( ITestFilter filter )
 		{
-			if ( !Running )
+			if ( !Running  && loadedTest != null)
 			{
                 if (reloadPending || Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", false))
 					ReloadTest();

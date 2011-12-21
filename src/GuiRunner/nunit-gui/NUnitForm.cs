@@ -1675,7 +1675,7 @@ namespace NUnit.Gui
 
             recentFilesService.Remove(e.Name);
 
-            EnableRunCommand(true);
+            EnableRunCommand(IsProjectLoaded);
         }
 
         #endregion
