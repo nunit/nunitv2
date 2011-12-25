@@ -51,6 +51,7 @@ namespace NUnit.Core.Tests
                 typeof(ThreadingFixture), "InfiniteLoopWith50msTimeout");
             Assert.That(result.ResultState, Is.EqualTo(ResultState.Failure));
             Assert.That(result.Message, Text.Contains("50ms"));
+            Assert.That(ThreadingFixture.TearDownWasRun, "TearDown was not executed");
         }
 
         [Test, STAThread]
