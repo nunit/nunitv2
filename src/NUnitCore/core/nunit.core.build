@@ -65,6 +65,7 @@
     <include name="TestThread.cs"/>
     <include name="TextCapture.cs"/>
     <include name="ThreadedTestRunner.cs"/>
+    <include name="ThreadUtility.cs"/>
     <include name="TypeHelper.cs"/>
     <include name="Builders/CombinatorialStrategy.cs"/>
     <include name="Builders/CombinatorialTestCaseProvider.cs"/>

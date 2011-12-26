@@ -192,7 +192,7 @@ namespace NUnit.Util
                 if (!thread.Join(30000))
                 {
                     log.Error("Unable to unload AppDomain {0}, Unload thread timed out", domainName);
-                    thread.Abort();
+                    ThreadUtility.Kill(thread);
                 }
             }
 

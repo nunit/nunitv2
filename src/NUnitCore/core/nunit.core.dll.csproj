@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -198,6 +198,7 @@
     <Compile Include="TestThread.cs" />
     <Compile Include="TextCapture.cs" />
     <Compile Include="ThreadedTestRunner.cs" />
+    <Compile Include="ThreadUtility.cs" />
     <Compile Include="TypeHelper.cs" />
   </ItemGroup>
   <ItemGroup>

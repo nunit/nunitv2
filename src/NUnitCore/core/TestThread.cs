@@ -101,8 +101,16 @@ namespace NUnit.Core
             if (thread.IsAlive)
             {
 				log.Debug("Test timed out - aborting thread");
-                thread.Abort();
-                //thread.Join();
+                ThreadUtility.Kill(thread);
+
+                // NOTE: Without the use of Join, there is a race condition here.
+                // The thread sets the result to Cancelled and our code below sets
+                // it to Failure. In order for the result to be shown as a failure,
+                // we need to ensure that the following code executes after the
+                // thread has terminated. There is a risk here: the test code might
+                // refuse to terminate. However, it's more important to deal with
+                // the normal rather than a pathological case.
+                thread.Join();
                 testResult.Failure(string.Format("Test exceeded Timeout value of {0}ms", Timeout), null);
             }
 			else if (thrownException != null)
