@@ -338,7 +338,7 @@ namespace NUnit.Core
 			finally 
 			{
 #if CLR_2_0 || CLR_4_0
-			    RunAfterActions(testResult);
+                RunAfterActions(testResult);
 #endif
 				RunTearDown( testResult );
 
@@ -428,8 +428,8 @@ namespace NUnit.Core
 			{
 				if ( ex is NUnitException )
 					ex = ex.InnerException;
-				// TODO: What about ignore exceptions in teardown?
-				testResult.Error( ex,FailureSite.TearDown );
+
+                RecordException(ex, testResult, FailureSite.TearDown);
 			}
 		}
 
@@ -473,7 +473,12 @@ namespace NUnit.Core
             if (exception is NUnitException)
                 exception = exception.InnerException;
 
-            testResult.SetResult(NUnitFramework.GetResultState(exception), exception, failureSite);
+            // Ensure that once a test is cancelled, it stays cancelled
+            ResultState finalResultState = testResult.ResultState == ResultState.Cancelled
+                ? ResultState.Cancelled
+                : NUnitFramework.GetResultState(exception);
+
+            testResult.SetResult(finalResultState, exception, failureSite);
 		}
 		#endregion
     }

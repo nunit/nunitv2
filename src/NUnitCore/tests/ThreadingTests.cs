@@ -47,11 +47,13 @@ namespace NUnit.Core.Tests
         [Test]
         public void TestWithInfiniteLoopTimesOut()
         {
-            TestResult result = TestBuilder.RunTestCase(
-                typeof(ThreadingFixture), "InfiniteLoopWith50msTimeout");
+            ThreadingFixture fixture = new ThreadingFixture();
+            TestSuite suite = TestBuilder.MakeFixture(fixture);
+            Test test = TestFinder.Find("InfiniteLoopWith50msTimeout", suite, false);
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
             Assert.That(result.ResultState, Is.EqualTo(ResultState.Failure));
             Assert.That(result.Message, Text.Contains("50ms"));
-            Assert.That(ThreadingFixture.TearDownWasRun, "TearDown was not executed");
+            Assert.That(fixture.TearDownWasRun, "TearDown was not executed");
         }
 
         [Test, STAThread]

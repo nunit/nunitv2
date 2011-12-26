@@ -11,7 +11,7 @@ namespace NUnit.TestData
     [TestFixture]
     public class ThreadingFixture
     {
-        public static bool TearDownWasRun;
+        public bool TearDownWasRun;
 
         [SetUp]
         public void SetUp()
@@ -28,7 +28,6 @@ namespace NUnit.TestData
         [Test, Timeout(50)]
         public void InfiniteLoopWith50msTimeout()
         {
-            TearDownWasRun = false;
             while (true) { }
         }
 		
