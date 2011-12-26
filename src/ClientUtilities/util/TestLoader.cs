@@ -740,7 +740,11 @@ namespace NUnit.Util
                 package.Settings["ProcessModel"] = processModel;
             }
 
+            // NOTE: This code ignores DomainUsage.None because TestLoader
+            // is only called from the GUI and the GUI can't support that setting.
+            // TODO: Move this logic to the GUI if TestLoader is used more widely
             if (domainUsage != DomainUsage.Default &&       // Ignore default setting
+                domainUsage != DomainUsage.None &&          // Ignore DomainUsage.None in Gui
                 (processModel != ProcessModel.Multiple ||
                     domainUsage != DomainUsage.Multiple) && // Both process and domain may not be multiple
                 !package.Settings.Contains("DomainUsage"))  // Ignore global setting if package has a setting
