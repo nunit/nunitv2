@@ -84,6 +84,9 @@ namespace NUnit.ConsoleRunner
 		[Option(Description = "Do not display progress" )]
 		public bool nodots = false;
 
+        [Option(Description = "Stop after the first test failure or error")]
+        public bool stoponerror = false;
+
         [Option(Description = "Erase any leftover cache files and exit")]
         public bool cleanup;
 

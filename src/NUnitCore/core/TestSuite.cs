@@ -503,6 +503,9 @@ namespace NUnit.Core
             if (Properties.Contains("Timeout"))
                 TestExecutionContext.CurrentContext.TestCaseTimeout = (int)Properties["Timeout"];
 
+            IDictionary settings = TestExecutionContext.CurrentContext.TestPackage.Settings;
+            bool stopOnError = settings.Contains("StopOnError") && (bool)settings["StopOnError"];
+
             foreach (Test test in ArrayList.Synchronized(Tests))
             {
                 if (filter.Pass(test))
@@ -530,6 +533,9 @@ namespace NUnit.Core
                     }
 
                     if (result.ResultState == ResultState.Cancelled)
+                        break;
+
+                    if ((result.IsError || result.IsFailure) && stopOnError)
                         break;
                 }
             }

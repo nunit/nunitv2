@@ -201,7 +201,15 @@ namespace NUnit.ConsoleRunner
                     {
                         WriteSummaryReport(summary);
                         if (summary.ErrorsAndFailures > 0 || result.IsError || result.IsFailure)
+                        {
+                            if (options.stoponerror)
+                            {
+                                Console.WriteLine("Test run was stopped after first error, as requested.");
+                                Console.WriteLine();
+                            }
+
                             WriteErrorsAndFailuresReport(result);
+                        }
                         if (summary.TestsNotRun > 0)
                             WriteNotRunReport(result);
 
@@ -301,6 +309,7 @@ namespace NUnit.ConsoleRunner
 			package.Settings["UseThreadedRunner"] = !options.nothread;
             package.Settings["DefaultTimeout"] = options.timeout;
             package.Settings["WorkDirectory"] = this.workDir;
+            package.Settings["StopOnError"] = options.stoponerror;
 
             return package;
 		}
