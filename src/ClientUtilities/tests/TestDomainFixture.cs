@@ -51,15 +51,15 @@ namespace NUnit.Util.Tests
 			AppDomainSetup setup = testDomain.AppDomain.SetupInformation;
 
             Assert.That(setup.ApplicationName, Is.StringStarting("Tests_"));
-			Assert.AreEqual( Path.GetDirectoryName(mockDll), setup.ApplicationBase, "ApplicationBase" );
+			Assert.That(setup.ApplicationBase, Is.SamePath(Path.GetDirectoryName(mockDll)), "ApplicationBase");
 			Assert.That( 
                 Path.GetFileName( setup.ConfigurationFile ),
                 Is.EqualTo("mock-assembly.dll.config").IgnoreCase,
                 "ConfigurationFile");
 			Assert.AreEqual( null, setup.PrivateBinPath, "PrivateBinPath" );
-			Assert.AreEqual( Path.GetDirectoryName(mockDll), setup.ShadowCopyDirectories, "ShadowCopyDirectories" );
+			Assert.That(setup.ShadowCopyDirectories, Is.SamePath(Path.GetDirectoryName(mockDll)), "ShadowCopyDirectories" );
 
-			Assert.AreEqual( Path.GetDirectoryName(mockDll), domain.BaseDirectory, "BaseDirectory" );
+			Assert.That(domain.BaseDirectory, Is.SamePath(Path.GetDirectoryName(mockDll)), "BaseDirectory" );
             Assert.That(domain.FriendlyName, 
                 Is.EqualTo("test-domain-mock-assembly.dll").IgnoreCase, "FriendlyName");
 			Assert.IsTrue( testDomain.AppDomain.ShadowCopyFiles, "ShadowCopyFiles" );
@@ -186,7 +186,7 @@ namespace NUnit.Util.Tests
 
 			testDomain.Load( package );
 
-			Assert.AreEqual(  package.BasePath, testDomain.AppDomain.BaseDirectory );
+			Assert.That(testDomain.AppDomain.BaseDirectory, Is.SamePath(package.BasePath));
 		}
 
         [Test, Platform("Linux,Net", Reason = "get_SetupInformation() fails on Windows+Mono")]

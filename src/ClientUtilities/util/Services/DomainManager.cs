@@ -81,6 +81,10 @@ namespace NUnit.Util
             else if (appBase == null || appBase == string.Empty)
                 appBase = GetCommonAppBase(package.Assemblies);
 
+            char lastChar = appBase[appBase.Length - 1];
+            if (lastChar != Path.DirectorySeparatorChar && lastChar != Path.AltDirectorySeparatorChar)
+                appBase += Path.DirectorySeparatorChar;
+
             setup.ApplicationBase = appBase;
             // TODO: Check whether Mono still needs full path to config file...
             setup.ConfigurationFile = appBase != null && configFile != null
