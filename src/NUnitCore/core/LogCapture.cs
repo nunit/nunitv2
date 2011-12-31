@@ -16,7 +16,7 @@ namespace NUnit.Core
         /// <summary>
         /// The default threshold for log capture
         /// is read from the config file. If not
-        /// found, we use "Error".
+        /// found, we use "Off".
         /// </summary>
         public override string DefaultThreshold
         {
@@ -24,7 +24,7 @@ namespace NUnit.Core
             {
                 if (defaultThreshold == null)
                 {
-                    defaultThreshold = "Error";
+                    defaultThreshold = "Off";
 
                     NameValueCollection settings = (NameValueCollection)
 #if CLR_2_0 || CLR_4_0
