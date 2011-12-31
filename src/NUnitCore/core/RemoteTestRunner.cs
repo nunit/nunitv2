@@ -45,6 +45,8 @@ namespace NUnit.Core
 
 		static Logger log = InternalTrace.GetLogger("RemoteTestRunner");
 
+        private TestPackage package;
+
 		#region Constructors
 		public RemoteTestRunner() : this( 0 ) { }
 
@@ -55,6 +57,8 @@ namespace NUnit.Core
 		public override bool Load(TestPackage package)
 		{
 			log.Info("Loading Test Package " + package.Name );
+
+            this.package = package;
 
 			// Initialize ExtensionHost if not already done
 			if ( !CoreExtensions.Host.Initialized )
@@ -85,6 +89,9 @@ namespace NUnit.Core
         public override void Unload()
         {
             log.Info("Unloading test package");
+
+            this.package = null;
+
             base.Unload();
         }
 
@@ -132,10 +139,18 @@ namespace NUnit.Core
 		{
             TestExecutionContext.CurrentContext.Out = new EventListenerTextWriter(queue, TestOutputType.Out);
             TestExecutionContext.CurrentContext.Error = new EventListenerTextWriter(queue, TestOutputType.Error);
-            TestExecutionContext.CurrentContext.TraceWriter = new EventListenerTextWriter(queue, TestOutputType.Trace);
-            TestExecutionContext.CurrentContext.Tracing = true;
-            TestExecutionContext.CurrentContext.LogWriter = new EventListenerTextWriter(queue, TestOutputType.Log);
-            TestExecutionContext.CurrentContext.Logging = true;
+
+            if (package.GetSetting("CaptureTraceOutput", false))
+            {
+                TestExecutionContext.CurrentContext.TraceWriter = new EventListenerTextWriter(queue, TestOutputType.Trace);
+                TestExecutionContext.CurrentContext.Tracing = true;
+            }
+
+            if (package.GetSetting("CaptureLogOutput", false))
+            {
+                TestExecutionContext.CurrentContext.LogWriter = new EventListenerTextWriter(queue, TestOutputType.Log);
+                TestExecutionContext.CurrentContext.Logging = true;
+            }
 		}
 		#endregion
 

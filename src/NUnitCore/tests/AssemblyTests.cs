@@ -36,11 +36,11 @@ namespace NUnit.Core.Tests
 			Assert.IsTrue( File.Exists( thisDll ), "Run does not set current directory" );
 		}
 
-		[Test]
-		public void NUnitTraceIsEnabled()
-		{
-			Assert.IsNotNull( Trace.Listeners["NUnit"] );
-		}
+        //[Test]
+        //public void NUnitTraceIsEnabled()
+        //{
+        //    Assert.IsNotNull( Trace.Listeners["NUnit"] );
+        //}
 
 		[Test]
 		public void LoadAssembly()

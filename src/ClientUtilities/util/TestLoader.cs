@@ -752,6 +752,10 @@ namespace NUnit.Util
                 package.Settings["DomainUsage"] = domainUsage;
             }
 
+            // NOTE: The next two settings also assume that the GUI is being used
+            package.Settings["CaptureTraceOutput"] = true;
+            package.Settings["CaptureLogOutput"] = true;
+
             if (!package.Settings.Contains("WorkDirectory"))
                 package.Settings["WorkDirectory"] = Environment.CurrentDirectory;
 			
