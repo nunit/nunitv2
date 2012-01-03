@@ -121,21 +121,36 @@ namespace NUnit.UiKit
 			this.ContextMenu = new System.Windows.Forms.ContextMenu();
 			this.ContextMenu.Popup += new System.EventHandler( ContextMenu_Popup );
 
-			// See if there are any overriding images in the directory;
             LoadAlternateImages();
+
+            Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
 		}
+
+        private void UserSettings_Changed(object sender, SettingsEventArgs args)
+        {
+            if (args.SettingName == "Gui.TestTree.AlternateImageSet")
+            {
+                LoadAlternateImages();
+                Invalidate();
+            }
+        }
 
         private void LoadAlternateImages()
         {
-            string[] imageNames = { "Skipped", "Failure", "Success", "Ignored", "Inconclusive" };
+            string imageSet = Services.UserSettings.GetSetting("Gui.TestTree.AlternateImageSet") as string;
 
-            for (int index = 0; index < imageNames.Length; index++)
-                LoadAlternateImage(index, imageNames[index]);
+            if (imageSet != null)
+            {
+                string[] imageNames = { "Skipped", "Failure", "Success", "Ignored", "Inconclusive" };
+
+                for (int index = 0; index < imageNames.Length; index++)
+                    LoadAlternateImage(index, imageNames[index], imageSet);
+            }
         }
 
-        private void LoadAlternateImage(int index, string name)
+        private void LoadAlternateImage(int index, string name, string imageSet)
         {
-            string imageDir = Path.GetDirectoryName(PathUtils.GetAssemblyPath(Assembly.GetExecutingAssembly()));
+            string imageDir = PathUtils.Combine(Assembly.GetExecutingAssembly(), "Images", "Tree", imageSet);
 
             string[] extensions = { ".png", ".jpg" };
 

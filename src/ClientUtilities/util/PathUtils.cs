@@ -173,6 +173,11 @@ namespace NUnit.Util
 			return result;
 		}
 
+        public static string Combine(Assembly assembly, params string[] morePaths)
+        {
+            return Combine(Path.GetDirectoryName(GetAssemblyPath(assembly)), morePaths);
+        }
+
 		// TODO: This logic should be in shared source
 		public static string GetAssemblyPath( Assembly assembly )
 		{
