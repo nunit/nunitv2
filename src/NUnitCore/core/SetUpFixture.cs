@@ -30,7 +30,7 @@ namespace NUnit.Core
 			this.fixtureTearDownMethods = Reflect.GetMethodsWithAttribute( type, NUnitFramework.TearDownAttribute, true );
 
 #if CLR_2_0 || CLR_4_0
-		    this.actions = ActionsHelper.GetActionsFromTypeAttributes(type);
+		    this.actions = ActionsHelper.GetActionsFromTypesAttributes(type);
 #endif
 		}
 		#endregion

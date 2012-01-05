@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using NUnit.Framework;
 using System.Diagnostics;
 using System.Reflection;
+using NUnit.Framework.Interfaces;
 using NUnit.TestData.ActionAttributeTests;
 
 [assembly: SampleAction("Assembly")]
@@ -66,7 +67,7 @@ namespace NUnit.TestData.ActionAttributeTests
     }
 
     [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Module, AllowMultiple = true, Inherited = true)]
-    public class SampleActionAttribute : Attribute, ITestSuiteAction, ITestCaseAction
+    public class SampleActionAttribute : Attribute, ITestAction
     {
         private string _Prefix = null;
 
@@ -75,37 +76,23 @@ namespace NUnit.TestData.ActionAttributeTests
             _Prefix = prefix;
         }
 
-        void ITestSuiteAction.BeforeTestSuite(object fixture, MethodInfo method)
+        void ITestAction.BeforeTest(TestDetails testDetails)
         {
-            AddResult(fixture, method);
+            AddResult("Before", testDetails);
         }
 
-        void ITestSuiteAction.AfterTestSuite(object fixture, MethodInfo method)
+        void ITestAction.AfterTest(TestDetails testDetails)
         {
-            AddResult(fixture, method);
+            AddResult("After", testDetails);
         }
 
-        void ITestCaseAction.BeforeTestCase(object fixture, MethodInfo method)
+        private void AddResult(string phase, TestDetails testDetails)
         {
-            AddResult(fixture, method);
-        }
-
-        void ITestCaseAction.AfterTestCase(object fixture, MethodInfo method)
-        {
-            AddResult(fixture, method);
-        }
-
-        private void AddResult(object fixture, MethodInfo method)
-        {
-            StackFrame frame = new StackFrame(1);
-            MethodBase actionMethod = frame.GetMethod();
-
-            string actionMethodName = actionMethod.Name.Substring(actionMethod.Name.LastIndexOf('.') + 1);
-            string message = string.Format("{0}.{1}-{2}" + (method != null ? "-{3}" : ""),
+            string message = string.Format("{0}.{1}-{2}" + (testDetails.Method != null ? "-{3}" : ""),
                                            _Prefix,
-                                           actionMethodName,
-                                           fixture == null ? "{no-fixture}" : fixture.GetType().Name,
-                                           method != null ? method.Name : "");
+                                           phase + testDetails.Type,
+                                           testDetails.Fixture == null ? "{no-fixture}" : testDetails.Fixture.GetType().Name,
+                                           testDetails.Method != null ? testDetails.Method.Name : "");
 
             if(ActionAttributeFixture.Results != null)
                 ActionAttributeFixture.Results.Add(message);

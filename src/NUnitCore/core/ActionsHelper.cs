@@ -14,23 +14,50 @@ namespace NUnit.Core
     internal class ActionsHelper
     {
         private static Type _ActionInterfaceType = null;
-        private static Hashtable _ActionTypes = null;
+        private static Type _TestDetailsClassType = null;
 
         static ActionsHelper()
         {
             _ActionInterfaceType = Type.GetType(NUnitFramework.TestActionInterface);
-            _ActionTypes = new Hashtable();
-
-            Type suiteActionInterface = Type.GetType(NUnitFramework.TestSuiteActionInterface);
-            if(suiteActionInterface != null)
-                _ActionTypes.Add(ActionLevel.Suite, suiteActionInterface);
-
-            Type caseActionInterface = Type.GetType(NUnitFramework.TestCaseActionInterface);
-            if(caseActionInterface != null)
-                _ActionTypes.Add(ActionLevel.Test, caseActionInterface);
+            _TestDetailsClassType = Type.GetType(NUnitFramework.TestDetailsClass);
         }
 
-        public static object[] GetActionsFromTypeAttributes(Type type)
+        public static void ExecuteActions(ActionPhase phase, IEnumerable actions, object testDetails)
+        {
+            if (actions == null)
+                return;
+
+            object[] filteredActions = GetFilteredAndSortedActions(actions, phase);
+
+            MethodInfo actionMethod = GetActionMethod(phase);
+            foreach (object action in filteredActions)
+            {
+                if (action == null)
+                    continue;
+
+                Reflect.InvokeMethod(actionMethod, action, testDetails);
+            }
+        }
+
+        public static object CreateTestDetails(ITest test, object fixture, MethodInfo method)
+        {
+            return Activator.CreateInstance(_TestDetailsClassType,
+                                            fixture,
+                                            method,
+                                            test.TestName.FullName,
+                                            test.TestType,
+                                            test.IsSuite);
+        }
+
+        public static object[] GetActionsFromAttributeProvider(ICustomAttributeProvider attributeProvider)
+        {
+            if (attributeProvider == null || _ActionInterfaceType == null)
+                return new object[0];
+
+            return attributeProvider.GetCustomAttributes(_ActionInterfaceType, false);
+        }
+
+        public static object[] GetActionsFromTypesAttributes(Type type)
         {
             if(type == null)
                 return new object[0];
@@ -40,14 +67,14 @@ namespace NUnit.Core
 
             ArrayList actions = new ArrayList();
 
-            actions.AddRange(GetActionsFromTypeAttributes(type.BaseType));
+            actions.AddRange(GetActionsFromTypesAttributes(type.BaseType));
 
             Type[] declaredInterfaces = GetDeclaredInterfaces(type);
 
             foreach(Type interfaceType in declaredInterfaces)
-                actions.AddRange(GetActionsFromAttributes(interfaceType));
+                actions.AddRange(GetActionsFromAttributeProvider(interfaceType));
 
-            actions.AddRange(GetActionsFromAttributes(type));
+            actions.AddRange(GetActionsFromAttributeProvider(type));
 
             return actions.ToArray();
         }
@@ -70,37 +97,7 @@ namespace NUnit.Core
             return (Type[])declaredInterfaces.ToArray(typeof(Type));
         }
 
-        public static object[] GetActionsFromAttributes(ICustomAttributeProvider attributeProvider)
-        {
-            if(attributeProvider == null || _ActionInterfaceType == null)
-                return new object[0];
-
-            return attributeProvider.GetCustomAttributes(_ActionInterfaceType, false);
-        }
-
-        public static void ExecuteActions(ActionLevel level, ActionPhase phase, IEnumerable actions, object fixture, MethodInfo method)
-        {
-            if (actions == null)
-                return;
-
-            Type actionType = GetActionType(level);
-            if(actionType == null)
-                return;
-
-            MethodInfo actionMethod = GetActionMethod(actionType, level, phase);
-
-            object[] filteredActions = GetFilteredAndSortedActions(actions, phase, actionType);
-
-            foreach (object action in filteredActions)
-            {
-                if (action == null)
-                    continue;
-
-                Reflect.InvokeMethod(actionMethod, action, fixture, method);
-            }
-        }
-
-        private static object[] GetFilteredAndSortedActions(IEnumerable actions, ActionPhase phase, Type actionType)
+        private static object[] GetFilteredAndSortedActions(IEnumerable actions, ActionPhase phase)
         {
             ArrayList filteredActions = new ArrayList();
             foreach(object actionItem in actions)
@@ -115,11 +112,11 @@ namespace NUnit.Core
                         if(nestedItem == null)
                             continue;
 
-                        if (actionType.IsAssignableFrom(nestedItem.GetType()) && filteredActions.Contains(nestedItem) != true)
+                        if (_ActionInterfaceType.IsAssignableFrom(nestedItem.GetType()) && filteredActions.Contains(nestedItem) != true)
                             filteredActions.Add(nestedItem);
                     }
                 }
-                else if(actionType.IsAssignableFrom(actionItem.GetType()) && filteredActions.Contains(actionItem) != true)
+                else if (_ActionInterfaceType.IsAssignableFrom(actionItem.GetType()) && filteredActions.Contains(actionItem) != true)
                     filteredActions.Add(actionItem);
             }
 
@@ -129,32 +126,11 @@ namespace NUnit.Core
             return filteredActions.ToArray();
         }
 
-        private static Type GetActionType(ActionLevel level)
+        private static MethodInfo GetActionMethod(ActionPhase phase)
         {
-            return (Type) _ActionTypes[level];
+            return Reflect.GetNamedMethod(_ActionInterfaceType, phase == ActionPhase.Before ? "BeforeTest" : "AfterTest");
         }
 
-        private static MethodInfo GetActionMethod(Type actionType, ActionLevel level, ActionPhase phase)
-        {
-            if (phase == ActionPhase.Before)
-            {
-                if (level == ActionLevel.Suite)
-                    return Reflect.GetNamedMethod(actionType, "BeforeTestSuite");
-
-                return Reflect.GetNamedMethod(actionType, "BeforeTestCase");
-            }
-
-            if (level == ActionLevel.Suite)
-                return Reflect.GetNamedMethod(actionType, "AfterTestSuite");
-
-            return Reflect.GetNamedMethod(actionType, "AfterTestCase");
-        }
-    }
-
-    public enum ActionLevel
-    {
-        Suite,
-        Test
     }
 
     public enum ActionPhase

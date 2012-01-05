@@ -240,7 +240,7 @@ namespace NUnit.Core
             try
             {
 #if CLR_2_0 || CLR_4_0
-                this.actions = ActionsHelper.GetActionsFromAttributes(method);
+                this.actions = ActionsHelper.GetActionsFromAttributeProvider(method);
 #endif
 
                 // Temporary... to allow for tests that directly execute a test case);
@@ -379,22 +379,24 @@ namespace NUnit.Core
 
 #if CLR_2_0 || CLR_4_0
 
-        protected virtual void ExecuteActions(ActionLevel level, ActionPhase phase)
+        protected virtual void ExecuteActions(ActionPhase phase)
         {
+            object testDetails = ActionsHelper.CreateTestDetails(this, this.Fixture, this.Method);
+
             object[][] targetActions = new object[][] { this.suiteActions, this.actions };
-            ActionsHelper.ExecuteActions(level, phase, targetActions, this.Fixture, this.Method);
+            ActionsHelper.ExecuteActions(phase, targetActions, testDetails);
         }
 
         private void RunBeforeActions(TestResult testResult)
         {
-            ExecuteActions(ActionLevel.Test, ActionPhase.Before);
+            ExecuteActions(ActionPhase.Before);
         }
 
         private void RunAfterActions(TestResult testResult)
         {
             try
             {
-                ExecuteActions(ActionLevel.Test, ActionPhase.After);
+                ExecuteActions(ActionPhase.After);
             }
             catch (Exception ex)
             {

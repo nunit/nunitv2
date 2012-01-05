@@ -22,7 +22,7 @@ namespace NUnit.Core
         public TestAssembly(Assembly assembly, string path) : base(path)
         {
 #if CLR_2_0 || CLR_4_0
-            this.actions = ActionsHelper.GetActionsFromAttributes(assembly);
+            this.actions = ActionsHelper.GetActionsFromAttributeProvider(assembly);
 #endif
         }
 

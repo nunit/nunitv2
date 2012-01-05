@@ -378,16 +378,17 @@ namespace NUnit.Core
 
 #if CLR_2_0 || CLR_4_0
 
-        protected virtual void ExecuteActions(ActionLevel level, ActionPhase phase)
+        protected virtual void ExecuteActions(ActionPhase phase)
         {
-            ActionsHelper.ExecuteActions(level, phase, this.actions, this.Fixture, null);
+            object testDetails = ActionsHelper.CreateTestDetails(this, this.Fixture, null);
+            ActionsHelper.ExecuteActions(phase, this.actions, testDetails);
         }
 
         protected virtual void DoOneTimeBeforeTestSuiteActions(TestResult suiteResult)
         {
             try
             {
-                ExecuteActions(ActionLevel.Suite, ActionPhase.Before);
+                ExecuteActions(ActionPhase.Before);
                 TestExecutionContext.CurrentContext.Update();
             }
             catch (Exception ex)
@@ -462,7 +463,7 @@ namespace NUnit.Core
         {
             try
             {
-                ExecuteActions(ActionLevel.Suite, ActionPhase.After);
+                ExecuteActions(ActionPhase.After);
             }
             catch (Exception ex)
             {
