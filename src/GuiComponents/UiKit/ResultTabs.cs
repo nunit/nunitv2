@@ -191,6 +191,16 @@ namespace NUnit.UiKit
 
 		}
 		#endregion
+
+        public bool IsTracingEnabled
+        {
+            get { return displayController.IsTracingEnabled; }
+        }
+
+        public LoggingThreshold MaximumLogLevel
+        {
+            get { return displayController.MaximumLogLevel; }
+        }
 	
 		public void Clear()
 		{
@@ -351,7 +361,36 @@ namespace NUnit.UiKit
 				Services.UserSettings.Changed += new SettingsEventHandler(UserSettings_Changed);
 			}
 
-			public void Clear()
+            public bool IsTracingEnabled
+            {
+                get
+                {
+                    foreach (TextDisplayTabPage page in tabPages)
+                        if (page.Display.Content.Trace)
+                            return true;
+
+                    return false;
+                }
+            }
+
+            public LoggingThreshold MaximumLogLevel
+            {
+                get
+                {
+                    LoggingThreshold logLevel = LoggingThreshold.Off;
+
+                    foreach (TextDisplayTabPage page in tabPages)
+                    {
+                        LoggingThreshold level = page.Display.Content.LogLevel;
+                        if (level > logLevel)
+                            logLevel = level;
+                    }
+
+                    return logLevel;
+                }
+            }
+
+            public void Clear()
 			{
 				foreach( TextDisplayTabPage page in tabPages )
 					page.Display.Clear();
@@ -416,11 +455,10 @@ namespace NUnit.UiKit
 									case "Title":
 										page.Text = (string)Services.UserSettings.GetSetting( settingName );
 										break;
-									case "Content":
-										page.Display.Content = 
-											(TextDisplayContent)Services.UserSettings.GetSetting( settingName );
-										break;
-								}
+                                    case "Content":
+                                        page.Display.Content.LoadSettings(tabName);
+                                        break;
+                                }
 							}
 					}
 				}

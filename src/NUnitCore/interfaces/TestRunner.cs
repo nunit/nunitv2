@@ -110,37 +110,30 @@ namespace NUnit.Core
 		#endregion
 
 		#region Run Methods
-		/// <summary>
-		/// Run all loaded tests and return a test result. The test is run synchronously,
-		/// and the listener interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to receive EventListener notifications.</param>
-		TestResult Run(NUnit.Core.EventListener listener);
 
-		/// <summary>
-		/// Run selected tests and return a test result. The test is run synchronously,
-		/// and the listener interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to receive EventListener notifications.</param>
-		/// <param name="filter">The filter to apply when running the tests</param>
-		TestResult Run(NUnit.Core.EventListener listener, ITestFilter filter);
-		
-		/// <summary>
-		/// Start a run of all loaded tests. The tests are run aynchronously and the 
-		/// listener interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to receive EventListener notifications.</param>
-		void BeginRun(NUnit.Core.EventListener listener);
+        /// <summary>
+        /// Run selected tests and return a test result. The test is run synchronously,
+        /// and the listener interface is notified as it progresses. Arguments control whether
+        /// trace and log output are passed back to the caller.
+        /// </summary>
+        /// <param name="listener">Interface to receive EventListener notifications.</param>
+        /// <param name="filter">The filter to apply when running the tests</param>
+        /// <param name="captureTrace">If true, trace output is returned as a TestOutput event</param>
+        /// <param name="logLevel">The threshold for log output to be returned as a TestOutput event</param>
+        TestResult Run(NUnit.Core.EventListener listener, ITestFilter filter, bool captureTrace, LoggingThreshold logLevel);
 
-		/// <summary>
-		/// Start a run of selected tests. The tests are run aynchronously and the 
-		/// listener interface is notified as it progresses.
-		/// </summary>
-		/// <param name="listener">Interface to receive EventListener notifications.</param>
-		/// <param name="filter">The filter to apply when running the tests</param>
-		void BeginRun(NUnit.Core.EventListener listener, ITestFilter filter);
-		
-		/// <summary>
+        /// <summary>
+        /// Start a run of selected tests. The tests are run aynchronously and the 
+        /// listener interface is notified as it progresses. Arguments control whether
+        /// trace and log output are passed back to the caller.
+        /// </summary>
+        /// <param name="listener">Interface to receive EventListener notifications.</param>
+        /// <param name="filter">The filter to apply when running the tests</param>
+        /// <param name="captureTrace">If true, trace output is returned as a TestOutput event</param>
+        /// <param name="logLevel">The threshold for log output to be returned as a TestOutput event</param>
+        void BeginRun(NUnit.Core.EventListener listener, ITestFilter filter, bool captureTrace, LoggingThreshold logLevel);
+
+        /// <summary>
 		/// Wait for an asynchronous run to complete and return the result.
 		/// </summary>
 		/// <returns>A TestResult for the entire run</returns>

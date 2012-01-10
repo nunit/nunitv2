@@ -9,6 +9,7 @@ using System.Drawing;
 using System.ComponentModel;
 using NUnit.Core;
 using NUnit.Util;
+using System.Diagnostics;
 
 namespace NUnit.UiKit
 {
@@ -94,7 +95,7 @@ namespace NUnit.UiKit
 		private string pendingTestCaseLabel = null;
 		private void OnTestOutput( object sender, TestEventArgs e )
 		{
-			if ( WantOutputType( e.TestOutput.Type ) )
+			if ( ShouldInclude(e.TestOutput.Type) )
 			{
 				if ( pendingTestCaseLabel != null )
 				{
@@ -106,35 +107,45 @@ namespace NUnit.UiKit
 			}
 		}
 
-		private bool WantOutputType( TestOutputType type )
-		{
-			TextDisplayContent mask = TextDisplayContent.Empty;
-			switch( type )
-			{
-				case TestOutputType.Out:
-					mask = TextDisplayContent.Out;
-					break;
-				case TestOutputType.Error:
-					mask = TextDisplayContent.Error;
-					break;
-				case TestOutputType.Trace:
-					mask = TextDisplayContent.Trace;
-					break;
-				case TestOutputType.Log:
-					mask = TextDisplayContent.Log;
-					break;
-			}
+        // TODO: We determine whether to include output
+        // based solely on the output type. This works
+        // well for everything but logging. Because we
+        // are unable - at this stage of processing - 
+        // to determine the logging level of the output
+        // all tabs displaying log output will show
+        // output at the most verbose level specified
+        // on any of the tabs. Since it's not likely
+        // that anyone will display logging on multiple
+        // tabs, this is not seen as a serious issue.
+        // It may be resolved in a future release by
+        // limiting the options available when specifying
+        // the content of the output displayed.
+        private bool ShouldInclude(TestOutputType type)
+        {
+            switch (type)
+            {
+                default:
+                case TestOutputType.Out:
+                    return content.Out;
 
-			return ((int)mask & (int)this.content) != 0;
-		}
+                case TestOutputType.Error:
+                    return content.Error;
+
+                case TestOutputType.Log:
+                    return true;// content.LogLevel != LoggingThreshold.Off;
+
+                case TestOutputType.Trace:
+                    return content.Trace;
+            }
+        }
 
 		private void OnTestStarting(object sender, TestEventArgs args)
 		{
-			if ( (this.content & TextDisplayContent.Labels) != 0 )
+			if (this.content.Labels != TestLabelLevel.Off)
 			{
 				string label = string.Format( "***** {0}", args.TestName.FullName );
 
-				if ( (this.content & TextDisplayContent.LabelOnlyOnOutput) != 0 )
+				if (this.content.Labels == TestLabelLevel.On)
 					this.pendingTestCaseLabel = label;
 				else
 					WriteLine(label);

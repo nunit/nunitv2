@@ -97,11 +97,31 @@ namespace NUnit.Util
 		/// </summary>
 		private bool reloadPending = false;
 
+        /// <summary>
+        /// Trace setting to use for running tests
+        /// </summary>
+        private bool tracing;
+
+        /// <summary>
+        /// LoggingThreshold to use for running tests
+        /// </summary>
+        private LoggingThreshold logLevel;
+
 		/// <summary>
 		/// The last filter used for a run - used to 
 		/// rerun tests when a change occurs
 		/// </summary>
 		private ITestFilter lastFilter;
+
+        /// <summary>
+        /// The last trace setting used for a run
+        /// </summary>
+        private bool lastTracing;
+
+        /// <summary>
+        /// Last logging level used for a run
+        /// </summary>
+        private LoggingThreshold lastLogLevel;
 
         /// <summary>
         /// The runtime framework being used for the currently
@@ -188,6 +208,19 @@ namespace NUnit.Util
         {
             get { return currentFramework; }
         }
+
+        public bool IsTracingEnabled
+        {
+            get { return tracing; }
+            set { tracing = value; }
+        }
+
+        public LoggingThreshold LoggingThreshold
+        {
+            get { return logLevel; }
+            set { logLevel = value; }
+        }
+
 		#endregion
 
 		#region EventListener Handlers
@@ -633,19 +666,12 @@ namespace NUnit.Util
 				ReloadTest();
 
                 if (lastFilter != null && Services.UserSettings.GetSetting("Options.TestLoader.RerunOnChange", false))
-					testRunner.BeginRun( this, lastFilter );
+					testRunner.BeginRun( this, lastFilter, lastTracing, lastLogLevel );
 			}
 		}
 		#endregion
 
 		#region Methods for Running Tests
-		/// <summary>
-		/// Run all the tests
-		/// </summary>
-		public void RunTests()
-		{
-			RunTests( TestFilter.Empty );
-		}
 
 		/// <summary>
 		/// Run selected tests using a filter
@@ -658,8 +684,12 @@ namespace NUnit.Util
                 if (reloadPending || Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", false))
 					ReloadTest();
 
-				this.lastFilter = filter;
-				testRunner.BeginRun( this, filter );
+                // Save args for automatic rerun
+                this.lastFilter = filter;
+                this.lastTracing = tracing;
+                this.lastLogLevel = logLevel;
+
+                testRunner.BeginRun(this, filter, tracing, logLevel);
 			}
 		}
 
@@ -726,13 +756,13 @@ namespace NUnit.Util
 			TestPackage package = TestProject.ActiveConfig.MakeTestPackage();
 			package.TestName = testName;
 
-            ISettings settings = Services.UserSettings;
-            package.Settings["MergeAssemblies"] = settings.GetSetting("Options.TestLoader.MergeAssemblies", false);
-            package.Settings["AutoNamespaceSuites"] = settings.GetSetting("Options.TestLoader.AutoNamespaceSuites", true);
-            package.Settings["ShadowCopyFiles"] = settings.GetSetting("Options.TestLoader.ShadowCopyFiles", true);
+            ISettings userSettings = Services.UserSettings;
+            package.Settings["MergeAssemblies"] = userSettings.GetSetting("Options.TestLoader.MergeAssemblies", false);
+            package.Settings["AutoNamespaceSuites"] = userSettings.GetSetting("Options.TestLoader.AutoNamespaceSuites", true);
+            package.Settings["ShadowCopyFiles"] = userSettings.GetSetting("Options.TestLoader.ShadowCopyFiles", true);
 
-            ProcessModel processModel = (ProcessModel)settings.GetSetting("Options.TestLoader.ProcessModel", ProcessModel.Default);
-            DomainUsage domainUsage = (DomainUsage)settings.GetSetting("Options.TestLoader.DomainUsage", DomainUsage.Default);
+            ProcessModel processModel = (ProcessModel)userSettings.GetSetting("Options.TestLoader.ProcessModel", ProcessModel.Default);
+            DomainUsage domainUsage = (DomainUsage)userSettings.GetSetting("Options.TestLoader.DomainUsage", DomainUsage.Default);
 
             if (processModel != ProcessModel.Default &&     // Ignore default setting
                 !package.Settings.Contains("ProcessModel")) // Ignore global setting if package has a setting
@@ -752,13 +782,12 @@ namespace NUnit.Util
                 package.Settings["DomainUsage"] = domainUsage;
             }
 
-            // NOTE: The next two settings also assume that the GUI is being used
-            package.Settings["CaptureTraceOutput"] = true;
-            package.Settings["CaptureLogOutput"] = true;
-
             if (!package.Settings.Contains("WorkDirectory"))
                 package.Settings["WorkDirectory"] = Environment.CurrentDirectory;
-			
+
+            //if (NUnitConfiguration.ApartmentState != System.Threading.ApartmentState.Unknown)
+            //    package.Settings["ApartmentState"] = NUnitConfiguration.ApartmentState;
+
             return package;
 		}
 		#endregion

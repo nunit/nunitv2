@@ -109,10 +109,10 @@ namespace NUnit.Util
 		#endregion
 
         #region Running Tests
-        public override void BeginRun(EventListener listener, ITestFilter filter)
+        public override void BeginRun(EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel)
         {
             log.Info("BeginRun in AppDomain {0}", domain.FriendlyName);
-            base.BeginRun(listener, filter);
+            base.BeginRun(listener, filter, tracing, logLevel);
         }
         #endregion
 

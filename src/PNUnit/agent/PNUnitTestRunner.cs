@@ -125,7 +125,7 @@ namespace PNUnit.Agent
             TestResult result =
                 FindResult(
                 mPNUnitTestInfo.TestToRun,
-                testDomain.Run(collector, filter) );
+                testDomain.Run(collector, filter, false, LoggingThreshold.Off) );
             return result;
         }
 

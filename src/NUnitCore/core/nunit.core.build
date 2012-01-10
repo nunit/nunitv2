@@ -26,7 +26,6 @@
     <include name="InvalidTestFixtureException.cs"/>
     <include name="LegacySuite.cs"/>
     <include name="Log4NetCapture.cs"/>
-    <include name="LogCapture.cs"/>
     <include name="Logger.cs"/>
     <include name="MethodHelper.cs"/>
     <include name="NamespaceSuite.cs"/>

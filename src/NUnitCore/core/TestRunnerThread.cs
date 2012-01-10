@@ -36,10 +36,19 @@ namespace NUnit.Core
 		private NUnit.Core.EventListener listener;
 
 		/// <summary>
-		/// Array of test names for ues by the thread proc
-		/// </summary>
+		/// The Test filter used in selecting the tests
 		//private string[] testNames;
 		private ITestFilter filter;
+
+        /// <summary>
+        /// Indicates whether trace output should be captured
+        /// </summary>
+        private bool tracing;
+
+        /// <summary>
+        /// The logging threshold for which output should be captured
+        /// </summary>
+        private LoggingThreshold logLevel;
 			
 		/// <summary>
 		/// Array of returned results
@@ -70,18 +79,18 @@ namespace NUnit.Core
 
 		#region Constructor
 
-		public TestRunnerThread( TestRunner runner ) 
+		public TestRunnerThread( TestRunner runner, ApartmentState apartmentState, ThreadPriority priority ) 
 		{ 
 			this.runner = runner;
 			this.thread = new Thread( new ThreadStart( TestRunnerThreadProc ) );
 			thread.IsBackground = true;
 			thread.Name = "TestRunnerThread";
-            thread.Priority = NUnitConfiguration.ThreadPriority;
-            if (NUnitConfiguration.ApartmentState != ApartmentState.Unknown)
+            thread.Priority = priority;
+            if (apartmentState != ApartmentState.Unknown)
 #if CLR_2_0 || CLR_4_0
-                thread.SetApartmentState(NUnitConfiguration.ApartmentState);
+                thread.SetApartmentState(apartmentState);
 #else
-                thread.ApartmentState = NUnitConfiguration.ApartmentState;
+                thread.ApartmentState = apartmentState;
 #endif
 		}
 
@@ -100,18 +109,15 @@ namespace NUnit.Core
             ThreadUtility.Kill(this.thread);
 		}
 
-		public void StartRun( EventListener listener )
-		{
-			StartRun( listener, TestFilter.Empty );
-		}
+        public void StartRun(EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel)
+        {
+            this.listener = listener;
+            this.filter = filter;
+            this.tracing = tracing;
+            this.logLevel = logLevel;
 
-		public void StartRun( EventListener listener, ITestFilter filter )
-		{
-			this.listener = listener;
-			this.filter = filter;
-
-			thread.Start();
-		}
+            thread.Start();
+        }
 
 		#endregion
 
@@ -123,7 +129,7 @@ namespace NUnit.Core
 		{
             try
             {
-                results = new TestResult[] { runner.Run(this.listener, this.filter) };
+                results = new TestResult[] { runner.Run(this.listener, this.filter, this.tracing, this.logLevel) };
             }
             catch (Exception ex)
             {

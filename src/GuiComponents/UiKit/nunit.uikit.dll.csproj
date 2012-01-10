@@ -178,6 +178,7 @@
     <Compile Include="TextBoxDisplay.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TextDisplayContent.cs" />
     <Compile Include="TextDisplay.cs" />
     <Compile Include="TextDisplayTabPage.cs">
       <SubType>Component</SubType>

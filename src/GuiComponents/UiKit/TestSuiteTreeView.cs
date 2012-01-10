@@ -1000,10 +1000,11 @@ namespace NUnit.UiKit
             {
                 runningTests = tests;
 
-                if (ignoreCategories)
-                    loader.RunTests(MakeNameFilter(tests));
-                else
-                    loader.RunTests(MakeFilter(tests));
+                ITestFilter filter = ignoreCategories
+                    ? MakeNameFilter(tests)
+                    : MakeFilter(tests);
+
+                loader.RunTests(filter);
             }
 		}
 

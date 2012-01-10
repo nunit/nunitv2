@@ -18,47 +18,48 @@ namespace NUnit.Core
         static Logger log = InternalTrace.GetLogger(typeof(ThreadedTestRunner));
 
 		#region Instance Variables
+
 		private TestRunnerThread testRunnerThread;
+        private ApartmentState apartmentState;
+        private ThreadPriority priority;
+
 		#endregion
 
-		#region Constructors
-		public ThreadedTestRunner( TestRunner testRunner ) : base ( testRunner ) { }
+		#region Constructor
+
+        public ThreadedTestRunner(TestRunner testRunner) 
+            : this(testRunner, ApartmentState.Unknown, ThreadPriority.Normal) { }
+
+        public ThreadedTestRunner(TestRunner testRunner, ApartmentState apartmentState, ThreadPriority priority)
+            : base(testRunner)
+        {
+            this.apartmentState = apartmentState;
+            this.priority = priority;
+        }
+
 		#endregion
 
 		#region Overrides
-		public override TestResult Run( EventListener listener )
-		{
-			BeginRun( listener );
-			return EndRun();
-		}
 
-		public override TestResult Run( EventListener listener, ITestFilter filter )
-		{
-			BeginRun( listener, filter );
-			return EndRun();
-		}
+        public override TestResult Run(EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel)
+        {
+            BeginRun(listener, filter, tracing, logLevel);
+            return EndRun();
+        }
 
-		public override void BeginRun( EventListener listener )
-		{
+        public override void BeginRun(EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel)
+        {
             log.Info("BeginRun");
-   			testRunnerThread = new TestRunnerThread( this.TestRunner );
-            testRunnerThread.StartRun( listener );
-		}
+            testRunnerThread = new TestRunnerThread(this.TestRunner, this.apartmentState, this.priority);
+            testRunnerThread.StartRun(listener, filter, tracing, logLevel);
+        }
 
-		public override void BeginRun( EventListener listener, ITestFilter filter )
-		{
-            log.Info("BeginRun");
-            testRunnerThread = new TestRunnerThread(this.TestRunner);
-			testRunnerThread.StartRun( listener, filter );
-		}
-
-		public override TestResult EndRun()
+        public override TestResult EndRun()
 		{
             log.Info("EndRun");
             this.Wait();
 			return this.TestRunner.TestResult;
 		}
-
 
 		public override void Wait()
 		{

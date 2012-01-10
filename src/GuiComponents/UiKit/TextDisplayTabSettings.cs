@@ -5,6 +5,7 @@
 // ****************************************************************
 using System;
 using System.Collections;
+using NUnit.Util;
 
 namespace NUnit.UiKit
 {
@@ -38,8 +39,10 @@ namespace NUnit.UiKit
 						break;
 
 					TabInfo tab = new TabInfo( name, text );
-					tab.Content = (TextDisplayContent)settings.GetSetting(prefix + ".Content", TextDisplayContent.Empty );
+
+                    tab.Content = TextDisplayContent.FromSettings(name);
 					tab.Enabled = settings.GetSetting( prefix + ".Enabled", true );
+
 					info.Add( tab );
 				}
 			}
@@ -55,13 +58,10 @@ namespace NUnit.UiKit
 			tabInfo = new TabInfoCollection();
 
             TabInfo tab = tabInfo.AddNewTab("Text Output");
-		    tab.Content =
-		        TextDisplayContent.Out |
-		        TextDisplayContent.Error |
-		        TextDisplayContent.Trace |
-		        TextDisplayContent.Log |
-		        TextDisplayContent.Labels |
-		        TextDisplayContent.LabelOnlyOnOutput;
+		    tab.Content = new TextDisplayContent();
+            tab.Content.Out = true;
+            tab.Content.Error = true;
+            tab.Content.Labels = TestLabelLevel.On;
 		    tab.Enabled = true;
         }
 
@@ -77,8 +77,8 @@ namespace NUnit.UiKit
 				string prefix = Prefix + tab.Name;
 
 				settings.SaveSetting( prefix + ".Title", tab.Title );
-				settings.SaveSetting( prefix + ".Content", tab.Content );
 				settings.SaveSetting( prefix + ".Enabled", tab.Enabled );
+                tab.Content.SaveSettings(tab.Name);
 			}
 
 			string oldNames = settings.GetSetting( Prefix + "TabList", string.Empty );
@@ -96,39 +96,37 @@ namespace NUnit.UiKit
 		public TabInfoCollection Tabs
 		{
 			get { return tabInfo; }
-		}
-	
-		public class TabInfo
-		{
-			public string Name;
-			public string Title;
-			public TextDisplayContent Content = TextDisplayContent.Empty;
-			public bool Enabled = true;
+        }
 
+        #region Nested TabInfo Class
+
+        public class TabInfo
+		{
 			public TabInfo( string name, string title )
 			{
 				this.Name = name;
 				this.Title = title;
+                this.Enabled = true;
+                this.Content = new TextDisplayContent();
 			}
-		}
 
-		public class TabInfoCollection : CollectionBase
+            public string Name { get; set; }
+            public string Title { get; set; }
+            public TextDisplayContent Content { get; set; }
+            public bool Enabled { get; set; }
+        }
+
+        #endregion
+
+        #region Nested TabInfoCollectionClass
+
+        public class TabInfoCollection : System.Collections.Generic.List<TabInfo>
 		{
-			public void Add( TabInfo tabInfo )
-			{
-				InnerList.Add( tabInfo );
-			}
-
 			public TabInfo AddNewTab( string title )
 			{
 				TabInfo tabInfo = new TabInfo( GetNextName(), title );
-				InnerList.Add( tabInfo );
+                this.Add(tabInfo);
 				return tabInfo;
-			}
-
-			public void Insert( int index, TabInfo tabInfo )
-			{
-				InnerList.Insert(index, tabInfo);
 			}
 
 			private string GetNextName()
@@ -141,17 +139,11 @@ namespace NUnit.UiKit
 				}
 			}
 
-			public TabInfo this[int index]
-			{
-				get { return (TabInfo)InnerList[index]; }
-				set { InnerList[index] = value; }
-			}
-
 			public TabInfo this[string name]
 			{
 				get
 				{
-					foreach ( TabInfo info in InnerList )
+					foreach ( TabInfo info in this )
 						if ( info.Name == name )
 							return info;
 
@@ -163,6 +155,8 @@ namespace NUnit.UiKit
 			{
 				return this[name] != null;
 			}
-		}
-	}
+        }
+
+        #endregion
+    }
 }

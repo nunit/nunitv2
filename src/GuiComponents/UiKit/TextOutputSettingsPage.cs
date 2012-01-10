@@ -10,6 +10,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using NUnit.Core;
 using NUnit.UiKit;
+using NUnit.Util;
+using System.Diagnostics;
 
 namespace NUnit.UiKit
 {
@@ -17,24 +19,23 @@ namespace NUnit.UiKit
 	{
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.CheckBox showStandardOutput;
-		private System.Windows.Forms.CheckBox showErrorOutput;
-		private System.Windows.Forms.CheckBox showTraceOutput;
-		private System.Windows.Forms.CheckBox showLogOutput;
+        private System.Windows.Forms.CheckBox showErrorOutput;
 		private System.Windows.Forms.ComboBox tabSelectComboBox;
-		private System.Windows.Forms.Button useDefaultsButton;
-		private System.Windows.Forms.CheckBox testCaseLabels;
-		private System.Windows.Forms.CheckBox suppressLabelsIfNoOutput;
+        private System.Windows.Forms.Button useDefaultsButton;
 		private System.ComponentModel.IContainer components = null;
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Label label5;
 
 		private TextDisplayTabSettings tabSettings = new TextDisplayTabSettings();
 		private System.Windows.Forms.CheckBox enabledCheckBox;
-		private System.Windows.Forms.HelpProvider helpProvider1;
+        private System.Windows.Forms.HelpProvider helpProvider1;
+        private Label label6;
+        private ComboBox logLevelComboBox;
+        private Label label3;
+        private ComboBox labelsComboBox;
+        private CheckBox showTraceOutput;
 		private int selectedTabIndex = -1;
 
 		public TextOutputSettingsPage(string key) : base(key)
@@ -42,7 +43,13 @@ namespace NUnit.UiKit
 			// This call is required by the Windows Form Designer.
 			InitializeComponent();
 
-			// TODO: Add any initialization after the InitializeComponent call
+            logLevelComboBox.Items.Clear();
+            foreach (string name in System.Enum.GetNames(typeof(LoggingThreshold)))
+                logLevelComboBox.Items.Add(name);
+
+            labelsComboBox.Items.Clear();
+            foreach (string name in System.Enum.GetNames(typeof(TestLabelLevel)))
+                labelsComboBox.Items.Add(name);
 		}
 
 		/// <summary>
@@ -71,19 +78,18 @@ namespace NUnit.UiKit
             this.label2 = new System.Windows.Forms.Label();
             this.showStandardOutput = new System.Windows.Forms.CheckBox();
             this.showErrorOutput = new System.Windows.Forms.CheckBox();
-            this.showTraceOutput = new System.Windows.Forms.CheckBox();
-            this.showLogOutput = new System.Windows.Forms.CheckBox();
-            this.testCaseLabels = new System.Windows.Forms.CheckBox();
             this.tabSelectComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.useDefaultsButton = new System.Windows.Forms.Button();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.suppressLabelsIfNoOutput = new System.Windows.Forms.CheckBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.enabledCheckBox = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.helpProvider1 = new System.Windows.Forms.HelpProvider();
+            this.label6 = new System.Windows.Forms.Label();
+            this.logLevelComboBox = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.labelsComboBox = new System.Windows.Forms.ComboBox();
+            this.showTraceOutput = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -120,49 +126,13 @@ namespace NUnit.UiKit
             // 
             this.showErrorOutput.AutoSize = true;
             this.helpProvider1.SetHelpString(this.showErrorOutput, "If checked, error output is displayed on this Tab.");
-            this.showErrorOutput.Location = new System.Drawing.Point(200, 128);
+            this.showErrorOutput.Location = new System.Drawing.Point(242, 128);
             this.showErrorOutput.Name = "showErrorOutput";
             this.helpProvider1.SetShowHelp(this.showErrorOutput, true);
             this.showErrorOutput.Size = new System.Drawing.Size(83, 17);
             this.showErrorOutput.TabIndex = 18;
             this.showErrorOutput.Text = "Error Output";
             this.showErrorOutput.CheckedChanged += new System.EventHandler(this.showErrorOutput_CheckedChanged);
-            // 
-            // showTraceOutput
-            // 
-            this.showTraceOutput.AutoSize = true;
-            this.helpProvider1.SetHelpString(this.showTraceOutput, "If checked, Trace output is displayed on this Tab.");
-            this.showTraceOutput.Location = new System.Drawing.Point(40, 160);
-            this.showTraceOutput.Name = "showTraceOutput";
-            this.helpProvider1.SetShowHelp(this.showTraceOutput, true);
-            this.showTraceOutput.Size = new System.Drawing.Size(89, 17);
-            this.showTraceOutput.TabIndex = 19;
-            this.showTraceOutput.Text = "Trace Output";
-            this.showTraceOutput.CheckedChanged += new System.EventHandler(this.showTraceOutput_CheckedChanged);
-            // 
-            // showLogOutput
-            // 
-            this.showLogOutput.AutoSize = true;
-            this.helpProvider1.SetHelpString(this.showLogOutput, "If checked, log output is displayed on this Tab.");
-            this.showLogOutput.Location = new System.Drawing.Point(200, 160);
-            this.showLogOutput.Name = "showLogOutput";
-            this.helpProvider1.SetShowHelp(this.showLogOutput, true);
-            this.showLogOutput.Size = new System.Drawing.Size(79, 17);
-            this.showLogOutput.TabIndex = 20;
-            this.showLogOutput.Text = "Log Output";
-            this.showLogOutput.CheckedChanged += new System.EventHandler(this.showLogOutput_CheckedChanged);
-            // 
-            // testCaseLabels
-            // 
-            this.testCaseLabels.AutoSize = true;
-            this.helpProvider1.SetHelpString(this.testCaseLabels, "If checked, each test case is preceded by an identifying label.");
-            this.testCaseLabels.Location = new System.Drawing.Point(40, 224);
-            this.testCaseLabels.Name = "testCaseLabels";
-            this.helpProvider1.SetShowHelp(this.testCaseLabels, true);
-            this.testCaseLabels.Size = new System.Drawing.Size(142, 17);
-            this.testCaseLabels.TabIndex = 21;
-            this.testCaseLabels.Text = "Display TestCase Labels";
-            this.testCaseLabels.CheckedChanged += new System.EventHandler(this.testCaseLabels_CheckedChanged);
             // 
             // tabSelectComboBox
             // 
@@ -201,38 +171,6 @@ namespace NUnit.UiKit
             this.useDefaultsButton.Text = "Restore Defaults";
             this.useDefaultsButton.Click += new System.EventHandler(this.button1_Click);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Location = new System.Drawing.Point(131, 200);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(325, 8);
-            this.groupBox1.TabIndex = 27;
-            this.groupBox1.TabStop = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 200);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 13);
-            this.label3.TabIndex = 26;
-            this.label3.Text = "Test Labels";
-            // 
-            // suppressLabelsIfNoOutput
-            // 
-            this.suppressLabelsIfNoOutput.AutoSize = true;
-            this.suppressLabelsIfNoOutput.Enabled = false;
-            this.helpProvider1.SetHelpString(this.suppressLabelsIfNoOutput, "If checked, the identifying lablel is only displayed if there is output.");
-            this.suppressLabelsIfNoOutput.Location = new System.Drawing.Point(72, 248);
-            this.suppressLabelsIfNoOutput.Name = "suppressLabelsIfNoOutput";
-            this.helpProvider1.SetShowHelp(this.suppressLabelsIfNoOutput, true);
-            this.suppressLabelsIfNoOutput.Size = new System.Drawing.Size(208, 17);
-            this.suppressLabelsIfNoOutput.TabIndex = 0;
-            this.suppressLabelsIfNoOutput.Text = "Suppress label if no output is displayed";
-            this.suppressLabelsIfNoOutput.CheckedChanged += new System.EventHandler(this.suppressLabelsIfNoOutput_CheckedChanged);
-            // 
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -267,20 +205,77 @@ namespace NUnit.UiKit
             this.label5.TabIndex = 32;
             this.label5.Text = "Title:";
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(239, 161);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 13);
+            this.label6.TabIndex = 35;
+            this.label6.Text = "Log Output:";
+            // 
+            // logLevelComboBox
+            // 
+            this.logLevelComboBox.FormattingEnabled = true;
+            this.helpProvider1.SetHelpString(this.logLevelComboBox, "Selects the logging threshold for display on this Tab.");
+            this.logLevelComboBox.Location = new System.Drawing.Point(329, 161);
+            this.logLevelComboBox.Name = "logLevelComboBox";
+            this.helpProvider1.SetShowHelp(this.logLevelComboBox, true);
+            this.logLevelComboBox.Size = new System.Drawing.Size(77, 21);
+            this.logLevelComboBox.TabIndex = 36;
+            this.logLevelComboBox.SelectedIndexChanged += new System.EventHandler(this.logLevel_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(37, 200);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(92, 13);
+            this.label3.TabIndex = 37;
+            this.label3.Text = "Test Case Labels:";
+            // 
+            // labelsComboBox
+            // 
+            this.labelsComboBox.FormattingEnabled = true;
+            this.helpProvider1.SetHelpString(this.labelsComboBox, "Selects whether test case labels are displayed. Option \'On\' displays labels only " +
+                    "when there is other output from the test.");
+            this.labelsComboBox.Items.AddRange(new object[] {
+            "Off",
+            "On",
+            "All"});
+            this.labelsComboBox.Location = new System.Drawing.Point(176, 200);
+            this.labelsComboBox.Name = "labelsComboBox";
+            this.helpProvider1.SetShowHelp(this.labelsComboBox, true);
+            this.labelsComboBox.Size = new System.Drawing.Size(77, 21);
+            this.labelsComboBox.TabIndex = 38;
+            this.labelsComboBox.SelectedIndexChanged += new System.EventHandler(this.labelsComboBox_SelectedIndexChanged);
+            // 
+            // showTraceOutput
+            // 
+            this.showTraceOutput.AutoSize = true;
+            this.helpProvider1.SetHelpString(this.showTraceOutput, "If checked, trace output is displayed on this Tab.");
+            this.showTraceOutput.Location = new System.Drawing.Point(40, 161);
+            this.showTraceOutput.Name = "showTraceOutput";
+            this.helpProvider1.SetShowHelp(this.showTraceOutput, true);
+            this.showTraceOutput.Size = new System.Drawing.Size(89, 17);
+            this.showTraceOutput.TabIndex = 39;
+            this.showTraceOutput.Text = "Trace Output";
+            this.showTraceOutput.UseVisualStyleBackColor = true;
+            this.showTraceOutput.CheckedChanged += new System.EventHandler(this.showTraceOutput_CheckedChanged);
+            // 
             // TextOutputSettingsPage
             // 
+            this.Controls.Add(this.showTraceOutput);
+            this.Controls.Add(this.labelsComboBox);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.logLevelComboBox);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.enabledCheckBox);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.suppressLabelsIfNoOutput);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.useDefaultsButton);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.tabSelectComboBox);
-            this.Controls.Add(this.testCaseLabels);
-            this.Controls.Add(this.showLogOutput);
-            this.Controls.Add(this.showTraceOutput);
             this.Controls.Add(this.showErrorOutput);
             this.Controls.Add(this.showStandardOutput);
             this.Controls.Add(this.label2);
@@ -295,12 +290,12 @@ namespace NUnit.UiKit
 		public override void LoadSettings()
 		{
 			tabSettings.LoadSettings(settings);
-			InitializeComboBox();
+			InitializeTabSelectComboBox();
 		}
 
-		private void InitializeComboBox()
+		private void InitializeTabSelectComboBox()
 		{
-			FillComboBox();
+			FillTabSelectComboBox();
 
 			if ( this.tabSelectComboBox.Items.Count > 0 )
 			{
@@ -309,7 +304,7 @@ namespace NUnit.UiKit
 			}
 		}
 
-		private void FillComboBox()
+		private void FillTabSelectComboBox()
 		{
 			tabSelectComboBox.Items.Clear();
 
@@ -328,7 +323,7 @@ namespace NUnit.UiKit
 		private void button1_Click(object sender, System.EventArgs e)
 		{
 			tabSettings.LoadDefaults();
-			InitializeComboBox();
+			InitializeTabSelectComboBox();
 		}
 
 		private void InitDisplay(TextDisplayTabSettings.TabInfo tabInfo)
@@ -336,12 +331,11 @@ namespace NUnit.UiKit
 			textBox1.Text = tabInfo.Title;
 
 			TextDisplayContent content = tabInfo.Content;
-			showStandardOutput.Checked = (content & TextDisplayContent.Out) != 0;
-			showErrorOutput.Checked = (content & TextDisplayContent.Error) != 0;
-			showTraceOutput.Checked = (content & TextDisplayContent.Trace) != 0;
-			showLogOutput.Checked = (content & TextDisplayContent.Log) != 0;
-			testCaseLabels.Checked = (content & TextDisplayContent.Labels) != 0;
-			suppressLabelsIfNoOutput.Checked = (content & TextDisplayContent.LabelOnlyOnOutput) != 0;
+            showStandardOutput.Checked = content.Out;
+            showErrorOutput.Checked = content.Error;
+            showTraceOutput.Checked = content.Trace;
+            logLevelComboBox.SelectedIndex = (int)content.LogLevel;
+            labelsComboBox.SelectedIndex = (int)content.Labels;
 
 			enabledCheckBox.Checked = tabInfo.Enabled;
 		}
@@ -372,7 +366,7 @@ namespace NUnit.UiKit
 				this.ParentForm.Site.Container.Add( dlg );
 				if ( dlg.ShowDialog(this) == DialogResult.OK )
 				{
-					FillComboBox();
+					FillTabSelectComboBox();
 					this.tabSelectComboBox.SelectedIndex = tabSettings.Tabs.Count - 1;
 				}
 			}
@@ -385,53 +379,23 @@ namespace NUnit.UiKit
 				this.ParentForm.Site.Container.Add( dlg );
 				dlg.ShowDialog(this);
 
-				FillComboBox();
+				FillTabSelectComboBox();
 					
 				if ( tabSelectComboBox.Items.Count > 0 )
 					tabSelectComboBox.SelectedIndex = selectedTabIndex = 0;
 			}
 		}
 
-		private void testCaseLabels_CheckedChanged(object sender, System.EventArgs e)
-		{
-			suppressLabelsIfNoOutput.Enabled = testCaseLabels.Checked;
-			SetContent( TextDisplayContent.Labels, testCaseLabels.Checked );
-		}
-
-		private void suppressLabelsIfNoOutput_CheckedChanged(object sender, System.EventArgs e)
-		{
-			SetContent( TextDisplayContent.LabelOnlyOnOutput, suppressLabelsIfNoOutput.Checked );
-		}
-
-		private void SetContent( TextDisplayContent mask, bool enable )
-		{
-			int index = tabSelectComboBox.SelectedIndex;
-			if ( enable )
-				tabSettings.Tabs[index].Content |= mask;
-			else
-				tabSettings.Tabs[index].Content &= ~mask;
-		}
-
 		private void showStandardOutput_CheckedChanged(object sender, System.EventArgs e)
 		{
-			SetContent( TextDisplayContent.Out, showStandardOutput.Checked );		
-		}
+            tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Content.Out = showStandardOutput.Checked;
+        }
 
 		private void showErrorOutput_CheckedChanged(object sender, System.EventArgs e)
 		{
-			SetContent( TextDisplayContent.Error, showErrorOutput.Checked );		
-		}
+            tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Content.Error = showErrorOutput.Checked;
+        }
 
-		private void showTraceOutput_CheckedChanged(object sender, System.EventArgs e)
-		{
-			SetContent( TextDisplayContent.Trace, showTraceOutput.Checked );		
-		}
-
-		private void showLogOutput_CheckedChanged(object sender, System.EventArgs e)
-		{
-			SetContent( TextDisplayContent.Log, showLogOutput.Checked );		
-		}
-		
 		private void textBox1_TextChanged(object sender, System.EventArgs e)
 		{
 			tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Title = textBox1.Text;
@@ -441,6 +405,21 @@ namespace NUnit.UiKit
 		{
 			tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Enabled = enabledCheckBox.Checked;
 		}
+
+        private void labelsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Content.Labels = (TestLabelLevel)labelsComboBox.SelectedIndex;
+        }
+
+        private void logLevel_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Content.LogLevel = (LoggingThreshold)logLevelComboBox.SelectedIndex;
+        }
+
+        private void showTraceOutput_CheckedChanged(object sender, EventArgs e)
+        {
+            tabSettings.Tabs[tabSelectComboBox.SelectedIndex].Content.Trace = showTraceOutput.Checked;
+        }
 	}
 }
 

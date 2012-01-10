@@ -1354,6 +1354,10 @@ namespace NUnit.Gui
 				this.Invalidate();
 				this.Update();
 
+                // Set Capture options for the TestLoader
+                TestLoader.IsTracingEnabled = resultTabs.IsTracingEnabled;
+                TestLoader.LoggingThreshold = resultTabs.MaximumLogLevel;
+
 				// Load test specified on command line or
 				// the most recent one if options call for it
 				if ( guiOptions.ParameterCount != 0 )
@@ -1583,6 +1587,11 @@ namespace NUnit.Gui
 					else
 						displayMiniGui();
 			}
+            else if (args.SettingName.StartsWith("Gui.TextOutput.") && args.SettingName.EndsWith(".Content"))
+            {
+                TestLoader.IsTracingEnabled = resultTabs.IsTracingEnabled;
+                TestLoader.LoggingThreshold = resultTabs.MaximumLogLevel;
+            }
 		}
 		#endregion
 

@@ -74,7 +74,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void RunMultipleAssemblies()
 		{
-			TestResult result = domain.Run(NullListener.NULL);
+			TestResult result = domain.Run(NullListener.NULL, TestFilter.Empty, false, LoggingThreshold.Off);
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual(
 				NoNamespaceTestFixture.Tests + MockAssembly.TestsRun, 

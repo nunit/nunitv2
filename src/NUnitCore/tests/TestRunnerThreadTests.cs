@@ -6,6 +6,7 @@
 
 #if NET_3_5 || NET_4_0
 using System;
+using System.Threading;
 using NSubstitute;
 using NUnit.Framework;
 using NUnit.Core;
@@ -24,26 +25,26 @@ namespace NUnit.Core.Tests
 		public void CreateRunnerThread()
 		{
             mockRunner = Substitute.For<TestRunner>();
-			runnerThread = new TestRunnerThread( mockRunner );
+			runnerThread = new TestRunnerThread( mockRunner, ApartmentState.Unknown, ThreadPriority.Normal );
             listener = NullListener.NULL;
 		}
 
 		[Test]
 		public void RunTestSuite()
 		{
-			runnerThread.StartRun(listener, TestFilter.Empty);
+			runnerThread.StartRun(listener, TestFilter.Empty, false, LoggingThreshold.Off);
 			runnerThread.Wait();
 
-            mockRunner.Received().Run(listener, TestFilter.Empty);
+            mockRunner.Received().Run(listener, TestFilter.Empty, false, LoggingThreshold.Off);
 		}
 
         [Test]
         public void RunNamedTest()
         {
-            runnerThread.StartRun(listener, new NameFilter(TestName.Parse("SomeTest")));
+            runnerThread.StartRun(listener, new NameFilter(TestName.Parse("SomeTest")), false, LoggingThreshold.Off);
             runnerThread.Wait();
 
-            mockRunner.Received().Run(listener, Arg.Any<NameFilter>());
+            mockRunner.Received().Run(listener, Arg.Any<NameFilter>(), false, LoggingThreshold.Off);
         }
 
         [Test]
@@ -54,10 +55,10 @@ namespace NUnit.Core.Tests
             filter.Add(TestName.Parse("Test2"));
             filter.Add(TestName.Parse("Test3"));
 
-            runnerThread.StartRun(listener, filter);
+            runnerThread.StartRun(listener, filter, false, LoggingThreshold.Off);
             runnerThread.Wait();
 
-            mockRunner.Received().Run(listener, filter);
+            mockRunner.Received().Run(listener, filter, false, LoggingThreshold.Off);
         }
 	}
 }

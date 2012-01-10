@@ -68,7 +68,7 @@ namespace NUnit.Util.Tests
 		[Test]
 		public void CanRunMockAssemblyTests()
 		{
-			TestResult result = testDomain.Run( NullListener.NULL );
+			TestResult result = testDomain.Run( NullListener.NULL, TestFilter.Empty, false, LoggingThreshold.Off );
 			Assert.IsNotNull(result);
 
             ResultSummarizer summarizer = new ResultSummarizer(result);
@@ -154,7 +154,7 @@ namespace NUnit.Util.Tests
 			package.TestName = "NUnit.Tests.Assemblies.MockTestFixture";
 			testDomain.Load( package );
 
-			TestResult result = testDomain.Run( NullListener.NULL );
+			TestResult result = testDomain.Run( NullListener.NULL, TestFilter.Empty, false, LoggingThreshold.Off );
 
             ResultSummarizer summarizer = new ResultSummarizer(result);
             Assert.AreEqual(MockTestFixture.TestsRun, summarizer.TestsRun, "TestsRun");

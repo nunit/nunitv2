@@ -39,6 +39,7 @@
     <include name="TestEventArgs.cs"/>
     <include name="TestEventDispatcher.cs" if="${runtime.version >= '2.0'}"/>
     <include name="TestExceptionHandler.cs"/>
+    <include name="TestLabelLevel.cs"/>
     <include name="TestLoader.cs" if="${runtime.version >= '2.0'}"/>
     <include name="TestObserver.cs" if="${runtime.version >= '2.0'}"/>
     <include name="TestResultItem.cs" if="${runtime.version >= '2.0'}"/>

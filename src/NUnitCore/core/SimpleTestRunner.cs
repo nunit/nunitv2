@@ -134,12 +134,8 @@ namespace NUnit.Core
 		#endregion
 
 		#region Methods for Running Tests
-		public virtual TestResult Run( EventListener listener )
-		{
-			return Run( listener, TestFilter.Empty );
-		}
 
-		public virtual TestResult Run( EventListener listener, ITestFilter filter )
+		public virtual TestResult Run( EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel )
 		{
 			try
 			{
@@ -172,17 +168,12 @@ namespace NUnit.Core
 			}
 		}
 
-		public void BeginRun( EventListener listener )
-		{
-			testResult = this.Run( listener );
-		}
+        public void BeginRun(EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel)
+        {
+            testResult = this.Run(listener, filter, tracing, logLevel);
+        }
 
-		public void BeginRun( EventListener listener, ITestFilter filter )
-		{
-			testResult = this.Run( listener, filter );
-		}
-
-		public virtual TestResult EndRun()
+        public virtual TestResult EndRun()
 		{
 			return TestResult;
 		}

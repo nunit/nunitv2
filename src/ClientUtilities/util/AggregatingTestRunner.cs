@@ -241,13 +241,8 @@ namespace NUnit.Util
 		#endregion
 
 		#region Methods for Running Tests
-		public virtual TestResult Run( EventListener listener )
-		{
-			return Run( listener, TestFilter.Empty );
-		}
 
-        // All forms of Run and BeginRun eventually come here
-		public virtual TestResult Run(EventListener listener, ITestFilter filter )
+		public virtual TestResult Run(EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel)
 		{
             Log.Info("Run - EventListener={0}", listener.GetType().Name);
 
@@ -271,7 +266,7 @@ namespace NUnit.Util
             {
                 foreach (TestRunner runner in runners)
                     if (filter.Pass(runner.Test))
-                        runner.BeginRun(this, filter);
+                        runner.BeginRun(this, filter, tracing, logLevel);
 
                 result = this.EndRun();
             }
@@ -279,7 +274,7 @@ namespace NUnit.Util
             {
                 foreach (TestRunner runner in runners)
                     if (filter.Pass(runner.Test))
-                        result.AddResult(runner.Run(this, filter));
+                        result.AddResult(runner.Run(this, filter, tracing, logLevel));
             }
 			
 			long stopTime = DateTime.Now.Ticks;
@@ -293,12 +288,7 @@ namespace NUnit.Util
 			return result;
 		}
 
-		public virtual void BeginRun( EventListener listener )
-		{
-			BeginRun( listener, TestFilter.Empty );
-		}
-
-		public virtual void BeginRun( EventListener listener, ITestFilter filter )
+		public virtual void BeginRun( EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel )
 		{
 			// Save active listener for derived classes
 			this.listener = listener;
@@ -307,7 +297,7 @@ namespace NUnit.Util
 
             // ThreadedTestRunner will call our Run method on a separate thread
             ThreadedTestRunner threadedRunner = new ThreadedTestRunner(this);
-            threadedRunner.BeginRun(listener, filter);
+            threadedRunner.BeginRun(listener, filter, tracing, logLevel);
 		}
 
 		public virtual TestResult EndRun()
@@ -331,7 +321,7 @@ namespace NUnit.Util
 			foreach( TestRunner runner in runners )
 				runner.Wait();
 		}
-		#endregion
+        #endregion
 
 		#region EventListener Members
 		public void TestStarted(TestName testName)

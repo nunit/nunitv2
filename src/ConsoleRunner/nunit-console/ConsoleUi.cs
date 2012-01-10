@@ -167,7 +167,7 @@ namespace NUnit.ConsoleRunner
 
 				try
 				{
-					result = testRunner.Run( collector, testFilter );
+					result = testRunner.Run( collector, testFilter, false, LoggingThreshold.Off );
 				}
 				finally
 				{
@@ -310,6 +310,9 @@ namespace NUnit.ConsoleRunner
             package.Settings["DefaultTimeout"] = options.timeout;
             package.Settings["WorkDirectory"] = this.workDir;
             package.Settings["StopOnError"] = options.stoponerror;
+
+            if (options.apartment != System.Threading.ApartmentState.Unknown)
+                package.Settings["ApartmentState"] = options.apartment;
 
             return package;
 		}

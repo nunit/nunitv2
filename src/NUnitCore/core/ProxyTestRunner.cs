@@ -119,35 +119,22 @@ namespace NUnit.Core
 		#endregion
 
 		#region Methods for Running Tests
-		public virtual TestResult Run(EventListener listener)
-		{
-			// Save active listener for derived classes
-			this.listener = listener;
-			return this.testRunner.Run(listener);
-		}
 
-		public virtual TestResult Run(EventListener listener, ITestFilter filter)
-		{
-			// Save active listener for derived classes
-			this.listener = listener;
-			return this.testRunner.Run(listener, filter);
-		}
+        public virtual TestResult Run(EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel)
+        {
+            // Save active listener for derived classes
+            this.listener = listener;
+            return this.testRunner.Run(listener, filter, tracing, logLevel);
+        }
 
-		public virtual void BeginRun( EventListener listener )
-		{
-			// Save active listener for derived classes
-			this.listener = listener;
-			this.testRunner.BeginRun( listener );
-		}
+        public virtual void BeginRun(EventListener listener, ITestFilter filter, bool tracing, LoggingThreshold logLevel)
+        {
+            // Save active listener for derived classes
+            this.listener = listener;
+            this.testRunner.BeginRun(listener, filter, tracing, logLevel);
+        }
 
-		public virtual void BeginRun( EventListener listener, ITestFilter filter )
-		{
-			// Save active listener for derived classes
-			this.listener = listener;
-			this.testRunner.BeginRun( listener, filter );
-		}
-
-		public virtual TestResult EndRun()
+        public virtual TestResult EndRun()
 		{
 			return this.testRunner.EndRun();
 		}
@@ -161,7 +148,7 @@ namespace NUnit.Core
 		{
 			this.testRunner.Wait();
 		}
-		#endregion
+        #endregion
 
 		#region InitializeLifetimeService Override
 		public override object InitializeLifetimeService()

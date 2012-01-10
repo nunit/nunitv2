@@ -147,7 +147,7 @@ namespace NUnit.Core.Tests
 		public void RunAssembly()
 		{
 			runner.Load(package1);
-			TestResult result = runner.Run( NullListener.NULL );
+			TestResult result = runner.Run( NullListener.NULL, TestFilter.Empty, false, LoggingThreshold.Off );
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual( MockAssembly.Tests - MockAssembly.NotRun, summary.TestsRun );
 		}
@@ -156,7 +156,7 @@ namespace NUnit.Core.Tests
 		public void RunAssemblyUsingBeginAndEndRun()
 		{
 			runner.Load(package1);
-			runner.BeginRun( NullListener.NULL );
+			runner.BeginRun( NullListener.NULL, TestFilter.Empty, false, LoggingThreshold.Off );
 			TestResult result = runner.EndRun();
 			Assert.IsNotNull( result );
 			ResultSummarizer summary = new ResultSummarizer( result );
@@ -167,7 +167,7 @@ namespace NUnit.Core.Tests
 		public void RunMultipleAssemblies()
 		{
 			runner.Load( package2 );
-			TestResult result = runner.Run( NullListener.NULL );
+			TestResult result = runner.Run( NullListener.NULL, TestFilter.Empty, false, LoggingThreshold.Off );
 			ResultSummarizer summary = new ResultSummarizer(result);
 			Assert.AreEqual( 
 				NoNamespaceTestFixture.Tests + MockAssembly.Tests - MockAssembly.NotRun, 
@@ -178,7 +178,7 @@ namespace NUnit.Core.Tests
 		public void RunMultipleAssembliesUsingBeginAndEndRun()
 		{
 			runner.Load( package2 );
-			runner.BeginRun( NullListener.NULL );
+			runner.BeginRun( NullListener.NULL, TestFilter.Empty, false, LoggingThreshold.Off );
 			TestResult result = runner.EndRun();
 			Assert.IsNotNull( result );
 			ResultSummarizer summary = new ResultSummarizer( result );

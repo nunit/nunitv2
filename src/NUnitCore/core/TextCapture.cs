@@ -14,81 +14,29 @@ namespace NUnit.Core
     /// </summary>
     public abstract class TextCapture
     {
-        #region Private Fields
-        /// <summary>
-        /// True if capture is enabled
-        /// </summary>
-        private bool enabled;
-
-        /// <summary>
-        /// The TextWriter to which text is redirected
-        /// </summary>
-        private TextWriter writer;
-        #endregion
-
-        #region Properties
-        /// <summary>
-        /// The TextWriter to which text is redirected
-        /// </summary>
-        public TextWriter Writer
-        {
-            get { return writer; }
-            set
-            {
-                writer = value;
-
-                if (writer != null && enabled)
-                    StartCapture();
-            }
-        }
-
-        /// <summary>
-        /// Controls whether text is captured or not
-        /// </summary>
-        public bool Enabled
-        {
-            get { return enabled; }
-            set
-            {
-                if (enabled != value)
-                {
-                    if (writer != null && enabled)
-                        StopCapture();
-
-                    enabled = value;
-
-                    if (writer != null && enabled && DefaultThreshold != "Off")
-                        StartCapture();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns the default threshold value, which represents
-        /// the degree of verbosity of the output text stream.
-        /// Returns "None" in the base class. Derived classes that
-        /// support verbosity levels should override it.
-        /// </summary>
-        public virtual string DefaultThreshold
-        {
-            get { return "None"; }
-        }
-        #endregion
-
         #region Abstract Members
-        /// <summary>
-        /// Override this to perform whatever actions are needed
-        /// to start capturing text and sending it to the Writer.
-        /// </summary>
-        protected abstract void StartCapture();
 
         /// <summary>
-        /// Override this to perform whatever actions are needed
-        /// to flush remaining output and stop capturing text.
-        /// The Writer should not be changed, allowing capture
-        /// to be restarted at a future point.
+        /// Gets or sets the TextWriter to which text is redirected
+        /// when captured. The value may only be changed when the
+        /// logging threshold is set to "Off"
         /// </summary>
-        protected abstract void StopCapture();
+        public abstract TextWriter Writer 
+        { 
+            get; set; 
+        }
+
+        /// <summary>
+        /// Gets or sets the capture threshold value, which represents
+        /// the degree of verbosity of the output text stream. Derived
+        /// classes will need to translate the LoggingThreshold into
+        /// the appropriate levels supported by the logging software.
+        /// </summary>
+        public abstract LoggingThreshold Threshold
+        {
+            get; set;
+        }
+
         #endregion
     }
 

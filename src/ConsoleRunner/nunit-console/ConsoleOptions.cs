@@ -59,14 +59,17 @@ namespace NUnit.ConsoleRunner
         [Option(Description = "Framework version to be used for tests")]
         public string framework;
 
-		[Option(Description = "Process model for tests: Single, Separate, Multiple")]
+        [Option(Description = "Process model for tests: Single, Separate, Multiple")]
 		public ProcessModel process;
 #endif
 
 		[Option(Description = "AppDomain Usage for tests: None, Single, Multiple")]
 		public DomainUsage domain;
 
-		[Option(Description = "Disable shadow copy when running in separate domain")]
+        [Option(Description = "Apartment for running tests: MTA (Default), STA")]
+        public System.Threading.ApartmentState apartment;
+
+        [Option(Description = "Disable shadow copy when running in separate domain")]
 		public bool noshadow;
 
 		[Option (Description = "Disable use of a separate thread for tests")]

@@ -69,10 +69,7 @@ namespace NUnit.Util
 		// Reload current test
 		void ReloadTest();
 
-		// Run all tests
-		void RunTests();
-
-		// Run specific tests
+		// Run the tests
 		void RunTests( ITestFilter filter );
 
 		// Cancel the running test

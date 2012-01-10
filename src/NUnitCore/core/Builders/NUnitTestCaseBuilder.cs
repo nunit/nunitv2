@@ -24,8 +24,6 @@ namespace NUnit.Core.Builders
     /// </summary>
     public class NUnitTestCaseBuilder : ITestCaseBuilder2
 	{
-        private readonly bool allowOldStyleTests = NUnitConfiguration.AllowOldStyleTests;
-
         #region ITestCaseBuilder Methods
         /// <summary>
         /// Determines if the method can be used to build an NUnit test
@@ -50,12 +48,7 @@ namespace NUnit.Core.Builders
             return Reflect.HasAttribute(method, NUnitFramework.TestAttribute, false)
                 || Reflect.HasAttribute(method, NUnitFramework.TestCaseAttribute, false)
                 || Reflect.HasAttribute(method, NUnitFramework.TestCaseSourceAttribute, false)
-                || Reflect.HasAttribute(method, NUnitFramework.TheoryAttribute, false)
-                || allowOldStyleTests && method.Name.ToLower().StartsWith("test")
-                && !Reflect.HasAttribute(method, NUnitFramework.SetUpAttribute, true)
-                && !Reflect.HasAttribute(method, NUnitFramework.TearDownAttribute, true)
-                && !Reflect.HasAttribute(method, NUnitFramework.FixtureSetUpAttribute, true)
-                && !Reflect.HasAttribute(method, NUnitFramework.FixtureTearDownAttribute, true);
+                || Reflect.HasAttribute(method, NUnitFramework.TheoryAttribute, false);
         }
 
 		/// <summary>

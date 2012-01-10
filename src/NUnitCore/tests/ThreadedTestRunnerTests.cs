@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Threading;
 using NUnit.Framework;
 
 namespace NUnit.Core.Tests
@@ -17,7 +18,7 @@ namespace NUnit.Core.Tests
 	{
 		protected override TestRunner CreateRunner( int runnerID )
 		{
-			return new ThreadedTestRunner( new SimpleTestRunner( runnerID ) );
+			return new ThreadedTestRunner( new SimpleTestRunner( runnerID ), ApartmentState.Unknown, ThreadPriority.Normal );
 		}
 
 	}

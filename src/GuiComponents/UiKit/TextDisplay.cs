@@ -10,18 +10,6 @@ using NUnit.Core;
 
 namespace NUnit.UiKit
 {
-	[Flags]
-	public enum TextDisplayContent
-	{
-		Empty = 0,
-		Out = 1,
-		Error = 2,
-		Trace = 4,
-		Log = 8,
-		Labels = 64,
-		LabelOnlyOnOutput = 128
-	}
-
 	/// <summary>
 	/// The TextDisplay interface is implemented by object - generally
 	/// controls - that display text.

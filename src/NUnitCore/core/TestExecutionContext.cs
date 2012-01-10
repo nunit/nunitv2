@@ -47,7 +47,7 @@ namespace NUnit.Core
         /// <summary>
         /// Indicates whether logging is enabled
         /// </summary>
-        private bool logging;
+        //private bool logging;
 
         /// <summary>
         /// Destination for standard output
@@ -122,7 +122,7 @@ namespace NUnit.Core
         {
             this.prior = null;
             this.tracing = false;
-            this.logging = false;
+            //this.logging = false;
             this.outWriter = Console.Out;
             this.errorWriter = Console.Error;
             this.traceWriter = null;
@@ -143,7 +143,7 @@ namespace NUnit.Core
         {
             this.prior = other;
             this.tracing = other.tracing;
-            this.logging = other.logging;
+            //this.logging = other.logging;
             this.outWriter = other.outWriter;
             this.errorWriter = other.errorWriter;
             this.traceWriter = other.traceWriter;
@@ -197,15 +197,6 @@ namespace NUnit.Core
                         StartTracing();
                 }
             }
-        }
-
-        /// <summary>
-        /// Controls whether log output is captured
-        /// </summary>
-        public bool Logging
-        {
-            get { return logCapture.Enabled; }
-            set { logCapture.Enabled = value; }
         }
 
         /// <summary>
@@ -278,6 +269,12 @@ namespace NUnit.Core
         {
             get { return logCapture.Writer; }
             set { logCapture.Writer = value; }
+        }
+
+        public LoggingThreshold LogLevel
+        {
+            get { return logCapture.Threshold; }
+            set { logCapture.Threshold = value; }
         }
 
         private void StopTracing()

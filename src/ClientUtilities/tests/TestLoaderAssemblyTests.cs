@@ -150,7 +150,7 @@ namespace NUnit.Util.Tests
             //loader.ReloadOnRun = false;
 			
 			LoadTest( assembly );
-			loader.RunTests();
+			loader.RunTests(TestFilter.Empty);
 			do 
 			{
 				// TODO: Find a more robust way of handling this

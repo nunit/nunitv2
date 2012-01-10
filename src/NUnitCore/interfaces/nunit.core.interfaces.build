@@ -8,6 +8,7 @@
         <include name="IService.cs"/>
         <include name="ITest.cs"/>
         <include name="ITestFilter.cs"/>
+    <include name="LoggingThreshold.cs"/>
         <include name="OSPlatform.cs"/>
         <include name="PropertyNames.cs"/>
         <include name="ResultState.cs"/>

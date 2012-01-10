@@ -36,7 +36,7 @@ namespace NUnit.Util.Tests
             //TODO: This no longer appears to test anything
 			TestPackage package = new TestPackage( mockDll );
 			Assert.IsTrue( domain.Load( package ) );
-			TestResult result = domain.Run( new NullListener() );
+			TestResult result = domain.Run( new NullListener(), TestFilter.Empty, false, LoggingThreshold.Off );
 			TestResult caseResult = findCaseResult(result);
 			Assert.IsNotNull(caseResult);
             //TestResultItem item = new TestResultItem(caseResult);
@@ -49,7 +49,7 @@ namespace NUnit.Util.Tests
         {
             TestDomain domain = new TestDomain();
             domain.Load( new TestPackage( mockDll ) );
-            domain.Run(new NullListener());
+            domain.Run(new NullListener(), TestFilter.Empty, false, LoggingThreshold.Off);
             domain.Unload();
         }
 

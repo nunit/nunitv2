@@ -160,7 +160,6 @@
     <Compile Include="InvalidTestFixtureException.cs" />
     <Compile Include="LegacySuite.cs" />
     <Compile Include="Log4NetCapture.cs" />
-    <Compile Include="LogCapture.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MethodHelper.cs" />
     <Compile Include="NamespaceSuite.cs" />
