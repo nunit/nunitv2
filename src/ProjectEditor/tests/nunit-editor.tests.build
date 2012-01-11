@@ -2,6 +2,7 @@
 <project name="NUnitEditorTests" default="build" basedir=".">
 
   <patternset id="source-files">
+    <include name="Properties/AssemblyInfo.cs"/>
     <include name="FormTester.cs"/>
     <include name="NUnitProjectXml.cs"/>
     <include name="Model/AssemblyListTests.cs"/>
@@ -49,7 +50,7 @@
   </target>
 
   <target name="package">
-    <copy todir="${package.src.dir}/GuiRunner/tests">
+    <copy todir="${package.src.dir}/ProjectEditor/tests">
       <fileset>
         <patternset refid="source-files"/>
         <patternset refid="resource-files"/>

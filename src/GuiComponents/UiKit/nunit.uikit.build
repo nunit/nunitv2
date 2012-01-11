@@ -82,11 +82,7 @@
   </patternset>
 
   <patternset id="content-files">
-    <include name="Success.png"/>
-    <include name="Failure.png"/>
-    <include name="Ignored.png"/>
-    <include name="Skipped.png"/>
-    <include name="Inconclusive.png"/>
+    <include name="Images/**"/>
   </patternset>
 
   <target name="build">

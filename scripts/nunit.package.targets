@@ -447,8 +447,7 @@
     <!-- Copy lib dir files -->
     <copy todir="${package.lib.dir}">
       <fileset basedir="${project.lib.dir}">
-        <include name="*.dll"/>
-        <include name="NSubstitute.1.0.0.0/*.*"/>
+        <include name="**"/>
       </fileset>
     </copy>
 
@@ -536,11 +535,13 @@
     <include name="GuiComponents/UiKit/nunit.uikit.build" />
     <include name="GuiRunner/nunit-gui/nunit-gui.build" />
     <include name="GuiRunner/nunit-gui-exe/nunit-gui.exe.build" />
+    <include name="ProjectEditor/editor/nunit-editor.build" />
 
     <!-- GUI Tests -->
     <include name="GuiException/tests/nunit.uiexception.tests.build" />
     <include name="GuiComponents/tests/nunit.uikit.tests.build" />
     <include name="GuiRunner/tests/nunit-gui.tests.build" />
+    <include name="ProjectEditor/tests/nunit-editor.tests.build" />
 
   </fileset>
 
