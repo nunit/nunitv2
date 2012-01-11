@@ -115,6 +115,10 @@ namespace NUnit.Framework
             get { return expectedResult; }
         }
 
+        /// <summary>
+        /// Gets a flag indicating whether an expected
+        /// result has been set.
+        /// </summary>
         public bool HasExpectedResult
         {
             get { return hasExpectedResult; }

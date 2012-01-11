@@ -36,6 +36,10 @@ namespace NUnit.Core
             }
             catch (ThreadStateException)
             {
+                // This is deprecated but still needed in this case
+                // in order to kill the thread. The warning can't
+                // be disabled because the #pragma directive is not
+                // recognized by the .NET 1.1 compiler.
                 thread.Resume();
             }
 

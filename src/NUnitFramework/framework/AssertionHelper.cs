@@ -34,7 +34,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure. Works
-        /// identically to <see cref="NUnit.Framework.Assert.That(object, IResolveConstraint)"/>
+        /// identically to Assert.That
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
@@ -46,7 +46,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure. Works
-        /// identically to <see cref="NUnit.Framework.Assert.That(object, IResolveConstraint, string)"/>
+        /// identically to Assert.That.
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
@@ -59,7 +59,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Apply a constraint to an actual value, succeeding if the constraint
         /// is satisfied and throwing an assertion exception on failure. Works
-        /// identically to <see cref="NUnit.Framework.Assert.That(object, IResolveConstraint, string, object[])"/>
+        /// identically to Assert.That
         /// </summary>
         /// <param name="constraint">A Constraint to be applied</param>
         /// <param name="actual">The actual value to test</param>
@@ -188,8 +188,7 @@ namespace NUnit.Framework
         #region Boolean
         /// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>. Works Identically to 
-        /// <see cref="Assert.That(bool, string, object[])"/>.
+		/// an <see cref="AssertionException"/>. Works Identically to Assert.That.
 		/// </summary> 
 		/// <param name="condition">The evaluated condition</param>
 		/// <param name="message">The message to display if the condition is false</param>
@@ -201,8 +200,7 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>. Works Identically to 
-        /// <see cref="Assert.That(bool, string)"/>.
+		/// an <see cref="AssertionException"/>. Works Identically to Assert.That.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
 		/// <param name="message">The message to display if the condition is false</param>
@@ -213,7 +211,7 @@ namespace NUnit.Framework
 
 		/// <summary>
 		/// Asserts that a condition is true. If the condition is false the method throws
-		/// an <see cref="AssertionException"/>. Works Identically to <see cref="Assert.That(bool)"/>.
+		/// an <see cref="AssertionException"/>. Works Identically Assert.That.
 		/// </summary>
 		/// <param name="condition">The evaluated condition</param>
 		public void Expect(bool condition)

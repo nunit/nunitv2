@@ -46,8 +46,6 @@ namespace NUnit.Core
 
 		static Logger log = InternalTrace.GetLogger("RemoteTestRunner");
 
-        private TestPackage package;
-
 		#region Constructors
 		public RemoteTestRunner() : this( 0 ) { }
 
@@ -59,8 +57,6 @@ namespace NUnit.Core
 		public override bool Load(TestPackage package)
 		{
 			log.Info("Loading Test Package " + package.Name );
-
-            this.package = package;
 
 			// Initialize ExtensionHost if not already done
 			if ( !CoreExtensions.Host.Initialized )
@@ -95,8 +91,6 @@ namespace NUnit.Core
         public override void Unload()
         {
             log.Info("Unloading test package");
-
-            this.package = null;
 
             base.Unload();
         }

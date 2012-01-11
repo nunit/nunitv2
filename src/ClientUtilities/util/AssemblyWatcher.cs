@@ -25,7 +25,6 @@ namespace NUnit.Util
 
         private FileSystemWatcher[] fileWatchers;
 		private FileInfo[] files;
-		private bool isWatching;
 
 		protected System.Timers.Timer timer;
 		protected string changedAssemblyPath;
@@ -86,8 +85,6 @@ namespace NUnit.Util
             if (fileWatchers != null)
     			foreach( FileSystemWatcher watcher in fileWatchers )
 	    			watcher.EnableRaisingEvents = enable;
-
-			isWatching = enable;
 		}
 
 		public void FreeResources()
