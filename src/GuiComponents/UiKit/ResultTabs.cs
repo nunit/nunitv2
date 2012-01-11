@@ -5,7 +5,7 @@
 // ****************************************************************
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
@@ -353,7 +353,7 @@ namespace NUnit.UiKit
 		private class TextDisplayController : TestObserver
 		{
 			private TabControl tabControl;
-			ArrayList tabPages = new ArrayList();
+			List<TextDisplayTabPage> tabPages = new List<TextDisplayTabPage>();
 
 			public TextDisplayController(TabControl tabControl)
 			{			
@@ -400,8 +400,8 @@ namespace NUnit.UiKit
 			{
 				TextDisplayTabSettings tabSettings = new TextDisplayTabSettings();
 				tabSettings.LoadSettings();
-				ArrayList oldPages = tabPages;
-				tabPages = new ArrayList();
+                List <TextDisplayTabPage> oldPages = tabPages;
+				tabPages = new List<TextDisplayTabPage>();
 				Font displayFont = GetFixedFont();
 
 				foreach( TextDisplayTabSettings.TabInfo tabInfo in tabSettings.Tabs )

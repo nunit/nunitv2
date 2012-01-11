@@ -608,8 +608,7 @@ namespace NUnit.UiKit
 		{
 			if (availableList.SelectedItems.Count > 0) 
 			{
-				ArrayList categories = new ArrayList(availableList.SelectedItems);
-				foreach ( string category in categories ) 
+				foreach ( string category in availableList.SelectedItems ) 
 				{
 					selectedList.Items.Add(category);
 					availableList.Items.Remove(category);
@@ -625,8 +624,7 @@ namespace NUnit.UiKit
 		{
 			if (selectedList.SelectedItems.Count > 0) 
 			{
-				ArrayList categories = new ArrayList(selectedList.SelectedItems);
-				foreach ( string category in categories )
+				foreach ( string category in selectedList.SelectedItems )
 				{
 					selectedList.Items.Remove(category);
 					availableList.Items.Add(category);

@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Drawing;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.ComponentModel;
@@ -1275,11 +1276,11 @@ namespace NUnit.UiKit
 
     internal class FailedTestsFilterVisitor : TestSuiteTreeNodeVisitor
 	{
-		ArrayList tests = new ArrayList();
+		List<ITest> tests = new List<ITest>();
 
 		public ITest[] Tests
 		{
-			get { return (ITest[])tests.ToArray(typeof(ITest)); }
+			get { return tests.ToArray(); }
 		}
 
 		public override void Visit(TestSuiteTreeNode node)
@@ -1327,7 +1328,7 @@ namespace NUnit.UiKit
 			All = Top + Sub
 		}
 
-		private ArrayList checkedTests = new ArrayList();
+		private List<CheckedTestInfo> checkedTests = new List<CheckedTestInfo>();
 		private struct CheckedTestInfo
 		{
 			public ITest Test;

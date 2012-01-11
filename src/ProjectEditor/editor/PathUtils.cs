@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Text;
 using System.Reflection;
-using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace NUnit.ProjectEditor
@@ -92,12 +92,12 @@ namespace NUnit.ProjectEditor
 		/// </summary>
 		public static string Canonicalize( string path )
 		{
-			ArrayList parts = new ArrayList(
+			List<string> parts = new List<string>(
 				path.Split( DirectorySeparatorChar, AltDirectorySeparatorChar ) );
 
 			for( int index = 0; index < parts.Count; )
 			{
-				string part = (string)parts[index];
+				string part = parts[index];
 		
 				switch( part )
 				{
@@ -116,7 +116,7 @@ namespace NUnit.ProjectEditor
 				}
 			}
 	
-			return String.Join( DirectorySeparatorChar.ToString(), (string[])parts.ToArray( typeof( string ) ) );
+			return String.Join( DirectorySeparatorChar.ToString(), parts.ToArray() );
 		}
 
 		/// <summary>
