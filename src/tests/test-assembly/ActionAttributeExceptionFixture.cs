@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 namespace NUnit.TestData
 {
@@ -29,7 +30,7 @@ namespace NUnit.TestData
         [TearDown]
         public void TearDown()
         {
-            TearDownRun = false;
+            TearDownRun = true;
         }
 
         [ExceptionThrowingAction]
@@ -41,67 +42,39 @@ namespace NUnit.TestData
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class ExceptionThrowingActionAttribute : Attribute, ITestSuiteAction, ITestCaseAction
+    public class ExceptionThrowingActionAttribute : Attribute, ITestAction
     {
-        private static bool _ThrowBeforeSuiteException;
-        private static bool _ThrowAfterSuiteException;
-        private static bool _ThrowBeforeCaseException;
-        private static bool _ThrowAfterCaseException;
+        private static bool _ThrowBeforeException;
+        private static bool _ThrowAfterException;
 
         public static void Reset()
         {
-            ThrowBeforeSuiteException = false;
-            ThrowAfterSuiteException = false;
-            ThrowBeforeCaseException = false;
-            ThrowAfterCaseException = false;
+            ThrowBeforeException = false;
+            ThrowAfterException = false;
         }
 
-        public void BeforeTestSuite(object fixture, MethodInfo method)
+        public void BeforeTest(TestDetails testDetails)
         {
-            if (ThrowBeforeSuiteException)
-                throw new InvalidOperationException("Failure in BeforeTestSuite.");
+            if (ThrowBeforeException)
+                throw new InvalidOperationException("Failure in BeforeTest.");
         }
 
-        public void AfterTestSuite(object fixture, MethodInfo method)
+        public void AfterTest(TestDetails testDetails)
         {
-            if (ThrowAfterSuiteException)
-                throw new InvalidOperationException("Failure in AfterTestSuite.");
+            if (ThrowAfterException)
+                throw new InvalidOperationException("Failure in AfterTest.");
         }
 
-        public void BeforeTestCase(object fixture, MethodInfo method)
+        public static bool ThrowBeforeException
         {
-            if (ThrowBeforeCaseException)
-                throw new InvalidOperationException("Failure in BeforeTestCase.");
+            get { return _ThrowBeforeException; }
+            set { _ThrowBeforeException = value; }
         }
 
-        public void AfterTestCase(object fixture, MethodInfo method)
+        public static bool ThrowAfterException
         {
-            if (ThrowAfterCaseException)
-                throw new InvalidOperationException("Failure in AfterTestCase.");
-        }
-
-        public static bool ThrowBeforeSuiteException
-        {
-            get { return _ThrowBeforeSuiteException; }
-            set { _ThrowBeforeSuiteException = value; }
-        }
-
-        public static bool ThrowAfterSuiteException
-        {
-            get { return _ThrowAfterSuiteException; }
-            set { _ThrowAfterSuiteException = value; }
-        }
-
-        public static bool ThrowBeforeCaseException
-        {
-            get { return _ThrowBeforeCaseException; }
-            set { _ThrowBeforeCaseException = value; }
-        }
-
-        public static bool ThrowAfterCaseException
-        {
-            get { return _ThrowAfterCaseException; }
-            set { _ThrowAfterCaseException = value; }
+            get { return _ThrowAfterException; }
+            set { _ThrowAfterException = value; }
         }
     }
 }

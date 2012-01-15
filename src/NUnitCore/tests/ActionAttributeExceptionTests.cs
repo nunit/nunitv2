@@ -42,10 +42,10 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void BeforeTestSuiteException()
+        public void BeforeTestException()
         {
             ExceptionThrowingActionAttribute.Reset();
-            ExceptionThrowingActionAttribute.ThrowBeforeSuiteException = true;
+            ExceptionThrowingActionAttribute.ThrowBeforeException = true;
 
             ActionAttributeExceptionFixture.Reset();
 
@@ -56,38 +56,10 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
-        public void AfterTestSuiteException()
+        public void AfterTestException()
         {
             ExceptionThrowingActionAttribute.Reset();
-            ExceptionThrowingActionAttribute.ThrowAfterSuiteException = true;
-
-            ActionAttributeExceptionFixture.Reset();
-
-            TestResult result = FindFailureTestResult(RunTest());
-
-            Assert.IsTrue(result.FailureSite == FailureSite.TearDown);
-            Assert.IsTrue(ActionAttributeExceptionFixture.TestRun);
-        }
-
-        [Test]
-        public void BeforeTestCaseException()
-        {
-            ExceptionThrowingActionAttribute.Reset();
-            ExceptionThrowingActionAttribute.ThrowBeforeCaseException = true;
-
-            ActionAttributeExceptionFixture.Reset();
-
-            TestResult result = FindFailureTestResult(RunTest());
-
-            Assert.IsTrue(result.FailureSite == FailureSite.SetUp);
-            Assert.IsFalse(ActionAttributeExceptionFixture.TestRun);
-        }
-
-        [Test]
-        public void AfterTestCaseException()
-        {
-            ExceptionThrowingActionAttribute.Reset();
-            ExceptionThrowingActionAttribute.ThrowAfterCaseException = true;
+            ExceptionThrowingActionAttribute.ThrowAfterException = true;
 
             ActionAttributeExceptionFixture.Reset();
 

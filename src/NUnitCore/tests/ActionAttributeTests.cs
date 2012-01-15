@@ -65,7 +65,7 @@ namespace NUnit.Core.Tests
                 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
             }
         }
 
@@ -80,7 +80,7 @@ namespace NUnit.Core.Tests
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
             }
         }
 
@@ -94,7 +94,7 @@ namespace NUnit.Core.Tests
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
             }
         }
 
@@ -108,7 +108,7 @@ namespace NUnit.Core.Tests
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
             }
         }
 
@@ -122,7 +122,7 @@ namespace NUnit.Core.Tests
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
             }
         }
 
@@ -136,7 +136,7 @@ namespace NUnit.Core.Tests
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
             }
         }
 
@@ -150,7 +150,7 @@ namespace NUnit.Core.Tests
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
             }
         }
 
@@ -164,7 +164,7 @@ namespace NUnit.Core.Tests
 
                 Assert.IsTrue(
                     ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1}", prefix, i));
+                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
             }
         }
 

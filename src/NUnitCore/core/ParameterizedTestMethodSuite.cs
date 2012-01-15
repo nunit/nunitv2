@@ -64,7 +64,7 @@ namespace NUnit.Core
             }
 
 #if CLR_2_0 || CLR_4_0
-            this.actions = ActionsHelper.GetActionsFromAttributes(this.method);
+            this.actions = ActionsHelper.GetActionsFromAttributeProvider(this.method);
 #endif
 
             // DYNAMIC: Get the parameters, and add the methods here.
@@ -109,9 +109,10 @@ namespace NUnit.Core
 
         #if CLR_2_0 || CLR_4_0
 
-        protected override void ExecuteActions(ActionLevel level, ActionPhase phase)
+        protected override void ExecuteActions(ActionPhase phase)
         {
-            ActionsHelper.ExecuteActions(level, phase, this.actions, this.Fixture, method);
+            object testDetails = ActionsHelper.CreateTestDetails(this, this.Fixture, method);
+            ActionsHelper.ExecuteActions(phase, this.actions, testDetails);
         }
 
         #endif
