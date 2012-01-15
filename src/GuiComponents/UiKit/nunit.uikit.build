@@ -76,9 +76,9 @@
         <include name="TipWindow.resx"/>
         <include name="TreeBasedSettingsDialog.resx"/>
         <include name="UserMessage.resx"/>
-        <include name="Ellipsis.gif"/>
-        <include name="pinned.gif"/>
-        <include name="unpinned.gif"/>
+        <include name="Images/Ellipsis.gif"/>
+        <include name="Images/pinned.gif"/>
+        <include name="Images/unpinned.gif"/>
   </patternset>
 
   <patternset id="content-files">
@@ -96,7 +96,7 @@
       <nowarn>
         <warning number="1699" if="${runtime.version>='2.0'}"/>
       </nowarn>
-      <resources prefix="NUnit.UiKit">
+      <resources prefix="NUnit.UiKit" dynamicprefix="true">
         <patternset refid="resource-files"/>
       </resources>
       <references basedir="${current.lib.dir}">

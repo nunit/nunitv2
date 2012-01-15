@@ -77,7 +77,16 @@
 
           <Directory Id='bin' Name='bin'>
 
-            <Directory Id='lib' Name='lib' />
+            <Directory Id='lib' Name='lib'>
+              <Directory Id='Images' Name='Images'>
+                <Directory Id='Tree' Name='Tree'>
+                  <Directory Id='Circles' Name='Circles' />
+                  <Directory Id='Classic' Name='Classic' />
+                  <Directory Id='Default' Name='Default' />
+                  <Directory Id='VisualStudio' Name='VStudio' LongName='Visual Studio' />
+                </Directory>
+              </Directory>
+            </Directory>
             <Directory Id='addins' Name='addins' />
             <Directory Id='tests' Name='tests' />
             <Directory Id='framework' Name='FRAMEWK' LongName='framework' />
@@ -150,6 +159,10 @@
         <ComponentRef Id="nunit_x86" />
         <ComponentRef Id="nunit_gui_runner" />
         <ComponentRef Id="nunit.uikit" />
+        <ComponentRef Id="CirclesImageSet" />
+        <ComponentRef Id="ClassicImageSet" />
+        <ComponentRef Id="DefaultImageSet" />
+        <ComponentRef Id="VisualStudioImageSet" />
         <ComponentRef Id="nunit.uiexception.dll" />
         <ComponentRef Id="DllFileAssociation" />
         <ComponentRef Id="NUnitProjectFileAssociation" />

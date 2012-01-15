@@ -346,7 +346,7 @@
     <copy todir="${package.bin.dir}">
       <fileset basedir="${current.build.dir}">
         <include name="*"/>
-        <include name="lib/*"/>
+        <include name="lib/**"/>
         <include name="tests/*"/>
         <include name="framework/*"/>
         <exclude name="*.wixobj"/>

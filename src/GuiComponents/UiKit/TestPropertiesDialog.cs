@@ -185,8 +185,8 @@ namespace NUnit.UiKit
 
         private void TestPropertiesDialog_Load(object sender, System.EventArgs e)
         {
-            pinnedImage = new Bitmap(typeof(TestPropertiesDialog), "pinned.gif");
-            unpinnedImage = new Bitmap(typeof(TestPropertiesDialog), "unpinned.gif");
+            pinnedImage = new Bitmap(typeof(TestPropertiesDialog), "Images.pinned.gif");
+            unpinnedImage = new Bitmap(typeof(TestPropertiesDialog), "Images.unpinned.gif");
             pinButton.Image = unpinnedImage;
 
             if (!this.DesignMode)

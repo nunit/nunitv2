@@ -89,11 +89,6 @@
       		
       <Component Id="nunit.uikit" DiskId="1" Guid="5B256DDD-668C-4bdd-AC91-7EF0D961F6E6">
         <File Id="nunit.uikit" Name="UIKIT.DLL" LongName="nunit.uikit.dll" />
-        <File Id="skipped.png" Name="SKIPPED.PNG" LongName="skipped.png" />
-        <File Id="success.png" Name="SUCCESS.PNG" LongName="success.png" />
-        <File Id="failure.png" Name="FAILURE.PNG" LongName="failure.png" />
-        <File Id="ignored.png" Name="IGNORED.PNG" LongName="ignored.png" />
-        <File Id="inconclusive.png" Name="INCNCLSV.PNG" LongName="inconclusive.png" />
         <RemoveFile Id="RemoveThumbnails_GUI" On="uninstall" Name="*" />
       </Component>
 
@@ -101,6 +96,54 @@
         <File Id="nunit.uiexception.dll" Name="UIXCPTN.DLL" LongName="nunit.uiexception.dll" />
       </Component>
       		
+    </DirectoryRef>
+
+    <DirectoryRef Id="Circles" FileSource="bin\lib\Images\Tree\Circles">
+
+      <Component Id="CirclesImageSet" DiskId="1" Guid="90F2E35F-E65E-409d-ACE3-8A99E6D1369C">
+        <File Id="circles_skipped" Name="SKIPPED.JPG" LongName="skipped.jpg" />
+        <File Id="circles_success" Name="SUCCESS.JPG" LongName="success.jpg" />
+        <File Id="circles_failure" Name="FAILURE.JPG" LongName="failure.jpg" />
+        <File Id="circles_ignored" Name="IGNORED.JPG" LongName="ignored.jpg" />
+        <File Id="circles_inconclusive" Name="INCNCLSV.JPG" LongName="inconclusive.jpg" />
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="Classic" FileSource="bin\lib\Images\Tree\Classic">
+
+      <Component Id="ClassicImageSet" DiskId="1" Guid="A5EE8820-8209-462a-9D49-58D4CE0347C3">
+        <File Id="classic_skipped" Name="SKIPPED.JPG" LongName="skipped.jpg" />
+        <File Id="classic_success" Name="SUCCESS.JPG" LongName="success.jpg" />
+        <File Id="classic_failure" Name="FAILURE.JPG" LongName="failure.jpg" />
+        <File Id="classic_ignored" Name="IGNORED.JPG" LongName="ignored.jpg" />
+        <File Id="classic_inconclusive" Name="INCNCLSV.JPG" LongName="inconclusive.jpg" />
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="Default" FileSource="bin\lib\Images\Tree\Default">
+
+      <Component Id="DefaultImageSet" DiskId="1" Guid="76133AEB-8245-4e46-8C2D-FB9C3F0682C6">
+        <File Id="default_skipped" Name="SKIPPED.PNG" LongName="skipped.png" />
+        <File Id="default_success" Name="SUCCESS.PNG" LongName="success.png" />
+        <File Id="default_failure" Name="FAILURE.PNG" LongName="failure.png" />
+        <File Id="default_ignored" Name="IGNORED.PNG" LongName="ignored.png" />
+        <File Id="default_inconclusive" Name="INCNCLSV.PNG" LongName="inconclusive.png" />
+      </Component>
+
+    </DirectoryRef>
+
+    <DirectoryRef Id="VisualStudio" FileSource="bin\lib\Images\Tree\Visual Studio">
+
+      <Component Id="VisualStudioImageSet" DiskId="1" Guid="8143B7BB-9B4C-4b25-81B3-4FAF0F14B3EF">
+        <File Id="vs_skipped" Name="SKIPPED.PNG" LongName="skipped.png" />
+        <File Id="vs_success" Name="SUCCESS.PNG" LongName="success.png" />
+        <File Id="vs_failure" Name="FAILURE.PNG" LongName="failure.png" />
+        <File Id="vs_ignored" Name="IGNORED.PNG" LongName="ignored.png" />
+        <File Id="vs_inconclusive.png" Name="INCNCLSV.PNG" LongName="inconclusive.png" />
+      </Component>
+
     </DirectoryRef>
 
     <DirectoryRef Id="tests" FileSource="bin\tests">
