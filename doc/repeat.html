@@ -27,10 +27,19 @@
 
 <h3>RepeatAttribute (NUnit 2.5)</h3>
 
-<p><b>RepeatAttribute</b> is used on a test case to specify that it should be 
+<p><b>RepeatAttribute</b> is used on a test method to specify that it should be
    executed multiple times. If any repetition fails, the remaining ones are
    not run and a failure is reported.
+
+<p><b>Notes:</b>
+<ol>
+<li>It is not currently possible to use RepeatAttribute on a TestFixture
+    or any other type of test suite. Only single tests may be repeated.
+<li>Since a parameterized test method represents a suite, RepeatAttribute
+    is ignored when it appears on such a method.
+</ol>
    
+
 </div>
 
 <!-- Submenu -->

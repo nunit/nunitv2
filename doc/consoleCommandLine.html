@@ -264,6 +264,15 @@ but a simpler method is available.
 <p>The default is to use multiple domains if multiple assemblies are listed on 
 	the command line. Otherwise a single domain is used.</p>
 	
+<h3>Controlling the Apartment in Which Tests Run</h3>
+<p>The <b>/apartment</b> option may be used to specify the ApartmentState (STA or MTA)
+        of the test runner thread. Since the default is MTA, the option is
+        only needed to force execution in the Single Threaded Apartment.
+
+<p><b>Note:</b> If a given test must <b>always</b> run in a particular apartment,
+as is the case with many Gui tests, you should use an attribute on the test rather
+than specifying this option at the command line.
+
 <h3>Specifying a Default Timeout Value</h3>
 <p>The <b>/timeout</b> option takes an int value representing the default timeout
 to be used for test cases in this run. If any test exceeds the timeout value,
@@ -328,6 +337,8 @@ files to be created in the results directory.
 	provide improved performance.</p>
 <p>The <b>/nothread</b> option suppresses use of a separate thread for running the 
 	tests and uses the main thread instead.</p>
+<p>The <b>/stoponerror</b> option causes execution of the test run to terminate 
+        immediately on the first test failure or error.</p>
 <p>The <b>/wait</b> option causes the program to wait for user input before 
 	exiting. This is useful when running nunit-console from a shortcut.</p>
 <p>The <b>/xmlconsole</b> option displays raw XML output on the console rather than 

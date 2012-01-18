@@ -194,10 +194,10 @@ Assert.That( myObj1, Is.EqualTo( myObj2 ).Using( myComparer ) );
 <p>Prior to NUnit 2.6, only one comparer could be used. If multiple
 comparers were specified, all but one was ignored. Beginning with NUnit 2.6,
 multiple generic comparers for different types may be specified. NUnit 
-will use the appropriate comparer for any two types being compared. In addition,
-it is now possible to provide a comparer for a collection type, which will
-be used directly in comparing two collections of that type, bypassing the
-default NUnit logic for collection equality.
+will use the appropriate comparer for any two types being compared. As a result,
+it is now possible to provide a comparer for an array, a collection type or
+a dictionary. The user-provided comparer will be used directly, bypassing the
+default NUnit logic for array, collection or dictionary equality.
 
 <div class="code"><pre>
 class ListOfIntComparer : IEqualityComparer&lt;List&lt;int&gt;&gt;
