@@ -56,7 +56,7 @@ namespace NUnit.Core
 
         #region Other Framework Types
 
-        public static readonly string TestActionInterface = "NUnit.Framework.Interfaces.ITestAction, nunit.framework";
+        public static readonly string TestActionInterface = "NUnit.Framework.ITestAction, nunit.framework";
 
 	    public static readonly string TestDetailsClass = "NUnit.Framework.TestDetails, nunit.framework";
 

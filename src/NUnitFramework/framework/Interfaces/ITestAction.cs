@@ -8,7 +8,7 @@
 using System;
 using System.Reflection;
 
-namespace NUnit.Framework.Interfaces
+namespace NUnit.Framework
 {
     /// <summary>
     /// When implemented by an attribute, this interface implemented to provide actions to execute before and after tests.
@@ -27,6 +27,12 @@ namespace NUnit.Framework.Interfaces
         /// <param name="testDetails">Provides details about the test that has just been run.</param>
         void AfterTest(TestDetails testDetails);
 
+
+        /// <summary>
+        /// Provides the target for the action attribute
+        /// </summary>
+        /// <returns>The target for the action attribute</returns>
+        ActionTargets Targets { get; }
     }
 }
 #endif

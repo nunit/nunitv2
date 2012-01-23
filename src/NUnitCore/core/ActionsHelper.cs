@@ -7,6 +7,7 @@
 #if CLR_2_0 || CLR_4_0
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace NUnit.Core
@@ -14,58 +15,52 @@ namespace NUnit.Core
     internal class ActionsHelper
     {
         private static Type _ActionInterfaceType = null;
-        private static Type _TestDetailsClassType = null;
 
         static ActionsHelper()
         {
             _ActionInterfaceType = Type.GetType(NUnitFramework.TestActionInterface);
-            _TestDetailsClassType = Type.GetType(NUnitFramework.TestDetailsClass);
         }
 
-        public static void ExecuteActions(ActionPhase phase, IEnumerable actions, object testDetails)
+        public static void ExecuteActions(ActionPhase phase, IEnumerable<TestAction> actions, ITest test)
         {
             if (actions == null)
                 return;
 
-            object[] filteredActions = GetFilteredAndSortedActions(actions, phase);
+            TestAction[] filteredActions = GetFilteredAndSortedActions(actions, phase);
 
-            MethodInfo actionMethod = GetActionMethod(phase);
-            foreach (object action in filteredActions)
+            foreach (TestAction action in filteredActions)
             {
-                if (action == null)
-                    continue;
-
-                Reflect.InvokeMethod(actionMethod, action, testDetails);
+                if(phase == ActionPhase.Before)
+                    action.ExecuteBefore(test);
+                else
+                    action.ExecuteAfter(test);
             }
         }
 
-        public static object CreateTestDetails(ITest test, object fixture, MethodInfo method)
-        {
-            return Activator.CreateInstance(_TestDetailsClassType,
-                                            fixture,
-                                            method,
-                                            test.TestName.FullName,
-                                            test.TestType,
-                                            test.IsSuite);
-        }
-
-        public static object[] GetActionsFromAttributeProvider(ICustomAttributeProvider attributeProvider)
+        public static TestAction[] GetActionsFromAttributeProvider(ICustomAttributeProvider attributeProvider)
         {
             if (attributeProvider == null || _ActionInterfaceType == null)
-                return new object[0];
+                return new TestAction[0];
 
-            return attributeProvider.GetCustomAttributes(_ActionInterfaceType, false);
+            object[] targets = attributeProvider.GetCustomAttributes(_ActionInterfaceType, false);
+
+            List<TestAction> actions = new List<TestAction>();
+
+            foreach (var target in targets)
+                actions.Add(new TestAction(target));
+
+            return actions.ToArray();
         }
 
-        public static object[] GetActionsFromTypesAttributes(Type type)
+        public static TestAction[] GetActionsFromTypesAttributes(Type type)
         {
             if(type == null)
-                return new object[0];
+                return new TestAction[0];
 
             if(type == typeof(object))
-                return new object[0];
+                return new TestAction[0];
 
-            ArrayList actions = new ArrayList();
+            List<TestAction> actions = new List<TestAction>();
 
             actions.AddRange(GetActionsFromTypesAttributes(type.BaseType));
 
@@ -81,42 +76,29 @@ namespace NUnit.Core
 
         private static Type[] GetDeclaredInterfaces(Type type)
         {
-            Type[] interfaces = type.GetInterfaces();
-            Type[] baseInterfaces = new Type[0];
+            List<Type> interfaces = new List<Type>(type.GetInterfaces());
 
-            if (type.BaseType != typeof(object))
-                return interfaces;
+            if (type.BaseType == typeof(object))
+                return interfaces.ToArray();
 
-            ArrayList declaredInterfaces = new ArrayList();
+            List<Type> baseInterfaces = new List<Type>(type.BaseType.GetInterfaces());
+            List<Type> declaredInterfaces = new List<Type>();
+
             foreach (Type interfaceType in interfaces)
             {
-                if (Array.IndexOf(baseInterfaces, interfaceType) < 0)
+                if (!baseInterfaces.Contains(interfaceType))
                     declaredInterfaces.Add(interfaceType);
             }
 
-            return (Type[])declaredInterfaces.ToArray(typeof(Type));
+            return declaredInterfaces.ToArray();
         }
 
-        private static object[] GetFilteredAndSortedActions(IEnumerable actions, ActionPhase phase)
+        private static TestAction[] GetFilteredAndSortedActions(IEnumerable<TestAction> actions, ActionPhase phase)
         {
-            ArrayList filteredActions = new ArrayList();
-            foreach(object actionItem in actions)
+            List<TestAction> filteredActions = new List<TestAction>();
+            foreach (TestAction actionItem in actions)
             {
-                if(actionItem == null)
-                    continue;
-
-                if(actionItem is IEnumerable)
-                {
-                    foreach(object nestedItem in ((IEnumerable)actionItem))
-                    {
-                        if(nestedItem == null)
-                            continue;
-
-                        if (_ActionInterfaceType.IsAssignableFrom(nestedItem.GetType()) && filteredActions.Contains(nestedItem) != true)
-                            filteredActions.Add(nestedItem);
-                    }
-                }
-                else if (_ActionInterfaceType.IsAssignableFrom(actionItem.GetType()) && filteredActions.Contains(actionItem) != true)
+                if (filteredActions.Contains(actionItem) != true)
                     filteredActions.Add(actionItem);
             }
 
@@ -125,12 +107,6 @@ namespace NUnit.Core
 
             return filteredActions.ToArray();
         }
-
-        private static MethodInfo GetActionMethod(ActionPhase phase)
-        {
-            return Reflect.GetNamedMethod(_ActionInterfaceType, phase == ActionPhase.Before ? "BeforeTest" : "AfterTest");
-        }
-
     }
 
     public enum ActionPhase

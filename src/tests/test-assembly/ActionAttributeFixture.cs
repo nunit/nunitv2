@@ -4,7 +4,6 @@ using System.Collections.Specialized;
 using NUnit.Framework;
 using System.Diagnostics;
 using System.Reflection;
-using NUnit.Framework.Interfaces;
 using NUnit.TestData.ActionAttributeTests;
 
 [assembly: SampleAction("Assembly")]
@@ -36,6 +35,7 @@ namespace NUnit.TestData.ActionAttributeTests
         StringCollection IWithAction.Results { get { return Results; } }
 
         [Test, TestCase("SomeTest-Case1"), TestCase("SomeTest-Case2")]
+        [SampleAction("ParameterizedMethodSuite", ActionTargets.Suite)]
         [SampleAction("Method")]
         public void SomeTest(string message)
         {
@@ -43,11 +43,10 @@ namespace NUnit.TestData.ActionAttributeTests
         }
 
         [Test]
-        public void SomeOtherTest()
+        public void SomeTestNotParameterized()
         {
-            ((IWithAction)this).Results.Add("SomeOtherTest");
+            ((IWithAction)this).Results.Add("SomeTestNotParameterized");
         }
-
     }
 
     [SampleAction("BaseFixture")]
@@ -56,7 +55,7 @@ namespace NUnit.TestData.ActionAttributeTests
     }
 
     [SampleAction("Interface")]
-    public interface IWithAction : IBaseWithAction
+    public interface IWithAction
     {
         StringCollection Results { get; }
     }
@@ -66,24 +65,35 @@ namespace NUnit.TestData.ActionAttributeTests
     {
     }
 
-    [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method | AttributeTargets.Module, AllowMultiple = true, Inherited = true)]
-    public class SampleActionAttribute : Attribute, ITestAction
+    public class SampleActionAttribute : TestActionAttribute
     {
-        private string _Prefix = null;
+        private readonly string _Prefix = null;
+        private readonly ActionTargets _Targets = ActionTargets.Site;
 
         public SampleActionAttribute(string prefix)
         {
             _Prefix = prefix;
         }
 
-        void ITestAction.BeforeTest(TestDetails testDetails)
+        public SampleActionAttribute(string prefix, ActionTargets targets)
+        {
+            _Prefix = prefix;
+            _Targets = targets;
+        }
+
+        public override void BeforeTest(TestDetails testDetails)
         {
             AddResult("Before", testDetails);
         }
 
-        void ITestAction.AfterTest(TestDetails testDetails)
+        public override void AfterTest(TestDetails testDetails)
         {
             AddResult("After", testDetails);
+        }
+
+        public override ActionTargets Targets
+        {
+            get { return _Targets; }
         }
 
         private void AddResult(string phase, TestDetails testDetails)

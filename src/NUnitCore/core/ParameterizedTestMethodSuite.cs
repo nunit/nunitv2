@@ -4,6 +4,9 @@
 // obtain a copy of the license at http://nunit.org.
 // ****************************************************************
 using System.Collections;
+#if CLR_2_0 || CLR_4_0
+using System.Collections.Generic;
+#endif
 using System.Reflection;
 using System.Text;
 
@@ -107,15 +110,22 @@ namespace NUnit.Core
         {
         }
 
-        #if CLR_2_0 || CLR_4_0
-
+#if CLR_2_0 || CLR_4_0
         protected override void ExecuteActions(ActionPhase phase)
         {
-            object testDetails = ActionsHelper.CreateTestDetails(this, this.Fixture, method);
-            ActionsHelper.ExecuteActions(phase, this.actions, testDetails);
+            List<TestAction> targetActions = new List<TestAction>();
+
+            if (this.actions != null)
+            {
+                foreach (var action in this.actions)
+                {
+                    if (action.DoesTarget(TestAction.TargetsSuite))
+                        targetActions.Add(action);
+                }
+            }
+
+            ActionsHelper.ExecuteActions(phase, targetActions, this);
         }
-
-        #endif
-
+#endif
     }
 }
