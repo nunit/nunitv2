@@ -5,8 +5,8 @@
 // ****************************************************************
 
 using System;
+using System.IO;
 using System.Reflection;
-using System.Diagnostics;
 
 namespace NUnit.Core
 {
@@ -140,6 +140,11 @@ namespace NUnit.Core
             AssemblyResolver resolver = new AssemblyResolver();
             resolver.AddDirectory(NUnitConfiguration.NUnitLibDirectory);
             resolver.AddDirectory(NUnitConfiguration.AddinDirectory);
+						
+			// TODO: Temporary additions till we resolve a problem with pnunit
+			string binDir = NUnitConfiguration.NUnitBinDirectory;
+			resolver.AddFile (Path.Combine(binDir, "pnunit.framework.dll"));
+			resolver.AddFile (Path.Combine(binDir, "pnunit-agent.exe"));
         }
 
         void OnDomainUnload(object sender, EventArgs e)

@@ -1,75 +1,128 @@
-<!-- saved from url=(0014)about:internet -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
-
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
 <html>
-
 <!-- Standard Head Part -->
-
 <head>
-
 <title>NUnit - ReleaseNotes</title>
-
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-
 <meta http-equiv="Content-Language" content="en-US">
-
 <meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
-
 <link rel="stylesheet" type="text/css" href="nunit.css">
-
 <link rel="shortcut icon" href="favicon.ico">
-
 </head>
-
 <!-- End Standard Head Part -->
-
-
 
 <body>
 
-
-
 <!-- Standard Header for NUnit.org -->
-
 <div id="header">
-
   <a id="logo" href="http://www.nunit.org"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
-
   <div id="nav">
     <a href="http://www.nunit.org">NUnit</a>
     <a class="active" href="index.html">Documentation</a>
   </div>
-
 </div>
-
 <!-- End of Header -->
-
-
 
 <div id="content">
 
-
-
 <style><!--
-
 li { padding-bottom: .5em; }
-
 ul ul li { padding-bottom: 0; }
-
 dt { font-weight: bold }
-
 --></style>
-
-
 
 <h2>Release Notes</h2>
 
+<!--
+<div style="max-width:660px;text-align:right">
+<a href="releaseBreakdown.html">View Changes Separately for Each 2.6 Pre-Release</a>
+</div>
+-->
 
 <style><!--
 li { padding-bottom: .5em; }
 ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
+
+<h3>NUnit 2.6 Beta 4 - Version 2.6.0.12017 - January 17, 2012</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>NUnit no longer stores settings in the test configuration file, as it
+    did in earlier versions. Specifically, we no longer recognize or support 
+    OldStyleTestCases, ApartmentState, ThreadPriority or DefaultLogThreshold 
+    in the configuration file. Further details on each of these features are 
+    included in the appropriate sections below.
+<li>The TestRunner interface has been modified. Applications using this
+    interface will need to be modified but general users are not effected.
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li>User-defined equality comparers specified with the <b>Using</b> syntax 
+    element may now be used with arrays and dictionaries. Essentially, this 
+    means that there are no longer any restrictions on the Types for which a 
+    user-defined equality comparer may be specified.
+<li>So-called "old-style" tests, identified by having a name beginning with
+    "Test" are no longer supported in NUnit 2.6.
+<li>Setting a ThreadPriority for the test runner thread is no longer supported
+    under NUnit 2.6.
+</ul>
+
+<h4>Console</h4>
+<ul>
+<li>The following new command-line options are provided:
+  <ul>
+    <li><b>-stoponerror</b> causes execution of the test run to terminate 
+        immediately on the first test failure or error.
+    <li><b>-apartment</b> is used to specify the ApartmentState (STA or MTA)
+        of the test runner thread. Since the default is MTA, the option is
+        only needed to force execution in the Single Threaded Apartment.
+  </ul>
+</ul>
+
+<h4>Gui</h4>
+
+<ul>
+<li>A number of new settings are available using the <b>Settings Dialog</b>:
+  <ul>
+  <li>The <b>Tree Display</b> page allows the user to select alternate image sets for 
+      use in the test tree. Additional user-provided image sets may be added if desired.
+  <li>The <b>Text Output</b> page allows setting the threshold for capture and display 
+      of log4net output (previously controlled by the test config file).
+  </ul>
+<li>By default, test Cases under a Theory that fail an assumption are no longer shown in the tree.
+    A context menu item has been added to allow the user to view them.
+<li>The properties dialog has been redesigned to be more compact and readable.
+<li>The context menu for the test tree has been simplified.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>605034 	Log4net not working with NUnit
+<li>708173 	NUnit's logic for comparing arrays - use Comparer&lt;T[]&gt; if it is provided
+<li>719184 	Platformdependency in src/ClientUtilities/util/Services/DomainManager.cs:40
+<li>761579 	Tests using log4net run very slowly
+<li>848713 	Feature request: Add switch for console to break on any test case error
+<li>882192 	Ignored test icon should be more prominent
+<li>885173 	Tests are still executed after cancellation by user
+<li>896615 	Tests can't be run in existing AppDomain
+<li>897289 	Is.Empty constraint has unclear failure message
+<li>899178 	Wrong failure message for parameterized tests that expect exceptions
+<li>902305 	Gui should not normally display Inconclusive test cases for a Theory
+<li>902343 	Gui 'Hide Tests' function no longer works
+<li>903078 	DomainUsage.None setting crashes nunit-gui
+<li>903080 	Test tree context menu needs to be simplified
+<li>904841 	After exiting for timeout the teardown method is not executed
+<li>907270 	Gui enables run when the assembly specified on the command line is not found
+<li>908829 	TestCase attribute does not play well with variadic test functions
+<li>910218 	NUnit should add a trailing separator to the ApplicationBase
+<li>912955 	Project files missing in source code package
+</ul>
 
 <h3>NUnit 2.6 Beta 3 - Version 2.6.0.11340 - December 6, 2011</h3>
 
@@ -165,6 +218,8 @@ as greater than zero, and <b>Is.Negative</b>, which is interpreted as less than 
   <li>The <b>Internal Trace</b> page now shows the directory path to which log files
       will be saved.
   </ul>
+<li>The location of the settings dialog under the Windows AppData directory has been 
+    changed from Roaming to Local. Users will need to reset their preferences in some cases.
 </ul>
 
 <h4>Bug Fixes</h4>

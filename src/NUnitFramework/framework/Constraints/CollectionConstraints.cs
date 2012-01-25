@@ -44,9 +44,12 @@ namespace NUnit.Framework.Constraints
 			ICollection collection = enumerable as ICollection;
 			if ( collection != null )
 				return collection.Count == 0;
-			else
-				return !enumerable.GetEnumerator().MoveNext();
-		}
+
+            foreach (object o in enumerable)
+                return false;
+
+            return true;
+        }
 
 		/// <summary>
 		/// Test whether the constraint is satisfied by a given value
