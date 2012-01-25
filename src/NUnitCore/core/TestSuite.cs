@@ -4,6 +4,7 @@
 // copyright ownership at http://nunit.org.
 // ****************************************************************
 
+
 namespace NUnit.Core
 {
 	using System;
@@ -12,6 +13,10 @@ namespace NUnit.Core
 	using System.Collections;
 	using System.Reflection;
 	using NUnit.Core.Filters;
+
+#if CLR_2_0 || CLR_4_0
+    using System.Collections.Generic;
+#endif
 
 	/// <summary>
 	/// Summary description for TestSuite.
@@ -52,7 +57,7 @@ namespace NUnit.Core
         /// <summary>
         /// The actions for this suite
         /// </summary>
-	    protected object[] actions;
+	    protected TestAction[] actions;
 #endif
 
         /// <summary>
@@ -196,13 +201,13 @@ namespace NUnit.Core
         }
 
 #if CLR_2_0 || CLR_4_0
-        internal virtual object[] GetTestActions()
+        internal virtual TestAction[] GetTestActions()
         {
-            ArrayList allActions = new ArrayList();
+            List<TestAction> allActions = new List<TestAction>();
 
             if (this.Parent != null && this.Parent is TestSuite)
             {
-                object[] parentActions = ((TestSuite)this.Parent).GetTestActions();
+                TestAction[] parentActions = ((TestSuite)this.Parent).GetTestActions();
 
                 if (parentActions != null)
                     allActions.AddRange(parentActions);
@@ -380,8 +385,18 @@ namespace NUnit.Core
 
         protected virtual void ExecuteActions(ActionPhase phase)
         {
-            object testDetails = ActionsHelper.CreateTestDetails(this, this.Fixture, null);
-            ActionsHelper.ExecuteActions(phase, this.actions, testDetails);
+            List<TestAction> targetActions = new List<TestAction>();
+
+            if (this.actions != null)
+            {
+                foreach (var action in this.actions)
+                {
+                    if (action.DoesTarget(TestAction.TargetsSite) || action.DoesTarget(TestAction.TargetsSuite))
+                        targetActions.Add(action);
+                }
+            }
+
+            ActionsHelper.ExecuteActions(phase, targetActions, this);
         }
 
         protected virtual void DoOneTimeBeforeTestSuiteActions(TestResult suiteResult)

@@ -76,6 +76,7 @@
     <Compile Include="Assert.cs" />
     <Compile Include="AssertionHelper.cs" />
     <Compile Include="Assume.cs" />
+    <Compile Include="ActionTargets.cs" />
     <Compile Include="Attributes\CategoryAttribute.cs" />
     <Compile Include="Attributes\DatapointAttributes.cs" />
     <Compile Include="Attributes\DescriptionAttribute.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Attributes\SetUpFixtureAttribute.cs" />
     <Compile Include="Attributes\SuiteAttribute.cs" />
     <Compile Include="Attributes\TearDownAttribute.cs" />
+    <Compile Include="Attributes\TestActionAttribute.cs" />
     <Compile Include="Attributes\TestAttribute.cs" />
     <Compile Include="Attributes\TestCaseAttribute.cs" />
     <Compile Include="Attributes\TestCaseSourceAttribute.cs" />

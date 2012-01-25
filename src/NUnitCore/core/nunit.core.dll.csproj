@@ -183,6 +183,7 @@
     <Compile Include="SimpleTestRunner.cs" />
     <Compile Include="StringTextWriter.cs" />
     <Compile Include="SuiteBuilderAttribute.cs" />
+    <Compile Include="TestAction.cs" />
     <Compile Include="TestAssembly.cs" />
     <Compile Include="TestBuilderAttribute.cs" />
     <Compile Include="TestCaseBuilderAttribute.cs" />

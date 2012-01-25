@@ -3,6 +3,7 @@
 // may obtain a copy of the license as well as information regarding
 // copyright ownership at http://nunit.org.
 // ****************************************************************
+
 namespace NUnit.Core
 {
 	using System;
@@ -12,6 +13,10 @@ namespace NUnit.Core
 	using System.Text;
 	using System.Text.RegularExpressions;
 	using System.Reflection;
+
+#if CLR_2_0 || CLR_4_0
+    using System.Collections.Generic;
+#endif
 
 	/// <summary>
 	/// The TestMethod class represents a Test implemented as a method.
@@ -47,12 +52,12 @@ namespace NUnit.Core
         /// <summary>
         /// The actions
         /// </summary>
-	    protected object[] actions;
+	    protected TestAction[] actions;
 
         /// <summary>
         /// The parent suite's actions
         /// </summary>
-	    protected object[] suiteActions;
+        protected TestAction[] suiteActions;
 #endif
 
         /// <summary>
@@ -381,10 +386,27 @@ namespace NUnit.Core
 
         protected virtual void ExecuteActions(ActionPhase phase)
         {
-            object testDetails = ActionsHelper.CreateTestDetails(this, this.Fixture, this.Method);
+            List<TestAction> targetActions = new List<TestAction>();
 
-            object[][] targetActions = new object[][] { this.suiteActions, this.actions };
-            ActionsHelper.ExecuteActions(phase, targetActions, testDetails);
+            if (this.suiteActions != null)
+            {
+                foreach (var action in this.suiteActions)
+                {
+                    if(action.DoesTarget(TestAction.TargetsTest))
+                        targetActions.Add(action);
+                }
+            }
+
+            if (this.actions != null)
+            {
+                foreach (var action in this.actions)
+                {
+                    if (action.DoesTarget(TestAction.TargetsSite) || action.DoesTarget(TestAction.TargetsTest))
+                        targetActions.Add(action);
+                }
+            }
+
+            ActionsHelper.ExecuteActions(phase, targetActions, this);
         }
 
         private void RunBeforeActions(TestResult testResult)

@@ -2,7 +2,6 @@
 using System;
 using System.Reflection;
 using NUnit.Framework;
-using NUnit.Framework.Interfaces;
 
 namespace NUnit.TestData
 {
@@ -42,7 +41,7 @@ namespace NUnit.TestData
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class ExceptionThrowingActionAttribute : Attribute, ITestAction
+    public class ExceptionThrowingActionAttribute : TestActionAttribute
     {
         private static bool _ThrowBeforeException;
         private static bool _ThrowAfterException;
@@ -53,13 +52,13 @@ namespace NUnit.TestData
             ThrowAfterException = false;
         }
 
-        public void BeforeTest(TestDetails testDetails)
+        public override void BeforeTest(TestDetails testDetails)
         {
             if (ThrowBeforeException)
                 throw new InvalidOperationException("Failure in BeforeTest.");
         }
 
-        public void AfterTest(TestDetails testDetails)
+        public override void AfterTest(TestDetails testDetails)
         {
             if (ThrowAfterException)
                 throw new InvalidOperationException("Failure in AfterTest.");
