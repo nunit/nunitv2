@@ -319,11 +319,27 @@ namespace NUnit.Core
         }
 
         /// <summary>
+        /// Return true if the platform is Windows 2012 Server
+        /// </summary>
+        public bool IsWin2012Server
+        {
+            get { return IsNT6 && version.Minor == 2 && Product == ProductType.Server; }
+        }
+
+        /// <summary>
         /// Return true if the platform is Windows 7
         /// </summary>
         public bool IsWindows7
         {
             get { return IsNT6 && version.Minor == 1 && Product == ProductType.WorkStation; }
+        }
+
+        /// <summary>
+        /// Return true if the platform is Windows 8
+        /// </summary>
+        public bool IsWindows8
+        {
+            get { return IsNT6 && version.Minor == 2 && Product == ProductType.WorkStation; }
         }
     }
 }
