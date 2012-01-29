@@ -402,7 +402,7 @@ namespace NUnit.Core
                 foreach (var action in this.actions)
                 {
                     
-                    if (action.DoesTarget(TestAction.TargetsSite) || (!(Parent is ParameterizedMethodSuite) && action.DoesTarget(TestAction.TargetsTest)))
+                    if (action.DoesTarget(TestAction.TargetsDefault) || (!(Parent is ParameterizedMethodSuite) && action.DoesTarget(TestAction.TargetsTest)))
                         targetActions.Add(action);
                 }
             }

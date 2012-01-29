@@ -86,7 +86,7 @@ namespace NUnit.TestData.ActionAttributeTests
     public class SampleActionAttribute : TestActionAttribute
     {
         private readonly string _Prefix = null;
-        private readonly ActionTargets _Targets = ActionTargets.Site;
+        private readonly ActionTargets _Targets = ActionTargets.Default;
 
         public SampleActionAttribute(string prefix)
         {

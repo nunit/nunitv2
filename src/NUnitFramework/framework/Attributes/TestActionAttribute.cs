@@ -16,7 +16,7 @@ namespace NUnit.Framework
         
         public virtual ActionTargets Targets
         {
-            get { return ActionTargets.Site; }
+            get { return ActionTargets.Default; }
         }
     }
 }

@@ -391,7 +391,7 @@ namespace NUnit.Core
             {
                 foreach (var action in this.actions)
                 {
-                    if (action.DoesTarget(TestAction.TargetsSite) || action.DoesTarget(TestAction.TargetsSuite))
+                    if (action.DoesTarget(TestAction.TargetsSuite) || action.DoesTarget(TestAction.TargetsDefault))
                         targetActions.Add(action);
                 }
             }
