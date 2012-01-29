@@ -1,66 +1,84 @@
 ﻿#if CLR_2_0 || CLR_4_0
 using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using NUnit.Framework;
 using System.Diagnostics;
 using System.Reflection;
 using NUnit.TestData.ActionAttributeTests;
 
-[assembly: SampleAction("Assembly")]
+[assembly: SampleAction("AssemblySuite", ActionTargets.Suite)]
+[assembly: SampleAction("AssemblyTest", ActionTargets.Test)]
+[assembly: SampleAction("AssemblySite")]
 
 namespace NUnit.TestData.ActionAttributeTests
 {
     [SetUpFixture]
-    [SampleAction("SetUpFixture")]
+    [SampleAction("SetupFixtureSuite", ActionTargets.Suite)]
+    [SampleAction("SetupFixtureTest", ActionTargets.Test)]
+    [SampleAction("SetupFixtureSite")]
     public class SetupFixture : BaseSetupFixture
     {
     }
 
-    [SampleAction("BaseSetUpFixture")]
+    [SampleAction("BaseSetupFixtureSuite", ActionTargets.Suite)]
+    [SampleAction("BaseSetupFixtureTest", ActionTargets.Test)]
+    [SampleAction("BaseSetupFixtureSite")]
     public abstract class BaseSetupFixture
     {
     }
 
     [TestFixture]
-    [SampleAction("Fixture")]
+    [SampleAction("FixtureSuite", ActionTargets.Suite)]
+    [SampleAction("FixtureTest", ActionTargets.Test)]
+    [SampleAction("FixtureSite")]
     public class ActionAttributeFixture : BaseActionAttributeFixture, IWithAction
     {
-        private static StringCollection _Results = null;
-        public static StringCollection Results
+        private static List<string> _Results = null;
+        public static List<string> Results
         {
             get { return _Results; }
             set { _Results = value; }
         }
 
-        StringCollection IWithAction.Results { get { return Results; } }
+        List<string> IWithAction.Results { get { return Results; } }
 
         [Test, TestCase("SomeTest-Case1"), TestCase("SomeTest-Case2")]
-        [SampleAction("ParameterizedMethodSuite", ActionTargets.Suite)]
-        [SampleAction("Method")]
+        [SampleAction("ParameterizedSuite", ActionTargets.Suite)]
+        [SampleAction("ParameterizedTest", ActionTargets.Test)]
+        [SampleAction("ParameterizedSite")]
         public void SomeTest(string message)
         {
             ((IWithAction)this).Results.Add(message);
         }
 
         [Test]
+        [SampleAction("MethodSuite", ActionTargets.Suite)] // should never get invoked
+        [SampleAction("MethodTest", ActionTargets.Test)]
+        [SampleAction("MethodSite")]
         public void SomeTestNotParameterized()
         {
             ((IWithAction)this).Results.Add("SomeTestNotParameterized");
         }
     }
 
-    [SampleAction("BaseFixture")]
+    [SampleAction("BaseFixtureSuite", ActionTargets.Suite)]
+    [SampleAction("BaseFixtureTest", ActionTargets.Test)]
+    [SampleAction("BaseFixtureSite")]
     public abstract class BaseActionAttributeFixture : IBaseWithAction
     {
     }
 
-    [SampleAction("Interface")]
+    [SampleAction("InterfaceSuite", ActionTargets.Suite)]
+    [SampleAction("InterfaceTest", ActionTargets.Test)]
+    [SampleAction("InterfaceSite")]
     public interface IWithAction
     {
-        StringCollection Results { get; }
+        List<string> Results { get; }
     }
 
-    [SampleAction("BaseInterface")]
+    [SampleAction("BaseInterfaceSuite", ActionTargets.Suite)]
+    [SampleAction("BaseInterfaceTest", ActionTargets.Test)]
+    [SampleAction("BaseInterfaceSite")]
     public interface IBaseWithAction
     {
     }
@@ -98,11 +116,11 @@ namespace NUnit.TestData.ActionAttributeTests
 
         private void AddResult(string phase, TestDetails testDetails)
         {
-            string message = string.Format("{0}.{1}-{2}" + (testDetails.Method != null ? "-{3}" : ""),
+            string message = string.Format("{0}.{1}.{2}.{3}",
                                            _Prefix,
-                                           phase + testDetails.Type,
-                                           testDetails.Fixture == null ? "{no-fixture}" : testDetails.Fixture.GetType().Name,
-                                           testDetails.Method != null ? testDetails.Method.Name : "");
+                                           phase,
+                                           testDetails.Fixture != null ? "true" : "false",
+                                           testDetails.Method != null ? "true" : "false");
 
             if(ActionAttributeFixture.Results != null)
                 ActionAttributeFixture.Results.Add(message);

@@ -76,6 +76,8 @@ namespace NUnit.Core
         {
             return (_Targets & target) == target && _Targets != 0;
         }
+
+        public int Targets { get { return _Targets; } }
     }
 }
 #endif
