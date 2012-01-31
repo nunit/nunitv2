@@ -54,6 +54,15 @@
 
       <Component Id="nunit_editor.exe">
         <File Id="nunit_editor.exe" Name="nunit-editor.exe" />
+        <RegistryValue Root="HKCR"
+                       Key="NUnitTestProject\shell\Edit"
+                       Action="write" Type="string"
+                       Value="&amp;Edit" />
+        <RegistryValue Root="HKCR"
+                       Key="NUnitTestProject\shell\Edit\command"
+                       Action="write"
+                       Type="string"
+                     Value="&quot;[#nunit_editor.exe]&quot; &quot;%1&quot;" />
       </Component>
 
     </DirectoryRef>
