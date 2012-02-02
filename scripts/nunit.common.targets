@@ -53,6 +53,9 @@
   <!-- Options for runing the NUnit tests -->
   <property name="nunit.options" value=""/>
 
+  <!-- Options for running light to create the msi -->
+  <property name="light.suppressices" value=""/>
+
 <!-- ***************************************************************** -->
 <!-- **********Set Properties used by Various targets **************** -->
 <!-- ***************************************************************** -->

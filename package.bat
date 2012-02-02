@@ -10,6 +10,7 @@ set CONFIG=
 set RUNTIME=
 set COMMANDS=
 set PASSTHRU=
+set CHECK=
 goto start
 
 :shift
@@ -40,6 +41,8 @@ IF /I "%1" EQU "mono-2.0" set RUNTIME=mono-2.0&goto shift
 IF /I "%1" EQU "mono-3.5" set RUNTIME=mono-3.5&goto shift
 IF /I "%1" EQU "mono-4.0" set RUNTIME=mono-4.0&goto shift
 
+IF /I "%1" EQU "check" set CHECK=1&goto shift
+
 IF /I "%1" EQU "all"	set COMMANDS=%COMMANDS% package-all&goto shift
 IF /I "%1" EQU "docs"	set COMMANDS=%COMMANDS% package-docs&goto shift
 IF /I "%1" EQU "source"	set COMMANDS=%COMMANDS% package-src&goto shift
@@ -60,6 +63,7 @@ goto done
 
 IF "%CONFIG%" NEQ "" set OPTIONS=%OPTIONS% -D:build.config=%CONFIG%
 IF "%RUNTIME%" NEQ "" set OPTIONS=%OPTIONS% -D:runtime.config=%RUNTIME%
+IF "%CHECK%" EQU "" set OPTIONS=%OPTIONS% -D:light.suppressices=ICE69
 
 if "%COMMANDS%" EQU "" set COMMANDS=package
 
@@ -93,6 +97,9 @@ echo   docs           Builds the documentation package
 echo   zip            Builds a binary package in zipped form
 echo   msi            Builds a windows installer (msi) package
 echo   all            Builds source, documentation, 3.5 and 1.1 packages
+echo.
+echo   check          Causes all ICE verifications to run when building
+echo                  the msi, including those normally suppressed.
 echo.
 echo   ?, /h, /help   Displays this help message
 echo.
