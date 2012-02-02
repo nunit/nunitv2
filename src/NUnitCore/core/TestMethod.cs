@@ -3,6 +3,7 @@
 // may obtain a copy of the license as well as information regarding
 // copyright ownership at http://nunit.org.
 // ****************************************************************
+//#define DEFAULT_APPLIES_TO_TESTCASE
 
 namespace NUnit.Core
 {
@@ -401,8 +402,11 @@ namespace NUnit.Core
             {
                 foreach (var action in this.actions)
                 {
-                    
+#if DEFAULT_APPLIES_TO_TESTCASE
+                    if (!(Parent is ParameterizedMethodSuite) && (action.DoesTarget(TestAction.TargetsDefault) || action.DoesTarget(TestAction.TargetsTest)))
+#else
                     if (action.DoesTarget(TestAction.TargetsDefault) || (!(Parent is ParameterizedMethodSuite) && action.DoesTarget(TestAction.TargetsTest)))
+#endif
                         targetActions.Add(action);
                 }
             }

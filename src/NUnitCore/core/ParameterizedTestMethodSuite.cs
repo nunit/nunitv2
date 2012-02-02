@@ -3,6 +3,7 @@
 // This is free software licensed under the NUnit license. You may
 // obtain a copy of the license at http://nunit.org.
 // ****************************************************************
+//#define DEFAULT_APPLIES_TO_TESTCASE
 using System.Collections;
 #if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
@@ -111,6 +112,7 @@ namespace NUnit.Core
         }
 
 #if CLR_2_0 || CLR_4_0
+#if !DEFAULT_APPLIES_TO_TESTCASE
         protected override void ExecuteActions(ActionPhase phase)
         {
             List<TestAction> targetActions = new List<TestAction>();
@@ -126,6 +128,7 @@ namespace NUnit.Core
 
             ActionsHelper.ExecuteActions(phase, targetActions, this);
         }
+#endif
 #endif
     }
 }

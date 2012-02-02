@@ -1,3 +1,10 @@
+// ****************************************************************
+// Copyright 2012, Charlie Poole
+// This is free software licensed under the NUnit license. You may
+// obtain a copy of the license at http://nunit.org
+// ****************************************************************
+
+//#define DEFAULT_APPLIES_TO_TESTCASE
 #if CLR_2_0 || CLR_4_0
 using System;
 using System.Collections;
@@ -88,6 +95,9 @@ namespace NUnit.Core.Tests
                 "FixtureSuite.Before.true.false",
                 "FixtureSite.Before.true.false",
                 "ParameterizedSuite.Before.true.false",
+#if DEFAULT_APPLIES_TO_TESTCASE
+                "ParameterizedSite.Before.true.false",
+#endif
                 "AssemblyTest.Before.true.true",
                 "BaseSetupFixtureTest.Before.true.true",
                 "SetupFixtureTest.Before.true.true",
@@ -96,9 +106,13 @@ namespace NUnit.Core.Tests
                 "InterfaceTest.Before.true.true",
                 "FixtureTest.Before.true.true",
                 "ParameterizedTest.Before.true.true",
+#if !DEFAULT_APPLIES_TO_TESTCASE
                 "ParameterizedSite.Before.true.true",
+#endif
                 "SomeTest-Case1",
+#if !DEFAULT_APPLIES_TO_TESTCASE
                 "ParameterizedSite.After.true.true",
+#endif
                 "ParameterizedTest.After.true.true",
                 "FixtureTest.After.true.true",
                 "InterfaceTest.After.true.true",
@@ -115,9 +129,13 @@ namespace NUnit.Core.Tests
                 "InterfaceTest.Before.true.true",
                 "FixtureTest.Before.true.true",
                 "ParameterizedTest.Before.true.true",
+#if !DEFAULT_APPLIES_TO_TESTCASE
                 "ParameterizedSite.Before.true.true",
+#endif
                 "SomeTest-Case2",
+#if !DEFAULT_APPLIES_TO_TESTCASE
                 "ParameterizedSite.After.true.true",
+#endif
                 "ParameterizedTest.After.true.true",
                 "FixtureTest.After.true.true",
                 "InterfaceTest.After.true.true",
@@ -126,6 +144,9 @@ namespace NUnit.Core.Tests
                 "SetupFixtureTest.After.true.true",
                 "BaseSetupFixtureTest.After.true.true",
                 "AssemblyTest.After.true.true",
+#if DEFAULT_APPLIES_TO_TESTCASE
+                "ParameterizedSite.After.true.false",
+#endif
                 "ParameterizedSuite.After.true.false",
                 "AssemblyTest.Before.true.true",
                 "BaseSetupFixtureTest.Before.true.true",
