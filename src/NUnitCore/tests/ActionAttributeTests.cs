@@ -1,7 +1,7 @@
 #if CLR_2_0 || CLR_4_0
 using System;
 using System.Collections;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.TestData.ActionAttributeTests;
 
@@ -22,25 +22,29 @@ namespace NUnit.Core.Tests
         private readonly string[] _suiteSites = new string[]
         {
             "Assembly",
-            "BaseSetUpFixture",
-            "SetUpFixture",
+            "BaseSetupFixture",
+            "SetupFixture",
             "BaseInterface",
             "BaseFixture",
             "Interface",
             "Fixture"
         };
 
-        private readonly string[] _testOutput = new string[]
+        private readonly string[] _parameterizedTestOutput = new string[]
         {
             "SomeTest-Case1",
-            "SomeTest-Case2",
-            "SomeTestNotParameterized"
+            "SomeTest-Case2"
+        };
+
+        private readonly string[] _testOutput = new string[]
+        {
+            "SomeTestNotParameterized",
         };
 
         [TestFixtureSetUp]
         public void Setup()
         {
-            ActionAttributeFixture.Results = new StringCollection();
+            ActionAttributeFixture.Results = new List<string>();
 
             TestSuiteBuilder builder = new TestSuiteBuilder();
             TestPackage package = new TestPackage(AssemblyHelper.GetAssemblyPath(typeof(ActionAttributeFixture)));
@@ -55,151 +59,112 @@ namespace NUnit.Core.Tests
         {
             Assert.IsTrue(_result.IsSuccess, "Test run was not successful.");
 
-            foreach(string output in _testOutput)
-                Assert.Contains(output, ActionAttributeFixture.Results, "Could not find output: " + output);
-
+            Console.WriteLine("{prefix}.{phase}.{hasFixture}.{hasMethod}");            
             foreach(string message in ActionAttributeFixture.Results)
                 Console.WriteLine(message);
         }
 
-        [Test]
-        public void DefinitionSites_BeforeSuite_ExecuteFirst_InCorrectOrder()
+        private void AssertResultEquals(List<string> input, int index, string expected)
         {
-            for (int i = 0; i < _suiteSites.Length; i++)
-            {
-                string prefix = string.Format("{0}.Before", _suiteSites[i]);
-                
-                Assert.IsTrue(
-                    ActionAttributeFixture.Results[i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
-            }
-        }
-
-
-        [Test]
-        public void DefinitionSites_AfterSuite_ExecuteLast_InCorrectReverseOrder()
-        {
-            int lastIndex = ActionAttributeFixture.Results.Count - 1;
-            for (int i = lastIndex; i > lastIndex - _suiteSites.Length; i--)
-            {
-                string prefix = string.Format("{0}.After", _suiteSites[lastIndex - i]);
-
-                Assert.IsTrue(
-                    ActionAttributeFixture.Results[i].StartsWith(prefix),
-                    string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
-            }
-        }
-
-        //[Test]
-        //public void DefinitionSites_BeforeTest_ExecuteInOrder_ForSomeOtherTest()
-        //{
-        //    int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest") - _definitionSites.Length - 1;
-        //    for (int i = startIndex; i < startIndex; i++)
-        //    {
-        //        string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
-
-        //        Assert.IsTrue(
-        //            ActionAttributeFixture.Results[i].StartsWith(prefix),
-        //            string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
-        //    }
-        //}
-
-        //[Test]
-        //public void DefinitionSites_AfterTest_ExecuteInOrder_ForSomeOtherTest()
-        //{
-        //    int startIndex = ActionAttributeFixture.Results.IndexOf("SomeOtherTest");
-        //    for (int i = 1; i <= _definitionSites.Length - 1; i++)
-        //    {
-        //        string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[_definitionSites.Length - 1 - i]);
-
-        //        Assert.IsTrue(
-        //            ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
-        //            string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
-        //    }
-        //}
-
-        //[Test]
-        //public void AllDefinitionSites_BeforeTest_ExecuteInOrder_ForSomeTestCase1()
-        //{
-        //    int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1") - _definitionSites.Length;
-        //    for (int i = startIndex; i < startIndex; i++)
-        //    {
-        //        string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
-
-        //        Assert.IsTrue(
-        //            ActionAttributeFixture.Results[i].StartsWith(prefix),
-        //            string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
-        //    }
-        //}
-
-        //[Test]
-        //public void AllDefinitionSites_AfterTest_ExecuteInOrder_ForSomeTestCase1()
-        //{
-        //    int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case1");
-        //    for (int i = 1; i <= _definitionSites.Length; i++)
-        //    {
-        //        string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[_definitionSites.Length - i]);
-
-        //        Assert.IsTrue(
-        //            ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
-        //            string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
-        //    }
-        //}
-
-        //[Test]
-        //public void AllDefinitionSites_BeforeTest_ExecuteInOrder_ForSomeTestCase2()
-        //{
-        //    int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2") - _definitionSites.Length;
-        //    for (int i = startIndex; i < startIndex; i++)
-        //    {
-        //        string prefix = string.Format("{0}.BeforeTestCase-", _definitionSites[i - startIndex]);
-
-        //        Assert.IsTrue(
-        //            ActionAttributeFixture.Results[i].StartsWith(prefix),
-        //            string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
-        //    }
-        //}
-
-        //[Test]
-        //public void AllDefinitionSites_AfterTest_ExecuteInOrder_ForSomeTestCase2()
-        //{
-        //    int startIndex = ActionAttributeFixture.Results.IndexOf("SomeTest-Case2");
-        //    for (int i = 1; i <= _definitionSites.Length; i++)
-        //    {
-        //        string prefix = string.Format("{0}.AfterTestCase-", _definitionSites[_definitionSites.Length - i]);
-
-        //        Assert.IsTrue(
-        //            ActionAttributeFixture.Results[startIndex + i].StartsWith(prefix),
-        //            string.Format("Did not find prefix '{0}' at index {1} in '{2}'", prefix, i, ActionAttributeFixture.Results[i]));
-        //    }
-        //}
-
-        [Test]
-        public void AllActions_BeforeAndAfterTest_HasAccessToFixture()
-        {
-            foreach(string message in ActionAttributeFixture.Results)
-            {
-                if (message.Contains("BeforeTestMethod") || message.Contains("AfterTestMethod"))
-                    Assert.IsTrue(message.Contains(typeof(ActionAttributeFixture).Name), string.Format("'{0}' shows action does not have access to fixture.", message));
-            }
+            Assert.IsTrue(input[index].Equals(expected), string.Format("Did not find '{0}' at index {1}; instead '{2}'", expected, index, input[index]));
         }
 
         [Test]
-        public void AllActions_BeforeAndAfterTest_HasAccessToMethodInfo()
+        public void ExpectedOutput_InCorrectOrder()
         {
-            StringCollection validEndSegments = new StringCollection();
-            validEndSegments.AddRange(new string[] {"SomeOtherTest", "SomeTest"});
+            List<string> expectedResults = new List<string>(@"AssemblySuite.Before.false.false
+AssemblySite.Before.false.false
+BaseSetupFixtureSuite.Before.true.false
+BaseSetupFixtureSite.Before.true.false
+SetupFixtureSuite.Before.true.false
+SetupFixtureSite.Before.true.false
+BaseInterfaceSuite.Before.true.false
+BaseInterfaceSite.Before.true.false
+BaseFixtureSuite.Before.true.false
+BaseFixtureSite.Before.true.false
+InterfaceSuite.Before.true.false
+InterfaceSite.Before.true.false
+FixtureSuite.Before.true.false
+FixtureSite.Before.true.false
+ParameterizedSuite.Before.true.false
+AssemblyTest.Before.true.true
+BaseSetupFixtureTest.Before.true.true
+SetupFixtureTest.Before.true.true
+BaseInterfaceTest.Before.true.true
+BaseFixtureTest.Before.true.true
+InterfaceTest.Before.true.true
+FixtureTest.Before.true.true
+ParameterizedTest.Before.true.true
+ParameterizedSite.Before.true.true
+SomeTest-Case1
+ParameterizedSite.After.true.true
+ParameterizedTest.After.true.true
+FixtureTest.After.true.true
+InterfaceTest.After.true.true
+BaseFixtureTest.After.true.true
+BaseInterfaceTest.After.true.true
+SetupFixtureTest.After.true.true
+BaseSetupFixtureTest.After.true.true
+AssemblyTest.After.true.true
+AssemblyTest.Before.true.true
+BaseSetupFixtureTest.Before.true.true
+SetupFixtureTest.Before.true.true
+BaseInterfaceTest.Before.true.true
+BaseFixtureTest.Before.true.true
+InterfaceTest.Before.true.true
+FixtureTest.Before.true.true
+ParameterizedTest.Before.true.true
+ParameterizedSite.Before.true.true
+SomeTest-Case2
+ParameterizedSite.After.true.true
+ParameterizedTest.After.true.true
+FixtureTest.After.true.true
+InterfaceTest.After.true.true
+BaseFixtureTest.After.true.true
+BaseInterfaceTest.After.true.true
+SetupFixtureTest.After.true.true
+BaseSetupFixtureTest.After.true.true
+AssemblyTest.After.true.true
+ParameterizedSuite.After.true.false
+AssemblyTest.Before.true.true
+BaseSetupFixtureTest.Before.true.true
+SetupFixtureTest.Before.true.true
+BaseInterfaceTest.Before.true.true
+BaseFixtureTest.Before.true.true
+InterfaceTest.Before.true.true
+FixtureTest.Before.true.true
+MethodTest.Before.true.true
+MethodSite.Before.true.true
+SomeTestNotParameterized
+MethodSite.After.true.true
+MethodTest.After.true.true
+FixtureTest.After.true.true
+InterfaceTest.After.true.true
+BaseFixtureTest.After.true.true
+BaseInterfaceTest.After.true.true
+SetupFixtureTest.After.true.true
+BaseSetupFixtureTest.After.true.true
+AssemblyTest.After.true.true
+FixtureSite.After.true.false
+FixtureSuite.After.true.false
+InterfaceSite.After.true.false
+InterfaceSuite.After.true.false
+BaseFixtureSite.After.true.false
+BaseFixtureSuite.After.true.false
+BaseInterfaceSite.After.true.false
+BaseInterfaceSuite.After.true.false
+SetupFixtureSite.After.true.false
+SetupFixtureSuite.After.true.false
+BaseSetupFixtureSite.After.true.false
+BaseSetupFixtureSuite.After.true.false
+AssemblySite.After.false.false
+AssemblySuite.After.false.false".Split(new[]{"\r\n"}, StringSplitOptions.RemoveEmptyEntries));
 
-            foreach (string message in ActionAttributeFixture.Results)
-            {
-                if (message.Contains("BeforeTestMethod") || message.Contains("AfterTestMethod"))
-                {
-                    string endSegment = message.Substring(message.LastIndexOf('-') + 1);
 
-                    Assert.IsTrue(validEndSegments.Contains(endSegment),
-                                  string.Format("'{0}' shows action does not have access to method info.", message));
-                }
-            }
+            Assert.AreEqual(expectedResults.Count, ActionAttributeFixture.Results.Count);
+
+            for(int i = 0; i < expectedResults.Count; i++)
+                Assert.IsTrue(expectedResults[i] == ActionAttributeFixture.Results[i]);
         }
     }
 }

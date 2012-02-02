@@ -7,22 +7,22 @@ namespace NUnit.Framework
     /// The different targets a test action attribute can be applied to
     /// </summary>
     [Flags]
-    public enum ActionTargets : ushort
+    public enum ActionTargets
     {
         /// <summary>
-        /// Target is defined by where the action attribute is attached
+        /// Default target, which is determined by where the action attribute is attached
         /// </summary>
-        Site = 1,
+        Default = 0,
 
         /// <summary>
         /// Target a individual test case
         /// </summary>
-        Test = 2,
+        Test = 1,
 
         /// <summary>
         /// Target a suite of test cases
         /// </summary>
-        Suite = 4
+        Suite = 2
     }
 }
 #endif

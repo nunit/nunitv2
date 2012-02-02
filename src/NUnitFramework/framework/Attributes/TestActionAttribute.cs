@@ -1,4 +1,4 @@
-﻿#if CLR_2_0 || CLR_4_0
+#if CLR_2_0 || CLR_4_0
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +16,7 @@ namespace NUnit.Framework
         
         public virtual ActionTargets Targets
         {
-            get { return ActionTargets.Site; }
+            get { return ActionTargets.Default; }
         }
     }
 }

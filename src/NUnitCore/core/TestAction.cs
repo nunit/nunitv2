@@ -8,9 +8,9 @@ namespace NUnit.Core
 {
     public class TestAction
     {
-        public static readonly ushort TargetsSite = 1;
-        public static readonly ushort TargetsTest = 2;
-        public static readonly ushort TargetsSuite = 4;
+        public static readonly int TargetsDefault = 0;
+        public static readonly int TargetsTest = 1;
+        public static readonly int TargetsSuite = 2;
 
         private static readonly Type _ActionInterfaceType = null;
         private static readonly Type _TestDetailsClassType = null;
@@ -21,16 +21,16 @@ namespace NUnit.Core
             _TestDetailsClassType = Type.GetType(NUnitFramework.TestDetailsClass);
         }
 
-        private readonly object _Target;
-        private readonly ushort _Targets;
+        private readonly object _Action;
+        private readonly int _Targets;
 
-        public TestAction(object target)
+        public TestAction(object action)
         {
-            if(target == null)
-                throw new ArgumentNullException("target");
+            if (action == null)
+                throw new ArgumentNullException("action");
 
-            _Target = target;
-            _Targets = (ushort) Reflect.GetPropertyValue(target, "Targets");
+            _Action = action;
+            _Targets = (int) Reflect.GetPropertyValue(action, "Targets");
         }
 
         public void ExecuteBefore(ITest test)
@@ -48,7 +48,7 @@ namespace NUnit.Core
             var method = Reflect.GetNamedMethod(_ActionInterfaceType, methodPrefix + "Test");
             var details = CreateTestDetails(test);
 
-            Reflect.InvokeMethod(method, _Target, details);
+            Reflect.InvokeMethod(method, _Action, details);
         }
 
         private static object CreateTestDetails(ITest test)
@@ -72,10 +72,19 @@ namespace NUnit.Core
                                             test.IsSuite);
         }
 
-        public bool DoesTarget(ushort target)
+        public bool DoesTarget(int target)
         {
-            return (_Targets & target) == target && _Targets != 0;
+            if(target < 0)
+                throw new ArgumentOutOfRangeException("target", "Target must be a positive integer.");
+
+            if(target == 0)
+                return _Targets == 0;
+
+            uint self = Convert.ToUInt32(target);
+            return (_Targets & self) == self;
         }
+
+        public int Targets { get { return _Targets; } }
     }
 }
 #endif

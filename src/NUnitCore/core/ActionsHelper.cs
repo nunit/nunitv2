@@ -49,6 +49,8 @@ namespace NUnit.Core
             foreach (var target in targets)
                 actions.Add(new TestAction(target));
 
+            actions.Sort(SortByTargetDescending);
+
             return actions.ToArray();
         }
 
@@ -106,6 +108,11 @@ namespace NUnit.Core
                 filteredActions.Reverse();
 
             return filteredActions.ToArray();
+        }
+
+        private static int SortByTargetDescending(TestAction x, TestAction y)
+        {
+            return y.Targets.CompareTo(x.Targets);
         }
     }
 
