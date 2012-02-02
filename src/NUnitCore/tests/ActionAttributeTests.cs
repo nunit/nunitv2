@@ -72,99 +72,97 @@ namespace NUnit.Core.Tests
         [Test]
         public void ExpectedOutput_InCorrectOrder()
         {
-            List<string> expectedResults = new List<string>(@"AssemblySuite.Before.false.false
-AssemblySite.Before.false.false
-BaseSetupFixtureSuite.Before.true.false
-BaseSetupFixtureSite.Before.true.false
-SetupFixtureSuite.Before.true.false
-SetupFixtureSite.Before.true.false
-BaseInterfaceSuite.Before.true.false
-BaseInterfaceSite.Before.true.false
-BaseFixtureSuite.Before.true.false
-BaseFixtureSite.Before.true.false
-InterfaceSuite.Before.true.false
-InterfaceSite.Before.true.false
-FixtureSuite.Before.true.false
-FixtureSite.Before.true.false
-ParameterizedSuite.Before.true.false
-AssemblyTest.Before.true.true
-BaseSetupFixtureTest.Before.true.true
-SetupFixtureTest.Before.true.true
-BaseInterfaceTest.Before.true.true
-BaseFixtureTest.Before.true.true
-InterfaceTest.Before.true.true
-FixtureTest.Before.true.true
-ParameterizedTest.Before.true.true
-ParameterizedSite.Before.true.true
-SomeTest-Case1
-ParameterizedSite.After.true.true
-ParameterizedTest.After.true.true
-FixtureTest.After.true.true
-InterfaceTest.After.true.true
-BaseFixtureTest.After.true.true
-BaseInterfaceTest.After.true.true
-SetupFixtureTest.After.true.true
-BaseSetupFixtureTest.After.true.true
-AssemblyTest.After.true.true
-AssemblyTest.Before.true.true
-BaseSetupFixtureTest.Before.true.true
-SetupFixtureTest.Before.true.true
-BaseInterfaceTest.Before.true.true
-BaseFixtureTest.Before.true.true
-InterfaceTest.Before.true.true
-FixtureTest.Before.true.true
-ParameterizedTest.Before.true.true
-ParameterizedSite.Before.true.true
-SomeTest-Case2
-ParameterizedSite.After.true.true
-ParameterizedTest.After.true.true
-FixtureTest.After.true.true
-InterfaceTest.After.true.true
-BaseFixtureTest.After.true.true
-BaseInterfaceTest.After.true.true
-SetupFixtureTest.After.true.true
-BaseSetupFixtureTest.After.true.true
-AssemblyTest.After.true.true
-ParameterizedSuite.After.true.false
-AssemblyTest.Before.true.true
-BaseSetupFixtureTest.Before.true.true
-SetupFixtureTest.Before.true.true
-BaseInterfaceTest.Before.true.true
-BaseFixtureTest.Before.true.true
-InterfaceTest.Before.true.true
-FixtureTest.Before.true.true
-MethodTest.Before.true.true
-MethodSite.Before.true.true
-SomeTestNotParameterized
-MethodSite.After.true.true
-MethodTest.After.true.true
-FixtureTest.After.true.true
-InterfaceTest.After.true.true
-BaseFixtureTest.After.true.true
-BaseInterfaceTest.After.true.true
-SetupFixtureTest.After.true.true
-BaseSetupFixtureTest.After.true.true
-AssemblyTest.After.true.true
-FixtureSite.After.true.false
-FixtureSuite.After.true.false
-InterfaceSite.After.true.false
-InterfaceSuite.After.true.false
-BaseFixtureSite.After.true.false
-BaseFixtureSuite.After.true.false
-BaseInterfaceSite.After.true.false
-BaseInterfaceSuite.After.true.false
-SetupFixtureSite.After.true.false
-SetupFixtureSuite.After.true.false
-BaseSetupFixtureSite.After.true.false
-BaseSetupFixtureSuite.After.true.false
-AssemblySite.After.false.false
-AssemblySuite.After.false.false".Split(new[]{"\r\n"}, StringSplitOptions.RemoveEmptyEntries));
+            string[] expectedResults = new string[] {
+                "AssemblySuite.Before.false.false",
+                "AssemblySite.Before.false.false",
+                "BaseSetupFixtureSuite.Before.true.false",
+                "BaseSetupFixtureSite.Before.true.false",
+                "SetupFixtureSuite.Before.true.false",
+                "SetupFixtureSite.Before.true.false",
+                "BaseInterfaceSuite.Before.true.false",
+                "BaseInterfaceSite.Before.true.false",
+                "BaseFixtureSuite.Before.true.false",
+                "BaseFixtureSite.Before.true.false",
+                "InterfaceSuite.Before.true.false",
+                "InterfaceSite.Before.true.false",
+                "FixtureSuite.Before.true.false",
+                "FixtureSite.Before.true.false",
+                "ParameterizedSuite.Before.true.false",
+                "AssemblyTest.Before.true.true",
+                "BaseSetupFixtureTest.Before.true.true",
+                "SetupFixtureTest.Before.true.true",
+                "BaseInterfaceTest.Before.true.true",
+                "BaseFixtureTest.Before.true.true",
+                "InterfaceTest.Before.true.true",
+                "FixtureTest.Before.true.true",
+                "ParameterizedTest.Before.true.true",
+                "ParameterizedSite.Before.true.true",
+                "SomeTest-Case1",
+                "ParameterizedSite.After.true.true",
+                "ParameterizedTest.After.true.true",
+                "FixtureTest.After.true.true",
+                "InterfaceTest.After.true.true",
+                "BaseFixtureTest.After.true.true",
+                "BaseInterfaceTest.After.true.true",
+                "SetupFixtureTest.After.true.true",
+                "BaseSetupFixtureTest.After.true.true",
+                "AssemblyTest.After.true.true",
+                "AssemblyTest.Before.true.true",
+                "BaseSetupFixtureTest.Before.true.true",
+                "SetupFixtureTest.Before.true.true",
+                "BaseInterfaceTest.Before.true.true",
+                "BaseFixtureTest.Before.true.true",
+                "InterfaceTest.Before.true.true",
+                "FixtureTest.Before.true.true",
+                "ParameterizedTest.Before.true.true",
+                "ParameterizedSite.Before.true.true",
+                "SomeTest-Case2",
+                "ParameterizedSite.After.true.true",
+                "ParameterizedTest.After.true.true",
+                "FixtureTest.After.true.true",
+                "InterfaceTest.After.true.true",
+                "BaseFixtureTest.After.true.true",
+                "BaseInterfaceTest.After.true.true",
+                "SetupFixtureTest.After.true.true",
+                "BaseSetupFixtureTest.After.true.true",
+                "AssemblyTest.After.true.true",
+                "ParameterizedSuite.After.true.false",
+                "AssemblyTest.Before.true.true",
+                "BaseSetupFixtureTest.Before.true.true",
+                "SetupFixtureTest.Before.true.true",
+                "BaseInterfaceTest.Before.true.true",
+                "BaseFixtureTest.Before.true.true",
+                "InterfaceTest.Before.true.true",
+                "FixtureTest.Before.true.true",
+                "MethodTest.Before.true.true",
+                "MethodSite.Before.true.true",
+                "SomeTestNotParameterized",
+                "MethodSite.After.true.true",
+                "MethodTest.After.true.true",
+                "FixtureTest.After.true.true",
+                "InterfaceTest.After.true.true",
+                "BaseFixtureTest.After.true.true",
+                "BaseInterfaceTest.After.true.true",
+                "SetupFixtureTest.After.true.true",
+                "BaseSetupFixtureTest.After.true.true",
+                "AssemblyTest.After.true.true",
+                "FixtureSite.After.true.false",
+                "FixtureSuite.After.true.false",
+                "InterfaceSite.After.true.false",
+                "InterfaceSuite.After.true.false",
+                "BaseFixtureSite.After.true.false",
+                "BaseFixtureSuite.After.true.false",
+                "BaseInterfaceSite.After.true.false",
+                "BaseInterfaceSuite.After.true.false",
+                "SetupFixtureSite.After.true.false",
+                "SetupFixtureSuite.After.true.false",
+                "BaseSetupFixtureSite.After.true.false",
+                "BaseSetupFixtureSuite.After.true.false",
+                "AssemblySite.After.false.false",
+                "AssemblySuite.After.false.false"
+            };
 
-
-            Assert.AreEqual(expectedResults.Count, ActionAttributeFixture.Results.Count);
-
-            for(int i = 0; i < expectedResults.Count; i++)
-                Assert.IsTrue(expectedResults[i] == ActionAttributeFixture.Results[i]);
+            Assert.AreEqual(expectedResults, ActionAttributeFixture.Results);
         }
     }
 }
