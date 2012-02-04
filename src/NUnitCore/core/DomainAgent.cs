@@ -142,9 +142,15 @@ namespace NUnit.Core
             resolver.AddDirectory(NUnitConfiguration.AddinDirectory);
 						
 			// TODO: Temporary additions till we resolve a problem with pnunit
-			string binDir = NUnitConfiguration.NUnitBinDirectory;
-			resolver.AddFile (Path.Combine(binDir, "pnunit.framework.dll"));
-			resolver.AddFile (Path.Combine(binDir, "pnunit-agent.exe"));
+            // Test for existence is needed to avoid messing when the installation
+            // does not include pnunit.
+            string binDir = NUnitConfiguration.NUnitBinDirectory;
+            string pnunitFrameworkPath = Path.Combine(binDir, "pnunit.framework.dll");
+            if (File.Exists(pnunitFrameworkPath))
+                resolver.AddFile(pnunitFrameworkPath);
+            string pnunitAgentPath = Path.Combine(binDir, "pnunit-agent.exe");
+            if (File.Exists(pnunitAgentPath))
+                resolver.AddFile(pnunitAgentPath);
         }
 
         void OnDomainUnload(object sender, EventArgs e)
