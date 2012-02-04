@@ -109,7 +109,7 @@ namespace NUnit.Core.Tests
 #if !DEFAULT_APPLIES_TO_TESTCASE
                 "ParameterizedSite.Before.true.true",
 #endif
-                "SomeTest-Case1",
+                "SomeTest",
 #if !DEFAULT_APPLIES_TO_TESTCASE
                 "ParameterizedSite.After.true.true",
 #endif
@@ -132,7 +132,7 @@ namespace NUnit.Core.Tests
 #if !DEFAULT_APPLIES_TO_TESTCASE
                 "ParameterizedSite.Before.true.true",
 #endif
-                "SomeTest-Case2",
+                "SomeTest",
 #if !DEFAULT_APPLIES_TO_TESTCASE
                 "ParameterizedSite.After.true.true",
 #endif

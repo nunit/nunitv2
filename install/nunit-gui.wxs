@@ -162,7 +162,7 @@
                   WorkingDirectory="bin" />
         <RegistryValue Root = "HKCU"
                        Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="Shortcut1"
+                       Name="NUnitShortcut"
                        Type="string"
                        Value="installed"
                        KeyPath="yes"/>
@@ -183,7 +183,7 @@
                   WorkingDirectory="bin" />
         <RegistryValue Root = "HKCU"
                        Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="Shortcut2"
+                       Name="ProjectEditorShortcut"
                        Type="string"
                        Value="installed"
                        KeyPath="yes"/>
@@ -199,7 +199,7 @@
       <Component Id="MenuShortcut_2.0">
         <Condition>FRAMEWORK20</Condition>
         <Shortcut Id="MenuShortcut_2.0"
-                  Name="NUnit (.NET 2.0)"
+                  Name="NUnit (.NET)"
                   Target="[#nunit.exe]"
                   Advertise="no"
                   Icon="nunit_icon.exe"
@@ -208,7 +208,7 @@
                   WorkingDirectory="bin" />
         <RegistryValue Root = "HKCU"
                        Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="Shortcut3"
+                       Name="NUnitNet20Shortcut"
                        Type="string"
                        Value="installed"
                        KeyPath="yes"/>
@@ -219,7 +219,7 @@
       <Component Id="MenuShortcut_Mono_2.0">
         <Condition>MONODIRECTORY</Condition>
         <Shortcut Id="MenuShortcut_Mono_2.0"
-                  Name="NUnit (Mono 2.0 Profile)"
+                  Name="NUnit (Mono)"
                   Target="[MONODIRECTORY]bin\mono.exe"
                   Arguments="nunit.exe"
                   Advertise="no"
@@ -229,7 +229,7 @@
                   WorkingDirectory="bin" />
         <RegistryValue Root = "HKCU"
                        Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="Shortcut4"
+                       Name="NUnitMono20Shortcut"
                        Type="string"
                        Value="installed"
                        KeyPath="yes"/>

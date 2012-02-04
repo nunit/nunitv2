@@ -22,6 +22,7 @@
         <include name="Attributes/SetUpFixtureAttribute.cs"/>
         <include name="Attributes/SuiteAttribute.cs"/>
         <include name="Attributes/TearDownAttribute.cs"/>
+        <include name="Attributes/TestActionAttribute.cs"/>
         <include name="Attributes/TestAttribute.cs"/>
         <include name="Attributes/TestCaseAttribute.cs"/>
         <include name="Attributes/TestCaseSourceAttribute.cs"/>
@@ -79,10 +80,9 @@
         <include name="Exceptions/IgnoreException.cs"/>
         <include name="Exceptions/InconclusiveException.cs"/>
         <include name="Exceptions/SuccessException.cs"/>
-    <include name="Interfaces/INUnitEqualityComparer.cs"/>
+        <include name="Interfaces/INUnitEqualityComparer.cs"/>
         <include name="Interfaces/ITestAction.cs" />
-        <include name="Interfaces/ITestSuiteAction.cs" />
-        <include name="Interfaces/ITestCaseAction.cs" />
+        <include name="ActionTargets.cs" />
         <include name="AssemblyInfo.cs"/>
         <include name="Assert.cs"/>
         <include name="AssertionHelper.cs"/>
@@ -104,6 +104,7 @@
         <include name="StringAssert.cs"/>
         <include name="TestCaseData.cs"/>
         <include name="TestContext.cs"/>
+        <include name="TestDetails.cs"/>
         <include name="TestState.cs"/>
         <include name="TestStatus.cs"/>
         <include name="Text.cs"/>

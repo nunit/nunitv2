@@ -48,7 +48,9 @@ namespace NUnit.TestData.ActionAttributeTests
 
         List<string> IWithAction.Results { get { return Results; } }
 
-        [Test, TestCase("SomeTest-Case1"), TestCase("SomeTest-Case2")]
+        // NOTE: Both test cases use the same message because
+        // order of execution is indeterminate.
+        [Test, TestCase("SomeTest"), TestCase("SomeTest")]
         [SampleAction("ParameterizedSuite", ActionTargets.Suite)]
         [SampleAction("ParameterizedTest", ActionTargets.Test)]
         [SampleAction("ParameterizedSite")]

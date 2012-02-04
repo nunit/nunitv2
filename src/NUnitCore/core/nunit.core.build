@@ -49,6 +49,7 @@
     <include name="SimpleTestRunner.cs"/>
     <include name="StringTextWriter.cs"/>
     <include name="SuiteBuilderAttribute.cs"/>
+    <include name="TestAction.cs"/>
     <include name="TestAssembly.cs"/>
     <include name="TestBuilderAttribute.cs"/>
     <include name="TestCaseBuilder.cs"/>
