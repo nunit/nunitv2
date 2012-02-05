@@ -161,13 +161,8 @@
                   Show="normal"
                   WorkingDirectory="bin" />
         <RegistryValue Root = "HKCU"
-                       Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="NUnitShortcut"
-                       Type="string"
-                       Value="installed"
-                       KeyPath="yes"/>
-        <RemoveFolder Id="RemoveNUnitMenuFolder1"
-                      On="uninstall"/>
+          Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)\Shortcuts"
+          Name="NUnitShortcut" Type="integer" Value="1" KeyPath="yes" />
       </Component>
 
       <!-- ICE69 Error on this component can be ignored -->
@@ -182,18 +177,20 @@
                   Show="normal"
                   WorkingDirectory="bin" />
         <RegistryValue Root = "HKCU"
-                       Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="ProjectEditorShortcut"
-                       Type="string"
-                       Value="installed"
-                       KeyPath="yes"/>
-        <RemoveFolder Id="RemoveNUnitMenuFolder2"
-                      On="uninstall"/>
+          Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)\Shortcuts"
+          Name="ProjectEditorShortcut" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
 
     </DirectoryRef>
 
     <DirectoryRef Id="RunUnderMenu">
+
+      <Component Id="RunUnderMenu">
+        <RemoveFolder Id="RunUnderMenu" On="uninstall"/>
+        <RegistryValue Root="HKMU"
+          Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)\Shortcuts"
+          Name="RunUnderMenu" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
 
       <!-- ICE69 Error on this component can be ignored -->
       <Component Id="MenuShortcut_2.0">
@@ -207,13 +204,8 @@
                   Show="normal"
                   WorkingDirectory="bin" />
         <RegistryValue Root = "HKCU"
-                       Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="NUnitNet20Shortcut"
-                       Type="string"
-                       Value="installed"
-                       KeyPath="yes"/>
-        <RemoveFolder Id="RemoveRunUnderMenuFolder1"
-                      On="uninstall"/>
+          Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)\Shortcuts"
+          Name="NUnitUnderNetShortcut" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
 
       <Component Id="MenuShortcut_Mono_2.0">
@@ -228,13 +220,8 @@
                   Show="normal"
                   WorkingDirectory="bin" />
         <RegistryValue Root = "HKCU"
-                       Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="NUnitMono20Shortcut"
-                       Type="string"
-                       Value="installed"
-                       KeyPath="yes"/>
-        <RemoveFolder Id="RemoveRunUnderMenuFolder2"
-                      On="uninstall"/>
+          Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)\Shortcuts"
+          Name="NUnitUnderMonoShortcut" Type="integer" Value="1" />
       </Component>
 
     </DirectoryRef>

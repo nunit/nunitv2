@@ -46,7 +46,7 @@
     <Property Id="ARPCONTACT" Value="Charlie Poole" />
     <Property Id="ARPPRODUCTICON" Value="nunit_icon.exe" />
     <Property Id="ARPHELPLINK" Value="http://lists.sourceforge.net/lists/listinfo/nunit-users" />
-    <Property Id="ARPREADME" Value="http://nunit.org/?p=releaseNotes&amp;r=2.5" />
+    <Property Id="ARPREADME" Value="http://nunit.org/ p=releaseNotes&amp;r=2.6" />
     <Property Id="ARPURLINFOABOUT" Value="NUnit is a testing framework for all .NET languages" />
     <Property Id="ARPURLUPDATEINFO" Value="http://nunit.org?p=download" />
 
@@ -60,7 +60,7 @@
       <Directory Id="ProgramFilesFolder" Name="PFiles">
 
         <!-- Target locations for NUnit Files -->
-        <Directory Id="INSTALLDIR" ShortName="NUnit" Name="NUnit $(var.NominalVersion)">
+        <Directory Id="INSTALLDIR" Name="NUnit $(var.NominalVersion)">
 
           <Directory Id="bin" Name="bin">
 
@@ -70,13 +70,13 @@
                   <Directory Id="Circles" Name="Circles" />
                   <Directory Id="Classic" Name="Classic" />
                   <Directory Id="Default" Name="Default" />
-                  <Directory Id="VisualStudio" ShortName="VStudio" Name="Visual Studio" />
+                  <Directory Id="VisualStudio" Name="Visual Studio" />
                 </Directory>
               </Directory>
             </Directory>
             <Directory Id="addins" Name="addins" />
             <Directory Id="tests" Name="tests" />
-            <Directory Id="framework" ShortName="FRAMEWK" Name="framework" />
+            <Directory Id="framework" Name="framework" />
 
           </Directory>
 
@@ -90,7 +90,7 @@
             <Directory Id="jsharp" Name="jsharp" />
             <Directory Id="vb" Name="vb" />
             <Directory Id="cpp" Name="cpp" />
-            <Directory Id="extensibility" ShortName="EXTENSIB" Name="Extensibility" />
+            <Directory Id="extensibility" Name="Extensibility" />
           </Directory>
 
         </Directory>
@@ -101,9 +101,15 @@
       <Directory Id="DesktopFolder" Name="." SourceName="User's Desktop" />
 
       <!-- Program Menu Folder and our subfolders for Shortcuts -->
-      <Directory Id="ProgramMenuFolder" Name="." SourceName="User's Program Menu">
-        <Directory Id="NUnitMenu" ShortName="NUnit" Name="NUnit $(var.NominalVersion)">
-          <Directory Id="RunUnderMenu" ShortName="RunUnder" Name="Select Runtime" />
+      <Directory Id="ProgramMenuFolder" Name=".">
+        <Directory Id="NUnitMenu" Name="NUnit $(var.NominalVersion)">
+          <Component Id="NUnitMenu">
+            <RemoveFolder Id="NUnitMenu" On="uninstall"/>
+            <RegistryValue Root="HKMU"
+          Key="SOFTWARE\[Manufacturer]\NUnit\$(var.NominalVersion)\Shortcuts"
+              Type="integer" Name="NUnitMenu" Value="1" />
+          </Component>
+          <Directory Id="RunUnderMenu" Name="Select Runtime" />
           <Directory Id="SamplesMenu" Name="Samples" />
         </Directory>
       </Directory>
@@ -117,9 +123,12 @@
 
     <Feature Id="BaseFeature" ConfigurableDirectory="INSTALLDIR" Level="1" Title="NUnit $(var.NominalVersion)" Display="expand" Description="Installs the NUnit console runner and supporting assemblies required to write and run tests.">
 
+      <!-- Defined in this file -->
+      <ComponentRef Id="NUnitMenu" />
+
       <!-- Defined in base.wxs -->
-      <ComponentRef Id="C__LICENSE" />
-      <ComponentRef Id="C__LOGO" />
+      <ComponentRef Id="license.txt" />
+      <ComponentRef Id="Logo.ico" />
       <ComponentRef Id="InstallationRegistryEntry" />
       <ComponentRef Id="nunit.framework" />
       <ComponentRef Id="nunit.mocks" />
@@ -149,6 +158,7 @@
         <!--<ComponentRef Id="DllFileAssociation" />
         <ComponentRef Id="NUnitProjectFileAssociation" />-->
         <ComponentRef Id="MenuShortcut_NUnit" />
+        <ComponentRef Id="RunUnderMenu" />
         <ComponentRef Id="MenuShortcut_2.0" />
         <ComponentRef Id="MenuShortcut_Mono_2.0" />
         <ComponentRef Id="nunit_editor.exe" />

@@ -272,11 +272,8 @@
                   Name="Extensibility"
                   Show="normal" />
         <RegistryValue Root = "HKCU"
-                       Key="Software\[Manufacturer]\NUnit\var.Version"
-                       Name="SampleShortcuts"
-                       Type="integer"
-                       Value="1"
-                       KeyPath="yes"/>
+          Key="Software\[Manufacturer]\NUnit\$(var.NominalVersion)\Shortcuts"
+          Name="Samples" Type="integer" Value="1" KeyPath="yes"/>
         <RemoveFolder Id="RemoveSamplesMenuFolder"
                       On="uninstall"/>
       </Component>

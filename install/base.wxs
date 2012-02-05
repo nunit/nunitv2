@@ -4,8 +4,8 @@
 
     <DirectoryRef Id="INSTALLDIR">
 
-      <Component Id="C__LOGO">
-        <File Id="_LOGO"
+      <Component Id="Logo.ico">
+        <File Id="Logo.ico"
               Source="Logo.ico"
               KeyPath="yes" />
         <RemoveFile Id="RemoveThumbnails"
@@ -13,8 +13,8 @@
                     On="uninstall" />
       </Component>
 
-      <Component Id="C__LICENSE">
-        <File Id="_LICENSE" Source="license.txt" KeyPath="yes" />
+      <Component Id="license.txt">
+        <File Id="license.txt" Source="license.txt" />
       </Component>
 
       <Component Id="InstallationRegistryEntry">
@@ -29,6 +29,7 @@
                          Type="string"
                          Value="[ProductVersion]" />
         </RegistryKey>
+        <RemoveFolder Id="RemoveInstallDir" On="uninstall"/>
       </Component>
 
     </DirectoryRef>
@@ -39,6 +40,7 @@
                  Guid="6B31CFF2-575A-4dae-80AC-CF4AD3E46F7D">
         <File Id="console.exe" Name="nunit-console.exe" />
         <File Id="console.config" Name="nunit-console.exe.config" />
+        <RemoveFolder Id="RemoveBinFolder" On="uninstall"/>
       </Component>
 
       <Component Id="nunit_console_x86"

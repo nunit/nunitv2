@@ -4,13 +4,13 @@
 
     <DirectoryRef Id="INSTALLDIR">
 
-      <Component Id="C__LOGO" Guid="483E797F-1784-46cb-8A5C-78F0E073FDAE">
-        <File Id="_LOGO" Source="Logo.ico" KeyPath="yes" />
+      <Component Id="Logo.ico">
+        <File Id="Logo.ico" Name="Logo.ico" Source="Logo.ico" KeyPath="yes" />
         <RemoveFile Id="RemoveThumbnails" Name="*" On="uninstall" />
       </Component>
 
-      <Component Id="C__LICENSE" Guid="1F206476-9277-490c-A17E-ECA61DD75528">
-        <File Id="_LICENSE" Source="license.txt" KeyPath="yes" />
+      <Component Id="license.txt">
+        <File Id="license.txt" Source="license.txt" KeyPath="yes" />
       </Component>
 
     </DirectoryRef>
@@ -20,6 +20,7 @@
       <Component Id="nunit_console" Guid="F446D836-1FCE-4ef7-B290-E0F3B0EFBD40">
         <File Id="console.exe" Name="nunit-console.exe" />
         <File Id="console.config" Name="nunit-console.exe.config" />
+        <RemoveFolder Id="RemoveBinFolder" On="uninstall" />
       </Component>
 
       <Component Id="nunit_agent" Guid="D8D73966-60FF-467d-AD71-47388F66E4C0">
@@ -31,19 +32,20 @@
 
     <DirectoryRef Id="lib" FileSource="bin\lib">
 
-      <Component Id="nunit.core" Guid="0B19DCE8-AD49-4399-8EEF-202B1B7C34C3">
+      <Component Id="nunit.core">
         <File Id="nunit.core.dll" Name="nunit.core.dll" />
       </Component>
 
-      <Component Id="nunit.core.interfaces" Guid="2434E11B-3D65-4621-B1E1-A0437D3EB10F">
-        <File Id="nunit.core.interfaces.dll" Name="nunit.core.interfaces.dll" />
+      <Component Id="nunit.core.interfaces">
+        <File Id="nunit.core.interfaces.dll"
+              Name="nunit.core.interfaces.dll" />
       </Component>
 
-      <Component Id="nunit.util" Guid="FBBA6D49-2CAE-4fc9-BDAC-36AEFDAEC9C8">
+      <Component Id="nunit.util">
         <File Id="nunit.util.dll" Name="nunit.util.dll" />
       </Component>
 
-      <Component Id="console.dll" Guid="68EC2178-ADB0-4d4a-A38E-F1C7F61C4C6E">
+      <Component Id="console.dll">
         <File Id="console.dll.dll" Name="nunit-console-runner.dll" />
       </Component>
 
@@ -68,16 +70,16 @@
         <File Id="nunit.framework.xml" Name="nunit.framework.xml" />
       </Component>
 
-      <Component Id="nunit.mocks" Guid="E84023DB-599F-4461-B372-4DE8E6F1D5DA">
+      <Component Id="nunit.mocks">
         <File Id="nunit.mocks.dll" Name="nunit.mocks.dll" />
       </Component>
 
-      <Component Id="AssemblyReferenceFolder" Guid="174D6CD9-124A-4a5e-8ABA-88991929FBCC">
+      <Component Id="AssemblyReferenceFolder">
 
-        <RegistryKey Root="HKMU" Key="Software\Microsoft\.NETFramework\AssemblyFolders\NUnit [ProductVersion]" Action="createAndRemoveOnUninstall">
-
+        <RegistryKey Root="HKMU"
+  Key="Software\Microsoft\.NETFramework\AssemblyFolder\NUnit [ProductVersion]"
+                     Action="createAndRemoveOnUninstall">
           <RegistryValue Action="write" Type="string" Value="[framework]" />
-
         </RegistryKey>
 
       </Component>
