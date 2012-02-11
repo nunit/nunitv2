@@ -608,8 +608,14 @@ namespace NUnit.UiKit
 		{
 			if (availableList.SelectedItems.Count > 0) 
 			{
+                // Create a separate list to avoid exception
+                // when using the list box directly.
+                List<string> categories = new List<string>();
 				foreach ( string category in availableList.SelectedItems ) 
-				{
+                    categories.Add(category);
+
+                foreach ( string category in categories)
+                {
 					selectedList.Items.Add(category);
 					availableList.Items.Remove(category);
 				}
@@ -624,7 +630,13 @@ namespace NUnit.UiKit
 		{
 			if (selectedList.SelectedItems.Count > 0) 
 			{
-				foreach ( string category in selectedList.SelectedItems )
+                // Create a separate list to avoid exception
+                // when using the list box directly.
+                List<string> categories = new List<string>();
+                foreach (string category in selectedList.SelectedItems)
+                    categories.Add(category);
+
+				foreach ( string category in categories )
 				{
 					selectedList.Items.Remove(category);
 					availableList.Items.Add(category);
