@@ -258,6 +258,10 @@ namespace NUnit.UiKit
                     case ResultState.Ignored:
                         return IgnoredIndex;
                     case ResultState.Success:
+                        foreach (TestSuiteTreeNode node in this.Nodes)
+                            if (node.ImageIndex == IgnoredIndex)
+                                return IgnoredIndex;
+
                         return SuccessIndex;
                     default:
                         return InitIndex;
