@@ -101,8 +101,18 @@ namespace NUnit.Util
             if (this.agent != null)
             {
                 log.Info("Stopping remote agent");
-                agent.Stop();
-                this.agent = null;
+                try
+                {
+                    agent.Stop();
+                }
+                catch
+                {
+                    // Ignore any exception
+                }
+                finally
+                {
+                    this.agent = null;
+                }
             }
         }
 
