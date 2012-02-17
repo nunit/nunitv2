@@ -900,7 +900,14 @@ namespace NUnit.Gui
                     item.Checked = current.Supports(framework);
                     item.Tag = framework;
                     item.Click += new EventHandler(runtimeFrameworkMenuItem_Click);
-                    item.Enabled = TestLoader.CanReloadUnderRuntimeVersion(framework.ClrVersion);
+                    try
+                    {
+                        item.Enabled = TestLoader.CanReloadUnderRuntimeVersion(framework.ClrVersion);
+                    }
+                    catch
+                    {
+                        item.Enabled = false;
+                    }
                     runtimeMenuItem.MenuItems.Add(item);
                 }
             }
@@ -1764,7 +1771,7 @@ namespace NUnit.Gui
 		}
 
 		/// <summary>
-		/// Event handler for assembly load faiulres. We do this via
+		/// Event handler for assembly load failures. We do this via
 		/// an event since some errors may occur asynchronously.
 		/// </summary>
 		private void OnTestLoadFailure( object sender, TestEventArgs e )
@@ -1775,10 +1782,12 @@ namespace NUnit.Gui
 				longOpDisplay = null;
 			}
 			
-			string message = null;
+			string message = e.Action == NUnit.Util.TestAction.TestReloadFailed
+                ? "Test reload failed!"
+                : "Test load failed!";
 			if ( e.Exception is BadImageFormatException )
-				message = string.Format(
-                    "Assembly Not Loaded" + Environment.NewLine + Environment.NewLine +
+				message += string.Format(
+                    Environment.NewLine + Environment.NewLine +
 					@"You may be attempting to load an assembly built with a later version of the CLR than
 the version under which NUnit is currently running ({0}) or trying to load a 64-bit assembly into a 32-bit process.",
 					Environment.Version.ToString(3) );

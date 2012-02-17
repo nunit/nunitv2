@@ -59,7 +59,7 @@ namespace NUnit.Util
 		/// <summary>
 		/// The currently loaded test, returned by the testrunner
 		/// </summary>
-		private ITest loadedTest = null;
+        //private ITest loadedTest = null;
 
 		/// <summary>
 		/// The test name that was specified when loading
@@ -161,8 +161,13 @@ namespace NUnit.Util
 
 		public bool IsTestLoaded
 		{
-			get { return loadedTest != null; }
+			get { return testRunner != null && testRunner.Test != null; }
 		}
+
+        public ITest LoadedTest
+        {
+            get { return testRunner == null ? null : testRunner.Test; }
+        }
 
 		public bool Running
 		{
@@ -196,12 +201,12 @@ namespace NUnit.Util
 
 		public IList AssemblyInfo
 		{
-			get { return testRunner == null ? null : testRunner.AssemblyInfo; }
+			get { return testRunner == null ? new TestAssemblyInfo[0] : testRunner.AssemblyInfo; }
 		}
 
 		public int TestCount
 		{
-			get { return loadedTest == null ? 0 : loadedTest.TestCount; }
+			get { return LoadedTest == null ? 0 : LoadedTest.TestCount; }
 		}
 
         public RuntimeFramework CurrentFramework
@@ -488,7 +493,6 @@ namespace NUnit.Util
 
                 bool loaded = testRunner.Load(package);
 
-				loadedTest = testRunner.Test;
 				loadedTestName = testName;
 				testResult = null;
 				reloadPending = false;
@@ -503,7 +507,7 @@ namespace NUnit.Util
                         : RuntimeFramework.CurrentFramework;
 
                     testProject.HasChangesRequiringReload = false;
-                    events.FireTestLoaded(TestFileName, loadedTest);
+                    events.FireTestLoaded(TestFileName, LoadedTest);
                 }
                 else
                 {
@@ -562,7 +566,6 @@ namespace NUnit.Util
                     testRunner.Dispose();
 					testRunner = null;
 
-					loadedTest = null;
 					loadedTestName = null;
 					testResult = null;
 					reloadPending = false;
@@ -588,8 +591,11 @@ namespace NUnit.Util
             if (!Services.TestAgency.IsRuntimeVersionSupported(version))
                 return false;
 
+            if (AssemblyInfo.Count == 0)
+                return false;
+
             foreach (TestAssemblyInfo info in AssemblyInfo)
-                if (info.ImageRuntimeVersion > version)
+                if (info == null || info.ImageRuntimeVersion > version)
                     return false;
 
             return true;
@@ -623,7 +629,6 @@ namespace NUnit.Util
                         ? package.Settings["RuntimeFramework"] as RuntimeFramework
                         : RuntimeFramework.CurrentFramework;
 
-                loadedTest = testRunner.Test;
                 currentRuntime = framework;
 				reloadPending = false;
 
@@ -631,7 +636,7 @@ namespace NUnit.Util
                     InstallWatcher();
 
                 testProject.HasChangesRequiringReload = false;
-                events.FireTestReloaded(TestFileName, loadedTest);
+                events.FireTestReloaded(TestFileName, LoadedTest);
 
                 log.Info("Reload complete");
 			}
@@ -679,7 +684,7 @@ namespace NUnit.Util
 		/// <param name="filter">The filter to be used</param>
 		public void RunTests( ITestFilter filter )
 		{
-			if ( !Running  && loadedTest != null)
+			if ( !Running  && LoadedTest != null)
 			{
                 if (reloadPending || Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", false))
 					ReloadTest();
@@ -707,7 +712,7 @@ namespace NUnit.Util
 		public IList GetCategories() 
 		{
 			CategoryManager categoryManager = new CategoryManager();
-			categoryManager.AddAllCategories( this.loadedTest );
+			categoryManager.AddAllCategories( this.LoadedTest );
 			ArrayList list = new ArrayList( categoryManager.Categories );
 			list.Sort();
 			return list;
