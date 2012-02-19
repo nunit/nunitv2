@@ -30,7 +30,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Gets the expected result
         /// </summary>
-        object ExpectedResult { get; }
+        object Result { get; }
 
         /// <summary>
         /// Indicates whether a result has been specified.

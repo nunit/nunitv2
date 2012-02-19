@@ -12,6 +12,7 @@
     <include name="ConsoleWriter.cs"/>
     <include name="DefaultTestRunnerFactory.cs"/>
     <include name="FileWatcher.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="Guard.cs"/>
     <include name="IAssemblyWatcher.cs"/>
     <include name="InProcessTestRunnerFactory.cs"/>
     <include name="MemorySettingsStorage.cs"/>

@@ -28,7 +28,7 @@ namespace NUnit.Core
         /// <summary>ExpectedException MatchType</summary>
         public static readonly string MatchType = "MatchType";
         /// <summary>Expected return result from test</summary>
-        public static readonly string ExpectedResult = "ExpectedResult";
+        public static readonly string ExpectedResult = "Result";
         /// <summary>Indicates whether there is an expected return result</summary>
         public static readonly string HasExpectedResult = "HasExpectedResult";
         /// <summary>Description of the test</summary>

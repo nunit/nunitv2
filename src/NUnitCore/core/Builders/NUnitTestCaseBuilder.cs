@@ -293,7 +293,7 @@ namespace NUnit.Core.Builders
                 testMethod.arguments = parms.Arguments;
                 testMethod.hasExpectedResult = parms.HasExpectedResult;
                 if (testMethod.hasExpectedResult)
-                    testMethod.expectedResult = parms.ExpectedResult;
+                    testMethod.expectedResult = parms.Result;
                 testMethod.RunState = parms.RunState;
                 testMethod.IgnoreReason = parms.IgnoreReason;
                 testMethod.BuilderException = parms.ProviderException;
