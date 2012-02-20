@@ -8,7 +8,11 @@ using System;
 
 namespace NUnit.Util
 {
-    static class Guard
+#if CLR_2_0 || CLR_4_0
+    public static class Guard
+#else
+    public class Guard
+#endif
     {
         public static void ArgumentNotNull(object value, string name)
         {
