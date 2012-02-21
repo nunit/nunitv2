@@ -75,6 +75,7 @@
         <File Id="quickstart.html" Name="quickStart.html" />
         <File Id="random.html" Name="random.html" />
         <File Id="range.html" Name="range.html" />
+        <File Id="releaseBreakdown.html" Name="releaseBreakdown.html" />
         <File Id="releaseNotes.html" Name="releaseNotes.html" />
         <File Id="repeat.html" Name="repeat.html" />
         <File Id="requiredAddin.html" Name="requiredAddin.html" />
@@ -116,6 +117,8 @@
         <File Id="values.html" Name="values.html" />
         <File Id="valueSource.html" Name="valueSource.html" />
         <File Id="vsSupport.html" Name="vsSupport.html" />
+        <File Id="vsTestAdapterLicense.html" Name="vsTestAdapterLicense.html" />
+        <File Id="vsTestAdapter.html" Name="vsTestAdapter.html" />
         <File Id="writingTests.html" Name="writingTests.html" />
         <RemoveFile Id="RemoveThumbnails_Doc" Name="*" On="uninstall" />
       </Component>
@@ -152,6 +155,7 @@
         <File Id="langFilter.gif" Name="langFilter.gif" />
         <File Id="logo.gif" Name="logo.gif" />
         <File Id="miniGui.jpg" Name="miniGui.jpg" />
+        <File Id="nunitTestAdapter.png" Name="nunitTestAdapter.png" />
         <File Id="testProperties.jpg" Name="testProperties.jpg" />
         <File Id="testLoadSettings.jpg" Name="testLoadSettings.jpg" />
         <File Id="testResultSettings.jpg" Name="testResultSettings.jpg" />
