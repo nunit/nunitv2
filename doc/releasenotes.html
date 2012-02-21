@@ -45,7 +45,7 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
-<h3>NUnit 2.6 Release Candidate - Version 2.6.0.12035 - February 4, 2012</h3>
+<h3>NUnit 2.6 Final Release - Version 2.6.0.12051 - February 20, 2012</h3>
 
 <h4>General</h4>
 
@@ -79,8 +79,7 @@ dt { font-weight: bold }
     target .NET 2.0 but the full set of tests requires 3.5 or greater to execute.
     The build script selects either .NET 3.5 or .NET 4.0 to perform the build,
     depending on what is available. A Visual Studio 2008 solution is also provided.
-<li>NAnt 0.91 release is now used for building on Windows. The 0.90
-    release is still used on Linux.
+<li>NAnt 0.91 release is now used for building.
 <li>The Windows installer is now built using WiX 3.5, upgraded from 2.0.
 <li>The TestRunner interface has been modified. Applications using this
     interface will need to be modified but general users are not effected.
@@ -274,6 +273,8 @@ dt { font-weight: bold }
 <li>878899 	Changing logging level has no effect until NUnit is restarted
 <li>878955 	ParameterizedTest not in their parent test-suite when FixtureSetup fails in .xml result file
 <li>881617 	Tests with invalid category attributes should be more visible
+<li>881715 	Frequent socketexception in nUnit GUI
+<li>881958 	nunit-console-x86 crashes with socketexception
 <li>882137 	When no tests are run, higher level suites display as Inconclusive
 <li>882192 	Ignored test icon should be more prominent
 <li>882517 	NUnit 2.5.10 doesn't recognize TestFixture if there are only TestCaseSource inside
@@ -312,6 +313,9 @@ dt { font-weight: bold }
 <li>920472 	CollectionAssert.IsNotEmpty must dispose Enumerator
 <li>922455 	Add Support for Windows 8 and Windows 2012 Server to PlatformAttribute
 <li>924504 	NUnit project files should have an Edit command association with the project editor
+<li>928018 	Issue with test time print out
+<li>930774 	Adding or Removing a category in the Gui causes an exception
+<li>933800 	NUnit will crash when started and dll from previous project doesn't compile
 </ul>
 
 
@@ -342,6 +346,12 @@ dt { font-weight: bold }
 <li><a href="samples.html">Samples</a></li>
 <li><a href="license.html">License</a></li>
 </ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;Test&nbsp;Adapter&nbsp;0.90</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+</ul>
+<li><a href="&r=2.6.html"></a></li>
+<li><a href="&r=2.6.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
@@ -349,7 +359,7 @@ dt { font-weight: bold }
 
 <!-- Standard Footer for NUnit.org -->
 <div id="footer">
-  Copyright &copy; 2010 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
 </div>
 <!-- End of Footer -->
 
