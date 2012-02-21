@@ -443,10 +443,11 @@ namespace NUnit.Core
                     if (this.ResultState == ResultState.Inconclusive)
                         this.Success();
                     break;
-                case ResultState.Ignored:
-                    if (this.ResultState == ResultState.Inconclusive || ResultState == ResultState.Success)
-                        this.SetResult(ResultState.Ignored, "One or more child tests were ignored", null, FailureSite.Child);
-                    break;
+                // Removed this case due to bug #928018
+                //case ResultState.Ignored:
+                //    if (this.ResultState == ResultState.Inconclusive || ResultState == ResultState.Success)
+                //        this.SetResult(ResultState.Ignored, "One or more child tests were ignored", null, FailureSite.Child);
+                //    break;
                 case ResultState.Cancelled:
                     this.SetResult(ResultState.Cancelled, result.Message, null, FailureSite.Child);
                     break;

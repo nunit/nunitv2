@@ -142,7 +142,7 @@ namespace NUnit.Framework
         /// <summary>
         /// Gets the expected result
         /// </summary>
-        public object ExpectedResult
+        public object Result
         {
             get { return expectedResult; }
         }

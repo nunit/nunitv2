@@ -143,7 +143,7 @@ namespace NUnit.Core.Extensibility
         /// The expected result of the test, which
         /// must match the method return type.
         /// </summary>
-        public object ExpectedResult
+        public object Result
         {
             get { return expectedResult; }
             set 
@@ -294,9 +294,11 @@ namespace NUnit.Core.Extensibility
             if ( matchEnum != null )
                 parms.MatchType = matchEnum.ToString();
 
+            // Note: pre-2.6 versions of some attributes don't have the HasExpectedResult property
             object hasResult = GetParm(source, PropertyNames.HasExpectedResult);
-            if (hasResult != null && (bool)hasResult)
-                parms.ExpectedResult = GetParm(source, PropertyNames.ExpectedResult);
+            object expectedResult = GetParm(source, PropertyNames.ExpectedResult);
+            if (hasResult != null && (bool)hasResult || expectedResult != null)
+                parms.Result = expectedResult;
 
             parms.Description = GetParm(source, PropertyNames.Description) as string;
 

@@ -220,13 +220,14 @@ namespace NUnit.Util
 		public virtual void Unload()
 		{
             if (aggregateTest != null)
-            {
                 Log.Info("Unloading " + Path.GetFileName(aggregateTest.TestName.Name));
+
+            if (runners != null)
                 foreach (TestRunner runner in runners)
                     runner.Unload();
-                aggregateTest = null;
-                Log.Info("Unload complete");
-            }
+
+            aggregateTest = null;
+            Log.Info("Unload complete");
 		}
 		#endregion
 

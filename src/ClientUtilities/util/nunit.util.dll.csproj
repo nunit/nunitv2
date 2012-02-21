@@ -105,6 +105,7 @@
     <Compile Include="Extensibility\ProjectConverterCollection.cs" />
     <Compile Include="FileWatcher.cs">
     </Compile>
+    <Compile Include="Guard.cs" />
     <Compile Include="IAssemblyWatcher.cs" />
     <Compile Include="InProcessTestRunnerFactory.cs" />
     <Compile Include="Interfaces\IRuntimeFrameworkSelector.cs" />
