@@ -45,6 +45,8 @@
 
     <call target="package-docs"/>
 
+    <call target="package-nuget"/>
+
     <foreach item="String" delim="," 
         property="runtime.config" in="${standard.packages}">
 
@@ -297,6 +299,39 @@
         <include name="**"/>
       </fileset>
     </zip>
+
+  </target>
+
+<!-- ***************************************************************** -->
+<!-- ***                    Package for NuGet                      *** -->
+<!-- ***************************************************************** -->
+
+  <target name="package-nuget" depends="set-build-dir, clean-package-dir"
+      description="Create all nuget packages">
+
+    <foreach item="String" delim="," 
+        property="nuget.package.name" in="${nuget.packages}">
+
+      <call target="create-nuget-package" />
+
+    </foreach>
+
+  </target>
+
+  <target name="create-nuget-package">
+
+    <echo message="Creating ${nuget.package.name} nuget package"/>
+
+    <copy file="${project.nuget.dir}/${nuget.package.name}.nuspec"
+        tofile="${project.nuget.dir}/_${nuget.package.name}.nuspec">
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </copy>
+
+    <exec program="NuGet.exe"
+      workingdir="${project.nuget.dir}"
+      commandline="pack _${nuget.package.name}.nuspec -o ${project.package.dir}" />
 
   </target>
 

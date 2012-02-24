@@ -47,6 +47,10 @@
   <property name="standard.packages" value="mono-3.5,mono-1.0"
       unless="${platform::is-windows()}"/>
 
+  <!-- NuGet packages we create -->
+  <property name="nuget.packages"
+    value="nunit,nunit.mocks,pnunit,nunit.runners,nunit.editor"/>
+
   <!-- Our standard package for general distribution -->
   <property name="default.package.config" value="net-3.5" />
 
@@ -83,6 +87,8 @@
     value="${path::combine(project.base.dir,'lib')}"/>
   <property name="project.install.dir"
     value="${path::combine(project.base.dir, 'install')}"/>
+  <property name="project.nuget.dir"
+    value="${path::combine(project.base.dir, 'nuget')}"/>
 
   <!-- Set paths to various package directories -->
   <property name="package.working.dir" 
