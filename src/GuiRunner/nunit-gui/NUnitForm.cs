@@ -1831,10 +1831,11 @@ the version under which NUnit is currently running ({0}) or trying to load a 64-
             try
             {
                 TestLoader.SaveLastResult("TestResult.xml");
+                log.Debug("Saved result to {0}", Path.GetFullPath("TestResult.xml"));
             }
             catch (Exception ex)
             {
-                log.Warning("Unable to save TestResult.xml\n{0}", ex.ToString());
+                log.Warning("Unable to save result to {0}\n{1}", Path.GetFullPath("TestResult.xml"), ex.ToString());
             }
 
             EnableRunCommand(true);
