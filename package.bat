@@ -4,7 +4,7 @@ rem PACKAGE - Packages NUnit
 
 setlocal
 
-set NANT=tools\NAnt-0.91\bin\nant.exe
+set NANT=tools\nant\nant.exe
 set OPTIONS=-f:scripts/nunit.package.targets
 set CONFIG=
 set RUNTIME=
