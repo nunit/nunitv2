@@ -138,5 +138,15 @@ namespace NUnit.Framework.Constraints
                 System.Reflection.MethodInfo.GetCurrentMethod(),
                 Has.Attribute(typeof(DescriptionAttribute)).Property("Description").EqualTo("my description"));
         }
+
+        [Test]
+        public void CanCombineAttributeConstraints()
+        {
+            Assert.That(
+                System.Reflection.MethodInfo.GetCurrentMethod(),
+                new AttributeExistsConstraint(typeof(TestFixtureAttribute)) | new AttributeExistsConstraint(typeof(TestAttribute)));
+                //Has.Attribute<TestFixtureAttribute>() || Has.Attribute<TestAttribute>());
+                //new AttributeExistsConstraint(typeof(TestAttribute)));
+        }
     }
 }
