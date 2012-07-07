@@ -12,6 +12,7 @@ namespace NUnit.UiKit.Tests
 	using NUnit.Framework;
 	using NUnit.Util;
 	using NUnit.Tests.Assemblies;
+    using NUnit.TestUtilities;
 
 	/// <summary>
 	/// Summary description for TestSuiteTreeNodeTests.
@@ -23,10 +24,6 @@ namespace NUnit.UiKit.Tests
 		Test testFixture;
 		Test testCase;
 
-		TestInfo suiteInfo;
-		TestInfo fixtureInfo;
-		TestInfo testCaseInfo;
-
 		[SetUp]
 		public void SetUp()
 		{
@@ -34,111 +31,72 @@ namespace NUnit.UiKit.Tests
 			testFixture = TestFixtureBuilder.BuildFrom( typeof( MockTestFixture ) );
 			testSuite.Add( testFixture );
 
-			suiteInfo = new TestInfo( testSuite );
-			fixtureInfo = new TestInfo( testFixture );
-
-			testCase = (NUnit.Core.Test)testFixture.Tests[0];
-			testCaseInfo = new TestInfo( testCase );
+			testCase = TestFinder.Find("MockTest1", testFixture, false);
 		}
 
 		[Test]
-		public void ConstructFromTestInfo()
+		public void CanConstructFromTestSuite()
 		{
-			TestSuiteTreeNode node;
-			
-			node = new TestSuiteTreeNode( suiteInfo );
+			TestSuiteTreeNode node = new TestSuiteTreeNode( new TestInfo(testSuite) );
 			Assert.AreEqual( "MyTestSuite", node.Text );
 			Assert.AreEqual( "TestSuite", node.TestType );
+        }
 
-			node = new TestSuiteTreeNode( fixtureInfo );
+        [Test]
+        public void CanConstructFromTestFixture()
+        {
+			TestSuiteTreeNode node = new TestSuiteTreeNode( new TestInfo(testFixture) );
 			Assert.AreEqual( "MockTestFixture", node.Text );
 			Assert.AreEqual( "TestFixture", node.TestType );
+        }
 
-			node = new TestSuiteTreeNode( testCaseInfo );
+        [Test]
+        public void CanConstructFromTestCase()
+        {
+			TestSuiteTreeNode node = new TestSuiteTreeNode( new TestInfo(testCase) );
 			Assert.AreEqual( "MockTest1", node.Text );
 			Assert.AreEqual( "TestMethod", node.TestType );
 		}
 
-        [Test]
-        public void ResultNotSet()
+        [TestCase("MockTest1", TestSuiteTreeNode.InitIndex)]
+        [TestCase("MockTest4", TestSuiteTreeNode.IgnoredIndex)]
+        [TestCase("NotRunnableTest", TestSuiteTreeNode.FailureIndex)]
+        public void WhenResultIsNotSet_IndexReflectsRunState(string testName, int expectedIndex)
         {
-            TestSuiteTreeNode node = new TestSuiteTreeNode(testCaseInfo);
+            Test test = TestFinder.Find(testName, testFixture, false);
+            TestSuiteTreeNode node = new TestSuiteTreeNode(new TestInfo(test));
 
-            Assert.AreEqual(TestSuiteTreeNode.InitIndex, node.ImageIndex);
-            Assert.AreEqual(TestSuiteTreeNode.InitIndex, node.SelectedImageIndex);
+            Assert.AreEqual(expectedIndex, node.ImageIndex);
+            Assert.AreEqual(expectedIndex, node.SelectedImageIndex);
         }
 
-        [Test]
-        public void SetResult_Inconclusive()
+        [TestCase(ResultState.Inconclusive, TestSuiteTreeNode.InconclusiveIndex)]
+        [TestCase(ResultState.NotRunnable, TestSuiteTreeNode.FailureIndex)]
+        [TestCase(ResultState.Skipped, TestSuiteTreeNode.SkippedIndex)]
+        [TestCase(ResultState.Ignored, TestSuiteTreeNode.IgnoredIndex)]
+        [TestCase(ResultState.Success, TestSuiteTreeNode.SuccessIndex)]
+        [TestCase(ResultState.Failure, TestSuiteTreeNode.FailureIndex)]
+        [TestCase(ResultState.Error, TestSuiteTreeNode.FailureIndex)]
+        [TestCase(ResultState.Cancelled, TestSuiteTreeNode.FailureIndex)]
+        public void WhenResultIsSet_IndexReflectsResultState(ResultState resultState, int expectedIndex)
         {
-            TestSuiteTreeNode node = new TestSuiteTreeNode(testCaseInfo);
-            TestResult result = new TestResult(testCaseInfo);
+            TestSuiteTreeNode node = new TestSuiteTreeNode(new TestInfo(testCase));
+            TestResult result = new TestResult(testCase);
 
-            result.SetResult(ResultState.Inconclusive, null, null);
+            result.SetResult(resultState, null, null);
             node.Result = result;
-            Assert.AreEqual("MockTest1", node.Result.Name);
-            Assert.AreEqual(TestSuiteTreeNode.InconclusiveIndex, node.ImageIndex);
-            Assert.AreEqual(TestSuiteTreeNode.InconclusiveIndex, node.SelectedImageIndex);
-            Assert.AreEqual(result.ResultState.ToString(), node.StatusText);
+            Assert.AreEqual(expectedIndex, node.ImageIndex);
+            Assert.AreEqual(expectedIndex, node.SelectedImageIndex);
+            Assert.AreEqual(resultState.ToString(), node.StatusText);
         }
 
-        [Test]
-		public void SetResult_Ignore()
+        [TestCase("MockTest1", TestSuiteTreeNode.InitIndex)]
+        [TestCase("MockTest4", TestSuiteTreeNode.IgnoredIndex)]
+        [TestCase("NotRunnableTest", TestSuiteTreeNode.FailureIndex)]
+        public void WhenResultIsCleared_IndexReflectsRunState(string testName, int expectedIndex)
 		{
-			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestResult result = new TestResult( testCaseInfo );
-
-			result.Ignore( "reason" );
-			node.Result = result;
-			Assert.AreEqual( "MockTest1", node.Result.Name );
-			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.ImageIndex );
-			Assert.AreEqual( TestSuiteTreeNode.IgnoredIndex, node.SelectedImageIndex );
-			Assert.AreEqual( "Ignored", node.StatusText );
-		}
-
-		[Test]
-		public void SetResult_Success()
-		{
-			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestResult result = new TestResult( testCaseInfo );
-
-			result.Success();
-			node.Result = result;
-			Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, node.ImageIndex );
-			Assert.AreEqual( TestSuiteTreeNode.SuccessIndex, node.SelectedImageIndex );
-			Assert.AreEqual( "Success", node.StatusText );
-		}
-
-		[Test]
-		public void SetResult_Failure()
-		{
-			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestResult result = new TestResult( testCaseInfo );
-
-			result.Failure("message", "stacktrace");
-			node.Result = result;
-			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.ImageIndex );
-			Assert.AreEqual( TestSuiteTreeNode.FailureIndex, node.SelectedImageIndex );
-			Assert.AreEqual( "Failure", node.StatusText );
-		}
-
-		[Test]
-		public void SetResult_Skipped()
-		{
-			TestSuiteTreeNode node = new TestSuiteTreeNode( testCaseInfo );
-			TestResult result = new TestResult( testCaseInfo );
-
-            result.Skip("");
-			node.Result = result;
-			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.ImageIndex );
-			Assert.AreEqual( TestSuiteTreeNode.SkippedIndex, node.SelectedImageIndex );
-			Assert.AreEqual( "Skipped", node.StatusText );
-		}
-
-		[Test]
-		public void ClearResult()
-		{
-			TestResult result = new TestResult( testCaseInfo );
+            Test test = TestFinder.Find(testName, testFixture, false);
+			TestResult result = new TestResult( test );
 			result.Failure("message", "stacktrace");
 
 			TestSuiteTreeNode node = new TestSuiteTreeNode( result );
@@ -147,16 +105,16 @@ namespace NUnit.UiKit.Tests
 
 			node.ClearResults();
 			Assert.AreEqual( null, node.Result );
-			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.ImageIndex );
-			Assert.AreEqual( TestSuiteTreeNode.InitIndex, node.SelectedImageIndex );
+			Assert.AreEqual( expectedIndex, node.ImageIndex );
+			Assert.AreEqual( expectedIndex, node.SelectedImageIndex );
 		}
 		
 		[Test]
-		public void ClearNestedResults()
+		public void WhenResultIsCleared_NestedResultsAreAlsoCleared()
 		{
-			TestResult testCaseResult = new TestResult( testCaseInfo );
+			TestResult testCaseResult = new TestResult( testCase );
 			testCaseResult.Success();
-			TestResult testSuiteResult = new TestResult( fixtureInfo );
+			TestResult testSuiteResult = new TestResult( testFixture );
 			testSuiteResult.AddResult( testCaseResult );
             testSuiteResult.Success();
 

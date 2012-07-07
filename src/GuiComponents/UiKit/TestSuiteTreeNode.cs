@@ -41,12 +41,12 @@ namespace NUnit.UiKit
 		/// Image indices for various test states - the values 
 		/// must match the indices of the image list used
 		/// </summary>
-		public static readonly int InitIndex = 0;
-		public static readonly int SkippedIndex = 0; 
-		public static readonly int FailureIndex = 1;
-		public static readonly int SuccessIndex = 2;
-		public static readonly int IgnoredIndex = 3;
-	    public static readonly int InconclusiveIndex = 4;
+		public const int InitIndex = 0;
+		public const int SkippedIndex = 0; 
+		public const int FailureIndex = 1;
+		public const int SuccessIndex = 2;
+		public const int IgnoredIndex = 3;
+	    public const int InconclusiveIndex = 4;
 
 		#endregion
 
@@ -258,11 +258,15 @@ namespace NUnit.UiKit
                     case ResultState.Ignored:
                         return IgnoredIndex;
                     case ResultState.Success:
+                        int resultIndex = SuccessIndex;
                         foreach (TestSuiteTreeNode node in this.Nodes)
+                        {
+                            if (node.ImageIndex == FailureIndex)
+                                return FailureIndex; // Return FailureIndex if there is any failure
                             if (node.ImageIndex == IgnoredIndex)
-                                return IgnoredIndex;
-
-                        return SuccessIndex;
+                                resultIndex = IgnoredIndex; // Remember IgnoredIndex - we might still find a failure
+                        }
+                        return resultIndex;
                     default:
                         return InitIndex;
                 }
