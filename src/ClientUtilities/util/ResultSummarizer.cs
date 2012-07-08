@@ -184,10 +184,5 @@ namespace NUnit.Util
 		{
 			get { return skipCount + ignoreCount + notRunnable; }
 		}
-
-	    public int ErrorsAndFailures
-	    {
-            get { return errorCount + failureCount; }   
-	    }
 	}
 }

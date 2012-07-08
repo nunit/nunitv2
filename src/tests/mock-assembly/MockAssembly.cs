@@ -58,7 +58,6 @@ namespace NUnit.Tests
 
 			public static int Errors = MockTestFixture.Errors;
             public static int Failures = MockTestFixture.Failures;
-			public static int ErrorsAndFailures = Errors + Failures;
 
 			public static int Categories = MockTestFixture.Categories;
 
@@ -93,7 +92,6 @@ namespace NUnit.Tests
 
             public static readonly int Failures = 1;
             public static readonly int Errors = 1;
-			public static readonly int ErrorsAndFailures = Errors + Failures;
 
 			public static readonly int Categories = 5;
 		    public static readonly int MockCategoryTests = 2;

@@ -22,6 +22,8 @@ namespace NUnit.ConsoleRunner.Tests
         private static readonly string failureMsg = 
             string.Format( "Errors: {0}, Failures: {1}", 
                 MockAssembly.Errors, MockAssembly.Failures );
+        private static readonly int expectedReturnCode =
+            MockAssembly.Errors + MockAssembly.Failures + MockAssembly.NotRunnable;
 
 		private static readonly string xmlFile = Path.Combine(Path.GetTempPath(), "console-test.xml");
 		private StringBuilder output;
@@ -133,42 +135,42 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void CanRunWithoutTestDomain()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-noxml"));
+            Assert.AreEqual(expectedReturnCode, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-noxml"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithSingleTestDomain()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-noxml"));
+            Assert.AreEqual(expectedReturnCode, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-noxml"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithMultipleTestDomains()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-noxml"));
+            Assert.AreEqual(expectedReturnCode, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-noxml"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithoutTestDomain_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-nothread", "-noxml"));
+            Assert.AreEqual(expectedReturnCode, executeConsole(MockAssembly.AssemblyPath, "-domain:None", "-nothread", "-noxml"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithSingleTestDomain_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-nothread", "-noxml"));
+            Assert.AreEqual(expectedReturnCode, executeConsole(MockAssembly.AssemblyPath, "-domain:Single", "-nothread", "-noxml"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
 		[Test]
 		public void CanRunWithMultipleTestDomains_NoThread()
 		{
-            Assert.AreEqual(MockAssembly.ErrorsAndFailures, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-nothread", "-noxml"));
+            Assert.AreEqual(expectedReturnCode, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-nothread", "-noxml"));
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 

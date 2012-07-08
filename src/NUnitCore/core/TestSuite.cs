@@ -551,7 +551,7 @@ namespace NUnit.Core
                     if (result.ResultState == ResultState.Cancelled)
                         break;
 
-                    if ((result.IsError || result.IsFailure) && stopOnError)
+                    if ((result.IsError || result.IsFailure || result.ResultState == ResultState.NotRunnable) && stopOnError)
                         break;
                 }
             }
