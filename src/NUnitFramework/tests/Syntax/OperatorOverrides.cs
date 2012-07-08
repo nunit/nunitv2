@@ -19,8 +19,15 @@ namespace NUnit.Framework.Syntax
             inheritedSyntax = !Helper().Null;
             builderSyntax = !Builder().Null;
         }
+
+        [Test]
+        public void NotOperatorCanApplyToResolvableConstraintExpression()
+        {
+            Assert.That(GetType(), !Has.Attribute<DescriptionAttribute>());
+        }
     }
 
+    [TestFixture, Description("Test")]
     public class AndOperatorOverride : SyntaxTest
     {
         [SetUp]
@@ -31,8 +38,27 @@ namespace NUnit.Framework.Syntax
             inheritedSyntax = Helper().GreaterThan(5) & Is.LessThan(10);
             builderSyntax = Builder().GreaterThan(5) & Builder().LessThan(10);
         }
+
+        [Test]
+        public void AndOperatorCanCombineTwoResolvableConstraintExpressions()
+        {
+            Assert.That(GetType(), Has.Attribute<TestFixtureAttribute>() & Has.Attribute<DescriptionAttribute>());
+        }
+
+        [Test]
+        public void AndOperatorCanCombineConstraintAndResolvableConstraintExpression()
+        {
+            Assert.That(GetType(), Is.EqualTo(typeof(AndOperatorOverride)) & Has.Attribute<DescriptionAttribute>());
+        }
+
+        [Test]
+        public void AndOperatorCanCombineResolvableConstraintExpressionAndConstraint()
+        {
+            Assert.That(GetType(), Has.Attribute<DescriptionAttribute>() & Is.EqualTo(typeof(AndOperatorOverride)));
+        }
     }
 
+    [TestFixture]
     public class OrOperatorOverride : SyntaxTest
     {
         [SetUp]
@@ -42,6 +68,24 @@ namespace NUnit.Framework.Syntax
             staticSyntax = Is.LessThan(5) | Is.GreaterThan(10);
             inheritedSyntax = Helper().LessThan(5) | Is.GreaterThan(10);
             builderSyntax = Builder().LessThan(5) | Is.GreaterThan(10);
+        }
+
+        [Test]
+        public void OrOperatorCanCombineTwoResolvableConstraintExpressions()
+        {
+            Assert.That(GetType(), Has.Attribute<TestFixtureAttribute>() | Has.Attribute<TestCaseAttribute>());
+        }
+
+        [Test]
+        public void OrOperatorCanCombineResolvableConstraintExpressionAndConstraint()
+        {
+            Assert.That(GetType(), Has.Attribute<TestFixtureAttribute>() | Is.EqualTo(7));
+        }
+
+        [Test]
+        public void OrOperatorCanCombineConstraintAndResolvableConstraintExpression()
+        {
+            Assert.That(GetType(), Is.EqualTo(7) | Has.Attribute<TestFixtureAttribute>());
         }
     }
 

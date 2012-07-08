@@ -58,5 +58,81 @@ namespace NUnit.Framework.Constraints
             return builder.Resolve();
         }
         #endregion
+
+        #region Operator Overloads
+        /// <summary>
+        /// This operator creates a constraint that is satisfied only if both 
+        /// argument constraints are satisfied.
+        /// </summary>
+        public static Constraint operator &(ResolvableConstraintExpression left, ResolvableConstraintExpression right)
+        {
+            return OperatorAndImplementation(left, right);
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied only if both 
+        /// argument constraints are satisfied.
+        /// </summary>
+        public static Constraint operator &(Constraint left, ResolvableConstraintExpression right)
+        {
+            return OperatorAndImplementation(left, right);
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied only if both 
+        /// argument constraints are satisfied.
+        /// </summary>
+        public static Constraint operator &(ResolvableConstraintExpression left, Constraint right)
+        {
+            return OperatorAndImplementation(left, right);
+        }
+
+        private static Constraint OperatorAndImplementation(IResolveConstraint left, IResolveConstraint right)
+        {
+            return new AndConstraint(left.Resolve(), right.Resolve());
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied if either 
+        /// of the argument constraints is satisfied.
+        /// </summary>
+        public static Constraint operator |(ResolvableConstraintExpression left, ResolvableConstraintExpression right)
+        {
+            return OperatorOrImplementation(left, right);
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied if either 
+        /// of the argument constraints is satisfied.
+        /// </summary>
+        public static Constraint operator |(ResolvableConstraintExpression left, Constraint right)
+        {
+            return OperatorOrImplementation(left, right);
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied if either 
+        /// of the argument constraints is satisfied.
+        /// </summary>
+        public static Constraint operator |(Constraint left, ResolvableConstraintExpression right)
+        {
+            return OperatorOrImplementation(left, right);
+        }
+
+        private static Constraint OperatorOrImplementation(IResolveConstraint left, IResolveConstraint right)
+        {
+            return new OrConstraint(left.Resolve(), right.Resolve());
+        }
+
+        /// <summary>
+        /// This operator creates a constraint that is satisfied if the 
+        /// argument constraint is not satisfied.
+        /// </summary>
+        public static Constraint operator !(ResolvableConstraintExpression constraint)
+        {
+            IResolveConstraint r = constraint as IResolveConstraint;
+            return new NotConstraint(r == null ? new NullConstraint() : r.Resolve());
+        }
+        #endregion
     }
 }
