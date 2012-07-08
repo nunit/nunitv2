@@ -23,7 +23,7 @@ namespace NUnit.Framework.Syntax
         [Test]
         public void NotOperatorCanApplyToResolvableConstraintExpression()
         {
-            Assert.That(GetType(), !Has.Attribute<DescriptionAttribute>());
+            Assert.That(GetType(), !Has.Attribute(typeof(DescriptionAttribute)));
         }
     }
 
@@ -42,19 +42,19 @@ namespace NUnit.Framework.Syntax
         [Test]
         public void AndOperatorCanCombineTwoResolvableConstraintExpressions()
         {
-            Assert.That(GetType(), Has.Attribute<TestFixtureAttribute>() & Has.Attribute<DescriptionAttribute>());
+            Assert.That(GetType(), Has.Attribute(typeof(TestFixtureAttribute)) & Has.Attribute(typeof(DescriptionAttribute)));
         }
 
         [Test]
         public void AndOperatorCanCombineConstraintAndResolvableConstraintExpression()
         {
-            Assert.That(GetType(), Is.EqualTo(typeof(AndOperatorOverride)) & Has.Attribute<DescriptionAttribute>());
+            Assert.That(GetType(), Is.EqualTo(typeof(AndOperatorOverride)) & Has.Attribute(typeof(DescriptionAttribute)));
         }
 
         [Test]
         public void AndOperatorCanCombineResolvableConstraintExpressionAndConstraint()
         {
-            Assert.That(GetType(), Has.Attribute<DescriptionAttribute>() & Is.EqualTo(typeof(AndOperatorOverride)));
+            Assert.That(GetType(), Has.Attribute(typeof(DescriptionAttribute)) & Is.EqualTo(typeof(AndOperatorOverride)));
         }
     }
 
@@ -73,19 +73,19 @@ namespace NUnit.Framework.Syntax
         [Test]
         public void OrOperatorCanCombineTwoResolvableConstraintExpressions()
         {
-            Assert.That(GetType(), Has.Attribute<TestFixtureAttribute>() | Has.Attribute<TestCaseAttribute>());
+            Assert.That(GetType(), Has.Attribute(typeof(TestFixtureAttribute)) | Has.Attribute(typeof(TestCaseAttribute)));
         }
 
         [Test]
         public void OrOperatorCanCombineResolvableConstraintExpressionAndConstraint()
         {
-            Assert.That(GetType(), Has.Attribute<TestFixtureAttribute>() | Is.EqualTo(7));
+            Assert.That(GetType(), Has.Attribute(typeof(TestFixtureAttribute)) | Is.EqualTo(7));
         }
 
         [Test]
         public void OrOperatorCanCombineConstraintAndResolvableConstraintExpression()
         {
-            Assert.That(GetType(), Is.EqualTo(7) | Has.Attribute<TestFixtureAttribute>());
+            Assert.That(GetType(), Is.EqualTo(7) | Has.Attribute(typeof(TestFixtureAttribute)));
         }
     }
 
