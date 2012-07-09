@@ -170,7 +170,7 @@ namespace NUnit.Framework.Syntax
         }
 
         [Test]
-        public void LambdaThrowsExcepton()
+        public void LambdaThrowsException()
         {
             Assert.That(
                 () => new MyClass(null),
@@ -182,8 +182,7 @@ namespace NUnit.Framework.Syntax
         {
             Assert.That(
                 () => new MyClass(null),
-                Throws.InstanceOf<ArgumentNullException>()
-                .And.Message.Matches("null"));
+                Throws.InstanceOf<ArgumentNullException>());
         }
 
         internal class MyClass

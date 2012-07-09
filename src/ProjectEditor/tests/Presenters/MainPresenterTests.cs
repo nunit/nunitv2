@@ -142,7 +142,7 @@ namespace NUnit.ProjectEditor.Tests.Presenters
             view.DialogManager.GetFileOpenPath("Open", "", "").ReturnsForAnyArgs(NONEXISTENT_PROJECT);
             view.OpenProjectCommand.Execute += Raise.Event<CommandDelegate>();
 
-            view.MessageDisplay.Received().Error(Arg.Is((string x) => x.StartsWith("Could not find file")));
+            view.MessageDisplay.Received().Error(Arg.Is((string x) => x.Contains(NONEXISTENT_PROJECT)));
 
             Assert.Null(doc.XmlText);
             Assert.Null(doc.RootNode);
