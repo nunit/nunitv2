@@ -183,7 +183,7 @@ namespace NUnit.Framework.Constraints
     public class NoItemConstraint : PrefixConstraint
 	{
 		/// <summary>
-		/// Construct a SomeItemsConstraint on top of an existing constraint
+		/// Construct a NoItemConstraint on top of an existing constraint
 		/// </summary>
 		/// <param name="itemConstraint"></param>
 		public NoItemConstraint(Constraint itemConstraint)

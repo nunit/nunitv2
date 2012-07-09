@@ -8,10 +8,12 @@ using System;
 
 namespace NUnit.Framework
 {
-	/// <summary>
-	/// SetUpFixtureAttribute is used to identify a SetUpFixture
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple=false, Inherited=true)]
+    /// <summary>
+    /// Attribute used to mark a class that contains one-time SetUp 
+    /// and/or TearDown methods that apply to all the tests in a
+    /// namespace or an assembly.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 	public class SetUpFixtureAttribute : Attribute
 	{
 	}

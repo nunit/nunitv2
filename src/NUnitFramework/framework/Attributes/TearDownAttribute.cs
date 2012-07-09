@@ -9,9 +9,11 @@ namespace NUnit.Framework
 	using System;
 
 	/// <summary>
-	/// Attribute used to identify a method that is called 
-	/// immediately after each test is run. The method is 
-	/// guaranteed to be called, even if an exception is thrown.
+	/// Attribute used in a TestFixture to identify a method that is 
+    /// called immediately after each test is run. It is also used
+    /// in a SetUpFixture to identify the method that is called once,
+    /// after all subordinate tests have run. In either case, the method 
+    /// is guaranteed to be called, even if an exception is thrown.
 	/// </summary>
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple=false, Inherited=true)]
 	public class TearDownAttribute : Attribute
