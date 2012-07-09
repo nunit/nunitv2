@@ -779,8 +779,9 @@ namespace NUnit.UiKit
 				catFilter = TestFilter.Empty;
 			else
 				catFilter = new NUnit.Core.Filters.CategoryFilter( SelectedCategories );
+
 			if ( excludeCheckbox.Checked )
-				catFilter = new NUnit.Core.Filters.NotFilter( catFilter );
+				catFilter = new NUnit.Core.Filters.NotFilter( catFilter, true );
 
 			tests.CategoryFilter = catFilter;
 		}

@@ -16,14 +16,26 @@ namespace NUnit.Core.Filters
 		ITestFilter baseFilter;
         bool topLevel = false;
 
-		/// <summary>
-		/// Construct a not filter on another filter
-		/// </summary>
-		/// <param name="baseFilter">The filter to be negated</param>
-		public NotFilter( ITestFilter baseFilter)
-		{
-			this.baseFilter = baseFilter;
-		}
+        /// <summary>
+        /// Construct a not filter on another filter. The topLevel
+        /// argument is used to trigger special handling when tests
+        /// are being excluded.
+        /// </summary>
+        /// <param name="baseFilter">The filter to be negated</param>
+        public NotFilter(ITestFilter baseFilter) : this(baseFilter, false) { }
+
+        /// <summary>
+        /// Construct a not filter on another filter. The topLevel
+        /// argument is used to trigger special handling when tests
+        /// are being excluded.
+        /// </summary>
+        /// <param name="baseFilter">The filter to be negated</param>
+        /// <param name="topLevel">Indicates whether this is a top level NotFilter</param>
+        public NotFilter(ITestFilter baseFilter, bool topLevel)
+        {
+            this.baseFilter = baseFilter;
+            this.topLevel = topLevel;
+        }
 
         /// <summary>
         /// Indicates whether this is a top-level NotFilter,
