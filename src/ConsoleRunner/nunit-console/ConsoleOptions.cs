@@ -67,7 +67,7 @@ namespace NUnit.ConsoleRunner
 		public DomainUsage domain;
 
         [Option(Description = "Apartment for running tests: MTA (Default), STA")]
-        public System.Threading.ApartmentState apartment;
+        public System.Threading.ApartmentState apartment = System.Threading.ApartmentState.Unknown;
 
         [Option(Description = "Disable shadow copy when running in separate domain")]
 		public bool noshadow;
