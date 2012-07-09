@@ -21,7 +21,7 @@ namespace NUnit.Framework.Tests
             TestFixtureAttribute attr = new TestFixtureAttribute();
             Assert.That(attr.Arguments.Length == 0);
 #if CLR_2_0 || CLR_4_0
-            Assert.That(attr.TypeArgs.Length == 0);
+            Assert.That(attr.TypeArgs == null);
 #endif
         }
 
@@ -31,7 +31,7 @@ namespace NUnit.Framework.Tests
             TestFixtureAttribute attr = new TestFixtureAttribute(fixtureArgs);
             Assert.That(attr.Arguments, Is.EqualTo( fixtureArgs ) );
 #if CLR_2_0 || CLR_4_0
-            Assert.That(attr.TypeArgs.Length == 0 );
+            Assert.That(attr.TypeArgs == null );
 #endif
         }
 
@@ -40,8 +40,8 @@ namespace NUnit.Framework.Tests
         public void ConstructWithJustTypeArgs()
         {
             TestFixtureAttribute attr = new TestFixtureAttribute(typeArgs);
-            Assert.That(attr.Arguments.Length == 0);
-            Assert.That(attr.TypeArgs, Is.EqualTo(typeArgs));
+            Assert.That(attr.Arguments.Length == 2);
+            Assert.That(attr.TypeArgs == null);
         }
 
         [Test, Category("Generics")]
@@ -66,8 +66,8 @@ namespace NUnit.Framework.Tests
         public void ConstructWithCombinedArgs()
         {
             TestFixtureAttribute attr = new TestFixtureAttribute(combinedArgs);
-            Assert.That(attr.Arguments, Is.EqualTo(fixtureArgs));
-            Assert.That(attr.TypeArgs, Is.EqualTo(typeArgs));
+            Assert.That(attr.Arguments, Is.EqualTo(combinedArgs));
+            Assert.That(attr.TypeArgs, Is.Null);
         }
 #endif
 	}

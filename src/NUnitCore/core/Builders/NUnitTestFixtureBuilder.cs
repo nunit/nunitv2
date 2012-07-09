@@ -66,7 +66,7 @@ namespace NUnit.Core.Builders
                 case 0:
                     return BuildSingleFixture(type, null);
                 case 1:
-                    object[] args = (object[])Reflect.GetPropertyValue(attrs[0], "Arguments");
+                    object[] args = GetArgsFromAttribute(attrs[0]);
                     return args == null || args.Length == 0
                         ? BuildSingleFixture(type, attrs[0])
                         : BuildMultipleFixtures(type, attrs);
@@ -104,14 +104,35 @@ namespace NUnit.Core.Builders
 
             if (attr != null)
             {
-                arguments = (object[])Reflect.GetPropertyValue(attr, "Arguments");
+                arguments = GetArgsFromAttribute(attr);
 
                 categories = Reflect.GetPropertyValue(attr, "Categories") as IList;
 #if CLR_2_0 || CLR_4_0
                 if (type.ContainsGenericParameters)
                 {
-                    Type[] typeArgs = (Type[])Reflect.GetPropertyValue(attr, "TypeArgs");
-                    if( typeArgs.Length > 0 || 
+                    Type[] typeArgs = GetTypeArgsFromAttribute(attr);
+                    if (typeArgs == null)
+                    {
+                        int cnt = 0;
+                        foreach (object o in arguments)
+                            if (o is Type) cnt++;
+                            else break;
+
+                        typeArgs = new Type[cnt];
+                        for (int i = 0; i < cnt; i++)
+                            typeArgs[i] = (Type)arguments[i];
+
+                        if (cnt > 0)
+                        {
+                            object[] args = new object[arguments.Length - cnt];
+                            for (int i = 0; i < args.Length; i++)
+                                args[i] = arguments[cnt + i];
+
+                            arguments = args;
+                        }
+                    }
+
+                    if (typeArgs.Length > 0 || 
                         TypeHelper.CanDeduceTypeArgsFromArgs(type, arguments, ref typeArgs))
                     {
                         type = TypeHelper.MakeGenericType(type, typeArgs);
@@ -274,8 +295,8 @@ namespace NUnit.Core.Builders
             // Count and record those attrs with arguments            
             for (int i = 0; i < attrs.Length; i++)
             {
-                object[] args = (object[])Reflect.GetPropertyValue(attrs[i], "Arguments");
-                object[] typeArgs = (object[])Reflect.GetPropertyValue(attrs[i], "TypeArgs");
+                object[] args = GetArgsFromAttribute(attrs[i]);
+                object[] typeArgs = GetTypeArgsFromAttribute(attrs[i]);
 
                 if (args.Length > 0 || typeArgs != null && typeArgs.Length > 0)
                 {
@@ -301,7 +322,17 @@ namespace NUnit.Core.Builders
 
             return result;
         }
-        
+
+        private static object[] GetArgsFromAttribute(Attribute attr)
+        {
+            return (object[])Reflect.GetPropertyValue(attr, "Arguments");
+        }
+
+        private static Type[] GetTypeArgsFromAttribute(Attribute attr)
+        {
+            return (Type[])Reflect.GetPropertyValue(attr, "TypeArgs");
+        }
+
         #endregion
 	}
 }

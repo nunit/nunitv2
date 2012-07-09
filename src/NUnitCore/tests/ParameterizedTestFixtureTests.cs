@@ -198,4 +198,22 @@ namespace NUnit.Core.Tests
             Assert.AreEqual(new string[] { "X", "Y", "Z" }, fixture.Categories);
         }
     }
+
+    [TestFixture(typeof(int))]
+    [TestFixture(typeof(string))]
+    public class ParameterizedTestFixtureWithTypeAsArgument
+    {
+        private readonly Type _someType;
+
+        public ParameterizedTestFixtureWithTypeAsArgument(Type someType)
+        {
+            _someType = someType;
+        }
+
+        [Test]
+        public void MakeSureTypeIsInSystemNamespace()
+        {
+            Assert.AreEqual("System", _someType.Namespace);
+        }
+    }
 }

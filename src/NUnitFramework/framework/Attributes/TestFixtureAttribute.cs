@@ -26,7 +26,6 @@ namespace NUnit.Framework
 
 #if CLR_2_0 || CLR_4_0
         private Type[] typeArgs;
-        private bool argsSeparated;
 #endif
 
         /// <summary>
@@ -83,14 +82,7 @@ namespace NUnit.Framework
         /// </summary>
         public object[] Arguments
         {
-            get
-            {
-#if CLR_2_0 || CLR_4_0
-                if (!argsSeparated)
-                    SeparateArgs();
-#endif
-                return arguments; 
-            }
+            get { return arguments; }
         }
 
         /// <summary>
@@ -125,46 +117,8 @@ namespace NUnit.Framework
         /// </summary>
         public Type[] TypeArgs
         {
-            get
-            {
-                if (!argsSeparated)
-                    SeparateArgs();
-
-                return typeArgs;
-            }
-            set 
-            { 
-                typeArgs = value;
-                argsSeparated = true;
-            }
-        }
-
-        private void SeparateArgs()
-        {
-            int cnt = 0;
-            if (arguments != null)
-            {
-                foreach (object o in arguments)
-                    if (o is Type) cnt++;
-                    else break;
-
-                typeArgs = new Type[cnt];
-                for (int i = 0; i < cnt; i++)
-                    typeArgs[i] = (Type)arguments[i];
-
-                if (cnt > 0)
-                {
-                    object[] args = new object[arguments.Length - cnt];
-                    for (int i = 0; i < args.Length; i++)
-                        args[i] = arguments[cnt + i];
-
-                    arguments = args;
-                }
-            }
-            else
-                typeArgs = new Type[0];
-
-            argsSeparated = true;
+            get { return typeArgs; }
+            set { typeArgs = value; }
         }
 #endif
 	}
