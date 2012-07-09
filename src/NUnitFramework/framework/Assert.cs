@@ -789,16 +789,7 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         public static void DoesNotThrow(TestDelegate code, string message, params object[] args)
         {
-            try
-            {
-                code();
-            }
-            catch (Exception ex)
-            {
-                TextMessageWriter writer = new TextMessageWriter(message, args);
-                writer.WriteLine("Unexpected exception: {0}", ex.GetType());
-                Assert.Fail(writer.ToString());
-            }
+            Assert.That(code, new ThrowsNothingConstraint(), message, args);
         }
 
         /// <summary>
@@ -808,7 +799,7 @@ namespace NUnit.Framework
         /// <param name="message">The message that will be displayed on failure</param>
         public static void DoesNotThrow(TestDelegate code, string message)
         {
-            DoesNotThrow(code, message, null);
+            Assert.That(code, new ThrowsNothingConstraint(), message, null);
         }
 
         /// <summary>
@@ -817,7 +808,7 @@ namespace NUnit.Framework
         /// <param name="code">A TestSnippet delegate</param>
         public static void DoesNotThrow(TestDelegate code)
         {
-            DoesNotThrow(code, string.Empty, null);
+            Assert.That(code, new ThrowsNothingConstraint(), string.Empty, null);
         }
 
         #endregion

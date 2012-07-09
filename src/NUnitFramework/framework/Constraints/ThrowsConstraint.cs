@@ -188,8 +188,9 @@ namespace NUnit.Framework.Constraints
         /// <param name="writer">The writer on which the actual value is displayed</param>
 		public override void WriteActualValueTo(MessageWriter writer)
 		{
-			writer.WriteActualValue( this.caughtException.GetType() );
-		}
+            writer.WriteLine(" ({0})", caughtException.Message);
+            writer.Write(caughtException.StackTrace);
+        }
     }
     #endregion
 }
