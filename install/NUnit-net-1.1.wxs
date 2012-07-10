@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-  <Product UpgradeCode="EE7297AC-EF4E-4415-8621-0066AA2D57D4" Name="NUnit $(var.NominalVersion) (.NET 1.1 Support)" Id="82C4AF77-5FA7-4132-B464-062F398B2970" Version="$(var.ProductVersion)" Manufacturer="nunit.org" Language="1033">
+  <Product
+    UpgradeCode="EE7297AC-EF4E-4415-8621-0066AA2D57D4"
+    Name="NUnit $(var.NominalVersion) (.NET 1.1 Support)"
+    Id="96C3E083-D61B-4bee-ACA4-2B74E44D8A66"
+    Version="$(var.ProductVersion)"
+    Manufacturer="nunit.org" Language="1033">
 
     <Package Comments="NUnit $(var.ProductVersion)" Manufacturer="nunit.org" InstallerVersion="200" Platform="x86" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
 

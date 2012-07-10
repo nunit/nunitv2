@@ -1,36 +1,45 @@
 <?xml version="1.0"?>
 <project name="NUnit" default="build" basedir=".">
 
-<!-- ***************************************************************** -->
-<!-- *********           Set Common Properties          ************** -->
-<!-- ***************************************************************** -->
- 
-<target name="set-common-properties">
+  <!-- ***************************************************************** -->
+  <!-- *********           Set Common Properties          ************** -->
+  <!-- ***************************************************************** -->
 
-  <!-- Project name - used as a prefix for packages -->
-  <property name="project.name" value="NUnit"/>
+  <target name="set-common-properties">
 
-  <!-- NUnit Base Package Version - First three digits -->
-  <property name="base.package.version" value="2.6.0"/>
- 
-  <!-- Nominal version used for install directory and program
-       files menu. Normally the same as the package version, 
-       but may differ when we are in alpha or beta. -->
-  <property name="nominal.version" value="2.6" />
+  <!-- ***************************************************************** -->
+  <!-- ***        Properties to change for each new release          *** -->
+  <!-- ***************************************************************** -->
 
-  <!-- Determine todays build number -->
-  <property name="temp.now" value="${datetime::now()}"/>
-  <property name="temp.yr" value="${datetime::get-year(temp.now)-2000}"/>
-  <property name="temp.day" value="${string::pad-left(datetime::get-day-of-year(temp.now),3,'0')}"/>
-  <property name="package.build.number" value="${temp.yr}${temp.day}"/>
+    <!-- The nominal version has three components and is used for the name
+       of the install directory and on the program files menu. -->
+    <property name="nominal.version" value="2.6.1" />
 
-  <!-- NUnit full package version -->
-  <property name="package.version" value="${base.package.version}.${package.build.number}"/>
+    <!-- The package version may include a prerelease suffix following
+       the three-component nominal version -->
+    <property name="package.version" value="${nominal.version}-rc"/>
 
-  <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
-  <property name="package.configuration" value=""/>
-  
-  <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
+    <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
+    <property name="package.configuration" value="RC"/>
+
+  <!-- ***************************************************************** -->
+  <!-- ***   End of properties to change for each new release        *** -->
+  <!-- ***************************************************************** -->
+
+    <!-- Project name - used as a prefix for packages -->
+    <property name="project.name" value="NUnit"/>
+
+    <!-- Determine todays build number -->
+    <property name="temp.now" value="${datetime::now()}"/>
+    <property name="temp.yr" value="${datetime::get-year(temp.now)-2000}"/>
+    <property name="temp.day" value="${string::pad-left(datetime::get-day-of-year(temp.now),3,'0')}"/>
+    <property name="package.build.number" value="${temp.yr}${temp.day}"/>
+
+    <!-- The internal version has four components and is used for assemblies and 
+       as the ProductVersion in the msi -->
+    <property name="internal.version" value="${nominal.version}.${package.build.number}"/>
+
+    <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.base.name" 
       value="${project.name}-${package.version}"/>
 

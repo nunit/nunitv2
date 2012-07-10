@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 
-  <Product UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A" Name="NUnit $(var.NominalVersion)" Id="321FC471-2945-4d25-8D04-10B6A7AE5F15" Version="$(var.ProductVersion)" Manufacturer="nunit.org" Language="1033">
+  <Product 
+    UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A" 
+    Name="NUnit $(var.NominalVersion)"
+    Id="E9FE08DD-DEA8-460c-A5F1-079CF2DCFBFA"
+    Version="$(var.ProductVersion)"
+    Manufacturer="nunit.org"
+    Language="1033">
 
     <Package Comments="NUnit $(var.ProductVersion)" Manufacturer="nunit.org" InstallerVersion="200" Platform="x86" Languages="1033" Compressed="yes" SummaryCodepage="1252" />
 

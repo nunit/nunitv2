@@ -4,14 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A65042E1-D8BC-48DD-8DE1-F0991F07EA77}"
 	ProjectSection(SolutionItems) = preProject
 		src\nunit.snk = src\nunit.snk
-		NUnitTests.config = NUnitTests.config
-		NUnitTests.nunit = NUnitTests.nunit
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{A785FC02-6044-4864-BE24-4593CAD23A97}"
 	ProjectSection(SolutionItems) = preProject
 		scripts\nunit.build.targets = scripts\nunit.build.targets
 		scripts\nunit.common.targets = scripts\nunit.common.targets
+		scripts\nunit.package.targets = scripts\nunit.package.targets
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NUnitFramework", "NUnitFramework", "{A2FF9F1B-1854-479A-859C-6ECEBF045E4C}"

@@ -65,8 +65,8 @@
         <attribute type="AssemblyCopyrightAttribute"
           value="Copyright (C) 2002-2012 Charlie Poole.&#xD;&#xA;Copyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.&#xD;&#xA;Copyright (C) 2000-2002 Philip Craig.&#xD;&#xA;All Rights Reserved."/>
         <attribute type="AssemblyTrademarkAttribute" value="NUnit is a trademark of NUnit.org"/>
-        <attribute type="AssemblyVersionAttribute" value="${package.version}"/>
-        <attribute type="AssemblyInformationalVersionAttribute" value="${package.version}"/>
+        <attribute type="AssemblyVersionAttribute" value="${internal.version}"/>
+        <attribute type="AssemblyInformationalVersionAttribute" value="${internal.version}"/>
         <attribute type="AssemblyConfigurationAttribute" value="${package.configuration}"/>
       </attributes>
     </asminfo>

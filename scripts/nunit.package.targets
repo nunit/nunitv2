@@ -163,7 +163,7 @@
 
     <candle out="${work.dir}/" exedir="${wix.dir}">
       <defines>
-        <define name="ProductVersion" value="${package.version}" />
+        <define name="ProductVersion" value="${internal.version}" />
         <define name="NominalVersion" value="${nominal.version}" />
         <define name="TargetRuntime" value="${runtime.version}" />
         <define name="InstallImage" value="packages\NUnit-${package.version}" />
@@ -323,7 +323,8 @@
     <echo message="Creating ${nuget.package.name} nuget package"/>
 
     <copy file="${project.nuget.dir}/${nuget.package.name}.nuspec"
-        tofile="${project.nuget.dir}/_${nuget.package.name}.nuspec">
+        tofile="${project.nuget.dir}/_${nuget.package.name}.nuspec"
+        overwrite="true">
       <filterchain>
         <expandproperties/>
       </filterchain>
