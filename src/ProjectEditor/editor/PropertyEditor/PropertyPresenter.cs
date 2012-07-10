@@ -314,12 +314,7 @@ namespace NUnit.ProjectEditor
                 if (configFile == string.Empty)
                     selectedConfig.ConfigurationFile = null;
                 else if (ValidateFilePath("DefaultConfigurationFile", configFile))
-                {
-                    if (configFile == Path.GetFileName(configFile))
-                        selectedConfig.ConfigurationFile = view.ConfigurationFile.Text;
-                    else
-                        view.MessageDisplay.Error("ConfigurationFile must be specified as a file name only - without directory path. The configuration file is always located in the application base directory.");
-                }
+                    selectedConfig.ConfigurationFile = view.ConfigurationFile.Text;
             }
         }
 
