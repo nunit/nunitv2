@@ -1828,14 +1828,15 @@ the version under which NUnit is currently running ({0}) or trying to load a 64-
                 "Passed: {0}   Failed: {1}   Errors: {2}   Inconclusive: {3}   Invalid: {4}   Ignored: {5}   Skipped: {6}   Time: {7}",
                 summary.Passed, summary.Failures, summary.Errors, summary.Inconclusive, summary.NotRunnable, summary.Ignored, summary.Skipped, summary.Time);
 
+            string resultPath = Path.Combine(this.TestProject.BasePath, "TestResult.xml");
             try
             {
-                TestLoader.SaveLastResult("TestResult.xml");
-                log.Debug("Saved result to {0}", Path.GetFullPath("TestResult.xml"));
+                TestLoader.SaveLastResult(resultPath);
+                log.Debug("Saved result to {0}", resultPath);
             }
             catch (Exception ex)
             {
-                log.Warning("Unable to save result to {0}\n{1}", Path.GetFullPath("TestResult.xml"), ex.ToString());
+                log.Warning("Unable to save result to {0}\n{1}", resultPath, ex.ToString());
             }
 
             EnableRunCommand(true);
