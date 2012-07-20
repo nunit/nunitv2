@@ -214,6 +214,14 @@ namespace NUnit.Core.Tests
             Assert.That(suite is ParameterizedFixtureSuite);
             Assert.That(suite.Tests.Count, Is.EqualTo(2));
         }
+
+        [Test]
+        public void CannotRunGenericFixtureWithOpenTypeAsArgument()
+        {
+            Test suite = TestBuilder.MakeFixture(
+                Type.GetType("NUnit.TestData.TestFixtureData.GenericFixtureWithOpenTypeAsArgument`1,test-assembly"));
+            TestAssert.IsNotRunnable((Test)suite.Tests[0]);
+        }
 #endif
 
         #region SetUp Signature

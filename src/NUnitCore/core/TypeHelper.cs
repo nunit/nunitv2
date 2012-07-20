@@ -22,6 +22,8 @@ namespace NUnit.Core
             if (type.IsGenericType)
             {
                 string name = type.FullName;
+                if (name == null)
+                    name = type.Name;
 
                 int index = name.IndexOf("[[");
                 if (index > 0)

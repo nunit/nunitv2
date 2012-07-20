@@ -393,5 +393,10 @@ namespace NUnit.TestData.TestFixtureData
     public class GenericFixtureDerivedFromAbstractFixtureWithArgsProvided<T> : AbstractFixtureBase
     {
     }
+
+    [TestFixture(typeof(System.Collections.Generic.List<>))]
+    public class GenericFixtureWithOpenTypeAsArgument<T>
+    {
+    }
 #endif
 }
