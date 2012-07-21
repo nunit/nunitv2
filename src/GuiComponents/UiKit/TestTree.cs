@@ -722,7 +722,11 @@ namespace NUnit.UiKit
 			}
 			selectedList.ResumeLayout();
 
-			// Put any unselected available items availableList
+            // Clear check box if there are no more selected items.
+            if (selectedList.Items.Count == 0)
+                excludeCheckbox.Checked = excludeCheckbox.Enabled = false;
+
+            // Put any unselected available items on availableList
 			availableList.Items.Clear();
 			availableList.SuspendLayout();
 			foreach( string category in availableCategories )
