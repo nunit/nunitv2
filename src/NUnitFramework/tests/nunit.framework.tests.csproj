@@ -111,6 +111,7 @@
     <Compile Include="Constraints\NUnitEqualityComparerTests.cs" />
     <Compile Include="Constraints\OrTest.cs" />
     <Compile Include="Constraints\PathConstraintTests.cs" />
+    <Compile Include="Constraints\PredicateConstraintTests.cs" />
     <Compile Include="Constraints\PropertyTests.cs" />
     <Compile Include="Constraints\ReusableConstraintTests.cs" />
     <Compile Include="Constraints\SameAsTest.cs" />
