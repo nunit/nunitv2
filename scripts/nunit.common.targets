@@ -17,10 +17,10 @@
 
     <!-- The package version may include a prerelease suffix following
        the three-component nominal version -->
-    <property name="package.version" value="${nominal.version}-rc2"/>
+    <property name="package.version" value="${nominal.version}"/>
 
     <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
-    <property name="package.configuration" value="RC2"/>
+    <property name="package.configuration" value=""/>
 
   <!-- ***************************************************************** -->
   <!-- ***   End of properties to change for each new release        *** -->
