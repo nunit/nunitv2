@@ -131,11 +131,6 @@ namespace NUnit.Util
 
         public TestAgent GetAgent(RuntimeFramework framework, int waitTime)
         {
-            return GetAgent(framework, waitTime, false);
-        }
-
-        public TestAgent GetAgent(RuntimeFramework framework, int waitTime, bool enableDebug)
-        {
             log.Info("Getting agent for use under {0}", framework);
  
             if (!framework.IsAvailable)
@@ -147,7 +142,7 @@ namespace NUnit.Util
             //AgentRecord r = FindAvailableRemoteAgent(type);
             //if ( r == null )
             //    r = CreateRemoteAgent(type, framework, waitTime);
-            return CreateRemoteAgent(framework, waitTime, enableDebug);
+            return CreateRemoteAgent(framework, waitTime);
 		}
 
 		public void ReleaseAgent( TestAgent agent )
@@ -175,7 +170,7 @@ namespace NUnit.Util
 		#endregion
 
 		#region Helper Methods
-		private Guid LaunchAgentProcess(RuntimeFramework targetRuntime, bool enableDebug)
+		private Guid LaunchAgentProcess(RuntimeFramework targetRuntime)
 		{
             string agentExePath = GetTestAgentExePath(targetRuntime.ClrVersion);
 
@@ -190,15 +185,15 @@ namespace NUnit.Util
 			p.StartInfo.UseShellExecute = false;
             Guid agentId = Guid.NewGuid();
             string arglist = agentId.ToString() + " " + ServerUrl;
-            if (enableDebug)
-                arglist += " --pause";
+            if (Debugger.IsAttached)
+                arglist += " --launch-debugger";
 
             switch( targetRuntime.Runtime )
             {
                 case RuntimeType.Mono:
                     p.StartInfo.FileName = NUnitConfiguration.MonoExePath;
                     string monoOptions = "--runtime=v" + targetRuntime.ClrVersion.ToString(3);
-                    if (enableDebug)
+                    if (Debugger.IsAttached)
                         monoOptions += " --debug";
                     p.StartInfo.Arguments = string.Format("{0} \"{1}\" {2}", monoOptions, agentExePath, arglist);
                     break;
@@ -248,9 +243,9 @@ namespace NUnit.Util
 			return null;
 		}
 
-		private TestAgent CreateRemoteAgent(RuntimeFramework framework, int waitTime, bool enableDebug)
+		private TestAgent CreateRemoteAgent(RuntimeFramework framework, int waitTime)
 		{
-            Guid agentId = LaunchAgentProcess(framework, enableDebug);
+            Guid agentId = LaunchAgentProcess(framework);
 
 			log.Debug( "Waiting for agent {0} to register", agentId.ToString("B") );
 

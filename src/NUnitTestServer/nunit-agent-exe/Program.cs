@@ -40,8 +40,8 @@ namespace NUnit.Agent
             AgencyUrl = args[1];
 
 #if DEBUG
-            if ( args.Length > 2 && args[2] == "--pause" )
-                System.Windows.Forms.MessageBox.Show( "Attach debugger if desired, then press OK", "NUnit-Agent");
+            if (args.Length > 2 && args[2] == "--launch-debugger")
+                Debugger.Launch();
 #endif
 
             // Create SettingsService early so we know the trace level right at the start

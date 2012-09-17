@@ -50,8 +50,6 @@ namespace NUnit.Util
             if ( runtimeFramework == null )
                  runtimeFramework = RuntimeFramework.CurrentFramework;
 
-            bool enableDebug = package.GetSetting("EnableDebug", false);
-
             bool loaded = false;
 
 			try
@@ -60,8 +58,7 @@ namespace NUnit.Util
                 {
                     this.agent = Services.TestAgency.GetAgent(
                         runtimeFramework,
-                        30000,
-                        enableDebug);
+                        30000);
 
                     if (this.agent == null)
                         return false;
