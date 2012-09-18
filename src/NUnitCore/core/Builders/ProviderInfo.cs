@@ -21,7 +21,7 @@ namespace NUnit.Core.Builders
         {
             if (providerType == null)
                 throw new ArgumentNullException("providerType");
-            if (providerName == null)
+            if (providerName == null && providerType.GetInterface("System.Collections.IEnumerable") == null)
                 throw new ArgumentNullException("providerName");
 
             this.providerType = providerType;
@@ -47,6 +47,8 @@ namespace NUnit.Core.Builders
 
         public IEnumerable GetInstance()
         {
+            if (providerName != null)
+            {
                 MemberInfo[] members = providerType.GetMember(
                     providerName,
                     MemberTypes.Field | MemberTypes.Method | MemberTypes.Property,
@@ -57,6 +59,9 @@ namespace NUnit.Core.Builders
                         "Unable to locate {0}.{1}", providerType.FullName, providerName));
 
                 return (IEnumerable)GetProviderObjectFromMember(members[0]);
+            }
+            else
+                return Reflect.Construct(providerType) as IEnumerable;
         }
 
         private object GetProviderObjectFromMember(MemberInfo member)

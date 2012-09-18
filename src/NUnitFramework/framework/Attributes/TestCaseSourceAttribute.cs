@@ -20,8 +20,8 @@ namespace NUnit.Framework
         private string category;
 
         /// <summary>
-        /// Construct with the name of the factory - for use with languages
-        /// that don't support params arrays.
+        /// Construct with the name of the data source, which must
+        /// be a property, field or method of the test class itself.
         /// </summary>
         /// <param name="sourceName">An array of the names of the factories that will provide data</param>
         public TestCaseSourceAttribute(string sourceName)
@@ -30,7 +30,16 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// Construct with a Type and name - for use with languages
+        /// Construct with a Type, which must implement IEnumerable
+        /// </summary>
+        /// <param name="sourceType">The Type that will provide data</param>
+        public TestCaseSourceAttribute(Type sourceType)
+        {
+            this.sourceType = sourceType;
+        }
+
+        /// <summary>
+        /// Construct with a Type and name.
         /// that don't support params arrays.
         /// </summary>
         /// <param name="sourceType">The Type that will provide data</param>
