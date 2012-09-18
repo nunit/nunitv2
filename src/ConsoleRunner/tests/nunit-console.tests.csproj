@@ -97,11 +97,6 @@
       <Project>{435428F8-5995-4CE4-8022-93D595A8CC0F}</Project>
       <Name>nunit.core.interfaces.dll</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\NUnitCore\tests\nunit.core.tests.csproj">
-      <Name>nunit.core.tests</Name>
-      <Project>{DD758D21-E5D5-4D40-9450-5F65A32F359C}</Project>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
       <Name>nunit.framework.dll</Name>
       <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
