@@ -32,6 +32,28 @@ namespace NUnit.Framework.Constraints
 
 #if CLR_2_0 || CLR_4_0
         [Test]
+        public void RecursiveEnumerablesAreNotEqual()
+        {
+            var a1 = new object[1];
+            a1[0] = a1;
+            var a2 = new object[1];
+            a2[0] = a2;
+
+            Assert.False(comparer.AreEqual(a1, a2, ref tolerance));
+        }
+
+        [Test]
+        public void RecursiveEnumerablesAreNotEqual2()
+        {
+            var a1 = new object[1];
+            var a2 = new object[1];
+            a1[0] = a2;
+            a2[0] = a1;
+
+            Assert.False(comparer.AreEqual(a1, a2, ref tolerance));
+        }
+
+        [Test]
         public void IEquatableSuccess()
         {
             IEquatableWithoutEqualsOverridden x = new IEquatableWithoutEqualsOverridden(1);
