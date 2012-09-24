@@ -14,6 +14,7 @@ namespace NUnit.Core.Builders
     public class InlineDataPointProvider : IDataPointProvider
     {
         private static readonly string ParameterDataAttribute = "NUnit.Framework.ParameterDataAttribute";
+        private static readonly string NUnitLiteDataAttribute = "NUnit.Framework.DataAttribute";
 
         private static readonly string GetDataMethod = "GetData";
 
@@ -21,11 +22,14 @@ namespace NUnit.Core.Builders
 
         public bool HasDataFor(ParameterInfo parameter)
         {
-            return Reflect.HasAttribute(parameter, ParameterDataAttribute, false);
+            return Reflect.HasAttribute(parameter, ParameterDataAttribute, false)
+                || Reflect.HasAttribute(parameter, NUnitLiteDataAttribute, false);
         }
-                public IEnumerable GetDataFor(ParameterInfo parameter)
+
+        public IEnumerable GetDataFor(ParameterInfo parameter)
         {
             Attribute attr = Reflect.GetAttribute(parameter, ParameterDataAttribute, false);
+            if (attr == null) attr = Reflect.GetAttribute(parameter, NUnitLiteDataAttribute, false);
             if (attr == null) return null;
 
             MethodInfo getData = attr.GetType().GetMethod(

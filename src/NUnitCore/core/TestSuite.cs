@@ -309,10 +309,16 @@ namespace NUnit.Core
             if (this.Properties["_SETCULTURE"] != null)
                 TestExecutionContext.CurrentContext.CurrentCulture =
                     new System.Globalization.CultureInfo((string)Properties["_SETCULTURE"]);
+            else if (this.Properties["SetCulture"] != null) // For NUnitLite
+                TestExecutionContext.CurrentContext.CurrentCulture =
+                    new System.Globalization.CultureInfo((string)Properties["SetCulture"]);
 
             if (this.Properties["_SETUICULTURE"] != null)
                 TestExecutionContext.CurrentContext.CurrentUICulture =
                     new System.Globalization.CultureInfo((string)Properties["_SETUICULTURE"]);
+            else if (this.Properties["SetUICulture"] != null) // For NUnitLite
+                TestExecutionContext.CurrentContext.CurrentUICulture =
+                    new System.Globalization.CultureInfo((string)Properties["SetUICulture"]);
 
             switch (suiteResult.ResultState)
             {

@@ -239,10 +239,23 @@ namespace NUnit.Core
                         }
 						else if ( Reflect.InheritsFrom( attributeType, PropertyAttribute ) )
 						{
-							IDictionary props = (IDictionary)Reflect.GetPropertyValue( attribute, PropertyNames.Properties );
-							if ( props != null )
-                                foreach( DictionaryEntry entry in props )
+							object propObject = Reflect.GetPropertyValue( attribute, PropertyNames.Properties );
+                            IDictionary props = propObject as IDictionary;
+                            if (props != null)
+                                foreach (DictionaryEntry entry in props)
                                     test.Properties.Add(entry.Key, entry.Value);
+                            else
+                            {
+                                // In case we are running NUnitLite tests
+                                IEnumerable entries = propObject as IEnumerable;
+                                if (entries != null)
+                                    foreach (object entry in entries)
+                                    {
+                                        object key = Reflect.GetPropertyValue(entry, "Name");
+                                        object value = Reflect.GetPropertyValue(entry, "Value");
+                                        test.Properties.Add(key, value);
+                                    }
+                            }
 						}
                         else if ( Reflect.InheritsFrom( attributeType, ExplicitAttribute ) )
                          {

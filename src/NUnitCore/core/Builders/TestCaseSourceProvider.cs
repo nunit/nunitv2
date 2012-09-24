@@ -84,14 +84,18 @@ namespace NUnit.Core.Builders
 
                     if (parms == null)
                     {
-                        if (source.GetType().GetInterface("NUnit.Framework.ITestCaseData") != null)
+                        Type sourceType = source.GetType();
+
+                        if (sourceType.GetInterface("NUnit.Framework.ITestCaseData") != null ||
+                            sourceType.GetInterface("NUnit.Framework.Api.ITestCaseData") != null)
+                        {
                             parms = ParameterSet.FromDataSource(source);
+                        }
                         else
                         {
                             parms = new ParameterSet();
 
                             ParameterInfo[] parameters = method.GetParameters();
-                            Type sourceType = source.GetType();
 
                             if (parameters.Length == 1 && parameters[0].ParameterType.IsAssignableFrom(sourceType))
                                 parms.Arguments = new object[] { source };
