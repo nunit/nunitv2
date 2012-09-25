@@ -9,6 +9,7 @@ using System.Configuration;
 using System.IO;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Principal;
 using System.Threading;
 
@@ -111,6 +112,12 @@ namespace NUnit.Core
         /// </summary>
         public TestExecutionContext prior;
 
+        /// <summary>
+        /// Context dictionary used to provide test access
+        /// to this TestExecutionContext
+        /// </summary>
+        private ContextDictionary contextDictionary;
+
         #endregion
 
         #region Constructors
@@ -133,6 +140,8 @@ namespace NUnit.Core
             this.currentCulture = CultureInfo.CurrentCulture;
             this.currentUICulture = CultureInfo.CurrentUICulture;
             this.currentPrincipal = Thread.CurrentPrincipal;
+
+            this.contextDictionary = new ContextDictionary(this);
         }
 
         /// <summary>
@@ -158,6 +167,8 @@ namespace NUnit.Core
             this.currentCulture = CultureInfo.CurrentCulture;
             this.currentUICulture = CultureInfo.CurrentUICulture;
             this.currentPrincipal = Thread.CurrentPrincipal;
+
+            this.contextDictionary = new ContextDictionary(this);
         }
 
         #endregion
@@ -386,7 +397,8 @@ namespace NUnit.Core
         /// </summary>
         public static void Save()
         {
-            TestExecutionContext.current = new TestExecutionContext(current);
+            current = new TestExecutionContext(current);
+            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
         }
 
         /// <summary>
@@ -397,6 +409,7 @@ namespace NUnit.Core
         {
             current.ReverseChanges();
             current = current.prior;
+            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
         }
         #endregion
 

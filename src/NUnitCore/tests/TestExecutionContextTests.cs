@@ -15,21 +15,45 @@ namespace NUnit.Core.Tests
 	/// <summary>
     /// Summary description for TestExecutionContextTests.
 	/// </summary>
-	[TestFixture]
+	[TestFixture][Property("Question", "Why?")]
     public class TestExecutionContextTests
 	{
+        TestExecutionContext fixtureContext;
+        TestExecutionContext setupContext;
+
 		string currentDirectory;
 		CultureInfo currentCulture;
         CultureInfo currentUICulture;
         IPrincipal currentPrincipal;
 
-		/// <summary>
+        [TestFixtureSetUp]
+        public void OneTimeSetUp()
+        {
+            fixtureContext = TestExecutionContext.CurrentContext;
+        }
+
+        [TestFixtureTearDown]
+        public void OneTimeTearDown()
+        {
+            // TODO: We put some tests in one time teardown to verify that
+            // the context is still valid. It would be better if these tests
+            // were placed in a second-level test, invoked from this test class.
+            TestExecutionContext ec = TestExecutionContext.CurrentContext;
+            Assert.That(ec.CurrentTest.TestName.Name, Is.EqualTo("TestExecutionContextTests"));
+            Assert.That(ec.CurrentTest.TestName.FullName,
+                Is.EqualTo("NUnit.Core.Tests.TestExecutionContextTests"));
+            Assert.That(ec.CurrentTest.Properties["Question"], Is.EqualTo("Why?"));
+        }
+
+        /// <summary>
 		/// Since we are testing the mechanism that saves and
 		/// restores contexts, we save manually here
 		/// </summary>
 		[SetUp]
 		public void SaveContext()
 		{
+            setupContext = TestExecutionContext.CurrentContext;
+
 			currentDirectory = Environment.CurrentDirectory;
 			currentCulture = CultureInfo.CurrentCulture;
             currentUICulture = CultureInfo.CurrentUICulture;
@@ -43,9 +67,73 @@ namespace NUnit.Core.Tests
 			Thread.CurrentThread.CurrentCulture = currentCulture;
             Thread.CurrentThread.CurrentUICulture = currentUICulture;
             Thread.CurrentPrincipal = currentPrincipal;
-		}
 
-		[Test]
+            Assert.That(
+                TestExecutionContext.CurrentContext.CurrentTest.TestName.FullName,
+                Is.EqualTo(setupContext.CurrentTest.TestName.FullName),
+                "Context at TearDown failed to match that saved from SetUp");
+        }
+
+        [Test]
+        public void FixtureSetUpCanAccessFixtureName()
+        {
+            Assert.That(fixtureContext.CurrentTest.TestName.Name, Is.EqualTo("TestExecutionContextTests"));
+        }
+
+        [Test]
+        public void FixtureSetUpCanAccessFixtureFullName()
+        {
+            Assert.That(fixtureContext.CurrentTest.TestName.FullName,
+                Is.EqualTo("NUnit.Core.Tests.TestExecutionContextTests"));
+        }
+
+        [Test]
+        public void FixtureSetUpCanAccessFixtureProperties()
+        {
+            Assert.That(fixtureContext.CurrentTest.Properties["Question"], Is.EqualTo("Why?"));
+        }
+
+        [Test]
+        public void SetUpCanAccessTestName()
+        {
+            Assert.That(setupContext.CurrentTest.TestName.Name, Is.EqualTo("SetUpCanAccessTestName"));
+        }
+
+        [Test]
+        public void SetUpCanAccessTestFullName()
+        {
+            Assert.That(setupContext.CurrentTest.TestName.FullName,
+                Is.EqualTo("NUnit.Core.Tests.TestExecutionContextTests.SetUpCanAccessTestFullName"));
+        }
+
+        [Test]
+        [Property("Answer", 42)]
+        public void SetUpCanAccessTestProperties()
+        {
+            Assert.That(setupContext.CurrentTest.Properties["Answer"], Is.EqualTo(42));
+        }
+
+        [Test]
+        public void TestCanAccessItsOwnName()
+        {
+            Assert.That(TestExecutionContext.CurrentContext.CurrentTest.TestName.Name, Is.EqualTo("TestCanAccessItsOwnName"));
+        }
+
+        [Test]
+        public void TestCanAccessItsOwnFullName()
+        {
+            Assert.That(TestExecutionContext.CurrentContext.CurrentTest.TestName.FullName,
+                Is.EqualTo("NUnit.Core.Tests.TestExecutionContextTests.TestCanAccessItsOwnFullName"));
+        }
+
+        [Test]
+        [Property("Answer", 42)]
+        public void TestCanAccessItsOwnProperties()
+        {
+            Assert.That(TestExecutionContext.CurrentContext.CurrentTest.Properties["Answer"], Is.EqualTo(42));
+        }
+
+        [Test]
 		public void SetAndRestoreCurrentDirectory()
 		{
             Assert.AreEqual(currentDirectory, TestExecutionContext.CurrentContext.CurrentDirectory, "Directory not in initial context");

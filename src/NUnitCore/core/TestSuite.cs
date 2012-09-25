@@ -13,6 +13,7 @@ namespace NUnit.Core
 	using System.Collections;
 	using System.Reflection;
 	using NUnit.Core.Filters;
+    using System.Runtime.Remoting.Messaging;
 
 #if CLR_2_0 || CLR_4_0
     using System.Collections.Generic;
@@ -107,7 +108,7 @@ namespace NUnit.Core
         }
         #endregion
 
-		#region Public Methods
+        #region Public Methods
 		public void Sort()
 		{
             if (!maintainTestOrder)
@@ -285,6 +286,8 @@ namespace NUnit.Core
 		{
             TestExecutionContext.Save();
 
+            TestExecutionContext.CurrentContext.CurrentTest = this;
+
             try
             {
 				return ShouldRunOnOwnThread
@@ -300,6 +303,7 @@ namespace NUnit.Core
         public TestResult RunSuite(EventListener listener, ITestFilter filter)
         {
 			TestResult suiteResult = new TestResult(this);
+            TestExecutionContext.CurrentContext.CurrentResult = suiteResult;
 			
             DoOneTimeSetUp(suiteResult);
 #if CLR_2_0 || CLR_4_0

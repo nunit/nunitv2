@@ -11,7 +11,14 @@ namespace NUnit.Core
 {
     public class ContextDictionary : Hashtable
     {
-        internal TestExecutionContext _ec;
+        internal TestExecutionContext _context;
+
+        public ContextDictionary() { }
+
+        public ContextDictionary(TestExecutionContext context)
+        {
+            _context = context;
+        }
 
         public override object this[object key]
         {
@@ -22,18 +29,18 @@ namespace NUnit.Core
                 switch (key as string)
                 {
                     case "Test.Name":
-                        return _ec.CurrentTest.TestName.Name;
+                        return _context.CurrentTest.TestName.Name;
                     case "Test.FullName":
-                        return _ec.CurrentTest.TestName.FullName;
+                        return _context.CurrentTest.TestName.FullName;
                     case "Test.Properties":
-                        return _ec.CurrentTest.Properties;
+                        return _context.CurrentTest.Properties;
                     case "Result.State":
-                        return (int)_ec.CurrentResult.ResultState;
+                        return (int)_context.CurrentResult.ResultState;
                     case "TestDirectory":
-                        return AssemblyHelper.GetDirectoryName(_ec.CurrentTest.FixtureType.Assembly);
+                        return AssemblyHelper.GetDirectoryName(_context.CurrentTest.FixtureType.Assembly);
                     case "WorkDirectory":
-                        return _ec.TestPackage.Settings.Contains("WorkDirectory")
-                            ? _ec.TestPackage.Settings["WorkDirectory"]
+                        return _context.TestPackage.Settings.Contains("WorkDirectory")
+                            ? _context.TestPackage.Settings["WorkDirectory"]
                             : Environment.CurrentDirectory;
                     default:
                         return base[key];

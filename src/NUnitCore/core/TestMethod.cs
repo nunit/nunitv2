@@ -31,8 +31,6 @@ namespace NUnit.Core
 	{
         static Logger log = InternalTrace.GetLogger(typeof(TestMethod));
         
-        static ContextDictionary context;
-
 		#region Fields
 		/// <summary>
 		/// The test method
@@ -100,20 +98,6 @@ namespace NUnit.Core
             this.method = method;
 		}
 		#endregion
-
-        #region Static Properties
-	    private static ContextDictionary Context
-	    {
-	        get
-	        {
-	            if (context==null)
-	            {
-	                context = new ContextDictionary();
-	            }
-	            return context;
-	        }
-	    }
-        #endregion
 
 		#region Properties
 
@@ -223,11 +207,6 @@ namespace NUnit.Core
 			TestExecutionContext.Save();
 
             TestExecutionContext.CurrentContext.CurrentTest = this;
-
-            ContextDictionary context = Context;
-            context._ec = TestExecutionContext.CurrentContext;
-
-            CallContext.SetData("NUnit.Framework.TestContext", context);
 
             if (this.Parent != null)
             {
