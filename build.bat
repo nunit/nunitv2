@@ -4,7 +4,7 @@ rem BUILD - Builds and tests NUnit
 
 setlocal
 
-set NANT=tools\nant\nant.exe
+set NANT=tools\nant\bin\nant.exe
 set OPTIONS=-f:scripts\nunit.build.targets
 set CONFIG=
 set RUNTIME=
