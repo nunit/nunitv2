@@ -307,7 +307,7 @@ namespace NUnit.Core.Builders
                     return false;
             }
 
-            if (!testMethod.Method.ReturnType.Equals(typeof(void)) &&
+            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && !testMethod.Method.ReturnType.FullName.StartsWith("System.Threading.Tasks.Task") &&
                 (parms == null || !parms.HasExpectedResult && parms.ExpectedExceptionName == null))
             {
                 testMethod.RunState = RunState.NotRunnable;

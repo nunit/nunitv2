@@ -473,6 +473,29 @@ namespace NUnit.Core
 
 			object result = Reflect.InvokeMethod( this.method, fixture, this.arguments );
 
+		    foreach (var attribute in method.GetCustomAttributes(false))
+		    {
+		        if(attribute.GetType().FullName.Equals("System.Runtime.CompilerServices.AsyncStateMachineAttribute"))
+		        {
+                    if (method.ReturnType.FullName.StartsWith("System.Threading.Tasks.Task"))
+                        try
+                        {
+                            Reflect.InvokeMethod(method.ReturnType.GetMethod("Wait", new Type[0]), result);
+                        }
+                        catch (NUnitException e)
+                        {
+                            if(e.InnerException != null && e.InnerException.GetType().FullName.Equals("System.AggregateException"))
+                            {
+                                IList<Exception> inner =  (IList<Exception>) e.InnerException.GetType().GetProperty("InnerExceptions").GetValue(e.InnerException, null);
+
+                                throw inner[0];
+                            }
+                        }
+                    else
+                        throw new NotSupportedException("sorry");
+		        }
+		    }
+
             if (this.hasExpectedResult)
                 NUnitFramework.Assert.AreEqual(expectedResult, result);
 
