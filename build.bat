@@ -60,7 +60,7 @@ echo.
 
 goto done
 
-:execute
+: execute
 
 if "%CONFIG%" NEQ "" set OPTIONS=%OPTIONS% -D:build.config=%CONFIG%
 if "%RUNTIME%" NEQ "" set OPTIONS=%OPTIONS% -D:runtime.config=%RUNTIME%

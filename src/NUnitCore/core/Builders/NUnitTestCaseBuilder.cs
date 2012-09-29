@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using NUnit.Core.Extensibility;
 
@@ -167,7 +168,8 @@ namespace NUnit.Core.Builders
         /// <returns></returns>
         public static NUnitTestMethod BuildSingleTestMethod(MethodInfo method, Test parentSuite, ParameterSet parms)
         {
-            NUnitTestMethod testMethod = new NUnitTestMethod(method);
+            NUnitTestMethod testMethod = Reflect.IsAsyncMethod(method) ? 
+                new NUnitAsyncTestMethod(method) : new NUnitTestMethod(method);
 
             string prefix = method.ReflectedType.FullName;
 
@@ -307,7 +309,7 @@ namespace NUnit.Core.Builders
                     return false;
             }
 
-            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && !testMethod.Method.ReturnType.FullName.StartsWith("System.Threading.Tasks.Task") &&
+            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && !Reflect.IsAsyncMethod(testMethod.Method) &&
                 (parms == null || !parms.HasExpectedResult && parms.ExpectedExceptionName == null))
             {
                 testMethod.RunState = RunState.NotRunnable;

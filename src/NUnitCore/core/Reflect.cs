@@ -439,5 +439,14 @@ namespace NUnit.Core
 		private Reflect() { }
 
 		#endregion
+
+	    public static bool IsAsyncMethod(MethodInfo method)
+	    {
+            foreach (object attribute in method.GetCustomAttributes(false))
+                if (attribute.GetType().FullName.Equals("System.Runtime.CompilerServices.AsyncStateMachineAttribute"))
+                    return true;
+
+            return false;
+	    }
 	}
 }
