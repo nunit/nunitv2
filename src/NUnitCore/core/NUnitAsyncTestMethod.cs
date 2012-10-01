@@ -7,7 +7,12 @@ namespace NUnit.Core
 {
     public class NUnitAsyncTestMethod : NUnitTestMethod
     {
-        public NUnitAsyncTestMethod(MethodInfo method) : base(method)
+	    private const string TaskWaitMethod = "Wait";
+	    private const string TaskResultProperty = "Result";
+	    private const string SystemAggregateException = "System.AggregateException";
+	    private const string InnerExceptionsProperty = "InnerExceptions";
+
+	    public NUnitAsyncTestMethod(MethodInfo method) : base(method)
         {
         }
 
@@ -21,43 +26,20 @@ namespace NUnit.Core
             return RunTaskAsyncMethod(testResult);
         }
 
-        private object RunTaskAsyncMethod(TestResult testResult)
-        {
-            try
-            {
-                object result = base.RunTestMethod(testResult);
-
-                Reflect.InvokeMethod(method.ReturnType.GetMethod("Wait", new Type[0]), result);
-
-                return result;
-            }
-            catch (NUnitException e)
-            {
-                if (e.InnerException != null && e.InnerException.GetType().FullName.Equals("System.AggregateException"))
-                {
-                    IList<Exception> inner = (IList<Exception>)e.InnerException.GetType().GetProperty("InnerExceptions").GetValue(e.InnerException, null);
-
-                    throw new NUnitException("Rethrown", inner[0]);
-                }
-
-                throw;
-            }
-        }
-
-        private object RunVoidAsyncMethod(TestResult testResult)
+	    private object RunVoidAsyncMethod(TestResult testResult)
         {
             var previousContext = SynchronizationContext.Current;
-            var newContext = new AsyncSynchronizationContext();
-            SynchronizationContext.SetSynchronizationContext(newContext);
+            var currentContext = new AsyncSynchronizationContext();
+            SynchronizationContext.SetSynchronizationContext(currentContext);
 
             try
             {
                 object result = base.RunTestMethod(testResult);
 
-                newContext.WaitForOperationCompleted();
+                currentContext.WaitForOperationCompleted();
 
-                if (newContext.Exceptions.Count > 0)
-                    throw new NUnitException("Rethrown", newContext.Exceptions[0]);
+                if (currentContext.Exceptions.Count > 0)
+                    throw new NUnitException("Rethrown", currentContext.Exceptions[0]);
 
                 return result;
             }
@@ -66,5 +48,32 @@ namespace NUnit.Core
                 SynchronizationContext.SetSynchronizationContext(previousContext);
             }
         }
+
+	    private object RunTaskAsyncMethod(TestResult testResult)
+	    {
+		    try
+		    {
+			    object task = base.RunTestMethod(testResult);
+
+			    Reflect.InvokeMethod(method.ReturnType.GetMethod(TaskWaitMethod, new Type[0]), task);
+
+			    var taskResult = Reflect.GetPropertyValue(task, TaskResultProperty);
+
+			    return taskResult ?? task;
+		    }
+		    catch (NUnitException e)
+		    {
+			    if (e.InnerException != null && 
+					e.InnerException.GetType().FullName.Equals(SystemAggregateException))
+			    {
+				    IList<Exception> inner = (IList<Exception>)e.InnerException.GetType()
+						.GetProperty(InnerExceptionsProperty).GetValue(e.InnerException, null);
+
+				    throw new NUnitException("Rethrown", inner[0]);
+			    }
+
+			    throw;
+		    }
+	    }
     }
 }

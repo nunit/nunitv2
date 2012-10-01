@@ -554,6 +554,7 @@
     <!-- NUnit Base Tests -->
     <include name="NUnitFramework/tests/nunit.framework.tests.build" />
     <include name="NUnitCore/tests/nunit.core.tests.build" />
+    <include name="NUnitCore/tests-net45/nunit.core.tests.net45.build" />
     <include name="NUnitMocks/tests/nunit.mocks.tests.build" />
     <include name="ClientUtilities/tests/nunit.util.tests.build" />
 

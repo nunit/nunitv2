@@ -4,34 +4,31 @@ using System.Threading;
 
 namespace NUnit.Core
 {
-    internal class AsyncSynchronizationContext : SynchronizationContext
+	public class AsyncSynchronizationContext : SynchronizationContext
     {
         private readonly AutoResetEvent _operationCompleted = new AutoResetEvent(false);
         private readonly IList<Exception> _exceptions = new List<Exception>();
 
-        public IList<Exception> Exceptions
+		public IList<Exception> Exceptions
         {
             get { return _exceptions; }
         }
 
-        public override void Post(SendOrPostCallback d, object state)
-        {
-            base.Post(CaptureException(d), state);
-        }
+		public override void Send(SendOrPostCallback d, object state)
+		{
+			throw new InvalidOperationException("Sending to this synchronization context is not supported");
+		}
 
-        private SendOrPostCallback CaptureException(SendOrPostCallback d)
+		public override void Post(SendOrPostCallback d, object state)
         {
-            return delegate(object state)
-                {
-                    try
-                    {
-                        d(state);
-                    }
-                    catch (Exception e)
-                    {
-                        _exceptions.Add(e);
-                    }
-                };
+			try
+			{
+				d(state);
+			}
+			catch (Exception e)
+			{
+				_exceptions.Add(e);
+			}
         }
 
         public override void OperationCompleted()

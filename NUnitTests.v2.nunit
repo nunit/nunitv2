@@ -3,6 +3,7 @@
   <Config name="Default" binpath="lib;tests;framework" runtimeFramework="v${runtime.version}">
     <assembly path="tests/nunit.framework.tests.dll" />
     <assembly path="tests/nunit.core.tests.dll" />
+    <assembly path="tests/nunit.core.tests.net45.dll" />
     <assembly path="tests/nunit.util.tests.dll" />
     <assembly path="tests/nunit.mocks.tests.dll" />
     <assembly path="tests/nunit-console.tests.dll" />
