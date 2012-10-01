@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<project name="NUnitCoreTestsNet45" default="build" basedir=".">
+
+  <patternset id="source-files">
+    <include name="Reflection.cs"/>
+    <include name="DummyFixture.cs"/>
+    <include name="RealFixture.cs"/>
+    <include name="NUnitTestCaseBuilderTests.cs"/>
+    <include name="NUnitAsyncTestMethodTests.cs"/>
+  </patternset>
+
+  <target name="build">
+    <csc target="library" 
+       output="${current.test.dir}/nunit.core.tests.net45.dll"
+       debug="${build.debug}" 
+       define="${build.defines}">
+      <nowarn>
+        <warning number="618,672"/>
+      </nowarn>
+      <sources>
+        <patternset refid="source-files"/>
+        <include name="../../GeneratedAssemblyInfo.cs"/>
+      </sources>
+      <resources prefix="NUnit.Core.Tests.45">
+        <include name="Results.xsd"/>
+      </resources>
+      <references>
+        <include name="${current.framework.dir}/nunit.framework.dll"/>
+        <include name="${current.framework.dir}/nunit.mocks.dll"/>
+        <include name="${current.lib.dir}/nunit.core.interfaces.dll"/>
+        <include name="${current.lib.dir}/nunit.core.dll"/>
+        <include name="${current.lib.dir}/nunit.util.dll"/>
+        <include name="${current.lib.dir}/NSubstitute.dll" if="${runtime.version >= '3.5'}"/>
+        <include name="${current.test.dir}/test-assembly.dll"/>
+        <include name="${current.test.dir}/test-utilities.dll"/>
+        <include name="${current.test.dir}/mock-assembly.dll"/>
+        <include name="${current.test.dir}/nonamespace-assembly.dll"/>
+        <include name="System.Data.dll"/>
+      </references>
+    </csc>
+  </target>
+
+  <target name="package">
+    <copy todir="${package.src.dir}/NUnitCore/tests-net45">
+      <fileset>
+        <patternset refid="source-files"/>
+        <include name="Results.xsd"/>
+        <include name="nunit.core.tests.net45.csproj"/>
+        <include name="nunit.core.tests.net45.build"/>
+      </fileset>
+    </copy>
+  </target>
+
+</project>
