@@ -106,21 +106,21 @@ namespace nunit.core.tests.net45
 		}
 
 		[Test]
-		[ExpectedException]
+		[ExpectedException(typeof(InvalidOperationException))]
 		public async void AsyncVoidExpectedException()
 		{
 			await ThrowException();
 		}
 
 		[Test]
-		[ExpectedException]
+		[ExpectedException(typeof(InvalidOperationException))]
 		public async Task AsyncTaskExpectedException()
 		{
 			await ThrowException();
 		}
 
 		[Test]
-		[ExpectedException]
+		[ExpectedException(typeof(InvalidOperationException))]
 		public async Task<int> AsyncTaskResultExpectedException()
 		{
 			return await ThrowException();
