@@ -136,7 +136,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async void NestedAsyncVoidSuccess()
 		{
-			var result = await Task.FromResult(await ReturnOne());
+			var result = await Task.Run(async () => await ReturnOne());
 
 			Assert.AreEqual(1, result);
 		}
@@ -144,7 +144,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async void NestedAsyncVoidFailure()
 		{
-			var result = await Task.FromResult(await ReturnOne());
+			var result = await Task.Run(async () => await ReturnOne());
 
 			Assert.AreEqual(2, result);
 		}
@@ -152,7 +152,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async void NestedAsyncVoidError()
 		{
-			await Task.FromResult(await ThrowException());
+			await Task.Run(async () => await ThrowException());
 
 			Assert.Fail("Should not get here");
 		}
@@ -160,7 +160,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async Task NestedAsyncTaskSuccess()
 		{
-			var result = await Task.FromResult(await ReturnOne());
+			var result = await Task.Run(async () => await ReturnOne());
 
 			Assert.AreEqual(1, result);
 		}
@@ -168,7 +168,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async Task NestedAsyncTaskFailure()
 		{
-			var result = await Task.FromResult(await ReturnOne());
+			var result = await Task.Run(async () => await ReturnOne());
 
 			Assert.AreEqual(2, result);
 		}
@@ -176,7 +176,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async Task NestedAsyncTaskError()
 		{
-			await Task.FromResult(await ThrowException());
+			await Task.Run(async () => await ThrowException());
 
 			Assert.Fail("Should never get here");
 		}
@@ -184,7 +184,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async Task<int> NestedAsyncTaskResultSuccess()
 		{
-			var result = await Task.FromResult(await ReturnOne());
+			var result = await Task.Run(async () => await ReturnOne());
 
 			Assert.AreEqual(1, result);
 
@@ -194,7 +194,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async Task<int> NestedAsyncTaskResultFailure()
 		{
-			var result = await Task.FromResult(await ReturnOne());
+			var result = await Task.Run(async () => await ReturnOne());
 
 			Assert.AreEqual(2, result);
 
@@ -204,7 +204,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public async Task<int> NestedAsyncTaskResultError()
 		{
-			var result = await Task.FromResult(await ThrowException());
+			var result = await Task.Run(async () => await ThrowException());
 
 			Assert.Fail("Should never get here");
 
@@ -263,16 +263,16 @@ namespace nunit.core.tests.net45
 
 		private static Task<int> ReturnOne()
 		{
-			return Task.FromResult(1);
+			return Task.Run(() => 1);
 		}
 
 		private static Task<int> ThrowException()
 		{
-			return Task.Factory.StartNew(() =>
-				{
-					throw new InvalidOperationException();
-					return 1;
-				});
+			return Task.Run(() =>
+			{
+				throw new InvalidOperationException();
+				return 1;
+			});
 		}
 	}
 }
