@@ -322,7 +322,7 @@ namespace NUnit.Core.Builders
 			if(isAsyncMethod && !testMethod.Method.ReturnType.IsGenericType && parms != null && parms.HasExpectedResult)
 			{
 				testMethod.RunState = RunState.NotRunnable;
-				testMethod.IgnoreReason = "Async method has void or Task return value when a result was extected";
+				testMethod.IgnoreReason = "Async method has void or Task return type when a result was expected";
 				return false;
 			}
 

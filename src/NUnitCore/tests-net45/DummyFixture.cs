@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace nunit.core.tests.net45
 {
 	[Ignore("Run via code")]
-	internal class DummyFixture
+	public class DummyFixture
 	{
 		[Test]
 		public async void Void()

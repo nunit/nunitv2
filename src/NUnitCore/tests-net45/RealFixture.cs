@@ -267,6 +267,12 @@ namespace nunit.core.tests.net45
 			Assert.Fail("Should never get here");
 		}
 
+		[TestCase(1, 2)]
+		public async void AsyncVoidTestCaseWithParametersSuccess(int a, int b)
+		{
+			Assert.AreEqual(await ReturnOne(), b - a);
+		}
+
 		private static Task<int> ReturnOne()
 		{
 			return Task.Run(() => 1);
