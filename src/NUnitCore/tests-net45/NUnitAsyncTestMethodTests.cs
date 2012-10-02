@@ -40,6 +40,7 @@ namespace nunit.core.tests.net45
 				yield return new object[] { Method(f => f.AsyncTaskResultError()), ResultState.Error, 0 };
 
 				yield return new object[] { Method(f => f.AsyncTaskResultCheckSuccess()), ResultState.Success, 0 };
+				yield return new object[] { Method(f => f.AsyncTaskResultCheckSuccessReturningNull()), ResultState.Success, 0 };
 				yield return new object[] { Method(f => f.AsyncTaskResultCheckFailure()), ResultState.Failure, 0 };
 				yield return new object[] { Method(f => f.AsyncTaskResultCheckError()), ResultState.Failure, 0 };
 

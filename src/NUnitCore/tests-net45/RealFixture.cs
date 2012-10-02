@@ -105,6 +105,12 @@ namespace nunit.core.tests.net45
 			return await ThrowException();
 		}
 
+		[TestCase(Result = null)]
+		public async Task<object> AsyncTaskResultCheckSuccessReturningNull()
+		{
+			return await Task.Run(() => (object)null);
+		}
+
 		[Test]
 		[ExpectedException(typeof(InvalidOperationException))]
 		public async void AsyncVoidExpectedException()

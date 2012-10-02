@@ -309,13 +309,22 @@ namespace NUnit.Core.Builders
                     return false;
             }
 
-            if (!testMethod.Method.ReturnType.Equals(typeof(void)) && !Reflect.IsAsyncMethod(testMethod.Method) &&
+	        bool isAsyncMethod = Reflect.IsAsyncMethod(testMethod.Method);
+
+	        if (!testMethod.Method.ReturnType.Equals(typeof(void)) && !isAsyncMethod &&
                 (parms == null || !parms.HasExpectedResult && parms.ExpectedExceptionName == null))
             {
                 testMethod.RunState = RunState.NotRunnable;
                 testMethod.IgnoreReason = "Method has non-void return value";
                 return false;
             }
+
+			if(isAsyncMethod && !testMethod.Method.ReturnType.IsGenericType && parms != null && parms.HasExpectedResult)
+			{
+				testMethod.RunState = RunState.NotRunnable;
+				testMethod.IgnoreReason = "Async method has void or Task return value when a result was extected";
+				return false;
+			}
 
             if (argsProvided > 0 && argsNeeded == 0)
             {

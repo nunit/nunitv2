@@ -11,6 +11,7 @@ namespace NUnit.Core
 	    private const string TaskResultProperty = "Result";
 	    private const string SystemAggregateException = "System.AggregateException";
 	    private const string InnerExceptionsProperty = "InnerExceptions";
+	    private const BindingFlags TaskResultPropertyBindingFlags = BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public;
 
 	    public NUnitAsyncTestMethod(MethodInfo method) : base(method)
         {
@@ -56,10 +57,9 @@ namespace NUnit.Core
 			    object task = base.RunTestMethod(testResult);
 
 			    Reflect.InvokeMethod(method.ReturnType.GetMethod(TaskWaitMethod, new Type[0]), task);
+			    PropertyInfo resultProperty = Reflect.GetNamedProperty(method.ReturnType, TaskResultProperty, TaskResultPropertyBindingFlags);
 
-			    var taskResult = Reflect.GetPropertyValue(task, TaskResultProperty);
-
-			    return taskResult ?? task;
+			    return resultProperty != null ? resultProperty.GetValue(task, null) : task;
 		    }
 		    catch (NUnitException e)
 		    {

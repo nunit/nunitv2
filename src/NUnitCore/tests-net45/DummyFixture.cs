@@ -35,5 +35,23 @@ namespace nunit.core.tests.net45
 		{
 			return Task.Delay(0);
 		}
+
+		[TestCase(Result = 1)]
+		public async Task AsyncTaskTestCase()
+		{
+			await Task.Run(() => 1);
+		}
+
+		[TestCase(Result = 1)]
+		public async void AsyncVoidTestCase()
+		{
+			await Task.Run(() => 1);
+		}
+
+		[TestCase(Result = 1)]
+		public async Task<int> AsyncTaskWithResultTestCase()
+		{
+			return await Task.Run(() => 1);
+		}
 	}
 }

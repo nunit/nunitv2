@@ -1,4 +1,5 @@
-﻿using NUnit.Core;
+﻿using System.Diagnostics;
+using NUnit.Core;
 using NUnit.Core.Builders;
 using NUnit.Framework;
 
@@ -31,6 +32,42 @@ namespace nunit.core.tests.net45
 
 			Assert.That(built, Is.InstanceOf<NUnitAsyncTestMethod>());
 			Assert.That(built.RunState, Is.EqualTo(RunState.Runnable));
+		}
+
+		[Test]
+		public void Async_task_testcase_result_check()
+		{
+			var built = _sut.BuildFrom(Reflection.GetMethod<DummyFixture>(f => f.AsyncTaskTestCase()));
+
+			var testMethod = built.Tests[0] as NUnitAsyncTestMethod;
+
+			Assert.IsNotNull(testMethod);
+
+			Assert.That(testMethod.RunState, Is.EqualTo(RunState.NotRunnable));
+		}
+
+		[Test]
+		public void Async_void_testcase_result_check()
+		{
+			var built = _sut.BuildFrom(Reflection.GetMethod<DummyFixture>(f => f.AsyncTaskTestCase()));
+
+			var testMethod = built.Tests[0] as NUnitAsyncTestMethod;
+
+			Assert.IsNotNull(testMethod);
+
+			Assert.That(testMethod.RunState, Is.EqualTo(RunState.NotRunnable));
+		}
+
+		[Test]
+		public void Async_task_with_result_testcase_result_check()
+		{
+			var built = _sut.BuildFrom(Reflection.GetMethod<DummyFixture>(f => f.AsyncTaskWithResultTestCase()));
+
+			var testMethod = built.Tests[0] as NUnitAsyncTestMethod;
+
+			Assert.IsNotNull(testMethod);
+
+			Assert.That(testMethod.RunState, Is.EqualTo(RunState.Runnable));
 		}
 
 		[Test]
