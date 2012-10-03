@@ -1,8 +1,8 @@
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-cli-failures", "failures\cpp-cli-failures.vcproj", "{A0987BCD-AFE6-40E4-95A8-ADA7ADB7E97D}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-cli-failures", "failures\cpp-cli-failures.vcxproj", "{A0987BCD-AFE6-40E4-95A8-ADA7ADB7E97D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-cli-syntax", "syntax\cpp-cli-syntax.vcproj", "{72448C2D-17C9-419E-B28D-3B533E7E0CD5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cpp-cli-syntax", "syntax\cpp-cli-syntax.vcxproj", "{72448C2D-17C9-419E-B28D-3B533E7E0CD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

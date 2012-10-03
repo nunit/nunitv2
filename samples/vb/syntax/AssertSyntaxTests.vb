@@ -1,7 +1,7 @@
 ' ****************************************************************
 ' Copyright 2007, Charlie Poole
 ' This is free software licensed under the NUnit license. You may
-' obtain a copy of the license at http:'nunit.org/?p=license&r=2.4
+' obtain a copy of the license at http://nunit.org
 ' ****************************************************************
 
 Option Explicit On 
@@ -9,7 +9,6 @@ Option Explicit On
 Imports System
 Imports NUnit.Framework
 Imports NUnit.Framework.Constraints
-Imports Text = NUnit.Framework.Text
 
 Namespace NUnit.Samples
 
@@ -155,7 +154,7 @@ Namespace NUnit.Samples
         End Sub
 
         <Test()> _
-        Public Sub InstanceOfTypeTests()
+        Public Sub InstanceOfTests()
             ' Classic syntax
             Assert.IsInstanceOf(GetType(String), "Hello")
             Assert.IsNotInstanceOf(GetType(String), 5)
@@ -195,19 +194,19 @@ Namespace NUnit.Samples
             StringAssert.Contains("World", phrase)
 
             ' Helper syntax
-            Assert.That(phrase, Text.Contains("World"))
+            Assert.That(phrase, Iz.StringContaining("World"))
             ' Only available using new syntax
-            Assert.That(phrase, Text.DoesNotContain("goodbye"))
-            Assert.That(phrase, Text.Contains("WORLD").IgnoreCase)
-            Assert.That(phrase, Text.DoesNotContain("BYE").IgnoreCase)
-            Assert.That(array, Text.All.Contains("b"))
+            Assert.That(phrase, Iz.Not.StringContaining("goodbye"))
+            Assert.That(phrase, Iz.StringContaining("WORLD").IgnoreCase)
+            Assert.That(phrase, Iz.Not.StringContaining("BYE").IgnoreCase)
+            Assert.That(array, Iz.All.StringContaining("b"))
 
             ' Inherited syntax
             Expect(phrase, Contains("World"))
             ' Only available using new syntax
-            Expect(phrase, Text.DoesNotContain("goodbye"))
+            Expect(phrase, Iz.Not.Contains("goodbye"))
             Expect(phrase, Contains("WORLD").IgnoreCase)
-            Expect(phrase, Text.DoesNotContain("BYE").IgnoreCase)
+            Expect(phrase, Iz.Not.Contains("BYE").IgnoreCase)
             Expect(array, All.Contains("b"))
         End Sub
 
@@ -220,19 +219,19 @@ Namespace NUnit.Samples
             StringAssert.StartsWith("Hello", phrase)
 
             ' Helper syntax
-            Assert.That(phrase, Text.StartsWith("Hello"))
+            Assert.That(phrase, Iz.StringStarting("Hello"))
             ' Only available using new syntax
-            Assert.That(phrase, Text.DoesNotStartWith("Hi!"))
-            Assert.That(phrase, Text.StartsWith("HeLLo").IgnoreCase)
-            Assert.That(phrase, Text.DoesNotStartWith("HI").IgnoreCase)
-            Assert.That(greetings, Text.All.StartsWith("h").IgnoreCase)
+            Assert.That(phrase, Iz.Not.StringStarting("Hi!"))
+            Assert.That(phrase, Iz.StringStarting("HeLLo").IgnoreCase)
+            Assert.That(phrase, Iz.Not.StringStarting("HI").IgnoreCase)
+            Assert.That(greetings, Iz.All.StringStarting("h").IgnoreCase)
 
             ' Inherited syntax
             Expect(phrase, StartsWith("Hello"))
             ' Only available using new syntax
-            Expect(phrase, Text.DoesNotStartWith("Hi!"))
+            Expect(phrase, Iz.Not.StringStarting("Hi!"))
             Expect(phrase, StartsWith("HeLLo").IgnoreCase)
-            Expect(phrase, Text.DoesNotStartWith("HI").IgnoreCase)
+            Expect(phrase, Iz.Not.StringStarting("HI").IgnoreCase)
             Expect(greetings, All.StartsWith("h").IgnoreCase)
         End Sub
 
@@ -245,16 +244,16 @@ Namespace NUnit.Samples
             StringAssert.EndsWith("!", phrase)
 
             ' Helper syntax
-            Assert.That(phrase, Text.EndsWith("!"))
+            Assert.That(phrase, Iz.StringEnding("!"))
             ' Only available using new syntax
-            Assert.That(phrase, Text.DoesNotEndWith("?"))
-            Assert.That(phrase, Text.EndsWith("WORLD!").IgnoreCase)
-            Assert.That(greetings, Text.All.EndsWith("!"))
+            Assert.That(phrase, Iz.Not.StringEnding("?"))
+            Assert.That(phrase, Iz.StringEnding("WORLD!").IgnoreCase)
+            Assert.That(greetings, Iz.All.StringEnding("!"))
 
             ' Inherited syntax
             Expect(phrase, EndsWith("!"))
             ' Only available using new syntax
-            Expect(phrase, Text.DoesNotEndWith("?"))
+            Expect(phrase, Iz.Not.StringEnding("?"))
             Expect(phrase, EndsWith("WORLD!").IgnoreCase)
             Expect(greetings, All.EndsWith("!"))
         End Sub
@@ -295,18 +294,17 @@ Namespace NUnit.Samples
             StringAssert.IsMatch("Now.*come", phrase)
 
             ' Helper syntax
-            Assert.That(phrase, Text.Matches("all good men"))
-            Assert.That(phrase, Text.Matches("Now.*come"))
+            Assert.That(phrase, Iz.StringMatching("all good men"))
+            Assert.That(phrase, Iz.StringMatching("Now.*come"))
             ' Only available using new syntax
-            Assert.That(phrase, Text.DoesNotMatch("all.*men.*good"))
-            Assert.That(phrase, Text.Matches("ALL").IgnoreCase)
-            Assert.That(quotes, Text.All.Matches("never").IgnoreCase)
+            Assert.That(phrase, Iz.Not.StringMatching("all.*men.*good"))
+            Assert.That(quotes, Iz.All.StringMatching("never").IgnoreCase)
 
             ' Inherited syntax
             Expect(phrase, Matches("all good men"))
             Expect(phrase, Matches("Now.*come"))
             ' Only available using new syntax
-            Expect(phrase, Text.DoesNotMatch("all.*men.*good"))
+            Expect(phrase, Iz.Not.StringMatching("all.*men.*good"))
             Expect(phrase, Matches("ALL").IgnoreCase)
             Expect(quotes, All.Matches("never").IgnoreCase)
         End Sub
@@ -457,17 +455,17 @@ Namespace NUnit.Samples
             ' Helper syntax
             Assert.That(ints, Iz.All.Not.Null)
             Assert.That(ints, Has.None.Null)
-            Assert.That(ints, Iz.All.InstanceOfType(GetType(Integer)))
-            Assert.That(ints, Has.All.InstanceOfType(GetType(Integer)))
-            Assert.That(strings, Iz.All.InstanceOfType(GetType(String)))
-            Assert.That(strings, Has.All.InstanceOfType(GetType(String)))
+            Assert.That(ints, Iz.All.InstanceOf(GetType(Integer)))
+            Assert.That(ints, Has.All.InstanceOf(GetType(Integer)))
+            Assert.That(strings, Iz.All.InstanceOf(GetType(String)))
+            Assert.That(strings, Has.All.InstanceOf(GetType(String)))
             Assert.That(ints, Iz.Unique)
             ' Only available using new syntax
             Assert.That(strings, Iz.Not.Unique)
             Assert.That(ints, Iz.All.GreaterThan(0))
             Assert.That(ints, Has.All.GreaterThan(0))
             Assert.That(ints, Has.None.LessThanOrEqualTo(0))
-            Assert.That(strings, Text.All.Contains("a"))
+            Assert.That(strings, Iz.All.StringContaining("a"))
             Assert.That(strings, Has.All.Contains("a"))
             Assert.That(strings, Has.Some.StartsWith("ba"))
             Assert.That(strings, Has.Some.Property("Length").EqualTo(3))
@@ -477,8 +475,8 @@ Namespace NUnit.Samples
             ' Inherited syntax
             Expect(ints, All.Not.Null)
             Expect(ints, None.Null)
-            Expect(ints, All.InstanceOfType(GetType(Integer)))
-            Expect(strings, All.InstanceOfType(GetType(String)))
+            Expect(ints, All.InstanceOf(GetType(Integer)))
+            Expect(strings, All.InstanceOf(GetType(String)))
             Expect(ints, Unique)
             ' Only available using new syntax
             Expect(strings, Iz.Not.Unique)
@@ -499,15 +497,15 @@ Namespace NUnit.Samples
 
             ' Helper syntax
             Assert.That(mixed, Has.Some.Null)
-            Assert.That(mixed, Has.Some.InstanceOfType(GetType(Integer)))
-            Assert.That(mixed, Has.Some.InstanceOfType(GetType(String)))
+            Assert.That(mixed, Has.Some.InstanceOf(GetType(Integer)))
+            Assert.That(mixed, Has.Some.InstanceOf(GetType(String)))
             Assert.That(strings, Has.Some.StartsWith("ba"))
             Assert.That(strings, Has.Some.Not.StartsWith("ba"))
 
             ' Inherited syntax
             Expect(mixed, Some.Null)
-            Expect(mixed, Some.InstanceOfType(GetType(Integer)))
-            Expect(mixed, Some.InstanceOfType(GetType(String)))
+            Expect(mixed, Some.InstanceOf(GetType(Integer)))
+            Expect(mixed, Some.InstanceOf(GetType(String)))
             Expect(strings, Some.StartsWith("ba"))
             Expect(strings, Some.Not.StartsWith("ba"))
         End Sub
@@ -522,13 +520,13 @@ Namespace NUnit.Samples
 
             ' Helper syntax
             Assert.That(ints, Has.None.Null)
-            Assert.That(ints, Has.None.InstanceOfType(GetType(String)))
+            Assert.That(ints, Has.None.InstanceOf(GetType(String)))
             Assert.That(ints, Has.None.GreaterThan(99))
             Assert.That(strings, Has.None.StartsWith("qu"))
 
             ' Inherited syntax
             Expect(ints, None.Null)
-            Expect(ints, None.InstanceOfType(GetType(String)))
+            Expect(ints, None.InstanceOf(GetType(String)))
             Expect(ints, None.GreaterThan(99))
             Expect(strings, None.StartsWith("qu"))
         End Sub

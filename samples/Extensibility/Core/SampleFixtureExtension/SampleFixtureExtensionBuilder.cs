@@ -1,7 +1,7 @@
 // ****************************************************************
 // Copyright 2007, Charlie Poole
 // This is free software licensed under the NUnit license. You may
-// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
 using System;
@@ -18,15 +18,6 @@ namespace NUnit.Core.Extensions
 	public class SampleFixtureExtensionBuilder : ISuiteBuilder, IAddin
 	{	
 		#region NUnitTestFixtureBuilder Overrides
-		/// <summary>
-		/// Makes a SampleFixtureExtension instance
-		/// </summary>
-		/// <param name="type">The type to be used</param>
-		/// <returns>A SampleFixtureExtension as a TestSuite</returns>
-//		protected override TestSuite MakeSuite(Type type)
-//		{
-//			return new SampleFixtureExtension( type );
-//		}
 
 		// The builder recognizes the types that it can use by the presense
 		// of SampleFixtureExtensionAttribute. Note that an attribute does not

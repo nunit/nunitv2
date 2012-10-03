@@ -178,6 +178,17 @@ namespace NUnit.Core.Tests
         }
 
         [Test]
+        [TestCase()]
+        [TestCase(@"one")]
+        [TestCase(@"one", @"two")]
+        [TestCase(@"one", @"two", @"three")]
+        [TestCase(@"one", @"two", @"three", @"four")]
+        public void TestParams(params string[] values) 
+        {
+            Assert.That(values.Length <= 4);
+        }
+
+        [Test]
         public void RunningTestsThroughFixtureGivesCorrectResults()
 		{
             TestResult result = fixture.Run(NullListener.NULL, TestFilter.Empty);

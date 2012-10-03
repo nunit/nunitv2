@@ -160,34 +160,36 @@
 
   </target>
 
-  <target name="build-managed" depends="init">
+  <target name="build-managed" depends="init,set-vs-path">
 
-    <readregistry property="vs.2003.path"
-      key="Software\Microsoft\VisualStudio\7.1\InstallDir"
-      hive="LocalMachine" failonerror="false"
-      unless="${property::exists( 'vs.2003.path' )}"/>
+    <fail message="Visual Studio 2010 must be installed to build this sample"
+      unless="${property::exists( 'vs.2010.path' )}"/>
 
-    <fail message="VS 2003 must be installed to build this sample"
-      unless="${property::exists( 'vs.2003.path' )}"/>
-
-    <exec program="devenv.exe" basedir="${vs.2003.path}" workingdir="."
-      commandline="${sample}.vcproj /build ${build.config} /out ${output.dir}/${sample.dll}" />
+    <exec program="devenv.exe" 
+      basedir="${vs.2010.path}" 
+      workingdir="."
+      commandline="${sample}.vcxproj /build ${build.config} /out ${output.dir}/${sample.dll}" />
 
   </target>
 
-  <target name="build-cpp-cli" depends="init">
+  <target name="build-cpp-cli" depends="init,set-vs-path">
 
-    <readregistry property="vs.2005.path"
-      key="Software\Microsoft\VisualStudio\8.0\InstallDir"
-      hive="LocalMachine" failonerror="false"
-      unless="${property::exists( 'vs.2005.path' )}"/>
-
-    <fail message="VS 2005 must be installed to build this sample"
-      unless="${property::exists( 'vs.2005.path' )}"/>
+    <fail message="Visual Studio 2010 must be installed to build this sample"
+      unless="${property::exists( 'vs.2010.path' )}"/>
 
     <exec program="devenv.exe"
-      basedir="${vs.2005.path}" workingdir="."
-      commandline="${sample}.vcproj /build ${build.config} /out ${output.dir}/${sample.dll}"/>
+      basedir="${vs.2010.path}" 
+      workingdir="."
+      commandline="${sample}.vcxproj /build ${build.config} /out ${output.dir}/${sample.dll}"/>
+
+  </target>
+
+  <target name="set-vs-path">
+
+    <readregistry property="vs.2010.path"
+      key="Software\Microsoft\VisualStudio\10.0\InstallDir"
+      hive="LocalMachine" failonerror="false"
+      unless="${property::exists( 'vs.2010.path' )}"/>
 
   </target>
 

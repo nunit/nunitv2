@@ -8,8 +8,6 @@ This directory contains sample applications demonstrating the use of NUnit and o
 
     Money: This is a C# version of the money example which is found in most xUnit implementations. Thanks to Kent Beck.
 
-    Money-Port: This shows how the Money example can be ported from Version 1 of NUnit with minimal changes.
-
     Syntax: Illustrates most Assert methods using both the classic and constraint-based syntax.
 
   JSharp: Samples in J#
@@ -49,9 +47,8 @@ This directory contains sample applications demonstrating the use of NUnit and o
 
 Building the Samples
 
-A Visual Studio 2003 project is included for most samples. 
-Visual Studio 2005 will convert the format automatically upon
-opening it. The C++/CLI samples, as well as other samples that
+A Visual Studio 2010 project is included for most samples. 
+The C++/CLI samples, as well as other samples that
 depend on .NET 2.0 features, include Visual Studio 2005 projects.
 
 In most cases, you will need to remove the reference to the

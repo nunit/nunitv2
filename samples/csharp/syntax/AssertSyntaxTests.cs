@@ -1,7 +1,7 @@
 // ****************************************************************
 // Copyright 2007, Charlie Poole
 // This is free software licensed under the NUnit license. You may
-// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
 using System;
@@ -35,7 +35,7 @@ namespace NUnit.Framework.Tests
 			// Classic syntax
 			Assert.IsNull(nada);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(nada, Is.Null);
 
 			// Inherited syntax
@@ -48,7 +48,7 @@ namespace NUnit.Framework.Tests
 			// Classic syntax
 			Assert.IsNotNull(42);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(42, Is.Not.Null);
 
 			// Inherited syntax
@@ -61,7 +61,7 @@ namespace NUnit.Framework.Tests
 			// Classic syntax
 			Assert.IsTrue(2+2==4);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(2+2==4, Is.True);
 			Assert.That(2+2==4);
 
@@ -76,7 +76,7 @@ namespace NUnit.Framework.Tests
 			// Classic syntax
 			Assert.IsFalse(2+2==5);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(2+2== 5, Is.False);
 			
 			// Inherited syntax
@@ -93,7 +93,7 @@ namespace NUnit.Framework.Tests
 			Assert.IsNaN(d);
 			Assert.IsNaN(f);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(d, Is.NaN);
 			Assert.That(f, Is.NaN);
 			
@@ -109,7 +109,7 @@ namespace NUnit.Framework.Tests
 			Assert.IsEmpty("");
 			Assert.IsNotEmpty("Hello!");
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That("", Is.Empty);
 			Assert.That("Hello!", Is.Not.Empty);
 
@@ -125,7 +125,7 @@ namespace NUnit.Framework.Tests
 			Assert.IsEmpty(new bool[0]);
 			Assert.IsNotEmpty(new int[] { 1, 2, 3 });
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(new bool[0], Is.Empty);
 			Assert.That(new int[] { 1, 2, 3 }, Is.Not.Empty);
 
@@ -145,7 +145,7 @@ namespace NUnit.Framework.Tests
 			Assert.AreNotEqual(typeof(int), "Hello".GetType());
 			Assert.AreNotEqual("System.Int32", "Hello".GetType().FullName);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That("Hello", Is.TypeOf(typeof(string)));
 			Assert.That("Hello", Is.Not.TypeOf(typeof(int)));
 			
@@ -155,13 +155,13 @@ namespace NUnit.Framework.Tests
 		}
 
 		[Test]
-		public void InstanceOfTypeTests()
+		public void InstanceOfTests()
 		{
 			// Classic syntax
 			Assert.IsInstanceOf(typeof(string), "Hello");
 			Assert.IsNotInstanceOf(typeof(string), 5);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That("Hello", Is.InstanceOf(typeof(string)));
 			Assert.That(5, Is.Not.InstanceOf(typeof(string)));
 
@@ -177,7 +177,7 @@ namespace NUnit.Framework.Tests
 			Assert.IsAssignableFrom(typeof(string), "Hello");
 			Assert.IsNotAssignableFrom(typeof(string), 5);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That( "Hello", Is.AssignableFrom(typeof(string)));
 			Assert.That( 5, Is.Not.AssignableFrom(typeof(string)));
 			
@@ -197,13 +197,13 @@ namespace NUnit.Framework.Tests
 			// Classic Syntax
 			StringAssert.Contains("World", phrase);
 			
-			// Helper syntax
-			Assert.That(phrase, Text.Contains("World"));
+			// Constraint Syntax
+			Assert.That(phrase, Is.StringContaining("World"));
 			// Only available using new syntax
-			Assert.That(phrase, Text.DoesNotContain("goodbye"));
-			Assert.That(phrase, Text.Contains("WORLD").IgnoreCase);
-			Assert.That(phrase, Text.DoesNotContain("BYE").IgnoreCase);
-			Assert.That(array, Text.All.Contains( "b" ) );
+			Assert.That(phrase, Is.Not.StringContaining("goodbye"));
+			Assert.That(phrase, Is.StringContaining("WORLD").IgnoreCase);
+			Assert.That(phrase, Is.Not.StringContaining("BYE").IgnoreCase);
+			Assert.That(array, Is.All.StringContaining( "b" ) );
 
 			// Inherited syntax
 			Expect(phrase, Contains("World"));
@@ -223,13 +223,13 @@ namespace NUnit.Framework.Tests
 			// Classic syntax
 			StringAssert.StartsWith("Hello", phrase);
 
-			// Helper syntax
-			Assert.That(phrase, Text.StartsWith("Hello"));
+			// Constraint Syntax
+			Assert.That(phrase, Is.StringStarting("Hello"));
 			// Only available using new syntax
-			Assert.That(phrase, Text.DoesNotStartWith("Hi!"));
-			Assert.That(phrase, Text.StartsWith("HeLLo").IgnoreCase);
-			Assert.That(phrase, Text.DoesNotStartWith("HI").IgnoreCase);
-			Assert.That(greetings, Text.All.StartsWith("h").IgnoreCase);
+			Assert.That(phrase, Is.Not.StringStarting("Hi!"));
+			Assert.That(phrase, Is.StringStarting("HeLLo").IgnoreCase);
+			Assert.That(phrase, Is.Not.StringStarting("HI").IgnoreCase);
+			Assert.That(greetings, Is.All.StringStarting("h").IgnoreCase);
 
 			// Inherited syntax
 			Expect(phrase, StartsWith("Hello"));
@@ -249,12 +249,12 @@ namespace NUnit.Framework.Tests
 			// Classic Syntax
 			StringAssert.EndsWith("!", phrase);
 
-			// Helper syntax
-			Assert.That(phrase, Text.EndsWith("!"));
+			// Constraint Syntax
+			Assert.That(phrase, Is.StringEnding("!"));
 			// Only available using new syntax
-			Assert.That(phrase, Text.DoesNotEndWith("?"));
-			Assert.That(phrase, Text.EndsWith("WORLD!").IgnoreCase);
-			Assert.That(greetings, Text.All.EndsWith("!"));
+			Assert.That(phrase, Is.Not.StringEnding("?"));
+			Assert.That(phrase, Is.StringEnding("WORLD!").IgnoreCase);
+			Assert.That(greetings, Is.All.StringEnding("!"));
 		
 			// Inherited syntax
 			Expect(phrase, EndsWith("!"));
@@ -272,7 +272,7 @@ namespace NUnit.Framework.Tests
 			// Classic syntax
 			StringAssert.AreEqualIgnoringCase("hello world!",phrase);
             
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(phrase, Is.EqualTo("hello world!").IgnoreCase);
 			//Only available using new syntax
 			Assert.That(phrase, Is.Not.EqualTo("goodbye world!").IgnoreCase);
@@ -301,13 +301,13 @@ namespace NUnit.Framework.Tests
 			StringAssert.IsMatch( "all good men", phrase );
 			StringAssert.IsMatch( "Now.*come", phrase );
 
-			// Helper syntax
-			Assert.That( phrase, Text.Matches( "all good men" ) );
-			Assert.That( phrase, Text.Matches( "Now.*come" ) );
+			// Constraint Syntax
+			Assert.That( phrase, Is.StringMatching( "all good men" ) );
+			Assert.That( phrase, Is.StringMatching( "Now.*come" ) );
 			// Only available using new syntax
-			Assert.That(phrase, Text.DoesNotMatch("all.*men.*good"));
-			Assert.That(phrase, Text.Matches("ALL").IgnoreCase);
-			Assert.That(quotes, Text.All.Matches("never").IgnoreCase);
+			Assert.That(phrase, Is.Not.StringMatching("all.*men.*good"));
+			Assert.That(phrase, Is.StringMatching("ALL").IgnoreCase);
+			Assert.That(quotes, Is.All.StringMatching("never").IgnoreCase);
 		
 			// Inherited syntax
 			Expect( phrase, Matches( "all good men" ) );
@@ -333,7 +333,7 @@ namespace NUnit.Framework.Tests
 			Assert.AreNotEqual(5, 2 + 2);
 			Assert.AreNotEqual(i3, iunequal);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(2 + 2, Is.EqualTo(4));
 			Assert.That(2 + 2 == 4);
 			Assert.That(i3, Is.EqualTo(d3));
@@ -355,7 +355,7 @@ namespace NUnit.Framework.Tests
 			Assert.AreEqual(5.0d, 4.99d, 0.05d);
 			Assert.AreEqual(5.0f, 4.99f, 0.05f);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(4.99d, Is.EqualTo(5.0d).Within(0.05d));
 			Assert.That(4.0d, Is.Not.EqualTo(5.0d).Within(0.5d));
 			Assert.That(4.99f, Is.EqualTo(5.0f).Within(0.05f));
@@ -424,7 +424,7 @@ namespace NUnit.Framework.Tests
 			Assert.GreaterOrEqual(7, 3);
 			Assert.GreaterOrEqual(7, 7);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(7, Is.GreaterThan(3));
 			Assert.That(7, Is.GreaterThanOrEqualTo(3));
 			Assert.That(7, Is.AtLeast(3));
@@ -443,7 +443,7 @@ namespace NUnit.Framework.Tests
 			Assert.LessOrEqual(3, 7);
 			Assert.LessOrEqual(3, 3);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(3, Is.LessThan(7));
 			Assert.That(3, Is.LessThanOrEqualTo(7));
 			Assert.That(3, Is.AtMost(7));
@@ -473,20 +473,20 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AllItemsAreInstancesOfType(strings, typeof(string));
 			CollectionAssert.AllItemsAreUnique(ints);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(ints, Is.All.Not.Null);
 			Assert.That(ints, Has.None.Null);
-			Assert.That(ints, Is.All.InstanceOfType(typeof(int)));
-			Assert.That(ints, Has.All.InstanceOfType(typeof(int)));
-			Assert.That(strings, Is.All.InstanceOfType(typeof(string)));
-			Assert.That(strings, Has.All.InstanceOfType(typeof(string)));
+			Assert.That(ints, Is.All.InstanceOf(typeof(int)));
+			Assert.That(ints, Has.All.InstanceOf(typeof(int)));
+			Assert.That(strings, Is.All.InstanceOf(typeof(string)));
+			Assert.That(strings, Has.All.InstanceOf(typeof(string)));
 			Assert.That(ints, Is.Unique);
 			// Only available using new syntax
 			Assert.That(strings, Is.Not.Unique);
 			Assert.That(ints, Is.All.GreaterThan(0));
 			Assert.That(ints, Has.All.GreaterThan(0));
 			Assert.That(ints, Has.None.LessThanOrEqualTo(0));
-			Assert.That(strings, Text.All.Contains( "a" ) );
+			Assert.That(strings, Is.All.StringContaining( "a" ) );
 			Assert.That(strings, Has.All.Contains( "a" ) );
 			Assert.That(strings, Has.Some.StartsWith( "ba" ) );
 			Assert.That( strings, Has.Some.Property( "Length" ).EqualTo( 3 ) );
@@ -496,8 +496,8 @@ namespace NUnit.Framework.Tests
 			// Inherited syntax
 			Expect(ints, All.Not.Null);
 			Expect(ints, None.Null);
-			Expect(ints, All.InstanceOfType(typeof(int)));
-			Expect(strings, All.InstanceOfType(typeof(string)));
+			Expect(ints, All.InstanceOf(typeof(int)));
+			Expect(strings, All.InstanceOf(typeof(string)));
 			Expect(ints, Unique);
 			// Only available using new syntax
 			Expect(strings, Not.Unique);
@@ -517,17 +517,17 @@ namespace NUnit.Framework.Tests
 
 			// Not available using the classic syntax
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(mixed, Has.Some.Null);
-			Assert.That(mixed, Has.Some.InstanceOfType(typeof(int)));
-			Assert.That(mixed, Has.Some.InstanceOfType(typeof(string)));
+			Assert.That(mixed, Has.Some.InstanceOf(typeof(int)));
+			Assert.That(mixed, Has.Some.InstanceOf(typeof(string)));
 			Assert.That(strings, Has.Some.StartsWith( "ba" ) );
 			Assert.That(strings, Has.Some.Not.StartsWith( "ba" ) );
 		
 			// Inherited syntax
 			Expect(mixed, Some.Null);
-			Expect(mixed, Some.InstanceOfType(typeof(int)));
-			Expect(mixed, Some.InstanceOfType(typeof(string)));
+			Expect(mixed, Some.InstanceOf(typeof(int)));
+			Expect(mixed, Some.InstanceOf(typeof(string)));
 			Expect(strings, Some.StartsWith( "ba" ) );
 			Expect(strings, Some.Not.StartsWith( "ba" ) );
 		}
@@ -540,15 +540,15 @@ namespace NUnit.Framework.Tests
 
 			// Not available using the classic syntax
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(ints, Has.None.Null);
-			Assert.That(ints, Has.None.InstanceOfType(typeof(string)));
+			Assert.That(ints, Has.None.InstanceOf(typeof(string)));
 			Assert.That(ints, Has.None.GreaterThan(99));
 			Assert.That(strings, Has.None.StartsWith( "qu" ) );
 		
 			// Inherited syntax
 			Expect(ints, None.Null);
-			Expect(ints, None.InstanceOfType(typeof(string)));
+			Expect(ints, None.InstanceOf(typeof(string)));
 			Expect(ints, None.GreaterThan(99));
 			Expect(strings, None.StartsWith( "qu" ) );
 		}
@@ -568,7 +568,7 @@ namespace NUnit.Framework.Tests
 			// Showing that Contains uses NUnit equality
 			CollectionAssert.Contains( iarray, 1.0d );
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(iarray, Has.Member(3));
 			Assert.That(sarray, Has.Member("b"));
 			Assert.That(sarray, Has.No.Member("x"));
@@ -619,7 +619,7 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.AreNotEquivalent(new int[] { 2, 2, 1, 1, 4, 3, 5 }, ints1to5);
             CollectionAssert.AreNotEquivalent(twothrees, twofours); 
 		
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(new int[] { 2, 1, 4, 3, 5 }, Is.EquivalentTo(ints1to5));
 			Assert.That(new int[] { 2, 2, 4, 3, 5 }, Is.Not.EquivalentTo(ints1to5));
 			Assert.That(new int[] { 2, 4, 3, 5 }, Is.Not.EquivalentTo(ints1to5));
@@ -643,7 +643,7 @@ namespace NUnit.Framework.Tests
 			CollectionAssert.IsNotSubsetOf(new int[] { 2, 4, 6 }, ints1to5);
 			CollectionAssert.IsNotSubsetOf(new int[] { 1, 2, 2, 2, 5 }, ints1to5);
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(new int[] { 1, 3, 5 }, Is.SubsetOf(ints1to5));
 			Assert.That(new int[] { 1, 2, 3, 4, 5 }, Is.SubsetOf(ints1to5));
 			Assert.That(new int[] { 2, 4, 6 }, Is.Not.SubsetOf(ints1to5));
@@ -665,7 +665,7 @@ namespace NUnit.Framework.Tests
 
 			// Not available using the classic syntax
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That( list, Has.Property( "Count" ) );
 			Assert.That( list, Has.No.Property( "Length" ) );
 
@@ -738,7 +738,7 @@ namespace NUnit.Framework.Tests
 		{
 			// Not available using the classic syntax
 
-			// Helper syntax
+			// Constraint Syntax
 			Assert.That(42, Is.Not.Null);
 			Assert.That(42, Is.Not.True);
 			Assert.That(42, Is.Not.False);

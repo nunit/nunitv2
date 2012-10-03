@@ -1,7 +1,7 @@
 // ****************************************************************
 // Copyright 2007, Charlie Poole
 // This is free software licensed under the NUnit license. You may
-// obtain a copy of the license at http://nunit.org/?p=license&r=2.4
+// obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
 using System;
@@ -19,8 +19,9 @@ namespace NUnit.Samples.Extensibility
 	/// to provide a description. Both are displayed by NUnit in the
 	/// Addin Dialog.
 	/// 
-	/// The addin doesn't actually install anything, but simply
-	/// returns false in its Install method.
+	/// The addin doesn't actually do anything, but simply returns
+	/// true in its Install method and can be seen listed in the 
+    /// Addin dialog of the Gui.
 	/// </summary>
 	[NUnitAddin(Name="Minimal Addin", Description="This Addin doesn't do anything")]
 	public class Minimal : IAddin

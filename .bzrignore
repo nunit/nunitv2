@@ -30,3 +30,4 @@ Release
 *.resources
 *.userprefs
 _ReSharper*
+*.sdf
