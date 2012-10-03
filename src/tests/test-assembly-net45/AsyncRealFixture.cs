@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using NUnit.Core;
 using NUnit.Framework;
 
-namespace nunit.core.tests.net45
+namespace test_assembly_net45
 {
-	[Ignore("Run via code")]
-	public class RealFixture
+	public class AsyncRealFixture
 	{
 		[Test]
 		public async void AsyncVoidSuccess()

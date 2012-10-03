@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace NUnit.Core.Tests
@@ -39,7 +40,7 @@ namespace NUnit.Core.Tests
 			CheckPlatforms(
 				new PlatformHelper( OSPlatform.CurrentPlatform, runtimeFramework ),
 				expectedPlatforms,
-				PlatformHelper.RuntimePlatforms + ",NET-1.0,NET-1.1,NET-2.0,NET-3.0,NET-3.5,NET-4.0,MONO-1.0,MONO-2.0,MONO-3.0,MONO-3.5,MONO-4.0" );
+				PlatformHelper.RuntimePlatforms + ",NET-1.0,NET-1.1,NET-2.0,NET-3.0,NET-3.5,NET-4.0,NET-4.5,MONO-1.0,MONO-2.0,MONO-3.0,MONO-3.5,MONO-4.0" );
 		}
 
 		private void CheckPlatforms( PlatformHelper helper, 
@@ -245,6 +246,14 @@ namespace NUnit.Core.Tests
                 new RuntimeFramework(RuntimeType.Net, new Version(4, 0, 30319, 0)),
                 "Net,Net-4.0");
         }
+
+		[Test]
+		public void DetectNet45()
+		{
+			CheckRuntimePlatforms(
+				new RuntimeFramework(RuntimeType.Net, new Version(4, 5)),
+				"Net,Net-4.0,Net-4.5");
+		}
 
 		[Test]
 		public void DetectNetCF()

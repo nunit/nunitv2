@@ -50,7 +50,7 @@ namespace NUnit.Framework.Syntax
             return (num & 1) == 0;
         }
 
-#if CS_3_0 || CS_4_0
+#if CS_3_0 || CS_4_0 || CS_5_0
         [Test]
         public void CanMatchLambda()
         {

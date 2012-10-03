@@ -4,24 +4,22 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{689A54F0-2B54-4D15-96A7-D8B6E6FE32B1}</ProjectGuid>
+    <ProjectGuid>{74CCEAEA-CDBF-4FE0-BF0D-914C3C44ECE9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>nunit.core.tests.net45</RootNamespace>
-    <AssemblyName>nunit.core.tests.45</AssemblyName>
+    <RootNamespace>test_assembly_net45</RootNamespace>
+    <AssemblyName>test-assembly-net45</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\bin\Debug\tests\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CLR_2_0,NET_3_5,CS_3_0,CLR_4_0,NET_4_0,NET_4_5</DefineConstants>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,48 +28,38 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="NUnitAsyncTestMethodTests.cs" />
-    <Compile Include="NUnitTestCaseBuilderTests.cs" />
+    <Compile Include="AsyncDummyFixture.cs" />
+    <Compile Include="AsyncRealFixture.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="nunit.core.tests.net45.build" />
+    <None Include="test-assembly-net45.build">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NUnitCore\core\nunit.core.dll.csproj">
+      <Project>{EBD43A7F-AFCA-4281-BB53-5CDD91F966A3}</Project>
+      <Name>nunit.core.dll</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
+      <Project>{83DD7E12-A705-4DBA-9D71-09C8973D9382}</Project>
+      <Name>nunit.framework.dll</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\NUnitFramework\framework\nunit.framework.dll.csproj">
-      <Project>{83dd7e12-a705-4dba-9d71-09c8973d9382}</Project>
-      <Name>nunit.framework.dll</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\tests\test-assembly-net45\test-assembly-net45.csproj">
-      <Project>{74CCEAEA-CDBF-4FE0-BF0D-914C3C44ECE9}</Project>
-      <Name>test-assembly-net45</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\tests\test-assembly\test-assembly.csproj">
-      <Project>{1960CAC4-9A82-47C5-A9B3-55BC37572C3C}</Project>
-      <Name>test-assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\core\nunit.core.dll.csproj">
-      <Project>{ebd43a7f-afca-4281-bb53-5cdd91f966a3}</Project>
-      <Name>nunit.core.dll</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\interfaces\nunit.core.interfaces.dll.csproj">
-      <Project>{435428f8-5995-4ce4-8022-93d595a8cc0f}</Project>
-      <Name>nunit.core.interfaces.dll</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

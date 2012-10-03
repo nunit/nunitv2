@@ -36,6 +36,7 @@ IF /I "%1" EQU "net-2.0" set RUNTIME=net-2.0&goto shift
 IF /I "%1" EQU "net-3.0" set RUNTIME=net-3.0&goto shift
 IF /I "%1" EQU "net-3.5" set RUNTIME=net-3.5&goto shift
 IF /I "%1" EQU "net-4.0" set RUNTIME=net-4.0&goto shift
+IF /I "%1" EQU "net-4.5" set RUNTIME=net-4.5&goto shift
 
 IF /I "%1" EQU "mono" set RUNTIME=mono&goto shift
 IF /I "%1" EQU "mono-1.0" set RUNTIME=mono-1.0&goto shift
@@ -82,6 +83,7 @@ echo.
 echo   debug          Builds debug configuration (default)
 echo   release        Builds release configuration
 echo.
+echo   net-4.5        Builds using .NET 4.5 framework (future)
 echo   net-4.0        Builds using .NET 4.0 framework (future)
 echo   net-3.5        Builds using .NET 3.5 framework (default)
 echo   net-2.0        Builds using .NET 2.0 framework

@@ -48,7 +48,7 @@
          The first .NET and Mono frameworks found are the
          respective net and mono defaults. -->
   <property name="supported.frameworks" 
-    value="net-3.5,net-2.0,net-4.0,net-1.1,net-1.0,mono-3.5,mono-2.0,mono-1.0"/>
+    value="net-3.5,net-2.0,net-4.0,net-4.5,net-1.1,net-1.0,mono-3.5,mono-2.0,mono-1.0"/>
 
   <!-- Packages we normally create -->
   <property name="standard.packages" value="net-3.5,net-1.1" 
@@ -237,6 +237,16 @@
     <property name="target.version" value="2.0"/>
     <property name="runtime.defines" value="MSNET,CLR_4_0,NET_4_0,CS_4_0"/>
     <property name="supported.test.platforms" value="net-4.0"/>
+
+  </target>
+  
+  <target name="set-net-4.5-runtime-config">
+
+    <property name="runtime.platform" value="net"/>
+    <property name="runtime.version" value="4.5"/>
+    <property name="target.version" value="2.0"/>
+    <property name="runtime.defines" value="MSNET,CLR_4_0,NET_4_5,CS_5_0"/>
+    <property name="supported.test.platforms" value="net-4.5"/>
 
   </target>
  	

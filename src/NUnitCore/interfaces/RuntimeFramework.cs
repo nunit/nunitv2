@@ -79,6 +79,8 @@ namespace NUnit.Core
 
             if (version.Major == 3)
                 this.clrVersion = new Version(2, 0, 50727);
+			if(version.Major == 4)
+				this.clrVersion = new Version(4, 0, 30319);
             //else if (runtime == RuntimeType.Mono && version.Major == 1)
             //{
             //    if (version.Minor == 0)

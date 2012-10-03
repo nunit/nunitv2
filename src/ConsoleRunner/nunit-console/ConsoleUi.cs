@@ -4,6 +4,8 @@
 // copyright ownership at http://nunit.org.
 // ****************************************************************
 
+using System.Diagnostics;
+
 namespace NUnit.ConsoleRunner
 {
 	using System;
