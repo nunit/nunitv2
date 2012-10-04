@@ -177,8 +177,9 @@ namespace NUnit.Core.Tests
             Assert.That(test.TestName.FullName, Is.EqualTo(fullName + "(1, 2, 3)"));
         }
 
-        [Test]
+#if CS_3_0
         [TestCase()]
+#endif
         [TestCase(@"one")]
         [TestCase(@"one", @"two")]
         [TestCase(@"one", @"two", @"three")]

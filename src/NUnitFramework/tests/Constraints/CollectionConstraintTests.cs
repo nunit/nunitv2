@@ -307,7 +307,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if CS_3_0 || CS_4_0
+#if CS_3_0 || CS_4_0 || CS_5_0
         [Test]
         public void UsesProvidedLambdaExpression()
         {
@@ -394,7 +394,7 @@ namespace NUnit.Framework.Constraints
             Assert.That(new CollectionEquivalentConstraint(set1).IgnoreCase.Matches(set2));
         }
 
-#if CS_3_0 || CS_4_0
+#if CS_3_0 || CS_4_0 || CS_5_0
         [Test]
         public void EquivalentHonorsUsing()
         {
@@ -632,7 +632,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if CS_3_0 || CS_4_0
+#if CS_3_0 || CS_4_0 || CS_5_0
         [Test]
         public void UsesProvidedLambda()
         {

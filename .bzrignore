@@ -2,6 +2,7 @@ TestResult.xml
 *.suo
 bin
 obj
+TestResults
 *.user
 solutions/*/ClientUtilities/tests/*
 solutions/*/ClientUtilities/util/*

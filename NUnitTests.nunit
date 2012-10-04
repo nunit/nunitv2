@@ -1,5 +1,5 @@
 ﻿<NUnitProject>
-  <Settings activeconfig="Release" autoconfig="true" processModel="Default" domainUsage="Default" />
+  <Settings autoconfig="true" processModel="Default" domainUsage="Default" />
   <Config name="Debug" binpath="bin/Debug/lib;bin/Debug/tests;bin/Debug/framework" configfile="NUnitTests.config">
     <assembly path="bin/Debug/tests/nunit.framework.tests.dll" />
     <assembly path="bin/Debug/tests/nunit.core.tests.dll" />

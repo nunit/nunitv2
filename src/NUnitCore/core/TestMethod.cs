@@ -5,6 +5,8 @@
 // ****************************************************************
 //#define DEFAULT_APPLIES_TO_TESTCASE
 
+using System.Diagnostics;
+
 namespace NUnit.Core
 {
 	using System;
@@ -451,7 +453,13 @@ namespace NUnit.Core
 		{
             try
             {
-                RunTestMethod(testResult);
+                object result = RunTestMethod(testResult);
+
+                if (this.hasExpectedResult)
+                    NUnitFramework.Assert.AreEqual(expectedResult, result);
+
+                testResult.Success();
+
                 if (testResult.IsSuccess && exceptionProcessor != null)
                     exceptionProcessor.ProcessNoException(testResult);
             }
@@ -467,19 +475,14 @@ namespace NUnit.Core
             }
 		}
 
-		private void RunTestMethod(TestResult testResult)
+	    protected virtual object RunTestMethod(TestResult testResult)
 		{
-		    object fixture = this.method.IsStatic ? null : this.Fixture;
-
-			object result = Reflect.InvokeMethod( this.method, fixture, this.arguments );
-
-            if (this.hasExpectedResult)
-                NUnitFramework.Assert.AreEqual(expectedResult, result);
-
-            testResult.Success();
+            object fixture = this.method.IsStatic ? null : this.Fixture;
+            
+            return Reflect.InvokeMethod(this.method, fixture, this.arguments);
         }
 
-		#endregion
+	    #endregion
 
 		#region Record Info About An Exception
 		protected virtual void RecordException( Exception exception, TestResult testResult, FailureSite failureSite )

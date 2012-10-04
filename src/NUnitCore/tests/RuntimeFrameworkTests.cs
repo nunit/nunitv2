@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Diagnostics;
 using NUnit.Framework;
 
 namespace NUnit.Core.Tests
@@ -20,7 +21,7 @@ namespace NUnit.Core.Tests
         {
             RuntimeFramework framework = RuntimeFramework.CurrentFramework;
 
-            Assert.That(framework.Runtime, Is.EqualTo(currentRuntime));
+			Assert.That(framework.Runtime, Is.EqualTo(currentRuntime));
             Assert.That(framework.ClrVersion, Is.EqualTo(Environment.Version));
         }
 

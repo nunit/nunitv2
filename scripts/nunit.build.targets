@@ -106,8 +106,10 @@
     <call target="build-gui" if="${runtime.version >= '2.0'}" />
 
     <!-- Copy test project for this runtime framework -->
+    <property name="runtime.testproj" value="NUnitTests.v3.nunit"
+      if="${framework::exists('net-4.5')}"/>
     <property name="runtime.testproj" value="NUnitTests.v2.nunit"
-      if="${runtime.version >= '2.0'}"/>
+      if="${runtime.version >= '2.0'}" unless="${framework::exists('net-4.5')}"/>
     <property name="runtime.testproj" value="NUnitTests.v1.nunit"
       unless="${runtime.version >= '2.0'}"/>
 
@@ -405,11 +407,13 @@
     <include name="tests/mock-assembly/mock-assembly.build" />
     <include name="tests/nonamespace-assembly/nonamespace-assembly.build" />
     <include name="tests/test-assembly/test-assembly.build" />
+    <include name="tests/test-assembly-net45/test-assembly-net45.build" />
     <include name="tests/test-utilities/test-utilities.build" />
 
     <!-- NUnit Base Tests -->
     <include name="NUnitFramework/tests/nunit.framework.tests.build" />
     <include name="NUnitCore/tests/nunit.core.tests.build" />
+    <include name="NUnitCore/tests-net45/nunit.core.tests.net45.build" />
     <include name="NUnitMocks/tests/nunit.mocks.tests.build" />
     <include name="ClientUtilities/tests/nunit.util.tests.build" />
 

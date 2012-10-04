@@ -523,8 +523,7 @@ namespace NUnit.Core
             return type.IsAbstract && type.IsSealed;
         }
 
-        private void RunAllTests(
-			TestResult suiteResult, EventListener listener, ITestFilter filter )
+        private void RunAllTests(TestResult suiteResult, EventListener listener, ITestFilter filter )
 		{
             if (Properties.Contains("Timeout"))
                 TestExecutionContext.CurrentContext.TestCaseTimeout = (int)Properties["Timeout"];

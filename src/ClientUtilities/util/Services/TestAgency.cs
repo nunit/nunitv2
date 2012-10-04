@@ -131,7 +131,7 @@ namespace NUnit.Util
 
         public TestAgent GetAgent(RuntimeFramework framework, int waitTime)
         {
-            log.Info("Getting agent for use under {0}", framework);
+			log.Info("Getting agent for use under {0}", framework);
  
             if (!framework.IsAvailable)
                 throw new ArgumentException(

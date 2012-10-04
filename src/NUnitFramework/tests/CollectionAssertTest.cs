@@ -6,7 +6,7 @@
 
 using System;
 using System.Collections;
-#if NET_3_5 || NET_4_0
+#if NET_3_5 || NET_4_0 || NET_4_5
 using System.Linq;
 #endif
 

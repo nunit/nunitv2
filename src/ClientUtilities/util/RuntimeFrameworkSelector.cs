@@ -4,6 +4,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using NUnit.Core;
