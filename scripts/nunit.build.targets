@@ -453,10 +453,6 @@
     <include name="csharp/money/cs-money.build" />
     <include name="csharp/syntax/cs-syntax.build" />
 
-    <!-- JSharp Samples -->
-    <include name="jsharp/failures/jsharp-failures.build"
-      if="${task::exists('vjc') and platform::is-windows()}" />
-
     <!-- VB Samples -->
     <include name="vb/failures/vb-failures.build"
       if="${task::exists('vbc') and platform::is-windows()}" />
