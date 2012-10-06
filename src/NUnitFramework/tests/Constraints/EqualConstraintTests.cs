@@ -118,7 +118,7 @@ namespace NUnit.Framework.Constraints
 
         #region Dictionary Tests
         // TODO: Move these to a separate fixture
-#if CS_3_0 || CS_4_0
+#if CS_3_0 || CS_4_0 || CS_5_0
         [Test]
         public void CanMatchHashtables_SameOrder()
         {
@@ -418,7 +418,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-#if CS_3_0 || CS_4_0
+#if CS_3_0 || CS_4_0 || CS_5_0
         [Test]
         public void UsesProvidedLambda_IntArgs()
         {

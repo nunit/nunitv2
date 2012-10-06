@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
 using NUnit.Core.Extensibility;
 
@@ -167,7 +168,12 @@ namespace NUnit.Core.Builders
         /// <returns></returns>
         public static NUnitTestMethod BuildSingleTestMethod(MethodInfo method, Test parentSuite, ParameterSet parms)
         {
+#if CLR_2_0 || CLR_4_0
+            NUnitTestMethod testMethod = Reflect.IsAsyncMethod(method) ? 
+                new NUnitAsyncTestMethod(method) : new NUnitTestMethod(method);
+#else
             NUnitTestMethod testMethod = new NUnitTestMethod(method);
+#endif
 
             string prefix = method.ReflectedType.FullName;
 
@@ -307,13 +313,28 @@ namespace NUnit.Core.Builders
                     return false;
             }
 
-            if (!testMethod.Method.ReturnType.Equals(typeof(void)) &&
+#if CLR_2_0 || CLR_4_0
+	        bool isAsyncMethod = Reflect.IsAsyncMethod(testMethod.Method);
+#else
+            bool isAsyncMethod = false;
+#endif
+
+	        if (!testMethod.Method.ReturnType.Equals(typeof(void)) && !isAsyncMethod &&
                 (parms == null || !parms.HasExpectedResult && parms.ExpectedExceptionName == null))
             {
                 testMethod.RunState = RunState.NotRunnable;
                 testMethod.IgnoreReason = "Method has non-void return value";
                 return false;
             }
+
+#if CLR_2_0 || CLR_4_0
+			if(isAsyncMethod && !testMethod.Method.ReturnType.IsGenericType && parms != null && parms.HasExpectedResult)
+			{
+				testMethod.RunState = RunState.NotRunnable;
+				testMethod.IgnoreReason = "Async method has void or Task return type when a result was expected";
+				return false;
+			}
+#endif
 
             if (argsProvided > 0 && argsNeeded == 0)
             {

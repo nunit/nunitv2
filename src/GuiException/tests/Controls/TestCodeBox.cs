@@ -3,7 +3,7 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-#if NET_3_5 || NET_4_0
+#if NET_3_5 || NET_4_0 || NET_4_5
 using NSubstitute;
 using NUnit.Framework;
 using System.Drawing;

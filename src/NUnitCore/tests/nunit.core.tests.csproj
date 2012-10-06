@@ -241,7 +241,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="nunit.core.tests.build" />
+    <None Include="nunit.core.tests.build">
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Results.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

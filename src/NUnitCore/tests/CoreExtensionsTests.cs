@@ -6,7 +6,7 @@
 using System;
 using System.Text;
 using System.Reflection;
-#if NET_3_5 || NET_4_0
+#if NET_3_5 || NET_4_0 || NET_4_5
 using NSubstitute;
 #endif
 using NUnit.Framework;
@@ -123,7 +123,7 @@ namespace NUnit.Core.Tests
             Assert.AreEqual("mock0mock1mock3cmock3bmock3amock5bmock5amock8mock9", sb.ToString());
         }
 
-#if NET_3_5 || NET_4_0
+#if NET_3_5 || NET_4_0 || NET_4_5
         [Test, Platform("Net-3.5,Mono-3.5,Net-4.0")]
 		public void CanAddDecorator()
 		{

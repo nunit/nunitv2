@@ -130,6 +130,7 @@
     <Compile Include="AssemblyReader.cs" />
     <Compile Include="AssemblyResolver.cs" />
     <Compile Include="ActionsHelper.cs" />
+    <Compile Include="AsyncSynchronizationContext.cs" />
     <Compile Include="Builders\CombinatorialStrategy.cs" />
     <Compile Include="Builders\CombinatorialTestCaseProvider.cs" />
     <Compile Include="Builders\CombiningStrategy.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="NamespaceTreeBuilder.cs" />
     <Compile Include="NoTestFixturesException.cs" />
     <Compile Include="NullListener.cs" />
+    <Compile Include="NUnitAsyncTestMethod.cs" />
     <Compile Include="NUnitConfiguration.cs" />
     <Compile Include="NUnitException.cs" />
     <Compile Include="NUnitFramework.cs" />
