@@ -93,10 +93,21 @@ namespace NUnit.Framework
         }
 
         /// <summary>
-        /// Gets or sets the expected result.
+        /// Gets or sets the expected result. Use
+        /// ExpectedResult by preference.
         /// </summary>
         /// <value>The result.</value>
         public object Result
+        {
+            get { return ExpectedResult; }
+            set { ExpectedResult = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the expected result.
+        /// </summary>
+        /// <value>The result.</value>
+        public object ExpectedResult
         {
             get { return expectedResult; }
             set
@@ -104,15 +115,6 @@ namespace NUnit.Framework
                 expectedResult = value;
                 hasExpectedResult = true;
             }
-        }
-
-        /// <summary>
-        /// Gets the expected result.
-        /// </summary>
-        /// <value>The result.</value>
-        public object ExpectedResult
-        {
-            get { return expectedResult; }
         }
 
         /// <summary>
