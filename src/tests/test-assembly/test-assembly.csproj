@@ -160,6 +160,7 @@
     <Compile Include="SetupFixtureTests.cs" />
     <Compile Include="SetUpTest.cs" />
     <Compile Include="TestCaseAttributeFixture.cs" />
+    <Compile Include="TestCaseBuilderFixture.cs" />
     <Compile Include="TestCaseSourceAttributeFixture.cs" />
     <Compile Include="TestCaseTest.cs" />
     <Compile Include="TestContextData.cs" />
