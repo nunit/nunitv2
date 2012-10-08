@@ -9,6 +9,7 @@ namespace test_assembly_net45
 		[Test]
 		public async void AsyncVoidTest()
 		{
+            await Task.Yield();
 		}
 
 		[Test]
