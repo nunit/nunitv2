@@ -199,6 +199,24 @@ namespace NUnit.Core.Tests
                 "UNIX,Linux");
         }
 
+#if (CLR_2_0 || CLR_4_0) && !NETCF
+        [Test]
+        public void DetectXbox()
+        {
+            CheckOSPlatforms(
+                new OSPlatform(PlatformID.Xbox, new Version(0, 0)),
+                "Xbox");
+        }
+
+        [Test]
+        public void DetectMacOSX()
+        {
+            CheckOSPlatforms(
+                new OSPlatform(PlatformID.MacOSX, new Version(0, 0)),
+                "MacOSX");
+        }
+#endif
+
         [Test]
 		public void DetectNet10()
 		{

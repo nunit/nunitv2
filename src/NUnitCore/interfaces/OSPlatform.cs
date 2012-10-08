@@ -206,6 +206,24 @@ namespace NUnit.Core
             get { return (int)platform == 3; } // PlatformID.WinCE not defined in .NET 1.0
         }
 
+#if (CLR_2_0 || CLR_4_0) && !NETCF
+        /// <summary>
+        /// Return true if the platform is Xbox
+        /// </summary>
+        public bool IsXbox
+        {
+            get { return platform == PlatformID.Xbox; }
+        }
+
+        /// <summary>
+        /// Return true if the platform is MacOSX
+        /// </summary>
+        public bool IsMacOSX
+        {
+            get { return platform == PlatformID.MacOSX; }
+        }
+#endif
+
         /// <summary>
         /// Return true if the platform is Windows 95
         /// </summary>
