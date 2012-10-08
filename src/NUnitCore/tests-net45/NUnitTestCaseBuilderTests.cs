@@ -1,4 +1,5 @@
 ﻿#if NET_3_5 || NET_4_0 || NET_4_5
+using System.Collections;
 using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Builders;
@@ -18,67 +19,49 @@ namespace nunit.core.tests.net45
 			_sut = new NUnitTestCaseBuilder();
 		}
 
-		[Test]
-		public void Async_void()
+		public IEnumerable AsyncTestsSource
 		{
-			var built = _sut.BuildFrom(Method("Void"));
-
-			Assert.That(built, Is.InstanceOf<NUnitAsyncTestMethod>());
-			Assert.That(built.RunState, Is.EqualTo(RunState.Runnable));
+			get
+			{
+				yield return new object[] { Method("AsyncVoidTest"), RunState.Runnable };
+				yield return new object[] { Method("AsyncTaskTest"), RunState.Runnable };
+				yield return new object[] { Method("AsyncTaskTTest"), RunState.NotRunnable };
+			}
 		}
 
-		[Test]
-		public void Async_task()
+		public IEnumerable AsyncTestCasesSource
 		{
-			var built = _sut.BuildFrom(Method("PlainTask"));
-
-			Assert.That(built, Is.InstanceOf<NUnitAsyncTestMethod>());
-			Assert.That(built.RunState, Is.EqualTo(RunState.Runnable));
+			get
+			{
+				yield return new object[] { Method("AsyncVoidTestCaseWithResultCheck"), RunState.NotRunnable };
+				yield return new object[] { Method("AsyncTaskTestCaseWithResultCheck"), RunState.NotRunnable };
+				yield return new object[] { Method("AsyncTaskTTestCaseWithResultCheck"), RunState.Runnable };
+				yield return new object[] { Method("AsyncVoidTestCaseWithoutResultCheck"), RunState.Runnable };
+				yield return new object[] { Method("AsyncTaskTestCaseWithoutResultCheck"), RunState.Runnable };
+				yield return new object[] { Method("AsyncTaskTTestCaseWithoutResultCheck"), RunState.NotRunnable };
+				yield return new object[] { Method("AsyncTaskTTestCaseExpectedExceptionWithoutResultCheck"), RunState.Runnable };
+			}
 		}
 
-		[Test]
-		public void Async_task_testcase_result_check()
+		[TestCaseSource("AsyncTestsSource")]
+		public void AsyncTests(MethodInfo method, RunState state)
 		{
-			var built = _sut.BuildFrom(Method("AsyncTaskTestCase"));
+			var built = _sut.BuildFrom(method);
+
+			Assert.That(built, Is.InstanceOf<NUnitAsyncTestMethod>());
+			Assert.That(built.RunState, Is.EqualTo(state));
+		}
+
+		[TestCaseSource("AsyncTestCasesSource")]
+		public void AsyncTestCases(MethodInfo method, RunState state)
+		{
+			var built = _sut.BuildFrom(method);
 
 			var testMethod = built.Tests[0] as NUnitAsyncTestMethod;
 
 			Assert.IsNotNull(testMethod);
 
-			Assert.That(testMethod.RunState, Is.EqualTo(RunState.NotRunnable));
-		}
-
-		[Test]
-		public void Async_void_testcase_result_check()
-		{
-			var built = _sut.BuildFrom(Method("AsyncTaskTestCase"));
-
-			var testMethod = built.Tests[0] as NUnitAsyncTestMethod;
-
-			Assert.IsNotNull(testMethod);
-
-			Assert.That(testMethod.RunState, Is.EqualTo(RunState.NotRunnable));
-		}
-
-		[Test]
-		public void Async_task_with_result_testcase_result_check()
-		{
-			var built = _sut.BuildFrom(Method("AsyncTaskWithResultTestCase"));
-
-			var testMethod = built.Tests[0] as NUnitAsyncTestMethod;
-
-			Assert.IsNotNull(testMethod);
-
-			Assert.That(testMethod.RunState, Is.EqualTo(RunState.Runnable));
-		}
-
-		[Test]
-		public void Async_task_with_result()
-		{
-			var built = _sut.BuildFrom(Method("TaskWithResult"));
-
-			Assert.That(built, Is.InstanceOf<NUnitAsyncTestMethod>());
-			Assert.That(built.RunState, Is.EqualTo(RunState.Runnable));
+			Assert.That(testMethod.RunState, Is.EqualTo(state));
 		}
 
 		[Test]
