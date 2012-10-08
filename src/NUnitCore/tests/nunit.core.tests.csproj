@@ -167,6 +167,7 @@
     <Compile Include="MaxTimeTests.cs" />
     <Compile Include="NameFilterTest.cs" />
     <Compile Include="NamespaceAssemblyTests.cs" />
+    <Compile Include="NUnitTestCaseBuilderTests.cs" />
     <Compile Include="PairwiseTests.cs" />
     <Compile Include="ParameterizedTestFixtureTests.cs" />
     <Compile Include="PlatformDetectionTests.cs" />

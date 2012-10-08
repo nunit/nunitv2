@@ -315,28 +315,15 @@ namespace NUnit.Core.Builders
 			
 #if CLR_2_0 || CLR_4_0
 	        bool isAsyncMethod = Reflect.IsAsyncMethod(testMethod.Method);
+			bool hasMeaningfulReturnType = isAsyncMethod ? testMethod.Method.ReturnType.IsGenericType : testMethod.Method.ReturnType != typeof(void);
 #else
-            bool isAsyncMethod = false;
+			bool hasMeaningfulReturnType = testMethod.Method.ReturnType != typeof(void);
 #endif
 
-	        Type returnType = testMethod.Method.ReturnType;
-
-	        if (!isAsyncMethod && returnType != typeof (void) &&
-	            (parms == null || !parms.HasExpectedResult && parms.ExpectedExceptionName == null))
+			if (hasMeaningfulReturnType && (parms == null || !parms.HasExpectedResult && parms.ExpectedExceptionName == null))
 		        return MarkAsNotRunnable(testMethod, "Test method has non-void return type, but no result is expected");
-
-#if CLR_2_0 || CLR_4_0
-			bool isGenericReturnType = returnType.IsGenericType;
-			
-			if (isAsyncMethod)
-			{
-				if (isGenericReturnType && (parms == null || !parms.HasExpectedResult && parms.ExpectedExceptionName == null))
-					return MarkAsNotRunnable(testMethod, "Async test method must have Task or void return type when no result is expected");
-
-				if (!isGenericReturnType && parms != null && parms.HasExpectedResult)
-					return MarkAsNotRunnable(testMethod, "Async test method must have Task<T> return type when a result is expected");
-			}
-#endif
+			if (!hasMeaningfulReturnType && parms != null && parms.HasExpectedResult)
+				return MarkAsNotRunnable(testMethod, "Test method has void return type, but a result is expected");
 
 	        if (argsProvided > 0 && argsNeeded == 0)
 		        return MarkAsNotRunnable(testMethod, "Arguments provided for method not taking any");
