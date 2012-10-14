@@ -101,7 +101,7 @@ namespace test_assembly_net45
 		}
 
 		[Test]
-		public async void VoidAssertSynchrnoizationContext()
+		public async void VoidAssertSynchronizationContext()
 		{
 			Assert.That(SynchronizationContext.Current, Is.InstanceOf<AsyncSynchronizationContext>());
 			await Task.Yield();
@@ -174,7 +174,7 @@ namespace test_assembly_net45
 		[Test]
 		public async void VoidTestMultipleError()
 		{
-			var result = await ReturnOne();
+			await ReturnOne();
 			await ThrowException();
 
 			Assert.Fail("Should never get here");
@@ -199,10 +199,55 @@ namespace test_assembly_net45
 		[Test]
 		public async Task TaskTestMultipleError()
 		{
-			var result = await ReturnOne();
+			await ReturnOne();
 			await ThrowException();
 
 			Assert.Fail("Should never get here");
+		}
+
+		[Test]
+		public async void VoidCheckTestContextAcrossTasks()
+		{
+			var testName = await GetTestNameFromContext();
+
+			Assert.IsNotNull(testName);
+			Assert.AreEqual(testName, TestContext.CurrentContext.Test.Name);
+		}
+
+		[Test]
+		public async Task TaskCheckTestContextAcrossTasks()
+		{
+			var testName = await GetTestNameFromContext();
+
+			Assert.IsNotNull(testName);
+			Assert.AreEqual(testName, TestContext.CurrentContext.Test.Name);
+		}
+
+		[Test]
+		public async void VoidCheckTestContextWithinTestBody()
+		{
+			var testName = TestContext.CurrentContext.Test.Name;
+
+			await ReturnOne();
+
+			Assert.IsNotNull(testName);
+			Assert.AreEqual(testName, TestContext.CurrentContext.Test.Name);
+		}
+
+		[Test]
+		public async Task TaskCheckTestContextWithinTestBody()
+		{
+			var testName = TestContext.CurrentContext.Test.Name;
+
+			await ReturnOne();
+
+			Assert.IsNotNull(testName);
+			Assert.AreEqual(testName, TestContext.CurrentContext.Test.Name);
+		}
+
+		private static Task<string> GetTestNameFromContext()
+		{
+			return Task.Run(() => TestContext.CurrentContext.Test.Name);
 		}
 
 		private static Task<int> ReturnOne()

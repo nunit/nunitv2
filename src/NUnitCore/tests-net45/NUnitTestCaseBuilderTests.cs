@@ -1,5 +1,7 @@
 ﻿#if NET_3_5 || NET_4_0 || NET_4_5
+using System;
 using System.Collections;
+using System.Linq.Expressions;
 using System.Reflection;
 using NUnit.Core;
 using NUnit.Core.Builders;
@@ -23,9 +25,9 @@ namespace nunit.core.tests.net45
 		{
 			get
 			{
-				yield return new object[] { Method("AsyncVoidTest"), RunState.Runnable };
-				yield return new object[] { Method("AsyncTaskTest"), RunState.Runnable };
-				yield return new object[] { Method("AsyncTaskTTest"), RunState.NotRunnable };
+				yield return new object[] { Method(f => f.AsyncVoidTest()), RunState.Runnable };
+				yield return new object[] { Method(f => f.AsyncTaskTest()), RunState.Runnable };
+				yield return new object[] { Method(f => f.AsyncTaskTTest()), RunState.NotRunnable };
 			}
 		}
 
@@ -33,13 +35,13 @@ namespace nunit.core.tests.net45
 		{
 			get
 			{
-				yield return new object[] { Method("AsyncVoidTestCaseWithResultCheck"), RunState.NotRunnable };
-				yield return new object[] { Method("AsyncTaskTestCaseWithResultCheck"), RunState.NotRunnable };
-				yield return new object[] { Method("AsyncTaskTTestCaseWithResultCheck"), RunState.Runnable };
-				yield return new object[] { Method("AsyncVoidTestCaseWithoutResultCheck"), RunState.Runnable };
-				yield return new object[] { Method("AsyncTaskTestCaseWithoutResultCheck"), RunState.Runnable };
-				yield return new object[] { Method("AsyncTaskTTestCaseWithoutResultCheck"), RunState.NotRunnable };
-				yield return new object[] { Method("AsyncTaskTTestCaseExpectedExceptionWithoutResultCheck"), RunState.Runnable };
+				yield return new object[] { Method(f => f.AsyncVoidTestCaseWithResultCheck()), RunState.NotRunnable };
+				yield return new object[] { Method(f => f.AsyncTaskTestCaseWithResultCheck()), RunState.NotRunnable };
+				yield return new object[] { Method(f => f.AsyncTaskTTestCaseWithResultCheck()), RunState.Runnable };
+				yield return new object[] { Method(f => f.AsyncVoidTestCaseWithoutResultCheck()), RunState.Runnable };
+				yield return new object[] { Method(f => f.AsyncTaskTestCaseWithoutResultCheck()), RunState.Runnable };
+				yield return new object[] { Method(f => f.AsyncTaskTTestCaseWithoutResultCheck()), RunState.NotRunnable };
+				yield return new object[] { Method(f => f.AsyncTaskTTestCaseExpectedExceptionWithoutResultCheck()), RunState.Runnable };
 			}
 		}
 
@@ -67,7 +69,7 @@ namespace nunit.core.tests.net45
 		[Test]
 		public void Non_async_task()
 		{
-			var built = _sut.BuildFrom(Method("NonAsyncTask"));
+			var built = _sut.BuildFrom(Method(f => f.NonAsyncTask()));
 
 			Assert.That(built, Is.Not.InstanceOf<NUnitAsyncTestMethod>());
 			Assert.That(built.RunState, Is.EqualTo(RunState.NotRunnable));
@@ -76,15 +78,15 @@ namespace nunit.core.tests.net45
 		[Test]
 		public void Non_async_task_with_result()
 		{
-			var built = _sut.BuildFrom(Method("NonAsyncTaskWithResult"));
+			var built = _sut.BuildFrom(Method(f => f.NonAsyncTaskWithResult()));
 
 			Assert.That(built, Is.Not.InstanceOf<NUnitAsyncTestMethod>());
 			Assert.That(built.RunState, Is.EqualTo(RunState.NotRunnable));
 		}
 
-		public MethodInfo Method(string name)
+		private static MethodInfo Method(Expression<Action<AsyncDummyFixture>> action)
 		{
-			return typeof (AsyncDummyFixture).GetMethod(name);
+			return ((MethodCallExpression) action.Body).Method;
 		}
 	}
 }

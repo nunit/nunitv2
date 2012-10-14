@@ -47,7 +47,7 @@ namespace NUnit.Framework
         {
             get
             {
-                return new TestContext((IDictionary)CallContext.GetData(contextKey));
+                return new TestContext((IDictionary)CallContext.LogicalGetData(contextKey));
             }
         }
 

@@ -1,7 +1,6 @@
 ﻿#if NET_3_5 || NET_4_0 || NET_4_5
 using System;
 using System.Collections;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
@@ -27,37 +26,42 @@ namespace nunit.core.tests.net45
 		{
 			get
 			{
-				yield return new object[] { Method("VoidTestSuccess"), ResultState.Success, 1 };
-				yield return new object[] { Method("VoidTestFailure"), ResultState.Failure, 1 };
-				yield return new object[] { Method("VoidTestError"), ResultState.Error, 0 };
-				yield return new object[] { Method("VoidTestExpectedException"), ResultState.Success, 0 };
+				yield return new object[] { Method(f => f.VoidTestSuccess()), ResultState.Success, 1 };
+				yield return new object[] { Method(f => f.VoidTestFailure()), ResultState.Failure, 1 };
+				yield return new object[] { Method(f => f.VoidTestError()), ResultState.Error, 0 };
+				yield return new object[] { Method(f => f.VoidTestExpectedException()), ResultState.Success, 0 };
 
-				yield return new object[] { Method("TaskTestSuccess"), ResultState.Success, 1 };
-				yield return new object[] { Method("TaskTestFailure"), ResultState.Failure, 1 };
-				yield return new object[] { Method("TaskTestError"), ResultState.Error, 0 };
-				yield return new object[] { Method("TaskTestExpectedException"), ResultState.Success, 0 };
+				yield return new object[] { Method(f => f.TaskTestSuccess()), ResultState.Success, 1 };
+				yield return new object[] { Method(f => f.TaskTestFailure()), ResultState.Failure, 1 };
+				yield return new object[] { Method(f => f.TaskTestError()), ResultState.Error, 0 };
+				yield return new object[] { Method(f => f.TaskTestExpectedException()), ResultState.Success, 0 };
 
-				yield return new object[] { Method("TaskTTestCaseWithResultCheckSuccess"), ResultState.Success, 0 };
-				yield return new object[] { Method("TaskTTestCaseWithResultCheckFailure"), ResultState.Failure, 0 };
-				yield return new object[] { Method("TaskTTestCaseWithResultCheckError"), ResultState.Failure, 0 };
-				yield return new object[] { Method("TaskTTestCaseWithResultCheckSuccessReturningNull"), ResultState.Success, 0 };
-				yield return new object[] { Method("TaskTTestCaseWithoutResultCheckExpectedExceptionSuccess"), ResultState.Success, 0 };
+				yield return new object[] { Method(f => f.TaskTTestCaseWithResultCheckSuccess()), ResultState.Success, 0 };
+				yield return new object[] { Method(f => f.TaskTTestCaseWithResultCheckFailure()), ResultState.Failure, 0 };
+				yield return new object[] { Method(f => f.TaskTTestCaseWithResultCheckError()), ResultState.Failure, 0 };
+				yield return new object[] { Method(f => f.TaskTTestCaseWithResultCheckSuccessReturningNull()), ResultState.Success, 0 };
+				yield return new object[] { Method(f => f.TaskTTestCaseWithoutResultCheckExpectedExceptionSuccess()), ResultState.Success, 0 };
 
-				yield return new object[] { Method("NestedVoidTestSuccess"), ResultState.Success, 1 };
-				yield return new object[] { Method("NestedVoidTestFailure"), ResultState.Failure, 1 };
-				yield return new object[] { Method("NestedVoidTestError"), ResultState.Error, 0 };
+				yield return new object[] { Method(f => f.NestedVoidTestSuccess()), ResultState.Success, 1 };
+				yield return new object[] { Method(f => f.NestedVoidTestFailure()), ResultState.Failure, 1 };
+				yield return new object[] { Method(f => f.NestedVoidTestError()), ResultState.Error, 0 };
 
-				yield return new object[] { Method("NestedTaskTestSuccess"), ResultState.Success, 1 };
-				yield return new object[] { Method("NestedTaskTestFailure"), ResultState.Failure, 1 };
-				yield return new object[] { Method("NestedTaskTestError"), ResultState.Error, 0 };
+				yield return new object[] { Method(f => f.NestedTaskTestSuccess()), ResultState.Success, 1 };
+				yield return new object[] { Method(f => f.NestedTaskTestFailure()), ResultState.Failure, 1 };
+				yield return new object[] { Method(f => f.NestedTaskTestError()), ResultState.Error, 0 };
 
-				yield return new object[] { Method("VoidTestMultipleSuccess"), ResultState.Success, 1 };
-				yield return new object[] { Method("VoidTestMultipleFailure"), ResultState.Failure, 1 };
-				yield return new object[] { Method("VoidTestMultipleError"), ResultState.Error, 0 };
+				yield return new object[] { Method(f => f.VoidTestMultipleSuccess()), ResultState.Success, 1 };
+				yield return new object[] { Method(f => f.VoidTestMultipleFailure()), ResultState.Failure, 1 };
+				yield return new object[] { Method(f => f.VoidTestMultipleError()), ResultState.Error, 0 };
 
-				yield return new object[] { Method("TaskTestMultipleSuccess"), ResultState.Success, 1 };
-				yield return new object[] { Method("TaskTestMultipleFailure"), ResultState.Failure, 1 };
-				yield return new object[] { Method("TaskTestMultipleError"), ResultState.Error, 0 };
+				yield return new object[] { Method(f => f.TaskTestMultipleSuccess()), ResultState.Success, 1 };
+				yield return new object[] { Method(f => f.TaskTestMultipleFailure()), ResultState.Failure, 1 };
+				yield return new object[] { Method(f => f.TaskTestMultipleError()), ResultState.Error, 0 };
+
+				yield return new object[] { Method(f => f.VoidCheckTestContextAcrossTasks()), ResultState.Success, 2 };
+				yield return new object[] { Method(f => f.VoidCheckTestContextWithinTestBody()), ResultState.Success, 2 };
+				yield return new object[] { Method(f => f.TaskCheckTestContextAcrossTasks()), ResultState.Success, 2 };
+				yield return new object[] { Method(f => f.TaskCheckTestContextWithinTestBody()), ResultState.Success, 2 };
 			}
 		}
 
@@ -81,7 +85,7 @@ namespace nunit.core.tests.net45
 
 			SynchronizationContext.SetSynchronizationContext(context);
 
-			var method = _builder.BuildFrom(Method("VoidAssertSynchrnoizationContext"));
+			var method = _builder.BuildFrom(Method(f => f.VoidAssertSynchronizationContext()));
 
 			var result = method.Run(new NullListener(), TestFilter.Empty);
 
@@ -91,9 +95,9 @@ namespace nunit.core.tests.net45
 			Assert.That(result.AssertCount, Is.EqualTo(1), "Wrong assertion count");
 		}
 
-		private static MethodInfo Method(string name)
+		private static MethodInfo Method(Expression<Action<AsyncRealFixture>> action)
 		{
-			return typeof (AsyncRealFixture).GetMethod(name);
+			return ((MethodCallExpression)action.Body).Method;
 		}
 
 		public class CustomSynchronizationContext : SynchronizationContext
