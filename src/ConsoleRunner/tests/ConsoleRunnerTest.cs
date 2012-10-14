@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Collections;
@@ -172,6 +173,39 @@ namespace NUnit.ConsoleRunner.Tests
 		{
             Assert.AreEqual(expectedReturnCode, executeConsole(MockAssembly.AssemblyPath, NoNamespaceTestFixture.AssemblyPath, "-domain:Multiple", "-nothread", "-noxml"));
 			StringAssert.Contains( failureMsg, output.ToString() );
+		}
+
+		[Test]
+		public void DoesNotFailWithEmptyRunList()
+		{
+			int returnCode = runFixture(typeof(SuccessTest), "-runlist=EmptyTextFile.txt");
+			Assert.AreEqual(0, returnCode);
+			StringAssert.Contains("Tests run: 0", output.ToString());
+		}
+
+		[Test]
+		public void DoesNotFailIfRunListHasEmptyLines()
+		{
+			int returnCode = runFixture(typeof(SuccessTest), "-runlist=EmptyLineTextFile.txt");
+			Assert.AreEqual(0, returnCode);
+			StringAssert.Contains("Tests run: 0", output.ToString());
+		}
+
+		[Test]
+		public void FailsGracefullyIfRunListPointsToNonExistingFile()
+		{
+			int returnCode = runFixture(typeof(SuccessTest), "-runlist=NonExistingFile.txt");
+			Assert.AreEqual(ConsoleUi.INVALID_ARG, returnCode);
+			StringAssert.Contains("NonExistingFile.txt", output.ToString());
+		}
+
+
+		[Test]
+		public void FailsGracefullyIfRunListPointsToNonExistingDirectory()
+		{
+			int returnCode = runFixture(typeof(SuccessTest), "-runlist=NonExistingDirectory\\NonExistingFile.txt");
+			Assert.AreEqual(ConsoleUi.INVALID_ARG, returnCode);
+			StringAssert.Contains("NonExistingDirectory", output.ToString());
 		}
 
 		private int runFixture( Type type )

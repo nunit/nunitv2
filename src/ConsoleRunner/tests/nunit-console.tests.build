@@ -25,9 +25,12 @@
         <include name="${current.test.dir}/nunit.framework.tests.dll"/>
         <include name="${current.test.dir}/test-assembly.dll"/>
         <include name="${current.test.dir}/mock-assembly.dll"/>
-		<include name="${current.test.dir}/nonamespace-assembly.dll"/>
+		    <include name="${current.test.dir}/nonamespace-assembly.dll"/>
       </references>
     </csc>
+
+    <copy file="EmptyTextFile.txt" tofile="${current.test.dir}/EmptyTextFile.txt"/>
+    <copy file="EmptyLineTextFile.txt" tofile="${current.test.dir}/EmptyLineTextFile.txt"/>
   </target>
 
   <target name="package">

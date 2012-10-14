@@ -12,7 +12,7 @@
         debug="${build.debug}" define="${build.defines}">
       <sources>
         <patternset refid="source-files"/>
-	  <include name="../../GeneratedAssemblyInfo.cs"/>
+	      <include name="../../GeneratedAssemblyInfo.cs"/>
       </sources>
       <references basedir="${current.lib.dir}">
         <include name="nunit.core.dll"/>
