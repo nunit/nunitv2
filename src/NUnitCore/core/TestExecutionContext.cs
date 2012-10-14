@@ -4,8 +4,6 @@
 // obtain a copy of the license at http://nunit.org.
 // ****************************************************************
 using System;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.IO;
 using System.Diagnostics;
 using System.Globalization;
@@ -398,7 +396,7 @@ namespace NUnit.Core
         public static void Save()
         {
             current = new TestExecutionContext(current);
-            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
+            CallContext.LogicalSetData("NUnit.Framework.TestContext", current.contextDictionary);
         }
 
         /// <summary>
@@ -409,7 +407,7 @@ namespace NUnit.Core
         {
             current.ReverseChanges();
             current = current.prior;
-            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
+            CallContext.LogicalSetData("NUnit.Framework.TestContext", current.contextDictionary);
         }
         #endregion
 

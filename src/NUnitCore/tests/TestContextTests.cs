@@ -6,6 +6,7 @@
 
 using System;
 using System.IO;
+using System.Threading;
 using NUnit.Framework;
 using NUnit.TestData.TestContextData;
 using NUnit.TestUtilities;
@@ -232,9 +233,27 @@ namespace NUnit.Core.Tests
         }	
 
 	    [Test, RequiresThread]
-        public void CanAccessTestContextOnSeparateThread()
+        public void CanAccessTestContextWhenRunningTestOnSeparateThread()
         {
-            Assert.That(TestContext.CurrentContext.Test.Name, Is.EqualTo("CanAccessTestContextOnSeparateThread"));
+			Assert.That(TestContext.CurrentContext.Test.Name, Is.EqualTo("CanAccessTestContextWhenRunningTestOnSeparateThread"));
         }
+
+		[Test]
+		public void CanAccessTestContextFromThreadSpawnWithinTest()
+		{
+			var testName = new object[1];
+
+			var thread = new Thread(FillTestNameFromContext);
+			thread.Start(testName);
+			thread.Join();
+
+			Assert.IsNotNull(testName[0]);
+			Assert.AreEqual(testName[0], TestContext.CurrentContext.Test.Name);
+		}
+
+		private static void FillTestNameFromContext(object arg)
+		{
+			((object[])arg)[0] = TestContext.CurrentContext.Test.Name;
+		}
 	}
 }
