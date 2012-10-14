@@ -307,6 +307,23 @@ namespace NUnit.Framework.Constraints
             }
         }
 
+        [Test]
+        public void ContainsWithRecursiveStructure()
+        {
+            SelfRecursiveEnumerable item = new SelfRecursiveEnumerable();
+            SelfRecursiveEnumerable[] container = new SelfRecursiveEnumerable[] {new SelfRecursiveEnumerable(), item};
+
+            Assert.That(container, new CollectionContainsConstraint(item));
+        }
+
+        class SelfRecursiveEnumerable : IEnumerable
+        {
+            public IEnumerator GetEnumerator()
+            {
+                yield return this;
+            }
+        }
+
 #if CS_3_0 || CS_4_0 || CS_5_0
         [Test]
         public void UsesProvidedLambdaExpression()
