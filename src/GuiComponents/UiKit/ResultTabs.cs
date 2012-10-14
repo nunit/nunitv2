@@ -230,8 +230,6 @@ namespace NUnit.UiKit
 				ITestEvents events = Services.TestLoader.Events;
 				errorDisplay.Subscribe( events );
 				notRunTree.Subscribe( events );
-
-				displayController.Subscribe( events );
 			}
 
 			base.OnLoad (e);
@@ -350,7 +348,7 @@ namespace NUnit.UiKit
             tabControl.ItemSize = new Size(tabControl.ItemSize.Width, this.Font.Height + 7);
         }
 
-		private class TextDisplayController : TestObserver
+		private class TextDisplayController
 		{
 			private TabControl tabControl;
 			List<TextDisplayTabPage> tabPages = new List<TextDisplayTabPage>();
@@ -417,7 +415,10 @@ namespace NUnit.UiKit
 							}
 
 						if ( thePage == null )
+						{
 							thePage = new TextDisplayTabPage( tabInfo );
+							thePage.Display.Subscribe(Services.TestLoader.Events);
+						}
 
 						thePage.DisplayFont = displayFont;
 
@@ -472,14 +473,6 @@ namespace NUnit.UiKit
                     ? new Font(FontFamily.GenericMonospace, 8.0f) 
                     : settings.GetSetting("Gui.FixedFont", new Font(FontFamily.GenericMonospace, 8.0f));
 			}
-
-			#region TestObserver Members
-			public void Subscribe(ITestEvents events)
-			{
-				foreach( TextDisplayTabPage page in tabPages )
-					page.Display.Subscribe(events);
-			}
-			#endregion
 		}
 	}
 }
