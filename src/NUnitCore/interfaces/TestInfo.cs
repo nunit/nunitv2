@@ -32,6 +32,10 @@ namespace NUnit.Core
 		/// </summary>
 		private TestName testName;
 
+        private string className;
+
+        private string methodName;
+
 		private string testType;
 
         private RunState runState;
@@ -83,6 +87,8 @@ namespace NUnit.Core
 			this.ignoreReason = test.IgnoreReason;
 			this.description = test.Description;
 			this.isSuite = test.IsSuite;
+            this.className = test.ClassName;
+            this.methodName = test.MethodName;
 
 			if (test.Categories != null) 
 				this.categories.AddRange(test.Categories);
@@ -132,6 +138,22 @@ namespace NUnit.Core
 		{
 			get { return testName; }
 		}
+
+        /// <summary>
+        /// The name of the class containing this test, or null
+        /// </summary>
+        public string ClassName
+        {
+            get { return className; }
+        }
+
+        /// <summary>
+        /// The name of the method implementing this test, or null
+        /// </summary>
+        public string MethodName
+        {
+            get { return methodName; }
+        }
 
 		/// <summary>
 		/// Gets a string representing the kind of test this

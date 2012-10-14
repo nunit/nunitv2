@@ -31,7 +31,7 @@ namespace NUnit.Core.Tests
 			testCase1 = (Test)testFixture.Tests[0];
 		}
 
-		private void CheckConstructionFromTest( ITest expected )
+		private void CheckConstructionFromTest( ITest expected, string expectedClassName, string expectedMethodName )
 		{
 			TestInfo actual = new TestInfo( expected );
 			Assert.AreEqual( expected.TestName, actual.TestName );
@@ -40,7 +40,10 @@ namespace NUnit.Core.Tests
 			Assert.AreEqual( expected.IsSuite, actual.IsSuite, "IsSuite" );
 			Assert.AreEqual( expected.TestCount, actual.TestCount, "TestCount" );
 
-			if ( expected.Categories == null )
+            Assert.AreEqual(expectedClassName, actual.ClassName);
+            Assert.AreEqual(expectedMethodName, actual.MethodName);
+            
+            if (expected.Categories == null)
 				Assert.AreEqual( 0, actual.Categories.Count, "Categories" );
 			else
 			{
@@ -55,19 +58,19 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ConstructFromFixture()
 		{
-			CheckConstructionFromTest( testFixture );
+			CheckConstructionFromTest( testFixture, "NUnit.Tests.Assemblies.MockTestFixture", null );
 		}
 
 		[Test]
 		public void ConstructFromSuite()
 		{
-			CheckConstructionFromTest( testSuite );
+			CheckConstructionFromTest( testSuite, null, null );
 		}
 
 		[Test]
 		public void ConstructFromTestCase()
 		{
-			CheckConstructionFromTest( testCase1 );
+			CheckConstructionFromTest( testCase1, "NUnit.Tests.Assemblies.MockTestFixture", "MockTest1" );
 		}
 	}
 }

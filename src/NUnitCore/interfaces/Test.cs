@@ -305,6 +305,35 @@ namespace NUnit.Core
 			get { return null; }
 		}
 
+        /// <summary>
+        /// Gets the name of the class containing this test. Returns
+        /// null if the test is not associated with a class.
+        /// </summary>
+        public string ClassName
+        {
+            get
+            {
+                var type = FixtureType;
+
+                if (type == null)
+                    return null;
+
+                if (type.IsGenericType)
+                    type = type.GetGenericTypeDefinition();
+
+                return type.FullName;
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of the method implementing this test.
+        /// Returns null if the test is not implemented as a method.
+        /// </summary>
+        public virtual string MethodName
+        {
+            get { return null; }
+        }
+
 		/// <summary>
 		/// Gets or sets a fixture object for running this test
 		/// </summary>

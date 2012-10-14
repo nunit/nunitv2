@@ -118,6 +118,11 @@ namespace NUnit.Core
             get { return method.ReflectedType; }
         }
 
+        public override string MethodName
+        {
+            get { return method.Name; }
+        }
+
         public ExpectedExceptionProcessor ExceptionProcessor
         {
             get { return exceptionProcessor; }

@@ -23,6 +23,18 @@ namespace NUnit.Core
 		/// </summary>
 		TestName TestName { get; }
 
+        /// <summary>
+        /// Gets the name of the class containing this test. Returns
+        /// null if the test is not associated with a class.
+        /// </summary>
+        string ClassName { get; }
+
+        /// <summary>
+        /// Gets the name of the method implementing this test.
+        /// Returns null if the test is not implemented as a method.
+        /// </summary>
+        string MethodName { get; }
+
 		/// <summary>
 		/// Gets a string representing the type of test, e.g.: "Test Case"
 		/// </summary>
