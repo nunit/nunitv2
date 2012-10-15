@@ -396,7 +396,11 @@ namespace NUnit.Core
         public static void Save()
         {
             current = new TestExecutionContext(current);
+#if CLR_2_0 || CLR_4_0
             CallContext.LogicalSetData("NUnit.Framework.TestContext", current.contextDictionary);
+#else
+            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
+#endif
         }
 
         /// <summary>
@@ -407,7 +411,11 @@ namespace NUnit.Core
         {
             current.ReverseChanges();
             current = current.prior;
+#if CLR_2_0 || CLR_4_0
             CallContext.LogicalSetData("NUnit.Framework.TestContext", current.contextDictionary);
+#else
+            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
+#endif
         }
         #endregion
 

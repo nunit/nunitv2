@@ -238,22 +238,21 @@ namespace NUnit.Core.Tests
 			Assert.That(TestContext.CurrentContext.Test.Name, Is.EqualTo("CanAccessTestContextWhenRunningTestOnSeparateThread"));
         }
 
-		[Test]
-		public void CanAccessTestContextFromThreadSpawnWithinTest()
-		{
-			var testName = new object[1];
+        private string TestNameFromContext;
 
-			var thread = new Thread(FillTestNameFromContext);
-			thread.Start(testName);
+		[Test, Platform(Exclude="Net-1.0, Net-1.1, Mono-1.0")]
+		public void CanAccessTestContextFromThreadSpawnedWithinTest()
+		{
+            Thread thread = new Thread(new ThreadStart(FillTestNameFromContext));
+            thread.Start();
 			thread.Join();
 
-			Assert.IsNotNull(testName[0]);
-			Assert.AreEqual(testName[0], TestContext.CurrentContext.Test.Name);
+			Assert.That(TestNameFromContext, Is.EqualTo(TestContext.CurrentContext.Test.Name));
 		}
 
-		private static void FillTestNameFromContext(object arg)
+		private void FillTestNameFromContext()
 		{
-			((object[])arg)[0] = TestContext.CurrentContext.Test.Name;
+            this.TestNameFromContext = TestContext.CurrentContext.Test.Name;
 		}
 	}
 }

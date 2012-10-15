@@ -5,11 +5,9 @@
 // ****************************************************************
 
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Collections;
 #if CLR_2_0 || CLR_4_0
-using System.Collections.Generic;
 using System.Reflection;
 #endif
 
@@ -408,7 +406,7 @@ namespace NUnit.Framework.Constraints
 
             public bool CheckRecursion(IEnumerable expected, IEnumerable actual)
             {
-                var key = new UnorderedReferencePair(expected, actual);
+                UnorderedReferencePair key = new UnorderedReferencePair(expected, actual);
 
                 if (table.Contains(key))
                     return true;
@@ -417,7 +415,11 @@ namespace NUnit.Framework.Constraints
                 return false;
             }
 
+#if CLR_2_0 || CLR_4_0
             class UnorderedReferencePair : IEquatable<UnorderedReferencePair>
+#else
+            class UnorderedReferencePair
+#endif
             {
                 private readonly object first;
                 private readonly object second;

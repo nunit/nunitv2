@@ -313,13 +313,15 @@ namespace NUnit.Core
         {
             get
             {
-                var type = FixtureType;
+                Type type = FixtureType;
 
                 if (type == null)
                     return null;
 
+#if CLR_2_0 || CLR_4_0
                 if (type.IsGenericType)
                     type = type.GetGenericTypeDefinition();
+#endif
 
                 return type.FullName;
             }
