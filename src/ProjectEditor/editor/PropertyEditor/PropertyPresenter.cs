@@ -290,8 +290,8 @@ namespace NUnit.ProjectEditor
                     if (!ValidateDirectoryPath("ApplicationBase", view.ApplicationBase.Text))
                         return;
 
-                    basePath = Path.Combine(model.BasePath, view.ApplicationBase.Text);
-                    if (PathUtils.SamePath(model.BasePath, basePath))
+                    basePath = Path.Combine(model.EffectiveBasePath, view.ApplicationBase.Text);
+                    if (PathUtils.SamePath(model.EffectiveBasePath, basePath))
                         basePath = null;
                 }
 
