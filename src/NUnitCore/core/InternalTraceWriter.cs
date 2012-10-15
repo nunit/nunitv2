@@ -26,7 +26,11 @@ namespace NUnit.Core
 				.Replace("%p", pId.ToString() )
 				.Replace("%a", domainName );
 
-            string logPath = Path.Combine(NUnitConfiguration.LogDirectory, fileName);
+            string logDirectory = NUnitConfiguration.LogDirectory;
+            if (!Directory.Exists(logDirectory))
+                Directory.CreateDirectory(logDirectory);
+
+            string logPath = Path.Combine(logDirectory, fileName);
             this.writer = new StreamWriter(logPath, true);
             this.writer.AutoFlush = true;
 		}
