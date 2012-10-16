@@ -69,7 +69,7 @@ namespace NUnit.UiKit
 		/// <summary>
 		/// The TestNode on which a right click was done
 		/// </summary>
-		private TestSuiteTreeNode contextNode;
+		private TestSuiteTreeNode explicitlySelectedNode;
 
 		/// <summary>
 		/// Whether the browser supports running tests,
@@ -421,7 +421,7 @@ namespace NUnit.UiKit
 				}
 
 			Clear();
-			contextNode = null;
+			explicitlySelectedNode = null;
 			runCommandEnabled = false;
 		}
 
@@ -470,7 +470,7 @@ namespace NUnit.UiKit
 			{
 				CheckPropertiesDialog();
 				TreeNode theNode = GetNodeAt( e.X, e.Y );
-				contextNode = theNode as TestSuiteTreeNode;
+				explicitlySelectedNode = theNode as TestSuiteTreeNode;
 			}
 //			else if (e.Button == MouseButtons.Left )
 //			{
@@ -496,7 +496,7 @@ namespace NUnit.UiKit
 		{
 			this.ContextMenu.MenuItems.Clear();
 
-			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+			TestSuiteTreeNode targetNode = explicitlySelectedNode != null ? explicitlySelectedNode : (TestSuiteTreeNode)SelectedNode;
 			if ( targetNode == null )
 				return;
 	
@@ -556,7 +556,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void expandMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+			TestSuiteTreeNode targetNode = explicitlySelectedNode != null ? explicitlySelectedNode : (TestSuiteTreeNode)SelectedNode;
 			if ( targetNode != null )
 				targetNode.Expand();
 		}
@@ -566,7 +566,7 @@ namespace NUnit.UiKit
 		/// </summary>
 		private void collapseMenuItem_Click(object sender, System.EventArgs e)
 		{
-			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+			TestSuiteTreeNode targetNode = explicitlySelectedNode != null ? explicitlySelectedNode : (TestSuiteTreeNode)SelectedNode;
 			if ( targetNode != null )
 				targetNode.Collapse();
 		}
@@ -591,7 +591,7 @@ namespace NUnit.UiKit
 
         private void failedAssumptionsMenuItem_Click(object sender, System.EventArgs e)
         {
-            TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+            TestSuiteTreeNode targetNode = explicitlySelectedNode != null ? explicitlySelectedNode : (TestSuiteTreeNode)SelectedNode;
             TestSuiteTreeNode theoryNode = targetNode != null ? targetNode.GetTheoryNode() : null;
             if (theoryNode != null)
             {
@@ -615,8 +615,8 @@ namespace NUnit.UiKit
 			{
 				runCommandEnabled = false;
 
-				if ( contextNode != null )
-					RunTests( new ITest[] { contextNode.Test }, false );
+				if ( explicitlySelectedNode != null )
+					RunTests( new ITest[] { explicitlySelectedNode.Test }, false );
 				else
 					RunSelectedTests();
 			}
@@ -642,9 +642,9 @@ namespace NUnit.UiKit
 
 		private void loadFixtureMenuItem_Click( object sender, System.EventArgs e)
 		{
-			if ( contextNode != null )
+			if ( explicitlySelectedNode != null )
 			{
-				loader.LoadTest( contextNode.Test.TestName.FullName );
+				loader.LoadTest( explicitlySelectedNode.Test.TestName.FullName );
 				fixtureLoaded = true;
 			}
 		}
@@ -657,7 +657,7 @@ namespace NUnit.UiKit
 
 		private void propertiesMenuItem_Click( object sender, System.EventArgs e)
 		{
-			TestSuiteTreeNode targetNode = contextNode != null ? contextNode : (TestSuiteTreeNode)SelectedNode;
+			TestSuiteTreeNode targetNode = explicitlySelectedNode != null ? explicitlySelectedNode : (TestSuiteTreeNode)SelectedNode;
 			if ( targetNode != null )
 				ShowPropertiesDialog( targetNode );
 		}
@@ -747,6 +747,8 @@ namespace NUnit.UiKit
 
 		protected override void OnAfterSelect(System.Windows.Forms.TreeViewEventArgs e)
 		{
+			explicitlySelectedNode = null;
+
 			if ( !suppressEvents )
 			{
 				if ( SelectedTestChanged != null )
@@ -800,7 +802,7 @@ namespace NUnit.UiKit
 				finally
 				{
 					EndUpdate();
-					contextNode = null;
+					explicitlySelectedNode = null;
                     this.Select();
 				}
 
@@ -1115,8 +1117,8 @@ namespace NUnit.UiKit
 		/// <param name="node">Node to remove</param>
 		private void RemoveNode( TestSuiteTreeNode node )
 		{
-			if ( contextNode == node )
-				contextNode = null;
+			if ( explicitlySelectedNode == node )
+				explicitlySelectedNode = null;
 			RemoveFromMap( node );
 			node.Remove();
 		}
@@ -1396,4 +1398,3 @@ namespace NUnit.UiKit
 
     #endregion
 }
-
