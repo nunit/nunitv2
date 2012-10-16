@@ -75,6 +75,12 @@ namespace NUnit.ConsoleRunner
 		[Option (Description = "Disable use of a separate thread for tests")]
 		public bool nothread;
 
+		[Option(Description = "Base path to be used when loading the assemblies")]
+ 		public string basepath;
+ 
+ 		[Option(Description = "Additional directories to be probed when loading assemblies, separated by semicolons")]
+ 		public string privatebinpath;
+
         [Option(Description = "Set timeout for each test case in milliseconds")]
         public int timeout;
 

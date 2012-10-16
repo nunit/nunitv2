@@ -311,6 +311,17 @@ namespace NUnit.ConsoleRunner
 				domainUsage = DomainUsage.Multiple;
 			}
 
+			if (options.basepath != null && options.basepath != string.Empty)
+ 			{
+ 				package.BasePath = options.basepath;
+ 			}
+ 
+ 			if (options.privatebinpath != null && options.privatebinpath != string.Empty)
+ 			{
+ 				package.AutoBinPath = false;
+				package.PrivateBinPath = options.privatebinpath;
+ 			}
+
 #if CLR_2_0 || CLR_4_0
             if (options.framework != null)
                 framework = RuntimeFramework.Parse(options.framework);
@@ -326,10 +337,9 @@ namespace NUnit.ConsoleRunner
             
             package.Settings["ProcessModel"] = processModel;
             package.Settings["DomainUsage"] = domainUsage;
-            if (framework != null)
-                package.Settings["RuntimeFramework"] = framework;
-
             
+			if (framework != null)
+                package.Settings["RuntimeFramework"] = framework;
 
             if (domainUsage == DomainUsage.None)
             {
