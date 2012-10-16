@@ -63,6 +63,8 @@ namespace NUnit.ConsoleRunner.Tests
 		[TestCase( "exclude", "exclude" )]
         [TestCase("run", "run")]
         [TestCase("runlist", "runlist")]
+        [TestCase("basepath", "basepath")]
+        [TestCase("privatebinpath", "privatebinpath")]
 		public void StringOptionsAreRecognized( string fieldName, string option )
 		{
 			FieldInfo field = typeof(ConsoleOptions).GetField( fieldName );

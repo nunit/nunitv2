@@ -175,6 +175,20 @@ namespace NUnit.ConsoleRunner.Tests
 			StringAssert.Contains( failureMsg, output.ToString() );
 		}
 
+        [Test]
+        public void CanSpecifyBasePathAndPrivateBinPath()
+        {
+            // Assuming mock assembly is at ...x/y/z/mock-assembly.dll
+            string basePath = Path.GetDirectoryName(MockAssembly.AssemblyPath); // ...x/y/z
+            string privateBinPath = Path.GetFileName(basePath); // z
+            basePath = Path.GetDirectoryName(basePath); // ...x/y
+            privateBinPath = Path.Combine(Path.GetFileName(basePath), privateBinPath); // y/z
+            basePath = Path.GetDirectoryName(basePath); // ...x
+
+            Assert.AreEqual(expectedReturnCode, executeConsole("mock-assembly.dll", "-basepath=" + basePath, "-privatebinpath=" + privateBinPath, "-noxml"));
+            StringAssert.Contains( failureMsg, output.ToString());
+        }
+
 		[Test]
 		public void DoesNotFailWithEmptyRunList()
 		{
