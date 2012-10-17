@@ -30,21 +30,20 @@ namespace NUnit.Core.Tests
         }
 		
 		[Platform("Win")]
-        [TestCase(@"file:///C:/path/to/assembly.dll", Result=@"C:/path/to/assembly.dll")]
-        [TestCase(@"file://C:/path/to/assembly.dll", Result=@"C:/path/to/assembly.dll")]
-        [TestCase(@"file://C:/my path/to my/assembly.dll", Result = @"C:/my path/to my/assembly.dll")]
-        [TestCase(@"file:///C:/dev/C#/assembly.dll", Result = @"C:/dev/C#/assembly.dll")]
-        [TestCase(@"file:///C:/dev/funnychars?:=/assembly.dll", Result = @"C:/dev/funnychars?:=/assembly.dll")]
+        [TestCase(@"file:///C:/path/to/assembly.dll", Result=@"C:\path\to\assembly.dll")]
+        [TestCase(@"file://C:/path/to/assembly.dll", Result=@"C:\path\to\assembly.dll")]
+        [TestCase(@"file://C:/my%20path/to%20my/assembly.dll", Result = @"C:\my path\to my\assembly.dll")]
+        [TestCase(@"file:///C:/dev/C%23/assembly.dll", Result = @"C:\dev\C#\assembly.dll")]
+        [TestCase(@"file:///C:/dev/funnychars?:=/assembly.dll", Result = @"C:\dev\funnychars?:=\assembly.dll")]
         [TestCase(@"file:///path/to/assembly.dll", Result = @"/path/to/assembly.dll")]
-        [TestCase(@"file://path/to/assembly.dll", Result = @"path/to/assembly.dll")]
-        [TestCase(@"file:///my path/to my/assembly.dll", Result = @"/my path/to my/assembly.dll")]
-        [TestCase(@"file://my path/to my/assembly.dll", Result = @"my path/to my/assembly.dll")]
-        [TestCase(@"file:///dev/C#/assembly.dll", Result = @"/dev/C#/assembly.dll")]
+        [TestCase(@"file://path/to/assembly.dll", Result = @"//path/to/assembly.dll")]
+        [TestCase(@"file:///my%20path/to%20my/assembly.dll", Result = @"/my path/to my/assembly.dll")]
+        [TestCase(@"file:///dev/C%23/assembly.dll", Result = @"/dev/C#/assembly.dll")]
         [TestCase(@"file:///dev/funnychars?:=/assembly.dll", Result = @"/dev/funnychars?:=/assembly.dll")]
         //[TestCase(@"http://server/path/to/assembly.dll", Result="//server/path/to/assembly.dll")]
-        public string GetAssemblyPathFromFileUri_Windows(string uri)
+        public string GetAssemblyPathFromEscapedCodeBase_Windows(string uri)
         {
-            return AssemblyHelper.GetAssemblyPathFromFileUri(uri);
+            return AssemblyHelper.GetAssemblyPathFromEscapedCodeBase(uri);
         }
 		
 		[Platform("Linux")]
@@ -55,9 +54,9 @@ namespace NUnit.Core.Tests
         [TestCase(@"file:///dev/C#/assembly.dll", Result = @"/dev/C#/assembly.dll")]
         [TestCase(@"file:///dev/funnychars?:=/assembly.dll", Result = @"/dev/funnychars?:=/assembly.dll")]
         //[TestCase(@"http://server/path/to/assembly.dll", Result="//server/path/to/assembly.dll")]
-        public string GetAssemblyPathFromFileUri_Linux(string uri)
+        public string GetAssemblyPathFromEscapedCodeBase_Linux(string uri)
         {
-            return AssemblyHelper.GetAssemblyPathFromFileUri(uri);
+            return AssemblyHelper.GetAssemblyPathFromEscapedCodeBase(uri);
         }
-}
+    }
 }
