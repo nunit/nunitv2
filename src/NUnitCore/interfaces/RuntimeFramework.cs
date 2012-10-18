@@ -174,6 +174,12 @@ namespace NUnit.Core
                             }
                         }
                     }
+                    else if (major == 4)
+                    {
+                        minor = Type.GetType("System.Reflection.ReflectionContext", false) != null
+                            ? 5
+                            : 0;
+                    }
 
                     currentFramework = new RuntimeFramework(runtime, new Version(major, minor));
                     currentFramework.clrVersion = Environment.Version;
@@ -372,7 +378,7 @@ namespace NUnit.Core
         ///    greater than or equal to the corresponding target components.
         ///    
         /// The last provision allows tests requiring .NET 2.0 to run under the
-        /// 3.0 and 3.5 platforms as well.
+        /// 3.0 and 3.5 platforms and those requiring .NET 4.0 to run under 4.5.
         /// </summary>
         /// <param name="target">The RuntimeFramework to be matched.</param>
         /// <returns>True on match, otherwise false</returns>
@@ -410,6 +416,8 @@ namespace NUnit.Core
                 return runtime.ToString();
             else if (runtime == RuntimeType.Any)
                 return "v" + version.ToString();
+            else if (runtime == RuntimeType.Mono && version.Major == 1)
+                return "Mono 1.0";
             else
                 return runtime.ToString() + " " + version.ToString();
         }
