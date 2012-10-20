@@ -245,6 +245,40 @@ namespace test_assembly_net45
 			Assert.AreEqual(testName, TestContext.CurrentContext.Test.Name);
 		}
 
+		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public async void VoidAsyncVoidChildCompletingEarlierThanTest()
+		{
+			AsyncVoidMethod();
+
+			await ThrowExceptionIn(TimeSpan.FromSeconds(1));
+		}
+
+		[Test]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public async void VoidAsyncVoidChildThrowingImmediately()
+		{
+			AsyncVoidThrowException();
+
+			await Task.Run(() => Assert.Fail("Should never invoke this"));
+		}
+
+		private static async void AsyncVoidThrowException()
+		{
+			await Task.Run(() => { throw new InvalidOperationException(); });
+		}
+
+		private static async Task ThrowExceptionIn(TimeSpan delay)
+		{
+			await Task.Delay(delay);
+			throw new InvalidOperationException();
+		}
+
+		private static async void AsyncVoidMethod()
+		{
+			await Task.Yield();
+		}
+
 		private static Task<string> GetTestNameFromContext()
 		{
 			return Task.Run(() => TestContext.CurrentContext.Test.Name);

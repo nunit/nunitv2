@@ -37,10 +37,14 @@ namespace NUnit.Core
             {
                 object result = base.RunTestMethod(testResult);
 
-                currentContext.WaitForOperationCompleted();
-
-                if (currentContext.Exceptions.Count > 0)
-                    throw new NUnitException("Rethrown", currentContext.Exceptions[0]);
+	            try
+	            {
+		            currentContext.WaitForPendingOperationsToComplete();
+	            }
+	            catch (Exception e)
+	            {
+					throw new NUnitException("Rethrown", e);		            
+	            }
 
                 return result;
             }
