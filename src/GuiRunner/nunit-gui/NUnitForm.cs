@@ -1785,11 +1785,13 @@ namespace NUnit.Gui
 			string message = e.Action == NUnit.Util.TestAction.TestReloadFailed
                 ? "Test reload failed!"
                 : "Test load failed!";
+            string NL = Environment.NewLine;
 			if ( e.Exception is BadImageFormatException )
-				message += string.Format(
-                    Environment.NewLine + Environment.NewLine +
-					@"You may be attempting to load an assembly built with a later version of the CLR than
-the version under which NUnit is currently running ({0}) or trying to load a 64-bit assembly into a 32-bit process.",
+				message += string.Format(NL + NL +
+                    "The assembly could not be loaded by NUnit. PossibleProblems include:" + NL + NL +
+                    "1. The assembly may not be a valid .NET assembly." + NL + NL +
+                    "2. You may be attempting to load an assembly built with a later version of the CLR than the version under which NUnit is currently running ({0})." + NL + NL +
+                    "3. You may be attempting to load a 64-bit assembly into a 32-bit process.",
 					Environment.Version.ToString(3) );
 
             MessageDisplay.Error(message, e.Exception);

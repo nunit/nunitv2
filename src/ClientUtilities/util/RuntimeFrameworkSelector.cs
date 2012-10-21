@@ -51,9 +51,13 @@ namespace NUnit.Util
                     {
                         using (AssemblyReader reader = new AssemblyReader(assembly))
                         {
-                            Version v = new Version(reader.ImageRuntimeVersion.Substring(1));
-                            log.Debug("Assembly {0} uses version {1}", assembly, v);
-                            if (v > targetVersion) targetVersion = v;
+                            string vString = reader.ImageRuntimeVersion;
+                            if (vString.Length > 1) // Make sure it's a valid dot net assembly
+                            {
+                                Version v = new Version(vString.Substring(1));
+                                log.Debug("Assembly {0} uses version {1}", assembly, v);
+                                if (v > targetVersion) targetVersion = v;
+                            }
                         }
                     }
                 else
