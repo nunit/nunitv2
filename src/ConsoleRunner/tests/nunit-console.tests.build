@@ -28,9 +28,6 @@
 		    <include name="${current.test.dir}/nonamespace-assembly.dll"/>
       </references>
     </csc>
-
-    <copy file="EmptyTextFile.txt" tofile="${current.test.dir}/EmptyTextFile.txt"/>
-    <copy file="EmptyLineTextFile.txt" tofile="${current.test.dir}/EmptyLineTextFile.txt"/>
   </target>
 
   <target name="package">

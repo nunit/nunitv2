@@ -192,17 +192,28 @@ namespace NUnit.ConsoleRunner.Tests
 		[Test]
 		public void DoesNotFailWithEmptyRunList()
 		{
-			int returnCode = runFixture(typeof(SuccessTest), "-runlist=EmptyTextFile.txt");
+			string path = Path.GetTempFileName();
+
+			int returnCode = runFixture(typeof(SuccessTest), "-runlist=" + path);
 			Assert.AreEqual(0, returnCode);
 			StringAssert.Contains("Tests run: 0", output.ToString());
+
+			File.Delete(path);
 		}
 
 		[Test]
 		public void DoesNotFailIfRunListHasEmptyLines()
 		{
-			int returnCode = runFixture(typeof(SuccessTest), "-runlist=EmptyLineTextFile.txt");
+			string path = Path.GetTempFileName();
+
+			using(StreamWriter writer = File.CreateText(path))
+				writer.WriteLine();
+
+			int returnCode = runFixture(typeof(SuccessTest), "-runlist=" + path);
 			Assert.AreEqual(0, returnCode);
 			StringAssert.Contains("Tests run: 0", output.ToString());
+		
+			File.Delete(path);
 		}
 
 		[Test]
