@@ -37,31 +37,32 @@ example of Test-Driven Development. However, we're keeping it in the docs
 because it does illustrate the basics of using NUnit. We'll revise or replace
 it in a future release.</p>
 
-<p>Let’s start with a simple example. Suppose we are writing a bank application and we have a basic domain class – Account. Account supports operations to deposit, withdraw, and transfer funds. The Account class may look like this:</p>
+<p>Let’s start with a simple example, whose full source code is available <a href="quickStartSource.html">here</a>. Suppose we are writing a bank application and we have a basic domain class – Account. Account supports operations to deposit, withdraw, and transfer funds. The Account class may look like this:</p>
 
 <div class="code">
-<pre>namespace bank
+<pre>namespace Bank
 {
   public class Account
   {
-    private float balance;
-    public void Deposit(float amount)
+    private decimal balance;
+	
+    public void Deposit(decimal amount)
     {
-      balance+=amount;
+      balance += amount;
     }
 
-    public void Withdraw(float amount)
+    public void Withdraw(decimal amount)
     {
-      balance-=amount;
+      balance -= amount;
     }
 
-    public void TransferFunds(Account destination, float amount)
+    public void TransferFunds(Account destination, decimal amount)
     {
     }
 
-    public float Balance
+    public decimal Balance
     {
-      get{ return balance;}
+      get { return balance; }
     }
   }
 }</pre>
@@ -70,7 +71,7 @@ it in a future release.</p>
 <p>Now let’s write a test for this class – AccountTest. The first method we will test is TransferFunds.</p>
 
 <div class="code">
-<pre>namespace bank
+<pre>namespace Bank
 {
   using NUnit.Framework;
 
@@ -81,14 +82,15 @@ it in a future release.</p>
     public void TransferFunds()
     {
       Account source = new Account();
-      source.Deposit(200.00F);
+      source.Deposit(200m);
+      
       Account destination = new Account();
-      destination.Deposit(150.00F);
+      destination.Deposit(150m);
 
-      source.TransferFunds(destination, 100.00F);
-      Assert.AreEqual(250.00F, destination.Balance);
-      Assert.AreEqual(100.00F, source.Balance);
-	
+      source.TransferFunds(destination, 100m);
+	  
+      Assert.AreEqual(250m, destination.Balance);
+      Assert.AreEqual(100m, source.Balance);
     }
   }
 }</pre>
@@ -104,37 +106,38 @@ it in a future release.</p>
 
 and the stack trace panel right below it reported where in the test code the failure has occurred – 
 
-<pre>    at bank.AccountTest.TransferFunds() in C:\nunit\BankSampleTests\AccountTest.cs:line 17</pre></p>
+<pre>    at bank.AccountTest.TransferFunds() in C:\nunit\BankSampleTests\AccountTest.cs:line 19</pre></p>
 
 <p>That is expected behavior; the test has failed because we have not implemented the TransferFunds method yet. Now let’s get it to work. Don’t close the GUI and go back to your IDE and fix the code, make your TransferFunds method look like this:</p>
 
 <div class="code">
-<pre>public void TransferFunds(Account destination, float amount)
+<pre>public void TransferFunds(Account destination, decimal amount)
 {
-	destination.Deposit(amount);
-	Withdraw(amount);
+  destination.Deposit(amount);
+  Withdraw(amount);
 }</pre>
 </div>
-
 
 <p>Now recompile your code and click the run button in GUI again – the status bar and the test tree turn green. (Note how the GUI has reloaded the assembly automatically for you; we will keep the GUI open all the time and continue working with our code in IDE and write more tests).</p>
 
 <p>Let’s add some error checking to our Account code. We are adding the minimum balance requirement for the account to make sure that banks continue to make their money by charging your minimal overdraft protection fee. Let’s add the minimum balance property to our Account class:</p>
 
 <div class="code">
-<pre>private float minimumBalance = 10.00F;
-public float MinimumBalance
+<pre>private decimal minimumBalance = 10m;
+
+public decimal MinimumBalance
 {
-	get{ return minimumBalance;}
+  get{ return minimumBalance; }
 }</pre>
 </div>
 
 <p>We will use an exception to indicate an overdraft:</p>
 
 <div class="code">
-<pre>namespace bank
+<pre>namespace Bank
 {
   using System;
+  
   public class InsufficientFundsException : ApplicationException
   {
   }
@@ -148,11 +151,13 @@ public float MinimumBalance
 [ExpectedException(typeof(InsufficientFundsException))]
 public void TransferWithInsufficientFunds()
 {
-	Account source = new Account();
-	source.Deposit(200.00F);
-	Account destination = new Account();
-	destination.Deposit(150.00F);
-	source.TransferFunds(destination, 300.00F);
+  Account source = new Account();
+  source.Deposit(200m);
+	
+  Account destination = new Account();
+  destination.Deposit(150m);
+	
+  source.TransferFunds(destination, 300m);
 }</pre>
 </div>
 
@@ -163,12 +168,14 @@ public void TransferWithInsufficientFunds()
 Let’s fix our Account code again, modify the TransferFunds method this way:</p>
 
 <div class="code">
-<pre>public void TransferFunds(Account destination, float amount)
+<pre>public void TransferFunds(Account destination, decimal amount)
 {
-	destination.Deposit(amount);
-	if(balance-amount&lt;minimumBalance)
-		throw new InsufficientFundsException();
-	Withdraw(amount);
+  destination.Deposit(amount);
+	
+  if(balance-amount &lt; minimumBalance)
+    throw new InsufficientFundsException();
+		
+  Withdraw(amount);
 }</pre>
 </div>
 
@@ -178,32 +185,36 @@ Let’s fix our Account code again, modify the TransferFunds method this way:</p>
 <pre>[Test]
 public void TransferWithInsufficientFundsAtomicity()
 {
-	Account source = new Account();
-	source.Deposit(200.00F);
-	Account destination = new Account();
-	destination.Deposit(150.00F);
-	try
-	{
-		source.TransferFunds(destination, 300.00F);
-	}
-	catch(InsufficientFundsException expected)
-	{
-	}
+  Account source = new Account();
+  source.Deposit(200m);
 
-	Assert.AreEqual(200.00F,source.Balance);
-	Assert.AreEqual(150.00F,destination.Balance);
+  Account destination = new Account();
+  destination.Deposit(150m);
+	
+  try
+  {
+  	source.TransferFunds(destination, 300m);
+  }
+  catch(InsufficientFundsException expected)
+  {
+  }
+
+  Assert.AreEqual(200m, source.Balance);
+  Assert.AreEqual(150m, destination.Balance);
 }</pre>
 </div>
 
-<p>We are testing the transactional property of our business method – all operations are successful or none. Compile and run – red bar. OK, we’ve made $300.00 out of a thin air (1999.com déjà vu?) – the source account has the correct balance of 200.00 but the destination account shows : $450.00. How do we fix this? Can we just move the minimum balance check call in front of the updates:</p>
+<p>We are testing the transactional property of our business method – all operations are successful or none. Compile and run – red bar. OK, we’ve made $300.00 out of a thin air (1999 .com déjà vu?) – the source account has the correct balance of 200.00 but the destination account shows : $450.00. How do we fix this? Can we just move the minimum balance check call in front of the updates:</p>
 
 <div class="code">
-<pre>public void TransferFunds(Account destination, float amount)
+<pre>public void TransferFunds(Account destination, decimal amount)
 {
-	if(balance-amount&lt;minimumBalance) 
-		throw new InsufficientFundsException();
-	destination.Deposit(amount);
-	Withdraw(amount);
+  if(balance-amount &lt; minimumBalance) 
+    throw new InsufficientFundsException();
+	
+  destination.Deposit(amount);
+
+  Withdraw(amount);
 }</pre>
 </div>
 
@@ -214,7 +225,7 @@ public void TransferWithInsufficientFundsAtomicity()
 [Ignore("Decide how to implement transaction management")]
 public void TransferWithInsufficientFundsAtomicity()
 {
-	// code is the same
+  // code is the same
 }</pre>
 </div>
 
@@ -223,9 +234,8 @@ public void TransferWithInsufficientFundsAtomicity()
 <p>Looking at our test code we can see that some refactoring is in order. All test methods share a common set of test objects. Let’s extract this initialization code into a setup method and reuse it in all of our tests. The refactored version of our test class looks like this:</p>
 
 <div class="code">
-<pre>namespace bank
+<pre>namespace Bank
 {
-  using System;
   using NUnit.Framework;
 
   [TestFixture]
@@ -238,24 +248,26 @@ public void TransferWithInsufficientFundsAtomicity()
     public void Init()
     {
       source = new Account();
-      source.Deposit(200.00F);
+      source.Deposit(200m);
+	  
       destination = new Account();
-      destination.Deposit(150.00F);
+      destination.Deposit(150m);
     }
 
     [Test]
     public void TransferFunds()
     {
-      source.TransferFunds(destination, 100.00f);
-      Assert.AreEqual(250.00F, destination.Balance);
-      Assert.AreEqual(100.00F, source.Balance);
+      source.TransferFunds(destination, 100m);
+	  
+      Assert.AreEqual(250m, destination.Balance);
+      Assert.AreEqual(100m, source.Balance);
     }
 
     [Test]
     [ExpectedException(typeof(InsufficientFundsException))]
     public void TransferWithInsufficientFunds()
     {
-      source.TransferFunds(destination, 300.00F);
+      source.TransferFunds(destination, 300m);
     }
 
     [Test]
@@ -264,14 +276,14 @@ public void TransferWithInsufficientFundsAtomicity()
     {
       try
       {
-        source.TransferFunds(destination, 300.00F);
+        source.TransferFunds(destination, 300m);
       }
       catch(InsufficientFundsException expected)
       {
       }
 
-      Assert.AreEqual(200.00F,source.Balance);
-      Assert.AreEqual(150.00F,destination.Balance);
+      Assert.AreEqual(200m, source.Balance);
+      Assert.AreEqual(150m, destination.Balance);
     }
   }
 }</pre>
@@ -284,11 +296,14 @@ public void TransferWithInsufficientFundsAtomicity()
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.1</a></li>
+<li><a href="index.html">NUnit 2.6.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <ul>
 <li id="current"><a href="quickStart.html">Quick&nbsp;Start</a></li>
+<ul>
+<li><a href="quickStartSource.html">Source&nbsp;Listing</a></li>
+</ul>
 <li><a href="installation.html">Installation</a></li>
 </ul>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -302,8 +317,8 @@ public void TransferWithInsufficientFundsAtomicity()
 <ul>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 </ul>
-<li><a href="&r=2.6.1.html"></a></li>
-<li><a href="&r=2.6.1.html"></a></li>
+<li><a href="&r=2.6.2.html"></a></li>
+<li><a href="&r=2.6.2.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->

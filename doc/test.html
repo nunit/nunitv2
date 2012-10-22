@@ -27,7 +27,7 @@
 
 <script language="JavaScript" src="codeFuncs.js" ></script> <!-- Do it this way for IE -->
 
-<h3>TestAttribute (NUnit 2.0 / 2.5)</h3>
+<h3>TestAttribute (NUnit 2.0 / 2.5 / 2.6)</h3>
 
 <p>The Test attribute is one way of marking a method inside a TestFixture class
     as a test. For backwards compatibility with previous versions of Nunit a 
@@ -51,6 +51,12 @@
 <p>Parameterized test methods may also be generic, provided that 
    NUnit is able to deduce the proper argument types from the
    types of the data arguments supplied.
+   
+<p>Beginning with NUnit 2.6.2, test methods targetting .Net 4.5 may be 
+   marked as <b>async</b> and NUnit will wait for the method to complete 
+   before recording the result and moving on to the next test.<b>Async</b> 
+   test methods may return <b>void</b> or <b>Task</b> if no value is returned,
+   or <b>Task&lt;T&gt;</b> if a value of type <b>T</b> is returned.
 	
 <p>If the programmer marks a test method that does not have the correct signature 
    it will be considered as not runnable and be indicated as such by the console
@@ -149,7 +155,7 @@ public class SuccessTests
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.1</a></li>
+<li><a href="index.html">NUnit 2.6.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -211,8 +217,8 @@ public class SuccessTests
 <ul>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 </ul>
-<li><a href="&r=2.6.1.html"></a></li>
-<li><a href="&r=2.6.1.html"></a></li>
+<li><a href="&r=2.6.2.html"></a></li>
+<li><a href="&r=2.6.2.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->

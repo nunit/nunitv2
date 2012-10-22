@@ -31,7 +31,21 @@
 
 <p><b>TestCaseSourceAttribute</b> is used on a parameterized test method to
 identify the property, method or field that will provide the required 
-arguments. The attribute has two public constructors.
+arguments. The attribute has three public constructors.
+
+<div class="code">
+<pre>
+TestCaseSourceAttribute(Type sourceType);
+</pre>
+</div>
+
+<p>The <b>sourceType</b> argument represents the class that provides test cases.
+It must implement <b>IEnumerable</b> and return test case data appropriate for
+the test method on which the attribute appears.
+
+<p>This is a new form of the attribute in NUnit 2.6.2 and is recommended for
+use in preference to other forms because it doesn't use a string to specify
+the data source and is therefore more easily refactored.
 
 <div class="code">
 <pre>
@@ -40,7 +54,8 @@ TestCaseSourceAttribute(string sourceName);
 </pre>
 </div>
 
-<p>If <b>sourceType</b> is specified, it represents the class that provides
+<p>These older constructors are no longer recommended. If a <b>sourceType</b>
+is specified, it represents the class that provides
 the test cases. It must have a default constructor.
 
 <p>If <b>sourceType</b> is not specified, the class containing the test
@@ -73,7 +88,7 @@ the enumerator as follows:
 <ol>
 
 <li><p>If it is an object implementing <b>NUnit.Framework.ITestCaseData</b>, 
-its properties are used to provide the test case. In NUnit 2.5, this is
+its properties are used to provide the test case. In NUnit 2.5 and later, this is
 done using reflection to allow compatibility with earlier versions that
 did not implement <b>ITestCaseData</b>.
 
@@ -273,7 +288,7 @@ themselves.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.1</a></li>
+<li><a href="index.html">NUnit 2.6.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -332,8 +347,8 @@ themselves.
 <ul>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 </ul>
-<li><a href="&r=2.6.1.html"></a></li>
-<li><a href="&r=2.6.1.html"></a></li>
+<li><a href="&r=2.6.2.html"></a></li>
+<li><a href="&r=2.6.2.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->

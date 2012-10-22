@@ -43,6 +43,74 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.6.2 - Version 2.6.2.12296 - October 22, 2012</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>Tests may now be loaded and run from a shared directory specified as a UNC path.
+<li>Tests may now be run under .NET 4.5.
+<li>When running under a debugger, any nunit-agent process launched will break and allow the option to continue debugging the agent process as well.
+<li>J# and old-style managed C++ samples have been removed. F# samples are now included. Code samples are no longer included in the standard installs but are available as a separate download. All samples now use VS2010 projects.
+</ul>
+
+<h4>Development</h4>
+<ul>
+<li>The source code now includes solutions for VS2010 and VS2012. The VS2008 solution has been removed.
+<li>The NAnt build now uses NAnt 0.92.
+<li>NSubstitute has been upgraded to version 1.4.3.
+</ul>
+
+<h4>Framework</h4>
+<ul>
+<li>When running under .NET 4.5, <b>async</b> test methods are now supported. For test cases returning a value, the method must return <b>Task&lt;T&gt;</b>, where <b>T</b> is the type of the returned value. For single tests and test cases not returning a value, the method may return either <b>void</b> or <b>Task</b>.
+<li>The <b>Platform</b> attribute has been upgraded to recognize .NET 4.5, MaxOsX and XBox.
+<li><b>TestCaseSource</b> may now specify a class that implements <IEnumerable> without specifying the name of a method.
+</ul>
+
+<h4>Console</h4>
+<ul>
+<li>New options <b>/basepath</b> and <b>/privatebinpath</b> allow specifying the ApplicationBase and probing path on the command line.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>1029785 	Test loaded from remote folder failed to run with exception System.IODirectory Not Found
+<li>1029941 	Missing basepath and privatebinpath arguments in nunit-console
+<li>1033537 	Spurious behaviour using keyboard menu key
+<li>1034242 	Update VS Solution to VS2010
+<li>1036699 	Documentation is missing info about the /test command line option
+<li>1037130 	Update NSubstitute to 1.4.3
+<li>1041365 	Add MaxOsX and Xbox support to platform attribute
+<li>1042385 	Convert all sample projects to VS2010
+<li>1043641 	New text output tab doesn't display anything until NUnit is closed and re-opened
+<li>1047272 	TestContext.CurrentContext.Result throws NullReferenceException
+<li>1048920 	Attach debugger to nunit-agent automatically
+<li>1052298 	Allow TestCaseSource to be an instance of IEnumerable
+<li>1053727 	Project Editor Unhandled Exception when setting ApplicationBase
+<li>1055701 	Upgrade NAnt to 0.92
+<li>1057911 	Trap incorrect input for nunit-console.exe options
+<li>1057912 	Clarify /runlist help message for nunit-console.exe
+<li>1057913 	Unhandled exception for /trace option in nunit-console.exe
+<li>1057981 	C#5 async tests are not supported
+<li>1060482 	Documentation: Minor Typo
+<li>1061956 	Recognize .NET 4.5 when it is running
+<li>1061957 	Packaging problems
+<li>1064014 	Simple async tests should not return Task<T>
+<li>1064100 	Void testcase with expected result should be non-runnable
+<li>1066386 	Improve support for C# async void tests
+<li>1066393 	Unable to display source for testcases with an alternate name set
+<li>1069499 	Exception thrown when trying to load an assembly not built for .NET
+<li>1069569 	Remove samples from base NUnit distribution
+</ul>
+
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.6.1 Final Release - Version 2.6.1.12217 - August 4, 2012</h3>
 
 <h4>General</h4>
@@ -449,12 +517,13 @@ as greater than zero, and <b>Is.Negative</b>, which is interpreted as less than 
 <li>828739 	Run NUnit tests listed in a file
 </ul>
 
+
 </div>
 
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.1</a></li>
+<li><a href="index.html">NUnit 2.6.2</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -471,8 +540,8 @@ as greater than zero, and <b>Is.Negative</b>, which is interpreted as less than 
 <ul>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 </ul>
-<li><a href="&r=2.6.1.html"></a></li>
-<li><a href="&r=2.6.1.html"></a></li>
+<li><a href="&r=2.6.2.html"></a></li>
+<li><a href="&r=2.6.2.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
