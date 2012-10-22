@@ -2,7 +2,7 @@
 <project name="NUnit" default="help" basedir="..">
 
 <!-- ***************************************************************** -->
-<!-- This script has been tested with the NAnt 0.90 release.           -->
+<!-- This script has been tested with the NAnt 0.92 release.           -->
 <!--                                                                   -->
 <!-- At least one of the supported runtimes and sdk must be installed. -->
 <!-- In order to build the msi, WiX 2.0 and the WiX tasks for NAnt     -->
@@ -44,6 +44,8 @@
     <call target="package-src"/>
 
     <call target="package-docs"/>
+
+    <call target="package-samples"/>
 
     <call target="package-nuget"/>
 
@@ -176,7 +178,6 @@
         <include name="tests.wxs" />
         <include name="pnunit.wxs" />
         <include name="doc.wxs"  if="${runtime.version >= '2.0'}"/>
-        <include name="samples.wxs"  if="${runtime.version >= '2.0'}"/>
         <include name="nunit-gui.wxs" if="${runtime.version >= '2.0'}"/>
         <include name="NSubstitute.wxs" if="${runtime.version >= '2.0'}"/>
       </sources>
@@ -244,6 +245,25 @@
     
   </target>
   
+<!-- ***************************************************************** -->
+<!-- ***                     Package samples                       *** -->
+<!-- ***************************************************************** -->
+
+  <target name="package-samples" depends="clean-package-dir"
+      description="Create a zip file of the samples.">
+
+    <call target="copy-samples"/>
+
+    <!-- Create the zip file -->
+    <zip ziplevel="9"
+        zipfile="${project.package.dir}/${package.base.name}-samples.zip">
+      <fileset basedir="${package.working.dir}" prefix="${package.base.name}">
+        <include name="**"/>
+      </fileset>
+    </zip>
+    
+  </target>
+
 <!-- ***************************************************************** -->
 <!-- ***                    Package resources                      *** -->
 <!-- ***************************************************************** -->
@@ -361,7 +381,6 @@
 
     <call target="copy-bins" />
     <call target="copy-docs" />
-    <call target="copy-samples" />
 
   </target>
 
@@ -427,10 +446,9 @@
         <include name="ReadMe.txt" />
         <include name="samples.common" />
         <include name="csharp/CSharp.sln" />
-        <include name="jsharp/jsharp.sln" />
+        <include name="fsharp/FSharp.sln" />
         <include name="vb/vb-samples.sln" />
-        <include name="cpp/managed/managed-cpp.sln" />
-        <include name="cpp/cpp-cli/cpp-cli.sln" />
+        <include name="cpp/cpp-cli.sln" />
         <include name="Extensibility/Core/CoreExtensibility.sln" />
         <include name="Extensibility/Core/Install.bat" />
       </fileset>
@@ -455,48 +473,42 @@
     <!-- Copy project top level files -->
     <copy todir="${package.working.dir}">
       <fileset basedir="${project.base.dir}">
+	<include name="build"/>
+	<include name="build.bat"/>
         <include name="license.rtf"/>
+	<include name="license.txt"/>
+	<include name="nant"/>
+	<include name="nant.bat"/>
         <include name="nunit.build"/>
         <include name="nunit.build.include"/>
-        <include name="nunit.sln"/>
-        <include name="nunit.snk"/>
+	<include name="nunit.sln"/>
+	<include name="nunit2012.sln"/>
+	<include name="nunit.snk"/>
         <include name="NUnitFitTests.html"/>
         <include name="NUnitTests.nunit"/>
         <include name="NUnitTests.config"/>
         <include name="NUnitTests.v1.nunit"/>
-        <include name="NUnitTests.v2.nunit"/>
-      </fileset>
-    </copy>
-
-    <!-- Copy src dir files -->
-    <copy todir="${package.src.dir}">
-      <fileset basedir="${project.src.dir}">
-        <include name="nunit.snk"/>
-        <include name="CommonAssemblyInfo.cs"/>
-        <include name="nunit20under21.config"/>
-        <include name="nunit20under22.config"/>
-        <include name="nunit21under22.config"/>
-        <include name="PNUnit/*.conf"/>
-        <include name="PNUnit/runpnunit.bat"/>
-      </fileset>
-    </copy>
-
-    <!-- Copy lib dir files -->
-    <copy todir="${package.lib.dir}">
-      <fileset basedir="${project.lib.dir}">
-        <include name="**"/>
-      </fileset>
-    </copy>
-
-    <!-- Copy install directory files -->
-    <copy todir="${package.install.dir}">
-      <fileset basedir="${project.install.dir}">
-        <include name="bin.wxs" />
-        <include name="nunit-gui.wxs" />
-        <include name="doc.wxs" />
-        <include name="tests.wxs" />
-        <include name="samples.wxs" />
-        <include name="NUnit.wxs"/>
+	<include name="NUnitTests.v2.nunit"/>
+	<include name="package"/>
+	<include name="package.bat"/>
+	<include name="install/*.wxs" />
+	<include name="lib/**"/>
+	<include name="nuget/nunit.nuspec"/>
+	<include name="nuget/nunit.editor.nuspec"/>
+	<include name="nuget/nunit.mocks.nuspec"/>
+	<include name="nuget/nunit.runners.nuspec"/>
+	<include name="nuget/pnunit.nuspec"/>
+	<include name="scripts/nunit.build.targets"/>
+	<include name="scripts/nunit.common.targets"/>
+	<include name="scripts/nunit.package.targets"/>
+	<include name="src/nunit.snk"/>
+	<include name="src/CommonAssemblyInfo.cs"/>
+	<include name="src/nunit20under21.config"/>
+	<include name="src/nunit20under22.config"/>
+	<include name="src/nunit21under22.config"/>
+	<include name="src/PNUnit/*.conf"/>
+	<include name="src/PNUnit/runpnunit.bat"/>
+	<include name="tools/**"/>
       </fileset>
     </copy>
 
@@ -590,16 +602,17 @@
        because the latter is used by NUnit for packaging. -->
   <fileset id="sample.buildfiles" basedir="${project.samples.dir}">
 
-    <!-- CSharp Samples -->
+    <!-- C# Samples -->
     <include name="csharp/failures/cs-failures.build" />
     <include name="csharp/money/cs-money.build" />
     <include name="csharp/syntax/cs-syntax.build" />
 
-    <!-- JSharp Samples -->
-    <include name="jsharp/failures/jsharp-failures.build"
-      if="${task::exists('vjc') and platform::is-windows()}" />
+    <!-- F# Samples -->
+    <include name="fsharp/failures/fs-failures.build" />
+    <include name="fsharp/money/fs-money.build" />
+    <include name="fsharp/syntax/fs-syntax.build" />
 
-    <!-- VB Samples -->
+	  <!-- VB Samples -->
     <include name="vb/failures/vb-failures.build"
       if="${task::exists('vbc') and platform::is-windows()}" />
     <include name="vb/money/vb-money.build"
@@ -607,14 +620,10 @@
     <include name="vb/syntax/vb-syntax.build"
       if="${task::exists('vbc') and platform::is-windows()}" />
 
-    <!-- Managed C++ Samples -->
-    <include name="cpp/managed/failures/cpp-managed-failures.build"
-      if="${platform::is-windows()}" />
-
     <!-- C++/CLI Samples -->
-    <include name="cpp/cpp-cli/failures/cpp-cli-failures.build"
+    <include name="cpp/failures/cpp-cli-failures.build"
       if="${platform::is-windows()}" />
-    <include name="cpp/cpp-cli/syntax/cpp-cli-syntax.build"
+    <include name="cpp/syntax/cpp-cli-syntax.build"
       if="${platform::is-windows()}" />
 
     <!-- Extensibility Samples -->

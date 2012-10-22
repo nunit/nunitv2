@@ -43,13 +43,14 @@ IF /I "%1" EQU "mono-4.0" set RUNTIME=mono-4.0&goto shift
 
 IF /I "%1" EQU "check" set CHECK=1&goto shift
 
-IF /I "%1" EQU "all"	set COMMANDS=%COMMANDS% package-all&goto shift
-IF /I "%1" EQU "docs"	set COMMANDS=%COMMANDS% package-docs&goto shift
-IF /I "%1" EQU "source"	set COMMANDS=%COMMANDS% package-src&goto shift
-IF /I "%1" EQU "src"	set COMMANDS=%COMMANDS% package-src&goto shift
-IF /I "%1" EQU "zip"	set COMMANDS=%COMMANDS% package-zip&goto shift
-IF /I "%1" EQU "msi"	set COMMANDS=%COMMANDS% package-msi&goto shift
-IF /I "%1" EQU "nuget"	set COMMANDS=%COMMANDS% package-nuget&goto shift
+IF /I "%1" EQU "all"		set COMMANDS=%COMMANDS% package-all&goto shift
+IF /I "%1" EQU "docs"		set COMMANDS=%COMMANDS% package-docs&goto shift
+IF /I "%1" EQU "source"		set COMMANDS=%COMMANDS% package-src&goto shift
+IF /I "%1" EQU "samples"	set COMMANDS=%COMMANDS% package-samples&goto shift
+IF /I "%1" EQU "src"		set COMMANDS=%COMMANDS% package-src&goto shift
+IF /I "%1" EQU "zip"		set COMMANDS=%COMMANDS% package-zip&goto shift
+IF /I "%1" EQU "msi"		set COMMANDS=%COMMANDS% package-msi&goto shift
+IF /I "%1" EQU "nuget"		set COMMANDS=%COMMANDS% package-nuget&goto shift
 
 IF "%1" EQU "--" set PASSTHRU=1&goto shift
 

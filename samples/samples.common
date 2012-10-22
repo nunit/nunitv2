@@ -98,6 +98,14 @@
 
   </target>
 
+  <target name="build-fsharp" depends="init">
+
+    <property name="fsc.path" value="C:/Program Files/Microsoft SDKs/F#/3.0/Framework/v4.0/fsc.exe"/>
+
+    <echo message="F# Build not yet supported"/>
+
+  </target>
+
   <target name="build-addin" depends="init-addin">
 
     <csc target="library" output="${output.dir}/${sample}.dll" debug="${build.debug}">
@@ -147,32 +155,7 @@
 
   </target>
 
-  <target name="build-jsharp" depends="init">
-
-    <vjc target="library" output="${output.dir}/${sample.dll}" debug="${build.debug}">
-      <sources>
-        <patternset refid="source-files"/>
-      </sources>
-      <references basedir="${output.dir}">
-        <include name="nunit.framework.dll" />
-      </references>
-    </vjc>
-
-  </target>
-
-  <target name="build-managed" depends="init,set-vs-path">
-
-    <fail message="Visual Studio 2010 must be installed to build this sample"
-      unless="${property::exists( 'vs.2010.path' )}"/>
-
-    <exec program="devenv.exe" 
-      basedir="${vs.2010.path}" 
-      workingdir="."
-      commandline="${sample}.vcxproj /build ${build.config} /out ${output.dir}/${sample.dll}" />
-
-  </target>
-
-  <target name="build-cpp-cli" depends="init,set-vs-path">
+  <target name="build-cpp" depends="init,set-vs-path">
 
     <fail message="Visual Studio 2010 must be installed to build this sample"
       unless="${property::exists( 'vs.2010.path' )}"/>
@@ -215,25 +198,14 @@
     <property name="sample.proj" value="${sample}.csproj" />
 
     <call target="copy-source-files" />
-    <call target="update-framework-ref" />
 
   </target>
 
-  <target name="package-jsharp">
-    
-    <property name="sample.proj" value="${sample}.vjsproj" />
+  <target name="package-fsharp">
+
+    <property name="sample.proj" value="${sample}.fsproj" />
 
     <call target="copy-source-files" />
-    <call target="update-framework-ref" />
-
-  </target>
-
-  <target name="update-framework-ref">
-    
-    <xmlpoke
-      file="${sample.path}/${sample.proj}"
-      xpath="/VisualStudioProject/*/Build/References/Reference[@Name='nunit.framework']/@HintPath"
-      value="..\..\..\bin\net-1.1\framework\nunit.framework.dll" />
 
   </target>
 
@@ -242,36 +214,14 @@
     <property name="sample.proj" value="${sample}.vbproj" />
 
     <call target="copy-source-files" />
-    <call target="update-framework-ref" />
 
   </target>
 
-  <target name="package-managed">
+  <target name="package-cpp">
     
-    <property name="sample.proj" value="${sample}.vcproj" />
+    <property name="sample.proj" value="${sample}.vcxproj" />
 
     <call target="copy-source-files" />
-
-    <copy todir="${package.samples.dir}/cpp/managed/failures"
-        file="./cpp-managed-failures.vcproj">
-      <filterchain>
-        <replacestring from="$(SolutionDir)..\..\..\src\NUnitFramework\framework\bin\Debug\nunit.framework.dll"
-          to="..\..\..\..\bin\nunit.framework.dll"/>
-      </filterchain>
-    </copy>
-
-  </target>
-
-  <target name="package-cpp-cli">
-    
-    <property name="sample.proj" value="${sample}.vcproj" />
-
-    <call target="copy-source-files" />
-
-    <xmlpoke
-      file="${sample.path}/${sample.proj}"
-      xpath="/VisualStudioProject/References/AssemblyReference[@AssemblyName='nunit.framework']/@RelativePath"
-      value="..\..\..\..\bin\net-2.0\framework\nunit.framework.dll" />
 
   </target>
 

@@ -49,7 +49,6 @@
     <copy todir="${package.src.dir}/NUnitCore/tests-net45">
       <fileset>
         <patternset refid="source-files"/>
-        <include name="Results.xsd"/>
         <include name="nunit.core.tests.net45.csproj"/>
         <include name="nunit.core.tests.net45.build"/>
       </fileset>

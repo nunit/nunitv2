@@ -50,7 +50,7 @@ do
       commands="$commands build-$arg"
       ;;
 
-    test|gui-test|gen-syntax)
+    test|test45|gui-test|gen-syntax)
       commands="$commands $arg"
       ;;
 
@@ -76,6 +76,7 @@ do
       echo "  tools          Builds the NUnit tools"
       echo
       echo "  test           Runs tests for a build using the console runner"
+      echo "  test45         Run the .NET 4.5 async test assembly tests"
       echo "  gui-test       Runs tests for a build using the NUnit gui"
       echo
       echo "  -h, --help     Displays this help message"

@@ -2,7 +2,7 @@
 <project name="NUnit" default="build" basedir="..">
 
 <!-- ***************************************************************** -->
-<!-- This script has been tested with the NAnt 0.90 release.           -->
+<!-- This script has been tested with the NAnt 0.92 release.           -->
 <!--                                                                   -->
 <!-- At least one of the supported runtimes and sdk must be installed. -->
 <!-- In order to build the msi, WiX 2.0 and the WiX tasks for NAnt     -->
@@ -465,14 +465,10 @@
     <include name="vb/syntax/vb-syntax.build"
       if="${task::exists('vbc') and platform::is-windows()}" />
 
-    <!-- Managed C++ Samples -->
-    <include name="cpp/managed/failures/cpp-managed-failures.build"
-      if="${platform::is-windows()}" />
-
     <!-- C++/CLI Samples -->
-    <include name="cpp/cpp-cli/failures/cpp-cli-failures.build"
+    <include name="cpp/failures/cpp-cli-failures.build"
       if="${platform::is-windows()}" />
-    <include name="cpp/cpp-cli/syntax/cpp-cli-syntax.build"
+    <include name="cpp/syntax/cpp-cli-syntax.build"
       if="${platform::is-windows()}" />
 
     <!-- Extensibility Samples -->

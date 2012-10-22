@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "fs-failures", "failures\fs-failures.fsproj", "{1BDBEE34-CAA3-4004-9D0D-11E09C665A9F}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "syntax", "syntax\syntax.fsproj", "{5DE001E7-2606-4DFE-8C03-90C70D2C3805}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "syntax", "syntax\fs-syntax.fsproj", "{5DE001E7-2606-4DFE-8C03-90C70D2C3805}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "money", "money\money.fsproj", "{3F6B1A52-B393-4218-9293-BE3F1701B6B6}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "money", "money\fs-money.fsproj", "{3F6B1A52-B393-4218-9293-BE3F1701B6B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

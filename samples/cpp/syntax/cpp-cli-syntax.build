@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="cpp-cli-syntax" default="build">
 
-  <include buildfile="../../../samples.common"/>
+  <include buildfile="../../samples.common"/>
 
   <patternset id="source-files">
     <include name="AssemblyInfo.cpp" />

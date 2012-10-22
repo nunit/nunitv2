@@ -4,7 +4,7 @@
   <Product 
     UpgradeCode="009074FF-2CEC-4b0c-9951-B07186F9ED3A" 
     Name="NUnit $(var.NominalVersion)"
-    Id="E9FE08DD-DEA8-460c-A5F1-079CF2DCFBFA"
+    Id="002B407D-DE66-4601-A10C-45941586C767"
     Version="$(var.ProductVersion)"
     Manufacturer="nunit.org"
     Language="1033">
@@ -91,14 +91,6 @@
             <Directory Id="img" Name="img" />
           </Directory>
 
-          <Directory Id="samples" Name="samples">
-            <Directory Id="csharp" Name="csharp" />
-            <Directory Id="jsharp" Name="jsharp" />
-            <Directory Id="vb" Name="vb" />
-            <Directory Id="cpp" Name="cpp" />
-            <Directory Id="extensibility" Name="Extensibility" />
-          </Directory>
-
         </Directory>
 
       </Directory>
@@ -116,7 +108,6 @@
               Type="integer" Name="NUnitMenu" Value="1" />
           </Component>
           <Directory Id="RunUnderMenu" Name="Select Runtime" />
-          <Directory Id="SamplesMenu" Name="Samples" />
         </Directory>
       </Directory>
 
@@ -208,60 +199,6 @@
         <ComponentRef Id="DocFiles" />
         <ComponentRef Id="DocImages" />
         <ComponentRef Id="MenuShortcut_NUnitHelp"/>
-
-      </Feature>
-
-      <!-- Defined in samples.wxs -->
-      <Feature Id="SamplesFeature" Level="1" Title="Samples" Display="collapse" Description="Installs sample code showing the use of NUnit.">
-
-        <ComponentRef Id="C__SamplesCommon" />
-        <ComponentRef Id="C__SampleShortcuts" />
-
-        <Feature Id="CSharpSamples" Level="1" Title="C# Samples" Display="expand" Description="Installs C# samples.">
-
-          <ComponentRef Id="C__CSharp_Samples" />
-          <ComponentRef Id="C__CSharp_Failures" />
-          <ComponentRef Id="C__CSharp_Money" />
-          <ComponentRef Id="C__CSharp_Syntax" />
-
-          <!-- Core Extensibility Samples -->
-          <ComponentRef Id="C__CoreExtensibility" />
-          <ComponentRef Id="C__MinimalAddin" />
-          <ComponentRef Id="C__SampleSuiteExtension" />
-          <ComponentRef Id="C__SampleSuiteExtension_Tests" />
-          <ComponentRef Id="C__SampleFixtureExtension" />
-          <ComponentRef Id="C__SampleFixtureExtension_Tests" />
-
-        </Feature>
-
-        <Feature Id="VBSamples" Level="1" Title="Visual Basic Samples" Display="expand" Description="Installs Visual Basic samples.">
-
-          <ComponentRef Id="C__VB_Samples" />
-          <ComponentRef Id="C__VB_Failures" />
-          <ComponentRef Id="C__VB_Money" />
-          <ComponentRef Id="C__VB_Syntax" />
-
-        </Feature>
-
-        <Feature Id="JSharpSamples" Level="1" Title="J# Samples" Display="expand" Description="Installs J# samples.">
-
-          <ComponentRef Id="C__JSharp_Samples" />
-          <ComponentRef Id="C__JSharp_Failures" />
-
-        </Feature>
-
-        <Feature Id="CPPSamples" Level="1" Title="C++ Samples" Display="expand" Description="Installs C++ samples.">
-
-          <!-- Managed C++ Samples -->
-          <ComponentRef Id="C__CPP_Managed_Samples" />
-          <ComponentRef Id="C__CPP_Managed_Failures" />
-
-          <!-- C++/CLI Samples -->
-          <ComponentRef Id="C__CPP_CLI_Samples" />
-          <ComponentRef Id="C__CPP_CLI_Failures" />
-          <ComponentRef Id="C__CPP_CLI_Syntax" />
-
-        </Feature>
 
       </Feature>
 

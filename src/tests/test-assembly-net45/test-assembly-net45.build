@@ -44,8 +44,8 @@
     <copy todir="${package.src.dir}/tests/test-assembly-net45">
       <fileset>
         <patternset refid="source-files" />
-        <include name="test-assembly.csproj"/>
-        <include name="test-assembly.build"/>
+        <include name="test-assembly-net45.csproj"/>
+        <include name="test-assembly-net45.build"/>
       </fileset>
     </copy>
   </target>

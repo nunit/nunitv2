@@ -49,6 +49,7 @@ if /I "%1" EQU "clean-all" set CLEAN=clean-all&goto shift
 IF /I "%1" EQU "samples" set COMMANDS=%COMMANDS% build-samples&goto shift
 IF /I "%1" EQU "tools" set COMMANDS=%COMMANDS% build-tools&goto shift
 IF /I "%1" EQU "test" set COMMANDS=%COMMANDS% test&goto shift
+IF /I "%1" EQU "test45" set COMMANDS=%COMMANDS% test45&goto shift
 IF /I "%1" EQU "gui-test" set COMMANDS=%COMMANDS% gui-test&goto shift
 IF /I "%1" EQU "gen-syntax" set COMMANDS=%COMMANDS% gen-syntax&goto shift
 
@@ -104,6 +105,7 @@ echo   samples        Builds the NUnit samples
 echo   tools          Builds the NUnit tools
 echo.
 echo   test           Runs tests for a build using the console runner
+echo   test45         Runs the .NET 4.5 async tests using the console runner
 echo   gui-test       Runs tests for a build using the NUnit gui
 echo.
 echo   ?, /h, /help   Displays this help message

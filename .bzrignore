@@ -32,3 +32,5 @@ Release
 *.userprefs
 _ReSharper*
 *.sdf
+*.opensdf
+
