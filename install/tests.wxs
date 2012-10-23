@@ -27,8 +27,6 @@
         <File Id="nunit.framework.tests" Name="nunit.framework.tests.dll" />
         <File Id="nunit.mocks.tests" Name="nunit.mocks.tests.dll" />
         <File Id="console.tests" Name="nunit-console.tests.dll" />
-        <File Id="EmptyTextFile.txt" Name="EmptyTextFile.txt" />
-        <File Id="EmptyLineTextFile.txt" Name="EmptyLineTextFile.txt" />
         <File Id="nunit.core.tests" Name="nunit.core.tests.dll" />
       </Component>
 

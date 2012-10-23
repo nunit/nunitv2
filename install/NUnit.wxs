@@ -187,6 +187,9 @@
         <!-- Defined in pnunit.wxs -->
         <ComponentRef Id="pnunit_tests" />
 
+        <!-- Defined in net45-tests.wxs -->
+        <ComponentRef Id="net45_tests" />
+
         <!-- Defined in nunit-gui.wxs -->
         <ComponentRef Id="gui_tests" />
 
