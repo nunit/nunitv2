@@ -194,7 +194,7 @@ namespace NUnit.ConsoleRunner.Tests
 		{
 			string path = Path.GetTempFileName();
 
-			int returnCode = runFixture(typeof(SuccessTest), "-runlist=" + path);
+			int returnCode = runFixture(typeof(SuccessTest), "-runlist=" + path, "-noxml");
 			Assert.AreEqual(0, returnCode);
 			StringAssert.Contains("Tests run: 0", output.ToString());
 
@@ -209,7 +209,7 @@ namespace NUnit.ConsoleRunner.Tests
 			using(StreamWriter writer = File.CreateText(path))
 				writer.WriteLine();
 
-			int returnCode = runFixture(typeof(SuccessTest), "-runlist=" + path);
+			int returnCode = runFixture(typeof(SuccessTest), "-runlist=" + path, "-noxml");
 			Assert.AreEqual(0, returnCode);
 			StringAssert.Contains("Tests run: 0", output.ToString());
 		
