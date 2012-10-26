@@ -47,11 +47,7 @@ namespace NUnit.Framework
         {
             get
             {
-#if CLR_2_0 || CLR_4_0
-                return new TestContext((IDictionary)CallContext.LogicalGetData(contextKey));
-#else
                 return new TestContext((IDictionary)CallContext.GetData(contextKey));
-#endif
             }
         }
 

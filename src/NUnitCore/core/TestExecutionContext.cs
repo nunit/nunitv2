@@ -395,15 +395,11 @@ namespace NUnit.Core
         /// </summary>
         public static void Save()
         {
-            current = new TestExecutionContext(current);
-#if CLR_2_0 || CLR_4_0
-            CallContext.LogicalSetData("NUnit.Framework.TestContext", current.contextDictionary);
-#else
-            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
-#endif
+	        current = new TestExecutionContext(current);
+	        SaveInCallContext();
         }
 
-        /// <summary>
+		/// <summary>
         /// Restores the last saved context and puts
         /// any saved settings back into effect.
         /// </summary>
@@ -411,13 +407,15 @@ namespace NUnit.Core
         {
             current.ReverseChanges();
             current = current.prior;
-#if CLR_2_0 || CLR_4_0
-            CallContext.LogicalSetData("NUnit.Framework.TestContext", current.contextDictionary);
-#else
-            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
-#endif
+            SaveInCallContext();
         }
-        #endregion
+
+        private static void SaveInCallContext()
+        {
+            CallContext.SetData("NUnit.Framework.TestContext", current.contextDictionary);
+        }
+
+		#endregion
 
         #region Instance Methods
 
