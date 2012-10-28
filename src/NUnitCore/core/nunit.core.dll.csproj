@@ -130,6 +130,7 @@
     <Compile Include="AssemblyReader.cs" />
     <Compile Include="AssemblyResolver.cs" />
     <Compile Include="ActionsHelper.cs" />
+    <Compile Include="AsyncInvocationRegion.cs" />
     <Compile Include="AsyncSynchronizationContext.cs" />
     <Compile Include="Builders\CombinatorialStrategy.cs" />
     <Compile Include="Builders\CombinatorialTestCaseProvider.cs" />

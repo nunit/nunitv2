@@ -101,9 +101,8 @@ namespace test_assembly_net45
 		}
 
 		[Test]
-		public async void VoidAssertSynchronizationContext()
+		public async void Yield()
 		{
-			Assert.That(SynchronizationContext.Current, Is.InstanceOf<AsyncSynchronizationContext>());
 			await Task.Yield();
 		}
 

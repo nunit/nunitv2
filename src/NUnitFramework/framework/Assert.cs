@@ -7,6 +7,7 @@
 using System;
 using System.Collections;
 using System.ComponentModel;
+using NUnit.Core;
 using NUnit.Framework.Constraints;
 
 namespace NUnit.Framework
@@ -561,6 +562,25 @@ namespace NUnit.Framework
         {
             Exception caughtException = null;
 
+#if CLR_2_0 || CLR_4_0
+			if (AsyncInvocationRegion.IsAsyncOperation(code))
+			{
+				using (AsyncInvocationRegion region = AsyncInvocationRegion.Create(code))
+				{
+					code();
+
+					try
+					{
+						region.WaitForPendingOperationsToComplete(null);
+					}
+					catch (AsyncInvocationException e)
+					{
+						caughtException = e.InnerException;
+					}
+				}
+			}
+			else
+#endif
             try
             {
                 code();

@@ -458,7 +458,7 @@ namespace NUnit.Core
 		{
             try
             {
-                object result = RunTestMethod(testResult);
+                object result = RunTestMethod();
 
                 if (this.hasExpectedResult)
                     NUnitFramework.Assert.AreEqual(expectedResult, result);
@@ -480,7 +480,7 @@ namespace NUnit.Core
             }
 		}
 
-	    protected virtual object RunTestMethod(TestResult testResult)
+	    protected virtual object RunTestMethod()
 		{
             object fixture = this.method.IsStatic ? null : this.Fixture;
             

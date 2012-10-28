@@ -44,9 +44,12 @@
     </Compile>
     <Compile Include="NUnitAsyncTestMethodTests.cs" />
     <Compile Include="NUnitTestCaseBuilderTests.cs" />
+    <Compile Include="ThrowsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="nunit.core.tests.net45.build" />
+    <None Include="nunit.core.tests.net45.build">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

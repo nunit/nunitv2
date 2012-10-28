@@ -4,6 +4,7 @@
   <patternset id="source-files">
     <include name="NUnitTestCaseBuilderTests.cs"/>
     <include name="NUnitAsyncTestMethodTests.cs"/>
+    <include name="ThrowsTests.cs"/>
   </patternset>
 
   <target name="build" if ="${runtime.version >= '2.0'}">

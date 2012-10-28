@@ -89,6 +89,12 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\NUnitCore\core\AsyncInvocationRegion.cs">
+      <Link>AsyncInvocationRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NUnitCore\core\AsyncSynchronizationContext.cs">
+      <Link>AsyncSynchronizationContext.cs</Link>
+    </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="AssertionHelper.cs" />

@@ -2,6 +2,8 @@
 <project name="NUnitFramework" default="build" basedir=".">
 
   <patternset id="source-files">
+        <include name="..\..\NUnitCore\core\AsyncSynchronizationContext.cs" if="${runtime.version >= '2.0'}"/>
+        <include name="..\..\NUnitCore\core\AsyncInvocationRegion.cs" if="${runtime.version >= '2.0'}"/>
         <include name="Attributes/CategoryAttribute.cs"/>
         <include name="Attributes/DatapointAttributes.cs"/>
         <include name="Attributes/DescriptionAttribute.cs"/>

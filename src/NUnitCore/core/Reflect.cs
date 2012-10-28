@@ -443,11 +443,7 @@ namespace NUnit.Core
 #if CLR_2_0 || CLR_4_0
 	    public static bool IsAsyncMethod(MethodInfo method)
 	    {
-            foreach (object attribute in method.GetCustomAttributes(false))
-                if (attribute.GetType().FullName.Equals("System.Runtime.CompilerServices.AsyncStateMachineAttribute"))
-                    return true;
-
-            return false;
+		    return AsyncInvocationRegion.IsAsyncOperation(method);
 	    }
 #endif
 	}

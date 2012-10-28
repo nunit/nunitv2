@@ -4,6 +4,7 @@
   <patternset id="source-files">
     <include name="AbstractTestCaseDecoration.cs"/>
     <include name="AsyncSynchronizationContext.cs" if="${runtime.version >= '2.0'}"/>
+    <include name="AsyncInvocationRegion.cs" if="${runtime.version >= '2.0'}"/>
     <include name="ActionsHelper.cs" />
     <include name="AssemblyInfo.cs"/>
     <include name="AssemblyHelper.cs"/>

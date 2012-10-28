@@ -88,14 +88,14 @@ namespace nunit.core.tests.net45
 
 			SynchronizationContext.SetSynchronizationContext(context);
 
-			var method = _builder.BuildFrom(Method(f => f.VoidAssertSynchronizationContext()));
+			var method = _builder.BuildFrom(Method(f => f.Yield()));
 
 			var result = method.Run(new NullListener(), TestFilter.Empty);
 
 			Assert.AreSame(context, SynchronizationContext.Current);
 			Assert.That(result.Executed, Is.True, "Was not executed");
 			Assert.That(result.ResultState, Is.EqualTo(ResultState.Success), "Wrong result state");
-			Assert.That(result.AssertCount, Is.EqualTo(1), "Wrong assertion count");
+			Assert.That(result.AssertCount, Is.EqualTo(0), "Wrong assertion count");
 		}
 
 		private static MethodInfo Method(Expression<Action<AsyncRealFixture>> action)

@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using NUnit.Core;
 
 namespace NUnit.Framework.Constraints
 {
@@ -18,7 +19,7 @@ namespace NUnit.Framework.Constraints
         private Exception caughtException;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:ThrowsConstraint"/> class,
+        /// Initializes a new instance of the <see cref="ThrowsConstraint"/> class,
         /// using a constraint to be applied to the exception.
         /// </summary>
         /// <param name="baseConstraint">A constraint to apply to the caught exception.</param>
@@ -44,12 +45,32 @@ namespace NUnit.Framework.Constraints
         public override bool Matches(object actual)
         {
             TestDelegate code = actual as TestDelegate;
+
             if (code == null)
                 throw new ArgumentException(
-                    string.Format("The actual value must be a TestDelegate but was {0}",actual.GetType().Name), "actual");
+                    string.Format("The actual value must be a TestDelegate but was {0}", actual.GetType().Name), "actual");
 
             this.caughtException = null;
 
+#if CLR_2_0 || CLR_4_0
+			if(AsyncInvocationRegion.IsAsyncOperation(code))
+			{
+				using(AsyncInvocationRegion region = AsyncInvocationRegion.Create(code))
+				{
+					code();
+
+					try
+					{
+						region.WaitForPendingOperationsToComplete(null);
+					}
+					catch (AsyncInvocationException e)
+					{
+						this.caughtException = e.InnerException;
+					}
+				}
+			}
+			else
+#endif
             try
             {
                 code();
@@ -59,7 +80,7 @@ namespace NUnit.Framework.Constraints
                 this.caughtException = ex;
             }
 
-            if (this.caughtException == null)
+			if (this.caughtException == null)
                 return false;
 
             return baseConstraint == null || baseConstraint.Matches(caughtException);

@@ -408,9 +408,9 @@ namespace NUnit.Core.Tests
                     {
                         foreach (Event e in events)
                         {
-                            Trace.WriteLine("Before sending {0} event.", e.GetType().Name);
+                            Trace.WriteLine(string.Format("Before sending {0} event.", e.GetType().Name));
                             e.Send(upstreamListener);
-                            Trace.WriteLine("After sending {0} event.", e.GetType().Name);
+                            Trace.WriteLine(string.Format("After sending {0} event.", e.GetType().Name));
                         }
                     }
                 }
