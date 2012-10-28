@@ -184,6 +184,31 @@
       managed="strict"
 	  commandline="NUnitTests.nunit ${nunit.options} -xml:${result.file}.xml" />
 
+    <call target="run-test45" if="${framework::exists('net-4.5')}"/>
+
+  </target>
+
+  <target name="test45" depends="build,run-test45"
+      description="Build and run tests of .NET 4.5 features"/>
+
+  <target name="run-test45"
+      description="Run tests of .NET 4.5 features">
+
+    <echo message="*"/>
+    <echo message="* Testing ${runtime.config} ${build.config} build"/>
+    <echo message="*    Running nunit.core.tests.net45.dll"/>
+    <echo message="*"/>
+
+    <!-- We use exec rather than the nunit2 task because we are testing
+         a new build of NUnit which is likely not to be included in the Nant build -->
+    <!-- Mono currently has a SIGSEGV fault if we run in a single AppDomain -->
+
+    <exec basedir="${current.build.dir}"
+      workingdir="${current.build.dir}/tests" 
+	  program="nunit-console.exe" 
+      managed="strict"
+	  commandline="nunit.core.tests.net45.dll ${nunit.options} -noxml:" />
+
   </target>
 
   <target name="test-coverage" depends="build"
