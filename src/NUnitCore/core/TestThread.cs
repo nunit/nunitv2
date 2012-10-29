@@ -91,12 +91,7 @@ namespace NUnit.Core
             this.thrownException = null;
             this.listener = listener;
             this.filter = filter;
-
-#if CLR_2_0 || CLR_4_0
-			this.contextDictionary = (ContextDictionary)CallContext.LogicalGetData("NUnit.Framework.TestContext");
-#else
 			this.contextDictionary = (ContextDictionary)CallContext.GetData("NUnit.Framework.TestContext");
-#endif
 
             log.Debug("Starting test in separate thread");
             thread.Start();
@@ -138,11 +133,7 @@ namespace NUnit.Core
         /// </summary>
         private void RunTestProc()
         {
-#if CLR_2_0 || CLR_4_0
-			CallContext.LogicalSetData("NUnit.Framework.TestContext", contextDictionary);
-#else
 			CallContext.SetData("NUnit.Framework.TestContext", contextDictionary);
-#endif
 			
             try
             {

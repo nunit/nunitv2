@@ -10,7 +10,6 @@ using System.Runtime.Remoting.Messaging;
 
 namespace NUnit.Core
 {
-	[Serializable]
     public class ContextDictionary : MarshalByRefObject, IDictionary, ILogicalThreadAffinative
     {
         internal TestExecutionContext _context;

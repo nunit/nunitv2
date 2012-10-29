@@ -41,22 +41,15 @@ namespace NUnit.Core.Tests
 		[Test]
 		public void ILogicalThreadAffinativeTest()
 		{	
-#if CLR_2_0 || CLR_4_0
-            CallContext.LogicalSetData(CONTEXT_DATA, new EmptyCallContextData());
-#else
             CallContext.SetData(CONTEXT_DATA, new EmptyCallContextData());
-#endif
 		}
 
 		[Test]
 		public void ILogicalThreadAffinativeTestConsole()
 		{	
-#if CLR_2_0 || CLR_4_0
-			CallContext.LogicalSetData( CONTEXT_DATA, new EmptyCallContextData() );
-#else
 			CallContext.SetData( CONTEXT_DATA, new EmptyCallContextData() );
-#endif
-            // TODO: make this Assertable
+
+			// TODO: make this Assertable
 			//Console.WriteLine("ILogicalThreadAffinativeTest");
 			Console.Out.Flush();
 		}
@@ -68,11 +61,7 @@ namespace NUnit.Core.Tests
 			GenericPrincipal prpal = new GenericPrincipal(ident, 
 				new string[] {"Level1"});
 
-#if CLR_2_0 || CLR_4_0
-			CallContext.LogicalSetData( CONTEXT_DATA, new PrincipalCallContextData( prpal ) );
-#else
 			CallContext.SetData( CONTEXT_DATA, new PrincipalCallContextData( prpal ) );
-#endif
 		}
 
 		[Test]
