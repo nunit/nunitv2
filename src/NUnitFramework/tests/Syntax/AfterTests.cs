@@ -128,6 +128,12 @@ namespace NUnit.Framework.Syntax
         {
             Assert.That(delegate { return greeting; }, Is.StringEnding("world").After(5000, 200));
         }
+
+		[Test]
+		public void ThrowsTest()
+		{
+			Assert.That(delegate { throw new Exception(); }, Throws.TypeOf<Exception>().After(100));
+		}
     }
 
     public class AfterSyntaxUsingActualPassedByRef : AfterSyntaxTests

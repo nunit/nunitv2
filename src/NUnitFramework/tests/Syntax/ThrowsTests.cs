@@ -199,9 +199,7 @@ namespace NUnit.Framework.Syntax
         [Test]
         public void LambdaThrowsNothing()
         {
-            Assert.That(
-                () => null,
-                Throws.Nothing);
+            Assert.That(() => (object)null, Throws.Nothing);
         }
 #else
         [Test]

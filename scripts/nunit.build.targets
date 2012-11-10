@@ -196,7 +196,7 @@
 
     <echo message="*"/>
     <echo message="* Testing ${runtime.config} ${build.config} build"/>
-    <echo message="*    Running nunit.core.tests.net45.dll"/>
+    <echo message="*    Running nunit.core.tests.net45.dll and nunit.framework.tests.net45.dll"/>
     <echo message="*"/>
 
     <!-- We use exec rather than the nunit2 task because we are testing
@@ -207,7 +207,7 @@
       workingdir="${current.build.dir}/tests" 
 	  program="nunit-console.exe" 
       managed="strict"
-	  commandline="nunit.core.tests.net45.dll ${nunit.options} -noxml:" />
+	  commandline="nunit.core.tests.net45.dll nunit.framework.tests.net45.dll ${nunit.options} -noxml:" />
 
   </target>
 
@@ -435,6 +435,7 @@
 
     <!-- NUnit Base Tests -->
     <include name="NUnitFramework/tests/nunit.framework.tests.build" />
+    <include name="NUnitFramework/tests-net45/nunit.framework.tests.net45.build" />
     <include name="NUnitCore/tests/nunit.core.tests.build" />
     <include name="NUnitCore/tests-net45/nunit.core.tests.net45.build" />
     <include name="NUnitMocks/tests/nunit.mocks.tests.build" />

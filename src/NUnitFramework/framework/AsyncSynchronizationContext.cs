@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Threading;
 
-namespace NUnit.Core
+namespace NUnit.Framework
 {
-	public class AsyncSynchronizationContext : SynchronizationContext
+	internal class AsyncSynchronizationContext : SynchronizationContext
     {
         private int _operationCount;
 		private readonly AsyncOperationQueue _operations = new AsyncOperationQueue();

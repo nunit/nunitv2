@@ -4,17 +4,27 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
+using System;
 using System.Collections;
 
 namespace NUnit.Framework.Constraints
 {
+
+#if CLR_2_0 || CLR_4_0
     /// <summary>
     /// Delegate used to delay evaluation of the actual value
     /// to be used in evaluating a constraint
     /// </summary>
-    public delegate object ActualValueDelegate();
-    
-    /// <summary>
+    public delegate T ActualValueDelegate<T>();
+#else
+	/// <summary>
+	/// Delegate used to delay evaluation of the actual value
+	/// to be used in evaluating a constraint
+	/// </summary>
+	public delegate object ActualValueDelegate();
+#endif
+	
+	/// <summary>
     /// The Constraint class is the base of all built-in constraints
     /// within NUnit. It provides the operator overloads used to combine 
     /// constraints.
@@ -155,6 +165,25 @@ namespace NUnit.Framework.Constraints
         /// <returns>True for success, false for failure</returns>
         public abstract bool Matches(object actual);
 
+#if CLR_2_0 || CLR_4_0
+		/// <summary>
+        /// Test whether the constraint is satisfied by an
+        /// ActualValueDelegate that returns the value to be tested.
+        /// The default implementation simply evaluates the delegate
+        /// but derived classes may override it to provide for delayed 
+        /// processing.
+        /// </summary>
+        /// <param name="del">An <see cref="ActualValueDelegate{T}"/></param>
+        /// <returns>True for success, false for failure</returns>
+        public virtual bool Matches<T>(ActualValueDelegate<T> del)
+		{
+			if(AsyncInvocationRegion.IsAsyncOperation(del))
+				using (var region = AsyncInvocationRegion.Create(del))
+					return Matches(region.WaitForPendingOperationsToComplete(del()));
+
+			return Matches(del());
+		}
+#else
         /// <summary>
         /// Test whether the constraint is satisfied by an
         /// ActualValueDelegate that returns the value to be tested.
@@ -162,12 +191,13 @@ namespace NUnit.Framework.Constraints
         /// but derived classes may override it to provide for delayed 
         /// processing.
         /// </summary>
-        /// <param name="del">An ActualValueDelegate</param>
+        /// <param name="del">An <see cref="ActualValueDelegate" /></param>
         /// <returns>True for success, false for failure</returns>
         public virtual bool Matches(ActualValueDelegate del)
         {
             return Matches(del());
         }
+#endif
 
 #if CLR_2_0 || CLR_4_0
         /// <summary>

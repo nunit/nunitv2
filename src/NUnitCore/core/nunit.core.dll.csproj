@@ -124,14 +124,18 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="..\..\NUnitFramework\framework\AsyncInvocationRegion.cs">
+      <Link>AsyncInvocationRegion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\NUnitFramework\framework\AsyncSynchronizationContext.cs">
+      <Link>AsyncSynchronizationContext.cs</Link>
+    </Compile>
     <Compile Include="AbstractTestCaseDecoration.cs" />
     <Compile Include="AssemblyHelper.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="AssemblyReader.cs" />
     <Compile Include="AssemblyResolver.cs" />
     <Compile Include="ActionsHelper.cs" />
-    <Compile Include="AsyncInvocationRegion.cs" />
-    <Compile Include="AsyncSynchronizationContext.cs" />
     <Compile Include="Builders\CombinatorialStrategy.cs" />
     <Compile Include="Builders\CombinatorialTestCaseProvider.cs" />
     <Compile Include="Builders\CombiningStrategy.cs" />
@@ -217,7 +221,9 @@
     <Compile Include="TypeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="nunit.core.build" />
+    <None Include="nunit.core.build">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

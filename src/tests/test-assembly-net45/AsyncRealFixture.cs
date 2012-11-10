@@ -1,7 +1,5 @@
 using System;
-using System.Threading;
 using System.Threading.Tasks;
-using NUnit.Core;
 using NUnit.Framework;
 
 namespace test_assembly_net45

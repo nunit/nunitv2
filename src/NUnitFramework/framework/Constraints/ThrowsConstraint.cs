@@ -5,7 +5,7 @@
 // ****************************************************************
 
 using System;
-using NUnit.Core;
+using System.Reflection;
 
 namespace NUnit.Framework.Constraints
 {
@@ -44,63 +44,27 @@ namespace NUnit.Framework.Constraints
         /// <returns>True if an exception is thrown and the constraint succeeds, otherwise false</returns>
         public override bool Matches(object actual)
         {
-            TestDelegate code = actual as TestDelegate;
+	        caughtException = ExceptionInterceptor.Intercept(actual);
 
-            if (code == null)
-                throw new ArgumentException(
-                    string.Format("The actual value must be a TestDelegate but was {0}", actual.GetType().Name), "actual");
-
-            this.caughtException = null;
-
-#if CLR_2_0 || CLR_4_0
-			if(AsyncInvocationRegion.IsAsyncOperation(code))
-			{
-				using(AsyncInvocationRegion region = AsyncInvocationRegion.Create(code))
-				{
-					code();
-
-					try
-					{
-						region.WaitForPendingOperationsToComplete(null);
-					}
-					catch (AsyncInvocationException e)
-					{
-						this.caughtException = e.InnerException;
-					}
-				}
-			}
-			else
-#endif
-            try
-            {
-                code();
-            }
-            catch (Exception ex)
-            {
-                this.caughtException = ex;
-            }
-
-			if (this.caughtException == null)
+			if (caughtException == null)
                 return false;
 
             return baseConstraint == null || baseConstraint.Matches(caughtException);
         }
 
 #if CLR_2_0 || CLR_4_0
-        /// <summary>
-        /// Converts an ActualValueDelegate to a TestDelegate
-        /// before calling the primary overload.
-        /// </summary>
-        /// <param name="del"></param>
-        /// <returns></returns>
+		public override bool Matches<T>(ActualValueDelegate<T> del)
+		{
+            return Matches(new GenericInvocationDescriptor<T>(del));
+        }
+#else
         public override bool Matches(ActualValueDelegate del)
         {
-            TestDelegate testDelegate = new TestDelegate(delegate { del(); });
-            return Matches((object)testDelegate);
+            return Matches(new ObjectInvocationDescriptor(del));
         }
 #endif
 
-        /// <summary>
+		/// <summary>
         /// Write the constraint description to a MessageWriter
         /// </summary>
         /// <param name="writer">The writer on which the description is displayed</param>
@@ -141,10 +105,76 @@ namespace NUnit.Framework.Constraints
             return base.GetStringRepresentation();
         }
     }
-    #endregion
 
-    #region ThrowsNothingConstraint
-    /// <summary>
+	#endregion
+
+	#region ExceptionInterceptor
+
+	internal class ExceptionInterceptor
+	{
+		private ExceptionInterceptor(){}
+
+		internal static Exception Intercept(object invocation)
+		{
+			IInvocationDescriptor invocationDescriptor = GetInvocationDescriptor(invocation);
+
+#if CLR_2_0 || CLR_4_0
+			if (AsyncInvocationRegion.IsAsyncOperation(invocationDescriptor.Delegate))
+			{
+				using (AsyncInvocationRegion region = AsyncInvocationRegion.Create(invocationDescriptor.Delegate))
+				{
+					object result = invocationDescriptor.Invoke();
+
+					try
+					{
+						region.WaitForPendingOperationsToComplete(result);
+						return null;
+					}
+					catch (Exception ex)
+					{
+						return ex;
+					}
+				}
+			}
+			else
+#endif
+			{
+				try
+				{
+					invocationDescriptor.Invoke();
+					return null;
+				}
+				catch (Exception ex)
+				{
+					return ex;
+				}
+			}
+		}
+
+		private static IInvocationDescriptor GetInvocationDescriptor(object actual)
+		{
+			IInvocationDescriptor invocationDescriptor = actual as IInvocationDescriptor;
+
+			if (invocationDescriptor == null)
+			{
+				TestDelegate testDelegate = actual as TestDelegate;
+
+				if (testDelegate == null)
+					throw new ArgumentException(
+						String.Format("The actual value must be a TestDelegate or ActualValueDelegate but was {0}", actual.GetType().Name),
+						"actual");
+
+				invocationDescriptor = new VoidInvocationDescriptor(testDelegate);
+			}
+
+			return invocationDescriptor;
+		}
+	}
+
+	#endregion
+
+	#region ThrowsNothingConstraint
+	/// <summary>
     /// ThrowsNothingConstraint tests that a delegate does not
     /// throw an exception.
     /// </summary>
@@ -159,35 +189,20 @@ namespace NUnit.Framework.Constraints
         /// <returns>True if no exception is thrown, otherwise false</returns>
 		public override bool Matches(object actual)
 		{
-			TestDelegate code = actual as TestDelegate;
-			if (code == null)
-				throw new ArgumentException("The actual value must be a TestDelegate", "actual");
+			caughtException = ExceptionInterceptor.Intercept(actual);
 
-            this.caughtException = null;
-
-            try
-            {
-                code();
-            }
-            catch (Exception ex)
-            {
-                this.caughtException = ex;
-            }
-
-			return this.caughtException == null;
+			return caughtException == null;
         }
 
 #if CLR_2_0 || CLR_4_0
-        /// <summary>
-        /// Converts an ActualValueDelegate to a TestDelegate
-        /// before calling the primary overload.
-        /// </summary>
-        /// <param name="del"></param>
-        /// <returns></returns>
+		public override bool Matches<T>(ActualValueDelegate<T> del)
+		{
+			return Matches(new GenericInvocationDescriptor<T>(del));
+		}
+#else
         public override bool Matches(ActualValueDelegate del)
         {
-            TestDelegate testDelegate = new TestDelegate(delegate { del(); });
-            return Matches((object)testDelegate);
+            return Matches(new ObjectInvocationDescriptor(del));
         }
 #endif
 
@@ -214,4 +229,77 @@ namespace NUnit.Framework.Constraints
         }
     }
     #endregion
+
+	#region InvocationDescriptor
+
+	internal class VoidInvocationDescriptor : IInvocationDescriptor
+	{
+		private readonly TestDelegate _del;
+
+		public VoidInvocationDescriptor(TestDelegate del)
+		{
+			_del = del;
+		}
+
+		public object Invoke()
+		{
+			_del();
+			return null;
+		}
+
+		public Delegate Delegate
+		{
+			get { return _del; }
+		}
+	}
+
+#if CLR_2_0 || CLR_4_0
+	internal class GenericInvocationDescriptor<T> : IInvocationDescriptor
+	{
+		private readonly ActualValueDelegate<T> _del;
+
+		public GenericInvocationDescriptor(ActualValueDelegate<T> del)
+		{
+			_del = del;
+		}
+
+		public object Invoke()
+		{
+			return _del();
+		}
+
+		public Delegate Delegate
+		{
+			get { return _del; }
+		}
+	}
+#else
+	internal class ObjectInvocationDescriptor : IInvocationDescriptor
+	{
+		private readonly ActualValueDelegate _del;
+
+		public ObjectInvocationDescriptor(ActualValueDelegate del)
+		{
+			_del = del;
+		}
+
+		public object Invoke()
+		{
+			return _del();
+		}
+
+		public Delegate Delegate
+		{
+			get { return _del; }
+		}
+	}
+#endif
+
+	internal interface IInvocationDescriptor
+	{
+		object Invoke();
+		Delegate Delegate { get; }
+	}
+
+	#endregion
 }

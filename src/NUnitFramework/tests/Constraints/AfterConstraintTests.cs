@@ -6,15 +6,18 @@
 
 using System;
 using System.Threading;
+#if CLR_2_0 || CLR_4_0
+using ActualValueDelegate = NUnit.Framework.Constraints.ActualValueDelegate<object>;
+#else
+using ActualValueDelegate = NUnit.Framework.Constraints.ActualValueDelegate;
+#endif
 
 namespace NUnit.Framework.Constraints
 {
     [TestFixture]
 	public class AfterConstraintTest : ConstraintTestBase
 	{
-		private static bool value;
-
-        //public AfterConstraintTest(int x) { }
+		private static bool _value;
 
 		[SetUp]
 		public void SetUp()
@@ -23,8 +26,7 @@ namespace NUnit.Framework.Constraints
 			expectedDescription = "True after 500 millisecond delay";
 			stringRepresentation = "<after 500 <equal True>>";
 
-            value = false;
-            //SetValueTrueAfterDelay(300);
+            _value = false;
 		}
 
         internal object[] SuccessData = new object[] { true };
@@ -33,8 +35,8 @@ namespace NUnit.Framework.Constraints
 
 		internal object[] InvalidData = new object[] { InvalidDelegate };
 
-        internal ActualValueDelegate[] SuccessDelegates = new ActualValueDelegate[] { DelegateReturningValue };
-        internal ActualValueDelegate[] FailureDelegates = new ActualValueDelegate[] { DelegateReturningFalse, DelegateReturningZero };
+        internal ActualValueDelegate[] SuccessDelegates = new ActualValueDelegate[] { DelegateReturningBoolAsObject };
+        internal ActualValueDelegate[] FailureDelegates = new ActualValueDelegate[] { DelegateReturningFalseAsObject, DelegateReturningZeroAsObject };
 
         [Test, TestCaseSource("SuccessDelegates")]
         public void SucceedsWithGoodDelegates(ActualValueDelegate del)
@@ -53,29 +55,48 @@ namespace NUnit.Framework.Constraints
         public void SimpleTest()
         {
             SetValueTrueAfterDelay(500);
-            Assert.That(DelegateReturningValue, new DelayedConstraint(new EqualConstraint(true), 5000, 200));
+            Assert.That(DelegateReturningBoolAsObject, new DelayedConstraint(new EqualConstraint(true), 5000, 200));
         }
 
         [Test]
         public void SimpleTestUsingReference()
         {
             SetValueTrueAfterDelay(500);
-            Assert.That(ref value, new DelayedConstraint(new EqualConstraint(true), 5000, 200));
+            Assert.That(ref _value, new DelayedConstraint(new EqualConstraint(true), 5000, 200));
         }
 
         [Test]
         public void ThatOverload_ZeroDelayIsAllowed()
         {
-            Assert.That(DelegateReturningZero, new DelayedConstraint(new EqualConstraint(0), 0));
+            Assert.That(DelegateReturningZeroAsObject, new DelayedConstraint(new EqualConstraint(0), 0));
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
         public void ThatOverload_DoesNotAcceptNegativeDelayValues()
         {
-            Assert.That(DelegateReturningZero, new DelayedConstraint(new EqualConstraint(0), -1));
+            Assert.That(DelegateReturningZeroAsObject, new DelayedConstraint(new EqualConstraint(0), -1));
         }
 
 #if CLR_2_0 || CLR_4_0
+		[Test]
+		public void SimpleTestBoolDelegate()
+		{
+			SetValueTrueAfterDelay(500);
+			Assert.That(DelegateReturningBool, new DelayedConstraint(new EqualConstraint(true), 5000, 200));
+		}
+
+		[Test]
+		public void ThatOverload_ZeroDelayIsAllowed_IntDelegate()
+		{
+			Assert.That(DelegateReturningZero, new DelayedConstraint(new EqualConstraint(0), 0));
+		}
+
+		[Test, ExpectedException(typeof(ArgumentException))]
+		public void ThatOverload_DoesNotAcceptNegativeDelayValues_IntDelegate()
+		{
+			Assert.That(DelegateReturningZero, new DelayedConstraint(new EqualConstraint(0), -1));
+		}
+
         [Test]
         public void CanTestContentsOfList()
         {
@@ -148,19 +169,30 @@ namespace NUnit.Framework.Constraints
 		private static void MethodReturningVoid() { }
 		private static TestDelegate InvalidDelegate = new TestDelegate(MethodReturningVoid);
 
-		private static object MethodReturningValue() { return value; }
-		private static ActualValueDelegate DelegateReturningValue = new ActualValueDelegate(MethodReturningValue);
+		private static object MethodReturningBoolAsObject() { return _value; }
+		private static ActualValueDelegate DelegateReturningBoolAsObject = new ActualValueDelegate(MethodReturningBoolAsObject);
 
-		private static object MethodReturningFalse() { return false; }
-		private static ActualValueDelegate DelegateReturningFalse = new ActualValueDelegate(MethodReturningFalse);
+		private static object MethodReturningFalseAsObject() { return false; }
+		private static ActualValueDelegate DelegateReturningFalseAsObject = new ActualValueDelegate(MethodReturningFalseAsObject);
 
-		private static object MethodReturningZero() { return 0; }
-		private static ActualValueDelegate DelegateReturningZero = new ActualValueDelegate(MethodReturningZero);
+		private static object MethodReturningZeroAsObject() { return 0; }
+		private static ActualValueDelegate DelegateReturningZeroAsObject = new ActualValueDelegate(MethodReturningZeroAsObject);
+
+#if CLR_2_0 || CLR_4_0
+		private static bool MethodReturningBool() { return _value; }
+		private static ActualValueDelegate<bool> DelegateReturningBool = new ActualValueDelegate<bool>(MethodReturningBool);
+
+		private static bool MethodReturningFalse() { return false; }
+		private static ActualValueDelegate<bool> DelegateReturningFalse = new ActualValueDelegate<bool>(MethodReturningFalse);
+
+		private static int MethodReturningZero() { return 0; }
+		private static ActualValueDelegate<int> DelegateReturningZero = new ActualValueDelegate<int>(MethodReturningZero);
+#endif
 
         private static void MethodSetsValueTrue()
         {
             Thread.Sleep(setValueTrueDelay);
-            value = true;
+            _value = true;
         }
 		private ThreadStart SetValueTrueDelegate = new ThreadStart(MethodSetsValueTrue);
 	}

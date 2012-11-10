@@ -71,7 +71,11 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="del">The delegate whose value is to be tested</param>
         /// <returns>True for if the base constraint fails, false if it succeeds</returns>
+#if CLR_2_0 || CLR_4_0
+        public override bool Matches<T>(ActualValueDelegate<T> del)
+#else
         public override bool Matches(ActualValueDelegate del)
+#endif
         {
 			int remainingDelay = delayInMilliseconds;
 
@@ -79,23 +83,40 @@ namespace NUnit.Framework.Constraints
 			{
 				remainingDelay -= pollingInterval;
 				Thread.Sleep(pollingInterval);
-				this.actual = del();
+				this.actual = InvokeDelegate(del);
                 try
                 {
                     if (baseConstraint.Matches(actual))
                         return true;
                 }
-                catch (Exception)
+                catch
                 {
                     // Ignore any exceptions when polling
                 }
 			}
 
-			if ( remainingDelay > 0 )
+			if (remainingDelay > 0)
 				Thread.Sleep(remainingDelay);
-			this.actual = del();
+
+	        this.actual = InvokeDelegate(del);
 			return baseConstraint.Matches(actual);
         }
+
+#if CLR_2_0 || CLR_4_0
+	    private static object InvokeDelegate<T>(ActualValueDelegate<T> del)
+	    {
+			if(AsyncInvocationRegion.IsAsyncOperation(del))
+				using (AsyncInvocationRegion region = AsyncInvocationRegion.Create(del))
+					return region.WaitForPendingOperationsToComplete(del());
+
+		    return del();
+	    }
+#else
+		private static object InvokeDelegate(ActualValueDelegate del)
+	    {
+		    return del();
+	    }
+#endif
 
 #if CLR_2_0 || CLR_4_0
         /// <summary>

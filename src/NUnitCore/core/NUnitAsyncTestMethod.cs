@@ -1,4 +1,6 @@
+using System;
 using System.Reflection;
+using NUnit.Framework;
 
 namespace NUnit.Core
 {
@@ -12,15 +14,15 @@ namespace NUnit.Core
         {
 			using (AsyncInvocationRegion region = AsyncInvocationRegion.Create(method))
 			{
-				var result = base.RunTestMethod();
+				object result = base.RunTestMethod();
 
 				try
 				{
 					return region.WaitForPendingOperationsToComplete(result);
 				}
-				catch (AsyncInvocationException e)
+				catch (Exception e)
 				{
-					throw new NUnitException("Rethrown", e.InnerException);
+					throw new NUnitException("Rethrown", e);
 				}
 			}
         }

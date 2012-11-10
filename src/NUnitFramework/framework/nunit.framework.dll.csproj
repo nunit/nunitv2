@@ -44,7 +44,7 @@
     <BaseAddress>285212672</BaseAddress>
     <ConfigurationOverrideFile>
     </ConfigurationOverrideFile>
-    <DefineConstants>TRACE;DEBUG;CLR_2_0</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CLR_2_0,NET_2_0</DefineConstants>
     <DocumentationFile>..\..\..\bin\Debug\framework\nunit.framework.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <FileAlignment>4096</FileAlignment>
@@ -89,17 +89,13 @@
     <Compile Include="..\..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\NUnitCore\core\AsyncInvocationRegion.cs">
-      <Link>AsyncInvocationRegion.cs</Link>
-    </Compile>
-    <Compile Include="..\..\NUnitCore\core\AsyncSynchronizationContext.cs">
-      <Link>AsyncSynchronizationContext.cs</Link>
-    </Compile>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Assert.cs" />
     <Compile Include="AssertionHelper.cs" />
     <Compile Include="Assume.cs" />
     <Compile Include="ActionTargets.cs" />
+    <Compile Include="AsyncInvocationRegion.cs" />
+    <Compile Include="AsyncSynchronizationContext.cs" />
     <Compile Include="Attributes\CategoryAttribute.cs" />
     <Compile Include="Attributes\DatapointAttributes.cs" />
     <Compile Include="Attributes\DescriptionAttribute.cs" />
