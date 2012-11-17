@@ -184,7 +184,7 @@
       managed="strict"
 	  commandline="NUnitTests.nunit ${nunit.options} -xml:${result.file}.xml" />
 
-    <call target="run-test45" if="${framework::exists('net-4.5')}"/>
+    <call target="run-test45" if="${framework::exists('net-4.5') and runtime.version >= '2.0'}"/>
 
   </target>
 
