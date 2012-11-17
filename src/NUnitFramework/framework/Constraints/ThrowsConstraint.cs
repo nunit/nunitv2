@@ -4,9 +4,15 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
+<<<<<<< TREE
+using System;
+using NUnit.Core;
+
+=======
 using System;
 using System.Reflection;
 
+>>>>>>> MERGE-SOURCE
 namespace NUnit.Framework.Constraints
 {
     #region ThrowsConstraint
@@ -44,9 +50,49 @@ namespace NUnit.Framework.Constraints
         /// <returns>True if an exception is thrown and the constraint succeeds, otherwise false</returns>
         public override bool Matches(object actual)
         {
+<<<<<<< TREE
+            TestDelegate code = actual as TestDelegate;
+
+            if (code == null)
+                throw new ArgumentException(
+                    string.Format("The actual value must be a TestDelegate but was {0}", actual.GetType().Name), "actual");
+
+            this.caughtException = null;
+
+#if CLR_2_0 || CLR_4_0
+			if(AsyncInvocationRegion.IsAsyncOperation(code))
+			{
+				using(AsyncInvocationRegion region = AsyncInvocationRegion.Create(code))
+				{
+					code();
+
+					try
+					{
+						region.WaitForPendingOperationsToComplete(null);
+					}
+					catch (AsyncInvocationException e)
+					{
+						this.caughtException = e.InnerException;
+					}
+				}
+			}
+			else
+#endif
+            try
+            {
+                code();
+            }
+            catch (Exception ex)
+            {
+                this.caughtException = ex;
+            }
+
+			if (this.caughtException == null)
+=======
 	        caughtException = ExceptionInterceptor.Intercept(actual);
 
 			if (caughtException == null)
+>>>>>>> MERGE-SOURCE
                 return false;
 
             return baseConstraint == null || baseConstraint.Matches(caughtException);
