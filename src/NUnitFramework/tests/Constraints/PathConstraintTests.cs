@@ -74,6 +74,8 @@ namespace NUnit.Framework.Constraints
             { 
                 123,
                 @"/folder2/file.tmp",
+                @"folder1/file.tmp",
+                @"//folder1/file.tmp",
                 @"/folder1/./folder2/../file.temp",
                 @"/Folder1/File.TMP",
                 @"/FOLDER1/./folder2/../File.TMP",
@@ -82,6 +84,8 @@ namespace NUnit.Framework.Constraints
             { 
                 "123",
                 "\"/folder2/file.tmp\"",
+                "\"folder1/file.tmp\"",
+                "\"//folder1/file.tmp\"",
                 "\"/folder1/./folder2/../file.temp\"",
                 "\"/Folder1/File.TMP\"",
                 "\"/FOLDER1/./folder2/../File.TMP\"",
