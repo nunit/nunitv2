@@ -17,6 +17,7 @@ namespace NUnit.Core
 
 #if CLR_2_0 || CLR_4_0
     using System.Collections.Generic;
+using System.Diagnostics;
 #endif
 
 	/// <summary>
@@ -247,14 +248,23 @@ namespace NUnit.Core
 		public override TestResult Run(EventListener listener, ITestFilter filter)
 		{
             listener.SuiteStarted(this.TestName);
+#if CLR_2_0 || CLR_4_0
+            long startTime = Stopwatch.GetTimestamp();
+#else
             long startTime = DateTime.Now.Ticks;
+#endif
 
 			TestResult suiteResult = this.RunState == RunState.Runnable || this.RunState == RunState.Explicit
 				? RunSuiteInContext(listener, filter)
 				: SkipSuite(listener, filter);
 			
+#if CLR_2_0 || CLR_4_0
+            long stopTime = Stopwatch.GetTimestamp();
+            double time = ((double)(stopTime - startTime)) / (double)Stopwatch.Frequency;
+#else
             long stopTime = DateTime.Now.Ticks;
             double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+#endif
             suiteResult.Time = time;
 
             listener.SuiteFinished(suiteResult);

@@ -10,6 +10,7 @@ namespace NUnit.Util
 	using System.Collections;
 	using System.IO;
 	using NUnit.Core;
+    using System.Diagnostics;
 
     #region AggregatingTestRunner
     /// <summary>
@@ -259,7 +260,11 @@ namespace NUnit.Util
             Log.Info("Signalling RunStarted({0},{1})", name, count);
             this.listener.RunStarted(name, count);
 
+#if CLR_2_0 || CLR_4_0
+            long startTime = Stopwatch.GetTimestamp();
+#else
 			long startTime = DateTime.Now.Ticks;
+#endif
 
 		    TestResult result = new TestResult(new TestInfo(testName, tests));
 
@@ -278,8 +283,13 @@ namespace NUnit.Util
                         result.AddResult(runner.Run(this, filter, tracing, logLevel));
             }
 			
+#if CLR_2_0 || CLR_4_0
+            long stopTime = Stopwatch.GetTimestamp();
+            double time = ((double)(stopTime - startTime)) / (double)Stopwatch.Frequency;
+#else
 			long stopTime = DateTime.Now.Ticks;
 			double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+#endif
 			result.Time = time;
 
 			this.listener.RunFinished( result );

@@ -170,15 +170,24 @@ namespace NUnit.Core
         {
             log.Debug("Test Starting: " + this.TestName.FullName);
             listener.TestStarted(this.TestName);
+#if CLR_2_0 || CLR_4_0
+            long startTime = Stopwatch.GetTimestamp();
+#else
             long startTime = DateTime.Now.Ticks;
+#endif
 
             TestResult testResult = this.RunState == RunState.Runnable || this.RunState == RunState.Explicit
 				? RunTestInContext() : SkipTest();
 
 			log.Debug("Test result = " + testResult.ResultState);
 
+#if CLR_2_0 || CLR_4_0
+            long stopTime = Stopwatch.GetTimestamp();
+            double time = ((double)(stopTime - startTime)) / (double)Stopwatch.Frequency;
+#else
             long stopTime = DateTime.Now.Ticks;
             double time = ((double)(stopTime - startTime)) / (double)TimeSpan.TicksPerSecond;
+#endif
             testResult.Time = time;
 
             listener.TestFinished(testResult);
