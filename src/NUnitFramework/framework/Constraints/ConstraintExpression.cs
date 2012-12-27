@@ -776,21 +776,6 @@ namespace NUnit.Framework.Constraints
 
         #region InRange
 
-#if !CLR_2_0 && !CLR_4_0
-        /// <summary>
-        /// Returns a constraint that tests whether the actual value falls 
-        /// within a specified range.
-        /// </summary>
-        public RangeConstraint InRange(IComparable from, IComparable to)
-        {
-            return (RangeConstraint)this.Append(new RangeConstraint(from, to));
-        }
-#endif
-
-        #endregion
-
-        #region InRange<T>
-
 #if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Returns a constraint that tests whether the actual value falls 
@@ -799,6 +784,15 @@ namespace NUnit.Framework.Constraints
         public RangeConstraint<T> InRange<T>(T from, T to) where T : IComparable<T>
         {
             return (RangeConstraint<T>)this.Append(new RangeConstraint<T>(from, to));
+        }
+#else
+        /// <summary>
+        /// Returns a constraint that tests whether the actual value falls 
+        /// within a specified range.
+        /// </summary>
+        public RangeConstraint InRange(IComparable from, IComparable to)
+        {
+            return (RangeConstraint)this.Append(new RangeConstraint(from, to));
         }
 #endif
 

@@ -458,7 +458,7 @@ namespace NUnit.Framework
 
         /// <summary>
         /// Returns a constraint that succeeds if the actual
-        /// value matches the Regex pattern supplied as an argument.
+        /// value matches the regular expression supplied as an argument.
         /// </summary>
         public static RegexConstraint StringMatching(string pattern)
         {
@@ -484,7 +484,7 @@ namespace NUnit.Framework
 
         /// <summary>
         /// Returns a constraint that tests whether the path provided 
-        /// is the same path or under an expected path after canonicalization.
+        /// is under an expected path after canonicalization.
         /// </summary>
         public static SubPathConstraint SubPath(string expected)
         {
@@ -508,7 +508,16 @@ namespace NUnit.Framework
 
         #region InRange
 
-#if !CLR_2_0 && !CLR_4_0
+#if CLR_2_0 || CLR_4_0
+        /// <summary>
+        /// Returns a constraint that tests whether the actual value falls 
+        /// within a specified range.
+        /// </summary>
+        public static RangeConstraint<T> InRange<T>(T from, T to) where T : IComparable<T>
+        {
+            return new RangeConstraint<T>(from, to);
+        }
+#else
         /// <summary>
         /// Returns a constraint that tests whether the actual value falls 
         /// within a specified range.
@@ -520,21 +529,5 @@ namespace NUnit.Framework
 #endif
 
         #endregion
-
-        #region InRange<T>
-
-#if CLR_2_0 || CLR_4_0
-        /// <summary>
-        /// Returns a constraint that tests whether the actual value falls 
-        /// within a specified range.
-        /// </summary>
-        public static RangeConstraint<T> InRange<T>(T from, T to) where T : IComparable<T>
-        {
-            return new RangeConstraint<T>(from, to);
-        }
-#endif
-
-        #endregion
-
     }
 }
