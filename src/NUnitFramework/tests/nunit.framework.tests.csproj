@@ -116,12 +116,16 @@
     <Compile Include="Constraints\BasicConstraintTests.cs" />
     <Compile Include="Constraints\CollectionConstraintTests.cs" />
     <Compile Include="Constraints\ComparerTests.cs" />
-    <Compile Include="Constraints\ComparisonConstraintTests.cs" />
+    <Compile Include="Constraints\ComparisonConstraintTest.cs" />
     <Compile Include="Constraints\ConstraintTestBase.cs" />
     <Compile Include="Constraints\EmptyConstraintTest.cs" />
     <Compile Include="Constraints\EqualConstraintTests.cs" />
     <Compile Include="Constraints\EqualTest.cs" />
     <Compile Include="Constraints\FloatingPointNumericsTest.cs" />
+    <Compile Include="Constraints\GreaterThanOrEqualTest.cs" />
+    <Compile Include="Constraints\GreaterThanTest.cs" />
+    <Compile Include="Constraints\LessThanOrEqualTest.cs" />
+    <Compile Include="Constraints\LessThanTest.cs" />
     <Compile Include="Constraints\MsgUtilTests.cs" />
     <Compile Include="Constraints\NotTest.cs" />
     <Compile Include="Constraints\NumericsTest.cs" />
@@ -130,6 +134,7 @@
     <Compile Include="Constraints\PathConstraintTests.cs" />
     <Compile Include="Constraints\PredicateConstraintTests.cs" />
     <Compile Include="Constraints\PropertyTests.cs" />
+    <Compile Include="Constraints\RangeConstraintTest.cs" />
     <Compile Include="Constraints\ReusableConstraintTests.cs" />
     <Compile Include="Constraints\SameAsTest.cs" />
     <Compile Include="Constraints\SerializableConstraintTest.cs" />

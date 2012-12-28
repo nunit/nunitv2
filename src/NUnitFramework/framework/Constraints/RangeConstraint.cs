@@ -13,14 +13,14 @@ using System.Collections.Generic;
 namespace NUnit.Framework.Constraints
 {
     /// <summary>
-    /// RangeConstraint tests whethe two values are within a 
+    /// RangeConstraint tests whether two values are within a 
     /// specified range.
     /// </summary>
 #if CLR_2_0 || CLR_4_0
     public class RangeConstraint<T> : ComparisonConstraint where T : IComparable<T>
     {
-        private T from;
-        private T to;
+        private readonly T from;
+        private readonly T to;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RangeConstraint"/> class.
@@ -32,7 +32,7 @@ namespace NUnit.Framework.Constraints
         {
             this.from = from;
             this.to = to;
-            this.comparer = ComparisonAdapter.For(new NUnitComparer<T>());
+            //this.comparer = ComparisonAdapter.For(new NUnitComparer<T>());
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace NUnit.Framework.Constraints
             this.actual = actual;
 
             if (from == null || to == null || actual == null)
-                throw new ArgumentException("Cannot compare using a null reference", "expected");
+                throw new ArgumentException("Cannot compare using a null reference", "actual");
 
             return comparer.Compare(from, actual) <= 0 &&
                    comparer.Compare(to, actual) >= 0;
