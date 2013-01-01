@@ -18,13 +18,13 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct an empty CollectionConstraint
         /// </summary>
-        public CollectionConstraint() { }
+        protected CollectionConstraint() { }
 
         /// <summary>
         /// Construct a CollectionConstraint
         /// </summary>
         /// <param name="arg"></param>
-        public CollectionConstraint(object arg) : base(arg) { }
+        protected CollectionConstraint(object arg) : base(arg) { }
 
         /// <summary>
         /// Determines whether the specified enumerable is empty.
@@ -39,6 +39,7 @@ namespace NUnit.Framework.Constraints
 			if ( collection != null )
 				return collection.Count == 0;
 
+            // NOTE: Ignore unsuppressed warning about o in .NET 1.1 build
             foreach (object o in enumerable)
                 return false;
 

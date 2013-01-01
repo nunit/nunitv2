@@ -19,20 +19,18 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public abstract class CollectionItemsEqualConstraint : CollectionConstraint
     {
-        // This is internal so that ContainsConstraint can set it
-        // TODO: Figure out a way to avoid this indirection
-        internal NUnitEqualityComparer comparer = NUnitEqualityComparer.Default;
+        private readonly NUnitEqualityComparer comparer = NUnitEqualityComparer.Default;
 
         /// <summary>
         /// Construct an empty CollectionConstraint
         /// </summary>
-        public CollectionItemsEqualConstraint() { }
+        protected CollectionItemsEqualConstraint() { }
 
         /// <summary>
         /// Construct a CollectionConstraint
         /// </summary>
         /// <param name="arg"></param>
-        public CollectionItemsEqualConstraint(object arg) : base(arg) { }
+        protected CollectionItemsEqualConstraint(object arg) : base(arg) { }
 
         #region Modifiers
         /// <summary>
@@ -48,14 +46,25 @@ namespace NUnit.Framework.Constraints
         }
 
         /// <summary>
+        /// Flag the constraint to use the supplied EqualityAdapter.
+        /// NOTE: For internal use only.
+        /// </summary>
+        /// <param name="adapter">The EqualityAdapter to use.</param>
+        /// <returns>Self.</returns>
+        internal CollectionItemsEqualConstraint Using(EqualityAdapter adapter)
+        {
+            this.comparer.ExternalComparers.Add(adapter);
+            return this;
+        }
+
+        /// <summary>
         /// Flag the constraint to use the supplied IComparer object.
         /// </summary>
         /// <param name="comparer">The IComparer object to use.</param>
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using(IComparer comparer)
         {
-            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
-            return this;
+            return Using(EqualityAdapter.For(comparer));
         }
 
 #if CLR_2_0 || CLR_4_0
@@ -66,8 +75,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using<T>(IComparer<T> comparer)
         {
-            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
-            return this;
+            return Using(EqualityAdapter.For(comparer));
         }
 
         /// <summary>
@@ -77,8 +85,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using<T>(Comparison<T> comparer)
         {
-            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
-            return this;
+            return Using(EqualityAdapter.For(comparer));
         }
 
         /// <summary>
@@ -88,8 +95,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using(IEqualityComparer comparer)
         {
-            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
-            return this;
+            return Using(EqualityAdapter.For(comparer));
         }
 
         /// <summary>
@@ -99,8 +105,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public CollectionItemsEqualConstraint Using<T>(IEqualityComparer<T> comparer)
         {
-            this.comparer.ExternalComparers.Add(EqualityAdapter.For(comparer));
-            return this;
+            return Using(EqualityAdapter.For(comparer));
         }
 #endif
         #endregion

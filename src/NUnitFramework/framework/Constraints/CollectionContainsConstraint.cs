@@ -14,7 +14,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class CollectionContainsConstraint : CollectionItemsEqualConstraint
     {
-        private object expected;
+        private readonly object expected;
 
         /// <summary>
         /// Construct a CollectionContainsConstraint

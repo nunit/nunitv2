@@ -17,15 +17,12 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class Tolerance
     {
-        private ToleranceMode mode;
-        private object amount;
+        private readonly ToleranceMode mode;
+        private readonly object amount;
 
-        private static readonly string ModeMustFollowTolerance =
-            "Tolerance amount must be specified before setting mode";
-        private static readonly string MultipleToleranceModes =
-            "Tried to use multiple tolerance modes at the same time";
-        private static readonly string NumericToleranceRequired =
-            "A numeric tolerance is required";
+        private const string ModeMustFollowTolerance = "Tolerance amount must be specified before setting mode";
+        private const string MultipleToleranceModes = "Tried to use multiple tolerance modes at the same time";
+        private const string NumericToleranceRequired = "A numeric tolerance is required";
 
         /// <summary>
         /// Returns an empty Tolerance object, equivalent to
@@ -55,7 +52,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Constructs a tolerance given an amount and ToleranceMode
         /// </summary>
-        public Tolerance(object amount, ToleranceMode mode)
+        private Tolerance(object amount, ToleranceMode mode)
         {
             this.amount = amount;
             this.mode = mode;

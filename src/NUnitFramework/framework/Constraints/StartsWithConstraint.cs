@@ -25,17 +25,12 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual"></param>
         /// <returns></returns>
-        public override bool Matches(object actual)
+        protected override bool Matches(string actual)
         {
-            this.actual = actual;
-
-            if (!(actual is string))
-                return false;
-
             if (this.caseInsensitive)
-                return ((string)actual).ToLower().StartsWith(expected.ToLower());
+                return actual.ToLower().StartsWith(expected.ToLower());
             else
-                return ((string)actual).StartsWith(expected);
+                return actual.StartsWith(expected);
         }
 
         /// <summary>

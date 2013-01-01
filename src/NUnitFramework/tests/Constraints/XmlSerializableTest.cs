@@ -13,26 +13,6 @@ using System.Collections.Generic;
 namespace NUnit.Framework.Constraints
 {
     [TestFixture]
-    public class BinarySerializableTest : ConstraintTestBaseWithArgumentException
-    {
-		[SetUp]
-        public void SetUp()
-        {
-            theConstraint = new BinarySerializableConstraint();
-            expectedDescription = "binary serializable";
-            stringRepresentation = "<binaryserializable>";
-        }
-
-        internal object[] SuccessData = new object[] { 1, "a", new ArrayList(), new InternalWithSerializableAttributeClass() };
-        
-        internal object[] FailureData = new object[] { new InternalClass() };
-
-        internal string[] ActualValues = new string[] { "<InternalClass>" }; 
-
-        internal object[] InvalidData = new object[] { null };
-    }
-
-    [TestFixture]
     public class XmlSerializableTest : ConstraintTestBaseWithArgumentException
     {
         [SetUp]
@@ -55,12 +35,12 @@ namespace NUnit.Framework.Constraints
 
 
         internal object[] InvalidData = new object[] { null };
+
+        internal class InternalClass
+        { }
+
+        [Serializable]
+        internal class InternalWithSerializableAttributeClass
+        { }
     }
-
-    internal class InternalClass
-    {}
-
-    [Serializable]
-    internal class InternalWithSerializableAttributeClass
-    {}
 }

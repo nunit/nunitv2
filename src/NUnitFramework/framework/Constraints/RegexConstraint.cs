@@ -26,13 +26,10 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual">The value to be tested</param>
         /// <returns>True for success, false for failure</returns>
-        public override bool Matches(object actual)
+        protected override bool Matches(string actual)
         {
-            this.actual = actual;
-
-            return actual is string &&
-                Regex.IsMatch(
-                    (string)actual,
+            return Regex.IsMatch(
+                    actual,
                     this.expected,
                     this.caseInsensitive ? RegexOptions.IgnoreCase : RegexOptions.None);
         }

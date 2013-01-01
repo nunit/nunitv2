@@ -7,7 +7,7 @@
 namespace NUnit.Framework.Constraints
 {
     [TestFixture]
-    public class OrTest : ConstraintTestBase
+    public class OrConstraintTests : ConstraintTestBase
     {
         [SetUp]
         public void SetUp()

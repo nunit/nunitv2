@@ -19,7 +19,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class PropertyExistsConstraint : Constraint
     {
-        private string name;
+        private readonly string name;
 
         Type actualType;
 
@@ -42,8 +42,7 @@ namespace NUnit.Framework.Constraints
         {
             this.actual = actual;
 
-            if (actual == null)
-                throw new ArgumentNullException("actual");
+            Guard.ArgumentNotNull(actual, "actual");
 
             this.actualType = actual as Type;
             if (actualType == null)

@@ -9,9 +9,8 @@ using System.Collections;
 
 namespace NUnit.Framework.Constraints
 {
-    #region ExactCountConstraint
     /// <summary>
-    /// ExactCoutConstraint applies another constraint to each
+    /// ExactCountConstraint applies another constraint to each
     /// item in a collection, succeeding only if a specified
     /// number of items succeed.
     /// </summary>
@@ -74,5 +73,4 @@ namespace NUnit.Framework.Constraints
             baseConstraint.WriteDescriptionTo(writer);
         }
     }
-    #endregion
 }

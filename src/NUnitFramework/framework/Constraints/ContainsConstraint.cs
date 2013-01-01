@@ -22,13 +22,17 @@ namespace NUnit.Framework.Constraints
 	/// </summary>
 	public class ContainsConstraint : Constraint
 	{
-		object expected;
+		readonly object expected;
 		Constraint realConstraint;
         bool ignoreCase;
 
-        private EqualityAdapter adapter = null;
+#if CLR_2_0 || CLR_4_0
+        private List<EqualityAdapter> equalityAdapters = new List<EqualityAdapter>();
+#else
+        private ArrayList equalityAdapters = new ArrayList();
+#endif
 
-		private Constraint RealConstraint
+        private Constraint RealConstraint
 		{
 			get 
 			{
@@ -43,10 +47,10 @@ namespace NUnit.Framework.Constraints
                     }
                     else
 					{
-                        CollectionContainsConstraint constraint = new CollectionContainsConstraint(expected);
+                        CollectionItemsEqualConstraint constraint = new CollectionContainsConstraint(expected);
 						
-						if (this.adapter != null)
-							constraint.comparer.ExternalComparers.Add(adapter);
+						foreach (EqualityAdapter adapter in equalityAdapters)
+							constraint = constraint.Using(adapter);
 							
 						this.realConstraint = constraint;
 					}
@@ -61,11 +65,10 @@ namespace NUnit.Framework.Constraints
 		}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:ContainsConstraint"/> class.
+        /// Initializes a new instance of the <see cref="ContainsConstraint"/> class.
         /// </summary>
         /// <param name="expected">The expected.</param>
-		public ContainsConstraint( object expected )
-			: base(expected)
+		public ContainsConstraint( object expected ) : base(expected)
 		{
 			this.expected = expected;
 		}
@@ -105,8 +108,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public ContainsConstraint Using(IComparer comparer)
         {
-            this.adapter = EqualityAdapter.For(comparer);
-            return this;
+            return AddAdapter(EqualityAdapter.For(comparer));
         }
 
 #if CLR_2_0 || CLR_4_0
@@ -117,8 +119,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public ContainsConstraint Using<T>(IComparer<T> comparer)
         {
-            this.adapter = EqualityAdapter.For(comparer);
-            return this;
+            return AddAdapter(EqualityAdapter.For(comparer));
         }
 
         /// <summary>
@@ -128,8 +129,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public ContainsConstraint Using<T>(Comparison<T> comparer)
         {
-            this.adapter = EqualityAdapter.For(comparer);
-            return this;
+            return AddAdapter(EqualityAdapter.For(comparer));
         }
 
         /// <summary>
@@ -139,8 +139,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public ContainsConstraint Using(IEqualityComparer comparer)
         {
-            this.adapter = EqualityAdapter.For(comparer);
-            return this;
+            return AddAdapter(EqualityAdapter.For(comparer));
         }
 
         /// <summary>
@@ -150,9 +149,18 @@ namespace NUnit.Framework.Constraints
         /// <returns>Self.</returns>
         public ContainsConstraint Using<T>(IEqualityComparer<T> comparer)
         {
-            this.adapter = EqualityAdapter.For(comparer);
-            return this;
+            return AddAdapter(EqualityAdapter.For(comparer));
         }
 #endif
-	}
+
+        #region Helper Methods
+
+        private ContainsConstraint AddAdapter(EqualityAdapter adapter)
+        {
+            this.equalityAdapters.Add(adapter);
+            return this;
+        }
+
+        #endregion
+    }
 }

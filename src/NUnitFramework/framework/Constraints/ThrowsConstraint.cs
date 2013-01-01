@@ -5,11 +5,9 @@
 // ****************************************************************
 
 using System;
-using System.Reflection;
 
 namespace NUnit.Framework.Constraints
 {
-    #region ThrowsConstraint
     /// <summary>
     /// ThrowsConstraint is used to test the exception thrown by 
     /// a delegate by applying a constraint to it.
@@ -52,8 +50,12 @@ namespace NUnit.Framework.Constraints
             return baseConstraint == null || baseConstraint.Matches(caughtException);
         }
 
+        /// <summary>
+        /// Converts an ActualValueDelegate to a TestDelegate
+        /// before calling the primary overload.
+        /// </summary>
 #if CLR_2_0 || CLR_4_0
-		public override bool Matches<T>(ActualValueDelegate<T> del)
+        public override bool Matches<T>(ActualValueDelegate<T> del)
 		{
             return Matches(new GenericInvocationDescriptor<T>(del));
         }
@@ -105,8 +107,6 @@ namespace NUnit.Framework.Constraints
             return base.GetStringRepresentation();
         }
     }
-
-	#endregion
 
 	#region ExceptionInterceptor
 

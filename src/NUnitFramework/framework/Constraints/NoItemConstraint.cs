@@ -9,7 +9,6 @@ using System.Collections;
 
 namespace NUnit.Framework.Constraints
 {
-    #region NoItemConstraint
     /// <summary>
     /// NoItemConstraint applies another constraint to each
     /// item in a collection, failing if any of them succeeds.
@@ -56,5 +55,4 @@ namespace NUnit.Framework.Constraints
             baseConstraint.WriteDescriptionTo(writer);
         }
     }
-    #endregion
 }

@@ -27,7 +27,7 @@ namespace NUnit.Framework.Constraints
         {
             string path1 = Canonicalize(expectedPath);
             string path2 = Canonicalize(actualPath);
-            return IsSamePath(path1, path2, caseInsensitive) || IsSubPath(path1, path2, caseInsensitive);
+            return string.Compare(path1, path2, caseInsensitive) == 0 || IsSubPath(path1, path2, caseInsensitive);
         }
 
         /// <summary>

@@ -7,12 +7,10 @@
 namespace NUnit.Framework
 {
     using System;
-    using System.Runtime.Serialization;
 
     /// <summary>
     /// Thrown when a test executes inconclusively.
     /// </summary>
-    /// 
     [Serializable]
     public class InconclusiveException : System.Exception
     {
@@ -34,9 +32,8 @@ namespace NUnit.Framework
         /// <summary>
         /// Serialization Constructor
         /// </summary>
-        protected InconclusiveException(SerializationInfo info,
-            StreamingContext context)
-            : base(info, context)
+        protected InconclusiveException(System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context)
         { }
 
     }

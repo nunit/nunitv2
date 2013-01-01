@@ -238,7 +238,7 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         static public void IsEmpty(DirectoryInfo directory, string message, params object[] args)
         {
-            Assert.That( directory, new EmptyDirectoryContraint(), message, args);
+            Assert.That( directory, new EmptyDirectoryConstraint(), message, args);
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace NUnit.Framework
         /// <param name="args">Arguments to be used in formatting the message</param>
         static public void IsNotEmpty(DirectoryInfo directory, string message, params object[] args)
         {
-            Assert.That( directory, new NotConstraint(new EmptyDirectoryContraint()), message, args);
+            Assert.That( directory, new NotConstraint(new EmptyDirectoryConstraint()), message, args);
         }
 
         /// <summary>

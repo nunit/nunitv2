@@ -16,7 +16,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// The expected value
         /// </summary>
-        protected string expected;
+        protected readonly string expected;
 
         /// <summary>
         /// Indicates whether tests should be case-insensitive
@@ -27,7 +27,7 @@ namespace NUnit.Framework.Constraints
         /// Constructs a StringConstraint given an expected value
         /// </summary>
         /// <param name="expected">The expected value</param>
-        public StringConstraint(string expected)
+        protected StringConstraint(string expected)
             : base(expected)
         {
             this.expected = expected;
@@ -40,5 +40,25 @@ namespace NUnit.Framework.Constraints
         {
             get { caseInsensitive = true; return this; }
         }
+
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given value
+        /// </summary>
+        /// <param name="actual">The value to be tested</param>
+        /// <returns>True for success, false for failure</returns>
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+
+            string actualAsString = actual as string;
+            return actualAsString != null && Matches(actualAsString);
+        }
+
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given string
+        /// </summary>
+        /// <param name="actual">The string to be tested</param>
+        /// <returns>True for success, false for failure</returns>
+        protected abstract bool Matches(string actual);
     }
 }

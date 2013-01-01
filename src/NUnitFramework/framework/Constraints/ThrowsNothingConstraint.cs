@@ -5,7 +5,6 @@
 // ****************************************************************
 
 using System;
-using System.Reflection;
 
 namespace NUnit.Framework.Constraints
 {
@@ -52,9 +51,8 @@ namespace NUnit.Framework.Constraints
 
         /// <summary>
         /// Write the actual value for a failing constraint test to a
-        /// MessageWriter. The default implementation simply writes
-        /// the raw value of actual, leaving it to the writer to
-        /// perform any formatting.
+        /// MessageWriter. Overridden in ThrowsNothingConstraint to write 
+        /// information about the exception that was actually caught.
         /// </summary>
         /// <param name="writer">The writer on which the actual value is displayed</param>
         public override void WriteActualValueTo(MessageWriter writer)

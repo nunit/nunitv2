@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace NUnit.Framework.Constraints
 {
     [TestFixture]
-    public class RangeConstraintTest : ConstraintTestBaseWithArgumentException
+    public class RangeConstraintTests : ConstraintTestBaseWithArgumentException
     {
 #if CLR_2_0 || CLR_4_0
         RangeConstraint<int> rangeConstraint;

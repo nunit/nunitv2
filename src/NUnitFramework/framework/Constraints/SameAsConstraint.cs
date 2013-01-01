@@ -14,7 +14,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class SameAsConstraint : Constraint
     {
-        private object expected;
+        private readonly object expected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:SameAsConstraint"/> class.
@@ -38,7 +38,7 @@ namespace NUnit.Framework.Constraints
             // TODO: THis makes it compile, now make it work.
             return expected.Equals(actual);
 #else
-            return Object.ReferenceEquals(expected, actual);
+            return ReferenceEquals(expected, actual);
 #endif
         }
 

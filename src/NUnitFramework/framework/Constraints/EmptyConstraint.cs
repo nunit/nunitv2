@@ -5,7 +5,6 @@
 // ****************************************************************
 
 using System;
-using System.Collections;
 
 namespace NUnit.Framework.Constraints
 {
@@ -23,7 +22,7 @@ namespace NUnit.Framework.Constraints
                 if (actual is string)
                     return new EmptyStringConstraint();
                 else if (actual is System.IO.DirectoryInfo)
-                    return new EmptyDirectoryContraint();
+                    return new EmptyDirectoryConstraint();
                 else
 					return new EmptyCollectionConstraint();
 			}

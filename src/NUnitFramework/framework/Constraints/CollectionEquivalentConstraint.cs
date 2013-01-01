@@ -14,7 +14,7 @@ namespace NUnit.Framework.Constraints
     /// </summary>
     public class CollectionEquivalentConstraint : CollectionItemsEqualConstraint
     {
-        private IEnumerable expected;
+        private readonly IEnumerable expected;
 
         /// <summary>
         /// Construct a CollectionEquivalentConstraint

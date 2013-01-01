@@ -6,7 +6,6 @@
 
 using System;
 using System.IO;
-using System.Collections;
 
 namespace NUnit.Framework.Constraints
 {
@@ -23,11 +22,6 @@ namespace NUnit.Framework.Constraints
 		/// </summary>
 		protected string expectedPath;
 		
-		/// <summary>
-		/// The actual path being tested
-		/// </summary>
-		protected string actualPath;
-
         /// <summary>
         /// Flag indicating whether a caseInsensitive comparison should be made
         /// </summary>
@@ -36,10 +30,10 @@ namespace NUnit.Framework.Constraints
         /// <summary>
 		/// Construct a PathConstraint for a give expected path
 		/// </summary>
-		/// <param name="expected">The expected path</param>
-		protected PathConstraint( string expected ) : base(expected)
+		/// <param name="expectedPath">The expected path</param>
+		protected PathConstraint( string expectedPath ) : base(expectedPath)
 		{
-			this.expectedPath = expected;
+			this.expectedPath = expectedPath;
         }
 
         /// <summary>
@@ -65,22 +59,19 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual">The value to be tested</param>
         /// <returns>True for success, false for failure</returns>
-		public override bool Matches (object actual)
-		{
-			this.actual = actual;
-			this.actualPath = actual as string;
+        public override bool Matches(object actual)
+        {
+            this.actual = actual;
+            string actualPath = actual as string;
 
-			if (actualPath == null)
-                return false;
-			
-			return IsMatch(expectedPath, actualPath);
-		}
-		
+            return actualPath != null && IsMatch(expectedPath, actualPath);
+        }
+
         /// <summary>
         /// Returns true if the expected path and actual path match
         /// </summary>
-		protected abstract bool IsMatch(string expectedPath, string actualPath);
-		
+        protected abstract bool IsMatch(string expectedPath, string actualPath);
+
         /// <summary>
         /// Returns the string representation of this constraint
         /// </summary>
@@ -89,79 +80,69 @@ namespace NUnit.Framework.Constraints
             return string.Format( "<{0} \"{1}\" {2}>", DisplayName, expectedPath, caseInsensitive ? "ignorecase" : "respectcase" );
         }
 
-        #region Helper Methods
+        #region Static Helper Methods
+
         /// <summary>
-		/// Canonicalize the provided path
-		/// </summary>
-		/// <param name="path"></param>
-		/// <returns>The path in standardized form</returns>
-		protected static string Canonicalize( string path )
-		{
-			bool initialSeparator = false;
-			
-			if (path.Length > 0)
-				foreach(char c in DirectorySeparatorChars)
-					if (path[0] == c)
-						initialSeparator = true;
-			
-			ArrayList parts = new ArrayList( path.Split( DirectorySeparatorChars ) );
+        /// Transform the provided path to its canonical form so that it 
+        /// may be more easily be compared with other paths.
+        /// </summary>
+        /// <param name="path">The original path</param>
+        /// <returns>The path in canonical form</returns>
+        protected static string Canonicalize(string path)
+        {
+            if (Path.DirectorySeparatorChar != Path.AltDirectorySeparatorChar)
+                path = path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+            string leadingSeparators = "";
+            foreach (char c in path)
+            {
+                if (c == Path.DirectorySeparatorChar)
+                    leadingSeparators += c;
+                else break;
+            }
 
-			for( int index = 0; index < parts.Count; )
-			{
-				string part = (string)parts[index];
-		
-				switch( part )
-				{
-					case ".":
-						parts.RemoveAt( index );
-						break;
-				
-					case "..":
-						parts.RemoveAt( index );
-						if ( index > 0 )
-							parts.RemoveAt( --index );
-						break;
-					default:
-						index++;
-						break;
-				}
-			}
+#if (CLR_2_0x || CLR_4_0) && !NETCF
+            string[] parts = path.Split(DirectorySeparatorChars, StringSplitOptions.RemoveEmptyEntries);
+#else
+            string[] parts = path.Split(DirectorySeparatorChars);
+#endif
+            int count = 0;
+            bool shifting = false;
+            foreach (string part in parts)
+            {
+                switch (part)
+                {
+                    case "":
+                    case ".":
+                        shifting = true;
+                        break;
 
-            // Trailing separator removal
-            if ((string)parts[parts.Count - 1] == "")
-                parts.RemoveAt(parts.Count - 1);
+                    case "..":
+                        shifting = true;
+                        if (count > 0)
+                            --count;
+                        break;
 
-            string result = String.Join(Path.DirectorySeparatorChar.ToString(), 
-				(string[])parts.ToArray( typeof( string ) ) );
-			
-			if (initialSeparator)
-				result = Path.DirectorySeparatorChar.ToString() + result;
-			
-			return result;
-		}
+                    default:
+                        if (shifting)
+                            parts[count] = part;
+                        ++count;
+                        break;
+                }
+            }
 
-		/// <summary>
-		/// Test whether two paths are the same
-		/// </summary>
-		/// <param name="path1">The first path</param>
-		/// <param name="path2">The second path</param>
+            return leadingSeparators + String.Join(Path.DirectorySeparatorChar.ToString(), parts, 0, count);
+        }
+
+        /// <summary>
+        /// Test whether one path in canonical form is under another.
+        /// </summary>
+        /// <param name="path1">The first path - supposed to be the parent path</param>
+        /// <param name="path2">The second path - supposed to be the child path</param>
         /// <param name="ignoreCase">Indicates whether case should be ignored</param>
-		/// <returns></returns>
-		protected static bool IsSamePath( string path1, string path2, bool ignoreCase )
+        /// <returns></returns>
+        protected static bool IsSubPath(string path1, string path2, bool ignoreCase)
 		{
-			return string.Compare( path1, path2, ignoreCase ) == 0;
-		}
-
-		/// <summary>
-		/// Test whether one path is under another path
-		/// </summary>
-		/// <param name="path1">The first path - supposed to be the parent path</param>
-		/// <param name="path2">The second path - supposed to be the child path</param>
-        /// <param name="ignoreCase">Indicates whether case should be ignored</param>
-		/// <returns></returns>
-		protected static bool IsSubPath( string path1, string path2, bool ignoreCase )
-		{
-			int length1 = path1.Length;
+            int length1 = path1.Length;
 			int length2 = path2.Length;
 
 			// if path1 is longer or equal, then path2 can't be under it
@@ -177,33 +158,6 @@ namespace NUnit.Framework.Constraints
 				length2 > length1 && path2[length1] == Path.DirectorySeparatorChar;
         }
 
-		/// <summary>
-		/// Test whether one path is the same as or under another path
-		/// </summary>
-		/// <param name="path1">The first path - supposed to be the parent path</param>
-		/// <param name="path2">The second path - supposed to be the child path</param>
-		/// <returns></returns>
-		protected bool IsSamePathOrUnder( string path1, string path2 )
-		{
-			int length1 = path1.Length;
-			int length2 = path2.Length;
-
-			// if path1 is longer, then path2 can't be under it
-			if ( length1 > length2 )
-				return false;
-
-			// if lengths are the same, check for equality
-			if ( length1 == length2 )
-				return string.Compare( path1, path2, caseInsensitive ) == 0;
-
-			// path 2 is longer than path 1: see if initial parts match
-			if ( string.Compare( path1, path2.Substring( 0, length1 ), caseInsensitive ) != 0 )
-				return false;
-			
-			// must match through or up to a directory separator boundary
-			return	path2[length1-1] == Path.DirectorySeparatorChar ||
-				path2[length1] == Path.DirectorySeparatorChar;
-        }
         #endregion
     }
 }

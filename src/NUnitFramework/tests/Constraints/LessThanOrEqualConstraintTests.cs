@@ -7,7 +7,7 @@
 namespace NUnit.Framework.Constraints
 {
     [TestFixture]
-    public class LessThanOrEqualTest : ComparisonConstraintTest
+    public class LessThanOrEqualConstraintTests : ComparisonConstraintTest
     {
         [SetUp]
         public void SetUp()

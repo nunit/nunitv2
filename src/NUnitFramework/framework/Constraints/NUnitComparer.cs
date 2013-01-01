@@ -5,9 +5,8 @@
 // ****************************************************************
 
 using System;
-using System.IO;
-using System.Reflection;
 using System.Collections;
+using System.Reflection;
 #if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif

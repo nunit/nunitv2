@@ -717,7 +717,7 @@ namespace NUnit.Framework.Constraints
 
         /// <summary>
         /// Returns a constraint that succeeds if the actual
-        /// value matches the Regex pattern supplied as an argument.
+        /// value matches the regular expression supplied as an argument.
         /// </summary>
         public RegexConstraint Matches(string pattern)
         {
@@ -726,7 +726,7 @@ namespace NUnit.Framework.Constraints
 
         /// <summary>
         /// Returns a constraint that succeeds if the actual
-        /// value matches the Regex pattern supplied as an argument.
+        /// value matches the regular expression supplied as an argument.
         /// </summary>
         public RegexConstraint StringMatching(string pattern)
         {

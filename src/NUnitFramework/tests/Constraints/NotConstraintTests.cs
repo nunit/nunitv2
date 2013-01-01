@@ -9,7 +9,7 @@ using NUnit.Framework.Constraints;
 namespace NUnit.Framework.Constraints
 {
     [TestFixture]
-    public class NotTest : ConstraintTestBase
+    public class NotConstraintTests : ConstraintTestBase
     {
         [SetUp]
         public void SetUp()

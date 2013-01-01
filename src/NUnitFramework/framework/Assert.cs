@@ -45,8 +45,7 @@ namespace NUnit.Framework
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static new bool Equals(object a, object b)
         {
-            // TODO: This should probably be InvalidOperationException
-            throw new AssertionException("Assert.Equals should not be used for Assertions");
+            throw new InvalidOperationException("Assert.Equals should not be used for Assertions");
         }
 
         /// <summary>
@@ -58,7 +57,7 @@ namespace NUnit.Framework
         /// <param name="b"></param>
         public static new void ReferenceEquals(object a, object b)
         {
-            throw new AssertionException("Assert.ReferenceEquals should not be used for Assertions");
+            throw new InvalidOperationException("Assert.ReferenceEquals should not be used for Assertions");
         }
 
         #endregion

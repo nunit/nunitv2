@@ -6,7 +6,6 @@
 
 using System;
 using System.Collections;
-using System.Reflection;
 #if CLR_2_0 || CLR_4_0
 using System.Collections.Generic;
 #endif
@@ -70,7 +69,7 @@ namespace NUnit.Framework.Constraints
 
         class ComparerAdapter : ComparisonAdapter
         {
-            private IComparer comparer;
+            private readonly IComparer comparer;
 
             /// <summary>
             /// Construct a ComparisonAdapter for an IComparer
@@ -100,7 +99,7 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         class ComparerAdapter<T> : ComparisonAdapter
         {
-            private IComparer<T> comparer;
+            private readonly IComparer<T> comparer;
 
             /// <summary>
             /// Construct a ComparisonAdapter for an IComparer&lt;T&gt;
@@ -127,7 +126,7 @@ namespace NUnit.Framework.Constraints
 
         class ComparisonAdapterForComparison<T> : ComparisonAdapter
         {
-            private Comparison<T> comparison;
+            private readonly Comparison<T> comparison;
 
             /// <summary>
             /// Construct a ComparisonAdapter for a Comparison&lt;T&gt;

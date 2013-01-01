@@ -20,10 +20,7 @@ namespace NUnit.Framework.Constraints
         {
             this.actual = actual;
 
-            if (!(actual is string))
-                return false;
-
-            return (string)actual == string.Empty;
+            return actual as string == string.Empty;
         }
 
         /// <summary>

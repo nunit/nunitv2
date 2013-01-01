@@ -18,7 +18,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Static string used when strings are clipped
         /// </summary>
-        private static readonly string ELLIPSIS = "...";
+        private const string ELLIPSIS = "...";
 
         /// <summary>
         /// Returns the representation of a type as used in NUnitLite.
@@ -67,10 +67,8 @@ namespace NUnit.Framework.Constraints
             {
                 StringBuilder sb = new StringBuilder();
 
-                for (int i = 0; i < s.Length; i++)
+                foreach (char c in s)
                 {
-                    char c = s[i];
-
                     switch (c)
                     {
                         //case '\'':
@@ -110,7 +108,7 @@ namespace NUnit.Framework.Constraints
                         case '\x0085':
                         case '\x2028':
                         case '\x2029':
-                            sb.AppendFormat("\\x{0:X4}", (int)c);
+                            sb.Append(string.Format("\\x{0:X4}", (int)c));
                             break;
 
                         default:

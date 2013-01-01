@@ -15,7 +15,7 @@ using ActualValueDelegate = NUnit.Framework.Constraints.ActualValueDelegate;
 namespace NUnit.Framework.Constraints
 {
     [TestFixture]
-	public class AfterConstraintTest : ConstraintTestBase
+	public class DelayedConstraintTest : ConstraintTestBase
 	{
 		private static bool _value;
 

@@ -17,13 +17,13 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// The expected Type used by the constraint
         /// </summary>
-        protected Type expectedType;
+        protected readonly Type expectedType;
 
         /// <summary>
         /// Construct a TypeConstraint for a given Type
         /// </summary>
         /// <param name="type"></param>
-        public TypeConstraint(Type type) : base(type)
+        protected TypeConstraint(Type type) : base(type)
         {
             this.expectedType = type;
         }

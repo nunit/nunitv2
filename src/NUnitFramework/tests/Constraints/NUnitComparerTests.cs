@@ -9,7 +9,7 @@ using System;
 namespace NUnit.Framework.Constraints
 {
     [TestFixture]
-    public class ComparerTests
+    public class NUnitComparerTests
     {
         private Tolerance tolerance;
 

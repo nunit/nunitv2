@@ -25,7 +25,7 @@ namespace NUnit.Framework.Constraints
         /// <returns>True for success, false for failure</returns>
         protected override bool IsMatch(string expectedPath, string actualPath)
         {
-            return IsSamePath(Canonicalize(expectedPath), Canonicalize(actualPath), caseInsensitive);
+            return string.Compare(Canonicalize(expectedPath), Canonicalize(actualPath), caseInsensitive) == 0;
         }
 
         /// <summary>

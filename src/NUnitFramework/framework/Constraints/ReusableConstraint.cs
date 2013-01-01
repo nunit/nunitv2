@@ -9,27 +9,27 @@ using System;
 namespace NUnit.Framework.Constraints
 {
     /// <summary>
-    /// ReusableConstraint wraps a resolved constraint so that it
-    /// may be saved and reused as needed.
+    /// ReusableConstraint wraps a constraint expression after 
+    /// resolving it so that it can be reused consistently.
     /// </summary>
     public class ReusableConstraint : IResolveConstraint
     {
-        private Constraint constraint;
+        private readonly Constraint constraint;
 
         /// <summary>
-        /// Construct a ReusableConstraint
+        /// Construct a ReusableConstraint from a constraint expression
         /// </summary>
-        /// <param name="c">The constraint or expression to be reused</param>
+        /// <param name="c">The expression to be resolved and reused</param>
         public ReusableConstraint(IResolveConstraint c)
         {
             this.constraint = c.Resolve();
         }
 
         /// <summary>
-        /// Conversion operator from a normal constraint to a ReusableConstraint.
+        /// Converts a constraint to a ReusableConstraint
         /// </summary>
-        /// <param name="c">The original constraint to be wrapped as a ReusableConstraint</param>
-        /// <returns></returns>
+        /// <param name="c">The constraint to be converted</param>
+        /// <returns>A ReusableConstraint</returns>
         public static implicit operator ReusableConstraint(Constraint c)
         {
             return new ReusableConstraint(c);

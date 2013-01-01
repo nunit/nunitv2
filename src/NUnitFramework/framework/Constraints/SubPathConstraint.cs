@@ -27,9 +27,6 @@ namespace NUnit.Framework.Constraints
         /// <returns>True for success, false for failure</returns>
         protected override bool IsMatch(string expectedPath, string actualPath)
         {
-            if (actualPath == null)
-                throw new ArgumentException("The actual value may not be null", "actual");
-
             return IsSubPath(Canonicalize(expectedPath), Canonicalize(actualPath), caseInsensitive);
         }
 

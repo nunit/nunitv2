@@ -15,7 +15,7 @@ namespace NUnit.Framework.Constraints
 	/// </summary>
 	public class PropertyConstraint : PrefixConstraint
 	{
-		private string name;
+		private readonly string name;
 		private object propValue;
 
         /// <summary>
@@ -37,8 +37,7 @@ namespace NUnit.Framework.Constraints
         public override bool Matches(object actual)
 		{
             this.actual = actual;
-            if (actual == null) 
-                throw new ArgumentNullException("actual");
+            Guard.ArgumentNotNull(actual, "actual");
 
             Type actualType = actual as Type;
             if ( actualType == null )

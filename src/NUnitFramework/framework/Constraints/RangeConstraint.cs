@@ -32,7 +32,6 @@ namespace NUnit.Framework.Constraints
         {
             this.from = from;
             this.to = to;
-            //this.comparer = ComparisonAdapter.For(new NUnitComparer<T>());
         }
 
         /// <summary>
@@ -64,8 +63,8 @@ namespace NUnit.Framework.Constraints
 #else
     public class RangeConstraint : ComparisonConstraint
     {
-        private IComparable from;
-        private IComparable to;
+        private readonly IComparable from;
+        private readonly IComparable to;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:RangeConstraint"/> class.
@@ -88,7 +87,7 @@ namespace NUnit.Framework.Constraints
             this.actual = actual;
 
             if ( from == null || to == null || actual == null)
-                throw new ArgumentException( "Cannot compare using a null reference", "expected" );
+                throw new ArgumentException( "Cannot compare using a null reference", "actual" );
 
             return comparer.Compare(from, actual) <= 0 &&
                    comparer.Compare(to, actual) >= 0;

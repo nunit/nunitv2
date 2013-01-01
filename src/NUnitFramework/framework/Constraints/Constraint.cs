@@ -4,23 +4,16 @@
 // obtain a copy of the license at http://nunit.org
 // ****************************************************************
 
-using System;
-using System.Collections;
-
 namespace NUnit.Framework.Constraints
 {
 
-#if CLR_2_0 || CLR_4_0
     /// <summary>
     /// Delegate used to delay evaluation of the actual value
     /// to be used in evaluating a constraint
     /// </summary>
+#if CLR_2_0 || CLR_4_0
     public delegate T ActualValueDelegate<T>();
 #else
-	/// <summary>
-	/// Delegate used to delay evaluation of the actual value
-	/// to be used in evaluating a constraint
-	/// </summary>
 	public delegate object ActualValueDelegate();
 #endif
 	
@@ -80,7 +73,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct a constraint with no arguments
         /// </summary>
-        public Constraint()
+        protected Constraint()
         {
             argcnt = 0;
         }
@@ -88,7 +81,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct a constraint with one argument
         /// </summary>
-        public Constraint(object arg)
+        protected Constraint(object arg)
         {
             argcnt = 1;
             this.arg1 = arg;
@@ -97,7 +90,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Construct a constraint with two arguments
         /// </summary>
-        public Constraint(object arg1, object arg2)
+        protected Constraint(object arg1, object arg2)
         {
             argcnt = 2;
             this.arg1 = arg1;
@@ -122,7 +115,7 @@ namespace NUnit.Framework.Constraints
         /// trailing "Constraint" removed. Derived classes may set
         /// this to another name in their constructors.
         /// </summary>
-        public string DisplayName
+        protected string DisplayName
         {
             get
             {
@@ -199,7 +192,6 @@ namespace NUnit.Framework.Constraints
         }
 #endif
 
-#if CLR_2_0 || CLR_4_0
         /// <summary>
         /// Test whether the constraint is satisfied by a given reference.
         /// The default implementation simply dereferences the value but
@@ -207,23 +199,14 @@ namespace NUnit.Framework.Constraints
         /// </summary>
         /// <param name="actual">A reference to the value to be tested</param>
         /// <returns>True for success, false for failure</returns>
+#if CLR_2_0 || CLR_4_0
         public virtual bool Matches<T>(ref T actual)
+#else
+		public virtual bool Matches(ref bool actual)
+#endif
         {
             return Matches(actual);
         }
-#else
-		/// <summary>
-		/// Test whether the constraint is satisfied by a given bool reference.
-		/// The default implementation simply dereferences the value but
-		/// derived classes may override it to provide for delayed processing.
-		/// </summary>
-		/// <param name="actual">A reference to the value to be tested</param>
-		/// <returns>True for success, false for failure</returns>
-		public virtual bool Matches(ref bool actual)
-		{
-			return Matches(actual);
-		}
-#endif
 
         /// <summary>
         /// Write the constraint description to a MessageWriter
@@ -274,7 +257,7 @@ namespace NUnit.Framework.Constraints
             }
         }
 
-        private string _displayable(object o)
+        private static string _displayable(object o)
         {
             if (o == null) return "null";
 

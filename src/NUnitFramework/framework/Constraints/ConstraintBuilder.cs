@@ -147,9 +147,9 @@ namespace NUnit.Framework.Constraints
         #endregion
 
         #region Instance Fields
-        private OperatorStack ops;
+        private readonly OperatorStack ops;
 
-        private ConstraintStack constraints;
+        private readonly ConstraintStack constraints;
 
         private object lastPushed;
         #endregion

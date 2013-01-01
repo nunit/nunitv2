@@ -7,12 +7,10 @@
 namespace NUnit.Framework 
 {
 	using System;
-	using System.Runtime.Serialization;
 	
 	/// <summary>
 	/// Thrown when an assertion failed.
 	/// </summary>
-	/// 
 	[Serializable]
 	public class AssertionException : System.Exception
 	{
@@ -32,8 +30,8 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Serialization Constructor
 		/// </summary>
-		protected AssertionException(SerializationInfo info, 
-			StreamingContext context) : base(info,context)
+		protected AssertionException(System.Runtime.Serialization.SerializationInfo info, 
+			System.Runtime.Serialization.StreamingContext context) : base(info,context)
 		{}
 
 	}

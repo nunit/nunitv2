@@ -161,6 +161,7 @@
     <Compile Include="Constraints\ExactCountConstraint.cs" />
     <Compile Include="Constraints\ExactTypeConstraint.cs" />
     <Compile Include="Constraints\ExceptionTypeConstraint.cs" />
+    <Compile Include="Constraints\FailurePoint.cs" />
     <Compile Include="Constraints\FalseConstraint.cs" />
     <Compile Include="Constraints\FloatingPointNumerics.cs" />
     <Compile Include="Constraints\GreaterThanConstraint.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Exceptions\SuccessException.cs" />
     <Compile Include="FileAssert.cs" />
     <Compile Include="GlobalSettings.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="Has.cs" />
     <Compile Include="Interfaces\INUnitEqualityComparer.cs" />
     <Compile Include="Interfaces\ITestAction.cs" />

@@ -28,15 +28,19 @@ namespace NUnit.Framework.Constraints
         /// <returns>True for success, false for failure</returns>
         public override bool Matches(object actual)
         {
+            // NOTE: Do not change this to use string.IsNullOrEmpty
+            // since that won't work in earlier versions of .NET
+
             this.actual = actual;
 
-            if (actual == null)
-                return true;
+            if (actual == null) return true;
 
-            if (!(actual is string))
+            string actualAsString = actual as string;
+
+            if (actualAsString == null)
                 throw new ArgumentException("Actual value must be a string", "actual");
 
-            return (string)actual == string.Empty;
+            return actualAsString == string.Empty;
         }
 
         /// <summary>

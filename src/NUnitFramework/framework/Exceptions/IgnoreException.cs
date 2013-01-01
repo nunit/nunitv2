@@ -7,7 +7,6 @@
 namespace NUnit.Framework 
 {
 	using System;
-	using System.Runtime.Serialization;
 	
 	/// <summary>
 	/// Thrown when an assertion failed.
@@ -30,8 +29,8 @@ namespace NUnit.Framework
 		/// <summary>
 		/// Serialization Constructor
 		/// </summary>
-		protected IgnoreException(SerializationInfo info, 
-			StreamingContext context) : base(info,context)
+        protected IgnoreException(System.Runtime.Serialization.SerializationInfo info,
+            System.Runtime.Serialization.StreamingContext context) : base(info, context)
 		{}
 
 	}

@@ -388,7 +388,8 @@ namespace NUnit.Framework.Constraints
 		{
 			if ( expected.Length == actual.Length )
 			{
-				long offset = (long)comparer.FailurePoints[depth];
+				FailurePoint fp = (FailurePoint)comparer.FailurePoints[depth];
+                long offset = fp.Position;
 				writer.WriteMessageLine(StreamsDiffer_1, expected.Length, offset);
 			}
 			else
@@ -410,7 +411,7 @@ namespace NUnit.Framework.Constraints
 
             if (comparer.FailurePoints.Count > depth)
             {
-                NUnitEqualityComparer.FailurePoint failurePoint = (NUnitEqualityComparer.FailurePoint)comparer.FailurePoints[depth];
+                FailurePoint failurePoint = (FailurePoint)comparer.FailurePoints[depth];
 
                 DisplayFailurePoint(writer, expected, actual, failurePoint, depth);
 
@@ -468,7 +469,7 @@ namespace NUnit.Framework.Constraints
         /// <param name="actual">The actual array</param>
         /// <param name="failurePoint">Index of the failure point in the underlying collections</param>
         /// <param name="indent">The indentation level for the message line</param>
-        private void DisplayFailurePoint(MessageWriter writer, IEnumerable expected, IEnumerable actual, NUnitEqualityComparer.FailurePoint failurePoint, int indent)
+        private void DisplayFailurePoint(MessageWriter writer, IEnumerable expected, IEnumerable actual, FailurePoint failurePoint, int indent)
         {
             Array expectedArray = expected as Array;
             Array actualArray = actual as Array;
@@ -528,7 +529,7 @@ namespace NUnit.Framework.Constraints
 
             if (comparer.FailurePoints.Count > depth)
             {
-                NUnitEqualityComparer.FailurePoint failurePoint = (NUnitEqualityComparer.FailurePoint)comparer.FailurePoints[depth];
+                FailurePoint failurePoint = (FailurePoint)comparer.FailurePoints[depth];
 
                 DisplayFailurePoint(writer, expected, actual, failurePoint, depth);
 

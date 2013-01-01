@@ -20,8 +20,7 @@ namespace NUnit.Framework.Constraints
         /// Construct a CollectionSubsetConstraint
         /// </summary>
         /// <param name="expected">The collection that the actual value is expected to be a subset of</param>
-        public CollectionSubsetConstraint(IEnumerable expected)
-            : base(expected)
+        public CollectionSubsetConstraint(IEnumerable expected) : base(expected)
         {
             this.expected = expected;
             this.DisplayName = "subsetof";

@@ -158,24 +158,24 @@ namespace NUnit.Framework.Syntax
             builderSyntax = Builder().Contains(42).Using(Comparer.Default);
         }
 
-		[Test]
-		public void ComparerIsCalled()
-		{
-			TestComparer comparer = new TestComparer();
-            Assert.That(new int[] { 1, 2, 3 }, 
+        [Test]
+        public void ComparerIsCalled()
+        {
+            TestComparer comparer = new TestComparer();
+            Assert.That(new int[] { 1, 2, 3 },
                 Contains.Item(2).Using(comparer));
-			Assert.That(comparer.Called, "Comparer was not called");
-		}
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
 
-		[Test]
-		public void ComparerIsCalledInExpression()
-		{
-			TestComparer comparer = new TestComparer();
-            Assert.That(new int[] { 1, 2, 3 }, 
+        [Test]
+        public void ComparerIsCalledInExpression()
+        {
+            TestComparer comparer = new TestComparer();
+            Assert.That(new int[] { 1, 2, 3 },
                 Has.Length.EqualTo(3).And.Contains(2).Using(comparer));
-			Assert.That(comparer.Called, "Comparer was not called");
-		}
-	}
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+    }
 
     public class CollectionContainsTest_Comparer_String : SyntaxTest
     {
@@ -187,24 +187,24 @@ namespace NUnit.Framework.Syntax
             inheritedSyntax = Helper().Contains("abc").Using(Comparer.Default);
             builderSyntax = Builder().Contains("abc").Using(Comparer.Default);
         }
-		
-		[Test]
-		public void ComparerIsCalled()
-		{
-			TestComparer comparer = new TestComparer();
-            Assert.That(new string[] { "Hello", "World" }, 
-                Contains.Item("World").Using(comparer));
-			Assert.That(comparer.Called, "Comparer was not called");
-		}
 
-		[Test]
-		public void ComparerIsCalledInExpression()
-		{
-			TestComparer comparer = new TestComparer();
-            Assert.That(new string[] { "Hello", "World" }, 
+        [Test]
+        public void ComparerIsCalled()
+        {
+            TestComparer comparer = new TestComparer();
+            Assert.That(new string[] { "Hello", "World" },
+                Contains.Item("World").Using(comparer));
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
+
+        [Test]
+        public void ComparerIsCalledInExpression()
+        {
+            TestComparer comparer = new TestComparer();
+            Assert.That(new string[] { "Hello", "World" },
                 Has.Length.EqualTo(2).And.Contains("World").Using(comparer));
-			Assert.That(comparer.Called, "Comparer was not called");
-		}
+            Assert.That(comparer.Called, "Comparer was not called");
+        }
     }
 
     public class CollectionMemberTest : SyntaxTest

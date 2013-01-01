@@ -213,19 +213,13 @@ namespace NUnit.Framework.Constraints
 #endif
     }
 
-#if CLR_2_0x || CLR_4_0x
     /// <summary>
-    /// EqualityAdapter class handles all equality comparisons
-    /// that use an IEqualityComparer, IEqualityComparer&lt;T&gt;
-    /// or a ComparisonAdapter.
+    /// EqualityAdapterList represents a list of EqualityAdapters
+    /// in a common class across platforms.
     /// </summary>
-    public abstract class EqualityAdapter<T> : EqualityAdapter, INUnitEqualityComparer<T>
-    {
-        /// <summary>
-        /// Compares two objects, returning true if they are equal
-        /// </summary>
-        public abstract bool AreEqual(T x, T y, ref Tolerance tolerance);
-
-    }
+#if CLR_2_0 || CLR_4_0
+    class EqualityAdapterList : System.Collections.Generic.List<EqualityAdapter> { }
+#else
+    class EqualityAdapterList : ArrayList { }
 #endif
 }
