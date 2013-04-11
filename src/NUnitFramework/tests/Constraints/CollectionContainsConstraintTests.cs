@@ -173,8 +173,8 @@ namespace NUnit.Framework.Constraints
         [Test]
         public void ContainsWithRecursiveStructure()
         {
-            SelfRecursiveEnumerable item = new SelfRecursiveEnumerable();
-            SelfRecursiveEnumerable[] container = new SelfRecursiveEnumerable[] { new SelfRecursiveEnumerable(), item };
+            var item = new SelfRecursiveEnumerable();
+            var container = new[] { new SelfRecursiveEnumerable(), item };
 
             Assert.That(container, new CollectionContainsConstraint(item));
         }

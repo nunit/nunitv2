@@ -5,6 +5,8 @@
 // ****************************************************************
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace NUnit.Framework.Constraints
 {
@@ -32,18 +34,18 @@ namespace NUnit.Framework.Constraints
 
 #if CLR_2_0 || CLR_4_0
         [Test]
-        public void RecursiveEnumerablesAreNotEqual()
+        public void SelfContainingRecursiveEnumerablesAreNotEqual()
         {
             var a1 = new object[1];
-            a1[0] = a1;
             var a2 = new object[1];
-            a2[0] = a2;
+			a1[0] = a1;
+			a2[0] = a2;
 
             Assert.False(comparer.AreEqual(a1, a2, ref tolerance));
         }
 
         [Test]
-        public void RecursiveEnumerablesAreNotEqual2()
+        public void CrossReferencingRecursiveEnumerablesAreNotEqual()
         {
             var a1 = new object[1];
             var a2 = new object[1];
@@ -53,11 +55,22 @@ namespace NUnit.Framework.Constraints
             Assert.False(comparer.AreEqual(a1, a2, ref tolerance));
         }
 
+		[Test]
+		public void RecursionCheckDoesNotRelyOnValueEquality()
+		{
+			var a1 = new StructEnumerable<int>[2];
+			var a2 = new StructEnumerable<int>[2];
+
+			a1[0] = a2[0] = a1[1] = a2[1] = new StructEnumerable<int>(1);
+
+			Assert.True(comparer.AreEqual(a1, a2, ref tolerance));
+		}
+
         [Test]
         public void IEquatableSuccess()
         {
-            IEquatableWithoutEqualsOverridden x = new IEquatableWithoutEqualsOverridden(1);
-            IEquatableWithoutEqualsOverridden y = new IEquatableWithoutEqualsOverridden(1);
+            var x = new IEquatableWithoutEqualsOverridden(1);
+            var y = new IEquatableWithoutEqualsOverridden(1);
 
             Assert.IsTrue(comparer.AreEqual(x, y, ref tolerance));
         }
@@ -65,8 +78,8 @@ namespace NUnit.Framework.Constraints
         [Test]
         public void IEquatableDifferentTypesSuccess_WhenActualImplementsIEquatable()
         {
-            int x = 1;
-            Int32IEquatable y = new Int32IEquatable(1);
+            var x = 1;
+            var y = new Int32IEquatable(1);
 
             // y.Equals(x) is what gets actually called
             // TODO: This should work both ways
@@ -76,8 +89,8 @@ namespace NUnit.Framework.Constraints
         [Test]
         public void IEquatableDifferentTypesSuccess_WhenExpectedImplementsIEquatable()
         {
-            int x = 1;
-            Int32IEquatable y = new Int32IEquatable(1);
+            var x = 1;
+            var y = new Int32IEquatable(1);
 
             // y.Equals(x) is what gets actually called
             // TODO: This should work both ways
@@ -87,7 +100,7 @@ namespace NUnit.Framework.Constraints
         [Test]
         public void ReferenceEqualityHasPrecedenceOverIEquatable()
         {
-            NeverEqualIEquatable z = new NeverEqualIEquatable();
+            var z = new NeverEqualIEquatable();
 
             Assert.IsTrue(comparer.AreEqual(z, z, ref tolerance));
         }
@@ -95,8 +108,8 @@ namespace NUnit.Framework.Constraints
         [Test]
         public void IEquatableHasPrecedenceOverDefaultEquals()
         {
-            NeverEqualIEquatableWithOverriddenAlwaysTrueEquals x = new NeverEqualIEquatableWithOverriddenAlwaysTrueEquals();
-            NeverEqualIEquatableWithOverriddenAlwaysTrueEquals y = new NeverEqualIEquatableWithOverriddenAlwaysTrueEquals();
+            var x = new NeverEqualIEquatableWithOverriddenAlwaysTrueEquals();
+            var y = new NeverEqualIEquatableWithOverriddenAlwaysTrueEquals();
 
             Assert.IsFalse(comparer.AreEqual(x, y, ref tolerance));
         }
@@ -159,5 +172,25 @@ namespace NUnit.Framework.Constraints
             return value.Equals(other.value);
         }
     }
+
+	struct StructEnumerable<T> : IEnumerable<T>
+	{
+		public readonly T Value;
+
+		public StructEnumerable(T value)
+		{
+			Value = value;
+		}
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			yield return Value;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+	}
 #endif
 }

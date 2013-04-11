@@ -441,8 +441,8 @@ namespace NUnit.Framework.Constraints
 
                 public bool Equals(UnorderedReferencePair other)
                 {
-                    return (Equals(first, other.first) && Equals(second, other.second)) || 
-                           (Equals(first, other.second) && Equals(second, other.first));
+                    return (ReferenceEquals(first, other.first) && ReferenceEquals(second, other.second)) || 
+                           (ReferenceEquals(first, other.second) && ReferenceEquals(second, other.first));
                 }
 
                 public override bool Equals(object obj)
