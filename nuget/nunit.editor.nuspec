@@ -13,7 +13,7 @@
 		<summary>NUnit.Editor is a standalone gui editor for nunit projects.</summary>
 		<description>The NUnit project editor allows easy editing of NUnit projects. It supports a form-based interface for editing properties as well as a rudimentary XML editor.&#10;&#13;This package includes only the editor, which is also available as a part of the NUnit.Runners package.</description>
 		<language>en-US</language>
-		<tags>test testing framework project editor</tags>
+		<tags>nunit test testing framework project editor</tags>
 	</metadata>
 	<files>
 		<file src="${project.base.dir}\license.txt" />

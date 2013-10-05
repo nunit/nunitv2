@@ -14,7 +14,7 @@
 		<description>NUnit features a fluent assert syntax, parameterized, generic and theory tests and is user-extensible. A number of runners, both from the NUnit project and by third parties, are able to execute NUnit tests.&#10;&#13;Version 2.6 is the seventh major release of this well-known and well-tested programming tool.&#10;&#13;This package includes only the framework assembly. You will need to install the NUnit.Runners package unless you are using a third-party runner.</description>
 		<releaseNotes>Version 2.6 is the seventh major release of NUnit.&#10;&#13;Unlike earlier versions, this package includes only the framework assembly. You will need to install the NUnit.Runners package unless you are using a third-party runner.&#10;&#13;The nunit.mocks assembly is now provided by the NUnit.Mocks package. The pnunit.framework assembly is provided by the pNUnit package.</releaseNotes>
 		<language>en-US</language>
-		<tags>test testing tdd framework fluent assert theory plugin addin</tags>
+		<tags>nunit test testing tdd framework fluent assert theory plugin addin</tags>
 	</metadata>
 	<files>
 		<file src="${project.base.dir}\license.txt" />

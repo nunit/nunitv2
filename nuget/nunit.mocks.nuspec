@@ -16,7 +16,7 @@
 		<dependencies>
 			<dependency id="NUnit" />
 		</dependencies>
-		<tags>test testing tdd mock framework</tags>
+		<tags>nunit test testing tdd mock framework</tags>
 	</metadata>
 	<files>
 		<file src="${project.base.dir}\license.txt" />
