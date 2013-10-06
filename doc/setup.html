@@ -29,10 +29,11 @@
 
 <h3>SetUpAttribute (NUnit 2.0 / 2.5)</h3>
 
-<p>This attribute is used inside a TestFixture to provide a common set of 
-	functions that are performed just before each test method is called.  
+<p>This attribute is used inside a <a href="testFixture.html">TestFixture</a>  to provide a common set of functions that are performed just before each test method is called. 
+  It is	also used inside a <a href="setupFixture.html">SetUpFixture</a></b>,
+  where it provides the same functionality at the level of a namespace or assembly.
     
-<p><b>Before NUnit 2.5</b>, a TestFixture could have only one SetUp method
+<p><b>Before NUnit 2.5</b>, a class could have only one SetUp method
 	and it was required to be an instance method. 
 
 <p><b>Beginning with NUnit 2.5</b>, SetUp methods may be either static or
@@ -168,7 +169,7 @@ public class SuccessTests
 
 <h4>See also...</h4>
 <ul>
-<li><a href="teardown.html">TearDownAttribute</a><li><a href="fixtureSetup.html">TestFixtureSetUpAttribute</a><li><a href="fixtureTeardown.html">TestFixtureTearDownAttribute</a></ul>
+<li><a href="teardown.html">TearDownAttribute</a><li><a href="fixtureSetup.html">TestFixtureSetUpAttribute</a><li><a href="fixtureTeardown.html">TestFixtureTearDownAttribute</a><li><a href="setupFixture.html">SetUpFixtureAttribute</a></ul>
 	
 
 </div>
@@ -176,7 +177,7 @@ public class SuccessTests
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.2</a></li>
+<li><a href="index.html">NUnit 2.6.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -222,7 +223,6 @@ public class SuccessTests
 <li><a href="values.html">Values</a></li>
 <li><a href="valueSource.html">ValueSource</a></li>
 </ul>
-<li><a href="constraintModel.html">Constraints</a></li>
 <li><a href="testContext.html">Test&nbsp;Context</a></li>
 </ul>
 <li><a href="runningTests.html">Running&nbsp;Tests</a></li>
@@ -234,9 +234,10 @@ public class SuccessTests
 <li><a href="vsTestAdapter.html">NUnit&nbsp;Test&nbsp;Adapter</a></li>
 <ul>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.2.html"></a></li>
-<li><a href="&r=2.6.2.html"></a></li>
+<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.3.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->

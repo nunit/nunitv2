@@ -43,6 +43,37 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.6.3 Preview - Version 2.6.3.13278 - October 5, 2013</h3>
+
+<h4>Framework</h4>
+<ul>
+<li>When running under .NET 4.5, <b>async</b> methods may now be used as the target of a <b>ThrowsConstraint</b>.
+<li>When running under .NET 4.5, <b>async</b> methods may now be used as an <b>ActualValueDelegate</b> passed to <b>Assert.That()</b> or <b>Assume.That()</b>.
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>1071714 	TestContext is broken when a previous version of the runner is used alongside a new version of the framework
+<li>1071164 	Support async methods in usage scenarios of Throws constraints
+<li>1071861 	Error in Path Constraints
+<li>1072379 	Report test execution time at a higher resolution
+<li>1074568 	Assert/Assume should support an async method for the ActualValueDelegate
+<li>1079296 	NUnit 2.6.2 Failure on Mono
+<li>1082330 	Better Exception if SetCulture attribute is applied multiple times
+<li>1096902 	Trace output is disabled by default in version 2.6.2.12296
+<li>1097854 	Incorrect documentation for console runner /test option
+<li>1107746 	Add nunit tags to nuget packages
+<li>1130239 	classicModel.html is linked in local help, but doesn't exist
+<li>1222148 	/framework switch does not recognize net-4.5
+</ul>
+
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.6.2 - Version 2.6.2.12296 - October 22, 2012</h3>
 
 <h4>General</h4>
@@ -65,7 +96,7 @@ dt { font-weight: bold }
 <ul>
 <li>When running under .NET 4.5, <b>async</b> test methods are now supported. For test cases returning a value, the method must return <b>Task&lt;T&gt;</b>, where <b>T</b> is the type of the returned value. For single tests and test cases not returning a value, the method may return either <b>void</b> or <b>Task</b>.
 <li>The <b>Platform</b> attribute has been upgraded to recognize .NET 4.5, MaxOsX and XBox.
-<li><b>TestCaseSource</b> may now specify a class that implements <IEnumerable> without specifying the name of a method.
+<li><b>TestCaseSource</b> may now specify a class that implements <b>IEnumerable</b> without specifying the name of a method.
 </ul>
 
 <h4>Console</h4>
@@ -436,7 +467,7 @@ dt { font-weight: bold }
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.2</a></li>
+<li><a href="index.html">NUnit 2.6.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -452,9 +483,10 @@ dt { font-weight: bold }
 <li><a href="vsTestAdapter.html">NUnit&nbsp;Test&nbsp;Adapter</a></li>
 <ul>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.2.html"></a></li>
-<li><a href="&r=2.6.2.html"></a></li>
+<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.3.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->

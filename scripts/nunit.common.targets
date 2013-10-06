@@ -13,14 +13,14 @@
 
     <!-- The nominal version has three components and is used for the name
        of the install directory and on the program files menu. -->
-    <property name="nominal.version" value="2.6.2" />
+    <property name="nominal.version" value="2.6.3" />
 
     <!-- The package version may include a prerelease suffix following
        the three-component nominal version -->
     <property name="package.version" value="${nominal.version}"/>
 
     <!-- Package Configuration (Release, Alpha, Beta, etc.) -->
-    <property name="package.configuration" value=""/>
+    <property name="package.configuration" value="Preview"/>
 
   <!-- ***************************************************************** -->
   <!-- ***   End of properties to change for each new release        *** -->

@@ -28,17 +28,20 @@
 <h2>NUnit Test Adapter for Visual Studio 11</h2>
 
 <p>The NUnit Test Adapter allows you to run NUnit tests inside
-   Visual Studio. The current release, version 0.92, is designed to work
-   with the Visual Studio 11 Beta Release. Releases of Visual Studio
-   prior to VS 11 did not have the ability to directly run tests built with 
-   Open Source testing frameworks like NUnit.
+   Visual Studio. The current release, version 0.94, is designed to work
+   with Studio 2012 RTM or Update 1. Some features are not available under
+   the RTM.
+   
+<p>Note that Releases of Visual Studio prior to VS 2012 did not have the 
+   ability to directly run tests built with Open Source testing frameworks 
+   like NUnit.
 
 <h3>Installation</h3>
 
 <p>The easiest way to install the NUnit Test Adapter is using the
    Extension Manager within Visual Studio. Follow these steps:
    <ol>
-   <li>From within Visual Studio 11, select Tools | Extension Manager.
+   <li>From within Visual Studio 2012, select Tools | Extension Manager.
    <li>In the left panel of the Extension Manager, select Online Extensions.
    <li>Locate the NUnit Test Adapter in the center panel and highlight it.
    <li>Click 'Download' and follow the instructions.
@@ -50,7 +53,7 @@
 
 <p>In preparation for using the test adapter, make sure that the Unit
    Test Explorer is shown in your window. If you don't see it, use
-   the menu ( <b>Unit Test | Windows | Unit Test Explorer</b> ) to show it and position
+   the menu ( <b>Test | Windows | Test Explorer</b> ) to show it and position
    the window where you would like it within Visual Studio.
 
 <div class="screenshot-left">
@@ -59,29 +62,35 @@
 <p>When you initially open a solution, no tests will be displayed.
    After compiling the assemblies in the solution, Visual Studio will
    interact with the NUnit Test Adapter to discover tests and a list 
-   of them will be shown in the Unit Test Explorer.
+   of them will be shown in the Test Explorer.
 
-<p>Click on <b>Run All Tests</b> in the Unit Test Explorer to run 
+<p>Click on <b>Run All</b> in the Test Explorer to run 
    all the tests. You may also select one or more tests in the list and 
-   run them by right-clicking and using the context menu.
-
-<p>The context menu also contains entries for debugging tests and for
-   navigating to the source code of a test.
+   run them by right-clicking and using the context menu. The context menu 
+   also contains entries for debugging tests and for navigating to the source 
+   code of a test.
+   
+<p>Tests may be grouped by Duration and Outcome under VS2012 RTM and also
+   by Traits and Project using Update 1. NUnit translates any Categories
+   and Properties used on your tests to Visual Studio as Traits.
+   
+<p>Tests may be filtered under Update 1 by Trait, Project, Error Message,
+   File Path, Fully Qualified Name, Output and Outcome. Use the search
+   edit box at the top of the list of tests to specify a filter.
 
 <h3>Known Problems</h3>
 
 <ol>
-<li><p>There is no test status corresponding to NUnit's <b>Inconclusive</b>
-    result, so tests with this result are reported as <b>Not Run</b>.
+<li><p>There is no test status in Visual Studio corresponding to NUnit's 
+    <b>Inconclusive</b> result, so tests with this result are reported as 
+    <b>Not Run</b>. Click on the individual test to see the result.
 
-<li><p>Test cases appear in a flat list, without any grouping by fixture or
-    namespace. This can make it hard to select a group of related tests 
-    to be run. It is, however, relatively easy to rerun all failing tests.
+<li><p>Grouping by fixture is not yet available.in Visual Studio.
 
 <li><p>Theories are reported as individual cases, rather as a single unit.
 
-<li><p>Startup performance is now improved as compared to the developer 
-    preview, but is still intermittently slow.
+<li><p>Startup performance is substantially improved but is still slower
+    than using NUnit directly.
 </ol>
 
 <h3>Reporting Problems</h3>
@@ -95,7 +104,7 @@
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.2</a></li>
+<li><a href="index.html">NUnit 2.6.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -108,9 +117,10 @@
 <li id="current"><a href="vsTestAdapter.html">NUnit&nbsp;Test&nbsp;Adapter</a></li>
 <ul>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.2.html"></a></li>
-<li><a href="&r=2.6.2.html"></a></li>
+<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.3.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->

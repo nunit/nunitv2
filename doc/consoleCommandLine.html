@@ -38,6 +38,7 @@
 	take values may use an equal sign, a colon or a space to separate the option 
 	from its value.</p>
 
+<hr>
 <h2>Specifying Which Tests to Run</h2>
 
 <h3>Specifying an Assembly</h3>
@@ -57,20 +58,18 @@ the tests contained in the nunit.tests.dll use the following command:</p>
 <p>You may specify a test to be run by providing the full name of the test along
 with the containing assembly. For example to run NUnit.Tests.AssertionTests
 in the nunit.tests assembly use the following command:
-<pre class="programtext">        nunit-console /test:NUnit.Tests.AssertionTests nunit.tests.dll</pre>
+<pre class="programtext">        nunit-console /run:NUnit.Tests.AssertionTests nunit.tests.dll</pre>
 
 <p>The name of the test to be run may be that of a test case, test fixture or
 a namespace containing tests. 
 
-<p>The <b>/test</b> option replaces the <b>/run</b> option which is now deprecated.
-
 <p>You can specify multiple tests by separating names with commas (without spaces). For example:
-<pre class="programtext">        nunit-console /test:NUnit.Tests.AssertionTests,NUnit.Tests.ConstraintTests nunit.tests.dll</pre>
+<pre class="programtext">        nunit-console /run:NUnit.Tests.AssertionTests,NUnit.Tests.ConstraintTests nunit.tests.dll</pre>
 
 <p>Unlike the deprecated <b>/fixture</b> option, this option affects the running
 rather than the loading of the tests. Consequently it supports much broader use,
 including situations involving SetUpFixtures, which are not run if the class
-in question is not loaded. You should use <b>/test</b> in lieu of <b>/fixture</b>
+in question is not loaded. You should use <b>/run</b> in lieu of <b>/fixture</b>
 in almost every case.
 
 <h3>Specifying Tests to be Run Using a Separate File</h3>
@@ -95,7 +94,7 @@ with the character '#' in the first column are treated as comments.
 	class, a legacy suite (using the Suite property ) or a namespace. If a 
 	namespace is given, then all fixtures under that namespace are loaded.</p>
 <p>This option is provided for backward compatibility. In most cases, you will
-be better served by using the <b>/test</b> option.
+be better served by using the <b>/run</b> option.
 	
 <h3>Specifying Multiple Assemblies</h3>
 <p>You may run tests from multiple assemblies in one run using the console 
@@ -208,6 +207,7 @@ the shell you are using.
 	<a href="category.html">Category Attribute</a> and the 
 	<a href="explicit.html">Explicit Attribute</a>.</p>
 
+<hr>
 <h2>Controlling How Tests Are Run</h2>
 
 <h3>Specifying the .NET Framework Version</h3>
@@ -284,6 +284,7 @@ for selected tests by use of <b>TimeoutAttribute</b>.
 <p><b>Note:</b> If you do not use this option, no timeout is set and tests
 may run for any amount of time.
 
+<hr>
 <h2>Controlling the Output of a Test Run</h2>
 
 <h3>Redirecting Text Output</h3>
@@ -330,6 +331,7 @@ files to be created in the results directory.
 
 <pre class="programtext">        nunit-console /work:results /out:Output.txt nunit.tests.dll</pre>
 
+<hr>
 <h2>Miscellaneous Options</h2>
 
 <p>The <b>/trace</b> option allows you to control the amount of information that NUnit
@@ -355,7 +357,7 @@ files to be created in the results directory.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.2</a></li>
+<li><a href="index.html">NUnit 2.6.3</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -383,9 +385,10 @@ files to be created in the results directory.
 <li><a href="vsTestAdapter.html">NUnit&nbsp;Test&nbsp;Adapter</a></li>
 <ul>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.2.html"></a></li>
-<li><a href="&r=2.6.2.html"></a></li>
+<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.3.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
