@@ -44,7 +44,7 @@ namespace NUnit.Core.Tests
             Assert.That(Thread.CurrentThread, Is.EqualTo(setupThread));
         }
 
-        [Test]
+        [Test][Platform(Exclude="Mono")]
         public void TestWithInfiniteLoopTimesOut()
         {
             ThreadingFixture fixture = new ThreadingFixture();
@@ -121,7 +121,7 @@ namespace NUnit.Core.Tests
 			Assert.That(result.AssertCount, Is.EqualTo(3));
 		}
 
-        [Test]
+        [Test][Platform(Exclude="Mono")]
         public void TimeoutCanBeSetOnTestFixture()
         {
             TestResult result = TestBuilder.RunTestFixture(typeof(ThreadingFixtureWithTimeout));

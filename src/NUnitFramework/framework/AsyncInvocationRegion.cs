@@ -10,12 +10,18 @@ namespace NUnit.Framework
 	{
 		private static readonly Type AsyncStateMachineAttribute = Type.GetType("System.Runtime.CompilerServices.AsyncStateMachineAttribute");
 		private static readonly MethodInfo PreserveStackTraceMethod = typeof(Exception).GetMethod("InternalPreserveStackTrace", BindingFlags.Instance | BindingFlags.NonPublic);
-		private static readonly Action<Exception> PreserveStackTrace;
 
-		static AsyncInvocationRegion()
-		{
-			PreserveStackTrace = (Action<Exception>)Delegate.CreateDelegate(typeof(Action<Exception>), PreserveStackTraceMethod);            
-		}
+        private static Action<Exception> preserveStackTraceDelegate;
+        private static void PreserveStackTrace(Exception ex)
+        {
+            if (PreserveStackTraceMethod != null)
+            {
+                if (preserveStackTraceDelegate == null)
+                    preserveStackTraceDelegate = (Action<Exception>)Delegate.CreateDelegate(typeof(Action<Exception>), PreserveStackTraceMethod);
+
+                preserveStackTraceDelegate(ex);
+            }
+        }
 
 		private AsyncInvocationRegion()
 		{

@@ -564,7 +564,7 @@ namespace NUnit.Core
                     {
                         if (name.StartsWith("v"))
                         {
-                            var versionKey = key.OpenSubKey(name);
+                            RegistryKey versionKey = key.OpenSubKey(name);
 
                             if (name == "v4")
                                 // Version 4 and 4.5
@@ -598,13 +598,13 @@ namespace NUnit.Core
         private static void AppendDotNetFourFrameworkVersions(FrameworkCollection frameworks, RegistryKey versionKey)
         {
             // For now, we just look at the Full profile
-            var profileKey = versionKey.OpenSubKey("Full");
+            RegistryKey profileKey = versionKey.OpenSubKey("Full");
             if (CheckInstallDword(profileKey))
             {
-                var framework = new RuntimeFramework(RuntimeType.Net, new Version(4, 0));
+                RuntimeFramework framework = new RuntimeFramework(RuntimeType.Net, new Version(4, 0));
                 frameworks.Add(framework);
 
-                var release = (int)profileKey.GetValue("Release", 0);
+                int release = (int)profileKey.GetValue("Release", 0);
                 if (release > 0)
                 {
                     framework = new RuntimeFramework(RuntimeType.Net, new Version(4, 5));

@@ -38,13 +38,28 @@ namespace NUnit.Core.Tests
             CallContext.FreeNamedDataSlot(CONTEXT_DATA);
         }
 
-		[Test]
-		public void ILogicalThreadAffinativeTest()
-		{	
+        [Test]
+        public void ILogicalThreadAffinativeTest()
+        {
             CallContext.SetData(CONTEXT_DATA, new EmptyCallContextData());
-		}
+        }
 
-		[Test]
+        [Test]
+        public void ILogicalThreadAffinativeTest_Bug1167805_ReadSchema()
+        {
+            CallContext.SetData(CONTEXT_DATA, new EmptyCallContextData());
+            System.Xml.Schema.XmlSchema.Read(new System.IO.StringReader(@"<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'></xsd:schema>"), null);
+        }
+
+        [Test]
+        public void ILogicalThreadAffinativeTest_Bug1167805_AccessEvidence()
+        {
+            CallContext.SetData(CONTEXT_DATA, new EmptyCallContextData());
+            var ev = AppDomain.CurrentDomain.Evidence;
+            Console.WriteLine(ev);
+        }
+
+        [Test]
 		public void ILogicalThreadAffinativeTestConsole()
 		{	
 			CallContext.SetData( CONTEXT_DATA, new EmptyCallContextData() );
