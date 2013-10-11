@@ -55,7 +55,7 @@ namespace NUnit.Core.Tests
         public void ILogicalThreadAffinativeTest_Bug1167805_AccessEvidence()
         {
             CallContext.SetData(CONTEXT_DATA, new EmptyCallContextData());
-            var ev = AppDomain.CurrentDomain.Evidence;
+            System.Security.Policy.Evidence ev = AppDomain.CurrentDomain.Evidence;
             Console.WriteLine(ev);
         }
 

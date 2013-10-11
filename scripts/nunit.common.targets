@@ -41,7 +41,7 @@
 
     <!-- Base name for packages - add suffix for Alpha, Beta, RC -->
   <property name="package.base.name" 
-      value="${project.name}-${internal.version}"/>
+      value="${project.name}-${package.version}"/>
 
   <!-- Frameworks supported by this build script. The first
          installed framework found is the default for builds. 
