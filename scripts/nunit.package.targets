@@ -510,7 +510,7 @@
 	<include name="src/nunit21under22.config"/>
 	<include name="src/PNUnit/*.conf"/>
 	<include name="src/PNUnit/runpnunit.bat"/>
-	<include name="tools/**"/>
+	<include name="tools/nant"/>
       </fileset>
     </copy>
 
