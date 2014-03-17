@@ -8,10 +8,9 @@ namespace NUnit.Framework
 {
 	internal abstract class AsyncInvocationRegion : IDisposable
 	{
-		private static readonly Type AsyncStateMachineAttribute = Type.GetType("System.Runtime.CompilerServices.AsyncStateMachineAttribute");
 		private static readonly MethodInfo PreserveStackTraceMethod = typeof(Exception).GetMethod("InternalPreserveStackTrace", BindingFlags.Instance | BindingFlags.NonPublic);
-
         private static Action<Exception> preserveStackTraceDelegate;
+
         private static void PreserveStackTrace(Exception ex)
         {
             if (PreserveStackTraceMethod != null)
@@ -34,19 +33,27 @@ namespace NUnit.Framework
 
 		public static AsyncInvocationRegion Create(MethodInfo method)
 		{
-			if (!IsAsyncOperation(method))
-				throw new InvalidOperationException(@"Either asynchronous support is not available or an attempt 
+            if (!IsAsyncOperation(method))
+                throw new InvalidOperationException(@"Either asynchronous support is not available or an attempt 
 at wrapping a non-async method invocation in an async region was done");
 
-			if (method.ReturnType == typeof(void))
-				return new AsyncVoidInvocationRegion();
+            if (method.ReturnType == typeof(void))
+                return new AsyncVoidInvocationRegion();
 
-			return new AsyncTaskInvocationRegion();
+            return new AsyncTaskInvocationRegion();
 		}
 
 		public static bool IsAsyncOperation(MethodInfo method)
 		{
-			return AsyncStateMachineAttribute != null && method.IsDefined(AsyncStateMachineAttribute, false);
+            foreach (object attr in method.GetCustomAttributes(false))
+            {
+	            if ("System.Runtime.CompilerServices.AsyncStateMachineAttribute" == attr.GetType().FullName)
+	            {
+		            return true;
+	            }
+            }
+
+		    return false;
 		}
 
 		public static bool IsAsyncOperation(Delegate @delegate)
