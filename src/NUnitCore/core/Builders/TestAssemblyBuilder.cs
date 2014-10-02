@@ -5,6 +5,7 @@
 // ****************************************************************
 
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Collections;
 using System.Reflection;
@@ -177,8 +178,8 @@ namespace NUnit.Core.Builders
 			AssemblyName assemblyName = AssemblyName.GetAssemblyName( Path.GetFileName( path ) );
 			
             assembly = Assembly.Load(assemblyName);
-			
-            if ( assembly != null )
+
+		    if ( assembly != null )
                 CoreExtensions.Host.InstallAdhocExtensions( assembly );
 
 			log.Info( "Loaded assembly " + assembly.FullName );
@@ -216,6 +217,19 @@ namespace NUnit.Core.Builders
 	
 		private IList GetCandidateFixtureTypes( Assembly assembly, string ns )
 		{
+#if !NETCF && !SILVERLIGHT 
+            // Skip if the assembly references NUnit 3+
+            foreach(AssemblyName an in assembly.GetReferencedAssemblies())
+            {
+                if(an.Name.ToLower() == "nunit.framework" && an.Version.Major > 2)
+                {
+                    log.Warning("Skipped loading assembly {0} because it references an unsupported version of the nunit.framework, {1}",
+                        assembly.GetName().Name, an.Version);
+                    return new ArrayList();
+                }
+            }
+#endif
+
 			IList types = assembly.GetTypes();
 				
 			if ( ns == null || ns == string.Empty || types.Count == 0 ) 
