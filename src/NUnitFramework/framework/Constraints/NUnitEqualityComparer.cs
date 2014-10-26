@@ -154,7 +154,24 @@ namespace NUnit.Framework.Constraints
                 return ArraysEqual((Array) expected, (Array) actual, ref tolerance);
 
             if (expected is IDictionary && actual is IDictionary)
-                return DictionariesEqual((IDictionary) expected, (IDictionary) actual, ref tolerance);
+                return DictionariesEqual((IDictionary)expected, (IDictionary)actual, ref tolerance);
+
+            // Issue #70 - EquivalentTo isn't compatible with IgnoreCase for dictionaries
+            if (expected is DictionaryEntry && actual is DictionaryEntry)
+                return DictionaryEntriesEqual((DictionaryEntry)expected, (DictionaryEntry)actual, ref tolerance);
+
+            // IDictionary<,> will eventually try to compare it's key value pairs when using CollectionTally
+            if (xType.IsGenericType && xType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>) &&
+                yType.IsGenericType && yType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
+            {
+                var keyTolerance = new Tolerance(0);
+                object xKey = xType.GetProperty("Key").GetValue(expected, null);
+                object yKey = yType.GetProperty("Key").GetValue(actual, null);
+                object xValue = xType.GetProperty("Value").GetValue(expected, null);
+                object yValue = yType.GetProperty("Value").GetValue(actual, null);
+
+                return AreEqual(xKey, yKey, ref keyTolerance) && AreEqual(xValue, yValue, ref tolerance);
+            }
 
             if (expected is IEnumerable && actual is IEnumerable && !(expected is string && actual is string))
                 return EnumerablesEqual((IEnumerable) expected, (IEnumerable) actual, ref tolerance);
@@ -164,6 +181,9 @@ namespace NUnit.Framework.Constraints
 
             if (expected is Stream && actual is Stream)
                 return StreamsEqual((Stream) expected, (Stream) actual);
+            
+            if ( expected is char && actual is char )
+                return CharsEqual( (char)expected, (char)actual );
 
             if (expected is DirectoryInfo && actual is DirectoryInfo)
                 return DirectoriesEqual((DirectoryInfo) expected, (DirectoryInfo) actual);
@@ -263,12 +283,26 @@ namespace NUnit.Framework.Constraints
             return true;
         }
 
+        private bool DictionaryEntriesEqual(DictionaryEntry x, DictionaryEntry y, ref Tolerance tolerance)
+        {
+            var keyTolerance = new Tolerance(0);
+            return AreEqual(x.Key, y.Key, ref keyTolerance) && AreEqual(x.Value, y.Value, ref tolerance);
+        }
+
         private bool StringsEqual(string expected, string actual)
         {
             string s1 = caseInsensitive ? expected.ToLower() : expected;
             string s2 = caseInsensitive ? actual.ToLower() : actual;
 
             return s1.Equals(s2);
+        }
+ 		 
+        private bool CharsEqual(char x, char y)
+        {
+            char c1 = caseInsensitive ? Char.ToLower(x) : x;
+            char c2 = caseInsensitive ? Char.ToLower(y) : y;
+
+            return c1 == c2;
         }
         
         private bool EnumerablesEqual(IEnumerable expected, IEnumerable actual, ref Tolerance tolerance)
