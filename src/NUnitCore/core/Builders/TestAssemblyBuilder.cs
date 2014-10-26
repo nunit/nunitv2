@@ -217,7 +217,6 @@ namespace NUnit.Core.Builders
 
         private IList GetCandidateFixtureTypes(Assembly assembly, string ns)
         {
-#if !NETCF && !SILVERLIGHT
             // Skip if the assembly references NUnit 3+
             foreach(AssemblyName an in assembly.GetReferencedAssemblies())
             {
@@ -228,7 +227,6 @@ namespace NUnit.Core.Builders
                     return new ArrayList();
                 }
             }
-#endif
 
             IList types = assembly.GetTypes();
 
