@@ -178,6 +178,9 @@ namespace NUnit.Framework.Constraints
                 if (expected is DateTime && actual is DateTime)
                     return ((DateTime) expected - (DateTime) actual).Duration() <= amount;
 
+                if (expected is DateTimeOffset && actual is DateTimeOffset)
+                    return ((DateTimeOffset)expected - (DateTimeOffset)actual).Duration() <= amount;
+
                 if (expected is TimeSpan && actual is TimeSpan)
                     return ((TimeSpan) expected - (TimeSpan) actual).Duration() <= amount;
             }
