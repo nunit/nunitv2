@@ -18,158 +18,158 @@ using System.Text;
 
 namespace NUnit.Gui
 {
-	using NUnit.Core;
-	using NUnit.Util;
-	using NUnit.UiKit;
-	using CP.Windows.Forms;
+    using NUnit.Core;
+    using NUnit.Util;
+    using NUnit.UiKit;
+    using CP.Windows.Forms;
 
-	public class NUnitForm : NUnitFormBase
-	{
+    public class NUnitForm : NUnitFormBase
+    {
         static Logger log = InternalTrace.GetLogger(typeof(NUnitForm));
         
         #region Instance variables
 
-		// Handlers for our recentFiles and recentProjects
-		private RecentFileMenuHandler recentProjectsMenuHandler;
+        // Handlers for our recentFiles and recentProjects
+        private RecentFileMenuHandler recentProjectsMenuHandler;
 
-		private RecentFiles recentFilesService;
-		private ISettings userSettings;
+        private RecentFiles recentFilesService;
+        private ISettings userSettings;
 
-		private string displayFormat = "Full";
+        private string displayFormat = "Full";
 
-		private LongRunningOperationDisplay longOpDisplay;
+        private LongRunningOperationDisplay longOpDisplay;
 
-		private System.Drawing.Font fixedFont;
+        private System.Drawing.Font fixedFont;
 
-		// Our current run command line options
-		private GuiOptions guiOptions;
+        // Our current run command line options
+        private GuiOptions guiOptions;
 
         // Our 'presenter' - under development
         private NUnitPresenter presenter;
 
-		private System.ComponentModel.IContainer components;
+        private System.ComponentModel.IContainer components;
 
-		private System.Windows.Forms.Panel leftPanel;
-		public System.Windows.Forms.Splitter treeSplitter;
-		public System.Windows.Forms.Panel rightPanel;
+        private System.Windows.Forms.Panel leftPanel;
+        public System.Windows.Forms.Splitter treeSplitter;
+        public System.Windows.Forms.Panel rightPanel;
 
-		private TestTree testTree;
+        private TestTree testTree;
 
-		public System.Windows.Forms.GroupBox groupBox1;
-		public System.Windows.Forms.Button runButton;
+        public System.Windows.Forms.GroupBox groupBox1;
+        public System.Windows.Forms.Button runButton;
         private System.Windows.Forms.Button stopButton;
-		public NUnit.UiKit.TestProgressBar progressBar;
-		private CP.Windows.Forms.ExpandingLabel runCount;
+        public NUnit.UiKit.TestProgressBar progressBar;
+        private CP.Windows.Forms.ExpandingLabel runCount;
 
-		public NUnit.UiKit.ResultTabs resultTabs;
+        public NUnit.UiKit.ResultTabs resultTabs;
 
-		public NUnit.UiKit.StatusBar statusBar;
+        public NUnit.UiKit.StatusBar statusBar;
 
-		public System.Windows.Forms.ToolTip toolTip;
+        public System.Windows.Forms.ToolTip toolTip;
 
-		public System.Windows.Forms.MainMenu mainMenu;
-		
-		public System.Windows.Forms.MenuItem fileMenu;
-		private System.Windows.Forms.MenuItem saveMenuItem;
-		private System.Windows.Forms.MenuItem saveAsMenuItem;
-		private System.Windows.Forms.MenuItem newMenuItem;
-		private System.Windows.Forms.MenuItem openMenuItem;
-		private System.Windows.Forms.MenuItem recentProjectsMenu;
-		private System.Windows.Forms.MenuItem fileMenuSeparator1;
-		private System.Windows.Forms.MenuItem fileMenuSeparator2;
-		public System.Windows.Forms.MenuItem fileMenuSeparator4;
-		private System.Windows.Forms.MenuItem closeMenuItem;
-		public System.Windows.Forms.MenuItem exitMenuItem;
+        public System.Windows.Forms.MainMenu mainMenu;
+        
+        public System.Windows.Forms.MenuItem fileMenu;
+        private System.Windows.Forms.MenuItem saveMenuItem;
+        private System.Windows.Forms.MenuItem saveAsMenuItem;
+        private System.Windows.Forms.MenuItem newMenuItem;
+        private System.Windows.Forms.MenuItem openMenuItem;
+        private System.Windows.Forms.MenuItem recentProjectsMenu;
+        private System.Windows.Forms.MenuItem fileMenuSeparator1;
+        private System.Windows.Forms.MenuItem fileMenuSeparator2;
+        public System.Windows.Forms.MenuItem fileMenuSeparator4;
+        private System.Windows.Forms.MenuItem closeMenuItem;
+        public System.Windows.Forms.MenuItem exitMenuItem;
 
-		private System.Windows.Forms.MenuItem projectMenu;
-		private System.Windows.Forms.MenuItem editProjectMenuItem;
-		private System.Windows.Forms.MenuItem configMenuItem;
-		private System.Windows.Forms.MenuItem projectMenuSeparator1;
-		private System.Windows.Forms.MenuItem projectMenuSeparator2;
+        private System.Windows.Forms.MenuItem projectMenu;
+        private System.Windows.Forms.MenuItem editProjectMenuItem;
+        private System.Windows.Forms.MenuItem configMenuItem;
+        private System.Windows.Forms.MenuItem projectMenuSeparator1;
+        private System.Windows.Forms.MenuItem projectMenuSeparator2;
 
-		private System.Windows.Forms.MenuItem toolsMenu;
-		private System.Windows.Forms.MenuItem settingsMenuItem;
-		private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
+        private System.Windows.Forms.MenuItem toolsMenu;
+        private System.Windows.Forms.MenuItem settingsMenuItem;
+        private System.Windows.Forms.MenuItem saveXmlResultsMenuItem;
 
-		public System.Windows.Forms.MenuItem helpMenuItem;
-		public System.Windows.Forms.MenuItem helpItem;
-		public System.Windows.Forms.MenuItem helpMenuSeparator1;
-		public System.Windows.Forms.MenuItem aboutMenuItem;
+        public System.Windows.Forms.MenuItem helpMenuItem;
+        public System.Windows.Forms.MenuItem helpItem;
+        public System.Windows.Forms.MenuItem helpMenuSeparator1;
+        public System.Windows.Forms.MenuItem aboutMenuItem;
 
-		private System.Windows.Forms.MenuItem addVSProjectMenuItem;
-		private System.Windows.Forms.MenuItem exceptionDetailsMenuItem;
-		private System.Windows.Forms.MenuItem viewMenu;
-		private System.Windows.Forms.MenuItem statusBarMenuItem;
-		private System.Windows.Forms.MenuItem toolsMenuSeparator2;
-		private System.Windows.Forms.MenuItem miniGuiMenuItem;
-		private System.Windows.Forms.MenuItem fullGuiMenuItem;
-		private System.Windows.Forms.MenuItem fontChangeMenuItem;
-		private System.Windows.Forms.MenuItem defaultFontMenuItem;
-		private System.Windows.Forms.MenuItem decreaseFontMenuItem;
-		private System.Windows.Forms.MenuItem increaseFontMenuItem;
-		private System.Windows.Forms.MenuItem testMenu;
-		private System.Windows.Forms.MenuItem runAllMenuItem;
-		private System.Windows.Forms.MenuItem runSelectedMenuItem;
-		private System.Windows.Forms.MenuItem runFailedMenuItem;
-		private System.Windows.Forms.MenuItem stopRunMenuItem;
-		private System.Windows.Forms.MenuItem addinInfoMenuItem;
-		private System.Windows.Forms.MenuItem viewMenuSeparator1;
-		private System.Windows.Forms.MenuItem viewMenuSeparator2;
-		private System.Windows.Forms.MenuItem viewMenuSeparator3;
-		private System.Windows.Forms.MenuItem fontMenuSeparator;
-		private System.Windows.Forms.MenuItem testMenuSeparator;
-		private System.Windows.Forms.MenuItem guiFontMenuItem;
-		private System.Windows.Forms.MenuItem fixedFontMenuItem;
-		private System.Windows.Forms.MenuItem increaseFixedFontMenuItem;
-		private System.Windows.Forms.MenuItem decreaseFixedFontMenuItem;
-		private System.Windows.Forms.MenuItem menuItem1;
-		private System.Windows.Forms.MenuItem restoreFixedFontMenuItem;
-		private System.Windows.Forms.MenuItem reloadTestsMenuItem;
-		private System.Windows.Forms.MenuItem reloadProjectMenuItem;
-		private System.Windows.Forms.MenuItem menuItem2;
-		private System.Windows.Forms.MenuItem toolsMenuSeparator1;
-		private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
+        private System.Windows.Forms.MenuItem addVSProjectMenuItem;
+        private System.Windows.Forms.MenuItem exceptionDetailsMenuItem;
+        private System.Windows.Forms.MenuItem viewMenu;
+        private System.Windows.Forms.MenuItem statusBarMenuItem;
+        private System.Windows.Forms.MenuItem toolsMenuSeparator2;
+        private System.Windows.Forms.MenuItem miniGuiMenuItem;
+        private System.Windows.Forms.MenuItem fullGuiMenuItem;
+        private System.Windows.Forms.MenuItem fontChangeMenuItem;
+        private System.Windows.Forms.MenuItem defaultFontMenuItem;
+        private System.Windows.Forms.MenuItem decreaseFontMenuItem;
+        private System.Windows.Forms.MenuItem increaseFontMenuItem;
+        private System.Windows.Forms.MenuItem testMenu;
+        private System.Windows.Forms.MenuItem runAllMenuItem;
+        private System.Windows.Forms.MenuItem runSelectedMenuItem;
+        private System.Windows.Forms.MenuItem runFailedMenuItem;
+        private System.Windows.Forms.MenuItem stopRunMenuItem;
+        private System.Windows.Forms.MenuItem addinInfoMenuItem;
+        private System.Windows.Forms.MenuItem viewMenuSeparator1;
+        private System.Windows.Forms.MenuItem viewMenuSeparator2;
+        private System.Windows.Forms.MenuItem viewMenuSeparator3;
+        private System.Windows.Forms.MenuItem fontMenuSeparator;
+        private System.Windows.Forms.MenuItem testMenuSeparator;
+        private System.Windows.Forms.MenuItem guiFontMenuItem;
+        private System.Windows.Forms.MenuItem fixedFontMenuItem;
+        private System.Windows.Forms.MenuItem increaseFixedFontMenuItem;
+        private System.Windows.Forms.MenuItem decreaseFixedFontMenuItem;
+        private System.Windows.Forms.MenuItem menuItem1;
+        private System.Windows.Forms.MenuItem restoreFixedFontMenuItem;
+        private System.Windows.Forms.MenuItem reloadTestsMenuItem;
+        private System.Windows.Forms.MenuItem reloadProjectMenuItem;
+        private System.Windows.Forms.MenuItem menuItem2;
+        private System.Windows.Forms.MenuItem toolsMenuSeparator1;
+        private System.Windows.Forms.MenuItem assemblyDetailsMenuItem;
         private MenuItem runtimeMenuItem;
         private MenuItem openLogDirectoryMenuItem;
         private ExpandingLabel suiteName;
-		private System.Windows.Forms.MenuItem addAssemblyMenuItem;
+        private System.Windows.Forms.MenuItem addAssemblyMenuItem;
 
-		#endregion
-		
-		#region Construction and Disposal
+        #endregion
+        
+        #region Construction and Disposal
 
-		public NUnitForm( GuiOptions guiOptions ) : base("NUnit")
-		{
-			InitializeComponent();
+        public NUnitForm( GuiOptions guiOptions ) : base("NUnit")
+        {
+            InitializeComponent();
 
-			this.guiOptions = guiOptions;
-			this.recentFilesService = Services.RecentFiles;
-			this.userSettings = Services.UserSettings;
+            this.guiOptions = guiOptions;
+            this.recentFilesService = Services.RecentFiles;
+            this.userSettings = Services.UserSettings;
 
             this.presenter = new NUnitPresenter(this, TestLoader);
-		}
+        }
 
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if (components != null) 
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        protected override void Dispose( bool disposing )
+        {
+            if( disposing )
+            {
+                if (components != null) 
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose( disposing );
+        }
 
-		#endregion
-		
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #endregion
+        
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NUnitForm));
             this.statusBar = new NUnit.UiKit.StatusBar();
@@ -819,9 +819,9 @@ namespace NUnit.Gui
             this.leftPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
-		}
+        }
 
-		#endregion
+        #endregion
 
         #region Public Properties
 
@@ -835,51 +835,51 @@ namespace NUnit.Gui
         #region Properties used internally
 
         private TestLoader _testLoader;
-		private TestLoader TestLoader
-		{
-			get
-			{ 
-				if ( _testLoader == null )
-					_testLoader = Services.TestLoader;
-				return _testLoader;
-			}
-		}
+        private TestLoader TestLoader
+        {
+            get
+            { 
+                if ( _testLoader == null )
+                    _testLoader = Services.TestLoader;
+                return _testLoader;
+            }
+        }
 
-		private bool IsProjectLoaded
-		{
-			get { return TestLoader.IsProjectLoaded; }
-		}
+        private bool IsProjectLoaded
+        {
+            get { return TestLoader.IsProjectLoaded; }
+        }
 
-		private NUnitProject TestProject
-		{
-			get { return TestLoader.TestProject; }
-		}
+        private NUnitProject TestProject
+        {
+            get { return TestLoader.TestProject; }
+        }
 
-		private bool IsTestLoaded
-		{
-			get { return TestLoader.IsTestLoaded; }
-		}
+        private bool IsTestLoaded
+        {
+            get { return TestLoader.IsTestLoaded; }
+        }
 
-		private bool IsTestRunning
-		{
-			get { return TestLoader.Running; }
-		}
-		#endregion
+        private bool IsTestRunning
+        {
+            get { return TestLoader.Running; }
+        }
+        #endregion
 
-		#region Menu Handlers
+        #region Menu Handlers
 
-		#region File Menu
+        #region File Menu
 
-		private void fileMenu_Popup(object sender, System.EventArgs e)
-		{
-			newMenuItem.Enabled = !IsTestRunning;
-			openMenuItem.Enabled = !IsTestRunning;
-			closeMenuItem.Enabled = IsProjectLoaded && !IsTestRunning;
+        private void fileMenu_Popup(object sender, System.EventArgs e)
+        {
+            newMenuItem.Enabled = !IsTestRunning;
+            openMenuItem.Enabled = !IsTestRunning;
+            closeMenuItem.Enabled = IsProjectLoaded && !IsTestRunning;
 
-			saveMenuItem.Enabled = IsProjectLoaded;
-			saveAsMenuItem.Enabled = IsProjectLoaded;
+            saveMenuItem.Enabled = IsProjectLoaded;
+            saveAsMenuItem.Enabled = IsProjectLoaded;
 
-			reloadTestsMenuItem.Enabled = IsTestLoaded && !IsTestRunning;
+            reloadTestsMenuItem.Enabled = IsTestLoaded && !IsTestRunning;
             reloadProjectMenuItem.Enabled = runtimeMenuItem.Enabled = 
                 IsProjectLoaded && 
                 File.Exists(TestProject.ProjectPath) &&
@@ -912,120 +912,120 @@ namespace NUnit.Gui
                 }
             }
 
-			recentProjectsMenu.Enabled = !IsTestRunning;
+            recentProjectsMenu.Enabled = !IsTestRunning;
 
-			if ( !IsTestRunning )
-			{
-				recentProjectsMenuHandler.Load();
-			}
-		}
+            if ( !IsTestRunning )
+            {
+                recentProjectsMenuHandler.Load();
+            }
+        }
 
-		private void newMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void newMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.NewProject();
-		}
+        }
 
-		private void openMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void openMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.OpenProject();
-		}
+        }
 
-		private void closeMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void closeMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.CloseProject();
-		}
+        }
 
-		private void saveMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void saveMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.SaveProject();
-		}
+        }
 
-		private void saveAsMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void saveAsMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.SaveProjectAs();
             SetTitleBar(TestProject.Name);
-		}
+        }
 
         private void runtimeFrameworkMenuItem_Click(object sender, System.EventArgs e)
         {
             TestLoader.ReloadTest(((MenuItem)sender).Tag as RuntimeFramework);
         }
 
-		private void reloadProjectMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void reloadProjectMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.ReloadProject();
-		}
+        }
 
-		private void reloadTestsMenuItem_Click(object sender, System.EventArgs e)
-		{
-			TestLoader.ReloadTest();
-		}
+        private void reloadTestsMenuItem_Click(object sender, System.EventArgs e)
+        {
+            TestLoader.ReloadTest();
+        }
 
-		private void exitMenuItem_Click(object sender, System.EventArgs e)
-		{
-			this.Close();
-		}
+        private void exitMenuItem_Click(object sender, System.EventArgs e)
+        {
+            this.Close();
+        }
 
-		#endregion
+        #endregion
 
-		#region View Menu
-		private void viewMenu_Popup(object sender, System.EventArgs e)
-		{
-			assemblyDetailsMenuItem.Enabled = this.TestLoader.IsTestLoaded;
-		}
+        #region View Menu
+        private void viewMenu_Popup(object sender, System.EventArgs e)
+        {
+            assemblyDetailsMenuItem.Enabled = this.TestLoader.IsTestLoaded;
+        }
 
-		private void statusBarMenuItem_Click(object sender, System.EventArgs e)
-		{
-			statusBarMenuItem.Checked = !statusBarMenuItem.Checked;
-			statusBar.Visible = statusBarMenuItem.Checked;
-		}
+        private void statusBarMenuItem_Click(object sender, System.EventArgs e)
+        {
+            statusBarMenuItem.Checked = !statusBarMenuItem.Checked;
+            statusBar.Visible = statusBarMenuItem.Checked;
+        }
 
-		private void fontChangeMenuItem_Click(object sender, System.EventArgs e)
-		{
-			FontDialog fontDialog = new FontDialog();
-			fontDialog.FontMustExist = true;
-			fontDialog.Font = this.Font;
-			fontDialog.MinSize = 6;
-			fontDialog.MaxSize = 12;
-			fontDialog.AllowVectorFonts = false;
-			fontDialog.ScriptsOnly = true;
-			fontDialog.ShowEffects = false;
-			fontDialog.ShowApply = true;
-			fontDialog.Apply += new EventHandler(fontDialog_Apply);
-			if( fontDialog.ShowDialog() == DialogResult.OK )
-				applyFont( fontDialog.Font );
-		}
+        private void fontChangeMenuItem_Click(object sender, System.EventArgs e)
+        {
+            FontDialog fontDialog = new FontDialog();
+            fontDialog.FontMustExist = true;
+            fontDialog.Font = this.Font;
+            fontDialog.MinSize = 6;
+            fontDialog.MaxSize = 12;
+            fontDialog.AllowVectorFonts = false;
+            fontDialog.ScriptsOnly = true;
+            fontDialog.ShowEffects = false;
+            fontDialog.ShowApply = true;
+            fontDialog.Apply += new EventHandler(fontDialog_Apply);
+            if( fontDialog.ShowDialog() == DialogResult.OK )
+                applyFont( fontDialog.Font );
+        }
 
-		private void fontDialog_Apply(object sender, EventArgs e)
-		{
-			applyFont( ((FontDialog)sender).Font );
-		}
+        private void fontDialog_Apply(object sender, EventArgs e)
+        {
+            applyFont( ((FontDialog)sender).Font );
+        }
 
 
-		private void defaultFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFont( System.Windows.Forms.Form.DefaultFont );
-		}
+        private void defaultFontMenuItem_Click(object sender, System.EventArgs e)
+        {
+            applyFont( System.Windows.Forms.Form.DefaultFont );
+        }
 
-		private void fullGuiMenuItem_Click(object sender, System.EventArgs e)
-		{
-			if ( !fullGuiMenuItem.Checked )
-				displayFullGui();
-		}
+        private void fullGuiMenuItem_Click(object sender, System.EventArgs e)
+        {
+            if ( !fullGuiMenuItem.Checked )
+                displayFullGui();
+        }
 
-		private void miniGuiMenuItem_Click(object sender, System.EventArgs e)
-		{
-			if ( !miniGuiMenuItem.Checked )
-				displayMiniGui();
-		}
+        private void miniGuiMenuItem_Click(object sender, System.EventArgs e)
+        {
+            if ( !miniGuiMenuItem.Checked )
+                displayMiniGui();
+        }
 
-		private void displayFullGui()
-		{
-			fullGuiMenuItem.Checked = true;
-			miniGuiMenuItem.Checked = false;
+        private void displayFullGui()
+        {
+            fullGuiMenuItem.Checked = true;
+            miniGuiMenuItem.Checked = false;
 
-			this.displayFormat = "Full";
-			userSettings.SaveSetting( "Gui.DisplayFormat", "Full" );
+            this.displayFormat = "Full";
+            userSettings.SaveSetting( "Gui.DisplayFormat", "Full" );
 
             this.leftPanel.Visible = true;
             this.leftPanel.Dock = DockStyle.Left;
@@ -1036,34 +1036,34 @@ namespace NUnit.Gui
             resultTabs.TabsMenu.Visible = true;
 
             int x = userSettings.GetSetting("Gui.MainForm.Left", 10);
-			int y = userSettings.GetSetting( "Gui.MainForm.Top", 10 );
-			Point location = new Point( x, y );
+            int y = userSettings.GetSetting( "Gui.MainForm.Top", 10 );
+            Point location = new Point( x, y );
 
-			if ( !IsValidLocation( location ) )
-				location = new Point( 10, 10 );
-			this.Location = location;
+            if ( !IsValidLocation( location ) )
+                location = new Point( 10, 10 );
+            this.Location = location;
 
-			int width = userSettings.GetSetting( "Gui.MainForm.Width", this.Size.Width );
-			int height = userSettings.GetSetting( "Gui.MainForm.Height", this.Size.Height );
-			if ( width < 160 ) width = 160;
-			if ( height < 32 ) height = 32;
-			this.Size = new Size( width, height );
+            int width = userSettings.GetSetting( "Gui.MainForm.Width", this.Size.Width );
+            int height = userSettings.GetSetting( "Gui.MainForm.Height", this.Size.Height );
+            if ( width < 160 ) width = 160;
+            if ( height < 32 ) height = 32;
+            this.Size = new Size( width, height );
 
-			// Set to maximized if required
-			if ( userSettings.GetSetting( "Gui.MainForm.Maximized", false ) )
-				this.WindowState = FormWindowState.Maximized;
+            // Set to maximized if required
+            if ( userSettings.GetSetting( "Gui.MainForm.Maximized", false ) )
+                this.WindowState = FormWindowState.Maximized;
 
-			// Set the font to use
+            // Set the font to use
             applyFont(userSettings.GetSetting("Gui.MainForm.Font", Form.DefaultFont));
         }
 
-		private void displayMiniGui()
-		{
-			miniGuiMenuItem.Checked = true;
-			fullGuiMenuItem.Checked = false;
-			
-			this.displayFormat = "Mini";
-			userSettings.SaveSetting( "Gui.DisplayFormat", "Mini" );
+        private void displayMiniGui()
+        {
+            miniGuiMenuItem.Checked = true;
+            fullGuiMenuItem.Checked = false;
+            
+            this.displayFormat = "Mini";
+            userSettings.SaveSetting( "Gui.DisplayFormat", "Mini" );
 
             this.leftPanel.Visible = true;
             this.leftPanel.Dock = DockStyle.Fill;
@@ -1074,147 +1074,147 @@ namespace NUnit.Gui
             resultTabs.TabsMenu.Visible = false;
 
             int x = userSettings.GetSetting("Gui.MiniForm.Left", 10);
-			int y = userSettings.GetSetting( "Gui.MiniForm.Top", 10 );
-			Point location = new Point( x, y );
+            int y = userSettings.GetSetting( "Gui.MiniForm.Top", 10 );
+            Point location = new Point( x, y );
 
-			if ( !IsValidLocation( location ) )
-				location = new Point( 10, 10 );
-			this.Location = location;
+            if ( !IsValidLocation( location ) )
+                location = new Point( 10, 10 );
+            this.Location = location;
 
-			int width = userSettings.GetSetting( "Gui.MiniForm.Width", 300 );
-			int height = userSettings.GetSetting( "Gui.MiniForm.Height", this.Size.Height );
-			if ( width < 160 ) width = 160;
-			if ( height < 32 ) height = 32;
-			this.Size = new Size( width, height );
+            int width = userSettings.GetSetting( "Gui.MiniForm.Width", 300 );
+            int height = userSettings.GetSetting( "Gui.MiniForm.Height", this.Size.Height );
+            if ( width < 160 ) width = 160;
+            if ( height < 32 ) height = 32;
+            this.Size = new Size( width, height );
 
-			// Set the font to use
+            // Set the font to use
             applyFont(userSettings.GetSetting("Gui.MiniForm.Font", Form.DefaultFont));
-		}
+        }
 
-		private void increaseFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints * 1.2f, this.Font.Style ) );
-		}
+        private void increaseFontMenuItem_Click(object sender, System.EventArgs e)
+        {
+            applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints * 1.2f, this.Font.Style ) );
+        }
 
-		private void decreaseFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints / 1.2f, this.Font.Style ) );
-		}
+        private void decreaseFontMenuItem_Click(object sender, System.EventArgs e)
+        {
+            applyFont( new Font( this.Font.FontFamily, this.Font.SizeInPoints / 1.2f, this.Font.Style ) );
+        }
 
-		private void applyFont( Font font )
-		{
-			this.Font = font;
-			this.runCount.Font = font.FontFamily.IsStyleAvailable( FontStyle.Bold )
-				? new Font( font, FontStyle.Bold )
-				: font;
-			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-			userSettings.SaveSetting( 
-				displayFormat == "Mini" ? "Gui.MiniForm.Font" : "Gui.MainForm.Font", 
-				converter.ConvertToString( null, CultureInfo.InvariantCulture, font ) );
-		}
+        private void applyFont( Font font )
+        {
+            this.Font = font;
+            this.runCount.Font = font.FontFamily.IsStyleAvailable( FontStyle.Bold )
+                ? new Font( font, FontStyle.Bold )
+                : font;
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+            userSettings.SaveSetting( 
+                displayFormat == "Mini" ? "Gui.MiniForm.Font" : "Gui.MainForm.Font", 
+                converter.ConvertToString( null, CultureInfo.InvariantCulture, font ) );
+        }
 
-		private void increaseFixedFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFixedFont( new Font( fixedFont.FontFamily, fixedFont.SizeInPoints * 1.2f, fixedFont.Style ) );		
-		}
+        private void increaseFixedFontMenuItem_Click(object sender, System.EventArgs e)
+        {
+            applyFixedFont( new Font( fixedFont.FontFamily, fixedFont.SizeInPoints * 1.2f, fixedFont.Style ) );		
+        }
 
-		private void decreaseFixedFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFixedFont( new Font( fixedFont.FontFamily, fixedFont.SizeInPoints / 1.2f, fixedFont.Style ) );		
-		}
+        private void decreaseFixedFontMenuItem_Click(object sender, System.EventArgs e)
+        {
+            applyFixedFont( new Font( fixedFont.FontFamily, fixedFont.SizeInPoints / 1.2f, fixedFont.Style ) );		
+        }
 
-		private void restoreFixedFontMenuItem_Click(object sender, System.EventArgs e)
-		{
-			applyFixedFont( new Font( FontFamily.GenericMonospace, 8.0f ) );
-		}
+        private void restoreFixedFontMenuItem_Click(object sender, System.EventArgs e)
+        {
+            applyFixedFont( new Font( FontFamily.GenericMonospace, 8.0f ) );
+        }
 
-		private void applyFixedFont( Font font )
-		{
-			this.fixedFont = font;
-			TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
-			userSettings.SaveSetting( "Gui.FixedFont", converter.ConvertToString( null, CultureInfo.InvariantCulture, font ) );
-		}
-		#endregion
+        private void applyFixedFont( Font font )
+        {
+            this.fixedFont = font;
+            TypeConverter converter = TypeDescriptor.GetConverter(typeof(Font));
+            userSettings.SaveSetting( "Gui.FixedFont", converter.ConvertToString( null, CultureInfo.InvariantCulture, font ) );
+        }
+        #endregion
 
-		#region Project Menu
+        #region Project Menu
 
-		/// <summary>
-		/// When the project menu pops up, we populate the
-		/// submenu for configurations dynamically.
-		/// </summary>
-		private void projectMenu_Popup(object sender, System.EventArgs e)
-		{
-			int index = 0;
-			configMenuItem.MenuItems.Clear();
+        /// <summary>
+        /// When the project menu pops up, we populate the
+        /// submenu for configurations dynamically.
+        /// </summary>
+        private void projectMenu_Popup(object sender, System.EventArgs e)
+        {
+            int index = 0;
+            configMenuItem.MenuItems.Clear();
 
-			foreach ( ProjectConfig config in TestProject.Configs )
-			{
-				string text = string.Format( "&{0} {1}", index+1, config.Name );
-				MenuItem item = new MenuItem( 
-					text, new EventHandler( configMenuItem_Click ) );
-				if ( config.Name == TestProject.ActiveConfigName ) 
-					item.Checked = true;
-				configMenuItem.MenuItems.Add( index++, item );
-			}
+            foreach ( ProjectConfig config in TestProject.Configs )
+            {
+                string text = string.Format( "&{0} {1}", index+1, config.Name );
+                MenuItem item = new MenuItem( 
+                    text, new EventHandler( configMenuItem_Click ) );
+                if ( config.Name == TestProject.ActiveConfigName ) 
+                    item.Checked = true;
+                configMenuItem.MenuItems.Add( index++, item );
+            }
 
-			configMenuItem.MenuItems.Add( "-" );
+            configMenuItem.MenuItems.Add( "-" );
 
-			configMenuItem.MenuItems.Add( "&Add...",
-				new System.EventHandler( addConfigurationMenuItem_Click ) );
+            configMenuItem.MenuItems.Add( "&Add...",
+                new System.EventHandler( addConfigurationMenuItem_Click ) );
 
-			configMenuItem.MenuItems.Add( "&Edit...", 
-				new System.EventHandler( editConfigurationsMenuItem_Click ) );
+            configMenuItem.MenuItems.Add( "&Edit...", 
+                new System.EventHandler( editConfigurationsMenuItem_Click ) );
 
-			addVSProjectMenuItem.Visible = userSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
-			addAssemblyMenuItem.Enabled = TestProject.Configs.Count > 0;
-		}
+            addVSProjectMenuItem.Visible = userSettings.GetSetting( "Options.TestLoader.VisualStudioSupport", false );
+            addAssemblyMenuItem.Enabled = TestProject.Configs.Count > 0;
+        }
 
-		private void configMenuItem_Click( object sender, EventArgs e )
-		{
-			MenuItem item = (MenuItem)sender;
+        private void configMenuItem_Click( object sender, EventArgs e )
+        {
+            MenuItem item = (MenuItem)sender;
             if (!item.Checked)
             {
                 TestProject.SetActiveConfig(TestProject.Configs[item.Index].Name);
                 LoadOrReloadTestAsNeeded();
             }
-		}
+        }
 
-		private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
-		{
-			using( AddConfigurationDialog dlg = new AddConfigurationDialog( TestProject ) )
-			{
-				this.Site.Container.Add( dlg );
-				dlg.ShowDialog();
-			}
-
-            LoadOrReloadTestAsNeeded();
-		}
-
-		private void editConfigurationsMenuItem_Click( object sender, System.EventArgs e )
-		{
-			using( ConfigurationEditor editor = new ConfigurationEditor( TestProject ) )
-			{
-				this.Site.Container.Add( editor );
-				editor.ShowDialog();
-			}
+        private void addConfigurationMenuItem_Click( object sender, System.EventArgs e )
+        {
+            using( AddConfigurationDialog dlg = new AddConfigurationDialog( TestProject ) )
+            {
+                this.Site.Container.Add( dlg );
+                dlg.ShowDialog();
+            }
 
             LoadOrReloadTestAsNeeded();
-		}
+        }
 
-		private void addAssemblyMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void editConfigurationsMenuItem_Click( object sender, System.EventArgs e )
+        {
+            using( ConfigurationEditor editor = new ConfigurationEditor( TestProject ) )
+            {
+                this.Site.Container.Add( editor );
+                editor.ShowDialog();
+            }
+
+            LoadOrReloadTestAsNeeded();
+        }
+
+        private void addAssemblyMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.AddAssembly();
             LoadOrReloadTestAsNeeded();
-		}
+        }
 
-		private void addVSProjectMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void addVSProjectMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.AddVSProject();
             LoadOrReloadTestAsNeeded();
-		}
+        }
 
-		private void editProjectMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void editProjectMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.EditProject();
         }
 
@@ -1234,71 +1234,71 @@ namespace NUnit.Gui
             }
         }
 
-		#endregion
+        #endregion
 
-		#region Test Menu
+        #region Test Menu
 
-		private void runAllMenuItem_Click(object sender, System.EventArgs e)
-		{
-			this.testTree.RunAllTests();
-		}
+        private void runAllMenuItem_Click(object sender, System.EventArgs e)
+        {
+            this.testTree.RunAllTests();
+        }
 
-		private void runSelectedMenuItem_Click(object sender, System.EventArgs e)
-		{
-			this.testTree.RunSelectedTests();
-		
-		}
+        private void runSelectedMenuItem_Click(object sender, System.EventArgs e)
+        {
+            this.testTree.RunSelectedTests();
+        
+        }
 
-		private void runFailedMenuItem_Click(object sender, System.EventArgs e)
-		{
-			this.testTree.RunFailedTests();
-		}
+        private void runFailedMenuItem_Click(object sender, System.EventArgs e)
+        {
+            this.testTree.RunFailedTests();
+        }
 
-		private void stopRunMenuItem_Click(object sender, System.EventArgs e)
-		{
-			CancelRun();
-		}
+        private void stopRunMenuItem_Click(object sender, System.EventArgs e)
+        {
+            CancelRun();
+        }
 
-		#endregion
+        #endregion
 
-		#region Tools Menu
+        #region Tools Menu
 
-		private void toolsMenu_Popup(object sender, System.EventArgs e)
-		{
+        private void toolsMenu_Popup(object sender, System.EventArgs e)
+        {
             assemblyDetailsMenuItem.Enabled = IsTestLoaded;
-			saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.TestResult != null;
-			exceptionDetailsMenuItem.Enabled = TestLoader.LastException != null;
-		}
+            saveXmlResultsMenuItem.Enabled = IsTestLoaded && TestLoader.TestResult != null;
+            exceptionDetailsMenuItem.Enabled = TestLoader.LastException != null;
+        }
 
-		private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void saveXmlResultsMenuItem_Click(object sender, System.EventArgs e)
+        {
             presenter.SaveLastResult();
-		}
+        }
 
-		private void exceptionDetailsMenuItem_Click(object sender, System.EventArgs e)
-		{
-			using( ExceptionDetailsForm details = new ExceptionDetailsForm( TestLoader.LastException ) )
-			{
-				this.Site.Container.Add( details );
-				details.ShowDialog();
-			}
-		}
+        private void exceptionDetailsMenuItem_Click(object sender, System.EventArgs e)
+        {
+            using( ExceptionDetailsForm details = new ExceptionDetailsForm( TestLoader.LastException ) )
+            {
+                this.Site.Container.Add( details );
+                details.ShowDialog();
+            }
+        }
 
-		private void settingsMenuItem_Click(object sender, System.EventArgs e)
-		{
-			OptionsDialog.Display( this );
-		}
+        private void settingsMenuItem_Click(object sender, System.EventArgs e)
+        {
+            OptionsDialog.Display( this );
+        }
 
-		private void assemblyDetailsMenuItem_Click(object sender, System.EventArgs e)
-		{
+        private void assemblyDetailsMenuItem_Click(object sender, System.EventArgs e)
+        {
             new TestAssemblyInfoForm().ShowDialog();
         }
 
-		private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
-		{
-			AddinDialog dlg = new AddinDialog();
-			dlg.ShowDialog();
-		}
+        private void addinInfoMenuItem_Click(object sender, System.EventArgs e)
+        {
+            AddinDialog dlg = new AddinDialog();
+            dlg.ShowDialog();
+        }
 
         private void openLogDirectoryMenuItem_Click(object sender, EventArgs e)
         {
@@ -1308,120 +1308,118 @@ namespace NUnit.Gui
             System.Diagnostics.Process.Start(NUnitConfiguration.LogDirectory);
         }
 
-		#endregion
+        #endregion
 
-		#region Help Menu
+        #region Help Menu
 
-		private void helpMenuItem_Click(object sender, System.EventArgs e)
-		{
-			System.Diagnostics.Process.Start( NUnitConfiguration.HelpUrl );
-		}
+        private void helpMenuItem_Click(object sender, System.EventArgs e)
+        {
+            System.Diagnostics.Process.Start( NUnitConfiguration.HelpUrl );
+        }
 
-		/// <summary>
-		/// Display the about box when menu item is selected
-		/// </summary>
-		private void aboutMenuItem_Click(object sender, System.EventArgs e)
-		{
-			using( AboutBox aboutBox = new AboutBox() )
-			{
-				this.Site.Container.Add( aboutBox );
-				aboutBox.ShowDialog();
-			}
-		}
+        /// <summary>
+        /// Display the about box when menu item is selected
+        /// </summary>
+        private void aboutMenuItem_Click(object sender, System.EventArgs e)
+        {
+            using( AboutBox aboutBox = new AboutBox() )
+            {
+                this.Site.Container.Add( aboutBox );
+                aboutBox.ShowDialog();
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#endregion
+        #endregion
 
-		#region Form Level Events
-		/// <summary>
-		/// Get saved options when form loads
-		/// </summary>
-		private void NUnitForm_Load(object sender, System.EventArgs e)
-		{
-			if ( !this.DesignMode )
-			{
-				// TODO: Can these controls add their menus themselves?
-				this.viewMenu.MenuItems.Add(3, resultTabs.TabsMenu);
-				this.viewMenu.MenuItems.Add(4, testTree.TreeMenu);
+        #region Form Level Events
+        /// <summary>
+        /// Get saved options when form loads
+        /// </summary>
+        private void NUnitForm_Load(object sender, System.EventArgs e)
+        {
+            if ( !this.DesignMode )
+            {
+                // TODO: Can these controls add their menus themselves?
+                this.viewMenu.MenuItems.Add(3, resultTabs.TabsMenu);
+                this.viewMenu.MenuItems.Add(4, testTree.TreeMenu);
 
-				EnableRunCommand( false );
-				EnableStopCommand( false );
+                EnableRunCommand( false );
+                EnableStopCommand( false );
 
-				recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, recentFilesService );
+                recentProjectsMenuHandler = new RecentFileMenuHandler( recentProjectsMenu, recentFilesService );
                 recentProjectsMenuHandler.CheckFilesExist = userSettings.GetSetting("Gui.RecentProjects.CheckFilesExist", true);
 
-				LoadFormSettings();
-				SubscribeToTestEvents();
-				InitializeControls();
+                LoadFormSettings();
+                SubscribeToTestEvents();
+                InitializeControls();
 
-				// Force display  so that any "Loading..." or error 
-				// message overlays the main form.
-				this.Show();
-				this.Invalidate();
-				this.Update();
+                // Force display  so that any "Loading..." or error 
+                // message overlays the main form.
+                this.Show();
+                this.Invalidate();
+                this.Update();
 
                 // Set Capture options for the TestLoader
                 TestLoader.IsTracingEnabled = resultTabs.IsTracingEnabled;
                 TestLoader.LoggingThreshold = resultTabs.MaximumLogLevel;
 
-				// Load test specified on command line or
-				// the most recent one if options call for it
-				if ( guiOptions.ParameterCount != 0 )
+                // Load test specified on command line or
+                // the most recent one if options call for it
+                if ( guiOptions.ParameterCount != 0 )
                     presenter.OpenProject((string)guiOptions.Parameters[0], guiOptions.config, guiOptions.fixture);
-				else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !guiOptions.noload )
-				{
-					foreach( RecentFileEntry entry in recentFilesService.Entries )
-					{
-						if ( entry != null && entry.Exists && entry.IsCompatibleCLRVersion )
-						{
+                else if( userSettings.GetSetting( "Options.LoadLastProject", true ) && !guiOptions.noload )
+                {
+                    foreach( RecentFileEntry entry in recentFilesService.Entries )
+                    {
+                        if ( entry != null && entry.Exists && entry.IsCompatibleCLRVersion )
+                        {
                             presenter.OpenProject(entry.Path, guiOptions.config, guiOptions.fixture);
-							break;
-						}
-					}
-				}
+                            break;
+                        }
+                    }
+                }
 
-				if ( guiOptions.include != null )
-				{
-					string[] categories = guiOptions.include.Split( ',' );
-					if ( categories.Length > 0 )
-						this.testTree.SelectCategories( categories, false );
-				}
-				else if ( guiOptions.exclude != null )
-				{
-					string[] categories = guiOptions.exclude.Split( ',' );
-					if ( categories.Length > 0 )
-						this.testTree.SelectCategories( categories, true );
-				}
+                if ( guiOptions.include != null || guiOptions.exclude != null)
+                {
+                    this.testTree.ClearSelectedCategories();
+                    bool exclude = guiOptions.include == null;
+                    string[] categories = exclude
+                        ? guiOptions.exclude.Split(',')
+                        : guiOptions.include.Split(',');
+                    if ( categories.Length > 0 )
+                        this.testTree.SelectCategories( categories, exclude );
+                }
 
-				// Run loaded test automatically if called for
-				if ( TestLoader.IsTestLoaded )
-					if ( guiOptions.run || guiOptions.runselected )
-					{
-						// TODO: Temporary fix to avoid problem when /run is used 
-						// with ReloadOnRun turned on. Refactor TestLoader so
-						// we can just do a run without reload.
-						bool reload = Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", false);
-					
-						try
-						{
-							Services.UserSettings.SaveSetting("Options.TestLoader.ReloadOnRun", false);
+                // Run loaded test automatically if called for
+                if ( TestLoader.IsTestLoaded )
+                    if ( guiOptions.run || guiOptions.runselected )
+                    {
+                        // TODO: Temporary fix to avoid problem when /run is used 
+                        // with ReloadOnRun turned on. Refactor TestLoader so
+                        // we can just do a run without reload.
+                        bool reload = Services.UserSettings.GetSetting("Options.TestLoader.ReloadOnRun", false);
+                    
+                        try
+                        {
+                            Services.UserSettings.SaveSetting("Options.TestLoader.ReloadOnRun", false);
                             if (guiOptions.runselected)
                                 testTree.RunSelectedTests();
                             else
                                 testTree.RunAllTests(false);
-						}
-						finally
-						{
-							Services.UserSettings.SaveSetting("Options.TestLoader.ReloadOnRun", reload);
-						}
-					}
-			}
-		}
+                        }
+                        finally
+                        {
+                            Services.UserSettings.SaveSetting("Options.TestLoader.ReloadOnRun", reload);
+                        }
+                    }
+            }
+        }
 
-		private void LoadFormSettings()
-		{
-			this.displayFormat = userSettings.GetSetting( "Gui.DisplayFormat", "Full" );
+        private void LoadFormSettings()
+        {
+            this.displayFormat = userSettings.GetSetting( "Gui.DisplayFormat", "Full" );
 
             switch (displayFormat)
             {
@@ -1435,255 +1433,255 @@ namespace NUnit.Gui
                     throw new ApplicationException("Invalid Setting");
             }
 
-			// Handle changes to form position
-			this.Move += new System.EventHandler(this.NUnitForm_Move);
-			this.Resize += new System.EventHandler(this.NUnitForm_Resize);
+            // Handle changes to form position
+            this.Move += new System.EventHandler(this.NUnitForm_Move);
+            this.Resize += new System.EventHandler(this.NUnitForm_Resize);
 
-			// Set the splitter position
-			int splitPosition = userSettings.GetSetting( "Gui.MainForm.SplitPosition", treeSplitter.SplitPosition );
-			if ( splitPosition >= treeSplitter.MinSize && splitPosition < this.ClientSize.Width )
-				this.treeSplitter.SplitPosition = splitPosition;
+            // Set the splitter position
+            int splitPosition = userSettings.GetSetting( "Gui.MainForm.SplitPosition", treeSplitter.SplitPosition );
+            if ( splitPosition >= treeSplitter.MinSize && splitPosition < this.ClientSize.Width )
+                this.treeSplitter.SplitPosition = splitPosition;
 
-			// Handle changes in splitter positions
-			this.treeSplitter.SplitterMoved += new SplitterEventHandler( treeSplitter_SplitterMoved );
+            // Handle changes in splitter positions
+            this.treeSplitter.SplitterMoved += new SplitterEventHandler( treeSplitter_SplitterMoved );
 
-			// Get the fixed font used by result tabs
+            // Get the fixed font used by result tabs
             this.fixedFont = userSettings.GetSetting("Gui.FixedFont", new Font(FontFamily.GenericMonospace, 8.0f));
 
-			// Handle changes in form settings
-			userSettings.Changed += new SettingsEventHandler(userSettings_Changed);
-		}
+            // Handle changes in form settings
+            userSettings.Changed += new SettingsEventHandler(userSettings_Changed);
+        }
 
-		private bool IsValidLocation( Point location )
-		{
-			Rectangle myArea = new Rectangle( location, this.Size );
-			bool intersect = false;
-			foreach (System.Windows.Forms.Screen screen in System.Windows.Forms.Screen.AllScreens)
-			{
-				intersect |= myArea.IntersectsWith(screen.WorkingArea);
-			}
-			return intersect;
-		}
+        private bool IsValidLocation( Point location )
+        {
+            Rectangle myArea = new Rectangle( location, this.Size );
+            bool intersect = false;
+            foreach (System.Windows.Forms.Screen screen in System.Windows.Forms.Screen.AllScreens)
+            {
+                intersect |= myArea.IntersectsWith(screen.WorkingArea);
+            }
+            return intersect;
+        }
 
-		private void SubscribeToTestEvents()
-		{
-			ITestEvents events = TestLoader.Events;
+        private void SubscribeToTestEvents()
+        {
+            ITestEvents events = TestLoader.Events;
 
-			events.RunStarting += new TestEventHandler( OnRunStarting );
-			events.RunFinished += new TestEventHandler( OnRunFinished );
+            events.RunStarting += new TestEventHandler( OnRunStarting );
+            events.RunFinished += new TestEventHandler( OnRunFinished );
 
-			events.ProjectLoaded	+= new TestEventHandler( OnTestProjectLoaded );
-			events.ProjectLoadFailed+= new TestEventHandler( OnProjectLoadFailure );
-			events.ProjectUnloading += new TestEventHandler( OnTestProjectUnloading );
-			events.ProjectUnloaded	+= new TestEventHandler( OnTestProjectUnloaded );
+            events.ProjectLoaded	+= new TestEventHandler( OnTestProjectLoaded );
+            events.ProjectLoadFailed+= new TestEventHandler( OnProjectLoadFailure );
+            events.ProjectUnloading += new TestEventHandler( OnTestProjectUnloading );
+            events.ProjectUnloaded	+= new TestEventHandler( OnTestProjectUnloaded );
 
-			events.TestLoading		+= new TestEventHandler( OnTestLoadStarting );
-			events.TestLoaded		+= new TestEventHandler( OnTestLoaded );
-			events.TestLoadFailed	+= new TestEventHandler( OnTestLoadFailure );
-			events.TestUnloading	+= new TestEventHandler( OnTestUnloadStarting );
-			events.TestUnloaded		+= new TestEventHandler( OnTestUnloaded );
-			events.TestReloading	+= new TestEventHandler( OnReloadStarting );
-			events.TestReloaded		+= new TestEventHandler( OnTestChanged );
-			events.TestReloadFailed	+= new TestEventHandler( OnTestLoadFailure );
-		}
+            events.TestLoading		+= new TestEventHandler( OnTestLoadStarting );
+            events.TestLoaded		+= new TestEventHandler( OnTestLoaded );
+            events.TestLoadFailed	+= new TestEventHandler( OnTestLoadFailure );
+            events.TestUnloading	+= new TestEventHandler( OnTestUnloadStarting );
+            events.TestUnloaded		+= new TestEventHandler( OnTestUnloaded );
+            events.TestReloading	+= new TestEventHandler( OnReloadStarting );
+            events.TestReloaded		+= new TestEventHandler( OnTestChanged );
+            events.TestReloadFailed	+= new TestEventHandler( OnTestLoadFailure );
+        }
 
-		private void InitializeControls()
-		{
-			// ToDo: Migrate more ui elements to handle events on their own.
-			this.progressBar.Subscribe( TestLoader.Events );
-			this.statusBar.Subscribe( TestLoader.Events );
-		}
+        private void InitializeControls()
+        {
+            // ToDo: Migrate more ui elements to handle events on their own.
+            this.progressBar.Subscribe( TestLoader.Events );
+            this.statusBar.Subscribe( TestLoader.Events );
+        }
 
-		// Save settings changed by moving the form
-		private void NUnitForm_Move(object sender, System.EventArgs e)
-		{
-			switch( this.displayFormat )
-			{
-				case "Full":
-				default:
-					if ( this.WindowState == FormWindowState.Normal )
-					{
-						userSettings.SaveSetting( "Gui.MainForm.Left", this.Location.X );
-						userSettings.SaveSetting( "Gui.MainForm.Top", this.Location.Y );
-						userSettings.SaveSetting( "Gui.MainForm.Maximized", false );
+        // Save settings changed by moving the form
+        private void NUnitForm_Move(object sender, System.EventArgs e)
+        {
+            switch( this.displayFormat )
+            {
+                case "Full":
+                default:
+                    if ( this.WindowState == FormWindowState.Normal )
+                    {
+                        userSettings.SaveSetting( "Gui.MainForm.Left", this.Location.X );
+                        userSettings.SaveSetting( "Gui.MainForm.Top", this.Location.Y );
+                        userSettings.SaveSetting( "Gui.MainForm.Maximized", false );
 
-						this.statusBar.SizingGrip = true;
-					}
-					else if ( this.WindowState == FormWindowState.Maximized )
-					{
-						userSettings.SaveSetting( "Gui.MainForm.Maximized", true );
+                        this.statusBar.SizingGrip = true;
+                    }
+                    else if ( this.WindowState == FormWindowState.Maximized )
+                    {
+                        userSettings.SaveSetting( "Gui.MainForm.Maximized", true );
 
-						this.statusBar.SizingGrip = false;
-					}
-					break;
-				case "Mini":
-					if ( this.WindowState == FormWindowState.Normal )
-					{
-						userSettings.SaveSetting( "Gui.MiniForm.Left", this.Location.X );
-						userSettings.SaveSetting( "Gui.MiniForm.Top", this.Location.Y );
-						userSettings.SaveSetting( "Gui.MiniForm.Maximized", false );
+                        this.statusBar.SizingGrip = false;
+                    }
+                    break;
+                case "Mini":
+                    if ( this.WindowState == FormWindowState.Normal )
+                    {
+                        userSettings.SaveSetting( "Gui.MiniForm.Left", this.Location.X );
+                        userSettings.SaveSetting( "Gui.MiniForm.Top", this.Location.Y );
+                        userSettings.SaveSetting( "Gui.MiniForm.Maximized", false );
 
-						this.statusBar.SizingGrip = true;
-					}
-					else if ( this.WindowState == FormWindowState.Maximized )
-					{
-						userSettings.SaveSetting( "Gui.MiniForm.Maximized", true );
+                        this.statusBar.SizingGrip = true;
+                    }
+                    else if ( this.WindowState == FormWindowState.Maximized )
+                    {
+                        userSettings.SaveSetting( "Gui.MiniForm.Maximized", true );
 
-						this.statusBar.SizingGrip = false;
-					}
-					break;
-			}
-		}
+                        this.statusBar.SizingGrip = false;
+                    }
+                    break;
+            }
+        }
 
-		// Save settings that change when window is resized
-		private void NUnitForm_Resize(object sender,System.EventArgs e)
-		{
-			if ( this.WindowState == FormWindowState.Normal )
-			{
-				if ( this.displayFormat == "Full" )
-				{
-					userSettings.SaveSetting( "Gui.MainForm.Width", this.Size.Width );
-					userSettings.SaveSetting( "Gui.MainForm.Height", this.Size.Height );
-				}
-				else
-				{
-					userSettings.SaveSetting( "Gui.MiniForm.Width", this.Size.Width );
-					userSettings.SaveSetting( "Gui.MiniForm.Height", this.Size.Height );
-				}
-			}
-		}
+        // Save settings that change when window is resized
+        private void NUnitForm_Resize(object sender,System.EventArgs e)
+        {
+            if ( this.WindowState == FormWindowState.Normal )
+            {
+                if ( this.displayFormat == "Full" )
+                {
+                    userSettings.SaveSetting( "Gui.MainForm.Width", this.Size.Width );
+                    userSettings.SaveSetting( "Gui.MainForm.Height", this.Size.Height );
+                }
+                else
+                {
+                    userSettings.SaveSetting( "Gui.MiniForm.Width", this.Size.Width );
+                    userSettings.SaveSetting( "Gui.MiniForm.Height", this.Size.Height );
+                }
+            }
+        }
 
-		// Splitter moved so save it's position
-		private void treeSplitter_SplitterMoved( object sender, SplitterEventArgs e )
-		{
-			userSettings.SaveSetting( "Gui.MainForm.SplitPosition", treeSplitter.SplitPosition );
-		}
+        // Splitter moved so save it's position
+        private void treeSplitter_SplitterMoved( object sender, SplitterEventArgs e )
+        {
+            userSettings.SaveSetting( "Gui.MainForm.SplitPosition", treeSplitter.SplitPosition );
+        }
 
-		/// <summary>
-		///	Form is about to close, first see if we 
-		///	have a test run going on and if so whether
-		///	we should cancel it. Then unload the 
-		///	test and save the latest form position.
-		/// </summary>
-		private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-		{
-			if ( IsTestRunning )
-			{
+        /// <summary>
+        ///	Form is about to close, first see if we 
+        ///	have a test run going on and if so whether
+        ///	we should cancel it. Then unload the 
+        ///	test and save the latest form position.
+        /// </summary>
+        private void NUnitForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if ( IsTestRunning )
+            {
                 DialogResult dialogResult = MessageDisplay.Ask( 
-					"A test is running, do you want to stop the test and exit?" );
+                    "A test is running, do you want to stop the test and exit?" );
 
-				if ( dialogResult == DialogResult.No )
-					e.Cancel = true;
-				else
-					TestLoader.CancelTestRun();
-			}
+                if ( dialogResult == DialogResult.No )
+                    e.Cancel = true;
+                else
+                    TestLoader.CancelTestRun();
+            }
 
-			if ( !e.Cancel && IsProjectLoaded &&
+            if ( !e.Cancel && IsProjectLoaded &&
                 presenter.CloseProject() == DialogResult.Cancel)
-				e.Cancel = true;
-		}
+                e.Cancel = true;
+        }
 
-		private void userSettings_Changed(object sender, SettingsEventArgs args)
-		{
-			if ( args.SettingName == "Gui.DisplayFormat" )
-			{
-				string newFormat = userSettings.GetSetting( "Gui.DisplayFormat", this.displayFormat );
-				if ( newFormat != displayFormat )
-					if ( newFormat == "Full" )
-						displayFullGui();
-					else
-						displayMiniGui();
-			}
+        private void userSettings_Changed(object sender, SettingsEventArgs args)
+        {
+            if ( args.SettingName == "Gui.DisplayFormat" )
+            {
+                string newFormat = userSettings.GetSetting( "Gui.DisplayFormat", this.displayFormat );
+                if ( newFormat != displayFormat )
+                    if ( newFormat == "Full" )
+                        displayFullGui();
+                    else
+                        displayMiniGui();
+            }
             else if (args.SettingName.StartsWith("Gui.TextOutput.") && args.SettingName.EndsWith(".Content"))
             {
                 TestLoader.IsTracingEnabled = resultTabs.IsTracingEnabled;
                 TestLoader.LoggingThreshold = resultTabs.MaximumLogLevel;
             }
-		}
-		#endregion
+        }
+        #endregion
 
-		#region Other UI Event Handlers
+        #region Other UI Event Handlers
 
-		/// <summary>
-		/// When the Run Button is clicked, run the selected test.
-		/// </summary>
-		private void runButton_Click(object sender, System.EventArgs e)
-		{
-			testTree.RunSelectedTests();
-		}
+        /// <summary>
+        /// When the Run Button is clicked, run the selected test.
+        /// </summary>
+        private void runButton_Click(object sender, System.EventArgs e)
+        {
+            testTree.RunSelectedTests();
+        }
 
-		/// <summary>
-		/// When the Stop Button is clicked, cancel running test
-		/// </summary>
-		private void stopButton_Click(object sender, System.EventArgs e)
-		{
-			CancelRun();
-		}
+        /// <summary>
+        /// When the Stop Button is clicked, cancel running test
+        /// </summary>
+        private void stopButton_Click(object sender, System.EventArgs e)
+        {
+            CancelRun();
+        }
 
-		private void CancelRun()
-		{
-			EnableStopCommand( false );
+        private void CancelRun()
+        {
+            EnableStopCommand( false );
 
-			if ( IsTestRunning )
-			{
+            if ( IsTestRunning )
+            {
                 DialogResult dialogResult = MessageDisplay.Ask( 
-					"Do you want to cancel the running test?" );
+                    "Do you want to cancel the running test?" );
 
-				if ( dialogResult == DialogResult.No )
-					EnableStopCommand( true );
-				else
-					TestLoader.CancelTestRun();
-			}
-		}
+                if ( dialogResult == DialogResult.No )
+                    EnableStopCommand( true );
+                else
+                    TestLoader.CancelTestRun();
+            }
+        }
 
-		private void testTree_SelectedTestsChanged(object sender, SelectedTestsChangedEventArgs e)
-		{
-			if (!IsTestRunning) 
-			{
-				suiteName.Text = e.TestName;
-				statusBar.Initialize(e.TestCount, e.TestName );
-			}
-		}
+        private void testTree_SelectedTestsChanged(object sender, SelectedTestsChangedEventArgs e)
+        {
+            if (!IsTestRunning) 
+            {
+                suiteName.Text = e.TestName;
+                statusBar.Initialize(e.TestCount, e.TestName );
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Event Handlers for Project Load and Unload
+        #region Event Handlers for Project Load and Unload
 
-		private void OnTestProjectLoaded( object sender, TestEventArgs e )
-		{
+        private void OnTestProjectLoaded( object sender, TestEventArgs e )
+        {
             string projectPath = e.Name;
 
-			SetTitleBar( projectPath );
-			projectMenu.Visible = true;
-			runCount.Text = "";
+            SetTitleBar( projectPath );
+            projectMenu.Visible = true;
+            runCount.Text = "";
 
             // If this is an NUnit project, set up watcher
             if (NUnitProject.IsNUnitProjectFile(projectPath) && File.Exists(projectPath))
                 presenter.WatchProject(projectPath);
-		}
+        }
 
         private void OnTestProjectUnloading(object sender, TestEventArgs e)
-		{
+        {
             // Remove any watcher
             if (e.Name != null && File.Exists(e.Name))
             {
                 presenter.RemoveWatcher();
 
-				Version version = Environment.Version;
-				foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
-					if ( info.ImageRuntimeVersion < version )
-						version = info.ImageRuntimeVersion;
-			
-				recentFilesService.SetMostRecent( new RecentFileEntry( e.Name, version ) );
-			}
-		}
+                Version version = Environment.Version;
+                foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
+                    if ( info.ImageRuntimeVersion < version )
+                        version = info.ImageRuntimeVersion;
+            
+                recentFilesService.SetMostRecent( new RecentFileEntry( e.Name, version ) );
+            }
+        }
 
-		private void OnTestProjectUnloaded( object sender, TestEventArgs e )
-		{
-			SetTitleBar( null );
-			projectMenu.Visible = false;
-			runCount.Text = "";
-		}
+        private void OnTestProjectUnloaded( object sender, TestEventArgs e )
+        {
+            SetTitleBar( null );
+            projectMenu.Visible = false;
+            runCount.Text = "";
+        }
 
         private void OnProjectLoadFailure(object sender, TestEventArgs e)
         {
@@ -1699,134 +1697,134 @@ namespace NUnit.Gui
         #region Event Handlers for Test Load and Unload
 
         private void OnTestLoadStarting(object sender, TestEventArgs e)
-		{
-			EnableRunCommand( false );
-			longOpDisplay = new LongRunningOperationDisplay( this, "Loading..." );
-		}
+        {
+            EnableRunCommand( false );
+            longOpDisplay = new LongRunningOperationDisplay( this, "Loading..." );
+        }
 
-		private void OnTestUnloadStarting( object sender, TestEventArgs e )
-		{
-			EnableRunCommand( false );
-		}
+        private void OnTestUnloadStarting( object sender, TestEventArgs e )
+        {
+            EnableRunCommand( false );
+        }
 
-		private void OnReloadStarting( object sender, TestEventArgs e )
-		{
-			EnableRunCommand( false );
-			longOpDisplay = new LongRunningOperationDisplay( this, "Reloading..." );
-		}
+        private void OnReloadStarting( object sender, TestEventArgs e )
+        {
+            EnableRunCommand( false );
+            longOpDisplay = new LongRunningOperationDisplay( this, "Reloading..." );
+        }
 
-		/// <summary>
-		/// A test suite has been loaded, so update 
-		/// recent assemblies and display the tests in the UI
-		/// </summary>
-		private void OnTestLoaded( object sender, TestEventArgs e )
-		{
-			if ( longOpDisplay != null )
-			{
-				longOpDisplay.Dispose();
-				longOpDisplay = null;
-			}
-			EnableRunCommand( true );
-			
-			if ( TestLoader.TestCount == 0 )
-			{
-				foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
-					if ( info.TestFrameworks.Count > 0 ) return;
+        /// <summary>
+        /// A test suite has been loaded, so update 
+        /// recent assemblies and display the tests in the UI
+        /// </summary>
+        private void OnTestLoaded( object sender, TestEventArgs e )
+        {
+            if ( longOpDisplay != null )
+            {
+                longOpDisplay.Dispose();
+                longOpDisplay = null;
+            }
+            EnableRunCommand( true );
+            
+            if ( TestLoader.TestCount == 0 )
+            {
+                foreach( TestAssemblyInfo info in TestLoader.AssemblyInfo )
+                    if ( info.TestFrameworks.Count > 0 ) return;
 
                 MessageDisplay.Error("This assembly was not built with any known testing framework.");
-			}
-		}
+            }
+        }
 
-		/// <summary>
-		/// A test suite has been unloaded, so clear the UI
-		/// and remove any references to the suite.
-		/// </summary>
-		private void OnTestUnloaded( object sender, TestEventArgs e )
-		{
-			suiteName.Text = null;
+        /// <summary>
+        /// A test suite has been unloaded, so clear the UI
+        /// and remove any references to the suite.
+        /// </summary>
+        private void OnTestUnloaded( object sender, TestEventArgs e )
+        {
+            suiteName.Text = null;
             runCount.Text = null;
-			EnableRunCommand( false );
+            EnableRunCommand( false );
             Refresh();
-		}
+        }
 
-		/// <summary>
-		/// The current test suite has changed in some way,
-		/// so update the info in the UI and clear the
-		/// test results, since they are no longer valid.
-		/// </summary>
-		private void OnTestChanged( object sender, TestEventArgs e )
-		{
+        /// <summary>
+        /// The current test suite has changed in some way,
+        /// so update the info in the UI and clear the
+        /// test results, since they are no longer valid.
+        /// </summary>
+        private void OnTestChanged( object sender, TestEventArgs e )
+        {
             SetTitleBar(TestProject.Name);
 
-			if ( longOpDisplay != null )
-			{
-				longOpDisplay.Dispose();
-				longOpDisplay = null;
-			}
+            if ( longOpDisplay != null )
+            {
+                longOpDisplay.Dispose();
+                longOpDisplay = null;
+            }
 
             if (userSettings.GetSetting("Options.TestLoader.ClearResultsOnReload", false))
                 runCount.Text = null;
 
-			EnableRunCommand( true );
-		}
+            EnableRunCommand( true );
+        }
 
-		/// <summary>
-		/// Event handler for assembly load failures. We do this via
-		/// an event since some errors may occur asynchronously.
-		/// </summary>
-		private void OnTestLoadFailure( object sender, TestEventArgs e )
-		{
-			if ( longOpDisplay != null )
-			{
-				longOpDisplay.Dispose();
-				longOpDisplay = null;
-			}
-			
-			string message = e.Action == NUnit.Util.TestAction.TestReloadFailed
+        /// <summary>
+        /// Event handler for assembly load failures. We do this via
+        /// an event since some errors may occur asynchronously.
+        /// </summary>
+        private void OnTestLoadFailure( object sender, TestEventArgs e )
+        {
+            if ( longOpDisplay != null )
+            {
+                longOpDisplay.Dispose();
+                longOpDisplay = null;
+            }
+            
+            string message = e.Action == NUnit.Util.TestAction.TestReloadFailed
                 ? "Test reload failed!"
                 : "Test load failed!";
             string NL = Environment.NewLine;
-			if ( e.Exception is BadImageFormatException )
-				message += string.Format(NL + NL +
+            if ( e.Exception is BadImageFormatException )
+                message += string.Format(NL + NL +
                     "The assembly could not be loaded by NUnit. PossibleProblems include:" + NL + NL +
                     "1. The assembly may not be a valid .NET assembly." + NL + NL +
                     "2. You may be attempting to load an assembly built with a later version of the CLR than the version under which NUnit is currently running ({0})." + NL + NL +
                     "3. You may be attempting to load a 64-bit assembly into a 32-bit process.",
-					Environment.Version.ToString(3) );
+                    Environment.Version.ToString(3) );
 
             MessageDisplay.Error(message, e.Exception);
 
-			if ( !IsTestLoaded )
-				OnTestUnloaded( sender, e );
-			else
-				EnableRunCommand( true );
-		}
+            if ( !IsTestLoaded )
+                OnTestUnloaded( sender, e );
+            else
+                EnableRunCommand( true );
+        }
 
-		#endregion
+        #endregion
 
-		#region Handlers for Test Running Events
+        #region Handlers for Test Running Events
 
-		private void OnRunStarting( object sender, TestEventArgs e )
-		{
-			suiteName.Text = e.Name;
-			EnableRunCommand( false );
-			EnableStopCommand( true );
-			runCount.Text = "";
-		}
+        private void OnRunStarting( object sender, TestEventArgs e )
+        {
+            suiteName.Text = e.Name;
+            EnableRunCommand( false );
+            EnableStopCommand( true );
+            runCount.Text = "";
+        }
 
-		private void OnRunFinished( object sender, TestEventArgs e )
-		{
-			EnableStopCommand( false );
-			EnableRunCommand( false );
+        private void OnRunFinished( object sender, TestEventArgs e )
+        {
+            EnableStopCommand( false );
+            EnableRunCommand( false );
 
-			if ( e.Exception != null )
-			{
-				if ( ! ( e.Exception is System.Threading.ThreadAbortException ) )
+            if ( e.Exception != null )
+            {
+                if ( ! ( e.Exception is System.Threading.ThreadAbortException ) )
                     MessageDisplay.Error("NUnit Test Run Failed", e.Exception);
-			}
+            }
 
-			ResultSummarizer summary = new ResultSummarizer( e.Result );
-			this.runCount.Text = string.Format(
+            ResultSummarizer summary = new ResultSummarizer( e.Result );
+            this.runCount.Text = string.Format(
                 "Passed: {0}   Failed: {1}   Errors: {2}   Inconclusive: {3}   Invalid: {4}   Ignored: {5}   Skipped: {6}   Time: {7}",
                 summary.Passed, summary.Failures, summary.Errors, summary.Inconclusive, summary.NotRunnable, summary.Ignored, summary.Skipped, summary.Time);
 
@@ -1849,40 +1847,40 @@ namespace NUnit.Gui
             {
                 this.Activate();
             }
-		}
+        }
 
-		#endregion
+        #endregion
 
-		#region Helper methods for modifying the UI display
+        #region Helper methods for modifying the UI display
 
-		/// <summary>
-		/// Set the title bar based on the loaded file or project
-		/// </summary>
-		/// <param name="fileName"></param>
-		private void SetTitleBar( string fileName )
-		{
-			this.Text = fileName == null 
-				? "NUnit"
-				: string.Format( "{0} - NUnit", Path.GetFileName( fileName ) );
-		}
+        /// <summary>
+        /// Set the title bar based on the loaded file or project
+        /// </summary>
+        /// <param name="fileName"></param>
+        private void SetTitleBar( string fileName )
+        {
+            this.Text = fileName == null 
+                ? "NUnit"
+                : string.Format( "{0} - NUnit", Path.GetFileName( fileName ) );
+        }
 
-		private void EnableRunCommand( bool enable )
-		{
-			runButton.Enabled = enable;
-			runAllMenuItem.Enabled = enable;
-			runSelectedMenuItem.Enabled = enable;
-		    runFailedMenuItem.Enabled = enable && this.TestLoader.TestResult != null &&
-		        (this.TestLoader.TestResult.ResultState == ResultState.Failure ||
-		         this.TestLoader.TestResult.ResultState == ResultState.Error);
-		}
+        private void EnableRunCommand( bool enable )
+        {
+            runButton.Enabled = enable;
+            runAllMenuItem.Enabled = enable;
+            runSelectedMenuItem.Enabled = enable;
+            runFailedMenuItem.Enabled = enable && this.TestLoader.TestResult != null &&
+                (this.TestLoader.TestResult.ResultState == ResultState.Failure ||
+                 this.TestLoader.TestResult.ResultState == ResultState.Error);
+        }
 
-		private void EnableStopCommand( bool enable )
-		{
-			stopButton.Enabled = enable;
-			stopRunMenuItem.Enabled = enable;
-		}
+        private void EnableStopCommand( bool enable )
+        {
+            stopButton.Enabled = enable;
+            stopRunMenuItem.Enabled = enable;
+        }
 
-		#endregion	
-	}
+        #endregion	
+    }
 }
 

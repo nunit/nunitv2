@@ -230,6 +230,14 @@ namespace NUnit.UiKit
 			loader.Events.TestUnloaded += new NUnit.Util.TestEventHandler(events_TestUnloaded);
 		}
 
+        public void ClearSelectedCategories()
+        {
+            foreach (string cat in selectedList.Items)
+                availableList.Items.Add(cat);
+            selectedList.Items.Clear();
+            UpdateCategoryFilter();
+        }
+
 		public void SelectCategories( string[] categories, bool exclude )
 		{
 			foreach( string category in categories )
