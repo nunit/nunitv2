@@ -5,4 +5,4 @@ before_install:
   - sudo apt-get install nant -qq -y
 
 script: 
-  - ./build release test
+  - ./build release mono-2.0 test
