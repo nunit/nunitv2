@@ -4,4 +4,5 @@ before_install:
   - sudo apt-get install mono-devel -qq -y
 
 script: 
+  - nant -V
   - nant -f:scripts/nunit.build.targets release build test
