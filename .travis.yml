@@ -2,7 +2,7 @@ before_install:
   - sudo add-apt-repository ppa:directhex/monoxide -y
   - sudo apt-get update -qq -y
   - sudo apt-get install mono-devel -qq -y
+  - sudo apt-get install nant --qq -y
 
 script: 
-  - nant -V
   - nant -f:scripts/nunit.build.targets release build test
