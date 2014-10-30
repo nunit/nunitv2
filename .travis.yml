@@ -5,4 +5,4 @@ before_install:
   - sudo apt-get install nant -qq -y
 
 script: 
-  - ./build release build test
+  - ./build release test
