@@ -5,4 +5,4 @@ before_install:
   - sudo apt-get install nant -qq -y
 
 script: 
-  - nant -f:scripts/nunit.build.targets release build test
+  - ./build release build test
