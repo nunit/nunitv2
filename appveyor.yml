@@ -1,0 +1,5 @@
+build_script: 
+  msbuild nunit.sln /p:Configuration=Release /t:Rebuild
+  
+test_script:
+  - bin\Release\nunit-console NUnitTests.nunit --config=Release
