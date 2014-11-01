@@ -5,4 +5,4 @@ before_install:
   - sudo apt-get install nant -qq -y
 
 script: 
-  - xbuild nunit.proj /t:Rebuild /p:Configuration=Release
+  - xbuild nunit.sln /t:Rebuild /p:Configuration=Release
