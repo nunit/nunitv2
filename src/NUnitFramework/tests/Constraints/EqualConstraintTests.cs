@@ -83,6 +83,14 @@ namespace NUnit.Framework.Constraints
         }
 
         [Test]
+        public void CanMatchUsingIsEqualToWithinTimeSpan()
+        {
+            DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
+            DateTime actual = new DateTime(2007, 4, 1, 13, 1, 0);
+            Assert.That(actual, Is.EqualTo(expected).Within(TimeSpan.FromMinutes(2)));
+        }
+
+        [Test]
         public void CanMatchTimeSpanWithinMinutes()
         {
             TimeSpan expected = new TimeSpan(10, 0, 0);
@@ -112,6 +120,86 @@ namespace NUnit.Framework.Constraints
             DateTime expected = new DateTime(2007, 4, 1, 13, 0, 0);
             DateTime actual = new DateTime(2007, 4, 1, 13, 1, 0);
             Assert.That(actual, new EqualConstraint(expected).Within(TimeSpan.TicksPerMinute * 5).Ticks);
+        }
+
+        #endregion
+
+        #region DateTimeOffsetEquality
+
+        public class DateTimeOffSetEquality
+        {
+            [Test]
+            public void CanMatchDates()
+            {
+                var expected = new DateTimeOffset(new DateTime(2007, 4, 1));
+                var actual = new DateTimeOffset(new DateTime(2007, 4, 1));
+                Assert.That(actual, new EqualConstraint(expected));
+            }
+
+            [Test]
+            public void CanMatchDatesWithinTimeSpan()
+            {
+                var expected = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 0, 0));
+                var actual = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 1, 0));
+                var tolerance = TimeSpan.FromMinutes(5.0);
+                Assert.That(actual, new EqualConstraint(expected).Within(tolerance));
+            }
+
+            [Test]
+            public void CanMatchDatesWithinDays()
+            {
+                var expected = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 0, 0));
+                var actual = new DateTimeOffset(new DateTime(2007, 4, 4, 13, 0, 0));
+                Assert.That(actual, new EqualConstraint(expected).Within(5).Days);
+            }
+
+            [Test]
+            public void CanMatchUsingIsEqualToWithinTimeSpan()
+            {
+                var expected = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 0, 0));
+                var actual = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 1, 0));
+                Assert.That(actual, Is.EqualTo(expected).Within(TimeSpan.FromMinutes(2)));
+            }
+
+            [Test]
+            public void CanMatchDatesWithinMinutes()
+            {
+                var expected = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 0, 0));
+                var actual = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 1, 0));
+                Assert.That(actual, new EqualConstraint(expected).Within(5).Minutes);
+            }
+
+            [Test]
+            public void CanMatchDatesWithinSeconds()
+            {
+                var expected = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 0, 0));
+                var actual = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 1, 0));
+                Assert.That(actual, new EqualConstraint(expected).Within(300).Seconds);
+            }
+
+            [Test]
+            public void CanMatchDatesWithinMilliseconds()
+            {
+                var expected = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 0, 0));
+                var actual = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 1, 0));
+                Assert.That(actual, new EqualConstraint(expected).Within(300000).Milliseconds);
+            }
+
+            [Test]
+            public void CanMatchDatesWithinTicks()
+            {
+                var expected = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 0, 0));
+                var actual = new DateTimeOffset(new DateTime(2007, 4, 1, 13, 1, 0));
+                Assert.That(actual, new EqualConstraint(expected).Within(TimeSpan.TicksPerMinute * 5).Ticks);
+            }
+
+            [Test]
+            public void DTimeOffsetCanMatchDatesWithinHours()
+            {
+                var a = DateTimeOffset.Parse("2012-01-01T12:00Z");
+                var b = DateTimeOffset.Parse("2012-01-01T12:01Z");
+                Assert.That(a, Is.EqualTo(b).Within(TimeSpan.FromMinutes(2)));
+            }
         }
 
         #endregion

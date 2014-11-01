@@ -13,7 +13,11 @@
 
     <!-- The nominal version has three components and is used for the name
        of the install directory and on the program files menu. -->
+<<<<<<< HEAD
+    <property name="nominal.version" value="2.6.3" />
+=======
     <property name="nominal.version" value="2.6.4" />
+>>>>>>> a43ec0fdcbe9fd8fd780a36eb94a5e99ec5f6aa1
 
     <!-- The package version may include a prerelease suffix following
        the three-component nominal version -->

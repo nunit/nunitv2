@@ -14,8 +14,10 @@ namespace NUnit.Framework.Constraints
 	/// that operate on paths and provides several helper methods.
 	/// </summary>
 	public abstract class PathConstraint : Constraint
-	{
-        private static readonly char[] DirectorySeparatorChars = new char[] { '\\', '/' };
+    {
+        private const char WindowsDirectorySeparatorChar = '\\';
+        private const char NonWindowsDirectorySeparatorChar = '/';
+        private static readonly char[] DirectorySeparatorChars = { WindowsDirectorySeparatorChar, NonWindowsDirectorySeparatorChar };
 
 		/// <summary>
 		/// The expected path used in the constraint
@@ -25,7 +27,7 @@ namespace NUnit.Framework.Constraints
         /// <summary>
         /// Flag indicating whether a caseInsensitive comparison should be made
         /// </summary>
-        protected bool caseInsensitive = Path.DirectorySeparatorChar == '\\';
+        protected bool caseInsensitive = Path.DirectorySeparatorChar == WindowsDirectorySeparatorChar;
 
         /// <summary>
 		/// Construct a PathConstraint for a give expected path
@@ -95,8 +97,10 @@ namespace NUnit.Framework.Constraints
             string leadingSeparators = "";
             foreach (char c in path)
             {
-                if (c == Path.DirectorySeparatorChar)
-                    leadingSeparators += c;
+                if (c == WindowsDirectorySeparatorChar || c == NonWindowsDirectorySeparatorChar)
+                {
+                    leadingSeparators += Path.DirectorySeparatorChar;
+                }
                 else break;
             }
 

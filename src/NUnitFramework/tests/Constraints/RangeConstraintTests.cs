@@ -88,6 +88,15 @@ namespace NUnit.Framework.Constraints
             Assert.That(comparer.Called, "Comparer was not called");
         }
 
+        [Test]
+        [ExpectedException( typeof( ArgumentException ))]
+        public void ShouldThrowExceptionIfFromIsLessThanTo()
+        {
+            var comparer = new MyComparer<int>();
+            rangeConstraint = new RangeConstraint<int>( 42, 5 );
+            rangeConstraint.Using(comparer).Matches(19);
+        }
+
         class MyComparison<T>
         {
             public bool Called;
