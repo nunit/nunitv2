@@ -30,6 +30,9 @@ namespace NUnit.Framework.Constraints
         public RangeConstraint(T from, T to)
             : base(from, to)
         {
+            // from must be less than or equal to to
+            if ( from.CompareTo( to ) > 0 )
+                throw new ArgumentException( "from must be less than to" );
             this.from = from;
             this.to = to;
         }

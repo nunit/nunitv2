@@ -1,0 +1,8 @@
+before_install:
+  - sudo add-apt-repository ppa:directhex/monoxide -y
+  - sudo apt-get update -qq -y
+  - sudo apt-get install mono-devel -qq -y
+
+script: 
+  - xbuild nunit.sln /t:Rebuild /p:Configuration=Release
+

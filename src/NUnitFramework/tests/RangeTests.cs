@@ -62,5 +62,21 @@ namespace NUnit.Framework.Tests
 		{
 			Assert.That(7, Is.Not.InRange(5, 10));
 		}
+
+        [Test]
+	    public void ShouldThrowExceptionIfFromIsLessThanTo()
+	    {
+            Assert.That( 
+                () => Assert.That( 12, Is.InRange( 10, 5 ) ),  
+                Throws.ArgumentException );
+	    }
+
+        [TestCase( 9, 9, 10 )]
+        [TestCase( 10, 9, 10 )]
+        [TestCase( 9, 9, 9 )]
+	    public void RangeBoundaryConditions(int actual, int from, int to)
+	    {
+	        Assert.That( actual, Is.InRange(from, to) );
+	    }
 	}
 }
