@@ -5,4 +5,5 @@ before_install:
 
 script: 
   - xbuild nunit.sln /t:Rebuild /p:Configuration=Release
-  - mono bin/Release/nunit-console.exe NUnitTests.nunit -config=Release
+  - cd bin/Release
+  - mono nunit-console.exe ../../NUnitTests.nunit -config=Release
