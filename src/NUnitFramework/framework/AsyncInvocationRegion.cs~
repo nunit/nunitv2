@@ -8,9 +8,16 @@ namespace NUnit.Framework
 {
 	internal abstract class AsyncInvocationRegion : IDisposable
 	{
+<<<<<<< HEAD
+		private static readonly Type AsyncStateMachineAttribute = Type.GetType("System.Runtime.CompilerServices.AsyncStateMachineAttribute");
+		private static readonly MethodInfo PreserveStackTraceMethod = typeof(Exception).GetMethod("InternalPreserveStackTrace", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private static Action<Exception> preserveStackTraceDelegate;
+=======
 		private static readonly MethodInfo PreserveStackTraceMethod = typeof(Exception).GetMethod("InternalPreserveStackTrace", BindingFlags.Instance | BindingFlags.NonPublic);
         private static Action<Exception> preserveStackTraceDelegate;
 
+>>>>>>> a43ec0fdcbe9fd8fd780a36eb94a5e99ec5f6aa1
         private static void PreserveStackTrace(Exception ex)
         {
             if (PreserveStackTraceMethod != null)
