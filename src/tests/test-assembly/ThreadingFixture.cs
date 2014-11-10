@@ -30,14 +30,58 @@ namespace NUnit.TestData
         {
             while (true) { }
         }
-		
-		[Test, RequiresThread]
-		public void MethodWithThreeAsserts()
-		{
-			Assert.True(true);
-			Assert.True(true);
-			Assert.True(true);
-		}
+        
+        [Test, RequiresThread]
+        public void MethodWithThreeAsserts()
+        {
+            Assert.True(true);
+            Assert.True(true);
+            Assert.True(true);
+        }
+    }
+
+    public class ThreadingFixtureWithTimeoutInSetUp
+    {
+        public bool TearDownWasRun;
+
+        [SetUp]
+        public void SetUp()
+        {
+            TearDownWasRun = false;
+
+            while (true) { }
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            TearDownWasRun = true;
+        }
+
+        [Test, Timeout(50)]
+        public void TestWithTimeout() { }
+    }
+
+    public class ThreadingFixtureWithTimeoutInTearDown
+    {
+        public bool TearDownWasRun;
+
+        [SetUp]
+        public void SetUp()
+        {
+            TearDownWasRun = false;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            TearDownWasRun = true;
+
+            while (true) { }
+        }
+
+        [Test, Timeout(50)]
+        public void TestWithTimeout() { }
     }
 
     [TestFixture, Timeout(50)]
