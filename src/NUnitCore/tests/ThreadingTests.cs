@@ -22,8 +22,8 @@ namespace NUnit.Core.Tests
         [TestFixtureSetUp]
         public void GetParentThreadInfo()
         {
-			this.parentThread = Thread.CurrentThread;
-			this.parentThreadApartment = parentThread.ApartmentState;
+            this.parentThread = Thread.CurrentThread;
+            this.parentThreadApartment = parentThread.ApartmentState;
         }
 
         [SetUp]
@@ -54,6 +54,30 @@ namespace NUnit.Core.Tests
             Assert.That(result.ResultState, Is.EqualTo(ResultState.Failure));
             Assert.That(result.Message, Text.Contains("50ms"));
             Assert.That(fixture.TearDownWasRun, "TearDown was not executed");
+        }
+
+        [Test]
+        public void SetUpWithInfiniteLoopTimesOut()
+        {
+            var fixture = new ThreadingFixtureWithTimeoutInSetUp();
+            TestSuite suite = TestBuilder.MakeFixture(fixture);
+            Test test = TestFinder.Find("TestWithTimeout", suite, false);
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.That(result.ResultState, Is.EqualTo(ResultState.Failure));
+            Assert.That(result.Message, Text.Contains("50ms"));
+            Assert.That(fixture.TearDownWasRun, "TearDown was not run");
+        }
+
+        //[Test] Bug: Cannot abort the timeout because it's run in a finally clause
+        public void TearDownWithInfiniteLoopTimesOut()
+        {
+            var fixture = new ThreadingFixtureWithTimeoutInTearDown();
+            TestSuite suite = TestBuilder.MakeFixture(fixture);
+            Test test = TestFinder.Find("TestWithTimeout", suite, false);
+            TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
+            Assert.That(result.ResultState, Is.EqualTo(ResultState.Failure));
+            Assert.That(result.Message, Text.Contains("50ms"));
+            Assert.That(fixture.TearDownWasRun, "TearDown was not run");
         }
 
         [Test, STAThread]
@@ -113,13 +137,13 @@ namespace NUnit.Core.Tests
             Assert.That(Thread.CurrentThread.ApartmentState, Is.EqualTo(ApartmentState.MTA));
             Assert.That(Thread.CurrentThread, Is.Not.EqualTo(parentThread));
         }
-		
-		[Test]
-		public void TestOnSeparateThreadReportsAssertCountCorrectly()
-		{
-			TestResult result = TestBuilder.RunTestCase(typeof(ThreadingFixture), "MethodWithThreeAsserts");
-			Assert.That(result.AssertCount, Is.EqualTo(3));
-		}
+        
+        [Test]
+        public void TestOnSeparateThreadReportsAssertCountCorrectly()
+        {
+            TestResult result = TestBuilder.RunTestCase(typeof(ThreadingFixture), "MethodWithThreeAsserts");
+            Assert.That(result.AssertCount, Is.EqualTo(3));
+        }
 
         [Test][Platform(Exclude="Mono")]
         public void TimeoutCanBeSetOnTestFixture()
