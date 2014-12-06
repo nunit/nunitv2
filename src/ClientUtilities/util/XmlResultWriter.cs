@@ -243,7 +243,7 @@ namespace NUnit.Util
 		{
 			xmlWriter.WriteStartElement("reason");
 			xmlWriter.WriteStartElement("message");
-			xmlWriter.WriteCData(result.Message);
+			WriteCData(result.Message);
 			xmlWriter.WriteEndElement();
 			xmlWriter.WriteEndElement();
 		}

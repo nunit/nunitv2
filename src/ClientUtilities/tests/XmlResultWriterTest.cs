@@ -36,7 +36,19 @@ namespace NUnit.Util.Tests
 
 			resultDoc = new XmlDocument();
 			resultDoc.LoadXml(resultXml);
-		}
+        }
+
+        [Test]
+        public void DemonstrateIllegalSequenceInSuccessMessage()
+        {
+            Assert.Pass("Deliberate failure to illustrate ]]> in message ");
+        }
+
+        [Test]
+        public void DemonstrateIllegalSequenceAtEndOfSuccessMessage()
+        {
+            Assert.Pass("The CDATA was: <![CDATA[ My <xml> ]]>");
+        }
 
         [Test, Explicit]
         public void DemonstrateIllegalSequenceInMessage()
