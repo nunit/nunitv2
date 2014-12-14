@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
@@ -152,6 +152,7 @@
     <Compile Include="Builders\TestAssemblyBuilder.cs" />
     <Compile Include="Builders\TestCaseParameterProvider.cs" />
     <Compile Include="Builders\TestCaseSourceProvider.cs" />
+    <Compile Include="UnsupportedFrameworkException.cs" />
     <Compile Include="Builders\ValueSourceProvider.cs" />
     <Compile Include="ContextDictionary.cs" />
     <Compile Include="CoreExtensions.cs" />
