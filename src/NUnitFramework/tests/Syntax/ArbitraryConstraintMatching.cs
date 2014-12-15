@@ -5,8 +5,11 @@
 // ****************************************************************
 
 using System;
-using System.Collections.Generic;
 using NUnit.Framework.Constraints;
+
+#if CLR_2_0 || CLR_4_0
+using System.Collections.Generic;
+#endif
 
 namespace NUnit.Framework.Syntax
 {
@@ -79,6 +82,7 @@ namespace NUnit.Framework.Syntax
         {
         }
 
+#if CLR_2_0 || CLR_4_0
         [Test]
         public void ApplyMatchesToProperty()
         {
@@ -102,5 +106,6 @@ namespace NUnit.Framework.Syntax
                 Items = new List<int>(new int[] { 1, 2, 3, 4, 5 });
             }
         }
+#endif
     }
 }

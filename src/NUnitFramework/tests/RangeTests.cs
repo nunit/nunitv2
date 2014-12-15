@@ -7,76 +7,78 @@ using System;
 
 namespace NUnit.Framework.Tests
 {
-	[TestFixture]
-	public class RangeTests
-	{
+    [TestFixture]
+    public class RangeTests
+    {
         static readonly string NL = Environment.NewLine;
 
-		[Test]
-		public void InRangeSucceeds()
-		{
-			Assert.That( 7, Is.InRange(5, 10) );
-			Assert.That(0.23, Is.InRange(-1.0, 1.0));
-			Assert.That(DateTime.Parse("12-December-2008"),
-				Is.InRange(DateTime.Parse("1-October-2008"), DateTime.Parse("31-December-2008")));
-		}
+        [Test]
+        public void InRangeSucceeds()
+        {
+            Assert.That( 7, Is.InRange(5, 10) );
+            Assert.That(0.23, Is.InRange(-1.0, 1.0));
+            Assert.That(DateTime.Parse("12-December-2008"),
+                Is.InRange(DateTime.Parse("1-October-2008"), DateTime.Parse("31-December-2008")));
+        }
 
 
-		[Test]
-		public void InRangeFails()
-		{
-			string expectedMessage =
+        [Test]
+        public void InRangeFails()
+        {
+            string expectedMessage =
                 "  Expected: in range (5,10)" + NL +
                 "  But was:  12" + NL;
 
-			Assert.That(
-				new TestDelegate( FailingInRangeMethod ),
-				Throws.TypeOf(typeof(AssertionException)).With.Message.EqualTo(expectedMessage));
-		}
+            Assert.That(
+                new TestDelegate( FailingInRangeMethod ),
+                Throws.TypeOf(typeof(AssertionException)).With.Message.EqualTo(expectedMessage));
+        }
 
-		private void FailingInRangeMethod()
-		{
-			Assert.That(12, Is.InRange(5, 10));
-		}
+        private void FailingInRangeMethod()
+        {
+            Assert.That(12, Is.InRange(5, 10));
+        }
 
-		[Test]
-		public void NotInRangeSucceeds()
-		{
-			Assert.That(12, Is.Not.InRange(5, 10));
-			Assert.That(2.57, Is.Not.InRange(-1.0, 1.0));
-		}
+        [Test]
+        public void NotInRangeSucceeds()
+        {
+            Assert.That(12, Is.Not.InRange(5, 10));
+            Assert.That(2.57, Is.Not.InRange(-1.0, 1.0));
+        }
 
-		[Test]
-		public void NotInRangeFails()
-		{
-			string expectedMessage =
+        [Test]
+        public void NotInRangeFails()
+        {
+            string expectedMessage =
                 "  Expected: not in range (5,10)" + NL +
                 "  But was:  7" + NL;
 
-			Assert.That(
-				new TestDelegate(FailingNotInRangeMethod),
-				Throws.TypeOf(typeof(AssertionException)).With.Message.EqualTo(expectedMessage));
-		}
+            Assert.That(
+                new TestDelegate(FailingNotInRangeMethod),
+                Throws.TypeOf(typeof(AssertionException)).With.Message.EqualTo(expectedMessage));
+        }
 
-		private void FailingNotInRangeMethod()
-		{
-			Assert.That(7, Is.Not.InRange(5, 10));
-		}
+        private void FailingNotInRangeMethod()
+        {
+            Assert.That(7, Is.Not.InRange(5, 10));
+        }
 
+#if CLR_2_0 || CLR_4_0
         [Test]
-	    public void ShouldThrowExceptionIfFromIsLessThanTo()
-	    {
+        public void ShouldThrowExceptionIfFromIsLessThanTo()
+        {
             Assert.That( 
                 () => Assert.That( 12, Is.InRange( 10, 5 ) ),  
                 Throws.ArgumentException );
-	    }
+        }
+#endif
 
         [TestCase( 9, 9, 10 )]
         [TestCase( 10, 9, 10 )]
         [TestCase( 9, 9, 9 )]
-	    public void RangeBoundaryConditions(int actual, int from, int to)
-	    {
-	        Assert.That( actual, Is.InRange(from, to) );
-	    }
-	}
+        public void RangeBoundaryConditions(int actual, int from, int to)
+        {
+            Assert.That( actual, Is.InRange(from, to) );
+        }
+    }
 }

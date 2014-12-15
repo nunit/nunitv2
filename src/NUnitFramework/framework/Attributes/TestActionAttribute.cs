@@ -17,9 +17,21 @@ namespace NUnit.Framework
     [AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     public abstract class TestActionAttribute : Attribute, ITestAction
     {
+        /// <summary>
+        /// Method called before each test
+        /// </summary>
+        /// <param name="testDetails">Info about the test to be run</param>
         public virtual void BeforeTest(TestDetails testDetails) { }
+
+        /// <summary>
+        /// Method called after each test
+        /// </summary>
+        /// <param name="testDetails">Info about the test that was just run</param>
         public virtual void AfterTest(TestDetails testDetails) { }
         
+        /// <summary>
+        /// Gets or sets the ActionTargets for this attribute
+        /// </summary>
         public virtual ActionTargets Targets
         {
             get { return ActionTargets.Default; }

@@ -70,6 +70,7 @@
     <include name="ThreadedTestRunner.cs"/>
     <include name="ThreadUtility.cs"/>
     <include name="TypeHelper.cs"/>
+    <include name="UnsupportedFrameworkException.cs"/>
     <include name="Builders/CombinatorialStrategy.cs"/>
     <include name="Builders/CombinatorialTestCaseProvider.cs"/>
     <include name="Builders/CombiningStrategy.cs"/>
@@ -109,7 +110,7 @@
         <warning number="618,1699" if="${runtime.version>='2.0'}"/>
       </nowarn>
       <references>
-	<include name="System.Configuration.dll"/>
+    <include name="System.Configuration.dll"/>
     <include name="${current.lib.dir}/nunit.core.interfaces.dll"/>
       </references>
     </csc>

@@ -70,8 +70,10 @@ namespace test_assembly_net45
 		{
 			return await Task.Run(() =>
 			{
+#pragma warning disable 162
 				throw new InvalidOperationException();
 				return 1;
+#pragma warning restore 162
 			});
 		}
 

@@ -4,7 +4,7 @@
   <Product
     UpgradeCode="EE7297AC-EF4E-4415-8621-0066AA2D57D4"
     Name="NUnit $(var.NominalVersion) (.NET 1.1 Support)"
-    Id="87C7C49D-9F6E-490E-96DD-285D4B23D979"
+    Id="2499E1AA-BA81-49BA-B445-619A00509267"
     Version="$(var.ProductVersion)"
     Manufacturer="nunit.org" Language="1033">
 

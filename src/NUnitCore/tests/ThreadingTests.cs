@@ -59,7 +59,7 @@ namespace NUnit.Core.Tests
         [Test]
         public void SetUpWithInfiniteLoopTimesOut()
         {
-            var fixture = new ThreadingFixtureWithTimeoutInSetUp();
+            ThreadingFixtureWithTimeoutInSetUp fixture = new ThreadingFixtureWithTimeoutInSetUp();
             TestSuite suite = TestBuilder.MakeFixture(fixture);
             Test test = TestFinder.Find("TestWithTimeout", suite, false);
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);
@@ -71,7 +71,7 @@ namespace NUnit.Core.Tests
         //[Test] Bug: Cannot abort the timeout because it's run in a finally clause
         public void TearDownWithInfiniteLoopTimesOut()
         {
-            var fixture = new ThreadingFixtureWithTimeoutInTearDown();
+            ThreadingFixtureWithTimeoutInTearDown fixture = new ThreadingFixtureWithTimeoutInTearDown();
             TestSuite suite = TestBuilder.MakeFixture(fixture);
             Test test = TestFinder.Find("TestWithTimeout", suite, false);
             TestResult result = test.Run(NullListener.NULL, TestFilter.Empty);

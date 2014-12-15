@@ -290,8 +290,10 @@ namespace test_assembly_net45
 		{
 			return Task.Run(() =>
 			{
+#pragma warning disable 162
 				throw new InvalidOperationException();
 				return 1;
+#pragma warning restore 162
 			});
 		}
 	}

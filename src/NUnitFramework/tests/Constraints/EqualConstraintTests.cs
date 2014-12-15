@@ -126,6 +126,7 @@ namespace NUnit.Framework.Constraints
 
         #region DateTimeOffsetEquality
 
+#if CLR_2_0 || CLR_4_0
         public class DateTimeOffSetEquality
         {
             [Test]
@@ -201,6 +202,7 @@ namespace NUnit.Framework.Constraints
                 Assert.That(a, Is.EqualTo(b).Within(TimeSpan.FromMinutes(2)));
             }
         }
+#endif
 
         #endregion
 
