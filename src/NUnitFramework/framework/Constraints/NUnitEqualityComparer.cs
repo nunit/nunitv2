@@ -160,11 +160,12 @@ namespace NUnit.Framework.Constraints
             if (expected is DictionaryEntry && actual is DictionaryEntry)
                 return DictionaryEntriesEqual((DictionaryEntry)expected, (DictionaryEntry)actual, ref tolerance);
 
+#if CLR_2_0 || CLR_4_0
             // IDictionary<,> will eventually try to compare it's key value pairs when using CollectionTally
             if (xType.IsGenericType && xType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>) &&
                 yType.IsGenericType && yType.GetGenericTypeDefinition() == typeof(KeyValuePair<,>))
             {
-                var keyTolerance = new Tolerance(0);
+                Tolerance keyTolerance = new Tolerance(0);
                 object xKey = xType.GetProperty("Key").GetValue(expected, null);
                 object yKey = yType.GetProperty("Key").GetValue(actual, null);
                 object xValue = xType.GetProperty("Value").GetValue(expected, null);
@@ -172,6 +173,7 @@ namespace NUnit.Framework.Constraints
 
                 return AreEqual(xKey, yKey, ref keyTolerance) && AreEqual(xValue, yValue, ref tolerance);
             }
+#endif
 
             if (expected is IEnumerable && actual is IEnumerable && !(expected is string && actual is string))
                 return EnumerablesEqual((IEnumerable) expected, (IEnumerable) actual, ref tolerance);
@@ -198,8 +200,10 @@ namespace NUnit.Framework.Constraints
                 if (expected is DateTime && actual is DateTime)
                     return ((DateTime) expected - (DateTime) actual).Duration() <= amount;
 
+#if CLR_2_0 || CLR_4_0
                 if (expected is DateTimeOffset && actual is DateTimeOffset)
                     return ((DateTimeOffset)expected - (DateTimeOffset)actual).Duration() <= amount;
+#endif
 
                 if (expected is TimeSpan && actual is TimeSpan)
                     return ((TimeSpan) expected - (TimeSpan) actual).Duration() <= amount;
@@ -220,7 +224,7 @@ namespace NUnit.Framework.Constraints
     	{
     		Type[] equatableArguments = GetEquatableGenericArguments(first);
 
-    		foreach (var xEquatableArgument in equatableArguments)
+    		foreach (Type xEquatableArgument in equatableArguments)
     			if (xEquatableArgument.Equals(second))
     				return true;
 
@@ -288,7 +292,7 @@ namespace NUnit.Framework.Constraints
 
         private bool DictionaryEntriesEqual(DictionaryEntry x, DictionaryEntry y, ref Tolerance tolerance)
         {
-            var keyTolerance = new Tolerance(0);
+            Tolerance keyTolerance = new Tolerance(0);
             return AreEqual(x.Key, y.Key, ref keyTolerance) && AreEqual(x.Value, y.Value, ref tolerance);
         }
 

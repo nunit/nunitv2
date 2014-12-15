@@ -13,7 +13,9 @@ namespace nunit.framework.tests.net45
 		private readonly ActualValueDelegate<Task> _noThrowsAsyncTask = async () => await Task.Yield();
 		private readonly ActualValueDelegate<Task<int>> _noThrowsAsyncGenericTask = async () => await ReturnOne();
 		private readonly TestDelegate _throwsAsyncVoid = new TestDelegate(async () => await ThrowAsyncTask());
+#pragma warning disable 1998
 		private readonly TestDelegate _throwsSyncVoid = new TestDelegate(async () => { throw new InvalidOperationException(); });
+#pragma warning restore 1998
 		private readonly ActualValueDelegate<Task> _throwsAsyncTask = async () => await ThrowAsyncTask();
 		private readonly ActualValueDelegate<Task<int>> _throwsAsyncGenericTask = async () => await ThrowAsyncGenericTask();
 

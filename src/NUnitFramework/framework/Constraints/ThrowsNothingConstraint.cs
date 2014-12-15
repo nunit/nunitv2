@@ -28,6 +28,11 @@ namespace NUnit.Framework.Constraints
             return caughtException == null;
         }
 
+        /// <summary>
+        /// Test whether the constraint is satisfied by a given delegate
+        /// </summary>
+        /// <param name="del">Delegate returning the value to be tested</param>
+        /// <returns>True if no exception is thrown, otherwise false</returns>
 #if CLR_2_0 || CLR_4_0
         public override bool Matches<T>(ActualValueDelegate<T> del)
         {

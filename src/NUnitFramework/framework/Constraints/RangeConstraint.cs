@@ -76,6 +76,10 @@ namespace NUnit.Framework.Constraints
         /// <param name="to">To.</param>
         public RangeConstraint(IComparable from, IComparable to) : base( from, to )
         {
+            // from must be less than or equal to to
+            Console.WriteLine("RangeConstraint: from > to = {0}", from.CompareTo(to));
+            //if ( from.CompareTo( to ) > 0 )
+                throw new ArgumentException( "from must be less than to" );
             this.from = from;
             this.to = to;
         }
