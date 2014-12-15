@@ -220,11 +220,12 @@ namespace NUnit.Core.Builders
             // Skip if the assembly references NUnit 3+
             foreach(AssemblyName an in assembly.GetReferencedAssemblies())
             {
-                if((an.Name == "nunit.framework" || an.Name == "nunitlite") && an.Version.Major > 2)
+                if((an.Name == "nunit.framework") && an.Version.Major > 2)
                 {
-                    log.Warning("Skipped loading assembly {0} because it references an unsupported version of the nunit.framework, {1}",
+                    string msg = string.Format("Skipped loading assembly {0} because it references an unsupported version of the nunit.framework, {1}",
                         assembly.GetName().Name, an.Version);
-                    return new ArrayList();
+                    log.Warning(msg);
+                    throw new UnsupportedFrameworkException(msg);
                 }
             }
 
