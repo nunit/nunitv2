@@ -43,6 +43,42 @@ ul ul li { padding-bottom: 0; }
 dt { font-weight: bold }
 --></style>
 
+<h3>NUnit 2.6.4 - Version 2.6.4.14350 - December 16, 2014</h3>
+
+<h4>General</h4>
+<ul>
+<li>NUnit 2.6.4 no longer attempts to load tests compiled against NUnit 3.0, which it is unable to run correctly. Previously, the tests appeared to run partially, but either failed silently or gave confusing messages. It's necessary to use a 3.0 runner to run 3.0 tests.
+</ul>
+
+<h4>Framework</h4>
+<ul>
+<li>Async tests are now supported under.NET 4.0
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+<li>4 AsyncStateMachineAttribute should only be checked by name
+<li>6 Is.InRange Constraint ambiguity
+<li>7 EquivalentTo isn't compatible with Ignorecase for char
+<li>8 EquivalentTo isn't compatible with Ignorecase for dictionaries
+<li>9 Incorrect XML comments for CollectionAssert.IsSubsetOf
+<li>13  TestCaseSourceAttribute documentation
+<li>14  Path-related tests fail on Linux
+<li>15  Async tests should be supported for projects that target .NET 4.0
+<li>16  Matches(Constraint) does not work as expected
+<li>18  Specifying a tolerance with "Within" doesn't work for DateTimeOffset data types
+<li>22  Include/exclude command line switch not respected between runs
+<li>28  Assert.Pass with ]]> in message crashes console runner
+<li>30  NUnit V2 is still checking for NUnitLite 3.0
+</ul>
+
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
 <h3>NUnit 2.6.3 - Version 2.6.3.13283 - October 10, 2013</h3>
 
 <h4>Framework</h4>
@@ -472,7 +508,7 @@ dt { font-weight: bold }
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -490,18 +526,19 @@ dt { font-weight: bold }
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

@@ -74,7 +74,7 @@ of the extension and a description of what it does. If no name is provided,
 the name of the class is used. Type may be any one or a combination of the 
 ExtensionType enum members:
 
-<pre>
+<pre class="prettyprint">
 	[Flags]
 	public enum ExtensionType
 	{
@@ -91,7 +91,7 @@ defaults to ExtensionType.Core.</p>
 <p>The <b>IAddin</b> interface, which must be implemented by each Addin,
 is defined as follows:</p>
 
-<pre>
+<pre class="prettyprint">
 	public interface IAddin
 	{
 		bool Install( IExtensionHost host );
@@ -107,7 +107,7 @@ host and - for Core extensions - each time a new test domain is loaded.</p>
 <p>The Install method uses the <b>IExtensionHost</b> interface to locate
 extension points. It is defined as follows:</p>
 
-<pre>
+<pre class="prettyprint">
 	public interface IExtensionHost
 	{
 	 	IExtensionPoint[] ExtensionPoints { get; }
@@ -125,7 +125,7 @@ allowing, for example, Gui extensions to only load in a Gui host.</p>
 get the interface to a particular extension point. The <b>IExtensionPoint</b>
 interface is defined as follows:</p>
 
-<pre>
+<pre class="prettyprint">
 	public interface IExtensionPoint
 	{
 		string Name { get; }
@@ -147,7 +147,7 @@ the priority order in which the extension will be called in comparison to
 other extensions on the same extension point. The interface is defined
 as follows:
 
-<pre>
+<pre class="prettyprint">
 	public interface IExtensionPoint2 : IExtensionPoint
 	{
 		void Install( object extension, int priority );
@@ -184,7 +184,7 @@ code of NUnit itself, since NUnit uses the same mechanism internally.</p>
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -212,18 +212,19 @@ code of NUnit itself, since NUnit uses the same mechanism internally.</p>
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>
