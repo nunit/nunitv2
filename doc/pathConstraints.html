@@ -46,23 +46,23 @@
 <p>Tests that two paths are equivalent.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 SamePathConstraint( string expectedPath )
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.SamePath( string expectedPath )
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...IgnoreCase
 ...RespectCase
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Assert.That( "/folder1/./junk/../folder2", 
 	Is.SamePath( "/folder1/folder2" ) );
 Assert.That( "/folder1/./junk/../folder2/x", 
@@ -80,24 +80,24 @@ Assert.That( "/folder1/folder2",
 <p>Tests that one path is under another path.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 SubPathConstraint( string expectedPath )
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.SubPath( string expectedPath )
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...IgnoreCase
 ...RespectCase
 </pre></div>
 
 <h4>Examples of Use</h4>
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Assert.That( "/folder1/./junk/../folder2", 
 	Is.SubPath( "/folder1/folder2" ) );
 Assert.That( "/folder1/junk/folder2",
@@ -115,24 +115,24 @@ Assert.That( "/folder1/folder2/folder3",
 <p>Tests that one path is equivalent another path or that it is under it.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 SamePathOrUnderConstraint( string expectedPath )
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.SamePathOrUnder( string expectedPath )
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...IgnoreCase
 ...RespectCase
 </pre></div>
 
 <h4>Examples of Use</h4>
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Assert.That( "/folder1/./junk/../folder2", 
 	Is.SamePathOrUnder( "/folder1/folder2" ) );
 Assert.That( "/folder1/junk/../folder2/./folder3",
@@ -151,7 +151,7 @@ Assert.That( "/folder1/folder2/folder3",
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -191,18 +191,19 @@ Assert.That( "/folder1/folder2/folder3",
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

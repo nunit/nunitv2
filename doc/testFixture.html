@@ -73,7 +73,7 @@
 	</div>
 </div>
 
-<pre class="cs">namespace NUnit.Tests
+<pre class="prettyprint cs">namespace NUnit.Tests
 {
   using System;
   using NUnit.Framework;
@@ -86,7 +86,7 @@
 }
 </pre>
 
-<pre class="vb">Imports System
+<pre class="prettyprint vb">Imports System
 Imports Nunit.Framework
 
 Namespace Nunit.Tests
@@ -97,7 +97,7 @@ Namespace Nunit.Tests
 End Namespace
 </pre>
 
-<pre class="mc">#using &lt;Nunit.Framework.dll&gt;
+<pre class="prettyprint mc">#using &lt;Nunit.Framework.dll&gt;
 using namespace System;
 using namespace NUnit::Framework;
 
@@ -117,7 +117,7 @@ namespace NUnitTests {
 }
 </pre>
 
-<pre class="js">package NUnit.Tests;
+<pre class="prettyprint js">package NUnit.Tests;
 
 import System.*;
 import NUnit.Framework.TestFixture;
@@ -156,8 +156,7 @@ this situation should generally be avoided.
 This permits code like the following, which would cause an error if the
 attribute on the base class were not ignored.
 
-<div class="code">
-<pre>[TestFixture]
+<div class="code"><pre class="prettyprint">[TestFixture]
 public class AbstractFixtureBase
 {
     ...
@@ -193,7 +192,7 @@ public class DerivedFixture&lt;T&gt; : AbstractFixtureBase
    that there are three different constructors, matching the data types
    provided as arguments.
    
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture("hello", "hello", "goodbye")]
 [TestFixture("zip", "zip")]
 [TestFixture(42, 42, 99)]
@@ -252,7 +251,7 @@ public class ParameterizedTestFixture
 <p>The following test fixture would be instantiated by NUnit twice,
    once using an ArrayList and once using a List&lt;int&gt;.
    
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture(typeof(ArrayList))]
 [TestFixture(typeof(List&lt;int&gt;))]
 public class IList_Tests&lt;TList&gt; where TList : IList, new()
@@ -284,7 +283,7 @@ public class IList_Tests&lt;TList&gt; where TList : IList, new()
 	   any remaining arguments are used to construct the instance. In the
 	   following example, this leads to some obvious duplication...
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture(typeof(double), typeof(int), 100.0, 42)]
 [TestFixture(typeof(int) typeof(double), 42, 100.0)]
 public class SpecifyBothSetsOfArgs&lt;T1, T2&gt;
@@ -311,7 +310,7 @@ public class SpecifyBothSetsOfArgs&lt;T1, T2&gt;
 	   arguments. Again, for this example, the type info is duplicated, but
 	   it is at least more cleanly separated from the normal arguments...
 
-<div class="code" style="width: 40em"><pre>
+<div class="code" style="width: 40em"><pre class="prettyprint">
 [TestFixture(100.0, 42, TypeArgs=new Type[] {typeof(double), typeof(int) } )]
 [TestFixture(42, 100.0, TypeArgs=new Type[] {typeof(int), typeof(double) } )]
 public class SpecifyTypeArgsSeparately&lt;T1, T2&gt;
@@ -338,7 +337,7 @@ public class SpecifyTypeArgsSeparately&lt;T1, T2&gt;
 	   That's the case here and the following is the preferred way to
 	   write this example...
    
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture(100.0, 42)]
 [TestFixture(42, 100.0)]
 public class DeduceTypeArgsFromArgs&lt;T1, T2&gt;
@@ -366,7 +365,7 @@ public class DeduceTypeArgsFromArgs&lt;T1, T2&gt;
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -425,18 +424,19 @@ public class DeduceTypeArgsFromArgs&lt;T1, T2&gt;
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

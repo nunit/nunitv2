@@ -39,8 +39,7 @@ it in a future release.</p>
 
 <p>Let’s start with a simple example, whose full source code is available <a href="quickStartSource.html">here</a>. Suppose we are writing a bank application and we have a basic domain class – Account. Account supports operations to deposit, withdraw, and transfer funds. The Account class may look like this:</p>
 
-<div class="code">
-<pre>namespace Bank
+<div class="code"><pre class="prettyprint">namespace Bank
 {
   public class Account
   {
@@ -70,8 +69,7 @@ it in a future release.</p>
 
 <p>Now let’s write a test for this class – AccountTest. The first method we will test is TransferFunds.</p>
 
-<div class="code">
-<pre>namespace Bank
+<div class="code"><pre class="prettyprint">namespace Bank
 {
   using NUnit.Framework;
 
@@ -102,16 +100,15 @@ it in a future release.</p>
 
 <p>Compile and run this example. Assume that you have compiled your test code into a bank.dll. Start the NUnit Gui (the installer will have created a shortcut on your desktop and in the “Program Files” folder), after the GUI starts, select the File->Open menu item, navigate to the location of your bank.dll and select it in the “Open” dialog box. When the bank.dll is loaded you will see a test tree structure in the left panel and a collection of status panels on the right. Click the Run button, the status bar and the TransferFunds node in the test tree turn red – our test has failed. The “Errors and Failures” panel displayed the following message:
 
-<pre>    TransferFunds : expected &lt;250&gt; but was &lt;150&gt;</pre>
+<pre class="prettyprint">    TransferFunds : expected &lt;250&gt; but was &lt;150&gt;</pre>
 
 and the stack trace panel right below it reported where in the test code the failure has occurred – 
 
-<pre>    at bank.AccountTest.TransferFunds() in C:\nunit\BankSampleTests\AccountTest.cs:line 19</pre></p>
+<pre class="prettyprint">    at bank.AccountTest.TransferFunds() in C:\nunit\BankSampleTests\AccountTest.cs:line 19</pre></p>
 
 <p>That is expected behavior; the test has failed because we have not implemented the TransferFunds method yet. Now let’s get it to work. Don’t close the GUI and go back to your IDE and fix the code, make your TransferFunds method look like this:</p>
 
-<div class="code">
-<pre>public void TransferFunds(Account destination, decimal amount)
+<div class="code"><pre class="prettyprint">public void TransferFunds(Account destination, decimal amount)
 {
   destination.Deposit(amount);
   Withdraw(amount);
@@ -122,8 +119,7 @@ and the stack trace panel right below it reported where in the test code the fai
 
 <p>Let’s add some error checking to our Account code. We are adding the minimum balance requirement for the account to make sure that banks continue to make their money by charging your minimal overdraft protection fee. Let’s add the minimum balance property to our Account class:</p>
 
-<div class="code">
-<pre>private decimal minimumBalance = 10m;
+<div class="code"><pre class="prettyprint">private decimal minimumBalance = 10m;
 
 public decimal MinimumBalance
 {
@@ -133,8 +129,7 @@ public decimal MinimumBalance
 
 <p>We will use an exception to indicate an overdraft:</p>
 
-<div class="code">
-<pre>namespace Bank
+<div class="code"><pre class="prettyprint">namespace Bank
 {
   using System;
   
@@ -146,8 +141,7 @@ public decimal MinimumBalance
 
 <p>Add a new test method to our AccountTest class:</p>
 
-<div class="code">
-<pre>[Test]
+<div class="code"><pre class="prettyprint">[Test]
 [ExpectedException(typeof(InsufficientFundsException))]
 public void TransferWithInsufficientFunds()
 {
@@ -163,12 +157,11 @@ public void TransferWithInsufficientFunds()
 
 <p>This test method in addition to [Test] attribute has an [ExpectedException] attribute associated with it – this is the way to indicate that the test code is expecting an exception of a certain type; if such an exception is not thrown during the execution – the test will fail. Compile your code and go back to the GUI. As you compiled your test code, the GUI has grayed out and collapsed the test tree as if the tests were not run yet (GUI watches for the changes made to the test assemblies and updates itself when the structure of the test tree has changed – e.g. new test is added). Click the “Run” button – we have a red status bar again. We got the following Failure :
 
-<pre>    TransferWithInsufficentFunds : InsufficientFundsException was expected</pre>
+<pre class="prettyprint">    TransferWithInsufficentFunds : InsufficientFundsException was expected</pre>
 
 Let’s fix our Account code again, modify the TransferFunds method this way:</p>
 
-<div class="code">
-<pre>public void TransferFunds(Account destination, decimal amount)
+<div class="code"><pre class="prettyprint">public void TransferFunds(Account destination, decimal amount)
 {
   destination.Deposit(amount);
 	
@@ -181,8 +174,7 @@ Let’s fix our Account code again, modify the TransferFunds method this way:</p>
 
 <p>Compile and run the tests – green bar. Success! But wait, looking at the code we’ve just written we can see that the bank may be loosing money on every unsuccessful funds Transfer operation. Let’s write a test to confirm our suspicions. Add this test method:</p>
 	
-<div class="code">
-<pre>[Test]
+<div class="code"><pre class="prettyprint">[Test]
 public void TransferWithInsufficientFundsAtomicity()
 {
   Account source = new Account();
@@ -206,8 +198,7 @@ public void TransferWithInsufficientFundsAtomicity()
 
 <p>We are testing the transactional property of our business method – all operations are successful or none. Compile and run – red bar. OK, we’ve made $300.00 out of a thin air (1999 .com déjà vu?) – the source account has the correct balance of 200.00 but the destination account shows : $450.00. How do we fix this? Can we just move the minimum balance check call in front of the updates:</p>
 
-<div class="code">
-<pre>public void TransferFunds(Account destination, decimal amount)
+<div class="code"><pre class="prettyprint">public void TransferFunds(Account destination, decimal amount)
 {
   if(balance-amount &lt; minimumBalance) 
     throw new InsufficientFundsException();
@@ -220,8 +211,7 @@ public void TransferWithInsufficientFundsAtomicity()
 
 <p>What if the Withdraw() method throws another exception? Should we execute a compensating transaction in the catch block or rely on our transaction manager to restore the state of the objects? We need to answer those questions at some point, but not now; but what do we do with the failing test in the meantime – remove it? A better way is to temporarily ignore it, add the following attribute to your test method</p>
 	
-<div class="code">
-<pre>[Test]
+<div class="code"><pre class="prettyprint">[Test]
 [Ignore("Decide how to implement transaction management")]
 public void TransferWithInsufficientFundsAtomicity()
 {
@@ -233,8 +223,7 @@ public void TransferWithInsufficientFundsAtomicity()
 
 <p>Looking at our test code we can see that some refactoring is in order. All test methods share a common set of test objects. Let’s extract this initialization code into a setup method and reuse it in all of our tests. The refactored version of our test class looks like this:</p>
 
-<div class="code">
-<pre>namespace Bank
+<div class="code"><pre class="prettyprint">namespace Bank
 {
   using NUnit.Framework;
 
@@ -296,7 +285,7 @@ public void TransferWithInsufficientFundsAtomicity()
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <ul>
@@ -318,18 +307,19 @@ public void TransferWithInsufficientFundsAtomicity()
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

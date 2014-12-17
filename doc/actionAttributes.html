@@ -57,7 +57,7 @@ and compose them together as our tests need them.
 
 <p><b>Action Attributes</b> get us out of our bind. Consider this example:
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture, ResetServiceLocator]
 public class MyTests
 {
@@ -93,7 +93,7 @@ We can even develop and distribute a library of common test actions.
 <p>Action attributes are defined by the programmer. They implement the <b>ITestAction</b>
 interface, which is defined as follows:
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
     public interface ITestAction
     {
         void BeforeTest(TestDetails details);
@@ -108,7 +108,7 @@ interface, which is defined as follows:
 an abstract class with virtual implementations of each member of the interface. Alternatively, you
 may derive from <b>System.Attribute</b> and implement the interface directly.
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
     [Flags]
     public enum ActionTargets
     {
@@ -158,7 +158,7 @@ method to decide what actions to take:
 
 <p>The examples that follow all use the following sample Action Attribute:
 
-<div class="code" style="width: 44em"><pre>
+<div class="code" style="width: 44em"><pre class="prettyprint">
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class |
                 AttributeTargets.Interface | AttributeTargets.Assembly,
                 AllowMultiple = true)]
@@ -206,7 +206,7 @@ public class ConsoleActionAttribute : Attribute, ITestAction
 
 <h4>Example 1 (applied to simple test method):</h4>
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture]
 public class ActionAttributeSampleTests
 {
@@ -219,7 +219,7 @@ public class ActionAttributeSampleTests
 </pre></div>
 
 <h5>Console Output:</h5>
-<pre>
+<pre class="prettyprint">
   Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
   Test ran.
   After Case: Hello, from ActionAttributeSampleTests.SimpleTest.
@@ -227,7 +227,7 @@ public class ActionAttributeSampleTests
 
 <h4>Example 2 (applied action twice to test method):</h4>
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture]
 public class ActionAttributeSampleTests
 {
@@ -241,7 +241,7 @@ public class ActionAttributeSampleTests
 </pre></div>
 
 <h5>Console Output:</h5>
-<pre>
+<pre class="prettyprint">
   Before Case: Greetings, from ActionAttributeSampleTests.SimpleTest.
   Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
   Test run.
@@ -256,7 +256,7 @@ it will generally be stable for a single release of .NET.
 
 <h4>Example 3 (applied to a test method with test cases):</h4>
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture]
 public class ActionAttributeSampleTests
 {
@@ -271,7 +271,7 @@ public class ActionAttributeSampleTests
 </pre></div>
 
 <h5>Console Output:</h5>
-<pre>
+<pre class="prettyprint">
   Before Suite: Hello, from ActionAttributeSampleTests.SimpleTest.
   Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
   Test run 01.
@@ -292,7 +292,7 @@ Note that the order in which test cases are executed is indeterminate.
 
 <h4>Example 1:</h4>
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture] [ConsoleAction("Hello")]
 public class ActionAttributeSampleTests
 {
@@ -311,7 +311,7 @@ public class ActionAttributeSampleTests
 </pre></div>
 
 <h5>Console Output:</h5>
-<pre>
+<pre class="prettyprint">
   Before Suite: Hello, from ActionAttributeSampleTests.{no method}.
   Before Case: Hello, from ActionAttributeSampleTests.SimpleTestOne.
   Test ran.
@@ -327,7 +327,7 @@ In this case, the class is the test suite. BeforeTest and AfterTest are run once
 
 <h4>Example 2 (attached to interface):</h4>
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [ConsoleAction("Hello")]
 public interface IHaveAnAction
 {
@@ -345,7 +345,7 @@ public class ActionAttributeSampleTests : IHaveAnAction
 </pre></div>
 
 <h5>Console Output:</h5>
-<pre>
+<pre class="prettyprint">
   Before Suite: Hello, from ActionAttributeSampleTests.{no method}.
   Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
   Test run.
@@ -358,7 +358,7 @@ Action attributes can be applied to an interface.  If a class marked with [TestF
 
 <h4>Example 3 (action attribute is applied to interface and attribute uses interface to provide data to tests):</h4>
 
-<div class="code" style="width: 42em"><pre>
+<div class="code" style="width: 42em"><pre class="prettyprint">
 [AttributeUsage(AttributeTargets.Interface)]
 public class InterfaceAwareActionAttribute : TestActionAttribute
 {
@@ -396,7 +396,7 @@ public class ActionAttributeSampleTests : IHaveAnAction
 </pre></div>
 
 <h5>Console Output:</h5>
-<pre>
+<pre class="prettyprint">
   Hello, World!
 </pre>
 
@@ -410,7 +410,7 @@ public class ActionAttributeSampleTests : IHaveAnAction
 
 <h4>Example 1:</h4>
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [assembly: ConsoleAction("Hello")]
 
 [TestFixture]
@@ -425,7 +425,7 @@ public class ActionAttributeSampleTests
 </pre></div>
 
 <h5>Console Output:</h5>
-<pre>
+<pre class="prettyprint">
   Before Suite: Hello, from {no fixture}.{no method}.
   Before Case: Hello, from ActionAttributeSampleTests.SimpleTest.
   Test run.
@@ -441,7 +441,7 @@ The [ConsoleAction] attribute in this example is applied to the entire assembly.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -500,18 +500,19 @@ The [ConsoleAction] attribute in this example is applied to the entire assembly.
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

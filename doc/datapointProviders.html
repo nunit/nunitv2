@@ -34,14 +34,14 @@ of a parameterized test method.
 <h4>Extension Point</h4>
 <p>Addins use the host to access this extension point by name:
 
-<pre>
+<pre class="prettyprint">
 	IExtensionPoint listeners = host.GetExtensionPoint( "DataPointProviders" );</pre>
 
 <h4>Interface</h4>
 <p>The extension object passed to Install must implement either the
    <b>IDataPointProvider</b> or the <b>IDataPointProvider2</b> interface:
 
-<pre>
+<pre class="prettyprint">
 	public interface IDataPointProvider
 	{
 		bool HasDataFor( ParameterInfo parameter );
@@ -85,7 +85,7 @@ of a parameterized test method.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -113,18 +113,19 @@ of a parameterized test method.
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

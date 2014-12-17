@@ -36,7 +36,7 @@ p>The related <b>ThrowsNothingConstraint</b> simply asserts that the delegate
 does not throw an exception.
 
 <h4>Constructors</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ThrowsConstraint(Type expectedType)
 ThrowsConstraint&lt;T&gt;()
 ThrowsConstraint(Type expectedType, Constraint constraint)
@@ -45,7 +45,7 @@ ThrowsNothingConstraint()
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Throws.Exception
 Throws.TargetInvocationException
 Throws.ArgumentException
@@ -59,7 +59,7 @@ Throws.InnerException
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 // .NET 1.1
 Assert.That( new TestDelegate(SomeMethod),
   Throws.TypeOf(typeof(ArgumentException)));
@@ -115,7 +115,7 @@ Assert.That( SomeMethod,
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -155,18 +155,19 @@ Assert.That( SomeMethod,
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

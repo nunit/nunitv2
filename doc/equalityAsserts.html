@@ -32,7 +32,7 @@ methods are provided for common value types so that languages that don't
 automatically box values can use them directly.</p>
 
 <div class="code" style="width: 36em" >
-	<pre>Assert.AreEqual( int expected, int actual );
+	<pre class="prettyprint">Assert.AreEqual( int expected, int actual );
 Assert.AreEqual( int expected, int actual, string message );
 Assert.AreEqual( int expected, int actual, string message, 
                  params object[] parms );
@@ -109,7 +109,7 @@ Assert.AreNotEqual( object expected, object actual, string message,
 
 <p>The method overloads that compare two objects make special provision so that numeric 
 	values of different types compare as expected. This assert succeeds:
-	<pre>        Assert.AreEqual( 5, 5.0 );</pre>
+	<pre class="prettyprint">        Assert.AreEqual( 5, 5.0 );</pre>
 </p>
 
 <h4>Comparing Floating Point Values</h4>
@@ -123,7 +123,7 @@ values are tested for exact equality.
 
 <p>Special values are handled so that the following Asserts succeed:</p>
 
-<pre>        Assert.AreEqual( double.PositiveInfinity, double.PositiveInfinity );
+<pre class="prettyprint">        Assert.AreEqual( double.PositiveInfinity, double.PositiveInfinity );
         Assert.AreEqual( double.NegativeInfinity, double.NegativeInfinity );
         Assert.AreEqual( double.NaN, double.NaN );</pre>
 
@@ -146,7 +146,7 @@ values are tested for exact equality.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -183,18 +183,19 @@ values are tested for exact equality.
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

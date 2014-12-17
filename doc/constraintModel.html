@@ -33,17 +33,17 @@
    method.
    
 <p>Here's a very simple assert using the constraint model:
-<pre>      Assert.That( myString, Is.EqualTo("Hello") );</pre>
+<pre class="prettyprint">      Assert.That( myString, Is.EqualTo("Hello") );</pre>
 
 <p>The second argument in this assertion uses one of NUnit's <b>syntax helpers</b>
 to create an <b>EqualConstraint</b>. The same assertion could also be made in this form:
-<pre>      Assert.That( myString, new EqualConstraint("Hello") );</pre>
+<pre class="prettyprint">      Assert.That( myString, new EqualConstraint("Hello") );</pre>
 
 <p>Using this model, all assertions are made using one of the forms of the
    Assert.That() method, which has a number of overloads...
    
 <div class="code" style="width: 36em">
-<pre>
+<pre class="prettyprint">
 Assert.That( object actual, IResolveConstraint constraint )
 Assert.That( object actual, IResolveConstraint constraint, 
              string message )
@@ -74,7 +74,7 @@ Assert.That( TestDelegate del, IResolveConstraint constraint );
 Expect() method may be used in place of Assert.That()...
 
 <div class="code" style="width: 36em">
-<pre>
+<pre class="prettyprint">
 Expect( object actual, IResolveConstraint constraint )
 Expect( object actual, IResolveConstraint constraint, 
              string message )
@@ -125,7 +125,7 @@ Expect( TestDelegate del, IResolveConstraint constraint );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -165,18 +165,19 @@ Expect( TestDelegate del, IResolveConstraint constraint );
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

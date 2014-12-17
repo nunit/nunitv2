@@ -34,16 +34,9 @@
    
 <h4>Example</h4>
 
-<p>The following test will be executed six times, as follows:
-<pre>
-	MyTest(1, "A")
-	MyTest(1, "B")
-	MyTest(2, "A")
-	MyTest(2, "B")
-	MyTest(3, "A")
-	MyTest(3, "B")
-</pre>
-<div class="code"><pre>
+<p>The following test will be executed six times:
+
+<div class="code"><pre class="prettyprint">
 [Test, Combinatorial]
 public void MyTest(
     [Values(1,2,3)] int x,
@@ -53,6 +46,23 @@ public void MyTest(
 }
 </pre></div>
 
+MyTest is called six times, as follows:
+<pre>
+	MyTest(1, "A")
+	MyTest(1, "B")
+	MyTest(2, "A")
+	MyTest(2, "B")
+	MyTest(3, "A")
+	MyTest(3, "B")
+</pre>
+
+<h4>Limitations</h4>
+
+<p>When used on a generic method the programmer must ensure that all
+   possible combinations of arguments are valid. When multiple parameters
+   use the same generic type (e.g.: T) this may not be possible and the
+   attribute may generate invalid test cases.
+    
 <h4>See also...</h4>
 <ul>
 <li><a href="sequential.html">SequentialAttribute</a><li><a href="pairwise.html">PairwiseAttribute</a></ul>
@@ -62,7 +72,7 @@ public void MyTest(
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -121,18 +131,19 @@ public void MyTest(
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

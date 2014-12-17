@@ -40,7 +40,7 @@
 argument giving the exact type of the expected exception. For example...</p>
 
 
-<div class="code"><pre>[ExpectedException( typeof( ArgumentException ) )]
+<div class="code"><pre class="prettyprint">[ExpectedException( typeof( ArgumentException ) )]
 public void TestMethod()
 {
 ...</pre></div>
@@ -49,7 +49,7 @@ public void TestMethod()
 of exception as a string, avoiding the need for a reference to the
 defining assembly...</p>
 
-<div class="code"><pre>[ExpectedException( "System.ArgumentException" ) )]
+<div class="code"><pre class="prettyprint">[ExpectedException( "System.ArgumentException" ) )]
 public void TestMethod()
 {
 ...</pre></div>
@@ -65,7 +65,7 @@ same extension was made to the constructor taking a string argument. With
 NUnit 2.4, these arguments are marked obsolete, and a named parameter
 is provided instead...</p>
 
-<div class="code" style="width: 44em"><pre>// Obsolete form:
+<div class="code" style="width: 44em"><pre class="prettyprint">// Obsolete form:
 [ExpectedException( typeof( ArgumentException ), "expected message" )]
 [ExpectedException( "System.ArgumentException", "expected message" )]
 
@@ -78,8 +78,7 @@ exception message, beyond a simple exact match. This is done using the
 MatchType named parameter, whose argument is an enumeration, defined as
 follows:</p>
    
-<div class="code">
-<pre>public enum MessageMatch
+<div class="code"><pre class="prettyprint">public enum MessageMatch
 {
     /// Expect an exact match
     Exact,	
@@ -95,7 +94,7 @@ follows:</p>
 with a message containing "unspecified" is received.</p>
 
 <div class="code" style="width: 57em">
-<pre>[ExpectedException( typeof( ArgumentException), ExpectedMessage="unspecified", MatchType=MessageMatch.Contains )]
+<pre class="prettyprint">[ExpectedException( typeof( ArgumentException), ExpectedMessage="unspecified", MatchType=MessageMatch.Contains )]
 public void TestMethod()
 {
 ...</pre></div>
@@ -109,7 +108,7 @@ displayed if the ExpectedException attribute is not satisfied. This
 is done through the UserMessage named parameter...</p>
 
 <div class="code" style="width: 41em">
-<pre>[ExpectedException( typeof( ArgumentException ), UserMessage="Custom message" )]
+<pre class="prettyprint">[ExpectedException( typeof( ArgumentException ), UserMessage="Custom message" )]
 public void TestMethod()
 {
 ...</pre>
@@ -127,8 +126,7 @@ in the same way.</p>
 <p>An common exception handler may be designated by implementing the
 <b>IExpectExceptionInterface</b>, which is defined as follows...</p>
 
-<div class="code">
-<pre>public interface IExpectException
+<div class="code"><pre class="prettyprint">public interface IExpectException
 {
     void HandleException( System.Exception ex );
 }</pre>
@@ -143,7 +141,7 @@ indicate that an exception is expected.</p>
 <p>An handler may be designated for a particular method
 using the <b>Handler</b> named parameter.</p>
 
-<div class="code"><pre>[ExpectedException( Handler="HandlerMethod" )]
+<div class="code"><pre class="prettyprint">[ExpectedException( Handler="HandlerMethod" )]
 public void TestMethod()
 {
 ...
@@ -179,7 +177,7 @@ will then be consistent in format with other assertions performed in the tests.<
 	</div>
 </div>
 
-<pre class="cs">namespace NUnit.Tests
+<pre class="prettyprint cs">namespace NUnit.Tests
 {
   using System;
   using NUnit.Framework;
@@ -200,7 +198,7 @@ will then be consistent in format with other assertions performed in the tests.<
 }
 </pre>
 
-<pre class="vb">Imports System
+<pre class="prettyprint vb">Imports System
 Imports Nunit.Framework
 
 Namespace Nunit.Tests
@@ -220,7 +218,7 @@ Namespace Nunit.Tests
 End Namespace
 </pre>
 
-<pre class="mc">#using &lt;Nunit.Framework.dll&gt;
+<pre class="prettyprint mc">#using &lt;Nunit.Framework.dll&gt;
 using namespace System;
 using namespace NUnit::Framework;
 
@@ -253,7 +251,7 @@ namespace NUnitTests {
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -312,18 +310,19 @@ namespace NUnitTests {
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

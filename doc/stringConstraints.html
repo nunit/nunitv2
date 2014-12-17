@@ -40,12 +40,12 @@
 <p>Tests for a substring.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 SubstringConstraint(string expected)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.StringContaining(string expected)
 Contains.Substring(string expected)
 ContainsSubstring(string expected)
@@ -55,12 +55,12 @@ Contains(string expected)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...IgnoreCase
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 string phrase = "Make your tests fail before passing!"
 
 Assert.That( phrase, Is.StringContaining( "tests fail" ) );
@@ -84,12 +84,12 @@ Expect (phrase, Contains.Substring( "make" ).IgnoreCase );
 <p>Tests for an initial string.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 StartsWithConstraint(string expected)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.StringStarting(string expected)
 StartsWith(string expected)
 [Obsolete] Text.StartsWith(string expected)
@@ -97,12 +97,12 @@ StartsWith(string expected)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...IgnoreCase
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 string phrase = "Make your tests fail before passing!"
 
 Assert.That( phrase, Is.StringStarting( "Make" ) );
@@ -124,12 +124,12 @@ Expect( phrase, StartsWith( "Make" ) );
 <p>Tests for an ending string.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 EndsWithConstraint(string expected)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.StringEnding(string expected)
 EndsWith(string expected)
 [Obsolete] Text.EndsWith(string expected)
@@ -137,12 +137,12 @@ EndsWith(string expected)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...IgnoreCase
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 string phrase = "Make your tests fail before passing!"
 
 Assert.That( phrase, Is.StringEnding( "!" ) );
@@ -162,12 +162,12 @@ Expect( phrase, EndsWith( "!" ) );
 <p>Tests that a pattern is matched.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 RegexConstraint(string pattern)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.StringMatching(string pattern)
 Matches(string pattern)
 [Obsolete] Text.Matches(string pattern)
@@ -175,12 +175,12 @@ Matches(string pattern)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...IgnoreCase
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 string phrase = "Make your tests fail before passing!"
 
 Assert.That( phrase, Is.StringMatching( "Make.*tests.*pass" ) );
@@ -201,7 +201,7 @@ Expect( phrase, Matches( "Make.*pass" ) );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -241,18 +241,19 @@ Expect( phrase, Matches( "Make.*pass" ) );
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

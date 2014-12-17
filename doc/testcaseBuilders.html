@@ -34,14 +34,14 @@ TestCaseBuilders internally to create various kinds of TestMethods.
 <h4>Extension Point</h4>
 Addins use the host to access this extension point by name:
 
-<pre>
+<pre class="prettyprint">
 	IExtensionPoint testCaseBuilders = host.GetExtensionPoint( "TestCaseBuilders" );</pre>
 
 <h4>Interfaces</h4>
 <p>The extension object passed to Install must implement either the ITestCaseBuilder 
 or the ITestCaseBuilder2 interface:
 
-<pre>
+<pre class="prettyprint">
 	public interface ITestCaseBuilder
 	{
 		bool CanBuildFrom( MethodInfo method );
@@ -73,7 +73,7 @@ provided as an argument or null if the method cannot be used.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -101,18 +101,19 @@ provided as an argument or null if the method cannot be used.
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

@@ -46,7 +46,7 @@
 <p><b>Assert.Catch</b> is similar to <b>Assert.Throws</b> but will pass for an exception
    that is derived from the one specified.
    
-<div class="code" style="width: 40em"><pre>
+<div class="code" style="width: 40em"><pre class="prettyprint">
 Exception Assert.Throws( Type expectedExceptionType, TestDelegate code );
 Exception Assert.Throws( Type expectedExceptionType, TestDelegate code, 
 		string message );
@@ -94,7 +94,7 @@ If compiling under C# 3.0, it may be a lambda expression.
 <p>The following example shows different ways of writing the
 same test.
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture]
 public class AssertThrowsTests
 {
@@ -126,7 +126,7 @@ public class AssertThrowsTests
 <p>This example shows use of the return value to perform
 additional verification of the exception.
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture]
 public class UsingReturnValue
 {
@@ -143,7 +143,7 @@ public class UsingReturnValue
 <p>This example does the same thing
 using the overload that includes a constraint.
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 [TestFixture]
 public class UsingConstraint
 {
@@ -168,8 +168,7 @@ a constraint. Alternatively, you may use <b>Assert.Catch</b>,
 which differs from <b>Assert.Throws</b> in allowing derived
 types. See the following code for examples:
 
-<div class="code">
-<pre>
+<div class="code"><pre class="prettyprint">
 // Require an ApplicationException - derived types fail!
 Assert.Throws( typeof(ApplicationException), code );
 Assert.Throws&lt;ApplicationException&gt;()( code );
@@ -195,7 +194,7 @@ Assert.Catch( code );
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -232,18 +231,19 @@ Assert.Catch( code );
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

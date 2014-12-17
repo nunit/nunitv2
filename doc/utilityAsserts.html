@@ -28,7 +28,7 @@
 <h2>Utility Methods</h2>
 <p>Four utility methods, <b>Pass()</b>, <b>Fail()</b>, <b>Ignore()</b> and <b>Inconclusive()</b> are provided 
    in order to allow more direct control of the test process:</p>
-<div class="code" style="width: 36em"><pre>
+<div class="code" style="width: 36em"><pre class="prettyprint">
 Assert.Pass();
 Assert.Pass( string message );
 Assert.Pass( string message, object[] parms );
@@ -58,7 +58,7 @@ Assert.Inconclusive( string message, object[] parms );</pre>
 <p>Here's an example of its use to create a private assertion that tests whether a 
 	string contains an expected value.</p>
 <div class="code" style="width: 36em">
-	<pre>public void AssertStringContains( string expected, string actual )
+	<pre class="prettyprint">public void AssertStringContains( string expected, string actual )
 {
     AssertStringContains( expected, actual, string.Empty );
 }
@@ -86,7 +86,7 @@ public void AssertStringContains( string expected, string actual,
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -123,18 +123,19 @@ public void AssertStringContains( string expected, string actual,
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

@@ -34,7 +34,7 @@ two abstract methods, which you must override and four virtual methods with
 default implementation that may be overridden as needed:
    
 <div class="code" style="width: 36em">
-<pre>public abstract class Constraint
+<pre class="prettyprint">public abstract class Constraint
 {
  	...
     public abstract bool Matches( object actual );
@@ -59,21 +59,18 @@ requirements for error messages.
 
 <p>Having written a custom constraint class, you can use it directly through its constructor:
 
-<div class="code">
-<pre>Assert.That(myObject, new CustomConstraint());</pre>
+<div class="code"><pre class="prettyprint">Assert.That(myObject, new CustomConstraint());</pre>
 </div>
 
 <p>You may also use it in expressions through NUnit's <b>Matches</b> syntax element:
-<div class="code">
-<pre>Assert.That(myObject, Is.Not.Null.And.Matches(new CustomConstraint());</pre>
+<div class="code"><pre class="prettyprint">Assert.That(myObject, Is.Not.Null.And.Matches(new CustomConstraint());</pre>
 </div>
 
 <p>The direct construction approach is not very convenient or easy to read.
 For its built-in constraints, NUnit includes classes that implement a special 
 constraint syntax, allowing you to write things like...
 
-<div class="code">
-<pre>Assert.That( myArray, Is.All.InRange(1,100) );</pre>
+<div class="code"><pre class="prettyprint">Assert.That( myArray, Is.All.InRange(1,100) );</pre>
 </div>
 
 <p>Ideally, that's what you would like to do with the custom constraint as well.
@@ -86,15 +83,13 @@ or methods that constuct your custom constructor. If you like, you can even call
 <b>Is</b>, provided you place it in your own namespace and avoid any conflicts. This
 allows you to write things like:
 
-<div class="code">
-<pre>Assert.That( myObject, Is.Custom(x,y) );</pre>
+<div class="code"><pre class="prettyprint">Assert.That( myObject, Is.Custom(x,y) );</pre>
 </div>
 
 <li>Provide an extension method for NUnit's <b>ConstraintExpression</b>, allowing
 you to write things like:
 
-<div class="code">
-<pre>Assert.That( myList, Is.Not.All.Custom(x,y) );</pre>
+<div class="code"><pre class="prettyprint">Assert.That( myList, Is.Not.All.Custom(x,y) );</pre>
 </div>
 
 </ol>
@@ -105,7 +100,7 @@ you to write things like:
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -125,18 +120,19 @@ you to write things like:
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

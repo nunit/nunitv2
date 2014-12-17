@@ -35,17 +35,14 @@
 <p><b>Note:</b> If parameter data is provided by multiple attributes,
 the order in which NUnit uses the data items is not guaranteed. However,
 it can be expected to remain constant for a given runtime and operating
-system.
+system. For best results with <b>SequentialAttribute</b> use only one
+data attribute on each parameter.
    
 <h4>Example</h4>
 
-<p>The following test will be executed three times, as follows:
-<pre>
-	MyTest(1, "A")
-	MyTest(2, "B")
-	MyTest(3, null)
-</pre>
-<div class="code"><pre>
+<p>The following test will be executed three times.
+
+<div class="code"><pre class="prettyprint">
 [Test, Sequential]
 public void MyTest(
     [Values(1,2,3)] int x,
@@ -54,6 +51,14 @@ public void MyTest(
     ...
 }
 </pre></div>
+
+<p>MyTest is called three times, as follows:
+
+<pre>
+	MyTest(1, "A")
+	MyTest(2, "B")
+	MyTest(3, null)
+</pre>
 
 <h4>See also...</h4>
 <ul>
@@ -64,7 +69,7 @@ public void MyTest(
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -123,18 +128,19 @@ public void MyTest(
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

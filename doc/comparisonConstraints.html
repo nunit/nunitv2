@@ -42,25 +42,25 @@ algorithm through the <b>Using</b> modifier.
 <p>Tests that one value is greater than another.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 GreaterThanConstraint(object expected)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.GreaterThan(object expected)
 Is.Positive // Equivalent to Is.GreaterThan(0)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...Using(IComparer comparer)
 ...Using<T>(IComparer&lt;T&gt; comparer)
 ...Using<T>(Comparison&lt;T&gt; comparer)
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Assert.That(7, Is.GreaterThan(3));
 Assert.That(myOwnObject, 
     Is.GreaterThan(theExpected).Using(myComparer));
@@ -73,25 +73,25 @@ Assert.That(42, Is.Positive);
 <p>Tests that one value is greater than or equal to another.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 GreaterThanOrEqualConstraint(object expected)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.GreaterThanOrEqualTo(object expected)
 Is.AtLeast(object expected)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...Using(IComparer comparer)
 ...Using<T>(IComparer&lt;T&gt; comparer)
 ...Using<T>(Comparison&lt;T&gt; comparer)
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Assert.That(7, Is.GreaterThanOrEqualTo(3));
 Assert.That(7, Is.AtLeast(3));
 Assert.That(7, Is.GreaterThanOrEqualTo(7));
@@ -106,25 +106,25 @@ Assert.That(myOwnObject,
 <p>Tests that one value is less than another.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 LessThanConstraint(object expected)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.LessThan(object expected)
 Is.Negative // Equivalent to Is.LessThan(0)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...Using(IComparer comparer)
 ...Using<T>(IComparer&lt;T&gt; comparer)
 ...Using<T>(Comparison&lt;T&gt; comparer)
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Assert.That(3, Is.LessThan(7));
 Assert.That(myOwnObject, 
     Is.LessThan(theExpected).Using(myComparer));
@@ -137,25 +137,25 @@ Assert.That(-5, Is.Negative);
 <p>Tests that one value is less than or equal to another.
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 LessThanOrEqualConstraint(object expected)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.LessThanOrEqualTo(object expected)
 Is.AtMost(object expected)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...Using(IComparer comparer)
 ...Using<T>(IComparer&lt;T&gt; comparer)
 ...Using<T>(Comparison&lt;T&gt; comparer)
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Assert.That(3, Is.LessThanOrEqualTo(7));
 Assert.That(3, Is.AtMost(7));
 Assert.That(3, Is.LessThanOrEqualTo(3));
@@ -170,24 +170,24 @@ Assert.That(myOwnObject,
 <p>
 
 <h4>Constructor</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 RangeConstraint(IComparable from, IComparable to)
 </pre></div>
 
 <h4>Syntax</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 Is.InRange(IComparable from, IComparable to)
 </pre></div>
 
 <h4>Modifiers</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 ...Using(IComparer comparer)
 ...Using<T>(IComparer&lt;T&gt; comparer)
 ...Using<T>(Comparison&lt;T&gt; comparer)
 </pre></div>
 
 <h4>Examples of Use</h4>
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 int[] iarray = new int[] { 1, 2, 3 }
 
 Assert.That( 42, Is.InRange(1, 100) );
@@ -201,7 +201,7 @@ Assert.That(myOwnObject,
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -241,18 +241,19 @@ Assert.That(myOwnObject,
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

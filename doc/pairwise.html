@@ -33,10 +33,45 @@
    the combinatorial explosion of test cases when more than
    two features (parameters) are involved.
    
-<p><b>Note:</b> In the current Alpha release, this attribute is 
-accepted but ignored and data items are combined usin the default
-combinatorial approach.
-   
+<h4>Example</h4>
+
+<p>Using the Combinatorial attribute, the following test would be executed 12 (3x2x2) times.
+   With <b>Pairwise</b> it is executed only enough times so that each possible pair is covered..
+
+<div class="code"><pre class="prettyprint">
+[Test, Pairwise]
+public void MyTest(
+    [Values("a", "b", "c")] string a,
+    [Values("+", "-")] string b,
+    [Values("x", "y")] string c)
+{
+    Console.WriteLine("{0} {1} {2}", a, b, c);
+}
+</pre></div>
+
+<p>For this test, NUnit currently calls the method seven times, producing the following output:
+
+<pre>
+	a - x
+	b + y
+	c + x
+	b - x
+	a - y
+	c - y
+	a + x
+</pre>
+
+<p>Note that this is not the optimal output. The pairs (a, -), (a, x), (+ x), (- x) and (- y)  
+appear twice. NUnit uses a heuristic algorithm to reduce the number of test cases as much
+as it can. Improvements may be made in the future.
+
+<h4>Limitations</h4>
+
+<p>When used on a generic method the programmer must ensure that all
+   possible combinations of arguments are valid. When multiple parameters
+   use the same generic type (e.g.: T) this may not be possible and the
+   attribute may generate invalid test cases.
+    
 <h4>See also...</h4>
 <ul>
 <li><a href="sequential.html">SequentialAttribute</a><li><a href="combinatorial.html">CombinatorialAttribute</a></ul>
@@ -46,7 +81,7 @@ combinatorial approach.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -105,18 +140,19 @@ combinatorial approach.
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>

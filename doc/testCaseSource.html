@@ -31,10 +31,10 @@
 
 <p><b>TestCaseSourceAttribute</b> is used on a parameterized test method to
 identify the property, method or field that will provide the required 
-arguments. The attribute has three public constructors.
+arguments. The attribute has three public constructors, only one of which is
+recommended for use in new code:
 
-<div class="code">
-<pre>
+<div class="code"><pre class="prettyprint">
 TestCaseSourceAttribute(Type sourceType);
 </pre>
 </div>
@@ -47,8 +47,7 @@ the test method on which the attribute appears.
 use in preference to other forms because it doesn't use a string to specify
 the data source and is therefore more easily refactored.
 
-<div class="code">
-<pre>
+<div class="code"><pre class="prettyprint">
 TestCaseSourceAttribute(Type sourceType, string sourceName);
 TestCaseSourceAttribute(string sourceName);
 </pre>
@@ -129,8 +128,7 @@ that argument it is used directly.
 the arguments for the method, as in this example, which returns
 arguments from a named static field.
 
-<div class="code">
-<pre>[Test, TestCaseSource("DivideCases")]
+<div class="code"><pre class="prettyprint">[Test, TestCaseSource("DivideCases")]
 public void DivideTest(int n, int d, int q)
 {
     Assert.AreEqual( q, n / d );
@@ -156,7 +154,7 @@ an argument of a different type.
 This can also eliminate a bit of extra typing by the programmer, 
 as in this example:
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
 static int[] EvenNumbers = new int[] { 2, 4, 6, 8 };
 
 [Test, TestCaseSource("EvenNumbers")]
@@ -175,8 +173,7 @@ public void TestMethod(int num)
    class for this purpose. The following    example returns <b>TestCaseData</b> 
    instances from a data source in a separately defined class.
 
-<div class="code">
-<pre>[TestFixture]
+<div class="code"><pre class="prettyprint">[TestFixture]
 public class MyTests
 {
   [Test,TestCaseSource(typeof(MyFactoryClass),"TestCases")]
@@ -209,7 +206,7 @@ public class MyFactoryClass
 <p>This example uses the fluent interface supported by <b>TestCaseData</b>
 to make the program more readable. The last yield statement above  is equivalent to
 
-<div class="code"><pre>
+<div class="code"><pre class="prettyprint">
       TestCaseData data = new TestCaseData(0,0);
       data.ExpectedException = typeof(DivideByZeroException;
       data.TestName = "DivideByZero";
@@ -288,7 +285,7 @@ themselves.
 <!-- Submenu -->
 <div id="subnav">
 <ul>
-<li><a href="index.html">NUnit 2.6.3</a></li>
+<li><a href="index.html">NUnit 2.6.4</a></li>
 <ul>
 <li><a href="getStarted.html">Getting&nbsp;Started</a></li>
 <li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
@@ -347,18 +344,19 @@ themselves.
 <li><a href="vsTestAdapterLicense.html">License</a></li>
 <li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
 </ul>
-<li><a href="&r=2.6.3.html"></a></li>
-<li><a href="&r=2.6.3.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
+<li><a href="&r=2.6.4.html"></a></li>
 </ul>
 </div>
 <!-- End of Submenu -->
 
 
 <!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
 <div id="footer">
-  Copyright &copy; 2012 Charlie Poole. All Rights Reserved.
+  Copyright &copy; 2002-2014 NUnit.org. All Rights Reserved.
 </div>
 <!-- End of Footer -->
-
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
 </body>
 </html>
