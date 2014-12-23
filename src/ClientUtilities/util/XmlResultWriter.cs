@@ -114,7 +114,8 @@ namespace NUnit.Util
                 case ResultState.Ignored:
                 case ResultState.NotRunnable:
                 case ResultState.Skipped:
-                    WriteReasonElement(result);
+                    if (result.Message != null)
+                    	WriteReasonElement(result);
                     break;
 
                 case ResultState.Failure:
