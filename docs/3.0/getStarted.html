@@ -1,0 +1,117 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - GetStarted</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>Getting Started with NUnit 3.0</h2>
+
+<p>To get a copy of the NUnit 3.0 Alpha release, you can use various installation approaches.
+
+<ol>
+  <li>Zip file download.
+  <li>Full NUnit install via NuGet.
+  <li>NUnitLite install via NuGet.
+  <li>Combined Approach
+</ol>
+
+<h3>Downloading the Zip File</h3>
+
+<p>Download the latest binary zip from our <a href="http://nunit.org/../../download.html">Download</a> page ot from <a href="https://github.com/nunit/nunit/releases">GitHub</a>. Unzip the file into any convenient directory.</p>
+
+<p>If you would like be able to run nunit-console from the commandline, put the bin directory, containing nunit-console.exe on your path. If you also need to run an older version of nunit-console from the commandline on the same machine, rename the new nunit-console.exe to something like nunit3-console.exe.</p>
+
+<p>In your test assemblies, add a reference to nunit.framework.dll, using the copy in the subdirectory for the appropriate runtime version. For example, if you are targeting .NET 4.0, you should reference the framework assembly in the net-4.0 subdirectory.</p>
+
+<p>Run nunit-console from the  command line, giving it the path to your test assembly. To run NUnit's own framework tests from within the NUnit bin directory, enter</p>
+<pre>
+     nunit-console net-2.0/nunit.framework.tests.dll
+</pre>
+
+<h3>Using NuGet Packages</h3>
+
+<p>In VisualStudio, from the Tools menu, select NuGet Package Manager | Manage NuGet packages for solution...</p>
+
+<p>Since NUnit 3.0 Alpha is a prerelease, ensure that the lefthand combobox at the top of the Manage NuGet Packages dialog indicates "Include Prerelease." Scroll or use search to locate the <b>NUnit Version 3</b> and <b>NUnit.Console</b> packages. Install both packages. The <b>NUnit Version 3</b> package should be referenced by each of your test assemblies, but not by any others.</p>
+
+<p>Locate nunit-console in the <b>packages\NUnit.3.0.0-alpha\tools</b> directory under your solution. This is the location from which you must run nunit-console when using this approach. We recommend you only use this approach when running under the control of a script on your build server.</p>
+
+<h3>Using NuGet NUnitLite Package</h3>
+
+<p>The NUnitLite approach provides a way to run NUnit tests without a full install of the NUnit runner and test engine assemblies. Only the framework and a small runner program are installed. Note that this is currently the only way to run tests under Silverlight 5.0 or the compact framework.
+
+<p>In VisualStudio, from the Tools menu, select NuGet Package Manager | Manage NuGet packages for solution...</p>
+
+<p>Since NUnit 3.0 Alpha is a prerelease, ensure that the lefthand combobox at the top of the Manage NuGet Packages dialog indicates "Include Prerelease." Scroll or use search to locate the <b>NUnitLite Version 3</b> and install it. The package should be referenced by each of your test assemblies, but not by any others.</p>
+
+<p>As a result of your installation, a file named "Program.cs" will have been copied into each of your test projects. NUnitLite test projects are console applications and this file contains the Main() program for your tests. If you already have a Main() in some other class, you may delete the file. This file also contains comments describing how the main should call the NUnitLite runner.</p>
+
+<p>To run your tests, simply run your executable test assembly. No other runner is needed.</p>
+
+<h3>Combined Approach</h3>
+
+<p>This approach is useful if you would like to use a single copy of nunit-console with individual copies of the framework in each project.</p>
+
+<p>Simply follow the zip file procedure to get a central copy of NUnit on your system. Then install the <b>NUnit Version 3</b> NuGet package in each of your test assemblies. For desktop use by developers, this approach may give you the best of both worlds.</p>
+
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li id="current"><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<ul>
+<li><a href="quickStart.html">Quick&nbsp;Start</a></li>
+<li><a href="upgrade.html">Upgrading</a></li>
+<li><a href="breakingChanges.html">Breaking&nbsp;Changes</a></li>
+</ul>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

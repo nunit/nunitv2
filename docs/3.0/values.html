@@ -1,0 +1,171 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - Values</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h3>ValuesAttribute (NUnit 2.5)</h3>
+
+<p>The <b>ValuesAttribute</b> is used to specify a set of values to be provided
+   for an individual parameter of a parameterized test method. Since
+   NUnit combines the data provided for each parameter into a set of
+   test cases, data must be provided for all parameters if it is
+   provided for any of them.
+
+<p>By default, NUnit creates test cases from all possible combinations
+   of the datapoints provided on parameters - the combinatorial approach.
+   This default may be modified by use of specific attributes on the
+   test method itself.
+
+<h4>Example</h4>
+
+<p>The following test will be executed six times, as follows:
+
+<pre class="prettyprint">
+[Test]
+public void MyTest([Values(1,2,3)] int x, [Values("A","B")] string s)
+{
+    ...
+}
+</pre>
+
+<pre class="prettyprint">
+MyTest(1, "A")
+MyTest(1, "B")
+MyTest(2, "A")
+MyTest(2, "B")
+MyTest(3, "A")
+MyTest(3, "B")
+</pre>
+
+<h4>Values with Enum or Boolean</h4>
+
+As of NUnit 3.0, the values attribute works with Enums and Boolean parameters.
+The <b>[Values]</b> attribute on an enum parameter will automatically expand to all
+possible Enum values.
+
+<pre class="prettyprint">
+[Test]
+public void MyEnumTest([Values]MyEnumType myEnumArgument)
+{
+    //...
+}
+</pre>
+
+There is the same support for Boolean values. Add the <b>[Values]</b> attribute to a bool
+and the method will be run with true and false.
+
+<pre class="prettyprint">
+[Test]
+public void MyBoolTest([Values]bool value)
+{
+    //...
+}
+</pre>
+
+<h4>See also...</h4>
+<ul>
+<li><a href="range.html">RangeAttribute</a><li><a href="random.html">RandomAttribute</a><li><a href="sequential.html">SequentialAttribute</a><li><a href="combinatorial.html">CombinatorialAttribute</a><li><a href="pairwise.html">PairwiseAttribute</a></ul>
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<ul>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<ul>
+<li><a href="actionAttributes.html">Action&nbsp;Attributes</a></li>
+<li><a href="apartment.html">Apartment</a></li>
+<li><a href="author.html">Author</a></li>
+<li><a href="category.html">Category</a></li>
+<li><a href="combinatorial.html">Combinatorial</a></li>
+<li><a href="culture.html">Culture</a></li>
+<li><a href="datapoint.html">Datapoint(s)</a></li>
+<li><a href="description.html">Description</a></li>
+<li><a href="explicit.html">Explicit</a></li>
+<li><a href="ignore.html">Ignore</a></li>
+<li><a href="levelOfParallelism.html">LevelOfParallelism</a></li>
+<li><a href="maxtime.html">Maxtime</a></li>
+<li><a href="onetimeSetup.html">OneTimeSetUp</a></li>
+<li><a href="onetimeTeardown.html">OneTimeTearDown</a></li>
+<li><a href="pairwise.html">Pairwise</a></li>
+<li><a href="parallelizable.html">Parallelizable</a></li>
+<li><a href="platform.html">Platform</a></li>
+<li><a href="property.html">Property</a></li>
+<li><a href="random.html">Random</a></li>
+<li><a href="range.html">Range</a></li>
+<li><a href="repeat.html">Repeat</a></li>
+<li><a href="requiresThread.html">Requires&nbsp;Thread</a></li>
+<li><a href="sequential.html">Sequential</a></li>
+<li><a href="setCulture.html">SetCulture</a></li>
+<li><a href="setUICulture.html">SetUICulture</a></li>
+<li><a href="setup.html">Setup</a></li>
+<li><a href="setupFixture.html">SetupFixture</a></li>
+<li><a href="teardown.html">Teardown</a></li>
+<li><a href="test.html">Test</a></li>
+<li><a href="testCase.html">TestCase</a></li>
+<li><a href="testCaseSource.html">TestCaseSource</a></li>
+<li><a href="testFixture.html">TestFixture</a></li>
+<li><a href="testFixtureSetup.html">TestFixtureSetUp</a></li>
+<li><a href="testFixtureTeardown.html">TestFixtureTearDown</a></li>
+<li><a href="testOf.html">TestOf</a></li>
+<li><a href="theory.html">Theory</a></li>
+<li><a href="timeout.html">Timeout</a></li>
+<li id="current"><a href="values.html">Values</a></li>
+<li><a href="valueSource.html">ValueSource</a></li>
+</ul>
+<li><a href="constraintModel.html">Constraints</a></li>
+<li><a href="testContext.html">Test&nbsp;Context</a></li>
+</ul>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

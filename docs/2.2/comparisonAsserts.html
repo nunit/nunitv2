@@ -1,0 +1,119 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - ComparisonAsserts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>Comparisons</h2>
+<p>Assertions that perform comparisons are often your best choice because they 
+	report both expected and actual values. The expected value is always the first 
+	argument. NUnit provides the following comparison asserts:</p>
+<div class="code" style="width: 36em" >
+	<pre class="prettyprint">Assert.AreEqual( int expected, int actual );
+Assert.AreEqual( int expected, int actual, string message );
+Assert.AreEqual( int expected, int actual, string message, 
+                 object[] parms );
+
+Assert.AreEqual( decimal expected, decimal actual );
+Assert.AreEqual( decimal expected, decimal actual, string message );
+Assert.AreEqual( decimal expected, decimal actual, string message, 
+                 object[] parms );
+
+Assert.AreEqual( float expected, float actual, float tolerance );
+Assert.AreEqual( float expected, float actual, float tolerance,
+                 string message );
+Assert.AreEqual( float expected, float actual, float tolerance,
+                 string message, object[] parms );
+
+Assert.AreEqual( double expected, double actual, double tolerance );
+Assert.AreEqual( double expected, double actual, double tolerance,
+                 string message );
+Assert.AreEqual( double expected, double actual, double tolerance,
+                 string message, object[] parms );
+
+Assert.AreEqual( object expected, object actual );
+Assert.AreEqual( object expected, object actual, string message );
+Assert.AreEqual( object expected, object actual, string message, 
+                 object[] parms );
+
+Assert.AreSame( object expected, object actual );
+Assert.AreSame( object expected, object actual, string message );
+Assert.AreSame( object expected, object actual, string message, 
+                object[] parms );
+</div>
+<p>The AreSame method tests that the same objects are referenced by both arguments. 
+	All the variants of AreEqual test for equality.</p>
+<p>Overloaded AreEqual methods are provided for the most common types. In addition, 
+	the overload that compares two objects makes special provisions so that numeric 
+	values of different types compare as expected. This makes it possible for 
+	asserts like the following to succeed:
+	<pre class="prettyprint">        Assert.AreEqual( 5, 5.0 )</pre>
+</p>
+<p>Starting with version 2.2, special provision is also made for comparing single-dimensioned
+	arrays. Two arrays will be treated as equal by Assert.AreEqual if they are the same 
+	length and each of the corresponding elements is equal. 
+	<i><b>Note:</b> Multi-dimensioned arrays, nested arrays (arrays of arrays) 
+	and other collection types such as ArrayList are not currently supported.</i></p>
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 2.2</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="features.html">Features</a></li>
+<ul>
+<li><a href="assertions.html">Assertions</a></li>
+<ul>
+<li id="current"><a href="comparisonAsserts.html">Comparisons</a></li>
+<li><a href="conditionAsserts.html">Condition&nbsp;Tests</a></li>
+<li><a href="utilityAsserts.html">Utility&nbsp;Methods</a></li>
+</ul>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+</ul>
+<li><a href="nunit-console.html">NUnit-Console</a></li>
+<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - ConditionAsserts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>Condition Tests</h2>
+
+<p>Methods that test a specific condition are named for the condition they test and 
+	take the value tested as their first argument and, optionally a message as the 
+	second. The following methods are provided:</p>
+<div class="code" style="width: 36em">
+	<pre class="prettyprint">Assert.IsTrue( bool condition );
+Assert.IsTrue( bool condition, string message );
+Assert.IsTrue( bool condition, string message, object[] parms );
+
+Assert.IsFalse( bool condition);
+Assert.IsFalse( bool condition, string message );
+Assert.IsFalse( bool condition, string message, object[] parms );
+
+Assert.IsNull( object anObject );
+Assert.IsNull( object anObject, string message );
+Assert.IsNull( object anObject, string message, object[] parms );
+
+Assert.IsNotNull( object anObject );
+Assert.IsNotNull( object anObject, string message );
+Assert.IsNotNull( object anObject, string message, object[] parms );
+
+Assert.IsNaN( double aDouble );
+Assert.IsNaN( double aDouble, string message );
+Assert.IsNaN( double aDouble, string message, object[] parms );
+
+Assert.IsEmpty( string aString );
+Assert.IsEmpty( string aString, string message );
+Assert.IsEmpty( string aString, string message,
+          params object[] args );
+
+Assert.IsNotEmpty( string aString );
+Assert.IsNotEmpty( string aString, string message );
+Assert.IsNotEmpty( string aString, string message,
+          params object[] args );
+
+Assert.IsEmpty( ICollection collection );
+Assert.IsEmpty( ICollection collection, string message );
+Assert.IsEmpty( ICollection collection, string message,
+          params object[] args );
+
+Assert.IsNotEmpty( ICollection collection );
+Assert.IsNotEmpty( ICollection collection, string message );
+Assert.IsNotEmpty( ICollection collection, string message,
+          params object[] args );</pre>
+</div>
+
+<p>Note that Assert.IsEmpty and Assert.IsNotEmpty may be used to test either a string
+or a collection.</p>
+
+
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 2.2.7</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="features.html">Features</a></li>
+<ul>
+<li><a href="assertions.html">Assertions</a></li>
+<ul>
+<li><a href="equalityAsserts.html">Equality&nbsp;Asserts</a></li>
+<li><a href="identityAsserts.html">Identity&nbsp;Asserts</a></li>
+<li><a href="comparisonAsserts.html">Comparison&nbsp;Asserts</a></li>
+<li><a href="typeAsserts.html">Type&nbsp;Asserts</a></li>
+<li id="current"><a href="conditionAsserts.html">Condition&nbsp;Tests</a></li>
+<li><a href="utilityAsserts.html">Utility&nbsp;Methods</a></li>
+<li><a href="stringAssert.html">String&nbsp;Assert</a></li>
+</ul>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+<li><a href="vsSupport.html">Visual&nbsp;Studio&nbsp;Support</a></li>
+</ul>
+<li><a href="nunit-console.html">NUnit-Console</a></li>
+<li><a href="nunit-gui.html">NUnit-Gui</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="samples.html">Samples</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

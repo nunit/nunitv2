@@ -1,0 +1,236 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - StringConstraints</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>String Constraints (NUnit 2.4)</h2>
+
+<p>String constraints perform tests that are specific to strings.
+   Attempting to test a non-string value with a string constraint
+   is an error and gives an exception.
+   
+<p>The <b>Text</b> prefix was deprecated beginning with NUnit 2.5.1
+   and has been removed in NUnit 3.0.
+   
+<p><b>Is.StringStarting, Is.StringContaining, Is.StringEnding and Is.StringMatching</b> are deprecated in NUnit 3.0 and will be removed in a future version. They have been replaced with <b>Does.StartWith, Does.Contain, Does.EndWith and Does.Match.</b><p>
+
+<p><b>Constains.Substring</b> has also been deprecated in NUnit 3.0 in favor of <b>Does.Contain</b></p>
+ 
+<h3>SubstringConstraint</h3>  
+
+<h4>Action</h4>
+<p>Tests for a substring.
+
+<h4>Constructor</h4>
+<pre class="prettyprint">
+SubstringConstraint(string expected)
+</pre>
+
+<h4>Syntax</h4>
+<pre class="prettyprint">
+Does.Contain(string expected)
+</pre>
+
+<h4>Modifiers</h4>
+<pre class="prettyprint">
+...IgnoreCase
+</pre>
+
+<h4>Examples of Use</h4>
+<pre class="prettyprint">
+string phrase = "Make your tests fail before passing!"
+
+Assert.That( phrase, Does.Contain( "tests fail" ) );
+Assert.That( phrase, Does.Not.Contain( "tests pass" ) );
+Assert.That( phrase, Does.Contain( "make" ).IgnoreCase );
+</pre>
+
+<h3>StartsWithConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests for an initial string.
+
+<h4>Constructor</h4>
+<pre class="prettyprint">
+StartsWithConstraint(string expected)
+</pre>
+
+<h4>Syntax</h4>
+<pre class="prettyprint">
+Does.StartWith(string expected)
+StartsWith(string expected)
+</pre>
+
+<h4>Modifiers</h4>
+<pre class="prettyprint">
+...IgnoreCase
+</pre>
+
+<h4>Examples of Use</h4>
+<pre class="prettyprint">
+string phrase = "Make your tests fail before passing!"
+
+Assert.That( phrase, Does.StartWith( "Make" ) );
+Assert.That( phrase, Does.Not.StartWith( "Break" ) );
+Expect( phrase, StartsWith( "Make" ) );
+</pre>
+
+<h4>Notes</h4>
+<ol>
+<li><b>StartsWith</b> may appear only in the body of a constraint 
+    expression or when the inherited syntax is used.
+</ol>
+
+<h3>EndsWithConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests for an ending string.
+
+<h4>Constructor</h4>
+<pre class="prettyprint">
+EndsWithConstraint(string expected)
+</pre>
+
+<h4>Syntax</h4>
+<pre class="prettyprint">
+Does.EndWith(string expected)
+EndsWith(string expected)
+</pre>
+
+<h4>Modifiers</h4>
+<pre class="prettyprint">
+...IgnoreCase
+</pre>
+
+<h4>Examples of Use</h4>
+<pre class="prettyprint">
+string phrase = "Make your tests fail before passing!"
+
+Assert.That( phrase, Does.EndWith( "!" ) );
+Assert.That( phrase, Does.EndWith( "PASSING!" ).IgnoreCase );
+Expect( phrase, EndsWith( "!" ) );
+</pre>
+
+<h4>Notes</h4>
+<ol>
+<li><b>EndsWith</b> may appear only in the body of a constraint 
+    expression or when the inherited syntax is used.
+</ol>
+
+<h3>RegexConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests that a pattern is matched.
+
+<h4>Constructor</h4>
+<pre class="prettyprint">
+RegexConstraint(string pattern)
+</pre>
+
+<h4>Syntax</h4>
+<pre class="prettyprint">
+Does.Match(string pattern)
+Matches(string pattern)
+</pre>
+
+<h4>Modifiers</h4>
+<pre class="prettyprint">
+...IgnoreCase
+</pre>
+
+<h4>Examples of Use</h4>
+<pre class="prettyprint">
+string phrase = "Make your tests fail before passing!"
+
+Assert.That( phrase, Does.Match( "Make.*tests.*pass" ) );
+Assert.That( phrase, Does.Not.Match( "your.*passing.*tests" ) );
+Expect( phrase, Matches( "Make.*pass" ) );
+</pre>
+
+<h4>Notes</h4>
+<ol>
+<li><b>Matches</b> may appear only in the body of a constraint 
+    expression or when the inherited syntax is used.
+</ol>
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<ul>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
+<ul>
+<li><a href="equalConstraint.html">Equal</a></li>
+<li><a href="sameasConstraint.html">SameAs</a></li>
+<li><a href="conditionConstraints.html">Condition</a></li>
+<li><a href="comparisonConstraints.html">Comparison</a></li>
+<li><a href="pathConstraints.html">Path</a></li>
+<li><a href="fileConstraints.html">File&nbsp;&amp;&nbsp;Directory</a></li>
+<li><a href="serializationConstraints.html">Serialization</a></li>
+<li><a href="typeConstraints.html">Type</a></li>
+<li><a href="attributeConstraint.html">Attribute</a></li>
+<li id="current"><a href="stringConstraints.html">String</a></li>
+<li><a href="collectionConstraints.html">Collection</a></li>
+<li><a href="propertyConstraint.html">Property</a></li>
+<li><a href="throwsConstraint.html">Throws</a></li>
+<li><a href="compoundConstraints.html">Compound</a></li>
+<li><a href="delayedConstraint.html">Delayed</a></li>
+<li><a href="listMapper.html">List&nbsp;Mapper</a></li>
+<li><a href="reusableConstraint.html">Reusable&nbsp;Constraint</a></li>
+</ul>
+<li><a href="testContext.html">Test&nbsp;Context</a></li>
+</ul>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

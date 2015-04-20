@@ -1,0 +1,102 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - RuntimeSelection</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h3>Runtime Selection</h3>
+
+<p>By default, NUnit runs tests under under the runtime version for which the test 
+assembly was built, provided it is available on the test machine. If it is not available,
+NUnit runs the assembly under the best available runtime that will allow it to run. If
+no suitable runtime can be found, an error is reported.
+
+<h3>Overriding the Defaults</h3>
+
+<p>The default runtime framework may be overridden using command line options.
+   In all cases, NUnit will attempt to honor the options given, issuing an
+   error message if the assembly cannot be loaded.
+   See
+   <a href="consoleCommandLine.html">NUnit-Console Command Line Options</a>   for more information.
+<ul>
+  <li><p>The <b>/framework</b> option of console runner allows you to specify
+   the framework type and version to be used for a test run. When this option
+   is used, NUnit will attempt to run the tests under the framework specified
+   even if the assembly targets a different runtime.
+
+  <li><p>The <b>/process:Single</b> command-line option indicates that tests should
+  be run in the NUnit process itself. This forces usage of the runtime under which
+  NUnit is already running.
+  
+  <li><p>The <b>process:Separate</b> causes a single separate process to be used
+  for all assemblies. In this case, NUnit will use the highest level runtime targeted
+  by any of the assemblies, if it is available.
+</ul>
+
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<ul>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<li><a href="nunitlite.html">NUnitLite&nbsp;Runner</a></li>
+<li><a href="testEngine.html">Test&nbsp;Engine</a></li>
+<li><a href="nunit-agent.html">NUnit&nbsp;Agent</a></li>
+<li id="current"><a href="runtimeSelection.html">Runtime&nbsp;Selection</a></li>
+<li><a href="platformSelection.html">Platform&nbsp;Selection</a></li>
+<li><a href="assemblyIsolation.html">Assembly&nbsp;Isolation</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+</ul>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

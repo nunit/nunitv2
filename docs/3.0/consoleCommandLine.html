@@ -1,0 +1,230 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - ConsoleCommandLine</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h1>NUnit Console Command Line</h1>
+
+<p>The console interface runner is invoked by a command in the form</p>
+
+<pre>    NUNIT-CONSOLE [inputfiles] [options]</pre>
+
+<p>where <b>inputfiles</b> is one or more assemblies or test projects of 
+a type that NUnit can process and <b>options</b> is zero or more options.
+Input files and options may be mixed in any order.</p>
+
+<h3>Input Files</h3>
+
+<p>The console program must always have an assembly or project specified. 
+Assemblies are specified by file name or path, which may be absolute or
+relative. Relative paths are interpreted based on the current directory.</p>
+
+<p>In addition to assemblies, you may specify any project type that is
+understood by NUnit. Out of the box, this includes various
+Visual Studio project types as well as NUnit (.nunit) projects.</p>
+
+<p>If the NUnit V2 framework driver is installed, test assemblies may
+be run based on any version of the NUnit framework beginning with 2.0.
+Without the V2 driver, only version 3.0 and higher tests may be run.
+
+<h3>Options</h3>
+
+<table class="nunit" style="margin-left:0; max-width:700px">
+
+<tr><th>--test=NAMES</th>
+    <td>Comma-separated list of NAMES of tests to run or explore. This option may be repeated.</td></tr>
+    
+<tr><th>--include=CATEGORIES</th>
+    <td>Test CATEGORIES to be included. May be a single category, a comma-separated list of categories or a category expression.</td></tr>
+    
+<tr><th>--exclude=CATEGORIES</th>
+    <td>Test CATEGORIES to be excluded. May be a single category, a comma-separated list of categories or a category expression.</td></tr>
+    
+<tr><th>--config=NAME</th>
+    <td>NAME of a project configuration to load (e.g.: Debug).</td></tr>
+    
+<tr><th>--process=PROCESS</th>
+    <td>PROCESS isolation for test assemblies. Values: Single, Separate, Multiple. If not specified, defaults to Separate for a single assembly or Multiple for more than one.</td></tr>
+    
+<tr><th>--domain=DOMAIN</th>
+    <td>DOMAIN isolation for test assemblies.  Values: None, Single, Multiple. If not specified, defaults to Separate for a single assembly or Multiple for more than one.</td></tr>
+    
+<tr><th>--framework=FRAMEWORK</th>
+    <td>FRAMEWORK type/version to use for tests. Examples: mono, net-4.5, v4.0, 2.0, mono-4.0</td></tr>
+    
+<tr><th>--x86</th>
+    <td>Run tests in a 32-bit process on 64-bit systems.</td></tr>
+    
+<tr><th>--dispose-runners</th>
+    <td>Dispose each test runner after it has finished running its tests</td></tr>
+    
+<tr><th>--timeout=MILLISECONDS</th>
+    <td>Set timeout for each test case in MILLISECONDS.</td></tr>
+    
+<tr><th>--seed=SEED</th>
+    <td>Set the random SEED used to generate test cases.</td></tr>
+    
+<tr><th>--workers=NUMBER</th>
+    <td>Specify the NUMBER of worker threads to be used in running tests.</td></tr>
+    
+<tr><th>--stoponerror</th>
+    <td>Stop run immediately upon any test failure or error.</td></tr>
+    
+<tr><th>--wait</th>
+    <td>Wait for input before closing console window.</td></tr>
+    
+<tr><th>--pause</th>
+    <td>Pause before run to allow debugging.</td>
+    </tr>
+<tr><th>--work=PATH</th>
+    <td>PATH of the directory to use for output files.</td></tr>
+
+<tr><th>--output, --out=PATH</th>
+    <td>File PATH to contain text output from the tests.</td></tr>
+    
+<tr><th>--err=PATH</th>
+    <td>File PATH to contain error output from the tests.</td></tr>
+    
+<tr><th>--result=SPEC</th>
+    <td>An output SPEC for saving the test results. This option may be repeated.</td></tr>
+    
+<tr><th>--explore[=SPEC]</th>
+    <td>Display or save test info rather than running tests. Optionally provide an output SPEC for saving the test info. This option may be repeated.</td></tr>
+    
+<tr><th>--noresult</th>
+    <td>Don't save any test results.</td></tr>
+    
+<tr><th>--labels=VALUE</th>
+    <td>Specify whether to write test case names to the output. Values: Off, On, All</td></tr>
+    
+<tr><th>--trace=LEVEL</th>
+    <td>Set internal trace LEVEL. Values: Off, Error, Warning, Info, Verbose (Debug)</td></tr>
+    
+<tr><th>--shadowcopy</th>
+    <td>Tells .NET to copy loaded assemblies to the shadowcopy directory.</td></tr>
+    
+<tr><th>--teamcity</th>
+    <td>Turns on use of TeamCity service messages.</td></tr>
+    
+<tr><th>--noheader, --noh</th>
+    <td>Suppress display of program information at start of run.</td></tr>
+    
+<tr><th>--nocolor, --noc</th>
+    <td>Displays console output without color.</td></tr>
+    
+<tr><th>--verbose, -v</th>
+    <td>Display additional information as the test runs.</td></tr>
+    
+<tr><th>--help, -h</th>
+    <td>Display this message and exit.</td></tr>
+    
+</table>
+
+<h3>Description</h3>
+
+<p>By default, this command runs the tests contained in the
+assemblies and projects specified. If the <b>--explore</b> option
+is used, no tests are executed but a description of the tests
+is saved in the specified or default format.</p>
+
+<p>Several options that specify processing of XML output take
+an output specification as a value. A SPEC may take one of
+the following forms:</p>
+
+<ul>
+    <li>--OPTION:filename
+    <li>--OPTION:filename;format=formatname
+    <li>--OPTION:filename;transform=xsltfile
+</ul>
+
+<p>The --result option may use any of the following formats:
+<ul>
+    <li>nunit3 - the native XML format for NUnit 3.0
+    <li>nunit2 - legacy XML format used by earlier releases of NUnit</p>
+</ul>
+
+<p>The --explore option may use any of the following formats:
+<ul>
+    <li>nunit3 - the native XML format for NUnit 3.0
+    <li>cases  - a text file listing the full names of all test cases.</p>
+</ul>
+
+<p>If --explore is used without any specification following, a list of
+test cases is output to the console.</p>
+
+<p>If none of the options {--result, --explore, --noxml} is used,
+NUnit saves the results to TestResult.xml in nunit3 format.</p>
+
+<p>Any transforms provided must handle input in the native nunit3 format.</p>
+
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<ul>
+<li><a href="nunit-console.html">Console&nbsp;Runner</a></li>
+<ul>
+<li id="current"><a href="consoleCommandLine.html">Command-Line</a></li>
+</ul>
+<li><a href="nunitlite.html">NUnitLite&nbsp;Runner</a></li>
+<li><a href="testEngine.html">Test&nbsp;Engine</a></li>
+<li><a href="nunit-agent.html">NUnit&nbsp;Agent</a></li>
+<li><a href="runtimeSelection.html">Runtime&nbsp;Selection</a></li>
+<li><a href="platformSelection.html">Platform&nbsp;Selection</a></li>
+<li><a href="assemblyIsolation.html">Assembly&nbsp;Isolation</a></li>
+<li><a href="configFiles.html">Configuration&nbsp;Files</a></li>
+<li><a href="multiAssembly.html">Multiple&nbsp;Assemblies</a></li>
+</ul>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

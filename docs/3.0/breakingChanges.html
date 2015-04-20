@@ -1,0 +1,208 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - BreakingChanges</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>Breaking Changes</h2>
+
+<p>This page lists features present in NUnit 2.6, which are either removed in NUnit 3.0 or have had their behavior modified in a way that will break existing code.</p>
+
+<h4>Attributes</h4>
+
+<table class="roadmap">
+<tr><th>Name</th>
+    <th>Notes</th></tr>
+<tr><th>ExpectedExceptionAttribute</th>
+    <td>No longer supported. Use Assert.Throws or Assert.That.</td></tr>
+<tr><th>IgnoreAttribute</th>
+    <td>The reason is now mandatory</td></tr>
+<tr><th>RequiredAddinAttribute</th>
+    <td>No longer supported.</td></tr>
+<tr><th>RequiresMTAAttribute</th>
+    <td>Deprecated. Use ApartmentAttribute.</td></tr>
+<tr><th>RequiresSTAAttribute</th>
+    <td>Deprecated. Use ApartmentAttribute.</td></tr>
+<tr><th>System.MTAThreadAttribute</th>
+    <td>No longer treated as RequiresMTAAttribute</td></tr>
+<tr><th>System.STAThreadAttribute</th>
+    <td>No longer treated as RequiresSTAAttribute</td></tr>
+<tr><th>SuiteAttribute</th>
+    <td>No longer supported.</td></tr>
+<tr><th>TearDown and OneTimeTearDown</th>
+    <td>There is a change to the logic by which teardown methods are called. See [[SetUp and TearDown]] for details.</td></tr>
+<tr><th>TestCaseAttribute</th>
+    <td>Named parameter Result= is no longer supported. Use ExpectedResult=.</br>Named parameter Ignore= now takes a string, giving the reason for ignoring the test.</td></tr>
+<tr><th>TestFixtureAttribute</th>
+    <td>Named parameter Ignore= now takes a string, giving the reason for ignoring the test.</td></tr>
+<tr><th>TestFixtureSetUpAttribute</th>
+    <td>Deprecated. Use OneTimeSetUpAttribute.</td></tr>
+<tr><th>TestFixtureTearDownAttribute</th>
+    <td>Deprecated. Use OneTimeTearDownAttribute.</td></tr>
+</table>
+
+<h4>Assertions and Constraints</h4>
+
+<table class="roadmap">
+<tr><th>Feature</th>
+    <th>Notes</th></tr>
+<tr><th>Assert.IsNullOrEmpty</th>
+    <td>No longer supported. Use Assert.That(..., Is.Null.Or.Empty)</td></tr>
+<tr><th>Assert.IsNotNullOrEmpty</th>
+    <td>No longer supported. Use Assert.That(..., Is.Not.Null.Or.Empty)</td></tr>
+<tr><th>Is.InstanceOfType</th>
+    <td>No longer supported. Use Is.InstanceOf</td></tr>
+<tr><th>Is.StringStarting</th>
+    <td>Deprecated. Use Does.StartWith</td></tr>
+<tr><th>Is.StringContaining</th>
+    <td>Deprecated. Use Does.Contain</td></tr>
+<tr><th>Is.StringEnding</th>
+    <td>Deprecated. Use Does.EndWith</td></tr>
+<tr><th>Is.StringMatching</th>
+    <td>Deprecated. Use Does.Match</td></tr>
+<tr><th>NullOrEmptyStringConstraint</th>
+    <td>No longer supported. See Assert.IsNullOrEmpty above  </td></tr>
+<tr><th>SubDirectoryContainsConstraint</th>
+    <td>No longer supported. Various alternatives are available.</td></tr>
+<tr><th>Text.All</th>
+    <td>No longer supported. Use Does.All</td></tr>
+<tr><th>Text.Contains</th>
+    <td>No longer supported. Use Does.Contain or Contains.Substring</td></tr>
+<tr><th>Text.DoesNotContain</th>
+    <td>No longer supported. Use Does.Not.Contain</td></tr>
+<tr><th>Text.StartsWith</th>
+    <td>No longer supported. Use Does.StartWith</td></tr>
+<tr><th>Text.DoesNotStartWith</th>
+    <td>No longer supported. Use Does.Not.StartWith</td></tr>
+<tr><th>Text.EndsWith</th>
+    <td>No longer supported. Use Does.EndWith</td></tr>
+<tr><th>Text.DoesNotEndWith</th>
+    <td>No longer supported. Use Does.Not.EndWith</td></tr>
+<tr><th>Text.Matches</th>
+    <td>No longer supported. Use Does.Match</td></tr>
+<tr><th>Text.DoesNotMatch</th>
+    <td>No longer supported. Use Does.Not.Match</td></tr>
+</table>
+
+<h4>Other Framework Features</h4>
+
+<table class="roadmap">
+<tr><th>Feature</th>
+    <th>Notes</th></tr>
+<tr><th>Addins</th>
+    <td>No longer supported. See [[Addin Replacement in the Framework]].</td></tr>
+<tr><th>CurrentDirectory</th>
+    <td>No longer set to the directory containing the test assembly. Use TestContext.TestDirectory to locate that directory.</td></tr>
+<tr><th>NUnitLite</th>
+    <td>NUnitLite executable tests must now reference nunit.framework in addition to nunitlite.</td></tr>
+<tr><th>SetUpFixture</th>
+    <td>Now uses OneTimeSetUpAttribute and OneTimeTearDownAttribute to designate higher-level setup and teardown methods. SetUpAttribute and TearDownAttribute are no longer allowed.</td></tr>
+</table>
+
+<h4>Console Command-line Options</h4>
+
+<table class="roadmap">
+<tr><th>Option</th>
+    <th>Function</th>
+    <th>Notes</th></tr>
+<tr><th>--fixture=STR</th>
+    <td>Test fixture or namespace to be loaded</td>
+    <td>No longer supported. Use --test instead.</td></tr>
+<tr><th>--run=STR</th>
+    <td>List of tests to run</td>
+    <td>No longer supported. Replaced by --test.</td></tr>
+<tr><th>--runlist=PATH</th>
+    <td>File containing list of tests to run.</td>
+    <td>No longer supported. Replaced by --testlist.</td></tr>
+<tr><th>--process=PROCESS</th>
+    <td>ProcessModel for test assemblies</td>
+    <td>Default value is now Separate for a single assembly, Multiple for more than one.</td></tr>
+<tr><th>--domain=DOMAIN</th>
+    <td>DomainUsage for test assemblies</td>
+    <td>Default value is now Separate for a single assembly, Multiple for more than one.</td></tr>
+<tr><th>--apartment=APT</th>
+    <td>Apartment in which to run tests</td>
+    <td>No longer supported. Use ApartmentAttribute</td></tr>
+<tr><th>--xmlConsole</th>
+    <td>Display XML to the console</td>
+    <td>No longer supported.</td></tr>
+<tr><th>--basepath</th>
+    <td>Set ApplicationBase for execution</td>
+    <td>No longer supported.</td></tr>
+<tr><th>--privatebinpath</th>
+    <td>Specify probing path for execution</td>
+    <td>No longer supported.</td></tr>
+<tr><th>--cleanup</th>
+    <td>Remove left-over cache files</td>
+    <td>No longer supported.</td></tr>
+<tr><th>--noshadow</th>
+    <td>Disable shadow copy</td>
+    <td>No longer supported. The console runner now disables shadow copy by default. use <b>--shadowcopy</b> on the command-line to turn it on.</td></tr>
+<tr><th>--nothread</th>
+    <td>Disable use of a separate thread for tests.</td>
+    <td>No longer supported.</td></tr>
+<tr><th>--nodots</th>
+    <td>Do not display dots as a progress indicator</td>
+    <td>No longer supported.</td></tr>
+</table>
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<ul>
+<li><a href="quickStart.html">Quick&nbsp;Start</a></li>
+<li><a href="upgrade.html">Upgrading</a></li>
+<li id="current"><a href="breakingChanges.html">Breaking&nbsp;Changes</a></li>
+</ul>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

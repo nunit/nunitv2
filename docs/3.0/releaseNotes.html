@@ -1,0 +1,715 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - ReleaseNotes</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<style><!--
+li { padding-bottom: .5em; }
+ul ul li { padding-bottom: 0; }
+dt { font-weight: bold }
+--></style>
+
+<h2>Release Notes</h2>
+
+<h3>NUnit 3.0.0 Beta 1 - March 25, 2015</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>There is now a master windows installer for the framework, engine and console runner.
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li>We no longer create a separate framework build for .NET 3.5. The 2.0 and 3.5 builds were essentially the same, so the former should now be used under both runtimes.
+<li>A new Constraint, <b>DictionaryContainsKeyConstraint</b>, may be used to test that a specified key is present in a dictionary.
+<li><b>LevelOfParallelizationAttribute</b> has been renamed to <b>LevelOfParallelismAttribute</b>.
+<li>The Silverlight runner now displays output in color and includes any text output created by the tests.
+<li>The class and method names of each test are included in the output xml where applicable.
+<li>String arguments used in test case names are now truncated to 40 rather than 20 characters.
+</ul>
+
+<h4>Engine</h4>
+
+<ul>
+<li>The engine API has now been finalized. It permits specifying a minimum version of the engine that a runner is able to use. The best installed version of the engine will be loaded. Third-party runners may override the selection process by including a copy of the engine in their installation directory and specifying that it must be used.
+<li>The V2 framework driver now uses the event listener and test listener passed to it by the runner. This corrects several outstanding issues  caused by events not being received and allows selecting V2 tests to  be run from the command-line, in the same way that V3 tests are selected.
+</ul>
+
+<h4>Console</h4>
+
+<ul>
+<li>The console now defaults to not using shadowcopy. There is a new option
+<b>--shadowcopy</b> to turn it on if needed.
+</ul>
+
+<h4>Issues Resolved</h4>
+
+<ul>
+<li>224	Silverlight Support
+<li>318	TestActionAttribute: Retrieving the TestFixture
+<li>428	Add ExpectedExceptionAttribute to C# samples
+<li>440	Automatic selection of Test Engine to use
+<li>450	Create master install that includes the framework, engine and console installs
+<li>477	Assert does not work with ArraySegment
+<li>482	nunit-console has multiple errors related to -framework option
+<li>483	Adds constraint for asserting that a dictionary contains a particular key
+<li>484	Missing file in NUnit.Console nuget package
+<li>485	Can't run v2 tests with nunit-console 3.0
+<li>487	NUnitLite can't load assemblies by their file name
+<li>488	Async setup and teardown still don't work
+<li>497	Framework installer shold register the portable framework
+<li>504	Option --workers:0 is ignored
+<li>508	Travis builds with failure in engine tests show as successful
+<li>509	Under linux, not all mono profiles are listed as available
+<li>512	Drop the .NET 3.5 build
+<li>517	V2 FrameworkDriver does not make use of passed in TestEventListener
+<li>523	Provide an option to disable shadowcopy in NUnit v3
+<li>528	V2 FrameworkDriver does not make use of passed in TestFilter
+<li>530	Color display for Silverlight runner
+<li>531	Display text output from tests in Silverlight runner
+<li>534	Add classname and methodname to test result xml
+<li>541	Console help doesn't indicate defaults
+</ul>
+
+<h3>NUnit 3.0.0 Alpha 5 - January 30, 2015</h3>
+
+<h4>General</h4>
+
+<ul>
+<li>A Windows installer is now included in the release packages.
+</ul>
+ 
+<h4>Framework</h4>
+
+<ul>
+<li>TestCaseAttribute now allows arguments with default values to be omitted. Additionaly, it accepts IncludePlatform and ExcludePlatform properties to specify the platforms on which the test case should be run.
+<li>TestFixture and TestCase attributes now enforce the requirement that a reason needs to be provided when ignoring a test.
+<li>SetUp, TearDown, OneTimeSetUp and OneTimeTearDown methods may now be async.
+<li>String arguments over 20 characters in length are truncated when used as part of a test name.
+</ul>
+
+<h4>Engine</h4>
+
+<ul>
+<li>The engine is now extensible using Mono.Addins. In this release, extension points are provided for FrameworkDrivers, ProjectLoaders and OutputWriters. The following addins are bundled as a part of NUnit:
+  <ul>
+  <li>A FrameworkDriver that allows running NUnit V2 tests under NUnit 3.0.
+  <li>ProjectLoaders for NUnit and Visual Studio projects.
+  <li>An OutputWriter that creates XML output in NUnit V2 format.
+  </ul>
+<li>DomainUsage now defaults to Multiple if not specified by the runner
+</ul>
+
+<h4>Console</h4>
+
+<ul>
+<li>New options supported:
+  <ul>
+  <li>--testlist provides a list of tests to run in a file
+  <li>--stoponerror indicates that the run should terminate when any test fails.
+  </ul>
+</ul>
+
+<h4>Issues Resolved</h4>
+
+<ul>
+<li>20 TestCaseAttribute needs Platform property.
+<li>60 NUnit should support async setup, teardown, fixture setup and fixture teardown.
+<li>257  TestCaseAttribute should not require parameters with default values to be specified.
+<li>266  Pluggable framework drivers.
+<li>368  Create addin model.
+<li>369  Project loader addins
+<li>370  OutputWriter addins
+<li>403  Move ConsoleOptions.cs and Options.cs to Common and share...
+<li>419  Create Windows Installer for NUnit.
+<li>427  [TestFixture(Ignore=true)] should not be allowed.
+<li>437  Errors in tests under Linux due to hard-coded paths.
+<li>441  NUnit-Console should support --testlist option
+<li>442  Add --stoponerror option back to nunit-console.
+<li>456  Fix memory leak in RuntimeFramework.
+<li>459  Remove the Mixed Platforms build configuration.
+<li>468  Change default domain usage to multiple.
+<li>469  Truncate string arguments in test names in order to limit the length.
+</ul>
+
+<h3>NUnit 3.0.0 Alpha 4 - December 30, 2014</h3>
+
+<h4>Framework</h4>
+
+<ul>
+<li>ApartmentAttribute has been added, replacing STAAttribute and MTAAttribute.
+<li>Unnecessary overloads of Assert.That and Assume.That have been removed.
+<li>Multiple SetUpFixtures may be specified in a single namespace.
+<li>The Pairwise strategy test case generation algorithm has been improved.
+</ul>
+
+<h4>Engine</h4>
+
+<ul>
+<li>A driver is now included, which allows running NUnit 2.x tests under NUnit 3.0.
+<li>The engine can now load and run tests specified in a number of project formats:
+  <ul>
+   <li>NUnit (.nunit)
+   <li>Visual Studio C# projects (.csproj)
+   <li>Visual Studio F# projects (.vjsproj)
+   <li>Visual Studio Visual Basic projects (.vbproj)
+   <li>Visual Studio solutions (.sln)
+   <li>Legacy C++ and Visual JScript projects (.csproj and .vjsproj) are also supported
+   <li>Support for the current C++ format (.csxproj) is not yet available
+  </ul>
+<li>Creation of output files like TestResult.xml in various formats is now a
+   service of the engine, available to any runner.
+</ul>
+
+<h4>Console</h4>
+
+<ul>
+<li>The command-line may now include any number of assemblies and/or supported projects.
+</ul>
+
+<h4>Issues Resolved</h4>
+
+<ul>
+<li>37	Multiple SetUpFixtures should be permitted on same namespace
+<li>210	TestContext.WriteLine in an AppDomain causes an error
+<li>227	Add support for VS projects and solutions
+<li>231	Update C# samples to use NUnit 3.0
+<li>233	Update F# samples to use NUnit 3.0
+<li>234	Update C++ samples to use NUnit 3.0
+<li>265	Reorganize console reports for nunit-console and nunitlite
+<li>299	No full path to assembly in XML file under Compact Framework
+<li>301	Command-line length
+<li>363	Make Xml result output an engine service
+<li>377	CombiningStrategyAttributes don't work correctly on generic methods
+<li>388	Improvements to NUnitLite runner output
+<li>390	Specify exactly what happens when a test times out
+<li>396	ApartmentAttribute
+<li>397	CF nunitlite runner assembly has the wrong name
+<li>407	Assert.Pass() with ]]> in message crashes console runner
+<li>414	Simplify Assert overloads
+<li>416	NUnit 2.x Framework Driver
+<li>417	Complete work on NUnit projects
+<li>420	Create Settings file in proper location
+</ul>
+
+<h3>NUnit 3.0.0 Alpha 3 - November 29, 2014</h3>
+
+<h4>Breaking Changes</h4>
+
+<ul>
+<li>NUnitLite tests must reference both the nunit.framework and nunitlite assemblies.
+</ul>
+
+<h4>Framework</h4>
+
+<ul>
+<li>The NUnit and NUnitLite frameworks have now been merged. There is no longer any distinction
+   between them in terms of features, although some features are not available on all platforms.
+<li>The release includes two new framework builds: compact framework 3.5 and portable. The portable
+   library is compatible with .NET 4.5, Silverlight 5.0, Windows 8, Windows Phone 8.1,
+   Windows Phone Silverlight 8, Mono for Android and MonoTouch.
+<li>A number of previously unsupported features are available for the Compact Framework:
+  <ul>
+    <li>Generic methods as tests
+    <li>RegexConstraint
+    <li>TimeoutAttribute
+    <li>FileAssert, DirectoryAssert and file-related constraints
+  </ul>
+</ul>
+
+<h4>Engine</h4>
+
+<ul>
+<li>The logic of runtime selection has now changed so that each assembly runs by default
+   in a separate process using the runtime for which it was built.
+<li>On 64-bit systems, each test process is automatically created as 32-bit or 64-bit,
+   depending on the platform specified for the test assembly. 
+</ul>
+
+<h4>Console</h4>
+
+<ul>
+<li>The console runner now runs tests in a separate process per assembly by default. They may
+   still be run in process or in a single separate process by use of command-line options.
+<li>The console runner now starts in the highest version of the .NET runtime available, making
+   it simpler to debug tests by specifying that they should run in-process on the command-line.
+<li>The -x86 command-line option is provided to force execution in a 32-bit process on a 64-bit system.
+<li>A writeability check is performed for each output result file before trying to run the tests.
+<li>The -teamcity option is now supported.
+</ul>
+
+<h4>Issues Resolved</h4>
+
+<ul>
+ <li>12   Compact framework should support generic methods
+ <li>145  NUnit-console fails if test result message contains invalid xml characters
+ <li>155  Create utility classes for platform-specific code
+ <li>223  Common code for NUnitLite console runner and NUnit-Console
+ <li>225  Compact Framework Support
+ <li>238  Improvements to running 32 bit tests on a 64 bit system
+ <li>261  Add portable nunitlite build
+ <li>284  NUnitLite Unification
+ <li>293  CF does not have a CurrentDirectory
+ <li>306  Assure NUnit can write resultfile
+ <li>308  Early disposal of runners
+ <li>309  NUnit-Console should support incremental output under TeamCity
+ <li>325  Add RegexConstraint to compact framework build
+ <li>326  Add TimeoutAttribute to compact framework build
+ <li>327  Allow generic test methods in the compact framework
+ <li>328  Use .NET Stopwatch class for compact framework builds
+ <li>331  Alpha 2 CF does not build
+ <li>333  Add parallel execution to desktop builds of NUnitLite
+ <li>334  Include File-related constraints and syntax in NUnitLite builds
+ <li>335  Re-introduce 'Classic' NUnit syntax in NUnitLite
+ <li>336  Document use of separate obj directories per build in our projects
+ <li>337  Update Standard Defines page for .NET 3.0
+ <li>341  Move the NUnitLite runners to separate assemblies
+ <li>367  Refactor XML Escaping Tests
+ <li>372  CF Build TestAsesemblyRunnerTests
+ <li>373  Minor CF Test Fixes
+ <li>378  Correct documentation for PairwiseAttribute
+ <li>386  Console Output Improvements
+</ul>
+
+<h3>NUnit 3.0.0 Alpha 2 - November 2, 2014</h3>
+
+<h4>Breaking Changes</h4>
+
+<ul>
+ <li>The console runner no longer displays test results in the debugger.
+ <li>The NUnitLite compact framework 2.0 build has been removed.
+ <li>All addin support has been removed from the framework. Documentation of NUnit 3.0 extensibility features will be published in time for the beta release. In the interim, please ask for support on the nunit-discuss list.
+</ul>
+
+<h4>General</h4>
+
+<ul>
+ <li>A separate solution has been created for Linux
+ <li>We now have continuous integration builds under both Travis and Appveyor
+ <li>The compact framework 3.5 build is now working and will be supported in future releases.
+</ul>
+
+<h4>New Features</h4>
+
+<ul>
+ <li>The console runner now automatically detects 32- versus 64-bit test assemblies.
+ <li>The NUnitLite report output has been standardized to match that of nunit-console.
+ <li>The NUnitLite command-line has been standardized to match that of nunit-console where they share the same options.
+ <li>Both nunit-console and NUnitLite now display output in color.
+ <li>ActionAttributes now allow specification of multiple targets on the attribute as designed. This didn't work in the first alpha.
+ <li>OneTimeSetUp and OneTimeTearDown failures are now shown on the test report. Individual test failures after OneTimeSetUp failure are no longer shown.
+ <li>The console runner refuses to run tests build with older versions of NUnit. A plugin will be available to run older tests in the future.
+</ul>
+
+<h4>Issues Resolved</h4>
+
+<ul>
+ <li>222	Color console for NUnitLite
+ <li>229	Timing failures in tests
+ <li>241	Remove reference to Microslft BCL packages
+ <li>243	Create solution for Linux
+ <li>245	Multiple targets on action attributes not implemented
+ <li>246	C++ tests do not compile in VS2013
+ <li>247	Eliminate trace display when running tests in debug
+ <li>255	Add new result states for more precision in where failures occur
+ <li>256	ContainsConstraint break when used with AndConstraint
+ <li>264	Stacktrace displays too many entries
+ <li>269	Add manifest to nunit-console and nunit-agent
+ <li>270	OneTimeSetUp failure results in too much output
+ <li>271	Invalid tests should be treated as errors
+ <li>274	Command line options should be case insensitive
+ <li>276	NUnit-console should not reference nunit.framework
+ <li>278	New result states (ChildFailure and SetupFailure) break NUnit2XmlOutputWriter
+ <li>282	Get tests for NUnit2XmlOutputWriter working
+ <li>288	Set up Appveyor CI build
+ <li>290	Stack trace still displays too many items
+ <li>315	NUnit 3.0 alpha: Cannot run in console on my assembly
+ <li>319	CI builds are not treating test failures as failures of the build
+ <li>322	Remove Stopwatch tests where they test the real .NET Stopwatch
+</ul>
+
+<h3>NUnit 3.0.0 Alpha 1 - September 22, 2014</h3>
+
+<h4>Breaking Changes</h4>
+
+<ul>
+ <li>Legacy suites are no longer supported
+ <li>Assert.NullOrEmpty is no longer supported (Use Is.Null.Or.Empty)
+</ul>
+
+<h4>General</h4>
+
+<ul>
+ <li>MsBuild is now used for the build rather than NAnt
+ <li>The framework test harness has been removed now that nunit-console is at a point where it can run the tests.
+</ul>
+
+<h4>New Features</h4>
+
+<ul>
+ <li>Action Attributes have been added with the same features as in NUnit 2.6.3.
+ <li>TestContext now has a method that allows writing to the XML output.
+ <li>TestContext.CurrentContext.Result now provides the error message and stack trace during teardown.
+ <li>Does prefix operator supplies several added constraints.
+</ul>
+
+<h4>Issues Resolved</h4>
+<ul>
+ <li>6	Log4net not working with NUnit
+ <li>13	Standardize commandline options for nunitlite runner
+ <li>17	No allowance is currently made for nullable arguents in TestCase parameter conversions
+ <li>33	TestCaseSource cannot refer to a parameterized test fixture
+ <li>54	Store message and stack trace in TestContext for use in TearDown
+ <li>111	Implement Changes to File, Directory and Path Assertions
+ <li>112	Implement Action Attributes
+ <li>156	Accessing multiple AppDomains within unit tests result in SerializationException
+ <li>163	Add --trace option to NUnitLite
+ <li>167	Create interim documentation for the alpha release
+ <li>169	Design and implement distribution of NUnit packages
+ <li>171	Assert.That should work with any lambda returning bool
+ <li>175	Test Harness should return an error if any tests fail
+ <li>180	Errors in Linux CI build
+ <li>181	Replace NAnt with MsBuild / XBuild
+ <li>183	Standardize commandline options for test harness
+ <li>188	No output from NUnitLite when selected test is not found
+ <li>189	Add string operators to Does prefix
+ <li>193	TestWorkerTests.BusyExecutedIdleEventsCalledInSequence fails occasionally
+ <li>197	Deprecate or remove Assert.NullOrEmpty
+ <li>202	Eliminate legacy suites
+ <li>203	Combine framework, engine and console runner in a single solution and repository
+ <li>209	Make Ignore attribute's reason mandatory
+ <li>215	Running 32-bit tests on a 64-bit OS
+ <li>219	Teardown failures are not reported
+</ul>
+
+<h4>Console Issues Resolved (Old nunit-console project, now combined with nunit)</h4>
+<ul>
+ <li>2	Failure in TestFixtureSetUp is not reported correctly
+ <li>5	CI Server for nunit-console
+ <li>6	System.NullReferenceException on start nunit-console-x86
+ <li>21	NUnitFrameworkDriverTests fail if not run from same directory
+ <li>24	'Debug' value for /trace option is deprecated in 2.6.3
+ <li>38	Confusing Excluded categories output
+</ul>
+
+<h3>NUnit 2.9.7 - August 8, 2014</h3>
+
+<h4>Breaking Changes</h4>
+
+<ul>
+  <li>NUnit no longer supports void async test methods. You should use a Task return Type instead.
+  <li>The ExpectedExceptionAttribute is no longer supported. Use Assert.Throws() or Assert.That(..., Throws) instead for a more precise specification of where the exception is expected to be thrown.
+</ul>
+
+<h4>New Features</h4>
+
+<ul>
+  <li>Parallel test execution is supported down to the Fixture level. Use ParallelizableAttribute to indicate types that may be run in parallel.
+  <li>Async tests are supported for .NET 4.0 if the user has installed support for them.
+  <li>A new FileExistsConstraint has been added along with FileAssert.Exists and FileAssert.DoesNotExist
+  <li>ExpectedResult is now supported on simple (non-TestCase) tests.
+  <li>The Ignore attribute now takes a named parameter Until, which allows specifying a date after which the test is no longer ignored.
+  <li>The following new values are now recognized by PlatformAttribute: Win7, Win8, Win8.1, Win2012Server, Win2012ServerR2, NT6.1, NT6.2, 32-bit, 64-bit
+  <li>TimeoutAttribute is now supported under Silverlight
+  <li>ValuesAttribute may be used without any values on an enum or boolean argument. All possible values are used.
+  <li>You may now specify a tolerance using Within when testing equality of DateTimeOffset values.
+  <li>The XML output now includes a start and end time for each test.
+</ul>
+
+<h4>Issues Resolved</h4>
+
+<ul>
+  <li>8    [SetUpFixture] is not working as expected
+  <li>14   CI Server for NUnit Framework
+  <li>21   Is.InRange Constraint Ambiguity
+  <li>27   Values attribute support for enum types
+  <li>29   Specifying a tolerance with "Within" doesn't work for DateTimeOffset data types
+  <li>31   Report start and end time of test execution
+  <li>36   Make RequiresThread, RequiresSTA, RequiresMTA inheritable
+  <li>45   Need of Enddate together with Ignore
+  <li>55   Incorrect XML comments for CollectionAssert.IsSubsetOf
+  <li>62   Matches(Constraint) does not work as expected
+  <li>63   Async support should handle Task return type without state machine
+  <li>64   AsyncStateMachineAttribute should only be checked by name
+  <li>65   Update NUnit Wiki to show the new location of samples
+  <li>66   Parallel Test Execution within test assemblies
+  <li>67   Allow Expected Result on simple tests
+  <li>70   EquivalentTo isn't compatible with IgnoreCase for dictioneries
+  <li>75   Async tests should be supported for projects that target .NET 4.0
+  <li>82   nunit-framework tests are timing out on Linux
+  <li>83   Path-related tests fail on Linux
+  <li>85   Culture-dependent NUnit tests fail on non-English machine
+  <li>88   TestCaseSourceAttribute documentation
+  <li>90   EquivalentTo isn't compatible with IgnoreCase for char
+  <li>100  Changes to Tolerance definitions
+  <li>110  Add new platforms to PlatformAttribute
+  <li>113  Remove ExpectedException
+  <li>118  Workarounds for missing InternalPreserveStackTrace in mono
+  <li>121  Test harness does not honor the --worker option when set to zero
+  <li>129  Standardize Timeout in the Silverlight build
+  <li>130  Add FileAssert.Exists and FileAssert.DoesNotExist
+  <li>132  Drop support for void async methods
+  <li>153  Surprising behavior of DelayedConstraint pollingInterval
+  <li>161  Update API to support stopping an ongoing test run
+</ul>
+
+<h3>NUnit 2.9.6 - October 4, 2013</h3>
+
+<h4>Main Features</h4>
+
+<ul>
+  <li>Separate projects for nunit-console and nunit.engine
+  <li>New builds for .NET 4.5 and Silverlight
+  <li>TestContext is now supported and includes an additional property, <b>Random</b>, which may be used to generate repeatable random values for use in a test.
+  <li>The external framework API is now stable; internal interfaces are separate from API
+  <li>Tests may be run in parallel on separate threads
+  <li>Solutions and projects now use VS2012 (except for Compact framework)
+</ul>
+ 
+<h4>Bug Fixes</h4>
+
+<ul>
+  <li>463470 	We should encapsulate references to pre-2.0 collections
+  <li>498690 	Assert.That() doesn't like properties with scoped setters
+  <li>501784 	Theory tests do not work correctly when using null parameters
+  <li>531873 	Feature: Extraction of unit tests from NUnit test assembly and calling appropriate one
+  <li>611325 	Allow Teardown to detect if last test failed
+  <li>611938 	Generic Test Instances disappear
+  <li>655882 	Make CategoryAttribute inherited
+  <li>664081 	Add Server2008 R2 and Windows 7 to PlatformAttribute
+  <li>671432 	Upgrade NAnt to Latest Release
+  <li>676560 	Assert.AreEqual does not support IEquatable<T>
+  <li>691129 	Add Category parameter to TestFixture
+  <li>697069 	Feature request: dynamic location for TestResult.xml
+  <li>708173 	NUnit's logic for comparing arrays - use Comparer<T[]> if it is provided
+  <li>709062 	"System.ArgumentException : Cannot compare" when the element is a list
+  <li>712156 	Tests cannot use AppDomain.SetPrincipalPolicy
+  <li>719184 	Platformdependency in src/ClientUtilities/util/Services/DomainManager.cs:40
+  <li>719187 	Using Path.GetTempPath() causes conflicts in shared temporary folders
+  <li>735851 	Add detection of 3.0, 3.5 and 4.0 frameworks to PlatformAttribute
+  <li>736062 	Deadlock when EventListener performs a Trace call + EventPump synchronisation
+  <li>756843 	Failing assertion does not show non-linear tolerance mode
+  <li>766749 	net-2.0\nunit-console-x86.exe.config should have a <startup /> element and also enable loadFromRemoteSources
+  <li>770471 	Assert.IsEmpty does not support IEnumerable
+  <li>785460 	Add Category parameter to TestCaseSourceAttribute
+  <li>787106 	EqualConstraint provides inadequate failure information for IEnumerables
+  <li>792466 	TestContext MethodName
+  <li>794115 	HashSet incorrectly reported
+  <li>800089 	Assert.Throws() hides details of inner AssertionException
+  <li>848713 	Feature request: Add switch for console to break on any test case error
+  <li>878376 	Add 'Exactly(n)' to the NUnit constraint syntax
+  <li>882137 	When no tests are run, higher level suites display as Inconclusive
+  <li>882517 	NUnit 2.5.10 doesn't recognize TestFixture if there are only TestCaseSource inside
+  <li>885173 	Tests are still executed after cancellation by user
+  <li>885277 	Exception when project calls for a runtime using only 2 digits
+  <li>885604 	Feature request: Explicit named parameter to TestCaseAttribute
+  <li>890129 	DelayedConstraint doesn't appear to poll properties of objects
+  <li>892844 	Not using Mono 4.0 profile under Windows
+  <li>893919 	DelayedConstraint fails polling properties on references which are initially null
+  <li>896973 	Console output lines are run together under Linux
+  <li>897289 	Is.Empty constraint has unclear failure message
+  <li>898192 	Feature Request: Is.Negative, Is.Positive
+  <li>898256 	IEnumerable<T> for Datapoints doesn't work
+  <li>899178 	Wrong failure message for parameterized tests that expect exceptions
+  <li>904841 	After exiting for timeout the teardown method is not executed
+  <li>908829 	TestCase attribute does not play well with variadic test functions
+  <li>910218 	NUnit should add a trailing separator to the ApplicationBase
+  <li>920472 	CollectionAssert.IsNotEmpty must dispose Enumerator
+  <li>922455 	Add Support for Windows 8 and Windows 2012 Server to PlatformAttribute
+  <li>928246 	Use assembly.Location instead of assembly.CodeBase
+  <li>958766 	For development work under TeamCity, we need to support nunit2 formatted output under direct-runner
+  <li>1000181 	Parameterized TestFixture with System.Type as constructor arguments fails
+  <li>1000213 	Inconclusive message Not in report output
+  <li>1023084 	Add Enum support to RandomAttribute
+  <li>1028188 	Add Support for Silverlight
+  <li>1029785 	Test loaded from remote folder failed to run with exception System.IODirectory
+  <li>1037144 	Add MonoTouch support to PlatformAttribute
+  <li>1041365 	Add MaxOsX and Xbox support to platform attribute
+  <li>1057981 	C#5 async tests are not supported
+  <li>1060631 	Add .NET 4.5 build
+  <li>1064014 	Simple async tests should not return Task<T>
+  <li>1071164 	Support async methods in usage scenarios of Throws constraints
+  <li>1071343 	Runner.Load fails on CF if the test assembly contains a generic method
+  <li>1071861 	Error in Path Constraints
+  <li>1072379 	Report test execution time at a higher resolution
+  <li>1074568 	Assert/Assume should support an async method for the ActualValueDelegate
+  <li>1082330 	Better Exception if SetCulture attribute is applied multiple times
+  <li>1111834 	Expose Random Object as part of the test context
+  <li>1111838 	Include Random Seed in Test Report
+  <li>1172979 	Add Category Support to nunitlite Runner
+  <li>1203361 	Randomizer uniqueness tests sometimes fail
+  <li>1221712 	When non-existing test method is specified in -test, result is still "Tests run: 1, Passed: 1"
+  <li>1223294 	System.NullReferenceException thrown when ExpectedExceptionAttribute is used in a static class
+  <li>1225542 	Standardize commandline options for test harness
+</ul>
+	
+<h3>NUnit 2.9.5 - July 30, 2010</h3>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+  <li>483836 	Allow non-public test fixtures consistently
+  <li>487878 	Tests in generic class without proper TestFixture attribute should be invalid
+  <li>498656 	TestCase should show array values in GUI
+  <li>513989 	Is.Empty should work for directories
+  <li>519912 	Thread.CurrentPrincipal Set In TestFixtureSetUp Not Maintained Between Tests
+  <li>532488 	constraints from ConstraintExpression/ConstraintBuilder are not reusable
+  <li>590717 	categorie contains dash or trail spaces is not selectable
+  <li>590970 	static TestFixtureSetUp/TestFixtureTearDown methods in base classes are not run
+  <li>595683 	NUnit console runner fails to load assemblies
+  <li>600627 	Assertion message formatted poorly by PropertyConstraint
+  <li>601108 	Duplicate test using abstract test fixtures
+  <li>601645 	Parametered test should try to convert data type from source to parameter
+  <li>605432 	ToString not working properly for some properties
+  <li>606548 	Deprecate Directory Assert in 2.5 and remove it in 3.0
+  <li>608875 	NUnit Equality Comparer incorrectly defines equality for Dictionary objects
+</ul>
+	
+<h3>NUnit 2.9.4 - May 4, 2010</h3>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+  <li>419411 	Fixture With No Tests Shows as Non-Runnable
+  <li>459219 	Changes to thread princpal cause failures under .NET 4.0
+  <li>459224 	Culture test failure under .NET 4.0
+  <li>462019 	Line endings needs to be better controlled in source
+  <li>462418 	Assume.That() fails if I specify a message
+  <li>483845 	TestCase expected return value cannot be null
+  <li>488002 	Should not report tests in abstract class as invalid
+  <li>490679 	Category in TestCaseData clashes with Category on ParameterizedMethodSuite
+  <li>501352 	VS2010 projects have not been updated for new directory structure
+  <li>504018 	Automatic Values For Theory Test Parameters Not Provided For bool And enum
+  <li>505899 	'Description' parameter in both TestAttribute and TestCaseAttribute is not allowed
+  <li>523335 	TestFixtureTearDown in static class not executed
+  <li>556971 	Datapoint(s)Attribute should work on IEnumerable<T> as well as on Arrays
+  <li>561436 	SetCulture broken with 2.5.4
+  <li>563532 	DatapointsAttribute should be allowed on properties and methods
+</ul>
+	 
+<h3>NUnit 2.9.3 - October 26, 2009</h3>
+
+<h4>Main Features</h4>
+ 
+<ul>
+  <li>Created new API for controlling framework
+  <li>New builds for .Net 3.5 and 4.0, compact framework 3.5
+  <li>Support for old style tests has been removed
+  <li>New adhoc runner for testing the framework
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+  <li>432805 	Some Framework Tests don't run on Linux
+  <li>440109 	Full Framework does not support "Contains"
+</ul>
+
+<h3>NUnit 2.9.2 - September 19, 2009</h3>
+
+<h4>Main Features</h4>
+
+<ul>
+  <li>NUnitLite code is now merged with NUnit
+  <li>Added NUnitLite runner to the framework code
+  <li>Added Compact framework builds
+</ul>
+ 
+<h4>Bug Fixes</h4>
+
+<ul>
+  <li>430100 	Assert.Catch<T> should return T
+  <li>432566 	NUnitLite shows empty string as argument
+  <li>432573 	Mono test should be at runtime
+</ul>
+
+<h3>NUnit 2.9.1 - August 27, 2009</h3>
+
+<h4>Main Features</h4>
+
+<ul>
+  <li>Created a separate project for the framework and framework tests
+  <li>Changed license to MIT / X11
+  <li>Created Windows installer for the framework
+</ul>
+
+<h4>Bug Fixes</h4>
+
+<ul>
+  <li>400502 	NUnitEqualityComparer.StreamsE­qual fails for same stream
+  <li>400508 	TestCaseSource attirbute is not working when Type is given
+  <li>400510 	TestCaseData variable length ctor drops values
+  <li>417557 	Add SetUICultureAttribute from NUnit 2.5.2
+  <li>417559 	Add Ignore to TestFixture, TestCase and TestCaseData
+  <li>417560 	Merge Assert.Throws and Assert.Catch changes from NUnit 2.5.2
+  <li>417564 	TimeoutAttribute on Assembly
+</ul>
+
+<h3>Earlier Releases</h3>
+
+<ul>
+<li>Release Notes for <a href="http://www.nunit.org/?p=releaseNotes&r=2.6.3">NUnit 2.6 through 2.6.3</a>
+<li>Release Notes for <a href="http://www.nunit.org/?p=releaseNotes&r=2.5.10">NUnit 2.5 through 2.5.10</a>
+<li>Release Notes for <a href="http://www.nunit.org/?p=releaseNotes&r=2.4.8">NUnit 2.4 through 2.4.8</a>
+<li>Release Notes for <a href="http://www.nunit.org/?p=releaseNotes&r=2.2.10">NUnit 2.0 through 2.2.10</a>
+</ul>
+
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li id="current"><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

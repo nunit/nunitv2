@@ -1,0 +1,145 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - FileConstraints</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>File and Directory Constraints (NUnit 3.0)</h2>
+
+<p>File and Directory constraints perform tests on files or Directories as
+a string, as a FileInfo or as a DirectoryInfo.</pr>
+      
+<h3>FileOrDirectoryExistsConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests that a File or Directory exists.
+
+<h4>Constructor</h4>
+<pre class="prettyprint">
+FileOrDirectoryExistsConstraint()
+</pre>
+
+<h4>Syntax</h4>
+<pre class="prettyprint">
+Does.Exist
+Does.Not.Exist
+</pre>
+
+<h4>Modifiers</h4>
+<pre class="prettyprint">
+IgnoreDirectories
+IgnoreFiles
+</pre>
+
+<h4>Examples of Use</h4>
+<pre class="prettyprint">
+Assert.That(fileStr, Does.Exist);
+Assert.That(dirStr, Does.Exist);
+Assert.That(fileStr, Does.Not.Exist);
+Assert.That(dirStr, Does.Not.Exist);
+
+Assert.That(new FileInfo(fileStr), Does.Exist);
+Assert.That(new DirectoryInfo(dirStr), Does.Exist);
+</pre>
+
+<h3>EmptyDirectoryConstraint</h3>
+
+<h4>Action</h4>
+<p>Tests if a Directory is empty.
+
+<h4>Constructor</h4>
+<pre class="prettyprint">
+EmptyDirectoryConstraint()
+</pre>
+
+<h4>Syntax</h4>
+<pre class="prettyprint">
+Is.Empty
+</pre>
+
+<h4>Examples of Use</h4>
+<pre class="prettyprint">
+Assert.That(new DirectoryInfo(actual), Is.Empty);
+Assert.That(new DirectoryInfo(actual), Is.Not.Empty);
+</pre>
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<ul>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
+<ul>
+<li><a href="equalConstraint.html">Equal</a></li>
+<li><a href="sameasConstraint.html">SameAs</a></li>
+<li><a href="conditionConstraints.html">Condition</a></li>
+<li><a href="comparisonConstraints.html">Comparison</a></li>
+<li><a href="pathConstraints.html">Path</a></li>
+<li id="current"><a href="fileConstraints.html">File&nbsp;&amp;&nbsp;Directory</a></li>
+<li><a href="serializationConstraints.html">Serialization</a></li>
+<li><a href="typeConstraints.html">Type</a></li>
+<li><a href="attributeConstraint.html">Attribute</a></li>
+<li><a href="stringConstraints.html">String</a></li>
+<li><a href="collectionConstraints.html">Collection</a></li>
+<li><a href="propertyConstraint.html">Property</a></li>
+<li><a href="throwsConstraint.html">Throws</a></li>
+<li><a href="compoundConstraints.html">Compound</a></li>
+<li><a href="delayedConstraint.html">Delayed</a></li>
+<li><a href="listMapper.html">List&nbsp;Mapper</a></li>
+<li><a href="reusableConstraint.html">Reusable&nbsp;Constraint</a></li>
+</ul>
+<li><a href="testContext.html">Test&nbsp;Context</a></li>
+</ul>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>

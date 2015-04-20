@@ -1,0 +1,181 @@
+<!-- saved from url=(0014)about:internet --><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<!-- Standard Head Part -->
+<head>
+<title>NUnit - TestContext</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Language" content="en-US">
+<meta name="norton-safeweb-site-verification" content="tb6xj01p4hgo5x-8wscsmq633y11-e6nhk-bnb5d987bseanyp6p0uew-pec8j963qlzj32k5x9h3r2q7wh-vmy8bbhek5lnpp5w4p8hocouuq39e09jrkihdtaeknua" />
+<link rel="stylesheet" type="text/css" href="nunit.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<!-- End Standard Head Part -->
+
+<body>
+
+<!-- Standard Header for NUnit.org -->
+<div id="header">
+  <a id="logo" href="../../index.html"><img src="img/logo.gif" alt="NUnit.org" title="NUnit.org"></a>
+  <div id="nav">
+    <h1>NUnit Version 2 Documentation Archive</h1>  
+  </div>
+</div>
+<!-- End of Header -->
+
+<div id="content">
+
+<h2>TestContext (Modified for 3.0)</h2>
+
+<p>Each NUnit test runs in an execution context, which includes information about the environment as well as the test itself.
+The <b>TestContext</b> class allows tests to access certain information about the execution context.
+
+<h3>Static Properties</h3>
+
+<h4>CurrentContext</h4>
+
+<p>Gets the context of the currently executing test. This context
+is created separately for each test before it begins execution.
+See below for properties of the current context.
+
+<h4>Out</h4>
+
+<p>Gets a TextWriter used for sending output to the current test result.
+
+<h3>Static Methods</h4>
+
+<h4>Write(bool value)</br>
+    Write(char value)</br>
+    Write(char[] value)</br>
+    Write(double value)</br>
+    Write(Int32 value)</br>
+    Write(Int64 value)</br>
+    Write(decimal value)</br>
+    Write(object value)</br>
+    Write(Single value)</br>
+    Write(string value)</br>
+    Write(UInt32 value)</br>
+    Write(UInt64 value)</br>
+    Write(string format, object arg1)</br>
+    Write(string format, object arg1, object arg2)</br>
+    Write(string format, object arg1, object arg2, object arg3)</br>
+    Write(string format, params object[] args)</h4>
+
+<p>Writes text to the current test result.
+
+<h4>WriteLine()</br>
+    WriteLine(bool value)</br>
+    WriteLine(char value)</br>
+    WriteLine(char[] value)</br>
+    WriteLine(double value)</br>
+    WriteLine(Int32 value)</br>
+    WriteLine(Int64 value)</br>
+    WriteLine(decimal value)</br>
+    WriteLine(object value)</br>
+    WriteLine(Single value)</br>
+    WriteLine(string value)</br>
+    WriteLine(UInt32 value)</br>
+    WriteLine(UInt64 value)</br>
+    WriteLine(string format, object arg1)</br>
+    WriteLine(string format, object arg1, object arg2)</br>
+    WriteLine(string format, object arg1, object arg2, object arg3)</br>
+    WriteLine(string format, params object[] args)</h4>
+
+<p>Writes text to the current test result, followed by a newline.
+
+<h3>Properties of the CurrentContext</b>
+
+<h4>Test</h4>
+
+<p>Gets a representation of the current test, with the following properties:
+
+<ul>
+<li><b>ID</b> - The unique Id of the test
+<li><b>Name</b> - The name of the test, whether set by the user or generated automatically
+<li><b>FullName</b> - The fully qualified name of the test
+<li><b>MethodName</b> - The name of the method representing the test, if any
+<li><b>Properties</b> - An <b>IPropertyBag</b> of the test properties
+</ul>
+
+<h4>Result</h4>
+
+<p>Gets a representation of the test result, with the following properties:
+
+<ul>
+<li><b>Outcome</b> - A <b>ResultState</b> representing the outcome of the test. <b>ResultState</b> has the following properties:
+  <ul>
+  <li><b>Status</b> - A <b>TestStatus</b> with possible values
+    <ul>
+    <li>Inconclusive
+    <li>Skipped
+    <li>Passed
+    <li>Failed
+    </ul>
+  <li><b>Label</b> - An optional string value, which further characterizes the result
+  <li><b>Site</b> - A <b>FailureSite</b> value, indicating the stage of execution in which the test generated its result. Possible values are
+    <ul>
+    <li>Test
+    <li>SetUp
+    <li>TearDown
+    <li>Parent
+    <li>Child
+    </ul>
+  </ul>
+</ul>
+
+Although the outcome of the test may be accessed during setup or test execution, it only has a useful value in the teardown stage.
+
+<h4>TestDirectory</h4>
+
+<p>Gets the full path of the directory containing the current test assembly. Not available in the Silverlight or Portable builds.
+
+<h4>WorkDirectory</h4>
+
+<p>Gets the full path of the directory to be used for output from this test run. The XML result file and any redirected output files are located under this directory. This is normally the directory that was current when execution of
+NUnit began but may be changed by use of the <b>/work</b> option of nunit-console.
+
+<h4>Random</h4>
+
+<p>Returns a <b>RandomGenerator</b> object, which may be used in the test code to generate random values. These values are repeatable on reruns of the tests so long as (a) the test assembly is not changed and (b) the same seed is used. The initial random seed used in any test run may be found in the XML result file and may be provided to a subsequent run on the command line.
+
+
+</div>
+
+<!-- Submenu -->
+<div id="subnav">
+<ul>
+<li><a href="docHome.html">NUnit 3.0 Beta 1 Release</a></li>
+<ul>
+<li><a href="getStarted.html">Getting&nbsp;Started</a></li>
+<li><a href="writingTests.html">Writing&nbsp;Tests</a></li>
+<ul>
+<li><a href="assertions.html">Assertions</a></li>
+<li><a href="attributes.html">Attributes</a></li>
+<li><a href="constraintModel.html">Constraints</a></li>
+<li id="current"><a href="testContext.html">Test&nbsp;Context</a></li>
+</ul>
+<li><a href="runningTests.html">Running&nbsp;Tests</a></li>
+<li><a href="extensibility.html">Extensibility</a></li>
+<li><a href="releaseNotes.html">Release&nbsp;Notes</a></li>
+<li><a href="license.html">License</a></li>
+</ul>
+<li><a href="vsTestAdapter.html">NUnit&nbsp;3.0&nbsp;Test&nbsp;Adapter</a></li>
+<ul>
+<li><a href="vsTestAdapterLicense.html">License</a></li>
+<li><a href="vsTestAdapterReleaseNotes.html">Release&nbsp;Notes</a></li>
+</ul>
+<li><a href="&r=3.0.html"></a></li>
+<li><a href="&r=3.0.html"></a></li>
+</ul>
+</div>
+<!-- End of Submenu -->
+
+
+<!-- Standard Footer for NUnit.org -->
+<!-- public_html/nunit/footer.php -->
+<div id="footer">
+  Copyright &copy; 2002-2015 NUnit.org. All Rights Reserved.
+</div>
+<!-- End of Footer -->
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?skin=desert"></script>
+</body>
+</html>
