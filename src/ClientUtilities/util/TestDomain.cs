@@ -33,6 +33,11 @@ namespace NUnit.Util
 		/// </summary>
 		private DomainAgent agent;
 
+        /// <summary>
+        /// AssemblyResolver to handle mixed mode assembly dependency resolution in the default AppDomain.
+        /// </summary>
+        private AssemblyResolver assemblyResolver;
+
 		#endregion
 
 		#region Constructors
@@ -56,6 +61,17 @@ namespace NUnit.Util
             log.Info("Loading " + package.Name);
 			try
 			{
+                // Add additional assembly resolve directories in the default AppDomain for test
+                // assemblies that request them. See https://github.com/nunit/nunit/issues/681
+                assemblyResolver = new AssemblyResolver();
+                foreach (string assembly in package.Assemblies)
+                {
+                    if (TestAssemblyDirectoryResolveHelper.AssemblyNeedsResolver(assembly))
+                    {
+                        assemblyResolver.AddDirectory(Path.GetDirectoryName(assembly));
+                    }
+                }
+
 				if ( this.domain == null )
 					this.domain = Services.DomainManager.CreateDomain( package );
 
@@ -105,6 +121,12 @@ namespace NUnit.Util
 				Services.DomainManager.Unload(domain);
 				domain = null;
 			}
+
+            if (assemblyResolver != null)
+            {
+                assemblyResolver.Dispose();
+                assemblyResolver = null;
+            }
 		}
 		#endregion
 
