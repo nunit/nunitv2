@@ -36,6 +36,7 @@
     <include name="SettingsGroup.cs"/>
     <include name="SettingsStorage.cs"/>
     <include name="StackTraceFilter.cs"/>
+    <include name="TestAssemblyDirectoryResolveHelper.cs"/>
     <include name="TestDomain.cs"/>
     <include name="TestEventArgs.cs"/>
     <include name="TestEventDispatcher.cs" if="${runtime.version >= '2.0'}"/>

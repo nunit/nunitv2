@@ -25,6 +25,7 @@
         <include name="Attributes/SuiteAttribute.cs"/>
         <include name="Attributes/TearDownAttribute.cs"/>
         <include name="Attributes/TestActionAttribute.cs"/>
+        <include name="Attributes/TestAssemblyDirectoryResolveAttribute.cs"/>
         <include name="Attributes/TestAttribute.cs"/>
         <include name="Attributes/TestCaseAttribute.cs"/>
         <include name="Attributes/TestCaseSourceAttribute.cs"/>

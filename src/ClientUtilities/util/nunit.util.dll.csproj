@@ -160,6 +160,7 @@
     <Compile Include="SettingsGroup.cs" />
     <Compile Include="SettingsStorage.cs" />
     <Compile Include="StackTraceFilter.cs" />
+    <Compile Include="TestAssemblyDirectoryResolveHelper.cs" />
     <Compile Include="TestDomain.cs" />
     <Compile Include="TestEventArgs.cs" />
     <Compile Include="TestEventDispatcher.cs" />
